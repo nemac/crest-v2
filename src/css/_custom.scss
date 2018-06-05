@@ -1,0 +1,8 @@
+// Your variable overrides
+$body-bg:    $gray-800;
+$body-color: $gray-200;
+
+body {
+  background-color: $body-bg;
+  color: $body-color;
+}
