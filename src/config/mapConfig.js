@@ -33,6 +33,19 @@ export var mapConfig = {
       transparent: true,
       opacity: 0.8,
       crs: L.CRS.EPSG3857
+    },
+    {
+      id: "SA_ThreatIndex",
+      layer: "SA_ThreatIndex",
+      label: "South Atlantic Threat Index",
+      active: false,
+      url: "http://gis.nemac.org/nfwf?",
+      attribution: "&copy; NEMAC & NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.8,
+      crs: L.CRS.EPSG3857
     }
  ],
 

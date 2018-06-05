@@ -49,7 +49,6 @@ export class Map extends Component {
     //blank overlays object
     let overlayMaps = {};
 
-
     //loop the wms map layers add add to map
     WMSLayers.map((layer)=>{
 
@@ -66,7 +65,7 @@ export class Map extends Component {
 
       //current leaflet layer object
       const obj = {
-        [layer.layer]: tileLayer,
+        [layer.label]: tileLayer,
       }
 
       //merge current layer into overlayMaps layers object
