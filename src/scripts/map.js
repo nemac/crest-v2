@@ -3,7 +3,9 @@ import '../css/_custom_leaflet.scss';
 import L from 'leaflet';
 import { basemapLayer, featureLayer } from 'esri-leaflet';
 import { Component } from './components';
-import { ESRIVectorBasemap } from '../config/mapConfig';
+import { mapConfig } from '../config/mapConfig';
+
+console.log(  mapConfig.mapOptions)
 
 //downloaded esri-leaflet-vector to utuls directory so the package worked with webpack es6
 //run updates will have to be manually!
@@ -27,19 +29,14 @@ export class Map extends Component {
     super(mapPlaceholderId, props, mapTemplate)
 
     // Initialize Leaflet map
-    this.map = L.map(this.refs.mapContainer, {
-      center: [ 35.5951, -82.5515 ],
-      zoom: 13,
-      maxZoom: 18,
-      minZoom: 4
-    })
+    this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions)
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.layers = {} // Map layer dict (key/value = title/layer)
     this.selectedRegion = null // Store currently selected region
 
     // add ESRI vector map
-    var vectorTiles = vector.basemap(ESRIVectorBasemap.name);
+    var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
     vectorTiles.addTo(this.map);
 
   }
