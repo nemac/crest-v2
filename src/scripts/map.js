@@ -49,7 +49,7 @@ export class Map extends Component {
     //blank overlays object
     let overlayMaps = {};
 
-    //loop the wms map layers add add to map
+    //iterate the wms map layers add add to map
     WMSLayers.map((layer)=>{
 
       var tileLayer = L.tileLayer.wms(layer.url, {
