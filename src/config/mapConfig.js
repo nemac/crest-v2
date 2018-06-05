@@ -18,7 +18,7 @@ export var mapConfig = {
       format: "image/png",
       tileSize: 256,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.75,
       crs: L.CRS.EPSG3857
     },
     {
@@ -31,7 +31,7 @@ export var mapConfig = {
       format: "image/png",
       tileSize: 256,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.75,
       crs: L.CRS.EPSG3857
     },
     {
@@ -44,7 +44,7 @@ export var mapConfig = {
       format: "image/png",
       tileSize: 256,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.75,
       crs: L.CRS.EPSG3857
     }
  ],
