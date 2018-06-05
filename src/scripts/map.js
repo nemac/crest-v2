@@ -1,8 +1,9 @@
 
-import '../css/_custom_leaflet.scss'
-import L from 'leaflet'
+import '../css/_custom_leaflet.scss';
+import L from 'leaflet';
 import { basemapLayer, featureLayer } from 'esri-leaflet';
-import { Component } from './components.js'
+import { Component } from './components';
+import { ESRIVectorBasemap } from '../config/mapConfig';
 
 //downloaded esri-leaflet-vector to utuls directory so the package worked with webpack es6
 //run updates will have to be manually!
@@ -11,6 +12,7 @@ import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 
 const template = '<div id="map" ref="mapContainer" class="map"></div>'
 
+console.log (ESRIVectorBasemap)
 /**
  * Leaflet Map Component
  * Render map items, and provide user interactivity.
@@ -36,13 +38,8 @@ export class Map extends Component {
     this.layers = {} // Map layer dict (key/value = title/layer)
     this.selectedRegion = null // Store currently selected region
 
-    // Render default baselayer
-    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    // }).addTo(this.map);
-
     // add ESRI vector map
-    var vectorTiles = vector.basemap('DarkGray');
+    var vectorTiles = vector.basemap(ESRIVectorBasemap.name);
     vectorTiles.addTo(this.map);
 
   }
