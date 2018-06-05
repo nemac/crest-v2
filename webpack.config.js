@@ -37,6 +37,10 @@ module.exports = {
             presets: ["es2015"]
           }
         },
+        htmlLoader = {
+          test: /\.html$/,
+          loader: 'html-loader'
+        },
         urlLoader = {
           test: /\.(png|woff|woff2|eot|ttf|svg)$/,
           loader: 'url-loader?limit=100000'

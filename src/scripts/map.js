@@ -10,9 +10,9 @@ import { ESRIVectorBasemap } from '../config/mapConfig';
 //see github issue https://github.com/Esri/esri-leaflet-vector/issues/31  from tgirgin23
 import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 
-const template = '<div id="map" ref="mapContainer" class="map"></div>'
+//default map template
+import mapTemplate from '../templates/map.html'
 
-console.log (ESRIVectorBasemap)
 /**
  * Leaflet Map Component
  * Render map items, and provide user interactivity.
@@ -24,7 +24,7 @@ export class Map extends Component {
    * @param { Object } props.events.click Map item click listener
    */
   constructor (mapPlaceholderId, props) {
-    super(mapPlaceholderId, props, template)
+    super(mapPlaceholderId, props, mapTemplate)
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, {
