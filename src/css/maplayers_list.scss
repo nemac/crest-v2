@@ -1,0 +1,24 @@
+@import "~bootstrap/scss/bootstrap";
+@import './_customVarriables.scss';
+
+
+$body-bg:    $gray-800;
+$body-color: $gray-200;
+
+.maplayers_list {
+    position: absolute;
+    top: $map_starty;
+    right: $map_startx;
+    background-color: $body-bg;
+    color: $body-color;
+    z-index: 1000;
+    padding: 10px;
+}
+
+.maplayers_list hr {
+  border-top: 1px solid rgba(233, 236, 241, 0.75);
+}
+
+.maplayers_list label {
+  font-size: 1.0rem;
+}

@@ -1,16 +1,19 @@
-
-import '../css/_custom_leaflet.scss';
+//dependencies
 import L from 'leaflet';
 import { basemapLayer, featureLayer } from 'esri-leaflet';
+
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
+
+//SCSS
+import '../css/_custom_leaflet.scss';
 
 //downloaded esri-leaflet-vector to utuls directory so the package worked with webpack es6
 //run updates will have to be manually!
 //see github issue https://github.com/Esri/esri-leaflet-vector/issues/31  from tgirgin23
 import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 
-//default map template
+//templates
 import mapTemplate from '../templates/map.html'
 
 /**
@@ -78,4 +81,10 @@ export class Map extends Component {
     L.control.layers(baseMaps,overlayMaps).addTo(this.map);
 
   }
+
+  /** Check if layer is added to map  */
+  get_map_object () {
+    return this.map
+  }
+
 }
