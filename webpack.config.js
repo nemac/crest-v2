@@ -34,7 +34,7 @@ module.exports = {
           // addresses issue of typeof not found https://github.com/mapbox/mapbox-gl-js/issues/3422
           exclude: /mapbox-gl/,
           options: {
-            presets: ["es2015"]
+            presets: ["es2015",'stage-2']
           }
         },
         htmlLoader = {

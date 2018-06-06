@@ -33,7 +33,7 @@ export class Map extends Component {
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions)
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
-    this.layers = {} // Map layer dict (key/value = title/layer)
+    this.overlayMaps = {} // Map layer dict (key/value = title/layer)
     this.selectedRegion = null // Store currently selected region
 
     // add ESRI vector map
@@ -49,12 +49,8 @@ export class Map extends Component {
       "Base Map": vectorTiles
     };
 
-    //blank overlays object
-    let overlayMaps = {};
-
     //iterate the wms map layers add add to map
     WMSLayers.map((layer)=>{
-
       var tileLayer = L.tileLayer.wms(layer.url, {
         id: layer.id,
         layers: layer.layer,
@@ -68,23 +64,26 @@ export class Map extends Component {
 
       //current leaflet layer object
       const obj = {
-        [layer.label]: tileLayer,
+        [layer.id]: tileLayer,
       }
 
       //merge current layer into overlayMaps layers object
-      Object.assign(overlayMaps, obj)
-
+      Object.assign(this.overlayMaps, obj)
     })
 
     //add control and layers to map
-    //  todo:  add this as a seperate Component
-    L.control.layers(baseMaps,overlayMaps).addTo(this.map);
+    L.control.layers(baseMaps,this.overlayMaps).addTo(this.map);
 
   }
 
-  /** Check if layer is added to map  */
-  get_map_object () {
-    return this.map
+  /** Toggle map layer visibility */
+  toggleLayer (layerName) {
+    const layer = this.overlayMaps[layerName]
+    if (this.map.hasLayer(layer)) {
+      this.map.removeLayer(layer)
+    } else {
+      this.map.addLayer(layer)
+    }
   }
 
 }

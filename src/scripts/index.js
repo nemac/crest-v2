@@ -15,11 +15,13 @@ class ViewController {
     this.mapComponent = new Map('map-holder');
 
     // Initialize Layer Toggle Panel
-    this.maplayers_list = new maplayers_list('maplayers_list-holder');
-
-
+    this.maplayers_list = new maplayers_list('maplayers_list-holder',{
+      events: { layerToggle:
+        // Toggle layer in map controller on "layerToggle" event
+         event => { this.mapComponent.toggleLayer(event.detail) }
+      }
+    })
   }
-
 }
 
 

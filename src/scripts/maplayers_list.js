@@ -23,29 +23,43 @@ export class maplayers_list extends Component {
     WMSLayers.forEach((layerProps) => this.addMapLayer(layerProps))
   }
 
-  //update the id and for attribute of html for layer
-  updateLayerId (layerProps){
-    document.getElementById('customCheck').setAttribute('id', `${layerProps.id}-toggle`);
-    document.getElementById('customLabel').setAttribute('for', `${layerProps.id}-toggle`)
-    document.getElementById('customLabel').setAttribute('id', `${layerProps.id}-label`);
-  }
-
-  //update the layer name text for the checkbox's labels
-  updateLayerName (layerProps){
-    document.getElementById('customLabel').textContent = layerProps.label;
-  }
 
   /** Create and append new layer button DIV */
   addMapLayer (layerProps) {
+    const layerName = layerProps.id
 
+    //convert to html element
     const ToggleLayersHTML = this.refs.ToggleLayers.innerHTML;
-    this.refs.ToggleLayers.innerHTML = ToggleLayersHTML + layer_checkboxTemplate;
-    
-    //update le
-    this.updateLayerName(layerProps);
-    this.updateLayerId(layerProps);
+    let parser = new DOMParser()
+    let el = parser.parseFromString(layer_checkboxTemplate, "text/html");
+
+    //get elements
+    let layerItem = el.getElementById('layerToggle')
+
+    //get and update the layer's checkbox
+    let checkBox = el.getElementById('customCheck');
+    checkBox.setAttribute('ref', `${layerProps.id}-toggle`) //checkbox ref
+    checkBox.setAttribute('id', `${layerProps.id}-toggle`); //checkbox id
+
+    //get and update the layer's label
+    let customLabel = el.getElementById('customLabel');
+    customLabel.setAttribute('for', `${layerProps.id}-toggle`)
+    customLabel.textContent = layerProps.label;   //label text
+    customLabel.setAttribute('ref', `${layerProps.id}-label`) //checkbox ref
+    customLabel.setAttribute('id', `${layerProps.id}-label`); //label id
+
+    //update the layers click event
+    checkBox.addEventListener('click', (e) => this.toggleMapLayer(layerName))
+    this.refs.ToggleLayers.appendChild(layerItem)
+
+  }
 
 
+  /** Toggle map layer visibility */
+  toggleMapLayer (layerName) {
+
+    // Trigger layer toggle callback
+    this.triggerEvent('layerToggle', layerName)
 
   }
 }
