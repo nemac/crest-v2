@@ -59,21 +59,18 @@ export class Map extends Component {
         opacity: layer.opacity,
         attribution: layer.attribution,
         tileSize: layer.tileSize,
-        transparent: layer.transparent
+        transparent: layer.transparent,
+        zIndex: layer.zIndex
       });
 
       //current leaflet layer object
       const obj = {
         [layer.id]: tileLayer,
-      }
+      };
 
       //merge current layer into overlayMaps layers object
-      Object.assign(this.overlayMaps, obj)
+      Object.assign(this.overlayMaps, obj);
     })
-
-    //add control and layers to map
-    L.control.layers(baseMaps,this.overlayMaps).addTo(this.map);
-
   }
 
   /** Toggle map layer visibility */
@@ -84,6 +81,7 @@ export class Map extends Component {
     } else {
       this.map.addLayer(layer)
     }
+    this.map.invalidateSize();
   }
 
 }

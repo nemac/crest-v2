@@ -5,14 +5,20 @@
 $body-bg:    $gray-800;
 $body-color: $gray-200;
 
+$layer_list_width: 250px;
+$layer_list_padding: 10px;
+$map_top_margin: 5px;
+$map_right_margin: 10px;
+
 .maplayers_list {
-    position: absolute;
-    top: $map_starty;
-    right: $map_startx;
+    position: relative;
+    top: -$map_height + $map_top_margin;
+    right: -$map_width + $layer_list_width + $map_right_margin;
+    width: $layer_list_width;
     background-color: $body-bg;
     color: $body-color;
     z-index: 1000;
-    padding: 10px;
+    padding: $layer_list_padding;
 }
 
 .maplayers_list hr {
@@ -20,5 +26,6 @@ $body-color: $gray-200;
 }
 
 .maplayers_list label {
-  font-size: 1.0rem;
+    font-size: .8rem;
+    padding: 2px;
 }

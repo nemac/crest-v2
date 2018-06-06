@@ -18,6 +18,7 @@ export var mapConfig = {
       tileSize: 256,
       transparent: true,
       opacity: 0.75,
+      zIndex: 9000,
       crs: L.CRS.EPSG3857
     },
     {
@@ -30,6 +31,7 @@ export var mapConfig = {
       tileSize: 256,
       transparent: true,
       opacity: 0.75,
+      zIndex: 8999,
       crs: L.CRS.EPSG3857
     },
     {
@@ -42,6 +44,7 @@ export var mapConfig = {
       tileSize: 256,
       transparent: true,
       opacity: 0.75,
+      zIndex: 8999,
       crs: L.CRS.EPSG3857
     }
  ],
