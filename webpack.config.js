@@ -7,7 +7,8 @@ const path = require('path');
 // Constant with our paths
 const paths = {
     DIST: path.resolve(__dirname, 'dist'),
-    SRC: path.resolve(__dirname, 'src/scripts')
+    SRC: path.resolve(__dirname, 'src/scripts'),
+    SRC_HTML: path.resolve(__dirname, 'src')
 };
 
 
@@ -86,22 +87,22 @@ module.exports = {
         //index - map
         new HtmlWebpackPlugin({
             hash: true,
-            template: './src/index.html',
-            filename: './dist/index.html',
+            template: path.join(paths.SRC_HTML, 'index.html'),
+            filename: path.join(paths.DIST, 'index.html'),
             excludeChunks: ['download','about']
         }),
         //download
         new HtmlWebpackPlugin({
             hash: true,
-            template: './src/download.html',
-            filename: './dist/download.html',
+            template: path.join(paths.SRC_HTML, 'download.html'),
+            filename: path.join(paths.DIST, 'download.html'),
             excludeChunks: ['index','about']
         }),
         //about
         new HtmlWebpackPlugin({
             hash: true,
-            template: './src/about.html',
-            filename: './dist/about.html',
+            template:  path.join(paths.SRC_HTML, 'about.html'),
+            filename: path.join(paths.DIST, 'about.html'),
             excludeChunks: ['index','download']
         }),
    ]
