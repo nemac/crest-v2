@@ -2,6 +2,7 @@
 $body-bg:    $gray-800;
 $body-color: $gray-200;
 $body-color-visited: $gray-400;
+$margin: 10px;
 
 body {
   background-color: $body-bg;
@@ -27,12 +28,23 @@ hr {
   border-radius: 0.25rem;
 }
 
-a {
-  color: $body-color
+
+a.nav-link.active {
+  color: $body-color;
+  border-bottom: 3px solid $gray-200;
+  margin-bottom: $margin;
+  margin-left: $margin;
+  margin-right: $margin;
+  padding-bottom: 5px;
 }
 
-a:visited {
-  color: $body-color-visited
+a.nav-link {
+  color: $body-color;
+  border-bottom: 1px solid $gray-200;
+  margin-bottom: $margin;
+  margin-left: $margin;
+  margin-right: $margin;
+  padding-bottom: 5px;
 }
 
 //leave for overflow check
