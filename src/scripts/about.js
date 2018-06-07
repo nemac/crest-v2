@@ -9,7 +9,7 @@ class ViewController {
 
   initializeComponents () {
     // Initialize Nav Var
-    this.navComponent = new nav_bar('nav-holder');
+    this.navComponent = new nav_bar('nav-holder',{activeNav: 'about'});
 
   }
 }
