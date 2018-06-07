@@ -4,7 +4,7 @@
 To install
 ```npm install```
 
-To Build dis package
+To Build dist package
 ```npm run build```
 
 To run dev server
