@@ -1,7 +1,8 @@
 # NFWF_tool
-First iteration of basic viewer
+## First iteration of basic viewer
 
-```npm install``
+To install
+```npm install```
 
 To Build dis package
 ```npm run build```
