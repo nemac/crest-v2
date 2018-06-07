@@ -15,7 +15,7 @@ class ViewController {
     this.mapComponent = new Map('map-holder');
 
     // Initialize Nav Var
-    this.navComponent = new nav_bar('nav-holder');
+    this.navComponent = new nav_bar('nav-holder',{activeNav: 'index'});
 
     // Initialize Layer Toggle Panel
     this.maplayersComponent = new MapLayersList('maplayers_list-holder',{
