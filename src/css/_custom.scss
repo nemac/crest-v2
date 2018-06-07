@@ -1,6 +1,7 @@
 // Your variable overrides
 $body-bg:    $gray-800;
 $body-color: $gray-200;
+$body-color-visited: $gray-400;
 
 body {
   background-color: $body-bg;
@@ -26,6 +27,13 @@ hr {
   border-radius: 0.25rem;
 }
 
+a {
+  color: $body-color
+}
+
+a:visited {
+  color: $body-color-visited
+}
 
 //leave for overflow check
 // .custom-control{

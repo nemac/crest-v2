@@ -9,7 +9,7 @@ import { mapConfig } from '../config/mapConfig';
 import '../css/_custom_leaflet.scss';
 
 //downloaded esri-leaflet-vector to utuls directory so the package worked with webpack es6
-//run updates will have to be manually!
+//updates will have to be manually!
 //see github issue https://github.com/Esri/esri-leaflet-vector/issues/31  from tgirgin23
 import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 

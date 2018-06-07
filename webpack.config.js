@@ -15,7 +15,9 @@ module.exports = {
     mode: 'development',
     entry: {
         index: path.join(paths.SRC, 'index.js'),
-        bootstrap: path.join(paths.SRC, 'bootstrap.js')
+        bootstrap: path.join(paths.SRC, 'bootstrap.js'),
+        download: path.join(paths.SRC, 'download.js'),
+        about: path.join(paths.SRC, 'about.js'),
     },
     output: {
         path: paths.DIST,
@@ -83,11 +85,22 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             hash: true,
-            title: 'NFWF Tool',
-            myPageHeader: 'Hello World',
             template: './src/index.html',
-            filename: './dist/index.html' //relative to root of the application
-        })
+            filename: './dist/index.html',
+            excludeChunks: ['download','about']
+        }),
+        new HtmlWebpackPlugin({
+            hash: true,
+            template: './src/download.html',
+            filename: './dist/download.html',
+            excludeChunks: ['index','about']
+        }),
+        new HtmlWebpackPlugin({
+            hash: true,
+            template: './src/about.html',
+            filename: './dist/about.html',
+            excludeChunks: ['index','download']
+        }),
    ]
 
 }

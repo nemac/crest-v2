@@ -10,10 +10,10 @@ import '../css/maplayers_list.scss';
 import layer_checkboxTemplate from '../templates/layer_checkbox.html'
 
 /**
- * maplayers_list Component
+ * MapLayersList Component
  * Render and control map layer control
  */
-export class maplayers_list extends Component {
+export class MapLayersList extends Component {
   constructor (placeholderId, props) {
     super(placeholderId, props, maplayers_listTemplate);
 

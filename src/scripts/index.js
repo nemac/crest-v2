@@ -1,7 +1,7 @@
 //
 import { Map } from './map'
-import { maplayers_list } from './maplayers_list'
-
+import { MapLayersList } from './maplayers_list'
+import { nav_bar } from './nav_bar'
 
 class ViewController {
 
@@ -14,8 +14,11 @@ class ViewController {
     // Initialize Map
     this.mapComponent = new Map('map-holder');
 
+    // Initialize Nav Var
+    this.navComponent = new nav_bar('nav-holder');
+
     // Initialize Layer Toggle Panel
-    this.maplayers_list = new maplayers_list('maplayers_list-holder',{
+    this.maplayersComponent = new MapLayersList('maplayers_list-holder',{
       events: { layerToggle:
         // Toggle layer in map controller on "layerToggle" event
          event => { this.mapComponent.toggleLayer(event.detail) }
