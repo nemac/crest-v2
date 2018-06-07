@@ -83,18 +83,21 @@ module.exports = {
       ]
     },
     plugins: [
+        //index - map
         new HtmlWebpackPlugin({
             hash: true,
             template: './src/index.html',
             filename: './dist/index.html',
             excludeChunks: ['download','about']
         }),
+        //download
         new HtmlWebpackPlugin({
             hash: true,
             template: './src/download.html',
             filename: './dist/download.html',
             excludeChunks: ['index','about']
         }),
+        //about
         new HtmlWebpackPlugin({
             hash: true,
             template: './src/about.html',
