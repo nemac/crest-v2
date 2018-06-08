@@ -19,6 +19,7 @@ module.exports = {
         bootstrap: path.join(paths.SRC, 'bootstrap.js'),
         download: path.join(paths.SRC, 'download.js'),
         about: path.join(paths.SRC, 'about.js'),
+        store: path.join(paths.SRC, 'store.js'),
     },
     output: {
         path: paths.DIST,
