@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>NFWF Coastal Resilence Assessment</title>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <title>NFWF Coastal Resilence Assessment</title>
+</head>
 
-  <body>
-  <div class="container-fluid">
-  <h2>NFWF Coastal Resilence Assessment</h2>
-
+<body>
+  <div class="container-fluid h-100 d-flex flex-column">
+    <h2>NFWF Coastal Resilence Assessment</h2>
 
     <!-- <div class="container"> -->
-      <div id="app">
-        <div id="nav-holder"></div>
-        <div id="map-holder"></div>
-        <div id="maplayers_list-holder"></div>
+    <div class="container-fluid h-100 d-flex flex-column" id="app">
+      <div class="row justify-content-start">
+        <div class="col" id="nav-holder">
+        </div>
+      </div>
+      <div class="row h-100 flex-fill map-row">
+        <div class="col-6 h-100 flex-fill" id="map-holder">
+        </div>
+        <div class="col-3" id="maplayers_list-holder">
+        </div>
+        <div class="col-3 h-100 flex-fill" id="explore-holder">
+        </div>
       </div>
     </div>
-
+  </div>
   </body>
-</html>
+  </html>

@@ -29,16 +29,33 @@ export class Map extends Component {
   constructor (mapPlaceholderId, props) {
     super(mapPlaceholderId, props, mapTemplate)
 
+
+
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions)
+
+    // this.map.on('load',console.log('map loaded'));
+    // this.map.on('load',$('#map-holder').s$('#map-holder').height());
+
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)
     this.selectedRegion = null // Store currently selected region
 
-    // add ESRI vector map
-    var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
+    /* add ESRI vector map
+    * var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
+    * not using vector tiles yet some bugginess from ESRI
+    * mainly the map starts out not fully rendering
+    */
+    var vectorTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
     vectorTiles.addTo(this.map);
+
+    // this.map.fitBounds(this.map.getBounds());
+    // console.log(this.map.getBounds())
+    var el = document.getElementById('map');
+
+    // var event = new Event('resize');
+    // el.dispatchEvent(event);
 
     //add wms layers
     //may switch this out for tiled s3 layers  or tile esri layers later
@@ -71,10 +88,16 @@ export class Map extends Component {
       //merge current layer into overlayMaps layers object
       Object.assign(this.overlayMaps, obj);
     })
+
+    this.map.invalidateSize();
+    this.toggleLayer('SA_ExposureIndex');
+    this.toggleLayer('SA_ExposureIndex');
+    this.map.invalidateSize();
   }
 
   /** Toggle map layer visibility */
   toggleLayer (layerName) {
+    console.log(layerName)
     const layer = this.overlayMaps[layerName]
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer)
