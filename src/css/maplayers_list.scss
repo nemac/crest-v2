@@ -24,6 +24,33 @@ $map_right_margin: 10px;
     margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
 }
 
+@media (max-width: 768px) {
+  .maplayers_list {
+    position: relative;
+    float: none;
+    top: 0px;
+    left: -$layer_list_padding * 2;
+    width: 100%;
+    z-index: 1000;
+    padding: $layer_list_padding;
+    margin: $grid-gutter-width / 2;
+    border: 1px solid $body-color;
+    border-radius: 0.25rem;
+
+  }
+  .maplayers_list-holder  {
+    position: inherit;
+    top: 0px;
+    left: 0px;
+    float: none;
+    width: 100%;
+    padding: $layer_list_padding;
+    margin: $grid-gutter-width / 2;
+  }
+}
+
+
+
 .maplayers_list hr {
   border-top: 1px solid rgba(233, 236, 241, 0.75);
 }
