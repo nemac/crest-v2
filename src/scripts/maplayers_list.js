@@ -21,6 +21,10 @@ export class MapLayersList extends Component {
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => this.addMapLayer(layerProps))
+
+    var elem = document.getElementById(placeholderId);
+    elem.outerHTML = elem.innerHTML;
+
   }
 
 
