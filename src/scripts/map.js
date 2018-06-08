@@ -30,15 +30,28 @@ export class Map extends Component {
     super(mapPlaceholderId, props, mapTemplate)
 
     // Initialize Leaflet map
-    this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions)
+    this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)
     this.selectedRegion = null // Store currently selected region
 
-    // add ESRI vector map
-    var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
-    vectorTiles.addTo(this.map);
+    /* add ESRI vector map
+    * var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
+    * not using vector tiles yet some bugginess from ESRI
+    * mainly the map starts out not fully rendering
+    */
+    var mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
+    mapTiles.addTo(this.map);
+    /*
+    * Yes I am zooming in then zooming out.  But leaflets tiles
+    * do not setup with fully with a dynamic map container (set to 100% height.)
+    * and the overlays are offset with intial draw.  this zoom in zoom iut
+    * forces leaflet to Render everything correctly
+    */
+    this.map.zoomOut(1);
+    this.map.zoomIn(1);
+    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
 
     //add wms layers
     //may switch this out for tiled s3 layers  or tile esri layers later
@@ -46,7 +59,7 @@ export class Map extends Component {
 
     //base map for now only one
     const baseMaps = {
-      "Base Map": vectorTiles
+      "Base Map": mapTiles
     };
 
     //iterate the wms map layers add add to map
@@ -71,17 +84,18 @@ export class Map extends Component {
       //merge current layer into overlayMaps layers object
       Object.assign(this.overlayMaps, obj);
     })
+
   }
 
   /** Toggle map layer visibility */
   toggleLayer (layerName) {
+
     const layer = this.overlayMaps[layerName]
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer)
     } else {
       this.map.addLayer(layer)
     }
-    this.map.invalidateSize();
   }
 
 }
