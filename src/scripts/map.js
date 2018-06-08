@@ -29,14 +29,8 @@ export class Map extends Component {
   constructor (mapPlaceholderId, props) {
     super(mapPlaceholderId, props, mapTemplate)
 
-
-
     // Initialize Leaflet map
-    this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions)
-
-    // this.map.on('load',console.log('map loaded'));
-    // this.map.on('load',$('#map-holder').s$('#map-holder').height());
-
+    this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)
@@ -47,15 +41,17 @@ export class Map extends Component {
     * not using vector tiles yet some bugginess from ESRI
     * mainly the map starts out not fully rendering
     */
-    var vectorTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
-    vectorTiles.addTo(this.map);
-
-    // this.map.fitBounds(this.map.getBounds());
-    // console.log(this.map.getBounds())
-    var el = document.getElementById('map');
-
-    // var event = new Event('resize');
-    // el.dispatchEvent(event);
+    var mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
+    mapTiles.addTo(this.map);
+    /*
+    * Yes I am zooming in then zooming out.  But leaflets tiles
+    * do not setup with fully with a dynamic map container (set to 100% height.)
+    * and the overlays are offset with intial draw.  this zoom in zoom iut
+    * forces leaflet to Render everything correctly
+    */
+    this.map.zoomOut(1);
+    this.map.zoomIn(1);
+    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
 
     //add wms layers
     //may switch this out for tiled s3 layers  or tile esri layers later
@@ -63,7 +59,7 @@ export class Map extends Component {
 
     //base map for now only one
     const baseMaps = {
-      "Base Map": vectorTiles
+      "Base Map": mapTiles
     };
 
     //iterate the wms map layers add add to map
@@ -89,22 +85,17 @@ export class Map extends Component {
       Object.assign(this.overlayMaps, obj);
     })
 
-    this.map.invalidateSize();
-    this.toggleLayer('SA_ExposureIndex');
-    this.toggleLayer('SA_ExposureIndex');
-    this.map.invalidateSize();
   }
 
   /** Toggle map layer visibility */
   toggleLayer (layerName) {
-    console.log(layerName)
+
     const layer = this.overlayMaps[layerName]
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer)
     } else {
       this.map.addLayer(layer)
     }
-    this.map.invalidateSize();
   }
 
 }

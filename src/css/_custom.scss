@@ -41,6 +41,9 @@ hr {
   border-radius: 0.25rem;
 }
 
+#nav-holder {
+  margin-bottom: $margin;
+}
 
 a.nav-link.active {
   color: $body-color;
