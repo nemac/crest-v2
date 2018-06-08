@@ -26,6 +26,10 @@ hr {
   border-top: 1px solid rgba(233, 236, 241, 0.75);
 }
 
+.sideheading {
+  background-color:  $body-bg;
+}
+
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: none;
 }
@@ -39,6 +43,13 @@ hr {
   background-color: $body-color;
   border: 2px solid $body-color;
   border-radius: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  #top-bar{
+    padding-bottom: ($padding + 5 ) * 2;
+  }
+  
 }
 
 #nav-holder {
