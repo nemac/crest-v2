@@ -21,7 +21,7 @@ $map_right_margin: 10px;
     z-index: 1000;
     padding: $layer_list_padding;
     border-radius: 0.25rem;
-    margin-right: 0px;
+    margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
 }
 
 .maplayers_list hr {
