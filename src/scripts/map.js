@@ -33,6 +33,7 @@ export class Map extends Component {
     // console.log("g", global_store)
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
+    // console.log('map',props.state)
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)

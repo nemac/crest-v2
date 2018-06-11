@@ -1,29 +1,28 @@
-/**
-* Initialize global store for state maintenance
-*/
-
 export class Store {
   // ..and an (optional) custom class constructor. If one is
   // not supplied, a default constructor is used instead:
   // constructor() { }
-  constructor (obj) {
-    this.state = {obj};
+  constructor(state) {
+    this.state = state;
   }
 
-  getState() {
-    return this.state
+  get Store() {
+     return this._state
   }
 
-  setState(obj){
-    return {...this.state, obj}
+  get Store() {
+     return this._state
   }
-  // Getter/setter methods are supported in classes,
-  // similar to their ES5 equivalents
-  // get state() {
-  //   return this.state;
-  // }
+  // Simple class instance methods using short-hand method
+  // declaration
+  setName(state) {
+    this.state =  {...this.state, ...state} //Object.assign(this.state, state)
+    return this.state;
+  }
 
-  // set state(obj) {
-  //   this.state = {...this.state,obj };
-  // }
+  getName() {
+    return this.state;
+  }
+
+  // We will look at static and subclassed methods shortly
 }
