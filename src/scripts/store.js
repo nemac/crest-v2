@@ -15,12 +15,12 @@ export class Store {
   }
   // Simple class instance methods using short-hand method
   // declaration
-  setName(state) {
+  setState(state) {
     this.state =  {...this.state, ...state} //Object.assign(this.state, state)
     return this.state;
   }
 
-  getName() {
+  getState() {
     return this.state;
   }
 

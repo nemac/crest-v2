@@ -18,12 +18,15 @@ module.exports = {
         index: path.join(paths.SRC, 'index.js'),
         bootstrap: path.join(paths.SRC, 'bootstrap.js'),
         download: path.join(paths.SRC, 'download.js'),
-        about: path.join(paths.SRC, 'about.js'),
+        // about: path.join(paths.SRC, 'about.js'),
         store: path.join(paths.SRC, 'store.js'),
     },
     output: {
         path: paths.DIST,
         filename: '[name].app.bundle.js'
+    },
+    devServer: {
+      historyApiFallback: true
     },
     optimization: {
       splitChunks: {
@@ -99,13 +102,13 @@ module.exports = {
             filename: path.join(paths.DIST, 'download.html'),
             excludeChunks: ['index','about']
         }),
-        //about
-        new HtmlWebpackPlugin({
-            hash: true,
-            template:  path.join(paths.SRC_HTML, 'about.html'),
-            filename: path.join(paths.DIST, 'about.html'),
-            excludeChunks: ['index','download']
-        }),
+        // //about
+        // new HtmlWebpackPlugin({
+        //     hash: true,
+        //     template:  path.join(paths.SRC_HTML, 'about.html'),
+        //     filename: path.join(paths.DIST, 'about.html'),
+        //     excludeChunks: ['index','download']
+        // }),
    ]
 
 }

@@ -14,7 +14,7 @@ export class nav_bar extends Component {
     * define valid nav headings
     * Todo better way to handle this from structure of app maybe
     */
-    const navs = ['main_nav_index', 'main_nav_about', 'main_nav_download']
+    this.navs = ['main_nav_index', 'main_nav_about', 'main_nav_download']
 
     /*
     * change active div Find a
@@ -22,12 +22,12 @@ export class nav_bar extends Component {
     */
     if(props){
       if(props.activeNav){
-        this.changeActive(navs, props.activeNav)
+        this.changeActive(this.navs, props.activeNav)
       } else {
-        this.changeActive(navs, "")
+        this.changeActive(this.navs, "")
       }
     } else {
-      this.changeActive(navs, "")
+      this.changeActive(this.navs, "")
     }
   }
 
@@ -47,6 +47,7 @@ export class nav_bar extends Component {
 
     //make clicked nav active if html lement exists
     const activeEl = document.querySelector(`[ref="main_nav_${activeNav}"]`);
+    this.activeNav = activeNav;
     if(activeEl){
       activeEl.className = activeEl.className += ' active';
     }
