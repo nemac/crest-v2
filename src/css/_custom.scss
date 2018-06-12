@@ -5,6 +5,24 @@ $body-color-visited: $gray-400;
 $margin: 10px;
 $padding: 10px;
 
+.alert-light {
+  background-color: $body-color;
+  color: $body-bg;
+}
+
+.alert-link {
+  color: $body-bg;
+}
+
+
+h1.not-found {
+    font-size: 6.5rem;
+}
+
+p.not-found {
+   font-size: 2.5rem;
+}
+
 html, body {
     height: 100%;
 }
@@ -49,7 +67,7 @@ hr {
   #top-bar{
     padding-bottom: ($padding + 5 ) * 2;
   }
-  
+
 }
 
 #nav-holder {
