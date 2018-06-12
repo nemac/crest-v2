@@ -55,8 +55,13 @@ export class Map extends Component {
     this.map.zoomIn(1);
     L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
 
+    this.map.on('moveend', function(ev) {
+      console.log(this.getCenter(),this.getZoom() ); // ev is an event object (MouseEvent in this case)
+    });
+
+    console.log(this.map)
     //add wms layers
-    //may switch this out for tiled s3 layers  or tile esri layers later
+    //may switch this out for tiled s3 layers or tile esri layers later
     const WMSLayers = mapConfig.TileLayers;
 
     //base map for now only one
@@ -97,6 +102,24 @@ export class Map extends Component {
       this.map.removeLayer(layer)
     } else {
       this.map.addLayer(layer)
+    }
+  }
+
+
+  toggleMap () {
+    // console.log(this.componentElem.className)
+    let mapClass = this.componentElem.className;
+    console.log(mapClass.indexOf(' d-none') > 0)
+    if(mapClass.indexOf(' d-none') > 0){
+
+      this.componentElem.className = mapClass.replace(' d-none','');
+      console.log('test',mapClass.replace(' d-none',''))
+      history.pushState({id: 'nomap'}, '', './momap');
+      this.map.invalidateSize();
+    } else {
+      this.componentElem.className = this.componentElem.className + ' d-none'
+      history.pushState({id: 'map'}, '', './map');
+
     }
   }
 

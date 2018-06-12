@@ -13,9 +13,11 @@ export class Component {
     this.componentElem = document.getElementById(placeholderId)
 
     if (template) {
+      this.componentElem.addEventListener("load", ()=>{console.log('hi')})
+
       // Load template into placeholder element
       this.componentElem.innerHTML = template
-
+      this.componentElem.addEventListener("unload", ()=>{console.log('bye bye')})
       // Find all refs in component
       this.refs = {}
       const refElems = this.componentElem.querySelectorAll('[ref]')
@@ -36,6 +38,7 @@ export class Component {
   triggerEvent (eventName, detail) {
     const event = new window.CustomEvent(eventName, { detail })
     this.componentElem.dispatchEvent(event)
+
   }
 
 }
