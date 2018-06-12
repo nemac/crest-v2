@@ -16,7 +16,6 @@ import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 //templates
 import mapTemplate from '../templates/map.html'
 
-// console.log("g", global_store);
 /**
  * Leaflet Map Component
  * Render map items, and provide user interactivity.
@@ -30,10 +29,10 @@ export class Map extends Component {
   constructor (mapPlaceholderId, props) {
     super(mapPlaceholderId, props, mapTemplate)
 
-    // console.log("g", global_store)
+    this.renderCount = 0
+
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
-    // console.log('map',props.state)
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)

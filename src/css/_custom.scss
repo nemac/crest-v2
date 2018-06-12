@@ -5,23 +5,6 @@ $body-color-visited: $gray-400;
 $margin: 10px;
 $padding: 10px;
 
-.alert-light {
-  background-color: $body-color;
-  color: $body-bg;
-}
-
-.alert-link {
-  color: $body-bg;
-}
-
-
-h1.not-found {
-    font-size: 6.5rem;
-}
-
-p.not-found {
-   font-size: 2.5rem;
-}
 
 html, body {
     height: 100%;
@@ -43,6 +26,41 @@ body {
 hr {
   border-top: 1px solid rgba(233, 236, 241, 0.75);
 }
+
+.alert-light{
+  background-color: $body-color;
+  color: $body-bg;
+}
+
+.alert-link{
+  color: $body-bg;
+}
+
+
+.list-group.not-found{
+  color: $body-color;
+  background-color: $body-bg;
+}
+
+a.list-group-item.list-group-item-action.not-found{
+  font-size: 1.25rem;
+  color: $gray-400;
+  background-color: $body-bg;
+  border-color: $gray-400;
+  border-width: 0px;
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+
+h1.not-found {
+    font-size: 6.5rem;
+}
+
+p.not-found {
+   font-size: 1.5rem;
+}
+
 
 .sideheading {
   background-color:  $body-bg;
