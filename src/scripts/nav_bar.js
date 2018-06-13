@@ -1,7 +1,13 @@
 //default map template
 import nav_template from '../templates/nav_bar.html'
+import nav_bars_template from '../templates/nav_bar_nav.html'
 import { Component } from './components';
+
+import { navConfig } from '../config/navConfig';
+
 import { toggleElementDisplay } from './domUtils';
+
+
 /**
  * nav_bar Component
  * Render and control map layer control
@@ -11,52 +17,89 @@ export class nav_bar extends Component {
     super(placeholderId, props, nav_template);
 
     /*
-    * define valid nav headings
-    * Todo better way to handle this from structure of app maybe
+    * get nav configuration
     */
-    this.navs = ['main_nav_index', 'main_nav_about', 'main_nav_download']
-    console.log('active1',props.activeNav)
+    this.navConfig = navConfig;
+
+    this.activeNav = '';
+
+    //get the main nav element
+    const navHeaderElement = document.getElementById('main-nav');
+
     /*
-    * change active div Find a
-    * Todo better way to handle this.
+    *  iterate each nav and add it to the ui
     */
-    if(props){
-      if(props.activeNav){
-        this.changeActive(this.navs, props.activeNav)
-      } else {
-        this.changeActive(this.navs, "")
+    var cnt = 1;
+    navConfig.navs.map((nav)=>{
+      const navInnerHTML = navHeaderElement.innerHTML;
+      navHeaderElement.innerHTML = navInnerHTML + nav_bars_template;
+
+      var navElement = document.getElementById('main-nav-page');
+
+      //first tab is always active
+      if(cnt === 1){
+        navElement.className = navElement.className += ' active';
       }
-    } else {
-      this.changeActive(this.navs, "")
-    }
+
+      navElement.setAttribute('ref', nav.ref) //nav ref
+      navElement.setAttribute('href', nav.href) //nav href
+      navElement.textContent = nav.text //nav text
+      navElement.setAttribute('id', nav.id); //nav id
+
+      cnt += 1;
+
+    });
+
+    //add click event for active toggle
+    this.addTabClick();
+
   }
 
-  //change active nav bar heading
-  changeActive(navs, activeNav){
-    console.log('active', activeNav)
-    //iterate all navs and make each not active
-    navs.map ( (nav) => {
-
-      //make all navs not active if the html element exists
-      let el = document.querySelector(`[ref="${nav}"]`)
-      console.log(`[ref="${activeNav}"]`)
-      if(el){
-          el.className = el.className.replace(' active','')
-      }
-
+  addTabClick(){
+    navConfig.navs.map((nav)=>{
+      const el = document.getElementById(nav.id);
       el.addEventListener('click', (e) => {
-        const thisEle = this;
-        toggleElementDisplay(name, navs);
-      })
+        this.deactivateAllNavs();
+        this.toggleTabContent(e.target.id);
+        const ele = e.target;
+        ele.className = ele.className += ' active';
 
+        //add to store later
+        this.activeNav = nav.id;
+      })
     })
 
-    //make clicked nav active if html element exists
-    const activeEl = document.querySelector(`[ref="main_nav_${activeNav}"]`);
-    this.activeNav = activeNav;
-    if(activeEl){
-      activeEl.className = activeEl.className += ' active';
-    }
   }
 
+  tabUpdate(id){
+    this.deactivateAllNavs();
+    const el = document.getElementById(id);
+    el.className = el.className += ' active';
+  }
+
+  deactivateAllNavs(){
+    navConfig.navs.map((nav)=>{
+      const el = document.getElementById(nav.id);
+       el.className = el.className.replace(' active','');
+    })
+  }
+
+  toggleTabContent(id){
+    this.resetTabContent();
+    var el = document.getElementById(`tab-${id}`);
+    el.className = el.className.replace(' d-none','');
+  }
+
+  resetTabContent(){
+    navConfig.navs.map((nav)=>{
+      var el = document.getElementById(`tab-${nav.id}`);
+      el.className = el.className.replace(' d-none','');
+      el.className = el.className + ' d-none';
+    })
+
+    //not found in case it was revealed.
+    var el = document.getElementById('tab-main-nav-notfound');
+    el.className = el.className.replace(' d-none','');
+    el.className = el.className + ' d-none';
+  }
 }
