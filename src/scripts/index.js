@@ -16,6 +16,8 @@ import NotFoundPage from '../templates/notfound.html';
 var count = 0;
 
 
+      //initialize navbar
+      var navbarComponent = new nav_bar('nav-holder',{activeNav: 'index'});
 
       var mapComponent = new Map('map-holder');
       mapComponent.renderCount =+ 1;
