@@ -16,6 +16,8 @@ import NotFoundPage from '../templates/notfound.html';
 
 //initialize navbar
 var navbarComponent = new nav_bar('nav-holder');
+var mapComponent;
+var maplayersComponent;
 
 const router = new Navigo('http://localhost:8080', true);
 
@@ -27,24 +29,43 @@ router.on({
      navbarComponent.toggleTabContent('main-nav-map');
      navbarComponent.tabUpdate('main-nav-map');
 
-     var mapComponent = new Map('map-holder');
+     mapComponent = new Map('map-holder');
 
-     // Initialize Layer Toggle Panel
-     var maplayersComponent = new MapLayersList('maplayers_list-holder',{
+      maplayersComponent = new MapLayersList('maplayers_list-holder',{
        events: { layerToggle:
          // Toggle layer in map controller on "layerToggle" event
           event => { mapComponent.toggleLayer(event.detail) }
        }
      })
 
+     mapComponent.renderCount += 1;
+     console.log(mapComponent.renderCount);
+     // Initialize Layer Toggle Panel
+
+
    },
    '/Home': (params, query)=>{
+
+     console.log(mapComponent)
+     if(mapComponent === undefined){
+        console.log(mapComponent)
+         mapComponent = new Map('map-holder');
+
+          maplayersComponent = new MapLayersList('maplayers_list-holder',{
+           events: { layerToggle:
+             // Toggle layer in map controller on "layerToggle" event
+              event => { mapComponent.toggleLayer(event.detail) }
+           }
+         })
+     }
 
      //deal with nav bars so back button is not broken
      navbarComponent.resetTabContent();
      navbarComponent.toggleTabContent('main-nav-map');
      navbarComponent.tabUpdate('main-nav-map');
 
+     mapComponent.renderCount += 1;
+     console.log(mapComponent.renderCount);
    },
    '/About': (params, query)=>{
 

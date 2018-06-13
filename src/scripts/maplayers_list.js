@@ -60,6 +60,7 @@ export class MapLayersList extends Component {
 
     // Trigger layer toggle callback
     this.triggerEvent('layerToggle', layerName)
+    
 
   }
 }

@@ -29,7 +29,11 @@ export class Map extends Component {
   constructor (mapPlaceholderId, props) {
     super(mapPlaceholderId, props, mapTemplate)
 
-    this.renderCount = 0
+    this.renderCount = 0;
+    this.mapLayersOn = {};
+    this.mapCenter = {};
+    this.mapZoom = {};
+    this.mapClick = {};
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
@@ -37,6 +41,7 @@ export class Map extends Component {
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)
     this.selectedRegion = null // Store currently selected region
+    this.mapOverlayLayers = {}
 
     /* add ESRI vector map
     * var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
@@ -55,11 +60,18 @@ export class Map extends Component {
     this.map.zoomIn(1);
     L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
 
-    this.map.on('moveend', function(ev) {
+    const self = this;
+    this.map.on('moveend', function(e) {
+      // localStorage.setItem(map,JSON.stringify(this.getCenter()))
+      self.setMapCenter(this.getCenter());
+      self.setMapZoom(this.getZoom());
+      // console.log(JSON.stringify({maplevel:this.getZoom()}))
       // console.log(this.getCenter(),this.getZoom() ); // ev is an event object (MouseEvent in this case)
     });
 
     this.map.on('click', function(ev) {
+      self.setMapClick(ev.latlng);
+      // console.log(JSON.stringify({mapclick:ev.latlng}))
       // console.log(ev.latlng ); // ev is an event object (MouseEvent in this case)
     });
 
@@ -75,6 +87,7 @@ export class Map extends Component {
 
     //iterate the wms map layers add add to map
     WMSLayers.map((layer)=>{
+
       var tileLayer = L.tileLayer.wms(layer.url, {
         id: layer.id,
         layers: layer.layer,
@@ -92,39 +105,75 @@ export class Map extends Component {
         [layer.id]: tileLayer,
       };
 
+      const mapDisplayLayersObj = {[layer.id]: false};
+
+      Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
+      // this.mapOverlayLayers.push( mapDisplayLayersObj)
+
       //merge current layer into overlayMaps layers object
       Object.assign(this.overlayMaps, obj);
     })
 
+    console.log('mapOverlayLayers', this.mapOverlayLayers)
+
   }
+
+
 
   /** Toggle map layer visibility */
   toggleLayer (layerName) {
-
+    let mapDisplayLayersObj = {};
     const layer = this.overlayMaps[layerName]
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer)
+      mapDisplayLayersObj = {[layerName]: false};
     } else {
       this.map.addLayer(layer)
+      mapDisplayLayersObj = {[layerName]: true};
     }
+    Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
+    console.log('toggleLayer', this.mapOverlayLayers)
   }
 
-
-  toggleMap () {
-    // console.log(this.componentElem.className)
-    let mapClass = this.componentElem.className;
-    // console.log(mapClass.indexOf(' d-none') > 0)
-    if(mapClass.indexOf(' d-none') > 0){
-
-      this.componentElem.className = mapClass.replace(' d-none','');
-      // console.log('test',mapClass.replace(' d-none',''))
-      history.pushState({id: 'nomap'}, '', './momap');
-      this.map.invalidateSize();
-    } else {
-      this.componentElem.className = this.componentElem.className + ' d-none'
-      history.pushState({id: 'map'}, '', './map');
-
-    }
+  /** provide access to leaflet invalidateSize **/
+  invalidateSize(){
+    this.map.invalidateSize();
   }
+
+  setMapCenter(value){
+    this.mapCenter = {mapCenter:value}
+    console.log(this.mapCenter)
+  }
+
+  setMapZoom(value){
+    this.mapZoom = {mapZoom:value}
+    console.log(this.mapZoom)
+  }
+
+  setMapClick(value){
+    this.mapClick = {mapClick:value}
+    console.log(JSON.stringify(this.mapClick))
+  }
+
+  setLayerStatus(value){
+    this.mapOverlayLayers = {layers:value}
+    console.log(JSON.stringify(this.mapClick))
+  }
+  // toggleMap () {
+  //   // console.log(this.componentElem.className)
+  //   let mapClass = this.componentElem.className;
+  //   // console.log(mapClass.indexOf(' d-none') > 0)
+  //   if(mapClass.indexOf(' d-none') > 0){
+  //
+  //     this.componentElem.className = mapClass.replace(' d-none','');
+  //     // console.log('test',mapClass.replace(' d-none',''))
+  //     // history.pushState({id: 'nomap'}, '', './momap');
+  //     this.map.invalidateSize();
+  //   } else {
+  //     this.componentElem.className = this.componentElem.className + ' d-none'
+  //     // history.pushState({id: 'map'}, '', './map');
+  //
+  //   }
+  // }
 
 }
