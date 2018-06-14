@@ -34,6 +34,7 @@ export class Map extends Component {
     this.mapCenter = {};
     this.mapZoom = {};
     this.mapClick = {};
+    this.stateStore = {}
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
@@ -63,15 +64,19 @@ export class Map extends Component {
     const self = this;
     this.map.on('moveend', function(e) {
       // localStorage.setItem(map,JSON.stringify(this.getCenter()))
-      self.setMapCenter(this.getCenter());
-      self.setMapZoom(this.getZoom());
+      // self.setMapCenter(this.getCenter());
+      self.saveStore('mapCenter', this.getCenter() );
+      self.saveStore('mapZoom', this.getCenter() );
+
+      // self.setMapZoom(this.getZoom());
       // console.log(JSON.stringify({maplevel:this.getZoom()}))
       // console.log(this.getCenter(),this.getZoom() ); // ev is an event object (MouseEvent in this case)
     });
 
     this.map.on('click', function(ev) {
-      self.setMapClick(ev.latlng);
-      // console.log(JSON.stringify({mapclick:ev.latlng}))
+      self.saveStore('mapClick', ev.latlng );
+      // self.setMapClick(ev.latlng);
+      console.log(JSON.stringify({mapclick:ev.latlng}))
       // console.log(ev.latlng ); // ev is an event object (MouseEvent in this case)
     });
 
@@ -112,10 +117,11 @@ export class Map extends Component {
 
       //merge current layer into overlayMaps layers object
       Object.assign(this.overlayMaps, obj);
+
     })
 
-    console.log('mapOverlayLayers', this.mapOverlayLayers)
-
+    // console.log('mapOverlayLayers', this.mapOverlayLayers)
+    this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers );
   }
 
 
@@ -132,7 +138,7 @@ export class Map extends Component {
       mapDisplayLayersObj = {[layerName]: true};
     }
     Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
-    console.log('toggleLayer', this.mapOverlayLayers)
+    this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers );
   }
 
   /** provide access to leaflet invalidateSize **/
@@ -140,40 +146,73 @@ export class Map extends Component {
     this.map.invalidateSize();
   }
 
+  saveStore(key, value){
+    const storeObj = {[key]: value};
+
+    this.store = {...this.store, ...storeObj};
+    console.log(this.store)
+
+  }
+
+  /*
+  *  recenters map accoring to a lat long
+  *  @param { Object }  {lat: 32.76966654128219, lng: -79.93103027343751}
+  *
+  *  const ele.addEventListener('click', (e) => {
+  *      this.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
+  *   })
+  */
   setMapCenter(value){
-    this.mapCenter = {mapCenter:value}
-    console.log(this.mapCenter)
+    // const latlng = L.latLng([value.lat, value.lng]);
+    this.map.panTo( value);
+    this.invalidateSize();
   }
 
+  /*
+  *  zooms map into zoom level
+  *  @param { integer }  integer usuall 1-18
+  *
+  *  const ele.addEventListener('click', (e) => {
+  *      this.setMapZoom(5);
+  *   })
+  */
   setMapZoom(value){
-    this.mapZoom = {mapZoom:value}
-    console.log(this.mapZoom)
+    this.map.setZoom(value);
+    this.invalidateSize();
   }
 
+  /*
+  *  Force a map click event without user interaction
+  *  @param { Object }  {lat: 32.76966654128219, lng: -79.93103027343751}
+  *
+  *      this.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
+  *
+  *
+  */
   setMapClick(value){
-    this.mapClick = {mapClick:value}
-    console.log(JSON.stringify(this.mapClick))
+    const latlng = L.latLng([value.lat, value.lng]);
+    this.map.fireEvent('click', {latlng: latlng})
+    this.invalidateSize();
   }
 
+  /*
+  *  Force a map layer toggle event without user interaction
+  *  @param { string }  layer id examples are SA_ExposureIndex, SA_AssetIndex, SA_ThreatIndex
+  *
+  *  const ele.addEventListener('click', (e) => {
+  *      this.setLayerStatus('SA_ThreatIndex');
+  *   })
+  *
+  */
   setLayerStatus(value){
-    this.mapOverlayLayers = {layers:value}
-    console.log(JSON.stringify(this.mapClick))
+
+    const layerToggleElement = document.getElementById(`${value}-toggle`);
+    var event = new Event('click');
+    layerToggleElement.dispatchEvent(event);
+    layerToggleElement.checked ? layerToggleElement.checked = false : layerToggleElement.checked = true;
+
   }
-  // toggleMap () {
-  //   // console.log(this.componentElem.className)
-  //   let mapClass = this.componentElem.className;
-  //   // console.log(mapClass.indexOf(' d-none') > 0)
-  //   if(mapClass.indexOf(' d-none') > 0){
-  //
-  //     this.componentElem.className = mapClass.replace(' d-none','');
-  //     // console.log('test',mapClass.replace(' d-none',''))
-  //     // history.pushState({id: 'nomap'}, '', './momap');
-  //     this.map.invalidateSize();
-  //   } else {
-  //     this.componentElem.className = this.componentElem.className + ' d-none'
-  //     // history.pushState({id: 'map'}, '', './map');
-  //
-  //   }
-  // }
+  // history.pushState({id: 'nomap'}, '', './momap');
+
 
 }

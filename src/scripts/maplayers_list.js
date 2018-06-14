@@ -37,6 +37,8 @@ export class MapLayersList extends Component {
     //get elements
     let layerItem = el.getElementById('layerToggle')
 
+    layerItem.setAttribute('id', `${layerProps.id}-layerToggle`)
+
     //get and update the layer's checkbox
     let checkBox = el.getElementById('customCheck');
     checkBox.setAttribute('ref', `${layerProps.id}-toggle`) //checkbox ref
@@ -60,7 +62,7 @@ export class MapLayersList extends Component {
 
     // Trigger layer toggle callback
     this.triggerEvent('layerToggle', layerName)
-    
+
 
   }
 }

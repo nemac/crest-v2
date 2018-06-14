@@ -19,6 +19,8 @@ var navbarComponent = new nav_bar('nav-holder');
 var mapComponent;
 var maplayersComponent;
 
+
+
 const router = new Navigo('http://localhost:8080', true);
 
 router.on({
@@ -30,6 +32,17 @@ router.on({
      navbarComponent.tabUpdate('main-nav-map');
 
      mapComponent = new Map('map-holder');
+
+     // examples of coded map interactions
+     // let maintitleElement = document.getElementById('maintitle');
+     // maintitleElement.addEventListener('click', (e) => {
+     //   // mapComponent.setLayerStatus('SA_ThreatIndex');
+     //   // mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
+     //   // mapComponent.setMapZoom(5);
+     //   // mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
+     //
+     // })
+
 
       maplayersComponent = new MapLayersList('maplayers_list-holder',{
        events: { layerToggle:
