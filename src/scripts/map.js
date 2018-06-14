@@ -8,6 +8,9 @@ import { mapConfig } from '../config/mapConfig';
 //SCSS
 import '../css/_custom_leaflet.scss';
 
+//import custom classess
+import { Store } from './store'
+var store = new Store({});
 //downloaded esri-leaflet-vector to utuls directory so the package worked with webpack es6
 //updates will have to be manually!
 //see github issue https://github.com/Esri/esri-leaflet-vector/issues/31  from tgirgin23
@@ -30,10 +33,10 @@ export class Map extends Component {
     super(mapPlaceholderId, props, mapTemplate)
 
     this.renderCount = 0;
-    this.mapLayersOn = {};
-    this.mapCenter = {};
-    this.mapZoom = {};
-    this.mapClick = {};
+    // this.mapLayersOn = {};
+    // this.mapCenter = {};
+    // this.mapZoom = {};
+    // this.mapClick = {};
     this.stateStore = {}
 
     // Initialize Leaflet map
@@ -41,7 +44,7 @@ export class Map extends Component {
 
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)
-    this.selectedRegion = null // Store currently selected region
+    this.value = null // Store currently selected region
     this.mapOverlayLayers = {}
 
     /* add ESRI vector map
@@ -63,24 +66,14 @@ export class Map extends Component {
 
     const self = this;
     this.map.on('moveend', function(e) {
-      // localStorage.setItem(map,JSON.stringify(this.getCenter()))
-      // self.setMapCenter(this.getCenter());
       self.saveStore('mapCenter', this.getCenter() );
       self.saveStore('mapZoom', this.getCenter() );
-
-      // self.setMapZoom(this.getZoom());
-      // console.log(JSON.stringify({maplevel:this.getZoom()}))
-      // console.log(this.getCenter(),this.getZoom() ); // ev is an event object (MouseEvent in this case)
     });
 
     this.map.on('click', function(ev) {
       self.saveStore('mapClick', ev.latlng );
-      // self.setMapClick(ev.latlng);
-      console.log(JSON.stringify({mapclick:ev.latlng}))
-      // console.log(ev.latlng ); // ev is an event object (MouseEvent in this case)
     });
 
-    // console.log(this.map)
     //add wms layers
     //may switch this out for tiled s3 layers or tile esri layers later
     const WMSLayers = mapConfig.TileLayers;
@@ -113,14 +106,12 @@ export class Map extends Component {
       const mapDisplayLayersObj = {[layer.id]: false};
 
       Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
-      // this.mapOverlayLayers.push( mapDisplayLayersObj)
 
       //merge current layer into overlayMaps layers object
       Object.assign(this.overlayMaps, obj);
 
     })
 
-    // console.log('mapOverlayLayers', this.mapOverlayLayers)
     this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers );
   }
 
@@ -146,11 +137,12 @@ export class Map extends Component {
     this.map.invalidateSize();
   }
 
+
   saveStore(key, value){
     const storeObj = {[key]: value};
 
     this.store = {...this.store, ...storeObj};
-    console.log(this.store)
+    store.saveState(this.store)
 
   }
 
@@ -163,7 +155,6 @@ export class Map extends Component {
   *   })
   */
   setMapCenter(value){
-    // const latlng = L.latLng([value.lat, value.lng]);
     this.map.panTo( value);
     this.invalidateSize();
   }
@@ -210,6 +201,19 @@ export class Map extends Component {
     var event = new Event('click');
     layerToggleElement.dispatchEvent(event);
     layerToggleElement.checked ? layerToggleElement.checked = false : layerToggleElement.checked = true;
+
+  }
+  /*
+  *  clear the localStorage state cache
+  *
+  *  const ele.addEventListener('click', (e) => {
+  *      this.clearState();
+  *   })
+  *
+  */
+  clearState(){
+    console.log('map here')
+    store.clearState();
 
   }
   // history.pushState({id: 'nomap'}, '', './momap');

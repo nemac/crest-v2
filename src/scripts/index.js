@@ -3,7 +3,6 @@ import Navigo from 'navigo';
 
 //import custom classess
 import { Store } from './store';
-
 //import extended components
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
@@ -20,6 +19,8 @@ var mapComponent;
 var maplayersComponent;
 
 
+var store = new Store({});
+
 
 const router = new Navigo('http://localhost:8080', true);
 
@@ -34,14 +35,17 @@ router.on({
      mapComponent = new Map('map-holder');
 
      // examples of coded map interactions
-     // let maintitleElement = document.getElementById('maintitle');
-     // maintitleElement.addEventListener('click', (e) => {
-     //   // mapComponent.setLayerStatus('SA_ThreatIndex');
-     //   // mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
-     //   // mapComponent.setMapZoom(5);
-     //   // mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
-     //
-     // })
+     let maintitleElement = document.getElementById('maintitle');
+     maintitleElement.addEventListener('click', (e) => {
+       // mapComponent.setLayerStatus('SA_ThreatIndex');
+       // mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
+       // mapComponent.setMapZoom(5);
+       // mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
+       // console.log('test')
+       // mapComponent.clearState();
+       // console.log(store.clearState())
+       console.log(store.isStateExists())
+     })
 
 
       maplayersComponent = new MapLayersList('maplayers_list-holder',{
@@ -52,16 +56,16 @@ router.on({
      })
 
      mapComponent.renderCount += 1;
-     console.log(mapComponent.renderCount);
+     // console.log(mapComponent.renderCount);
      // Initialize Layer Toggle Panel
 
 
    },
    '/Home': (params, query)=>{
 
-     console.log(mapComponent)
+     // console.log(mapComponent)
      if(mapComponent === undefined){
-        console.log(mapComponent)
+        // console.log(mapComponent)
          mapComponent = new Map('map-holder');
 
           maplayersComponent = new MapLayersList('maplayers_list-holder',{
@@ -78,7 +82,7 @@ router.on({
      navbarComponent.tabUpdate('main-nav-map');
 
      mapComponent.renderCount += 1;
-     console.log(mapComponent.renderCount);
+     // console.log(mapComponent.renderCount);
    },
    '/About': (params, query)=>{
 
