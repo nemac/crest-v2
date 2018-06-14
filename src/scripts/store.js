@@ -6,13 +6,13 @@ export class Store {
     // this.state = state;
     this.store = window.localStorage;
 
-    if(this.isStateExists){
-      this.state = this.getState();
-    } else {
-      const state = {};
-      this.state = {state};
-    }
-    //this.saveState(state);
+    // this.state = {};
+    // if(this.isStateExists){
+    //   this.state = this.getState();
+    // } else {
+    //   const state = {};
+    //   this.state = {state};
+    // }
   }
 
   get Store() {
@@ -26,8 +26,8 @@ export class Store {
   // declaration
   saveState(state) {
     if (this.storageAvailable){
-      const currentStateStr = this.store.getItem("state");
-      const currentState = JSON.parse(currentStateStr);
+
+      const currentState = this.getState("state");
       const newState = { ...currentState, ...state};
       const newStateStr = JSON.stringify(newState);
 
@@ -72,7 +72,10 @@ export class Store {
   //check of state exists
   isStateExists(){
     if (this.storageAvailable()) {
-      const stateStr = this.store.getItem("state");
+      const stateStr = this.store["state"];
+      if(stateStr === undefined){return false}
+
+      // const stateStr = this.checkItem("state");
       if(stateStr){
         return true
       } else {
@@ -82,10 +85,11 @@ export class Store {
     return false
   }
 
+
   //check for state item exists
   isStateItemExist(item){
     if (this.isStateExists()) {
-      const stateStr = this.store.getItem("state");
+      const stateStr = this.store["state"];
       if(stateStr.indexOf(item) > 0){
         return true
       } else {
@@ -95,33 +99,66 @@ export class Store {
     return false
   }
 
+  checkItem(item){
+    const stateStr = this.store["state"];
+    if(stateStr.indexOf(item) > 0){
+      return true
+    } else {
+      return false
+    }
+    return false
+  }
+
   //get state item
   getStateItem(item){
-    if (this.isStateExists()) {
-      const stateStr = this.store.getItem("state");
-      if(this.isStateItemExist(item)){
-        const stateStr = this.store.getItem("state");
-        const currentState = JSON.parse(stateStr);
-        return currentState[item];
-      } else {
-        return {}
-      }
+    const currentState = this.getState("state");
+    if(this.checkItem(item)){
+      const stateItem = currentState[item];
+      return stateItem;
     }
-    return {}
+
+    return {};
+
   }
 
   //return current state
   getState(){
     if (this.storageAvailable()) {
-      if(this.isStateExists){
-        const currentStateStr = this.store.getItem("state");
+      if(this.isStateExists()){
+        const currentStateStr = this.store["state"];
         const currentState = JSON.parse(currentStateStr);
         return currentState;
-      } else {
-        return {}
       }
+      return {};
     }
-    return {}
+    return {};
+  }
+
+
+  setStoreItem(key, value){
+    const storeObj = {[key]: value};
+    const newStateObj = {...this.getState(), ...storeObj};
+    this.saveState(newStateObj)
+  }
+
+  saveNewState(state) {
+    if (this.storageAvailable){
+      const newStateStr = JSON.stringify(state);
+      this.store.setItem("state", newStateStr);
+    }
+  }
+
+  /*
+  *  set state from saved object
+  *
+  *  const ele.addEventListener('click', (e) => {
+  *      this.setStateFromObject();
+  *   })
+  *
+  */
+  setStateFromObject(StateObject){
+    this.saveNewState(StateObject)
+
   }
 
   // We will look at static and subclassed methods shortly
