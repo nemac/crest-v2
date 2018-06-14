@@ -44,7 +44,7 @@ router.on({
        // console.log('test')
        // mapComponent.clearState();
        // console.log(store.clearState())
-       console.log(store.isStateExists())
+       console.log(store.getStateItem("mapClick"))
      })
 
 

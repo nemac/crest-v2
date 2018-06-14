@@ -84,9 +84,9 @@ export class Store {
 
   //check for state item exists
   isStateItemExist(item){
-    if (this.storageAvailable()) {
+    if (this.isStateExists()) {
       const stateStr = this.store.getItem("state");
-      if(stateStr){
+      if(stateStr.indexOf(item) > 0){
         return true
       } else {
         return false
@@ -94,7 +94,22 @@ export class Store {
     }
     return false
   }
-  
+
+  //get state item
+  getStateItem(item){
+    if (this.isStateExists()) {
+      const stateStr = this.store.getItem("state");
+      if(this.isStateItemExist(item)){
+        const stateStr = this.store.getItem("state");
+        const currentState = JSON.parse(stateStr);
+        return currentState[item];
+      } else {
+        return {}
+      }
+    }
+    return {}
+  }
+
   //return current state
   getState(){
     if (this.storageAvailable()) {
