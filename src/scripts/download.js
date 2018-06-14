@@ -1,5 +1,5 @@
 import { nav_bar } from './nav_bar'
-
+console.log(count)
 class ViewController {
 
   /** Initialize Application */
