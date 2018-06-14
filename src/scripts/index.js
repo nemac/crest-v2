@@ -24,6 +24,27 @@ var store = new Store({});
 
 const router = new Navigo('http://localhost:8080', true);
 
+//to do: make the tab content area dynamic also similar to the nav tabs
+
+// examples of coded map interactions
+let maintitleElement = document.getElementById('maintitle');
+maintitleElement.addEventListener('click', (e) => {
+  // mapComponent.setLayerStatus('SA_ThreatIndex');
+  // mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
+  // mapComponent.setMapZoom(5);
+  // mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
+  // console.log('test')
+  // mapComponent.clearState();
+  // console.log(store.clearState())
+  // console.log(store.getStateItem("mapClick"))
+  // console.log(mapComponent.restoreMapState())
+  // mapComponent.setStateFromObject(store.getState())
+  // console.log(store.getStateItem('mapLayerDisplayStatus'))
+  console.log()
+
+})
+
+
 router.on({
    '/': (params, query)=>{
 
@@ -34,30 +55,16 @@ router.on({
 
      mapComponent = new Map('map-holder');
 
-     // examples of coded map interactions
-     let maintitleElement = document.getElementById('maintitle');
-     maintitleElement.addEventListener('click', (e) => {
-       // mapComponent.setLayerStatus('SA_ThreatIndex');
-       // mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
-       // mapComponent.setMapZoom(5);
-       // mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
-       // console.log('test')
-       // mapComponent.clearState();
-       // console.log(store.clearState())
-       console.log(store.getStateItem("mapClick"))
-     })
-
-
-      maplayersComponent = new MapLayersList('maplayers_list-holder',{
+     // Initialize Layer Toggle Panel
+     maplayersComponent = new MapLayersList('maplayers_list-holder',{
        events: { layerToggle:
          // Toggle layer in map controller on "layerToggle" event
           event => { mapComponent.toggleLayer(event.detail) }
        }
      })
 
+     mapComponent.restoreMapState();
      mapComponent.renderCount += 1;
-     // console.log(mapComponent.renderCount);
-     // Initialize Layer Toggle Panel
 
 
    },
@@ -74,6 +81,8 @@ router.on({
               event => { mapComponent.toggleLayer(event.detail) }
            }
          })
+         
+         mapComponent.restoreMapState();
      }
 
      //deal with nav bars so back button is not broken
@@ -82,7 +91,6 @@ router.on({
      navbarComponent.tabUpdate('main-nav-map');
 
      mapComponent.renderCount += 1;
-     // console.log(mapComponent.renderCount);
    },
    '/About': (params, query)=>{
 
@@ -106,6 +114,7 @@ router.on({
  }
 })
 
+  //implement later need to make the tab content area dynamic also
   // router.notFound(function (query) {
   //   //initialize 404
   //   this.componentElem = document.getElementById("notfound-holder");

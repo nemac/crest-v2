@@ -33,11 +33,9 @@ export class Map extends Component {
     super(mapPlaceholderId, props, mapTemplate)
 
     this.renderCount = 0;
-    // this.mapLayersOn = {};
-    // this.mapCenter = {};
-    // this.mapZoom = {};
-    // this.mapClick = {};
-    this.stateStore = {}
+
+    //set last storage object, it will be overwritten after map is intialized
+    this.restoreStateStore = store.getState();
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
@@ -54,6 +52,8 @@ export class Map extends Component {
     */
     var mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
     mapTiles.addTo(this.map);
+
+
     /*
     * Yes I am zooming in then zooming out.  But leaflets tiles
     * do not setup with fully with a dynamic map container (set to 100% height.)
@@ -67,7 +67,7 @@ export class Map extends Component {
     const self = this;
     this.map.on('moveend', function(e) {
       self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getCenter() );
+      self.saveStore('mapZoom', this.getZoom() );
     });
 
     this.map.on('click', function(ev) {
@@ -113,9 +113,17 @@ export class Map extends Component {
     })
 
     this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers );
+
   }
 
 
+  shouldRestore(props){
+    if(props === undefined){ return false }
+
+    if(props.restore === undefined){return false}
+
+    return props.restore
+  }
 
   /** Toggle map layer visibility */
   toggleLayer (layerName) {
@@ -203,17 +211,43 @@ export class Map extends Component {
     layerToggleElement.checked ? layerToggleElement.checked = false : layerToggleElement.checked = true;
 
   }
+
   /*
-  *  clear the localStorage state cache
+  *  restore mapComponent when state exists
   *
   *  const ele.addEventListener('click', (e) => {
-  *      this.clearState();
+  *      this.restoreState();
   *   })
   *
   */
-  clearState(){
-    console.log('map here')
-    store.clearState();
+  restoreMapState(){
+
+     //get last storage objet
+     store.setStateFromObject(this.restoreStateStore);
+
+     const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus']
+     const state = store.getState();
+     const self = this;
+      //state exits
+     if(!store.isStateExists()){return false}
+
+     mapStates.map( (stateItem)=>{
+       const stateObj = state[stateItem];
+
+       if(stateItem === 'mapCenter'){ self.setMapCenter(stateObj)} //recenter from store
+       if(stateItem === 'mapClick'){self.setMapClick(stateObj)} //map click from store
+       if(stateItem === 'mapZoom'){self.setMapZoom(stateObj)} //reset map zoom from store
+
+       if(stateItem === 'mapLayerDisplayStatus'){
+         for(var key in stateObj){
+           if(stateObj[key]){
+              this.setLayerStatus(key);
+           }
+         }
+       }
+
+     })
+
 
   }
   // history.pushState({id: 'nomap'}, '', './momap');
