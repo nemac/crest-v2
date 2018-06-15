@@ -143,7 +143,7 @@ export class Map extends Component {
   /** Load map data from the API */
   async retreiveMapClick () {
 
-    // L.clearMarkers(this.map)
+    // remove prevuis marker
     if (this.marker !== undefined) {
           this.map.removeLayer(this.marker);
     };
@@ -153,27 +153,23 @@ export class Map extends Component {
     const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
 
     const mapClick = store.getStateItem('mapClick');
-    // const mapContainerPoint = store.getStateItem('mapContainerPoint');
-    // //
+
     var myIcon = L.divIcon({className: 'map-info-point'});
-    // //
+
     this.marker = L.marker([mapClick.lat,mapClick.lng], {icon: myIcon});
     this.map.addLayer(this.marker);
 
+    //to do loop json to dynamically create this
     var tooltipTemplate =
         '<div> asset score: {asset}</div><div> threat score: {threat}</div><div> exposure score: {exposure}</div>';
 
     var tooltipData = IndentifyJson;
-    //
+
     var tooltipContent = L.Util.template(tooltipTemplate, tooltipData);
 
+    //to do overide css popup for leaflet
     this.marker.bindPopup(tooltipContent).openPopup();
 
-
-    // console.log(IndentifyJson);
-
-
-    // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
   }
 
   shouldRestore(props){
