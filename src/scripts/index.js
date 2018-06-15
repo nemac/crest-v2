@@ -40,6 +40,9 @@ maintitleElement.addEventListener('click', (e) => {
   // console.log(mapComponent.restoreMapState())
   // mapComponent.setStateFromObject(store.getState())
   // console.log(store.getStateItem('mapLayerDisplayStatus'))
+  // console.log(store.removeStateItem('mapClick'));
+  console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
+
   console.log()
 
 })
@@ -81,7 +84,6 @@ router.on({
               event => { mapComponent.toggleLayer(event.detail) }
            }
          })
-         
          mapComponent.restoreMapState();
      }
 
@@ -89,6 +91,7 @@ router.on({
      navbarComponent.resetTabContent();
      navbarComponent.toggleTabContent('main-nav-map');
      navbarComponent.tabUpdate('main-nav-map');
+
 
      mapComponent.renderCount += 1;
    },
