@@ -10,6 +10,40 @@ html, body {
     height: 100%;
 }
 
+.map-info-point{
+  background-color: $body-bg;
+  border-radius: 10px;
+
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+
+}
+
+.mapInfo {
+  background-color: $body-bg;
+  color: $body-color;
+  padding: $padding;
+  width: 250px;
+  height: 250px;
+}
+
+.leaflet-popup {
+   bottom: 0;
+ }
+
+ .leaflet-popup-content {
+   user-select: none;
+   cursor: pointer;
+ }
+
+ .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+   background: $body-color;
+   color: $body-color;
+   text-align: center;
+ }
+
 body {
   background-color: $body-bg;
   color: $body-color;

@@ -1,5 +1,6 @@
 //dependencies
 import L from 'leaflet';
+
 import { basemapLayer, featureLayer } from 'esri-leaflet';
 
 import { Component } from './components';
@@ -10,6 +11,8 @@ import '../css/_custom_leaflet.scss';
 
 //import custom classess
 import { Store } from './store'
+import { IndentifyAPI } from './IndentifyAPI';
+
 var store = new Store({});
 //downloaded esri-leaflet-vector to utuls directory so the package worked with webpack es6
 //updates will have to be manually!
@@ -18,6 +21,7 @@ import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 
 //templates
 import mapTemplate from '../templates/map.html'
+import mapinfo from '../templates/mapinfo.html';
 
 /**
  * Leaflet Map Component
@@ -40,11 +44,13 @@ export class Map extends Component {
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
+    this.IndentifyAPI = new IndentifyAPI();
+
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)
     this.value = null // Store currently selected region
     this.mapOverlayLayers = {}
-
+    this.marker;
     /* add ESRI vector map
     * var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
     * not using vector tiles yet some bugginess from ESRI
@@ -72,6 +78,19 @@ export class Map extends Component {
 
     this.map.on('click', function(ev) {
       self.saveStore('mapClick', ev.latlng );
+      self.retreiveMapClick();
+      // if(ev.containerPoint !== undefined){
+      //   self.saveStore('mapContainerPoint', {x: ev.containerPoint.x, y: ev.containerPoint.y} );
+      // } else {
+      //   const containerPoint = store.getStateItem('mapContainerPoint');
+      //   self.saveStore('mapContainerPoint', {x: containerPoint.x, y: containerPoint.y} );
+      // }
+      //
+      // if(ev.originalEvent !== undefined){
+      //   const originalEvent = store.getStateItem('mapClickPage');
+      //   self.saveStore('mapClickPage', {pageX: originalEvent.pageX, pageY: originalEvent.pageY}  );
+      // }
+
     });
 
     //add wms layers
@@ -116,6 +135,82 @@ export class Map extends Component {
 
   }
 
+
+  /** Load map data from the API */
+  async retreiveMapClick () {
+
+    // L.clearMarkers(this.map)
+    if (this.marker !== undefined) {
+          this.map.removeLayer(this.marker);
+    };
+    console.log(this.marker)
+    const IndentifyJson = {"asset": "255", "threat": "255", "exposure": "1"};
+
+    const mapClick = store.getStateItem('mapClick');
+    // const mapContainerPoint = store.getStateItem('mapContainerPoint');
+    // //
+    var myIcon = L.divIcon({className: 'map-info-point'});
+    // //
+    this.marker = L.marker([mapClick.lat,mapClick.lng], {icon: myIcon});
+    this.map.addLayer(this.marker);
+    // mapinfoMarker.bindPopup(mapinfo).openPopup();
+    // this.map.invalidateSize();
+    // mapinfo
+    //
+    // var tooltipTemplate =
+    //     'In the district live <strong>{persons} persons<strong>.<br />' +
+    //     '{children} of them are children, {adults} adults and {seniors} seniors';
+    //
+    // var tooltipData = {
+    //   persons : 1400,
+    //   children : 400,
+    //   adults: 800,
+    //   seniors : 200
+    // };
+    //
+    // var tooltipContent = L.Util.template(tooltipTemplate, tooltipData);
+    // // returns: 'In the district live <strong>1400 persons</strong>.<br />400 of them are children, 800 adults and 200 seniors'
+    //
+    // // now we can add the HTML to a certain element
+    // L.DomUtil.get('tooltip').innerHTML = tooltipContent;
+    //
+
+    // const appendEl = document.querySelector('.leaflet-pane.leaflet-marker-pane')
+    //
+    // const pt =  L.DomUtil.getStyle(appendEl);
+    // console.log(pt)
+    // const mapInfoElement = L.DomUtil.create('div','mapInfo');
+    // //
+    // // const mapClick = store.getStateItem('mapClick');
+    // mapInfoElement.innerHTML = '<div id="mapInfo-content" ref="mapInfo-content" class="mapInfo-content">test</div>';
+    // //
+    // console.log('mapInfoElement', mapInfoElement)
+    // this.map.openPopup(mapInfoElement,mapClick)
+    // // document.getElementById('mapInfo');
+    // // L.DomUtil.removeClass(mapInfoElement, 'd-none');
+    // L.DomUtil.setPosition(mapInfoElement,L.point(mapClick.lat,mapClick.lng));
+    //
+    // // Download kingdom boundaries
+    // // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
+    // const mapInfoElement = document.getElementById('mapInfo');
+    // L.DomUtil.removeClass(mapInfoElement, 'd-none');
+    // console.log(appendEl.style.transform)
+    // L.DomUtil.setPosition(mapInfoElement,L.point(mapContainerPoint.x,mapContainerPoint.y));
+    // L.DomUtil.toFront(mapInfoElement)
+    // console.log(mapContainerPoint.x,mapContainerPoint.y)
+    // // mapInfoElement.className = mapInfoElement.className.replace(' d-none','');
+    // // L.DomUtil.setPosition(mapInfoElement,L.point(mapClick.lat,mapClick.lng));
+    // // L.DomUtil.toFront(mapInfoElement)
+    // // const mapClick = store.getStateItem('mapClickPage');
+    // console.log(mapInfoElement)
+    // // mapInfoElement.css = mapInfoElement.css + ' '
+    //
+    // console.log(IndentifyJson);
+
+    // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
+    // console.log(IndentifyJson)
+    // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
+  }
 
   shouldRestore(props){
     if(props === undefined){ return false }
@@ -225,7 +320,7 @@ export class Map extends Component {
      //get last storage objet
      store.setStateFromObject(this.restoreStateStore);
 
-     const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus']
+     const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus','mapContainerPoint']
      const state = store.getState();
      const self = this;
       //state exits

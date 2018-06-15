@@ -22,7 +22,7 @@ var maplayersComponent;
 var store = new Store({});
 
 
-const router = new Navigo('http://localhost:8080', true);
+const router = new Navigo('https://localhost:8080', true);
 
 //to do: make the tab content area dynamic also similar to the nav tabs
 
@@ -43,7 +43,7 @@ maintitleElement.addEventListener('click', (e) => {
   // console.log(store.removeStateItem('mapClick'));
   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
 
-  console.log()
+  // console.log()
 
 })
 

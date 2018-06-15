@@ -15,7 +15,7 @@ const paths = {
 module.exports = {
     mode: 'development',
     entry: {
-        index: path.join(paths.SRC, 'index.js'),
+        index: ['babel-polyfill', path.join(paths.SRC, 'index.js')],
         bootstrap: path.join(paths.SRC, 'bootstrap.js'),
         download: path.join(paths.SRC, 'download.js'),
         // about: path.join(paths.SRC, 'about.js'),
@@ -26,7 +26,13 @@ module.exports = {
         filename: '[name].app.bundle.js'
     },
     devServer: {
-      historyApiFallback: true
+      https: true,
+      hot: true,
+      inline: true,
+      contentBase: path.join(__dirname, 'src'),
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
     },
     optimization: {
       splitChunks: {
@@ -102,6 +108,7 @@ module.exports = {
             filename: path.join(paths.DIST, 'download.html'),
             excludeChunks: ['index','about']
         }),
+        new webpack.HotModuleReplacementPlugin(),
         // //about
         // new HtmlWebpackPlugin({
         //     hash: true,
