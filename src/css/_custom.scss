@@ -29,6 +29,29 @@ html, body {
   height: 250px;
 }
 
+.mapinfodata {
+  font-size: .8rem;
+}
+
+.mapinfodata-score {
+  padding: 1px;
+  margin: 1px;
+}
+
+.asset-score {
+  float: right;
+  background-color: $teal;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+// .mapinfodata-score {
+//   float: left;
+// }
+.mapinfodata-holder {
+  padding: 5px;
+}
+
 .leaflet-popup {
    bottom: 0;
  }
@@ -41,9 +64,12 @@ html, body {
  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
    background: $body-bg;
    color: $body-color;
-   text-align: center;
+   border-radius: 0px;
  }
 
+.leaflet-popup-tip-container {
+  display: none;
+}
 body {
   background-color: $body-bg;
   color: $body-color;
@@ -70,7 +96,6 @@ hr {
   color: $body-bg;
 }
 
-
 .list-group.not-found{
   color: $body-color;
   background-color: $body-bg;
@@ -86,7 +111,6 @@ a.list-group-item.list-group-item-action.not-found{
   text-decoration: underline;
 }
 
-
 h1.not-found {
     font-size: 6.5rem;
 }
@@ -94,7 +118,6 @@ h1.not-found {
 p.not-found {
    font-size: 1.5rem;
 }
-
 
 .sideheading {
   background-color:  $body-bg;

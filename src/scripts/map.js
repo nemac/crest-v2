@@ -159,16 +159,31 @@ export class Map extends Component {
     this.marker = L.marker([mapClick.lat,mapClick.lng], {icon: myIcon});
     this.map.addLayer(this.marker);
 
-    //to do loop json to dynamically create this
-    var tooltipTemplate =
-        '<div> asset score: {asset}</div><div> threat score: {threat}</div><div> exposure score: {exposure}</div>';
 
-    var tooltipData = IndentifyJson;
+    // var mapInfo_Template = ""
+    // for(var key in IndentifyJson){
+    //   mapInfo_Template += "<div>" + key + "  score: {" + key + "}</div>"
+    // }
+    // //to do loop json to dynamically create this
+    // // or create from template
+    // var mapInfo_function = function(mapInfoTemplate, mapInfoData){
+    //   for(var key in mapInfoData){
+    //     if(mapInfoData[key]){
+    //       console.log(mapInfoData[key]);
+    //     }
+    //   }
+    //
+    //     // L.Util.template(tooltipTemplate, tooltipData);
+    //     // mapInfoTemplate
+    // }
+        // '<div> asset score: {asset}</div><div> threat score: {threat}</div><div> exposure score: {exposure}</div>';
 
-    var tooltipContent = L.Util.template(tooltipTemplate, tooltipData);
+    // var tooltipData = IndentifyJson;
+    //
+    var tooltipContent = L.Util.template(mapInfoTemplate, IndentifyJson);
 
     //to do overide css popup for leaflet
-    this.marker.bindPopup(tooltipContent).openPopup();
+    this.marker.bindPopup(tooltipContent,{offset:L.point(-95,20)}).openPopup();
 
   }
 
