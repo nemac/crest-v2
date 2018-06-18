@@ -139,47 +139,29 @@ export class Map extends Component {
 
   }
 
-  buildMapInformationTemplate(values){
-
-      return ' <div class="mapinfodata-holder" >' +
-                          '    <div class="mapinfodata-score text-left" > ' + values.name + ' score: </div>' +
-                          '   <div class="data-score text-center" style="background-color: ' + values.backgroundColor + '; color: ' + values.color + ';" >' + values.label + '</div>' +
-                          ' </div>'
-
+  replaceMapInfoValue(doc, type, values){
+    let element = doc.getElementById(`${type}-score`);
+    element.textContent = values.label;
   }
 
-  buildMapInformationTemplate_heading () {
-    return `<div ref="map_info_list" class="map_info_list">
-                              <div class="toggle-list">
-                                <h5>Map Information</h5>
-                                <hr />
-                                <div ref="mapinfodata" id="mapinfodata" class="text-left mapinfodata">`;
+  addStyle(doc, type, values){
+     let element = doc.getElementById(`${type}-score`);
+     element.setAttribute("style", 'background-color: ' + values.backgroundColor + '; color: ' + values.color + ';');
   }
-
-  buildMapInformationTemplate_foot () {
-    return  `     </div>
-                            </div>
-                          </div>`;
-  }
-
   /** Load map data from the API */
   async retreiveMapClick () {
 
 
-    // console.log(this.IndentifyAPI.getIndentifyItem ('exposure', 255));
-
-    // remove prevuis marker
+    // remove prevouis marker
     if (this.marker !== undefined) {
           this.map.removeLayer(this.marker);
     };
-
-    // const IndentifyJson = {"aquatic": 6,"terristrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
 
 
     const mapClick = store.getStateItem('mapClick');
 
     const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
-
+    // const IndentifyJson = {"aquatic": 6,"terristrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
 
     var myIcon = L.divIcon({className: 'map-info-point'});
 
@@ -187,7 +169,8 @@ export class Map extends Component {
     this.map.addLayer(this.marker);
 
 
-    var mapInfo_Template = this.buildMapInformationTemplate_heading();
+    let parser = new DOMParser()
+    let doc = parser.parseFromString(mapInfoTemplate, "text/html");
 
 
     for(var key in IndentifyJson){
@@ -199,13 +182,17 @@ export class Map extends Component {
                           "color": styleItem[0].color,
                           "label": styleItem[0].label};
 
-        mapInfo_Template += this.buildMapInformationTemplate(templateValues)
+
+      this.addStyle(doc, key, templateValues)
+      this.replaceMapInfoValue(doc, key, templateValues)
 
     }
 
-    mapInfo_Template += this.buildMapInformationTemplate_foot();
 
-    var tooltipContent = L.Util.template(mapInfo_Template);
+    let mapinformationel = doc.getElementById('map_info_list');
+
+    var tooltipContent = L.Util.template(mapinformationel.outerHTML);
+
 
     //to do overide css popup for leaflet
     this.marker.bindPopup(tooltipContent,{offset:L.point(-123,20)}).openPopup();

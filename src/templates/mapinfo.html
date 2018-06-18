@@ -1,12 +1,42 @@
 <!-- <div id="mapInfo-content" ref="mapInfo-content" class="mapInfo-content">test</div> -->
-<div ref="map_info_list" class="map_info_list">
+<div ref="map_info_list" id="map_info_list" class="map_info_list">
   <div class="toggle-list">
     <h5>Map Information</h5>
     <hr />
     <div ref="mapinfodata" id="mapinfodata" class="text-left mapinfodata">
-      <div class="mapinfodata-holder" ><span class="mapinfodata-score text-left" > asset score: </span><span class="asset-score text-right" >{asset}</span></div>
-      <div class="mapinfodata-holder" ><span class="mapinfodata-score text-left" > threat score: </span><span class="asset-score text-right" >{threat}</span></div>
-      <div class="mapinfodata-holder" ><span class="mapinfodata-score text-left" > exposure score: </span><span class="asset-score text-right" >{exposure}</span></div>
+
+      <div class="mapinfodata-holder" id="hub-holder" >
+        <div class="mapinfodata-score text-left" id="hub-title" >Hub</div>
+        <div class="data-score text-center" id="hub-score" style="background-color: #e9ecef; color: #343A4F;">N/A</div>
+      </div>
+
+
+      <br />
+      <div class="mapinfodata-header" id="FishnWildlife-Header" >Fish and Wildlife</div>
+      <div class="mapinfodata-holder" id="aquatic-holder" >
+        <div class="mapinfodata-score text-left" id="aquatic-title" >Aquatic</div>
+        <div class="data-score text-center" id="aquatic-score"style="background-color: #e9ecef; color: #343A4F;">N/A</div>
+      </div>
+      <div class="mapinfodata-holder" id="terristrial-holder" >
+        <div class="mapinfodata-score text-left" id="terristrial-title" >Terristrial</div>
+        <div class="data-score text-center" id="terristrial-score" style="background-color: #e9ecef; color: #343A4F;">N/A</div>
+      </div>
+
+      <br />
+      <div class="mapinfodata-header" id="Exposure-Header" >Exposure</div>
+      <div class="mapinfodata-holder" id="asset-holder" >
+        <div class="mapinfodata-score text-left" id="asset-title" >Asset</div>
+        <div class="data-score text-center" id="asset-score" style="background-color: #e9ecef; color: #343A4F;">N/A</div>
+      </div>
+      <div class="mapinfodata-holder" id="threat-holder" >
+        <div class="mapinfodata-score text-left" id="threat-title" >Threat</div>
+        <div class="data-score text-center" id="threat-score" style="background-color: #e9ecef; color: #343A4F;">N/A</div>
+      </div>
+      <div class="mapinfodata-holder" id="exposure-holder" >
+        <div class="mapinfodata-score text-left" id="exposure-title" >Exposure</div>
+        <div class="data-score text-center" id="exposure-score" style="background-color: #e9ecef; color: #343A4F;">N/A</div>
+      </div>
+
     </div>
   </div>
 </div>
