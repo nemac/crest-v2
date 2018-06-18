@@ -173,11 +173,13 @@ export class Map extends Component {
           this.map.removeLayer(this.marker);
     };
 
-    const IndentifyJson = {"asset": "1", "threat": "3", "exposure": "1"};
+    // const IndentifyJson = {"aquatic": 6,"terristrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
 
-    // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
 
     const mapClick = store.getStateItem('mapClick');
+
+    const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
+
 
     var myIcon = L.divIcon({className: 'map-info-point'});
 
@@ -206,7 +208,7 @@ export class Map extends Component {
     var tooltipContent = L.Util.template(mapInfo_Template);
 
     //to do overide css popup for leaflet
-    this.marker.bindPopup(tooltipContent,{offset:L.point(-125,20)}).openPopup();
+    this.marker.bindPopup(tooltipContent,{offset:L.point(-123,20)}).openPopup();
 
   }
 
