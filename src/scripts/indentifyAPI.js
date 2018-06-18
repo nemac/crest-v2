@@ -42,7 +42,6 @@ export class IndentifyAPI {
   }
 
   getIndentifyItem (item, value){
-    // console.log(item, value);
     let filteredItems =  [{
       layer: item,
       value: 255,
@@ -57,7 +56,6 @@ export class IndentifyAPI {
         filteredItems = returnedFilteredItems;
       }
     }
-    console.log('in getIndentifyItem', filteredItems)
     return filteredItems;
   }
 

@@ -139,6 +139,28 @@ export class Map extends Component {
 
   }
 
+  buildMapInformationTemplate(values){
+
+      return ' <div class="mapinfodata-holder" >' +
+                          '    <div class="mapinfodata-score text-left" > ' + values.name + ' score: </div>' +
+                          '   <div class="data-score text-center" style="background-color: ' + values.backgroundColor + '; color: ' + values.color + ';" >' + values.label + '</div>' +
+                          ' </div>'
+
+  }
+
+  buildMapInformationTemplate_heading () {
+    return `<div ref="map_info_list" class="map_info_list">
+                              <div class="toggle-list">
+                                <h5>Map Information</h5>
+                                <hr />
+                                <div ref="mapinfodata" id="mapinfodata" class="text-left mapinfodata">`;
+  }
+
+  buildMapInformationTemplate_foot () {
+    return  `     </div>
+                            </div>
+                          </div>`;
+  }
 
   /** Load map data from the API */
   async retreiveMapClick () {
@@ -163,54 +185,24 @@ export class Map extends Component {
     this.map.addLayer(this.marker);
 
 
-    var mapInfo_Template = `<div ref="map_info_list" class="map_info_list">
-                              <div class="toggle-list">
-                                <h5>Map Information</h5>
-                                <hr />
-                                <div ref="mapinfodata" id="mapinfodata" class="text-left mapinfodata">`
+    var mapInfo_Template = this.buildMapInformationTemplate_heading();
 
 
     for(var key in IndentifyJson){
-      // mapInfo_Template += "<div>" + key + "  score: {" + key + "}</div>"
+
       const styleItem = this.IndentifyAPI.getIndentifyItem (key, parseInt(IndentifyJson[key]) )
 
-      // console.log('here', styleItem[0].layer )
-      // if(styleItem[0] !== undefined){
-        // console.log( "<div>" + key + "  score: {" + key + "}</div>")
-        mapInfo_Template += ' <div class="mapinfodata-holder" >' +
-                            '    <div class="mapinfodata-score text-left" > ' + key + ' score: </div>' +
-                            '   <div class="data-score text-center" style="background-color: ' + styleItem[0].backgroundColor + '; color: ' + styleItem[0].color + ';" >' + styleItem[0].label + '</div>' +
-                            ' </div>'
+      const templateValues = {"name": key,
+                          "backgroundColor": styleItem[0].backgroundColor,
+                          "color": styleItem[0].color,
+                          "label": styleItem[0].label};
 
-    // }
+        mapInfo_Template += this.buildMapInformationTemplate(templateValues)
 
-      // console.log(this.IndentifyAPI.getIndentifyItem (key, parseInt(IndentifyJson[key]) ))
-      // const item = await this.IndentifyAPI.getIndentifyItem(key, IndentifyJson[key])
-      // console.log(item)
     }
 
-    mapInfo_Template += `     </div>
-                            </div>
-                          </div>`;
+    mapInfo_Template += this.buildMapInformationTemplate_foot();
 
-    //to do loop json to dynamically create this
-    // or create from template
-    // var mapInfo_function = function(mapInfoTemplate, mapInfoData){
-    //   for(var key in mapInfoData){
-    //     if(mapInfoData[key]){
-    //       console.log(mapInfoData[key]);
-    //     }
-    //   }
-    //
-    //     // L.Util.template(tooltipTemplate, tooltipData);
-    //     // mapInfoTemplate
-    // }
-
-
-        // '<div> asset score: {asset}</div><div> threat score: {threat}</div><div> exposure score: {exposure}</div>';
-
-    // var tooltipData = IndentifyJson;
-    //
     var tooltipContent = L.Util.template(mapInfo_Template);
 
     //to do overide css popup for leaflet
