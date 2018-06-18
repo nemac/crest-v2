@@ -34,8 +34,17 @@ html, body {
 }
 
 .mapinfodata-score {
+  float: left;
   padding: 1px;
   margin: 1px;
+}
+
+.data-score {
+  float: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width: 75px;
+  min-height: 20px;
 }
 
 .asset-score {
@@ -45,26 +54,27 @@ html, body {
   padding-right: 10px;
 }
 
-// .mapinfodata-score {
-//   float: left;
-// }
 .mapinfodata-holder {
   padding: 5px;
+  min-height: 25px;
 }
 
 .leaflet-popup {
    bottom: 0;
+   min-width: 205px;
  }
 
  .leaflet-popup-content {
    user-select: none;
    cursor: pointer;
+   min-width: 205px;
  }
 
  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
    background: $body-bg;
    color: $body-color;
    border-radius: 0px;
+   min-width: 225px;
  }
 
 .leaflet-popup-tip-container {

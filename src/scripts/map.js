@@ -143,14 +143,17 @@ export class Map extends Component {
   /** Load map data from the API */
   async retreiveMapClick () {
 
+
+    // console.log(this.IndentifyAPI.getIndentifyItem ('exposure', 255));
+
     // remove prevuis marker
     if (this.marker !== undefined) {
           this.map.removeLayer(this.marker);
     };
 
-    // const IndentifyJson = {"asset": "255", "threat": "255", "exposure": "1"};
+    const IndentifyJson = {"asset": "255", "threat": "255", "exposure": "1"};
 
-    const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
+    // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
 
     const mapClick = store.getStateItem('mapClick');
 
@@ -160,12 +163,38 @@ export class Map extends Component {
     this.map.addLayer(this.marker);
 
 
-    // var mapInfo_Template = ""
-    // for(var key in IndentifyJson){
-    //   mapInfo_Template += "<div>" + key + "  score: {" + key + "}</div>"
+    var mapInfo_Template = `<div ref="map_info_list" class="map_info_list">
+                              <div class="toggle-list">
+                                <h5>Map Information</h5>
+                                <hr />
+                                <div ref="mapinfodata" id="mapinfodata" class="text-left mapinfodata">`
+
+
+    for(var key in IndentifyJson){
+      // mapInfo_Template += "<div>" + key + "  score: {" + key + "}</div>"
+      const styleItem = this.IndentifyAPI.getIndentifyItem (key, parseInt(IndentifyJson[key]) )
+
+      // console.log('here', styleItem[0].layer )
+      // if(styleItem[0] !== undefined){
+        // console.log( "<div>" + key + "  score: {" + key + "}</div>")
+        mapInfo_Template += ' <div class="mapinfodata-holder" >' +
+                            '    <div class="mapinfodata-score text-left" > ' + key + ' score: </div>' +
+                            '   <div class="data-score text-center" style="background-color: ' + styleItem[0].backgroundColor + '; color: ' + styleItem[0].color + ';" >' + styleItem[0].label + '</div>' +
+                            ' </div>'
+
     // }
-    // //to do loop json to dynamically create this
-    // // or create from template
+
+      // console.log(this.IndentifyAPI.getIndentifyItem (key, parseInt(IndentifyJson[key]) ))
+      // const item = await this.IndentifyAPI.getIndentifyItem(key, IndentifyJson[key])
+      // console.log(item)
+    }
+
+    mapInfo_Template += `     </div>
+                            </div>
+                          </div>`;
+
+    //to do loop json to dynamically create this
+    // or create from template
     // var mapInfo_function = function(mapInfoTemplate, mapInfoData){
     //   for(var key in mapInfoData){
     //     if(mapInfoData[key]){
@@ -176,14 +205,16 @@ export class Map extends Component {
     //     // L.Util.template(tooltipTemplate, tooltipData);
     //     // mapInfoTemplate
     // }
+
+
         // '<div> asset score: {asset}</div><div> threat score: {threat}</div><div> exposure score: {exposure}</div>';
 
     // var tooltipData = IndentifyJson;
     //
-    var tooltipContent = L.Util.template(mapInfoTemplate, IndentifyJson);
+    var tooltipContent = L.Util.template(mapInfo_Template);
 
     //to do overide css popup for leaflet
-    this.marker.bindPopup(tooltipContent,{offset:L.point(-95,20)}).openPopup();
+    this.marker.bindPopup(tooltipContent,{offset:L.point(-125,20)}).openPopup();
 
   }
 

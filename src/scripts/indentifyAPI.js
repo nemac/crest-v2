@@ -1,5 +1,7 @@
 import { CancelToken, get } from 'axios';
 
+import { identifyConfig } from '../config/identifyConfig';
+
 const api_url = 'https://3kmdsrwopk.execute-api.us-east-1.amazonaws.com/';
 const indentify_path = 'Prod/';
 
@@ -28,7 +30,7 @@ export class IndentifyAPI {
   }
 
   getIndentifySummary (x = '1745727', y ='451980') {
-    console.log(`identify/proxy?x=${x}&y=${y}`)
+    // console.log(`identify/proxy?x=${x}&y=${y}`)
     return this.httpGet(`identify/proxy?x=${x}&y=${y}`);
   }
 
@@ -38,4 +40,26 @@ export class IndentifyAPI {
       kingdomSize: await this.getKingdomSize(id)
     }
   }
+
+  getIndentifyItem (item, value){
+    // console.log(item, value);
+    let filteredItems =  [{
+      layer: item,
+      value: 255,
+      backgroundColor: "#e9ecef",
+      color: "#343A4F",
+      label: "N/A",
+    }];
+
+    const returnedFilteredItems = identifyConfig.colorLookup.filter(layer => (layer.layer === item && layer.value === value));
+    if(returnedFilteredItems !== undefined){
+      if(returnedFilteredItems.length > 0){
+        filteredItems = returnedFilteredItems;
+      }
+    }
+    console.log('in getIndentifyItem', filteredItems)
+    return filteredItems;
+  }
+
+
 }
