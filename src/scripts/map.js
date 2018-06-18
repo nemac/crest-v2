@@ -151,7 +151,7 @@ export class Map extends Component {
           this.map.removeLayer(this.marker);
     };
 
-    const IndentifyJson = {"asset": "255", "threat": "255", "exposure": "1"};
+    const IndentifyJson = {"asset": "1", "threat": "3", "exposure": "1"};
 
     // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary();
 
