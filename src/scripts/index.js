@@ -25,7 +25,7 @@ var maplayersComponent;
 var store = new Store({});
 
 
-const router = new Navigo('https://localhost:8080', true);
+const router = new Navigo(null, true);
 
 //to do: make the tab content area dynamic also similar to the nav tabs
 
