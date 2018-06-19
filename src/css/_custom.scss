@@ -28,11 +28,7 @@ html, body {
 
 .btn-mapinfo {
   background-color: #fff;
-  border: 1px solid #ccc;
   color: $body-bg;
-  width: 30px;
-  height: 30px;
-  line-height: 20px;
   font-size: 15px;
   border-radius: 2px;
   vertical-align: middle !important;
@@ -40,8 +36,6 @@ html, body {
 }
 
 .i-mapinfo {
-  vertical-align: inherit;
-  margin-bottom: 5px;
 }
 
 .mapinfo-math-icon {
