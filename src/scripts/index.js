@@ -127,15 +127,15 @@ router.on({
 })
 
   //implement later need to make the tab content area dynamic also
-  // router.notFound(function (query) {
-  //   //initialize 404
-  //   this.componentElem = document.getElementById("notfound-holder");
-  //   this.componentElem.innerHTML = NotFoundPage;
-  //
-  //   navbarComponent.resetTabContent()
-  //   navbarComponent.toggleTabContent('main-nav-notfound')
-  //
-  //
-  // });
+  router.notFound(function (query) {
+    //initialize 404
+    this.componentElem = document.getElementById("notfound-holder");
+    this.componentElem.innerHTML = NotFoundPage;
+
+    navbarComponent.resetTabContent()
+    navbarComponent.toggleTabContent('main-nav-notfound')
+
+
+  });
 
   router.resolve();
