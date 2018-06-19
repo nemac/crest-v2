@@ -25,7 +25,7 @@ var maplayersComponent;
 var store = new Store({});
 
 
-const router = new Navigo(null, true);
+const router = new Navigo(window.location.origin, true);
 
 //to do: make the tab content area dynamic also similar to the nav tabs
 
@@ -44,7 +44,7 @@ maintitleElement.addEventListener('click', (e) => {
   // mapComponent.setStateFromObject(store.getState())
   // console.log(store.getStateItem('mapLayerDisplayStatus'))
   // console.log(store.removeStateItem('mapClick'));
-  console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
+  // console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
 
   // console.log()
 
@@ -54,31 +54,34 @@ maintitleElement.addEventListener('click', (e) => {
 router.on({
    '/': (params, query)=>{
 
+     console.log(mapComponent)
+     if(mapComponent === undefined){
+         console.log(mapComponent)
+         mapComponent = new Map('map-holder');
+
+          maplayersComponent = new MapLayersList('maplayers_list-holder',{
+           events: { layerToggle:
+             // Toggle layer in map controller on "layerToggle" event
+              event => { mapComponent.toggleLayer(event.detail) }
+           }
+         })
+         mapComponent.restoreMapState();
+     }
+
      //deal with nav bars so back button is not broken
      navbarComponent.resetTabContent();
      navbarComponent.toggleTabContent('main-nav-map');
      navbarComponent.tabUpdate('main-nav-map');
 
-     mapComponent = new Map('map-holder');
 
-     // Initialize Layer Toggle Panel
-     maplayersComponent = new MapLayersList('maplayers_list-holder',{
-       events: { layerToggle:
-         // Toggle layer in map controller on "layerToggle" event
-          event => { mapComponent.toggleLayer(event.detail) }
-       }
-     })
-
-     mapComponent.restoreMapState();
      mapComponent.renderCount += 1;
-
 
    },
    '/Home': (params, query)=>{
 
-     // console.log(mapComponent)
+     console.log('Home')
      if(mapComponent === undefined){
-        // console.log(mapComponent)
+         console.log(mapComponent)
          mapComponent = new Map('map-holder');
 
           maplayersComponent = new MapLayersList('maplayers_list-holder',{
