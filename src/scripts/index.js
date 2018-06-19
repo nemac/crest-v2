@@ -24,8 +24,13 @@ var maplayersComponent;
 
 var store = new Store({});
 
+var homeloc = window.location.origin
+console.log('homeloc',homeloc)
+if(homeloc === 'https://nemac.github.io/'){
+  homeloc += homeloc + 'NFWF_tool/dist/';
+}
 
-const router = new Navigo(window.location.origin, true);
+const router = new Navigo(homeloc, true);
 
 //to do: make the tab content area dynamic also similar to the nav tabs
 
