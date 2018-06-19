@@ -145,7 +145,7 @@ export class Map extends Component {
     L.Control.Watermark = L.Control.extend({
         onAdd: function(map) {
             let fa = L.DomUtil.create('div','btn btn-light btn-mapinfo');
-            fa.innerHTML = '<i class="fa fa-info i-mapinfo"></i>'
+            fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>'
             L.DomEvent.disableClickPropagation(fa);
             return fa;
         },
@@ -163,60 +163,6 @@ export class Map extends Component {
 
 
     L.control.watermark({ position: 'topleft' }).addTo(this.map);
-    // var customControl = L.Control.extend({ options: {position: 'topleft'},onAdd: function (map) {
-
-    // L.Control.Watermark = L.Control.extend({
-    //   // options: {
-    //   //   position: 'topright'
-    //   // },
-    //
-    //   onAdd: function(map) {
-    //       const fa = L.DomUtil.create('i','fa fa-info');
-    //
-    //       return fa;
-    //   },
-    //
-    //
-    // });
-    //
-    // L.control.watermark = function(opts) {
-    //     return new L.Control.Watermark(opts);
-    // }
-    //
-    // L.control.watermark({ position: 'bottomleft' }).addTo(map);
-
-//     var container = L.DomUtil.create('input');
-//     container.type = "button";
-//
-//     container.title = "Map Information";
-//
-//
-//     L.Control.MapInformation = L.Control.extend({
-//         onAdd: function(map) {
-//             var img = L.DomUtil.create('img');
-// // <i class="fas fa-info"></i>
-//             img.src = '../../docs/images/logo.png';
-//             img.style.width = '200px';
-//
-//             return img;
-//         },
-//
-//         onRemove: function(map) {
-//             // Nothing to do here
-//         }
-//
-//         onClick: function(map) {
-//             // Nothing to do here
-//         }
-//     });
-//
-//     L.control.watermark = function(opts) {
-//         return new L.Control.Watermark(opts);
-//     }
-//
-//     L.control.watermark({ position: 'topright' }).addTo(map);
-
-
   }
 
 

@@ -1,5 +1,6 @@
-$fa-font-path: "~font-awesome/fonts/";
-@import "~font-awesome/scss/font-awesome";
+// $fa-font-path: "~font-awesome/fonts/";
+// @import "~font-awesome/scss/font-awesome";
+
 
 // Your variable overrides
 $body-bg:    $gray-800;
@@ -13,28 +14,48 @@ html, body {
     height: 100%;
 }
 
+.exposure-equals {
+  font-size: 22px;
+  padding-right: 5px;
+
+}
+
+.mapinfo-math-hr {
+  border-top: .75px solid $gray-700;
+  margin-top: 7px;
+  margin-bottom: 5px;
+}
+
 .btn-mapinfo {
   background-color: #fff;
   border: 1px solid #ccc;
   color: $body-bg;
   width: 30px;
   height: 30px;
-  line-height: 30px;
-  font-size: 20px;
+  line-height: 20px;
+  font-size: 15px;
   border-radius: 2px;
   vertical-align: middle !important;
   align-items: center !important;
 }
 
 .i-mapinfo {
-  font-size: 20px;
-  display: inline-flex;
-  padding-bottom: 15px;
-  padding-right: 15px;
-  vertical-align: middle !important;
-  align-items: center !important;
+  vertical-align: inherit;
+  margin-bottom: 5px;
 }
 
+.mapinfo-math-icon {
+  vertical-align: inherit;
+  font-size: 10px;
+  margin-top: 7px;
+  margin-left: -15px;
+  color: $gray-700;
+}
+
+.i-exposure{
+    font-size: 5px;
+    vertical-align: inherit;
+}
 
 .mapinfodata-header {
   font-size: 1.250em;

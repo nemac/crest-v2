@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/daveism/NFWF_tool#readme",
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "esri-leaflet": "^2.1.4",
