@@ -110,7 +110,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5e1287cf848bb45227c3"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "826c92d60642af534704"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1112,7 +1112,7 @@ eval("module.exports = \"<div ref=\\\"maplayers_list\\\" class=\\\"maplayers_lis
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"<div class=\\\"container-fluid d-flex flex-column\\\">\\n  <div class=\\\"row justify-content-center\\\">\\n    <div class=\\\"col-12 align-self-center\\\">\\n      <h1 class=\\\"not-found\\\">OOPS!</h1>\\n      <div class=\\\"\\\">\\n        <p class=\\\"not-found\\\">\\n          We can't seem to find the page you are looking for.\\n        </p>\\n\\n        <p class=\\\"not-found\\\">\\n          Here are some links to try instead:\\n        </p>\\n\\n        <div class=\\\"list-group not-found\\\">\\n          <a ref=\\\"main_nav_index\\\" class=\\\"list-group-item list-group-item-action not-found\\\" href=\\\"/#Home\\\" data-navigo>Home</a>\\n          <a ref=\\\"main_nav_download\\\" class=\\\"list-group-item list-group-item-action not-found\\\" href=\\\"/#Download\\\" data-navigo>Download Data</a>\\n          <a ref=\\\"main_nav_about\\\" class=\\\"list-group-item list-group-item-action not-found\\\" href=\\\"/#About\\\" data-navigo>About the Assessment</a>\\n        </div>\\n      </div>\\n    </div>\\n  </div>\\n</div>\\n\";\n\n//# sourceURL=webpack:///./src/templates/notfound.html?");
+eval("module.exports = \"<div class=\\\"container-fluid d-flex flex-column\\\">\\n  <div class=\\\"row justify-content-center\\\">\\n    <div class=\\\"col-12 align-self-center\\\">\\n      <h1 class=\\\"not-found\\\">OOPS!</h1>\\n      <div class=\\\"\\\">\\n        <p class=\\\"not-found\\\">\\n          We can't seem to find the page you are looking for.\\n        </p>\\n\\n        <p class=\\\"not-found\\\">\\n          Here are some links to try instead:\\n        </p>\\n\\n        <div class=\\\"list-group not-found\\\">\\n          <a ref=\\\"main_nav_index\\\" class=\\\"list-group-item list-group-item-action not-found\\\" href=\\\"./#Home\\\" data-navigo>Home</a>\\n          <a ref=\\\"main_nav_download\\\" class=\\\"list-group-item list-group-item-action not-found\\\" href=\\\"./#Download\\\" data-navigo>Download Data</a>\\n          <a ref=\\\"main_nav_about\\\" class=\\\"list-group-item list-group-item-action not-found\\\" href=\\\"./#About\\\" data-navigo>About the Assessment</a>\\n        </div>\\n      </div>\\n    </div>\\n  </div>\\n</div>\\n\";\n\n//# sourceURL=webpack:///./src/templates/notfound.html?");
 
 /***/ }),
 
