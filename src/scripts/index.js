@@ -1,5 +1,6 @@
 //import dependencies
 import Navigo from 'navigo';
+// import 'font-awesome/css/font-awesome.css';
 
 //import custom classess
 import { Store } from './store';

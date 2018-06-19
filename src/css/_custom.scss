@@ -1,3 +1,6 @@
+$fa-font-path: "~font-awesome/fonts/";
+@import "~font-awesome/scss/font-awesome";
+
 // Your variable overrides
 $body-bg:    $gray-800;
 $body-color: $gray-200;
@@ -9,6 +12,29 @@ $padding: 10px;
 html, body {
     height: 100%;
 }
+
+.btn-mapinfo {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: $body-bg;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+  border-radius: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
+.i-mapinfo {
+  font-size: 20px;
+  display: inline-flex;
+  padding-bottom: 15px;
+  padding-right: 15px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
 
 .mapinfodata-header {
   font-size: 1.250em;

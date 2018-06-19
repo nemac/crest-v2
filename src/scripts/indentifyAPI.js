@@ -30,9 +30,6 @@ export class IndentifyAPI {
   }
 
   getIndentifySummary (lat = '1745727', lng ='451980') {
-    //
-    // console.log(`identify/proxy?x=${x}&y=${y}`)
-    console.log(`identify/proxy?lat=${lat}&lng=${lng}`)
     return this.httpGet(`identify/proxy?lat=${lat}&lng=${lng}`);
   }
 

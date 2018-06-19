@@ -1,6 +1,5 @@
 //dependencies
 import L from 'leaflet';
-
 import { basemapLayer, featureLayer } from 'esri-leaflet';
 
 import { Component } from './components';
@@ -51,6 +50,7 @@ export class Map extends Component {
     this.value = null // Store currently selected region
     this.mapOverlayLayers = {}
     this.marker;
+
     /* add ESRI vector map
     * var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
     * not using vector tiles yet some bugginess from ESRI
@@ -81,6 +81,7 @@ export class Map extends Component {
       if(ev.containerPoint !== undefined){
         self.retreiveMapClick();
       }
+
       // if(ev.containerPoint !== undefined){
       //   self.saveStore('mapContainerPoint', {x: ev.containerPoint.x, y: ev.containerPoint.y} );
       // } else {
@@ -136,8 +137,88 @@ export class Map extends Component {
     })
 
     this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers );
+    this.addMapInformationControl();
+  }
+
+  addMapInformationControl(){
+
+    L.Control.Watermark = L.Control.extend({
+        onAdd: function(map) {
+            let fa = L.DomUtil.create('div','btn btn-light btn-mapinfo');
+            fa.innerHTML = '<i class="fa fa-info i-mapinfo"></i>'
+            L.DomEvent.disableClickPropagation(fa);
+            return fa;
+        },
+
+
+
+        onRemove: function(map) {
+            // Nothing to do here
+        }
+    });
+
+    L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+    }
+
+
+    L.control.watermark({ position: 'topleft' }).addTo(this.map);
+    // var customControl = L.Control.extend({ options: {position: 'topleft'},onAdd: function (map) {
+
+    // L.Control.Watermark = L.Control.extend({
+    //   // options: {
+    //   //   position: 'topright'
+    //   // },
+    //
+    //   onAdd: function(map) {
+    //       const fa = L.DomUtil.create('i','fa fa-info');
+    //
+    //       return fa;
+    //   },
+    //
+    //
+    // });
+    //
+    // L.control.watermark = function(opts) {
+    //     return new L.Control.Watermark(opts);
+    // }
+    //
+    // L.control.watermark({ position: 'bottomleft' }).addTo(map);
+
+//     var container = L.DomUtil.create('input');
+//     container.type = "button";
+//
+//     container.title = "Map Information";
+//
+//
+//     L.Control.MapInformation = L.Control.extend({
+//         onAdd: function(map) {
+//             var img = L.DomUtil.create('img');
+// // <i class="fas fa-info"></i>
+//             img.src = '../../docs/images/logo.png';
+//             img.style.width = '200px';
+//
+//             return img;
+//         },
+//
+//         onRemove: function(map) {
+//             // Nothing to do here
+//         }
+//
+//         onClick: function(map) {
+//             // Nothing to do here
+//         }
+//     });
+//
+//     L.control.watermark = function(opts) {
+//         return new L.Control.Watermark(opts);
+//     }
+//
+//     L.control.watermark({ position: 'topright' }).addTo(map);
+
 
   }
+
 
   replaceMapInfoValue(doc, type, values){
     let element = doc.getElementById(`${type}-score`);
@@ -152,7 +233,7 @@ export class Map extends Component {
   async retreiveMapClick () {
 
 
-    // remove prevouis marker
+    // remove prevouis marker point
     if (this.marker !== undefined) {
           this.map.removeLayer(this.marker);
     };
@@ -172,7 +253,7 @@ export class Map extends Component {
     let parser = new DOMParser()
     let doc = parser.parseFromString(mapInfoTemplate, "text/html");
 
-
+    //template needs responive info box.
     for(var key in IndentifyJson){
 
       const styleItem = this.IndentifyAPI.getIndentifyItem (key, parseInt(IndentifyJson[key]) )
