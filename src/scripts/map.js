@@ -223,7 +223,7 @@ export class Map extends Component {
     const mapClick = store.getStateItem('mapClick');
 
     const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
-    // const IndentifyJson = {"aquatic": 6,"terristrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
+     // const IndentifyJson = {"aquatic": 6,"terrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
 
     var myIcon = L.divIcon({className: 'map-info-point'});
 
