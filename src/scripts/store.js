@@ -101,6 +101,7 @@ export class Store {
 
   checkItem(item){
     const stateStr = this.store["state"];
+    if(stateStr === undefined){return false}
     if(stateStr.indexOf(item) > 0){
       return true
     } else {
