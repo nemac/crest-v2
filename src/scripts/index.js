@@ -27,7 +27,7 @@ var store = new Store({});
 var homeloc = window.location.origin
 console.log('homeloc',homeloc)
 if(homeloc === 'https://nemac.github.io'){
-  homeloc += homeloc + 'NFWF_tool/dist/';
+  homeloc += homeloc + '/NFWF_tool/dist/';
   console.log('udpatedhomeloc',homeloc)
 
 }
