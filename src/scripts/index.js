@@ -24,12 +24,12 @@ var maplayersComponent;
 
 var store = new Store({});
 
+console.log(store.getStateItem('mapCenter'))
+
 var homeloc = window.location.origin
-console.log('homeloc',homeloc)
+//handle gh pages dist folder.
 if(homeloc === 'https://nemac.github.io'){
   homeloc +=  '/NFWF_tool/dist';
-  console.log('udpatedhomeloc',homeloc)
-
 }
 
 const router = new Navigo(homeloc, true);
@@ -61,9 +61,7 @@ maintitleElement.addEventListener('click', (e) => {
 router.on({
    '/': (params, query)=>{
 
-     console.log(mapComponent)
      if(mapComponent === undefined){
-         console.log(mapComponent)
          mapComponent = new Map('map-holder');
 
           maplayersComponent = new MapLayersList('maplayers_list-holder',{
@@ -86,9 +84,7 @@ router.on({
    },
    '/Home': (params, query)=>{
 
-     console.log('Home')
      if(mapComponent === undefined){
-         console.log(mapComponent)
          mapComponent = new Map('map-holder');
 
           maplayersComponent = new MapLayersList('maplayers_list-holder',{

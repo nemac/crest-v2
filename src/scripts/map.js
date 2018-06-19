@@ -71,12 +71,42 @@ export class Map extends Component {
     L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
 
     const self = this;
+
+
+    this.map.on('unload', function(e) {
+      self.saveStore('mapCenter', this.getCenter() );
+      self.saveStore('mapZoom', this.getZoom() );
+    });
+
     this.map.on('moveend', function(e) {
       self.saveStore('mapCenter', this.getCenter() );
       self.saveStore('mapZoom', this.getZoom() );
     });
 
+    this.map.on('zoomend', function(e) {
+      self.saveStore('mapCenter', this.getCenter() );
+      self.saveStore('mapZoom', this.getZoom() );
+    });
+
+    this.map.on('dblclick', function(e) {
+      self.saveStore('mapCenter', this.getCenter() );
+      self.saveStore('mapZoom', this.getZoom() );
+    });
+
+    this.map.on('mousedown', function(e) {
+      self.saveStore('mapCenter', this.getCenter() );
+      self.saveStore('mapZoom', this.getZoom() );
+    });
+
+    this.map.on('keypress', function(e) {
+      self.saveStore('mapCenter', this.getCenter() );
+      self.saveStore('mapZoom', this.getZoom() );
+    });
+
+
     this.map.on('click', function(ev) {
+      self.saveStore('mapCenter', this.getCenter() );
+      self.saveStore('mapZoom', this.getZoom() );
       self.saveStore('mapClick', ev.latlng );
       if(ev.containerPoint !== undefined){
         self.retreiveMapClick();
@@ -138,6 +168,11 @@ export class Map extends Component {
 
     this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers );
     this.addMapInformationControl();
+
+    const mapClick = store.getStateItem('mapClick');
+    if(Object.keys(mapClick).length > 0){
+      this.retreiveMapClick ();
+    }
   }
 
   addMapInformationControl(){
