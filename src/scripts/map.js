@@ -10,6 +10,8 @@ import '../css/_custom_leaflet.scss';
 
 //import custom classess
 import { Store } from './store'
+import { IndentifyAPI } from './IndentifyAPI';
+
 var store = new Store({});
 //downloaded esri-leaflet-vector to utuls directory so the package worked with webpack es6
 //updates will have to be manually!
@@ -18,6 +20,7 @@ import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 
 //templates
 import mapTemplate from '../templates/map.html'
+import mapInfoTemplate from '../templates/mapinfo.html';
 
 /**
  * Leaflet Map Component
@@ -40,10 +43,13 @@ export class Map extends Component {
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
+    this.IndentifyAPI = new IndentifyAPI();
+
     this.map.zoomControl.setPosition('topleft') // Position zoom control
     this.overlayMaps = {} // Map layer dict (key/value = title/layer)
     this.value = null // Store currently selected region
     this.mapOverlayLayers = {}
+    this.marker;
 
     /* add ESRI vector map
     * var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
@@ -72,6 +78,24 @@ export class Map extends Component {
 
     this.map.on('click', function(ev) {
       self.saveStore('mapClick', ev.latlng );
+      if(ev.containerPoint !== undefined){
+        self.retreiveMapClick();
+      }
+
+      // if(ev.containerPoint !== undefined){
+      //   self.saveStore('mapContainerPoint', {x: ev.containerPoint.x, y: ev.containerPoint.y} );
+      // } else {
+      //   const containerPoint = store.getStateItem('mapContainerPoint');
+      //   self.saveStore('mapContainerPoint', {x: containerPoint.x, y: containerPoint.y} );
+      // }
+      //
+      // if(ev.originalEvent === undefined){
+      //   const originalEvent = store.getStateItem('mapClickPage');
+      //   self.saveStore('mapClickPage', {pageX: originalEvent.pageX, pageY: originalEvent.pageY}  );
+      // } else {
+      //   self.saveStore('mapClickPage', {pageX: ev.originalEvent.pageX, pageY: ev.originalEvent.pageY}  );
+      // }
+
     });
 
     //add wms layers
@@ -113,9 +137,94 @@ export class Map extends Component {
     })
 
     this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers );
-
+    this.addMapInformationControl();
   }
 
+  addMapInformationControl(){
+
+    L.Control.Watermark = L.Control.extend({
+        onAdd: function(map) {
+            let fa = L.DomUtil.create('div','btn btn-light btn-mapinfo');
+            fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>'
+            L.DomEvent.disableClickPropagation(fa);
+            return fa;
+        },
+
+
+
+        onRemove: function(map) {
+            // Nothing to do here
+        }
+    });
+
+    L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+    }
+
+
+    L.control.watermark({ position: 'topleft' }).addTo(this.map);
+  }
+
+
+  replaceMapInfoValue(doc, type, values){
+    let element = doc.getElementById(`${type}-score`);
+    element.textContent = values.label;
+  }
+
+  addStyle(doc, type, values){
+     let element = doc.getElementById(`${type}-score`);
+     element.setAttribute("style", 'background-color: ' + values.backgroundColor + '; color: ' + values.color + ';');
+  }
+  /** Load map data from the API */
+  async retreiveMapClick () {
+
+
+    // remove prevouis marker point
+    if (this.marker !== undefined) {
+          this.map.removeLayer(this.marker);
+    };
+
+
+    const mapClick = store.getStateItem('mapClick');
+
+    const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
+    // const IndentifyJson = {"aquatic": 6,"terristrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
+
+    var myIcon = L.divIcon({className: 'map-info-point'});
+
+    this.marker = L.marker([mapClick.lat,mapClick.lng], {icon: myIcon});
+    this.map.addLayer(this.marker);
+
+
+    let parser = new DOMParser()
+    let doc = parser.parseFromString(mapInfoTemplate, "text/html");
+
+    //template needs responive info box.
+    for(var key in IndentifyJson){
+
+      const styleItem = this.IndentifyAPI.getIndentifyItem (key, parseInt(IndentifyJson[key]) )
+
+      const templateValues = {"name": key,
+                          "backgroundColor": styleItem[0].backgroundColor,
+                          "color": styleItem[0].color,
+                          "label": styleItem[0].label};
+
+
+      this.addStyle(doc, key, templateValues)
+      this.replaceMapInfoValue(doc, key, templateValues)
+
+    }
+
+
+    let mapinformationel = doc.getElementById('map_info_list');
+
+    var tooltipContent = L.Util.template(mapinformationel.outerHTML);
+
+
+    //to do overide css popup for leaflet
+    this.marker.bindPopup(tooltipContent,{offset:L.point(-123,20)}).openPopup();
+
+  }
 
   shouldRestore(props){
     if(props === undefined){ return false }
@@ -225,7 +334,7 @@ export class Map extends Component {
      //get last storage objet
      store.setStateFromObject(this.restoreStateStore);
 
-     const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus']
+     const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus','mapContainerPoint']
      const state = store.getState();
      const self = this;
       //state exits

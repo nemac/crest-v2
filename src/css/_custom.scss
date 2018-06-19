@@ -1,3 +1,7 @@
+// $fa-font-path: "~font-awesome/fonts/";
+// @import "~font-awesome/scss/font-awesome";
+
+
 // Your variable overrides
 $body-bg:    $gray-800;
 $body-color: $gray-200;
@@ -10,6 +14,123 @@ html, body {
     height: 100%;
 }
 
+.exposure-equals {
+  font-size: 22px;
+  padding-right: 5px;
+
+}
+
+.mapinfo-math-hr {
+  border-top: .75px solid $gray-700;
+  margin-top: 7px;
+  margin-bottom: 5px;
+}
+
+.btn-mapinfo {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: $body-bg;
+  width: 30px;
+  height: 30px;
+  line-height: 20px;
+  font-size: 15px;
+  border-radius: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
+.i-mapinfo {
+  vertical-align: inherit;
+  margin-bottom: 5px;
+}
+
+.mapinfo-math-icon {
+  vertical-align: inherit;
+  font-size: 10px;
+  margin-top: 7px;
+  margin-left: -15px;
+  color: $gray-700;
+}
+
+.i-exposure{
+    font-size: 5px;
+    vertical-align: inherit;
+}
+
+.mapinfodata-header {
+  font-size: 1.250em;
+}
+
+.map-info-point{
+  background-color: $body-bg;
+  border-radius: 10px;
+
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+
+}
+
+.mapInfo {
+  background-color: $body-bg;
+  color: $body-color;
+  padding: $padding;
+  width: 250px;
+  height: 250px;
+}
+
+.mapinfodata {
+  font-size: .85rem;
+}
+
+.mapinfodata-score {
+  float: left;
+  padding: 1px;
+  margin: 1px;
+}
+
+.data-score {
+  float: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width: 75px;
+  min-height: 20px;
+}
+
+.asset-score {
+  float: right;
+  background-color: $teal;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.mapinfodata-holder {
+  padding: 5px;
+  min-height: 25px;
+}
+
+.leaflet-popup {
+   bottom: 0;
+   min-width: 205px;
+ }
+
+ .leaflet-popup-content {
+   user-select: none;
+   cursor: pointer;
+   min-width: 205px;
+ }
+
+ .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+   background: $body-bg;
+   color: $body-color;
+   border-radius: 0px;
+   min-width: 225px;
+ }
+
+.leaflet-popup-tip-container {
+  display: none;
+}
 body {
   background-color: $body-bg;
   color: $body-color;
@@ -36,7 +157,6 @@ hr {
   color: $body-bg;
 }
 
-
 .list-group.not-found{
   color: $body-color;
   background-color: $body-bg;
@@ -52,7 +172,6 @@ a.list-group-item.list-group-item-action.not-found{
   text-decoration: underline;
 }
 
-
 h1.not-found {
     font-size: 6.5rem;
 }
@@ -60,7 +179,6 @@ h1.not-found {
 p.not-found {
    font-size: 1.5rem;
 }
-
 
 .sideheading {
   background-color:  $body-bg;

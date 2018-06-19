@@ -134,6 +134,19 @@ export class Store {
     return {};
   }
 
+  addStateItem(key, value){
+    var currentState = this.getState();
+    currentState[key] = value;
+    const newStateObj = JSON.parse(JSON.stringify(currentState ));
+    this.saveNewState(newStateObj);
+  }
+
+  removeStateItem(key){
+    var currentState = this.getState();
+    currentState[key] = undefined;
+    const newStateObj = JSON.parse(JSON.stringify(currentState ));
+    this.saveNewState(newStateObj);
+  }
 
   setStoreItem(key, value){
     const storeObj = {[key]: value};
