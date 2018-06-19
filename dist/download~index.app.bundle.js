@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar navConfig = exports.navConfig = {\n  navs: [{\n    name: \"home\",\n    ref: \"main-nav-map\",\n    text: \"Home\",\n    id: \"main-nav-map\",\n    href: \"/#Home\"\n  }, {\n    name: \"download\",\n    ref: \"main-nav-download\",\n    text: \"Download Data\",\n    id: \"main-nav-download\",\n    href: \"/#Download\"\n  }, {\n    name: \"about\",\n    ref: \"main-nav-about\",\n    text: \"About\",\n    id: \"main-nav-about\",\n    href: \"/#About\"\n  }]\n};\n\n//# sourceURL=webpack:///./src/config/navConfig.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar navConfig = exports.navConfig = {\n  navs: [{\n    name: \"home\",\n    ref: \"main-nav-map\",\n    text: \"Home\",\n    id: \"main-nav-map\",\n    href: \"./#Home\"\n  }, {\n    name: \"download\",\n    ref: \"main-nav-download\",\n    text: \"Download Data\",\n    id: \"main-nav-download\",\n    href: \"./#Download\"\n  }, {\n    name: \"about\",\n    ref: \"main-nav-about\",\n    text: \"About\",\n    id: \"main-nav-about\",\n    href: \"./#About\"\n  }]\n};\n\n//# sourceURL=webpack:///./src/config/navConfig.js?");
 
 /***/ }),
 
