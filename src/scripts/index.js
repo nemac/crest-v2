@@ -24,8 +24,6 @@ var maplayersComponent;
 
 var store = new Store({});
 
-console.log(store.getStateItem('mapCenter'))
-
 var homeloc = window.location.origin
 //handle gh pages dist folder.
 if(homeloc === 'https://nemac.github.io'){
