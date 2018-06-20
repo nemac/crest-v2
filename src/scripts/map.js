@@ -215,8 +215,11 @@ export class Map extends Component {
 
     const mapClick = store.getStateItem('mapClick');
 
-    // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
-     const IndentifyJson = {"aquatic": 6,"tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
+    //make call to lambda api.
+    const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
+
+    //for testing without api
+    // const IndentifyJson = {"aquatic": 6,"tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
 
     var myIcon = L.divIcon({className: 'map-info-point'});
 
