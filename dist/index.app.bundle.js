@@ -4,7 +4,6 @@
 /******/ 		var chunkIds = data[0];
 /******/ 		var moreModules = data[1];
 /******/ 		var executeModules = data[2];
-/******/
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
 /******/ 		var moduleId, chunkId, i = 0, resolves = [];
@@ -21,7 +20,6 @@
 /******/ 			}
 /******/ 		}
 /******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
-/******/
 /******/ 		while(resolves.length) {
 /******/ 			resolves.shift()();
 /******/ 		}
@@ -112,7 +110,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d10651c818134abe97a2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a9056f52fcae2f043d3a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -162,8 +160,7 @@
 /******/ 		for (var name in __webpack_require__) {
 /******/ 			if (
 /******/ 				Object.prototype.hasOwnProperty.call(__webpack_require__, name) &&
-/******/ 				name !== "e" &&
-/******/ 				name !== "t"
+/******/ 				name !== "e"
 /******/ 			) {
 /******/ 				Object.defineProperty(fn, name, ObjectFactory(name));
 /******/ 			}
@@ -187,10 +184,6 @@
 /******/ 					}
 /******/ 				}
 /******/ 			}
-/******/ 		};
-/******/ 		fn.t = function(value, mode) {
-/******/ 			if (mode & 1) value = fn(value);
-/******/ 			return __webpack_require__.t(value, mode & ~1);
 /******/ 		};
 /******/ 		return fn;
 /******/ 	}
@@ -900,7 +893,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar mapConfig = exports.mapConfig = {\n\n  //ESRI Vector BaseMap\n  ESRIVectorBasemap: {\n    name: \"DarkGray\"\n  },\n\n  //tile layers (WMS)\n  TileLayers: [{\n    id: \"SA_ExposureIndex\",\n    layer: \"SA_ExposureIndex\",\n    label: \"South Atlantic Exposure Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 9000,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_AssetIndex\",\n    layer: \"SA_AssetIndex\",\n    label: \"South Atlantic Asset Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018WF\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_ThreatIndex\",\n    layer: \"SA_ThreatIndex\",\n    label: \"South Atlantic Threat Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_AquaticIndex\",\n    layer: \"SA_AquaticIndex\",\n    label: \"South Atlantic Aquatic Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_TerrestrialIndex\",\n    layer: \"SA_TerrestrialIndex\",\n    label: \"South Atlantic Terrestrial Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }],\n\n  //leaflet optoins expand as needed\n  mapOptions: {\n    center: [32.7765, -79.9311],\n    zoom: 12,\n    maxZoom: 18,\n    minZoom: 4,\n    crs: L.CRS.EPSG3857\n  }\n\n};\n\nexports.default = mapConfig;\n\n//# sourceURL=webpack:///./src/config/mapConfig.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar mapConfig = exports.mapConfig = {\n\n  //ESRI Vector BaseMap\n  ESRIVectorBasemap: {\n    name: \"DarkGray\"\n  },\n\n  //tile layers (WMS)\n  TileLayers: [{\n    id: \"SA_ExposureIndex\",\n    layer: \"SA_ExposureIndex\",\n    label: \"South Atlantic Exposure Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 9000,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_AssetIndex\",\n    layer: \"SA_AssetIndex\",\n    label: \"South Atlantic Asset Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018WF\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_ThreatIndex\",\n    layer: \"SA_ThreatIndex\",\n    label: \"South Atlantic Threat Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_AquaticIndex\",\n    layer: \"SA_AquaticIndex\",\n    label: \"South Atlantic Aquatic Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }, {\n    id: \"SA_TerrestrialIndex\",\n    layer: \"SA_TerrestrialIndex\",\n    label: \"South Atlantic Terrestrial Index\",\n    url: \"http://gis.nemac.org/nfwf?\",\n    attribution: \"NFWF 2018\",\n    format: \"image/png\",\n    tileSize: 256,\n    transparent: true,\n    opacity: 0.75,\n    zIndex: 8999,\n    crs: L.CRS.EPSG3857\n  }],\n\n  //leaflet optoins expand as needed\n  mapOptions: {\n    center: [32.7765, -79.9311],\n    zoom: 12,\n    maxZoom: 16,\n    minZoom: 4,\n    crs: L.CRS.EPSG3857\n  }\n\n};\n\nexports.default = mapConfig;\n\n//# sourceURL=webpack:///./src/config/mapConfig.js?");
 
 /***/ }),
 
@@ -1130,7 +1123,7 @@ eval("module.exports = \"<div class=\\\"container-fluid d-flex flex-column\\\">\
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! babel-polyfill */\"./node_modules/babel-polyfill/lib/index.js\");\nmodule.exports = __webpack_require__(/*! /Users/jrfrimme/nemac/nfwf/NFWF_tool/src/scripts/index.js */\"./src/scripts/index.js\");\n\n\n//# sourceURL=webpack:///multi_babel-polyfill_./src/scripts/index.js?");
+eval("__webpack_require__(/*! babel-polyfill */\"./node_modules/babel-polyfill/lib/index.js\");\nmodule.exports = __webpack_require__(/*! /Users/daveism/GitHub/NFWF_tool/src/scripts/index.js */\"./src/scripts/index.js\");\n\n\n//# sourceURL=webpack:///multi_babel-polyfill_./src/scripts/index.js?");
 
 /***/ })
 
