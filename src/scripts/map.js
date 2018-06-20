@@ -39,7 +39,7 @@ export class Map extends Component {
 
     //set last storage object, it will be overwritten after map is intialized
     this.restoreStateStore = store.getState();
-
+    // console.log('test3',store.getState());
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
@@ -66,53 +66,17 @@ export class Map extends Component {
     * and the overlays are offset with intial draw.  this zoom in zoom iut
     * forces leaflet to Render everything correctly
     */
-    this.map.zoomOut(1);
-    this.map.zoomIn(1);
-    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
+    //only do this.
+    if(!store.isStateExists()){
+      this.map.zoomOut(1);
+      this.map.zoomIn(1);
+      L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
+    } else {
+      //this needs to be done anyway otherwise all tiles will not render.
+      L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
+    }
 
     const self = this;
-
-
-    this.map.on('unload', function(e) {
-      self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getZoom() );
-    });
-
-    this.map.on('moveend', function(e) {
-      self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getZoom() );
-    });
-
-    this.map.on('zoomend', function(e) {
-      self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getZoom() );
-    });
-
-    this.map.on('dblclick', function(e) {
-      self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getZoom() );
-    });
-
-    this.map.on('mousedown', function(e) {
-      self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getZoom() );
-    });
-
-    this.map.on('keypress', function(e) {
-      self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getZoom() );
-    });
-
-
-    this.map.on('click', function(ev) {
-      self.saveStore('mapCenter', this.getCenter() );
-      self.saveStore('mapZoom', this.getZoom() );
-      self.saveStore('mapClick', ev.latlng );
-      if(ev.containerPoint !== undefined){
-        self.retreiveMapClick();
-      }
-
-    });
 
     //add wms layers
     //may switch this out for tiled s3 layers or tile esri layers later
@@ -156,11 +120,54 @@ export class Map extends Component {
     this.addMapInformationControl();
 
     const mapClick = store.getStateItem('mapClick');
-    if(Object.keys(mapClick).length > 0){
-      this.retreiveMapClick ();
-    }
+
   }
 
+  //add map listners in function so we can call it from index or setup that we only update state store after
+  //  map is intialized.
+  addMapEventListners(){
+
+    const self = this;
+
+    this.map.on('moveend', function(event) {
+      self.saveStore('mapCenter', self.map.getCenter() );
+      self.saveStore('mapZoom', self.map.getZoom() );
+      self.saveStore('lastaction', 'moveend' );
+    });
+
+    this.map.on('zoomend', function(event) {
+      self.saveStore('mapCenter', self.map.getCenter() );
+      self.saveStore('mapZoom', self.map.getZoom() );
+      self.saveStore('lastaction', 'zoomend' );
+    });
+
+    this.map.on('dblclick', function(event) {
+      self.saveStore('mapCenter', self.map.getCenter() );
+      self.saveStore('mapZoom', self.map.getZoom() );
+      self.saveStore('lastaction', 'dblclick' );
+    });
+
+    this.map.on('keypress', function(event) {
+      self.saveStore('mapCenter', self.map.getCenter() );
+      self.saveStore('mapZoom', self.map.getZoom() );
+      self.saveStore('lastaction', 'keypress' );
+    });
+
+    //click
+    this.map.on('click', function(ev) {
+      self.saveStore('mapCenter', self.map.getCenter() );
+      self.saveStore('mapZoom', self.map.getZoom() );
+      self.saveStore('mapClick', ev.latlng );
+      self.saveStore('lastaction', 'click' );
+      if(ev.containerPoint !== undefined){
+        self.retreiveMapClick();
+      }
+
+    });
+
+  }
+
+  //indentify
   addMapInformationControl(){
 
     L.Control.Watermark = L.Control.extend({
@@ -179,7 +186,6 @@ export class Map extends Component {
     L.control.watermark = function(opts) {
         return new L.Control.Watermark(opts);
     }
-
 
     L.control.watermark({ position: 'topleft' }).addTo(this.map);
   }
@@ -206,7 +212,7 @@ export class Map extends Component {
   /** Load map data from the API */
   async retreiveMapClick () {
 
-
+    if(!store.isStateExists()){return false}
     // remove prevouis marker point
     if (this.marker !== undefined) {
           this.map.removeLayer(this.marker);
@@ -215,6 +221,8 @@ export class Map extends Component {
 
     const mapClick = store.getStateItem('mapClick');
 
+    if(!this.checkValidObject(mapClick)){return false};
+    
     //make call to lambda api.
     const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
 
@@ -303,6 +311,7 @@ export class Map extends Component {
   *   })
   */
   setMapCenter(value){
+    if( this.checkValidObject(value)){return false}
     this.map.panTo( value);
     this.invalidateSize();
   }
@@ -316,6 +325,7 @@ export class Map extends Component {
   *   })
   */
   setMapZoom(value){
+    if( this.checkValidObject(value)){return false}
     this.map.setZoom(value);
     this.invalidateSize();
   }
@@ -329,6 +339,9 @@ export class Map extends Component {
   *
   */
   setMapClick(value){
+
+    if( this.checkValidObject(value)){return false}
+
     const latlng = L.latLng([value.lat, value.lng]);
     this.map.fireEvent('click', {latlng: latlng})
     this.invalidateSize();
@@ -368,29 +381,79 @@ export class Map extends Component {
      const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus','mapContainerPoint']
      const state = store.getState();
      const self = this;
-      //state exits
+
+    //state exits
      if(!store.isStateExists()){return false}
 
+     this.invalidateSize();
+
+     //instiate store varriables.  otherwise the order will cause
+     //the startup position  to shift occasional
+     let mapZoom = null;
+     let mapClick = null;
+     let mapCenter = null;
+     let mapLayerDisplayStatus = null;
+
+     //iterate the state objects and set the store varriables
      mapStates.map( (stateItem)=>{
        const stateObj = state[stateItem];
 
-       if(stateItem === 'mapCenter'){ self.setMapCenter(stateObj)} //recenter from store
-       if(stateItem === 'mapClick'){self.setMapClick(stateObj)} //map click from store
-       if(stateItem === 'mapZoom'){self.setMapZoom(stateObj)} //reset map zoom from store
-
-       if(stateItem === 'mapLayerDisplayStatus'){
-         for(var key in stateObj){
-           if(stateObj[key]){
-              this.setLayerStatus(key);
-           }
-         }
-       }
+       if(stateItem === 'mapCenter'){ mapCenter = stateObj } //recenter from store
+       if(stateItem === 'mapClick'){ mapClick = stateObj } //map click from store
+       if(stateItem === 'mapZoom'){ mapZoom = stateObj } //reset map zoom from store
+       if(stateItem === 'mapLayerDisplayStatus'){ mapLayerDisplayStatus = stateObj } //set layer display
 
      })
 
+   //check the mapdisplay varrable and toggle layers on when state
+   // says too
+   if(!mapLayerDisplayStatus !== null){
+     for(var key in mapLayerDisplayStatus){
+       if(mapLayerDisplayStatus[key]){
+          this.setLayerStatus(key);
+       }
+     }
+   }
+
+   //check the mapclick varrablable.  if map clicked restore the state
+   if(this.checkValidObject(mapClick)){
+     self.setMapClick(mapClick);
+     this.retreiveMapClick();
+     // this.invalidateSize();
+   }
+
+   //handle zoom and center set view for zoom and center when both state objects set
+   if( this.checkValidObject(mapZoom) && this.checkValidObject(mapCenter)) {
+     self.map.setView(mapCenter, mapZoom);
+
+   }
+
+    //handle zoom when only zoom object set
+   if (this.checkValidObject(mapZoom) && !this.checkValidObject(mapCenter)){
+     self.setMapZoom(mapZoom);
+     //handle rectenr when only mapCenter object set
+   } else if (this.checkValidObject(mapCenter) && !this.checkValidObject(mapZoom)){
+     self.setMapCenter(mapCenter);
+   }
 
   }
-  // history.pushState({id: 'nomap'}, '', './momap');
+
+  //insure the object or varriable is valid...
+  checkValidObject(obj){
+
+     if(obj === undefined){return false}
+     if(obj === null){return false}
+
+    if(typeof obj === 'object' ){
+       if(Object.keys(obj).length === 0){return false}
+     }
 
 
+      if(typeof obj === 'string' ){
+        if(obj.length === 0){return false}
+      }
+
+     return true
+
+  }
 }
