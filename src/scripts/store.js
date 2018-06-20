@@ -27,12 +27,45 @@ export class Store {
     // }
   }
 
+  //// GETTERS
+
   // As of 0a3106e this is probably intended to be used as a getter for the
   // Store. However it is pulling an unused and undeclared variable _state so it
   // probably just returns undefined.
   get Store() {
      return this._state;
   }
+
+  // Gets an individual item from the state
+  //
+  // @param item - string
+  // @return string || object
+  getStateItem(item) {
+    const currentState = this.getState("state");
+    if (this.checkItem(item)) {
+      const stateItem = currentState[item];
+      return stateItem;
+    }
+
+    return {};
+  }
+
+  // Gets the entire state object
+  //
+  // @return object
+  getState() {
+    if (this.storageAvailable()) {
+      if(this.isStateExists()){
+        const currentStateStr = this.store["state"];
+        const currentState = JSON.parse(currentStateStr);
+        return currentState;
+      }
+      return {};
+    }
+    return {};
+  }
+
+  //// SETTERS
 
   // Setter for the state to the Store, preserving any non-overwritten
   // properties in the Store.
@@ -48,12 +81,66 @@ export class Store {
     }
   }
 
+  // Setter for the state to the Store, overriding any non-overwritten
+  // properties in the Store.
+  //
+  // @param state - object
+  saveNewState(state) {
+    if (this.storageAvailable) {
+      const newStateStr = JSON.stringify(state);
+      this.store.setItem("state", newStateStr);
+    }
+  }
+
+  // Setter which overrides the entire Store with a new State object.
+  //
+  // @param StateObject - object
+  setStateFromObject(StateObject) {
+    this.saveNewState(StateObject);
+  }
+
+  // Setter for a key value pair to the State, which means that it writes it to
+  // the Store.
+  //
+  // @param key - string
+  // @param value - string
+  addStateItem(key, value) {
+    var currentState = this.getState();
+    currentState[key] = value;
+    const newStateObj = JSON.parse(JSON.stringify(currentState));
+    this.saveNewState(newStateObj);
+  }
+
+  // Setter for a key value pair to the Store.
+  //
+  // @param key - string
+  // @param value - string
+  setStoreItem(key, value) {
+    const storeObj = {[key]: value};
+    const newStateObj = {...this.getState(), ...storeObj};
+    this.saveState(newStateObj);
+  }
+
+  //// REMOVERS
+
   // Removes the entire state from the browser.
   clearState() {
     if (this.storageAvailable()) {
       this.store.removeItem("state");
     }
   }
+
+  // Removes a key value pair from the State and the Store.
+  //
+  // @param key - string
+  removeStateItem(key) {
+    var currentState = this.getState();
+    currentState[key] = undefined;
+    const newStateObj = JSON.parse(JSON.stringify(currentState));
+    this.saveNewState(newStateObj);
+  }
+
+  //// UTILITIES
 
   // Check if localStorage available.
   // Taken from https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
@@ -132,88 +219,9 @@ export class Store {
     return false;
   }
 
-  // Gets an individual item from the state
-  //
-  // @param item - string
-  // @return string || object
-  getStateItem(item) {
-    const currentState = this.getState("state");
-    if (this.checkItem(item)) {
-      const stateItem = currentState[item];
-      return stateItem;
-    }
-
-    return {};
-  }
-
-  // Gets the entire state object
-  //
-  // @return object
-  getState() {
-    if (this.storageAvailable()) {
-      if(this.isStateExists()){
-        const currentStateStr = this.store["state"];
-        const currentState = JSON.parse(currentStateStr);
-        return currentState;
-      }
-      return {};
-    }
-    return {};
-  }
-
-  // Setter for a key value pair to the State, which means that it writes it to
-  // the Store.
-  //
-  // @param key - string
-  // @param value - string
-  addStateItem(key, value) {
-    var currentState = this.getState();
-    currentState[key] = value;
-    const newStateObj = JSON.parse(JSON.stringify(currentState));
-    this.saveNewState(newStateObj);
-  }
-
-  // Removes a key value pair from the State and the Store.
-  //
-  // @param key - string
-  removeStateItem(key) {
-    var currentState = this.getState();
-    currentState[key] = undefined;
-    const newStateObj = JSON.parse(JSON.stringify(currentState));
-    this.saveNewState(newStateObj);
-  }
-
-  // Setter for a key value pair to the Store.
-  //
-  // @param key - string
-  // @param value - string
-  setStoreItem(key, value) {
-    const storeObj = {[key]: value};
-    const newStateObj = {...this.getState(), ...storeObj};
-    this.saveState(newStateObj);
-  }
-
-  // Setter for the state to the Store, overriding any non-overwritten
-  // properties in the Store.
-  //
-  // @param state - object
-  saveNewState(state) {
-    if (this.storageAvailable) {
-      const newStateStr = JSON.stringify(state);
-      this.store.setItem("state", newStateStr);
-    }
-  }
-
   //  const ele.addEventListener('click', (e) => {
   //    this.setStateFromObject();
   //  })
-
-  // Setter which overrides the entire Store with a new State object.
-  //
-  // @param StateObject - object
-  setStateFromObject(StateObject) {
-    this.saveNewState(StateObject);
-  }
 
   // We will look at static and subclassed methods shortly
 }
