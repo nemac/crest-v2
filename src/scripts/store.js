@@ -41,8 +41,8 @@ export class Store {
   // @param item - string
   // @return string || object
   getStateItem(item) {
-    const currentState = this.getState("state");
     if (this.checkItem(item)) {
+      const currentState = this.getState("state");
       const stateItem = currentState[item];
       return stateItem;
     }
@@ -55,7 +55,7 @@ export class Store {
   // @return object
   getState() {
     if (this.storageAvailable()) {
-      if(this.isStateExists()){
+      if (this.isStateExists()) {
         const currentStateStr = this.store["state"];
         const currentState = JSON.parse(currentStateStr);
         return currentState;
@@ -86,7 +86,7 @@ export class Store {
   //
   // @param state - object
   saveNewState(state) {
-    if (this.storageAvailable) {
+    if (this.storageAvailable()) {
       const newStateStr = JSON.stringify(state);
       this.store.setItem("state", newStateStr);
     }
