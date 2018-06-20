@@ -222,7 +222,7 @@ export class Map extends Component {
     const mapClick = store.getStateItem('mapClick');
 
     if(!this.checkValidObject(mapClick)){return false};
-    
+
     //make call to lambda api.
     const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
 
@@ -261,7 +261,7 @@ export class Map extends Component {
 
 
     //to do overide css popup for leaflet
-    this.marker.bindPopup(tooltipContent,{offset:L.point(-123,20)}).openPopup();
+    this.marker.bindPopup(tooltipContent,{autoPan: false, offset:L.point(-123,20)}).openPopup();
 
   }
 
