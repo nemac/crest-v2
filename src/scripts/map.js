@@ -112,20 +112,6 @@ export class Map extends Component {
         self.retreiveMapClick();
       }
 
-      // if(ev.containerPoint !== undefined){
-      //   self.saveStore('mapContainerPoint', {x: ev.containerPoint.x, y: ev.containerPoint.y} );
-      // } else {
-      //   const containerPoint = store.getStateItem('mapContainerPoint');
-      //   self.saveStore('mapContainerPoint', {x: containerPoint.x, y: containerPoint.y} );
-      // }
-      //
-      // if(ev.originalEvent === undefined){
-      //   const originalEvent = store.getStateItem('mapClickPage');
-      //   self.saveStore('mapClickPage', {pageX: originalEvent.pageX, pageY: originalEvent.pageY}  );
-      // } else {
-      //   self.saveStore('mapClickPage', {pageX: ev.originalEvent.pageX, pageY: ev.originalEvent.pageY}  );
-      // }
-
     });
 
     //add wms layers
@@ -185,8 +171,6 @@ export class Map extends Component {
             return fa;
         },
 
-
-
         onRemove: function(map) {
             // Nothing to do here
         }
@@ -203,12 +187,21 @@ export class Map extends Component {
 
   replaceMapInfoValue(doc, type, values){
     let element = doc.getElementById(`${type}-score`);
-    element.textContent = values.label;
+    if(element !== undefined){
+      if(element !== null){
+        element.textContent = values.label;
+      }
+    }
   }
 
   addStyle(doc, type, values){
      let element = doc.getElementById(`${type}-score`);
-     element.setAttribute("style", 'background-color: ' + values.backgroundColor + '; color: ' + values.color + ';');
+     if(element !== undefined){
+       if(element !== null ){
+        element.setAttribute("style", 'background-color: ' + values.backgroundColor + '; color: ' + values.color + ';');
+       }
+     }
+
   }
   /** Load map data from the API */
   async retreiveMapClick () {
@@ -222,8 +215,8 @@ export class Map extends Component {
 
     const mapClick = store.getStateItem('mapClick');
 
-    const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
-     // const IndentifyJson = {"aquatic": 6,"terrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
+    // const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
+     const IndentifyJson = {"aquatic": 6,"tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
 
     var myIcon = L.divIcon({className: 'map-info-point'});
 
