@@ -67,15 +67,12 @@ export class Map extends Component {
      * and the overlays are offset with intial draw. This zoom in zoom out
      * forces leaflet to Render everything correctly
      */
-     //only do this.
     if (!store.isStateExists()) {
       this.map.zoomOut(1);
       this.map.zoomIn(1);
-      L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
-    } else {
-      //this needs to be done anyway otherwise all tiles will not render.
-      L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
     }
+
+    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
 
     const self = this;
 
@@ -254,11 +251,7 @@ export class Map extends Component {
   }
 
   shouldRestore(props) {
-    if (props === undefined) {
-      return false;
-    }
-
-    if (props.restore === undefined) {
+    if (props === undefined || props.restore === undefined) {
       return false;
     }
 
@@ -368,7 +361,7 @@ export class Map extends Component {
    *
    */
   restoreMapState() {
-    // get last storage objet
+    // get last storage object
     store.setStateFromObject(this.restoreStateStore);
 
     const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus','mapContainerPoint'];
@@ -382,14 +375,14 @@ export class Map extends Component {
 
     this.invalidateSize();
 
-    //instiate store varriables.  otherwise the order will cause
-    //the startup position  to shift occasional
+    // Instantiate store variables. Otherwise the order will cause
+    // the startup position to shift occasionally
     let mapZoom = null;
     let mapClick = null;
     let mapCenter = null;
     let mapLayerDisplayStatus = null;
 
-    //iterate the state objects and set the store varriables
+    // iterate over the state objects and set the store variables
     mapStates.map((stateItem) => {
       const stateObj = state[stateItem];
 
@@ -399,7 +392,7 @@ export class Map extends Component {
       if (stateItem === 'mapLayerDisplayStatus') { mapLayerDisplayStatus = stateObj; } //set layer display
     });
 
-    // check the mapdisplay varrable and toggle layers on when state
+    // check the mapdisplay variable and toggle layers on when state
     // says to
     if (!mapLayerDisplayStatus !== null) {
       for (var key in mapLayerDisplayStatus) {
@@ -430,7 +423,7 @@ export class Map extends Component {
     }
   }
 
-  //insure the object or varriable is valid...
+  // ensure the object or variable is valid...
   checkValidObject(obj) {
     if (obj === undefined || obj === null) { return false; }
     if (typeof obj === 'object' && Object.keys(obj).length === 0) { return false; }
