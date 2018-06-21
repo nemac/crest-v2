@@ -101,13 +101,13 @@ module.exports = {
             filename: path.join(paths.DIST, 'index.html'),
             excludeChunks: ['download','about']
         }),
-        //download
-        new HtmlWebpackPlugin({
-            hash: true,
-            template: path.join(paths.SRC_HTML, 'download.html'),
-            filename: path.join(paths.DIST, 'download.html'),
-            excludeChunks: ['index','about']
-        }),
+        // //download
+        // new HtmlWebpackPlugin({
+        //     hash: true,
+        //     template: path.join(paths.SRC_HTML, 'download.html'),
+        //     filename: path.join(paths.DIST, 'download.html'),
+        //     excludeChunks: ['index','about']
+        // }),
         new webpack.HotModuleReplacementPlugin(),
         // //about
         // new HtmlWebpackPlugin({
