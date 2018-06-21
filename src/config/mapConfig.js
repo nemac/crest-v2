@@ -79,7 +79,7 @@ export var mapConfig = {
   mapOptions: {
     center: [ 32.7765, -79.9311 ],
     zoom: 12,
-    maxZoom: 18,
+    maxZoom: 16,
     minZoom: 4,
     crs: L.CRS.EPSG3857
   }
