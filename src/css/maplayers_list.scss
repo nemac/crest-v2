@@ -4,24 +4,40 @@
 
 $body-bg:    $gray-800;
 $body-color: $gray-200;
+$body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
 
 $layer_list_width: 250px;
 $layer_list_padding: 10px;
 $map_top_margin: 5px;
 $map_right_margin: 10px;
 
+
+.mapinfodata-header, .LayerInput-header {
+  font-size: 1em;
+}
+
+.LayerList-spacer {
+  padding-top: 10px;
+}
+
 .maplayers_list {
+    background-color: $body-bg;
+    background:  $body-bg-semiTransparent;
+    color: $body-color;
     position: relative;
     float: left;
     width: $layer_list_width;
     left: - (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
     top: (($grid-gutter-width / 2));
-    background-color: $body-bg;
-    color: $body-color;
     z-index: 1000;
     padding: $layer_list_padding;
     border-radius: 0.25rem;
     margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
+
+}
+
+.layerList-sub-group {
+  padding-top: 5px;
 }
 
 @media (max-width: 768px) {
