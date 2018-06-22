@@ -11,7 +11,7 @@ export var mapConfig = {
     {
       id: "SA_ExposureIndex",
       layer: "SA_ExposureIndex",
-      label: "South Atlantic Exposure Index",
+      label: "Exposure Index",
       url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -24,7 +24,7 @@ export var mapConfig = {
     {
       id: "SA_AssetIndex",
       layer: "SA_AssetIndex",
-      label: "South Atlantic Asset Index",
+      label: "Asset Index",
       url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018WF",
       format: "image/png",
@@ -37,7 +37,7 @@ export var mapConfig = {
     {
       id: "SA_ThreatIndex",
       layer: "SA_ThreatIndex",
-      label: "South Atlantic Threat Index",
+      label: "Threat Index",
       url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -50,7 +50,7 @@ export var mapConfig = {
     {
       id: "SA_AquaticIndex",
       layer: "SA_AquaticIndex",
-      label: "South Atlantic Aquatic Index",
+      label: "Aquatic Index",
       url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -63,7 +63,20 @@ export var mapConfig = {
     {
       id: "SA_TerrestrialIndex",
       layer: "SA_TerrestrialIndex",
-      label: "South Atlantic Terrestrial Index",
+      label: "Terrestrial Index",
+      url: "https://gis.nemac.org/nfwf?",
+      attribution: "NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.75,
+      zIndex: 8999,
+      crs: L.CRS.EPSG3857
+    },
+    {
+      id: "SA_HubsPreliminary",
+      layer: "SA_HubsPreliminary",
+      label: "Hubs (Preliminary)",
       url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -73,6 +86,7 @@ export var mapConfig = {
       zIndex: 8999,
       crs: L.CRS.EPSG3857
     }
+
  ],
 
   //leaflet optoins expand as needed

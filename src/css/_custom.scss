@@ -9,6 +9,7 @@ $body-color-visited: $gray-400;
 $margin: 10px;
 $padding: 10px;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
+$body-bg-semiTransparent9:    rgba(53, 59, 65, .9); // $gray-800
 
 html, body {
     height: 100%;
@@ -117,6 +118,7 @@ html, body {
 
  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
    background: $body-bg;
+   background:  $body-bg-semiTransparent9;
    color: $body-color;
    border-radius: 0px;
    min-width: 225px;

@@ -261,7 +261,7 @@ export class Map extends Component {
 
 
     //to do overide css popup for leaflet
-    this.marker.bindPopup(tooltipContent,{autoPan: false, offset:L.point(-123,20)}).openPopup();
+    this.marker.bindPopup(tooltipContent,{opacity: 0.9, autoPan: false, offset:L.point(-123,20)}).openPopup();
 
   }
 
