@@ -50,7 +50,7 @@ export class MapLayersList extends Component {
     let label = document.getElementById(`${layerId}-label`);
 
     //ensure the html dom element exists
-    if (label !== undefined){
+    if (label !== undefined || label !== null){
       //update the label
       label.textContent = layerName;
     }
@@ -67,9 +67,9 @@ export class MapLayersList extends Component {
     //get and update the layer's checkbox
     let checkBox = document.getElementById(`${layerId}-toggle`);
 
-    console.log('checkBox', (checkBox !== undefined))
+    console.log('checkBox',layerId, checkBox , (checkBox !== undefined || checkBox !== null))
     //ensure the html dom element exists
-    if(checkBox !== undefined){
+    if(checkBox !== undefined || checkBox !== null){
 
       //add the listner
       checkBox.addEventListener('click', (e) => this.toggleMapLayer(layerId));

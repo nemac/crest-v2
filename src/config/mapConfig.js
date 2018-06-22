@@ -72,7 +72,21 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 8999,
       crs: L.CRS.EPSG3857
+    },
+    {
+      id: "SA_HubsPreliminary",
+      layer: "SA_HubsPreliminary",
+      label: "Hubs (Preliminary)",
+      url: "https://gis.nemac.org/nfwf?",
+      attribution: "NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.75,
+      zIndex: 8999,
+      crs: L.CRS.EPSG3857
     }
+
  ],
 
   //leaflet optoins expand as needed
