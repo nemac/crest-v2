@@ -188,6 +188,7 @@ p.not-found {
   border: 1px solid $gray-700;
   transform: scale(1.75);
 }
+
 .custom-control-input:active ~ .custom-control-label::before {
   background-color: $body-color;
   background:  $body-bg-semiTransparent;
