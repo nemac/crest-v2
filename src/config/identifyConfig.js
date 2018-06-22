@@ -45,7 +45,7 @@ export var identifyConfig = {
       value: 9,
       backgroundColor: "#9c551f",
       color: "#e9ecef",
-      label: "high",
+      label: "High",
     },
     {
       layer: "exposure",
