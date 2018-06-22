@@ -67,7 +67,6 @@ export class MapLayersList extends Component {
     //get and update the layer's checkbox
     let checkBox = document.getElementById(`${layerId}-toggle`);
 
-    console.log('checkBox',layerId, checkBox , (checkBox !== undefined || checkBox !== null))
     //ensure the html dom element exists
     if(checkBox !== undefined || checkBox !== null){
 
