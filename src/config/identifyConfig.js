@@ -250,7 +250,7 @@ export var identifyConfig = {
     value: 255,
     backgroundColor: "#e9ecef",
     color: "#343A4F",
-    label: "Unknown Priority",
+    label: "Not in a Hub",
   },
 
  ],
