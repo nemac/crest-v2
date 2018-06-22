@@ -195,6 +195,64 @@ export var identifyConfig = {
      label: "N/A",
    },
 
+
+   {
+    layer: "hubs",
+    value: 1,
+    backgroundColor: "#FFE9C4",
+    color: "#343A4F",
+    label: "Low Priority",
+  },
+  {
+    layer: "hubs",
+    value: 2,
+    backgroundColor: "#E0C879",
+    color: "#343A4F",
+    label: "Low Priority",
+  },
+  {
+    layer: "hubs",
+    value: 3,
+    backgroundColor: "#76974E",
+    color: "#343A4F",
+    label: "Low Priority",
+  },
+  {
+    layer: "hubs",
+    value: 4,
+    backgroundColor: "#385B24",
+    color: "#e9ecef",
+    label: "Medium Priority",
+  },
+  {
+    layer: "hubs",
+    value: 5,
+    backgroundColor: "#004908",
+    color: "#e9ecef",
+    label: "Medium Priority",
+  },
+  {
+    layer: "hubs",
+    value: 6,
+    backgroundColor: "#004908",
+    color: "#e9ecef",
+    label: "High Priority",
+  },
+  {
+    layer: "hubs",
+    value: 7,
+    backgroundColor: "#004908",
+    color: "#e9ecef",
+    label: "High Priority",
+  },
+  {
+    layer: "hubs",
+    value: 255,
+    backgroundColor: "#e9ecef",
+    color: "#343A4F",
+    label: "Unknown Priority",
+  },
+
  ],
 
 

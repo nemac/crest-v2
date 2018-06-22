@@ -4,6 +4,14 @@
     <hr />
     <div ref="ToggleLayers" id="ToggleLayerList" class="layer-toggles">
 
+      <div class="LayerInput-header" id="HubsLayers-Header" >Hubs</div>
+      <div ref="LayerInput" id="SA_Hubs-layerToggle" class="custom-control custom-checkbox">
+        <input ref="SA_Hubs-layerToggle-toggle" type="checkbox" class="custom-control-input" id="SA_Hubs-layerToggle-toggle">
+        <label ref="SA_Hubs-layerToggle-label" class="custom-control-label" for="SA_Hubs-layerToggle-toggle" id="SA_Hubs-layerToggle-label">South Atlantic Hubs</label>
+      </div>
+
+      <div class="LayerList-spacer" id="ExposureLayers-Header" ></div>
+
       <div class="LayerInput-header" id="ExposureLayers-Header" >Exposure</div>
       <div ref="LayerInput" id="SA_ExposureIndex-layerToggle" class="custom-control custom-checkbox">
         <input ref="SA_ExposureIndex-toggle" type="checkbox" class="custom-control-input" id="SA_ExposureIndex-toggle">
@@ -13,6 +21,7 @@
       <div class="LayerList-spacer" id="ExposureLayers-Header" ></div>
 
       <!-- <div class="row offset-1 layerList-sub-group"> -->
+      <div class="LayerInput-header" id="ExposureLayers-Header" >Asset and Threat</div>
       <div ref="LayerInput" id="SA_AssetIndex-layerToggle" class="custom-control custom-checkbox">
         <input ref="SA_AssetIndex-toggle" type="checkbox" class="custom-control-input" id="SA_AssetIndex-toggle">
         <label ref="SA_AssetIndex-label" class="custom-control-label" for="SA_AssetIndex-toggle" id="SA_AssetIndex-label">South Atlantic Asset Index</label>
