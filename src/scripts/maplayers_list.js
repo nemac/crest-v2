@@ -7,7 +7,7 @@ import { mapConfig } from '../config/mapConfig';
 import '../css/maplayers_list.scss';
 
 //templates
-import layer_checkboxTemplate from '../templates/layer_checkbox.html'
+// import layer_checkboxTemplate from '../templates/layer_checkbox.html'
 
 /**
  * MapLayersList Component
@@ -20,42 +20,63 @@ export class MapLayersList extends Component {
     const WMSLayers = mapConfig.TileLayers;
 
     // Add a toggle button for each layer
-    WMSLayers.forEach((layerProps) => this.addMapLayer(layerProps))
+    WMSLayers.forEach((layerProps) => this.updateMapLayer(layerProps))
 
   }
 
 
   /** Create and append new layer button DIV */
-  addMapLayer (layerProps) {
-    const layerName = layerProps.id
+  updateMapLayer (layerProps) {
 
-    //convert to html element
-    const ToggleLayersHTML = this.refs.ToggleLayers.innerHTML;
-    let parser = new DOMParser()
-    let el = parser.parseFromString(layer_checkboxTemplate, "text/html");
+    //add listner
+    this.addLayerListListner(layerProps.id);
 
-    //get elements
-    let layerItem = el.getElementById('layerToggle')
+    //update label
+    this.updateLayerListName(layerProps.id, layerProps.label);
 
-    layerItem.setAttribute('id', `${layerProps.id}-layerToggle`)
-
-    //get and update the layer's checkbox
-    let checkBox = el.getElementById('customCheck');
-    checkBox.setAttribute('ref', `${layerProps.id}-toggle`) //checkbox ref
-    checkBox.setAttribute('id', `${layerProps.id}-toggle`); //checkbox id
-
-    //get and update the layer's label
-    let customLabel = el.getElementById('customLabel');
-    customLabel.setAttribute('for', `${layerProps.id}-toggle`)
-    customLabel.textContent = layerProps.label;   //label text
-    customLabel.setAttribute('ref', `${layerProps.id}-label`) //checkbox ref
-    customLabel.setAttribute('id', `${layerProps.id}-label`); //label id
-
-    //update the layers click event
-    checkBox.addEventListener('click', (e) => this.toggleMapLayer(layerName))
-    this.refs.ToggleLayers.appendChild(layerItem)
 
   }
+
+
+  /*
+  *  update the label text from the mapConfig.js file
+  *    this is an overide so we can overide the default layer list text
+  *  @param { string }  layer id for selecting the dom element.
+  *   @param { string }  layer iname the layers name for the label text.
+  *
+  */
+  updateLayerListName(layerId, layerName){
+    //get and update the layer's label
+    let label = document.getElementById(`${layerId}-label`);
+
+    //ensure the html dom element exists
+    if (label !== undefined || label !== null){
+      //update the label
+      label.textContent = layerName;
+    }
+
+  }
+
+  /*
+  *  adds an event listner to the maplayer list.
+  *    The listner fires when a user clicks and toggles the display of the map layer
+  *  @param { string }  layer id.
+  *
+  */
+  addLayerListListner(layerId){
+    //get and update the layer's checkbox
+    let checkBox = document.getElementById(`${layerId}-toggle`);
+
+    //ensure the html dom element exists
+    if(checkBox !== undefined || checkBox !== null){
+
+      //add the listner
+      checkBox.addEventListener('click', (e) => this.toggleMapLayer(layerId));
+    }
+
+
+  }
+
 
   /** Toggle map layer visibility */
   toggleMapLayer (layerName) {

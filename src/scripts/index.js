@@ -68,7 +68,7 @@ router.on({
               event => { mapComponent.toggleLayer(event.detail) }
            }
          })
-         mapComponent.restoreMapState();
+
      }
 
      //deal with nav bars so back button is not broken
@@ -76,8 +76,15 @@ router.on({
      navbarComponent.toggleTabContent('main-nav-map');
      navbarComponent.tabUpdate('main-nav-map');
 
-
+     //restore only if first render
+     if(mapComponent.renderCount === 0){
+       mapComponent.restoreMapState();
+     }
      mapComponent.renderCount += 1;
+     const mapCenter = store.getStateItem('mapCenter');
+
+     //delay listners unitll after setup
+     mapComponent.addMapEventListners(mapComponent.map);
 
    },
    '/Home': (params, query)=>{
@@ -91,7 +98,6 @@ router.on({
               event => { mapComponent.toggleLayer(event.detail) }
            }
          })
-         mapComponent.restoreMapState();
      }
 
      //deal with nav bars so back button is not broken
@@ -100,7 +106,15 @@ router.on({
      navbarComponent.tabUpdate('main-nav-map');
 
 
+     if(mapComponent.renderCount === 0){
+       mapComponent.restoreMapState();
+     }
      mapComponent.renderCount += 1;
+     const mapCenter = store.getStateItem('mapCenter');
+
+     //delay listners unitll after setup
+     mapComponent.addMapEventListners(mapComponent.map);
+
    },
    '/About': (params, query)=>{
 

@@ -11,8 +11,8 @@ export var mapConfig = {
     {
       id: "SA_ExposureIndex",
       layer: "SA_ExposureIndex",
-      label: "South Atlantic Exposure Index",
-      url: "http://gis.nemac.org/nfwf?",
+      label: "Exposure Index",
+      url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,
@@ -24,8 +24,8 @@ export var mapConfig = {
     {
       id: "SA_AssetIndex",
       layer: "SA_AssetIndex",
-      label: "South Atlantic Asset Index",
-      url: "http://gis.nemac.org/nfwf?",
+      label: "Asset Index",
+      url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018WF",
       format: "image/png",
       tileSize: 256,
@@ -37,8 +37,8 @@ export var mapConfig = {
     {
       id: "SA_ThreatIndex",
       layer: "SA_ThreatIndex",
-      label: "South Atlantic Threat Index",
-      url: "http://gis.nemac.org/nfwf?",
+      label: "Threat Index",
+      url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,
@@ -50,8 +50,8 @@ export var mapConfig = {
     {
       id: "SA_AquaticIndex",
       layer: "SA_AquaticIndex",
-      label: "South Atlantic Aquatic Index",
-      url: "http://gis.nemac.org/nfwf?",
+      label: "Aquatic Index",
+      url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,
@@ -63,8 +63,8 @@ export var mapConfig = {
     {
       id: "SA_TerrestrialIndex",
       layer: "SA_TerrestrialIndex",
-      label: "South Atlantic Terrestrial Index",
-      url: "http://gis.nemac.org/nfwf?",
+      label: "Terrestrial Index",
+      url: "https://gis.nemac.org/nfwf?",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,
@@ -72,14 +72,28 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 8999,
       crs: L.CRS.EPSG3857
+    },
+    {
+      id: "SA_HubsPreliminary",
+      layer: "SA_HubsPreliminary",
+      label: "Hubs (Preliminary)",
+      url: "https://gis.nemac.org/nfwf?",
+      attribution: "NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.75,
+      zIndex: 9001,
+      crs: L.CRS.EPSG3857
     }
+
  ],
 
   //leaflet optoins expand as needed
   mapOptions: {
     center: [ 32.7765, -79.9311 ],
     zoom: 12,
-    maxZoom: 18,
+    maxZoom: 16,
     minZoom: 4,
     crs: L.CRS.EPSG3857
   }
