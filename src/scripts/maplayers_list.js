@@ -1,5 +1,6 @@
 //default map template
 import maplayers_listTemplate from '../templates/maplayers_list.html'
+
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
 
@@ -19,11 +20,47 @@ export class MapLayersList extends Component {
 
     const WMSLayers = mapConfig.TileLayers;
 
+
+    this.addOpenMapLayerListner();
+    this.addCloseMapLayerListner();
+
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => this.updateMapLayer(layerProps))
 
   }
 
+  addOpenMapLayerListner(){
+    let layerListCollapse = document.getElementById('maplayers_list_open');
+    layerListCollapse.addEventListener('mouseover', (e) => e.target.style.cursor = "pointer");
+    layerListCollapse.addEventListener('mouseout', (e) => e.target.style.cursor = "default");
+
+    //add the listner
+    layerListCollapse.addEventListener('click', (ev) => {
+      let layerListOpened = document.getElementById('maplayers_list_opened');
+      let layerListCollapsed = document.getElementById('map_info_list_collapse');
+
+      // layerListOpened.className = layerListOpened.className.replace(' d-none','');
+      layerListCollapsed.className = layerListCollapsed.className + ' d-none';
+      layerListOpened.className = layerListOpened.className.replace(' d-none','');
+    });
+
+  }
+
+  addCloseMapLayerListner(){
+    let layerListClose = document.getElementById('maplayers_list_close');
+    layerListClose.addEventListener('mouseover', (e) => e.target.style.cursor = "pointer");
+    layerListClose.addEventListener('mouseout', (e) => e.target.style.cursor = "default");
+
+    //add the listner
+    layerListClose.addEventListener('click', (ev) => {
+      let layerListOpened = document.getElementById('maplayers_list_opened');
+      let layerListCollapsed = document.getElementById('map_info_list_collapse');
+
+      // layerListOpened.className = layerListOpened.className.replace(' d-none','');
+      layerListOpened.className = layerListOpened.className + ' d-none';
+      layerListCollapsed.className = layerListCollapsed.className.replace(' d-none','');
+    });
+  }
 
   /** Create and append new layer button DIV */
   updateMapLayer (layerProps) {
