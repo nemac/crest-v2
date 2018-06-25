@@ -11,10 +11,10 @@ $layer_list_padding: 10px;
 $map_top_margin: 5px;
 $map_right_margin: 10px;
 
-// #maplayers_list_close, #map_info_list_collapse {
-//   width: 25px;
-//   height: 25px;
-// }
+  #maplayers_list_close, #map_info_list_collapse {
+  color: $body-color;
+  font-size: 14px;
+}
 
 .mapinfodata-header, .LayerInput-header {
   font-size: 1em;
