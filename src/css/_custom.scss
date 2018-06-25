@@ -15,6 +15,7 @@ html, body {
     height: 100%;
 }
 
+
 .exposure-equals {
   font-size: 22px;
   padding-right: 5px;
@@ -180,6 +181,24 @@ p.not-found {
   background-color:  $body-bg;
 }
 
+
+
+
+#explore-holder::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 7px;
+ }
+
+#explore-holder::-webkit-scrollbar-thumb {
+   border-radius: 4px;
+   background-color: $body-color
+ }
+
+#explore-holder::-webkit-scrollbar-corner{
+   display: none;
+ }
+
+
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: none;
 }
@@ -202,6 +221,28 @@ p.not-found {
   #top-bar{
     padding-bottom: ($padding + 5 ) * 2;
   }
+
+}
+
+@media (max-width: 768px) {
+  .mapinfodata {
+    max-height: 100px;
+    overflow: scroll;
+  }
+
+  .mapinfodata::-webkit-scrollbar {
+     -webkit-appearance: none;
+     width: 7px;
+   }
+
+   .mapinfodata::-webkit-scrollbar-thumb {
+     border-radius: 4px;
+     background-color: $body-color
+   }
+
+   .mapinfodata::-webkit-scrollbar-corner{
+     display: none;
+   }
 
 }
 
