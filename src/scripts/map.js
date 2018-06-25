@@ -9,18 +9,19 @@ import { mapConfig } from '../config/mapConfig';
 import '../css/_custom_leaflet.scss';
 
 // Import custom classess
-import { Store } from './store'
-import { IndentifyAPI } from './IndentifyAPI';
+import { Store } from './store';
+import { IdentifyAPI } from './indentifyAPI';
 
-var store = new Store({});
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
 // See github issue https://github.com/Esri/esri-leaflet-vector/issues/31 from tgirgin23
 import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
 
-//templates
-import mapTemplate from '../templates/map.html'
+// templates
+import mapTemplate from '../templates/map.html';
 import mapInfoTemplate from '../templates/mapinfo.html';
+
+const store = new Store({});
 
 /**
  * Leaflet Map Component
@@ -33,24 +34,23 @@ export class Map extends Component {
    * @param { String } placeholderId Element ID to inflate the map into
    * @param { Object } props.events.click Map item click listener
    */
-  constructor (mapPlaceholderId, props) {
+  constructor(mapPlaceholderId, props) {
     super(mapPlaceholderId, props, mapTemplate);
 
     this.renderCount = 0;
 
-    //set last storage object, it will be overwritten after map is intialized
+    // set last storage object, it will be overwritten after map is intialized
     this.restoreStateStore = store.getState();
     // console.log('test3',store.getState());
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
-    this.IndentifyAPI = new IndentifyAPI();
+    this.IdentifyAPI = new IdentifyAPI();
 
     this.map.zoomControl.setPosition('topleft'); // Position zoom control
     this.overlayMaps = {}; // Map layer dict (key/value = title/layer)
     this.value = null; // Store currently selected region
     this.mapOverlayLayers = {};
-    this.marker;
 
     /**
      * Adds ESRI vector map
@@ -58,7 +58,7 @@ export class Map extends Component {
      * Not using vector tiles yet since there is some bugginess from ESRI
      * mainly the map starts out not fully rendering
      */
-    var mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
+    const mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
     mapTiles.addTo(this.map);
 
     /**
@@ -74,8 +74,6 @@ export class Map extends Component {
 
     L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
 
-    const self = this;
-
     // Adds wms layers
     // May switch this out for tiled s3 layers or tile esri layers later
     const WMSLayers = mapConfig.TileLayers;
@@ -86,8 +84,13 @@ export class Map extends Component {
     };
 
     // Iterate over each wms map layer and add them to the map
+    /**
+     * TODO: Replace map with forEach or equivalent function. The purpose of map
+     * is to iterate over each element in an array to create a new array. This is
+     * only iterating over each element in an array.
+     */
     WMSLayers.map((layer) => {
-      var tileLayer = L.tileLayer.wms(layer.url, {
+      const tileLayer = L.tileLayer.wms(layer.url, {
         id: layer.id,
         layers: layer.layer,
         crs: layer.crs,
@@ -101,16 +104,16 @@ export class Map extends Component {
 
       // Current leaflet layer object
       const obj = {
-        [layer.id]: tileLayer,
+        [layer.id]: tileLayer
       };
 
-      const mapDisplayLayersObj = {[layer.id]: false};
+      const mapDisplayLayersObj = { [layer.id]: false };
 
       Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
 
       // Merge current layer into overlayMaps layers object
       Object.assign(this.overlayMaps, obj);
-    })
+    });
 
     this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers);
     this.addMapInformationControl();
@@ -123,32 +126,32 @@ export class Map extends Component {
   addMapEventListners() {
     const self = this;
 
-    this.map.on('moveend', function(event) {
+    this.map.on('moveend', (event) => {
       self.saveStore('mapCenter', self.map.getCenter());
       self.saveStore('mapZoom', self.map.getZoom());
       self.saveStore('lastaction', 'moveend');
     });
 
-    this.map.on('zoomend', function(event) {
+    this.map.on('zoomend', (event) => {
       self.saveStore('mapCenter', self.map.getCenter());
       self.saveStore('mapZoom', self.map.getZoom());
       self.saveStore('lastaction', 'zoomend');
     });
 
-    this.map.on('dblclick', function(event) {
+    this.map.on('dblclick', (event) => {
       self.saveStore('mapCenter', self.map.getCenter());
       self.saveStore('mapZoom', self.map.getZoom());
       self.saveStore('lastaction', 'dblclick');
     });
 
-    this.map.on('keypress', function(event) {
+    this.map.on('keypress', (event) => {
       self.saveStore('mapCenter', self.map.getCenter());
       self.saveStore('mapZoom', self.map.getZoom());
-      self.saveStore('lastaction', 'keypress' );
+      self.saveStore('lastaction', 'keypress');
     });
 
-    //click
-    this.map.on('click', function(ev) {
+    // click
+    this.map.on('click', (ev) => {
       self.saveStore('mapCenter', self.map.getCenter());
       self.saveStore('mapZoom', self.map.getZoom());
       self.saveStore('mapClick', ev.latlng);
@@ -162,20 +165,18 @@ export class Map extends Component {
   // Identify
   addMapInformationControl() {
     L.Control.Watermark = L.Control.extend({
-      onAdd: function(map) {
-        let fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
+      onAdd: (map) => {
+        const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
         fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
         L.DomEvent.disableClickPropagation(fa);
         return fa;
       },
 
       // Nothing to do here
-      onRemove: function(map) {}
+      onRemove: (map) => {}
     });
 
-    L.control.watermark = function(opts) {
-        return new L.Control.Watermark(opts);
-    }
+    L.control.watermark = opts => new L.Control.Watermark(opts);
 
     L.control.watermark({ position: 'topleft' }).addTo(this.map);
   }
@@ -184,16 +185,19 @@ export class Map extends Component {
   // Literals pattern.
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
   replaceMapInfoValue(doc, type, values) {
-    let element = doc.getElementById(`${type}-score`);
+    const element = doc.getElementById(`${type}-score`);
     if (element !== undefined && element !== null) {
       element.textContent = values.label;
     }
   }
 
+  // TODO: Either generalize this so it isn't always background colot and color but instead
+  // an attribute/value pair. Or preferably make this use classes so we can have the colors
+  // be in css.
   addStyle(doc, type, values) {
-    let element = doc.getElementById(`${type}-score`);
+    const element = doc.getElementById(`${type}-score`);
     if (element !== undefined && element !== null) {
-      element.setAttribute('style', 'background-color: ' + values.backgroundColor + '; color: ' + values.color + ';');
+      element.setAttribute('style', `background-color: ${values.backgroundColor}; color: ${values.color};`);
     }
   }
 
@@ -206,48 +210,51 @@ export class Map extends Component {
     // remove previous marker point
     if (this.marker !== undefined) {
       this.map.removeLayer(this.marker);
-    };
+    }
 
     const mapClick = store.getStateItem('mapClick');
 
     if (!this.checkValidObject(mapClick)) {
-        return false;
+      return false;
     }
 
     // make call to lambda api.
-    const IndentifyJson = await this.IndentifyAPI.getIndentifySummary(mapClick.lat,mapClick.lng);
+    const IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
 
     // for testing without api
-    // const IndentifyJson = {"aquatic": 6,"tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
+    // const IdentifyJson = {"aquatic": 6,"tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
 
-    var myIcon = L.divIcon({className: 'map-info-point'});
+    const myIcon = L.divIcon({ className: 'map-info-point' });
 
-    this.marker = L.marker([mapClick.lat,mapClick.lng], {icon: myIcon});
+    this.marker = L.marker([mapClick.lat, mapClick.lng], { icon: myIcon });
     this.map.addLayer(this.marker);
 
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(mapInfoTemplate, 'text/html');
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(mapInfoTemplate, 'text/html');
 
-    //template needs responive info box.
-    for (var key in IndentifyJson) {
-      const styleItem = this.IndentifyAPI.getIndentifyItem(key, parseInt(IndentifyJson[key]));
+    // template needs responive info box.
+    Object.keys(IdentifyJson).forEach((key) => {
+      const styleItem = this.IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
 
       const templateValues = {
-        'name': key,
-        'backgroundColor': styleItem[0].backgroundColor,
-        'color': styleItem[0].color,
-        'label': styleItem[0].label
+        name: key,
+        backgroundColor: styleItem[0].backgroundColor,
+        color: styleItem[0].color,
+        label: styleItem[0].label
       };
 
       this.addStyle(doc, key, templateValues);
       this.replaceMapInfoValue(doc, key, templateValues);
-    }
+    });
 
-    let mapinformationel = doc.getElementById('map_info_list');
-    var tooltipContent = L.Util.template(mapinformationel.outerHTML);
+    const mapinformationel = doc.getElementById('map_info_list');
+    const tooltipContent = L.Util.template(mapinformationel.outerHTML);
 
-    //to do overide css popup for leaflet
-    this.marker.bindPopup(tooltipContent,{opacity: 0.9, autoPan: false, offset:L.point(-123,20)}).openPopup();
+    // TODO overide css popup for leaflet
+    this.marker.bindPopup(
+      tooltipContent,
+      { opacity: 0.9, autoPan: false, offset: L.point(-123, 20) }
+    ).openPopup();
   }
 
   shouldRestore(props) {
@@ -264,10 +271,10 @@ export class Map extends Component {
     const layer = this.overlayMaps[layerName];
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer);
-      mapDisplayLayersObj = {[layerName]: false};
+      mapDisplayLayersObj = { [layerName]: false };
     } else {
       this.map.addLayer(layer);
-      mapDisplayLayersObj = {[layerName]: true};
+      mapDisplayLayersObj = { [layerName]: true };
     }
     Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
     this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers);
@@ -280,9 +287,9 @@ export class Map extends Component {
 
   // TODO: Is this duplicated?
   saveStore(key, value) {
-    const storeObj = {[key]: value};
+    const storeObj = { [key]: value };
 
-    this.store = {...this.store, ...storeObj};
+    this.store = { ...this.store, ...storeObj };
     store.saveState(this.store);
   }
 
@@ -332,7 +339,7 @@ export class Map extends Component {
     }
 
     const latlng = L.latLng([value.lat, value.lng]);
-    this.map.fireEvent('click', {latlng: latlng});
+    this.map.fireEvent('click', { latlng: latlng });
     this.invalidateSize();
   }
 
@@ -347,9 +354,9 @@ export class Map extends Component {
    */
   setLayerStatus(value) {
     const layerToggleElement = document.getElementById(`${value}-toggle`);
-    var event = new Event('click');
+    const event = new Event('click');
     layerToggleElement.dispatchEvent(event);
-    layerToggleElement.checked = (layerToggleElement.checked) ? false : true;
+    layerToggleElement.checked = !layerToggleElement.checked;
   }
 
   /**
@@ -364,7 +371,7 @@ export class Map extends Component {
     // get last storage object
     store.setStateFromObject(this.restoreStateStore);
 
-    const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus','mapContainerPoint'];
+    const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus', 'mapContainerPoint'];
     const state = store.getState();
     const self = this;
 
@@ -383,23 +390,28 @@ export class Map extends Component {
     let mapLayerDisplayStatus = null;
 
     // iterate over the state objects and set the store variables
+    /**
+     * TODO: Replace map with forEach or equivalent function. The purpose of map
+     * is to iterate over each element in an array to create a new array. This is
+     * only iterating over each element in an array.
+     */
     mapStates.map((stateItem) => {
       const stateObj = state[stateItem];
 
-      if (stateItem === 'mapCenter') { mapCenter = stateObj; } //recenter from store
-      if (stateItem === 'mapClick') { mapClick = stateObj; } //map click from store
-      if (stateItem === 'mapZoom') { mapZoom = stateObj; } //reset map zoom from store
-      if (stateItem === 'mapLayerDisplayStatus') { mapLayerDisplayStatus = stateObj; } //set layer display
+      if (stateItem === 'mapCenter') { mapCenter = stateObj; } // recenter from store
+      if (stateItem === 'mapClick') { mapClick = stateObj; } // map click from store
+      if (stateItem === 'mapZoom') { mapZoom = stateObj; } // reset map zoom from store
+      if (stateItem === 'mapLayerDisplayStatus') { mapLayerDisplayStatus = stateObj; } // set layer display
     });
 
     // check the mapdisplay variable and toggle layers on when state
     // says to
     if (!mapLayerDisplayStatus !== null) {
-      for (var key in mapLayerDisplayStatus) {
+      Object.keys(mapLayerDisplayStatus).forEach((key) => {
         if (mapLayerDisplayStatus[key]) {
           this.setLayerStatus(key);
         }
-      }
+      });
     }
 
     // check the mapclick variable. if map clicked restore the state
@@ -417,7 +429,7 @@ export class Map extends Component {
     // handle zoom when only zoom object set
     if (this.checkValidObject(mapZoom) && !this.checkValidObject(mapCenter)) {
       self.setMapZoom(mapZoom);
-      //handle recenter when only mapCenter object set
+      // handle recenter when only mapCenter object set
     } else if (this.checkValidObject(mapCenter) && !this.checkValidObject(mapZoom)) {
       self.setMapCenter(mapCenter);
     }

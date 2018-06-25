@@ -4,6 +4,7 @@
 /******/ 		var chunkIds = data[0];
 /******/ 		var moreModules = data[1];
 /******/ 		var executeModules = data[2];
+/******/
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
 /******/ 		var moduleId, chunkId, i = 0, resolves = [];
@@ -20,6 +21,7 @@
 /******/ 			}
 /******/ 		}
 /******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
 /******/ 		while(resolves.length) {
 /******/ 			resolves.shift()();
 /******/ 		}
@@ -110,7 +112,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1531a8edc0eec77ab3b1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5006dc4499540241d526"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -160,7 +162,8 @@
 /******/ 		for (var name in __webpack_require__) {
 /******/ 			if (
 /******/ 				Object.prototype.hasOwnProperty.call(__webpack_require__, name) &&
-/******/ 				name !== "e"
+/******/ 				name !== "e" &&
+/******/ 				name !== "t"
 /******/ 			) {
 /******/ 				Object.defineProperty(fn, name, ObjectFactory(name));
 /******/ 			}
@@ -184,6 +187,10 @@
 /******/ 					}
 /******/ 				}
 /******/ 			}
+/******/ 		};
+/******/ 		fn.t = function(value, mode) {
+/******/ 			if (mode & 1) value = fn(value);
+/******/ 			return __webpack_require__.t(value, mode & ~1);
 /******/ 		};
 /******/ 		return fn;
 /******/ 	}
@@ -881,7 +888,7 @@ eval("\nvar content = __webpack_require__(/*! !../../node_modules/css-loader!../
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n__webpack_require__(/*! ../css/index.scss */ \"./src/css/index.scss\");\n\n// Bootstrap dependencies\n\nwindow.$ = window.jQuery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\"); // required for bootstrap\nwindow.Popper = __webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\"); // required for tooltip, popup...\n\n\n//scss\n// include bootstrap css file with own modifications\n\n\n// tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)\n// use tooltip and popover components everywhere\n$(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n  $('[data-toggle=\"popover\"]').popover();\n});\n\n//# sourceURL=webpack:///./src/scripts/bootstrap.js?");
+eval("\n\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n\n__webpack_require__(/*! ../css/index.scss */ \"./src/css/index.scss\");\n\n// required for bootstrap\n// Bootstrap dependencies\nwindow.$ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n// required for tooltip, popup...\nwindow.Popper = __webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n\nwindow.jQuery = window.$;\n\n// tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)\n// use tooltip and popover components everywhere\n$(function () {\n  $('[data-toggle=\"tooltip\"]').tooltip();\n  $('[data-toggle=\"popover\"]').popover();\n});\n\n//# sourceURL=webpack:///./src/scripts/bootstrap.js?");
 
 /***/ })
 

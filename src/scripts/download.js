@@ -1,18 +1,16 @@
-import { nav_bar } from './nav_bar'
-console.log(count)
-class ViewController {
+import { nav_bar } from './nav_bar';
 
-  /** Initialize Application */
-  constructor () {
-    this.initializeComponents()
+// console.log(count);
+class ViewController {
+  // Initialize Application
+  constructor() {
+    this.initializeComponents();
   }
 
-  initializeComponents () {
+  initializeComponents() {
     // Initialize Nav Var
     this.navComponent = new nav_bar('nav-holder');
-
   }
 }
 
-
-window.ctrl = new ViewController()
+window.ctrl = new ViewController();

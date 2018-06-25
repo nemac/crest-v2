@@ -33,7 +33,7 @@ export class Store {
   // Store. However it is pulling an unused and undeclared variable _state so it
   // probably just returns undefined.
   get Store() {
-     return this._state;
+    return this._state;
   }
 
   // Gets an individual item from the state
@@ -42,7 +42,7 @@ export class Store {
   // @return string || object
   getStateItem(item) {
     if (this.checkItem(item)) {
-      const currentState = this.getState("state");
+      const currentState = this.getState('state');
       const stateItem = currentState[item];
       return stateItem;
     }
@@ -56,11 +56,10 @@ export class Store {
   getState() {
     if (this.storageAvailable()) {
       if (this.isStateExists()) {
-        const currentStateStr = this.store["state"];
+        const currentStateStr = this.store.state;
         const currentState = JSON.parse(currentStateStr);
         return currentState;
       }
-      return {};
     }
     return {};
   }
@@ -73,11 +72,11 @@ export class Store {
   // @param state - object
   saveState(state) {
     if (this.storageAvailable()) {
-      const currentState = this.getState("state");
-      const newState = { ...currentState, ...state};
+      const currentState = this.getState('state');
+      const newState = { ...currentState, ...state };
       const newStateStr = JSON.stringify(newState);
 
-      this.store.setItem("state", newStateStr);
+      this.store.setItem('state', newStateStr);
     }
   }
 
@@ -88,7 +87,7 @@ export class Store {
   saveNewState(state) {
     if (this.storageAvailable()) {
       const newStateStr = JSON.stringify(state);
-      this.store.setItem("state", newStateStr);
+      this.store.setItem('state', newStateStr);
     }
   }
 
@@ -105,7 +104,7 @@ export class Store {
   // @param key - string
   // @param value - string
   addStateItem(key, value) {
-    var currentState = this.getState();
+    let currentState = this.getState();
     currentState[key] = value;
     const newStateObj = JSON.parse(JSON.stringify(currentState));
     this.saveNewState(newStateObj);
@@ -116,8 +115,8 @@ export class Store {
   // @param key - string
   // @param value - string
   setStoreItem(key, value) {
-    const storeObj = {[key]: value};
-    const newStateObj = {...this.getState(), ...storeObj};
+    const storeObj = { [key]: value };
+    const newStateObj = { ...this.getState(), ...storeObj };
     this.saveState(newStateObj);
   }
 
@@ -126,7 +125,7 @@ export class Store {
   // Removes the entire state from the browser.
   clearState() {
     if (this.storageAvailable()) {
-      this.store.removeItem("state");
+      this.store.removeItem('state');
     }
   }
 
@@ -134,7 +133,7 @@ export class Store {
   //
   // @param key - string
   removeStateItem(key) {
-    var currentState = this.getState();
+    let currentState = this.getState();
     currentState[key] = undefined;
     const newStateObj = JSON.parse(JSON.stringify(currentState));
     this.saveNewState(newStateObj);
@@ -148,25 +147,26 @@ export class Store {
   // @return boolean
   storageAvailable() {
     const type = 'localStorage';
+    let storage;
     try {
-      var storage = window[type],
-          x = '__storage_test__';
+      storage = window[type];
+      const x = '__storage_test__';
       storage.setItem(x, x);
       storage.removeItem(x);
       return true;
-    } catch(e) {
+    } catch (e) {
       return e instanceof DOMException && (
         // everything except Firefox
-        e.code === 22 ||
+        e.code === 22
         // Firefox
-        e.code === 1014 ||
+        || e.code === 1014
         // test name field too, because code might not be present
         // everything except Firefox
-        e.name === 'QuotaExceededError' ||
+        || e.name === 'QuotaExceededError'
         // Firefox
-        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+        || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
         // acknowledge QuotaExceededError only if there's something already stored
-        storage.length !== 0;
+        && storage.length !== 0;
     }
   }
 
@@ -175,12 +175,10 @@ export class Store {
   // @return boolean
   isStateExists() {
     if (this.storageAvailable()) {
-      const stateStr = this.store["state"];
+      const stateStr = this.store.state;
 
       if (stateStr) {
         return true;
-      } else {
-        return false;
       }
     }
     return false;
@@ -193,11 +191,9 @@ export class Store {
   // @return boolean
   isStateItemExist(item) {
     if (this.isStateExists()) {
-      const stateStr = this.store["state"];
+      const stateStr = this.store.state;
       if (stateStr.indexOf(item) > 0) {
         return true;
-      } else {
-        return false;
       }
     }
     return false;
@@ -209,11 +205,9 @@ export class Store {
   // @return boolean
   checkItem(item) {
     if (this.isStateExists()) {
-      const stateStr = this.store["state"];
-      if (typeof(stateStr) === "string" && stateStr.indexOf(item) > 0) {
+      const stateStr = this.store.state;
+      if (typeof (stateStr) === 'string' && stateStr.indexOf(item) > 0) {
         return true;
-      } else {
-        return false;
       }
     }
     return false;

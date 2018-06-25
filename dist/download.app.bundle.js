@@ -4,6 +4,7 @@
 /******/ 		var chunkIds = data[0];
 /******/ 		var moreModules = data[1];
 /******/ 		var executeModules = data[2];
+/******/
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
 /******/ 		var moduleId, chunkId, i = 0, resolves = [];
@@ -20,6 +21,7 @@
 /******/ 			}
 /******/ 		}
 /******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
 /******/ 		while(resolves.length) {
 /******/ 			resolves.shift()();
 /******/ 		}
@@ -110,7 +112,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1531a8edc0eec77ab3b1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5006dc4499540241d526"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -160,7 +162,8 @@
 /******/ 		for (var name in __webpack_require__) {
 /******/ 			if (
 /******/ 				Object.prototype.hasOwnProperty.call(__webpack_require__, name) &&
-/******/ 				name !== "e"
+/******/ 				name !== "e" &&
+/******/ 				name !== "t"
 /******/ 			) {
 /******/ 				Object.defineProperty(fn, name, ObjectFactory(name));
 /******/ 			}
@@ -184,6 +187,10 @@
 /******/ 					}
 /******/ 				}
 /******/ 			}
+/******/ 		};
+/******/ 		fn.t = function(value, mode) {
+/******/ 			if (mode & 1) value = fn(value);
+/******/ 			return __webpack_require__.t(value, mode & ~1);
 /******/ 		};
 /******/ 		return fn;
 /******/ 	}
@@ -859,7 +866,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _nav_bar = __webpack_require__(/*! ./nav_bar */ \"./src/scripts/nav_bar.js\");\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nconsole.log(count);\n\nvar ViewController = function () {\n\n  /** Initialize Application */\n  function ViewController() {\n    _classCallCheck(this, ViewController);\n\n    this.initializeComponents();\n  }\n\n  _createClass(ViewController, [{\n    key: 'initializeComponents',\n    value: function initializeComponents() {\n      // Initialize Nav Var\n      this.navComponent = new _nav_bar.nav_bar('nav-holder');\n    }\n  }]);\n\n  return ViewController;\n}();\n\nwindow.ctrl = new ViewController();\n\n//# sourceURL=webpack:///./src/scripts/download.js?");
+eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _nav_bar = __webpack_require__(/*! ./nav_bar */ \"./src/scripts/nav_bar.js\");\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n// console.log(count);\nvar ViewController = function () {\n  // Initialize Application\n  function ViewController() {\n    _classCallCheck(this, ViewController);\n\n    this.initializeComponents();\n  }\n\n  _createClass(ViewController, [{\n    key: 'initializeComponents',\n    value: function initializeComponents() {\n      // Initialize Nav Var\n      this.navComponent = new _nav_bar.nav_bar('nav-holder');\n    }\n  }]);\n\n  return ViewController;\n}();\n\nwindow.ctrl = new ViewController();\n\n//# sourceURL=webpack:///./src/scripts/download.js?");
 
 /***/ })
 
