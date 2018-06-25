@@ -349,7 +349,7 @@ export class Map extends Component {
     const layerToggleElement = document.getElementById(`${value}-toggle`);
     var event = new Event('click');
     layerToggleElement.dispatchEvent(event);
-    layerToggleElement.checked ? layerToggleElement.checked = false : layerToggleElement.checked = true;
+    layerToggleElement.checked = (layerToggleElement.checked) ? false : true;
   }
 
   /**
@@ -424,6 +424,13 @@ export class Map extends Component {
   }
 
   // ensure the object or variable is valid...
+  // TODO: This should probably be looking for positives rather than checking it
+  // isn't one of a few negatives. For example this will let booleans, malformed
+  // lat/long objects, arrays and floats through when it probably shouldn't. The
+  // code doesn't really say what a valid object is other than not undefined,
+  // null, empty arrays, empty objects and empty strings.
+  //
+  // @param obj - typeless
   checkValidObject(obj) {
     if (obj === undefined || obj === null) { return false; }
     if (typeof obj === 'object' && Object.keys(obj).length === 0) { return false; }
