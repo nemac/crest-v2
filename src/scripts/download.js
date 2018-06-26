@@ -1,4 +1,4 @@
-import { NavBar } from './nav_bar';
+import { NavBar } from './navBar';
 
 // console.log(count);
 class ViewController {

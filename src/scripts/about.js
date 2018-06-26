@@ -1,4 +1,4 @@
-import { NavBar } from './nav_bar';
+import { NavBar } from './navBar';
 
 class ViewController {
   /** Initialize Application */

@@ -9,7 +9,7 @@ import { Store } from './store';
 // import extended components
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
-import { NavBar } from './nav_bar';
+import { NavBar } from './navBar';
 
 // import html templates
 import AboutPage from '../templates/about.html';
