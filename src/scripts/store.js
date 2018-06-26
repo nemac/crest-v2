@@ -104,7 +104,7 @@ export class Store {
   // @param key - string
   // @param value - string
   addStateItem(key, value) {
-    let currentState = this.getState();
+    const currentState = this.getState();
     currentState[key] = value;
     const newStateObj = JSON.parse(JSON.stringify(currentState));
     this.saveNewState(newStateObj);
@@ -133,7 +133,7 @@ export class Store {
   //
   // @param key - string
   removeStateItem(key) {
-    let currentState = this.getState();
+    const currentState = this.getState();
     currentState[key] = undefined;
     const newStateObj = JSON.parse(JSON.stringify(currentState));
     this.saveNewState(newStateObj);
@@ -157,16 +157,16 @@ export class Store {
     } catch (e) {
       return e instanceof DOMException && (
         // everything except Firefox
-        e.code === 22
+        e.code === 22 ||
         // Firefox
-        || e.code === 1014
+        e.code === 1014 ||
         // test name field too, because code might not be present
         // everything except Firefox
-        || e.name === 'QuotaExceededError'
+        e.name === 'QuotaExceededError' ||
         // Firefox
-        || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
         // acknowledge QuotaExceededError only if there's something already stored
-        && storage.length !== 0;
+        storage.length !== 0;
     }
   }
 

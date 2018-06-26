@@ -341,7 +341,7 @@ export class Map extends Component {
     }
 
     const latlng = L.latLng([value.lat, value.lng]);
-    this.map.fireEvent('click', { latlng: latlng });
+    this.map.fireEvent('click', { latlng });
     this.invalidateSize();
   }
 
