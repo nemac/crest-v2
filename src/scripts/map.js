@@ -15,7 +15,7 @@ import { IdentifyAPI } from './indentifyAPI';
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
 // See github issue https://github.com/Esri/esri-leaflet-vector/issues/31 from tgirgin23
-import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
+import * as vector from '../vendor/esri/esri-leaflet-vector/EsriLeafletVector';
 
 // templates
 import mapTemplate from '../templates/map.html';
