@@ -1,6 +1,6 @@
 // default map template
-import nav_template from '../templates/nav_bar.html';
-import nav_bars_template from '../templates/nav_bar_nav.html';
+import navTemplate from '../templates/nav_bar.html';
+import navBarsTemplate from '../templates/nav_bar_nav.html';
 import { Component } from './components';
 
 import { navConfig } from '../config/navConfig';
@@ -13,7 +13,7 @@ import { toggleElementDisplay } from './domUtils';
  */
 export class NavBar extends Component {
   constructor(placeholderId, props) {
-    super(placeholderId, props, nav_template);
+    super(placeholderId, props, navTemplate);
 
     /**
      * get nav configuration
@@ -31,7 +31,7 @@ export class NavBar extends Component {
     let cnt = 1;
     navConfig.navs.map((nav) => {
       const navInnerHTML = navHeaderElement.innerHTML;
-      navHeaderElement.innerHTML = navInnerHTML + nav_bars_template;
+      navHeaderElement.innerHTML = navInnerHTML + navBarsTemplate;
 
       const navElement = document.getElementById('main-nav-page');
 

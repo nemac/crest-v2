@@ -1,5 +1,5 @@
 // default map template
-import maplayers_listTemplate from '../templates/maplayers_list.html';
+import maplayersListTemplate from '../templates/maplayers_list.html';
 
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
@@ -16,7 +16,7 @@ import '../css/maplayers_list.scss';
  */
 export class MapLayersList extends Component {
   constructor(placeholderId, props) {
-    super(placeholderId, props, maplayers_listTemplate);
+    super(placeholderId, props, maplayersListTemplate);
 
     const WMSLayers = mapConfig.TileLayers;
 
