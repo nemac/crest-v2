@@ -4,12 +4,7 @@
  *                   display state
  */
 export function toggleElementDisplay(thisEle, elements) {
-  /**
-   * TODO: Replace map with forEach or equivalent function. The purpose of map
-   * is to iterate over each element in an array to create a new array. This is
-   * only iterating over each element in an array.
-   */
-  elements.map((ele) => {
+  elements.forEach((ele) => {
     const name = ele.replace('main_nav_', '');
     const tabEle = document.querySelector(`[ref="tab-${name}"]`);
     const mapClass = tabEle.className;

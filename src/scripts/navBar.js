@@ -29,7 +29,7 @@ export class NavBar extends Component {
      *  iterate each nav and add it to the ui
      */
     let cnt = 1;
-    navConfig.navs.map((nav) => {
+    navConfig.navs.forEach((nav) => {
       const navInnerHTML = navHeaderElement.innerHTML;
       navHeaderElement.innerHTML = navInnerHTML + navBarsTemplate;
 
@@ -53,7 +53,7 @@ export class NavBar extends Component {
   }
 
   addTabClick() {
-    navConfig.navs.map((nav) => {
+    navConfig.navs.forEach((nav) => {
       const el = document.getElementById(nav.id);
       el.addEventListener('click', (e) => {
         NavBar.deactivateAllNavs();
@@ -74,7 +74,7 @@ export class NavBar extends Component {
   }
 
   static deactivateAllNavs() {
-    navConfig.navs.map((nav) => {
+    navConfig.navs.forEach((nav) => {
       const el = document.getElementById(nav.id);
       el.className = el.className.replace(' active', '');
     });
@@ -87,7 +87,7 @@ export class NavBar extends Component {
   }
 
   static resetTabContent() {
-    navConfig.navs.map((nav) => {
+    navConfig.navs.forEach((nav) => {
       const el = document.getElementById(`tab-${nav.id}`);
       el.className = el.className.replace(' d-none', '');
       el.className += ' d-none';

@@ -84,12 +84,7 @@ export class Map extends Component {
     };
 
     // Iterate over each wms map layer and add them to the map
-    /**
-     * TODO: Replace map with forEach or equivalent function. The purpose of map
-     * is to iterate over each element in an array to create a new array. This is
-     * only iterating over each element in an array.
-     */
-    WMSLayers.map((layer) => {
+    WMSLayers.forEach((layer) => {
       const tileLayer = L.tileLayer.wms(layer.url, {
         id: layer.id,
         layers: layer.layer,
@@ -392,12 +387,7 @@ export class Map extends Component {
     let mapLayerDisplayStatus = null;
 
     // iterate over the state objects and set the store variables
-    /**
-     * TODO: Replace map with forEach or equivalent function. The purpose of map
-     * is to iterate over each element in an array to create a new array. This is
-     * only iterating over each element in an array.
-     */
-    mapStates.map((stateItem) => {
+    mapStates.forEach((stateItem) => {
       const stateObj = state[stateItem];
 
       if (stateItem === 'mapCenter') { mapCenter = stateObj; } // recenter from store
