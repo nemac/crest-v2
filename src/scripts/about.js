@@ -1,4 +1,4 @@
-import { nav_bar } from './nav_bar';
+import { NavBar } from './nav_bar';
 
 class ViewController {
   /** Initialize Application */
@@ -8,7 +8,7 @@ class ViewController {
 
   initializeComponents() {
     // Initialize Nav Var
-    this.navComponent = new nav_bar('nav-holder', { activeNav: 'about' });
+    this.navComponent = new NavBar('nav-holder', { activeNav: 'about' });
     console.log(this.navComponent.activeNav);
   }
 }

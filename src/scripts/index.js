@@ -9,7 +9,7 @@ import { Store } from './store';
 // import extended components
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
-import { nav_bar } from './nav_bar';
+import { NavBar } from './nav_bar';
 
 // import html templates
 import AboutPage from '../templates/about.html';
@@ -17,7 +17,7 @@ import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 
 // initialize navbar
-const navbarComponent = new nav_bar('nav-holder');
+const navbarComponent = new NavBar('nav-holder');
 let mapComponent;
 let maplayersComponent;
 

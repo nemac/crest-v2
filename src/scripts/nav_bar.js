@@ -8,10 +8,10 @@ import { navConfig } from '../config/navConfig';
 import { toggleElementDisplay } from './domUtils';
 
 /**
- * nav_bar Component
+ * NavBar Component
  * Render and control map layer control
  */
-export class nav_bar extends Component {
+export class NavBar extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, nav_template);
 
