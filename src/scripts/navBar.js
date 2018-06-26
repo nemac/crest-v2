@@ -56,8 +56,8 @@ export class NavBar extends Component {
     navConfig.navs.map((nav) => {
       const el = document.getElementById(nav.id);
       el.addEventListener('click', (e) => {
-        this.deactivateAllNavs();
-        this.toggleTabContent(e.target.id);
+        NavBar.deactivateAllNavs();
+        NavBar.toggleTabContent(e.target.id);
         const ele = e.target;
         ele.className += ' active';
 
@@ -67,26 +67,26 @@ export class NavBar extends Component {
     });
   }
 
-  tabUpdate(id) {
-    this.deactivateAllNavs();
+  static tabUpdate(id) {
+    NavBar.deactivateAllNavs();
     const el = document.getElementById(id);
     el.className = `${el.className} active`;
   }
 
-  deactivateAllNavs() {
+  static deactivateAllNavs() {
     navConfig.navs.map((nav) => {
       const el = document.getElementById(nav.id);
       el.className = el.className.replace(' active', '');
     });
   }
 
-  toggleTabContent(id) {
-    this.resetTabContent();
+  static toggleTabContent(id) {
+    NavBar.resetTabContent();
     const el = document.getElementById(`tab-${id}`);
     el.className = el.className.replace(' d-none', '');
   }
 
-  resetTabContent() {
+  static resetTabContent() {
     navConfig.navs.map((nav) => {
       const el = document.getElementById(`tab-${nav.id}`);
       el.className = el.className.replace(' d-none', '');

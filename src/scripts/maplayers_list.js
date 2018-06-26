@@ -20,14 +20,14 @@ export class MapLayersList extends Component {
 
     const WMSLayers = mapConfig.TileLayers;
 
-    this.addOpenMapLayerListener();
-    this.addCloseMapLayerListener();
+    MapLayersList.addOpenMapLayerListener();
+    MapLayersList.addCloseMapLayerListener();
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
   }
 
-  addOpenMapLayerListener() {
+  static addOpenMapLayerListener() {
     const layerListCollapse = document.getElementById('maplayers_list_open');
     layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
     layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
@@ -43,7 +43,7 @@ export class MapLayersList extends Component {
     });
   }
 
-  addCloseMapLayerListener() {
+  static addCloseMapLayerListener() {
     const layerListClose = document.getElementById('maplayers_list_close');
     layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
     layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
@@ -65,7 +65,7 @@ export class MapLayersList extends Component {
     this.addLayerListListener(layerProps.id);
 
     // update label
-    this.updateLayerListName(layerProps.id, layerProps.label);
+    MapLayersList.updateLayerListName(layerProps.id, layerProps.label);
   }
 
   /**
@@ -75,7 +75,7 @@ export class MapLayersList extends Component {
    *   @param { string }  layer iname the layers name for the label text.
    *
    */
-  updateLayerListName(layerId, layerName) {
+  static updateLayerListName(layerId, layerName) {
     // get and update the layer's label
     const label = document.getElementById(`${layerId}-label`);
 

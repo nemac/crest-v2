@@ -54,7 +54,7 @@ export class Store {
   //
   // @return object
   getState() {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       if (this.isStateExists()) {
         const currentStateStr = this.store.state;
         const currentState = JSON.parse(currentStateStr);
@@ -71,7 +71,7 @@ export class Store {
   //
   // @param state - object
   saveState(state) {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       const currentState = this.getState('state');
       const newState = { ...currentState, ...state };
       const newStateStr = JSON.stringify(newState);
@@ -85,7 +85,7 @@ export class Store {
   //
   // @param state - object
   saveNewState(state) {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       const newStateStr = JSON.stringify(state);
       this.store.setItem('state', newStateStr);
     }
@@ -124,7 +124,7 @@ export class Store {
 
   // Removes the entire state from the browser.
   clearState() {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       this.store.removeItem('state');
     }
   }
@@ -145,7 +145,7 @@ export class Store {
   // Taken from https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
   //
   // @return boolean
-  storageAvailable() {
+  static storageAvailable() {
     const type = 'localStorage';
     let storage;
     try {
@@ -174,7 +174,7 @@ export class Store {
   //
   // @return boolean
   isStateExists() {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       const stateStr = this.store.state;
 
       if (stateStr) {

@@ -184,7 +184,7 @@ export class Map extends Component {
   // Note that the back-ticks are intentional. They use the new ES6 Template
   // Literals pattern.
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-  replaceMapInfoValue(doc, type, values) {
+  static replaceMapInfoValue(doc, type, values) {
     const element = doc.getElementById(`${type}-score`);
     if (element !== undefined && element !== null) {
       element.textContent = values.label;
@@ -194,7 +194,7 @@ export class Map extends Component {
   // TODO: Either generalize this so it isn't always background colot and color but instead
   // an attribute/value pair. Or preferably make this use classes so we can have the colors
   // be in css.
-  addStyle(doc, type, values) {
+  static addStyle(doc, type, values) {
     const element = doc.getElementById(`${type}-score`);
     if (element !== undefined && element !== null) {
       element.setAttribute('style', `background-color: ${values.backgroundColor}; color: ${values.color};`);
@@ -214,7 +214,7 @@ export class Map extends Component {
 
     const mapClick = store.getStateItem('mapClick');
 
-    if (!this.checkValidObject(mapClick)) {
+    if (!Map.checkValidObject(mapClick)) {
       return false;
     }
 
@@ -236,7 +236,7 @@ export class Map extends Component {
 
     // template needs responive info box.
     Object.keys(IdentifyJson).forEach((key) => {
-      const styleItem = this.IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
+      const styleItem = IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
 
       const templateValues = {
         name: key,
@@ -245,8 +245,8 @@ export class Map extends Component {
         label: styleItem[0].label
       };
 
-      this.addStyle(doc, key, templateValues);
-      this.replaceMapInfoValue(doc, key, templateValues);
+      Map.addStyle(doc, key, templateValues);
+      Map.replaceMapInfoValue(doc, key, templateValues);
     });
 
     const mapinformationel = doc.getElementById('map_info_list');
@@ -259,7 +259,7 @@ export class Map extends Component {
     ).openPopup();
   }
 
-  shouldRestore(props) {
+  static shouldRestore(props) {
     if (props === undefined || props.restore === undefined) {
       return false;
     }
@@ -304,7 +304,7 @@ export class Map extends Component {
    *   })
    */
   setMapCenter(value) {
-    if (this.checkValidObject(value)) {
+    if (Map.checkValidObject(value)) {
       return false;
     }
     this.map.panTo(value);
@@ -320,7 +320,7 @@ export class Map extends Component {
    *   })
    */
   setMapZoom(value) {
-    if (this.checkValidObject(value)) {
+    if (Map.checkValidObject(value)) {
       return false;
     }
     this.map.setZoom(value);
@@ -336,7 +336,7 @@ export class Map extends Component {
    *
    */
   setMapClick(value) {
-    if (this.checkValidObject(value)) {
+    if (Map.checkValidObject(value)) {
       return false;
     }
 
@@ -354,7 +354,7 @@ export class Map extends Component {
    *   })
    *
    */
-  setLayerStatus(value) {
+  static setLayerStatus(value) {
     const layerToggleElement = document.getElementById(`${value}-toggle`);
     const event = new Event('click');
     layerToggleElement.dispatchEvent(event);
@@ -411,28 +411,28 @@ export class Map extends Component {
     if (!mapLayerDisplayStatus !== null) {
       Object.keys(mapLayerDisplayStatus).forEach((key) => {
         if (mapLayerDisplayStatus[key]) {
-          this.setLayerStatus(key);
+          Map.setLayerStatus(key);
         }
       });
     }
 
     // check the mapclick variable. if map clicked restore the state
-    if (this.checkValidObject(mapClick)) {
+    if (Map.checkValidObject(mapClick)) {
       self.setMapClick(mapClick);
       this.retreiveMapClick();
       // this.invalidateSize();
     }
 
     // handle zoom and center set view for zoom and center when both state objects set
-    if (this.checkValidObject(mapZoom) && this.checkValidObject(mapCenter)) {
+    if (Map.checkValidObject(mapZoom) && Map.checkValidObject(mapCenter)) {
       self.map.setView(mapCenter, mapZoom);
     }
 
     // handle zoom when only zoom object set
-    if (this.checkValidObject(mapZoom) && !this.checkValidObject(mapCenter)) {
+    if (Map.checkValidObject(mapZoom) && !Map.checkValidObject(mapCenter)) {
       self.setMapZoom(mapZoom);
       // handle recenter when only mapCenter object set
-    } else if (this.checkValidObject(mapCenter) && !this.checkValidObject(mapZoom)) {
+    } else if (Map.checkValidObject(mapCenter) && !Map.checkValidObject(mapZoom)) {
       self.setMapCenter(mapCenter);
     }
   }
@@ -445,7 +445,7 @@ export class Map extends Component {
   // null, empty arrays, empty objects and empty strings.
   //
   // @param obj - typeless
-  checkValidObject(obj) {
+  static checkValidObject(obj) {
     if (obj === undefined || obj === null) { return false; }
     if (typeof obj === 'object' && Object.keys(obj).length === 0) { return false; }
     if (typeof obj === 'string' && obj.length === 0) { return false; }
