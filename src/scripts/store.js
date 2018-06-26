@@ -27,7 +27,7 @@ export class Store {
     // }
   }
 
-  //// GETTERS
+  // // GETTERS
 
   // As of 0a3106e this is probably intended to be used as a getter for the
   // Store. However it is pulling an unused and undeclared variable _state so it
@@ -64,7 +64,7 @@ export class Store {
     return {};
   }
 
-  //// SETTERS
+  // // SETTERS
 
   // Setter for the state to the Store, preserving any non-overwritten
   // properties in the Store.
@@ -120,7 +120,7 @@ export class Store {
     this.saveState(newStateObj);
   }
 
-  //// REMOVERS
+  // // REMOVERS
 
   // Removes the entire state from the browser.
   clearState() {
@@ -139,7 +139,7 @@ export class Store {
     this.saveNewState(newStateObj);
   }
 
-  //// UTILITIES
+  // // UTILITIES
 
   // Check if localStorage available.
   // Taken from https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API

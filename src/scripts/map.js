@@ -222,7 +222,9 @@ export class Map extends Component {
     const IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
 
     // for testing without api
-    // const IdentifyJson = {"aquatic": 6,"tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
+    // const IdentifyJson = {
+    // "aquatic": 6, "tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"
+    // };
 
     const myIcon = L.divIcon({ className: 'map-info-point' });
 
