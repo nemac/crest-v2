@@ -10,7 +10,7 @@ import '../css/_custom_leaflet.scss';
 
 // Import custom classess
 import { Store } from './store';
-import { IdentifyAPI } from './indentifyAPI';
+import { IdentifyAPI } from './identifyAPI';
 
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
