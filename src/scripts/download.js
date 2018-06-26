@@ -1,4 +1,4 @@
-import { nav_bar } from './nav_bar';
+import { NavBar } from './navBar';
 
 // console.log(count);
 class ViewController {
@@ -8,8 +8,8 @@ class ViewController {
   }
 
   initializeComponents() {
-    // Initialize Nav Var
-    this.navComponent = new nav_bar('nav-holder');
+    // Initialize Nav Bar
+    this.navComponent = new NavBar('nav-holder');
   }
 }
 

@@ -10,12 +10,12 @@ import '../css/_custom_leaflet.scss';
 
 // Import custom classess
 import { Store } from './store';
-import { IdentifyAPI } from './indentifyAPI';
+import { IdentifyAPI } from './identifyAPI';
 
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
 // See github issue https://github.com/Esri/esri-leaflet-vector/issues/31 from tgirgin23
-import * as vector from './utils/esri-leaflet-vector/EsriLeafletVector';
+import * as vector from '../vendor/esri/esri-leaflet-vector/EsriLeafletVector';
 
 // templates
 import mapTemplate from '../templates/map.html';
@@ -84,12 +84,7 @@ export class Map extends Component {
     };
 
     // Iterate over each wms map layer and add them to the map
-    /**
-     * TODO: Replace map with forEach or equivalent function. The purpose of map
-     * is to iterate over each element in an array to create a new array. This is
-     * only iterating over each element in an array.
-     */
-    WMSLayers.map((layer) => {
+    WMSLayers.forEach((layer) => {
       const tileLayer = L.tileLayer.wms(layer.url, {
         id: layer.id,
         layers: layer.layer,
@@ -184,7 +179,7 @@ export class Map extends Component {
   // Note that the back-ticks are intentional. They use the new ES6 Template
   // Literals pattern.
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-  replaceMapInfoValue(doc, type, values) {
+  static replaceMapInfoValue(doc, type, values) {
     const element = doc.getElementById(`${type}-score`);
     if (element !== undefined && element !== null) {
       element.textContent = values.label;
@@ -194,7 +189,7 @@ export class Map extends Component {
   // TODO: Either generalize this so it isn't always background colot and color but instead
   // an attribute/value pair. Or preferably make this use classes so we can have the colors
   // be in css.
-  addStyle(doc, type, values) {
+  static addStyle(doc, type, values) {
     const element = doc.getElementById(`${type}-score`);
     if (element !== undefined && element !== null) {
       element.setAttribute('style', `background-color: ${values.backgroundColor}; color: ${values.color};`);
@@ -214,7 +209,7 @@ export class Map extends Component {
 
     const mapClick = store.getStateItem('mapClick');
 
-    if (!this.checkValidObject(mapClick)) {
+    if (!Map.checkValidObject(mapClick)) {
       return false;
     }
 
@@ -222,7 +217,9 @@ export class Map extends Component {
     const IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
 
     // for testing without api
-    // const IdentifyJson = {"aquatic": 6,"tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"};
+    // const IdentifyJson = {
+    // "aquatic": 6, "tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"
+    // };
 
     const myIcon = L.divIcon({ className: 'map-info-point' });
 
@@ -234,7 +231,7 @@ export class Map extends Component {
 
     // template needs responive info box.
     Object.keys(IdentifyJson).forEach((key) => {
-      const styleItem = this.IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
+      const styleItem = IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
 
       const templateValues = {
         name: key,
@@ -243,8 +240,8 @@ export class Map extends Component {
         label: styleItem[0].label
       };
 
-      this.addStyle(doc, key, templateValues);
-      this.replaceMapInfoValue(doc, key, templateValues);
+      Map.addStyle(doc, key, templateValues);
+      Map.replaceMapInfoValue(doc, key, templateValues);
     });
 
     const mapinformationel = doc.getElementById('map_info_list');
@@ -257,7 +254,7 @@ export class Map extends Component {
     ).openPopup();
   }
 
-  shouldRestore(props) {
+  static shouldRestore(props) {
     if (props === undefined || props.restore === undefined) {
       return false;
     }
@@ -302,7 +299,7 @@ export class Map extends Component {
    *   })
    */
   setMapCenter(value) {
-    if (this.checkValidObject(value)) {
+    if (Map.checkValidObject(value)) {
       return false;
     }
     this.map.panTo(value);
@@ -318,7 +315,7 @@ export class Map extends Component {
    *   })
    */
   setMapZoom(value) {
-    if (this.checkValidObject(value)) {
+    if (Map.checkValidObject(value)) {
       return false;
     }
     this.map.setZoom(value);
@@ -334,12 +331,12 @@ export class Map extends Component {
    *
    */
   setMapClick(value) {
-    if (this.checkValidObject(value)) {
+    if (Map.checkValidObject(value)) {
       return false;
     }
 
     const latlng = L.latLng([value.lat, value.lng]);
-    this.map.fireEvent('click', { latlng: latlng });
+    this.map.fireEvent('click', { latlng });
     this.invalidateSize();
   }
 
@@ -352,7 +349,7 @@ export class Map extends Component {
    *   })
    *
    */
-  setLayerStatus(value) {
+  static setLayerStatus(value) {
     const layerToggleElement = document.getElementById(`${value}-toggle`);
     const event = new Event('click');
     layerToggleElement.dispatchEvent(event);
@@ -390,12 +387,7 @@ export class Map extends Component {
     let mapLayerDisplayStatus = null;
 
     // iterate over the state objects and set the store variables
-    /**
-     * TODO: Replace map with forEach or equivalent function. The purpose of map
-     * is to iterate over each element in an array to create a new array. This is
-     * only iterating over each element in an array.
-     */
-    mapStates.map((stateItem) => {
+    mapStates.forEach((stateItem) => {
       const stateObj = state[stateItem];
 
       if (stateItem === 'mapCenter') { mapCenter = stateObj; } // recenter from store
@@ -409,28 +401,28 @@ export class Map extends Component {
     if (!mapLayerDisplayStatus !== null) {
       Object.keys(mapLayerDisplayStatus).forEach((key) => {
         if (mapLayerDisplayStatus[key]) {
-          this.setLayerStatus(key);
+          Map.setLayerStatus(key);
         }
       });
     }
 
     // check the mapclick variable. if map clicked restore the state
-    if (this.checkValidObject(mapClick)) {
+    if (Map.checkValidObject(mapClick)) {
       self.setMapClick(mapClick);
       this.retreiveMapClick();
       // this.invalidateSize();
     }
 
     // handle zoom and center set view for zoom and center when both state objects set
-    if (this.checkValidObject(mapZoom) && this.checkValidObject(mapCenter)) {
+    if (Map.checkValidObject(mapZoom) && Map.checkValidObject(mapCenter)) {
       self.map.setView(mapCenter, mapZoom);
     }
 
     // handle zoom when only zoom object set
-    if (this.checkValidObject(mapZoom) && !this.checkValidObject(mapCenter)) {
+    if (Map.checkValidObject(mapZoom) && !Map.checkValidObject(mapCenter)) {
       self.setMapZoom(mapZoom);
       // handle recenter when only mapCenter object set
-    } else if (this.checkValidObject(mapCenter) && !this.checkValidObject(mapZoom)) {
+    } else if (Map.checkValidObject(mapCenter) && !Map.checkValidObject(mapZoom)) {
       self.setMapCenter(mapCenter);
     }
   }
@@ -443,7 +435,7 @@ export class Map extends Component {
   // null, empty arrays, empty objects and empty strings.
   //
   // @param obj - typeless
-  checkValidObject(obj) {
+  static checkValidObject(obj) {
     if (obj === undefined || obj === null) { return false; }
     if (typeof obj === 'object' && Object.keys(obj).length === 0) { return false; }
     if (typeof obj === 'string' && obj.length === 0) { return false; }

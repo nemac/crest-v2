@@ -37,7 +37,7 @@ export class IdentifyAPI {
     };
   }
 
-  getIdentifyItem(item, value) {
+  static getIdentifyItem(item, value) {
     let filteredItems = [{
       layer: item,
       value: 255,

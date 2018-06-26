@@ -27,7 +27,7 @@ export class Store {
     // }
   }
 
-  //// GETTERS
+  // // GETTERS
 
   // As of 0a3106e this is probably intended to be used as a getter for the
   // Store. However it is pulling an unused and undeclared variable _state so it
@@ -54,7 +54,7 @@ export class Store {
   //
   // @return object
   getState() {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       if (this.isStateExists()) {
         const currentStateStr = this.store.state;
         const currentState = JSON.parse(currentStateStr);
@@ -64,14 +64,14 @@ export class Store {
     return {};
   }
 
-  //// SETTERS
+  // // SETTERS
 
   // Setter for the state to the Store, preserving any non-overwritten
   // properties in the Store.
   //
   // @param state - object
   saveState(state) {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       const currentState = this.getState('state');
       const newState = { ...currentState, ...state };
       const newStateStr = JSON.stringify(newState);
@@ -85,7 +85,7 @@ export class Store {
   //
   // @param state - object
   saveNewState(state) {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       const newStateStr = JSON.stringify(state);
       this.store.setItem('state', newStateStr);
     }
@@ -104,7 +104,7 @@ export class Store {
   // @param key - string
   // @param value - string
   addStateItem(key, value) {
-    let currentState = this.getState();
+    const currentState = this.getState();
     currentState[key] = value;
     const newStateObj = JSON.parse(JSON.stringify(currentState));
     this.saveNewState(newStateObj);
@@ -120,11 +120,11 @@ export class Store {
     this.saveState(newStateObj);
   }
 
-  //// REMOVERS
+  // // REMOVERS
 
   // Removes the entire state from the browser.
   clearState() {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       this.store.removeItem('state');
     }
   }
@@ -133,19 +133,19 @@ export class Store {
   //
   // @param key - string
   removeStateItem(key) {
-    let currentState = this.getState();
+    const currentState = this.getState();
     currentState[key] = undefined;
     const newStateObj = JSON.parse(JSON.stringify(currentState));
     this.saveNewState(newStateObj);
   }
 
-  //// UTILITIES
+  // // UTILITIES
 
   // Check if localStorage available.
   // Taken from https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
   //
   // @return boolean
-  storageAvailable() {
+  static storageAvailable() {
     const type = 'localStorage';
     let storage;
     try {
@@ -157,16 +157,16 @@ export class Store {
     } catch (e) {
       return e instanceof DOMException && (
         // everything except Firefox
-        e.code === 22
+        e.code === 22 ||
         // Firefox
-        || e.code === 1014
+        e.code === 1014 ||
         // test name field too, because code might not be present
         // everything except Firefox
-        || e.name === 'QuotaExceededError'
+        e.name === 'QuotaExceededError' ||
         // Firefox
-        || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
         // acknowledge QuotaExceededError only if there's something already stored
-        && storage.length !== 0;
+        storage.length !== 0;
     }
   }
 
@@ -174,7 +174,7 @@ export class Store {
   //
   // @return boolean
   isStateExists() {
-    if (this.storageAvailable()) {
+    if (Store.storageAvailable()) {
       const stateStr = this.store.state;
 
       if (stateStr) {

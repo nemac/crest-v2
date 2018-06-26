@@ -1,6 +1,6 @@
 // default map template
-import nav_template from '../templates/nav_bar.html';
-import nav_bars_template from '../templates/nav_bar_nav.html';
+import navTemplate from '../templates/nav_bar.html';
+import navBarsTemplate from '../templates/nav_bar_nav.html';
 import { Component } from './components';
 
 import { navConfig } from '../config/navConfig';
@@ -8,12 +8,12 @@ import { navConfig } from '../config/navConfig';
 import { toggleElementDisplay } from './domUtils';
 
 /**
- * nav_bar Component
+ * NavBar Component
  * Render and control map layer control
  */
-export class nav_bar extends Component {
+export class NavBar extends Component {
   constructor(placeholderId, props) {
-    super(placeholderId, props, nav_template);
+    super(placeholderId, props, navTemplate);
 
     /**
      * get nav configuration
@@ -29,9 +29,9 @@ export class nav_bar extends Component {
      *  iterate each nav and add it to the ui
      */
     let cnt = 1;
-    navConfig.navs.map((nav) => {
+    navConfig.navs.forEach((nav) => {
       const navInnerHTML = navHeaderElement.innerHTML;
-      navHeaderElement.innerHTML = navInnerHTML + nav_bars_template;
+      navHeaderElement.innerHTML = navInnerHTML + navBarsTemplate;
 
       const navElement = document.getElementById('main-nav-page');
 
@@ -53,11 +53,11 @@ export class nav_bar extends Component {
   }
 
   addTabClick() {
-    navConfig.navs.map((nav) => {
+    navConfig.navs.forEach((nav) => {
       const el = document.getElementById(nav.id);
       el.addEventListener('click', (e) => {
-        this.deactivateAllNavs();
-        this.toggleTabContent(e.target.id);
+        NavBar.deactivateAllNavs();
+        NavBar.toggleTabContent(e.target.id);
         const ele = e.target;
         ele.className += ' active';
 
@@ -67,27 +67,27 @@ export class nav_bar extends Component {
     });
   }
 
-  tabUpdate(id) {
-    this.deactivateAllNavs();
+  static tabUpdate(id) {
+    NavBar.deactivateAllNavs();
     const el = document.getElementById(id);
     el.className = `${el.className} active`;
   }
 
-  deactivateAllNavs() {
-    navConfig.navs.map((nav) => {
+  static deactivateAllNavs() {
+    navConfig.navs.forEach((nav) => {
       const el = document.getElementById(nav.id);
       el.className = el.className.replace(' active', '');
     });
   }
 
-  toggleTabContent(id) {
-    this.resetTabContent();
+  static toggleTabContent(id) {
+    NavBar.resetTabContent();
     const el = document.getElementById(`tab-${id}`);
     el.className = el.className.replace(' d-none', '');
   }
 
-  resetTabContent() {
-    navConfig.navs.map((nav) => {
+  static resetTabContent() {
+    navConfig.navs.forEach((nav) => {
       const el = document.getElementById(`tab-${nav.id}`);
       el.className = el.className.replace(' d-none', '');
       el.className += ' d-none';

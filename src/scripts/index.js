@@ -9,7 +9,7 @@ import { Store } from './store';
 // import extended components
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
-import { nav_bar } from './nav_bar';
+import { NavBar } from './navBar';
 
 // import html templates
 import AboutPage from '../templates/about.html';
@@ -17,7 +17,7 @@ import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 
 // initialize navbar
-const navbarComponent = new nav_bar('nav-holder');
+const navbarComponent = new NavBar('nav-holder');
 let mapComponent;
 let maplayersComponent;
 
@@ -66,9 +66,9 @@ router.on({
     }
 
     // deal with nav bars so back button is not broken
-    navbarComponent.resetTabContent();
-    navbarComponent.toggleTabContent('main-nav-map');
-    navbarComponent.tabUpdate('main-nav-map');
+    NavBar.resetTabContent();
+    NavBar.toggleTabContent('main-nav-map');
+    NavBar.tabUpdate('main-nav-map');
 
     // restore only if first render
     if (mapComponent.renderCount === 0) {
@@ -93,9 +93,9 @@ router.on({
     }
 
     // deal with nav bars so back button is not broken
-    navbarComponent.resetTabContent();
-    navbarComponent.toggleTabContent('main-nav-map');
-    navbarComponent.tabUpdate('main-nav-map');
+    NavBar.resetTabContent();
+    NavBar.toggleTabContent('main-nav-map');
+    NavBar.tabUpdate('main-nav-map');
 
     if (mapComponent.renderCount === 0) {
       mapComponent.restoreMapState();
@@ -108,18 +108,18 @@ router.on({
   },
   '/About': (params, query) => {
     // deal with nav bars so back button is not broken
-    navbarComponent.resetTabContent();
-    navbarComponent.toggleTabContent('main-nav-about');
-    navbarComponent.tabUpdate('main-nav-about');
+    NavBar.resetTabContent();
+    NavBar.toggleTabContent('main-nav-about');
+    NavBar.tabUpdate('main-nav-about');
 
     const componentElem = document.getElementById('about-holder');
     componentElem.innerHTML = AboutPage;
   },
   '/Download': (params, query) => {
     // deal with nav bars so back button is not broken
-    navbarComponent.resetTabContent();
-    navbarComponent.toggleTabContent('main-nav-download');
-    navbarComponent.tabUpdate('main-nav-download');
+    NavBar.resetTabContent();
+    NavBar.toggleTabContent('main-nav-download');
+    NavBar.tabUpdate('main-nav-download');
 
     const componentElem = document.getElementById('download-holder');
     componentElem.innerHTML = DownloadDataPage;
@@ -132,8 +132,8 @@ router.notFound((query) => {
   this.componentElem = document.getElementById('notfound-holder');
   this.componentElem.innerHTML = NotFoundPage;
 
-  navbarComponent.resetTabContent();
-  navbarComponent.toggleTabContent('main-nav-notfound');
+  NavBar.resetTabContent();
+  NavBar.toggleTabContent('main-nav-notfound');
 });
 
 router.resolve();
