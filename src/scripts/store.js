@@ -1,4 +1,4 @@
-import {StorageAPI} from './localStorageAPI';
+import { StorageAPI } from './localStorageAPI';
 
 /**
  * This component is intended to handle the storage and retrieval of the state of
@@ -62,7 +62,7 @@ export class Store {
   saveState(state) {
     const currentState = this.getState();
     const newState = { ...currentState, ...state };
-    this.store.setState(newState)
+    this.store.setState(newState);
   }
 
   // Setter for the state to the Store, overriding any non-overwritten
