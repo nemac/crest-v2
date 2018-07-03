@@ -116,41 +116,45 @@ export class Map extends Component {
     const mapClick = store.getStateItem('mapClick');
   }
 
+  saveMapPosition() {
+    this.saveStore('mapCenter', this.map.getCenter());
+    this.saveStore('mapZoom', this.map.getZoom());
+  }
+
+  saveAction(type) {
+    this.saveStore('lastaction', type);
+  }
+
   // Add map listeners in function so we can call it from index or setup and we
   // only update state store after map is intialized.
   addMapEventListners() {
     const self = this;
 
     this.map.on('moveend', (event) => {
-      self.saveStore('mapCenter', self.map.getCenter());
-      self.saveStore('mapZoom', self.map.getZoom());
-      self.saveStore('lastaction', 'moveend');
+      this.saveMapPosition();
+      this.saveAction('moveend');
     });
 
     this.map.on('zoomend', (event) => {
-      self.saveStore('mapCenter', self.map.getCenter());
-      self.saveStore('mapZoom', self.map.getZoom());
-      self.saveStore('lastaction', 'zoomend');
+      this.saveMapPosition();
+      this.saveAction('zoomend');
     });
 
     this.map.on('dblclick', (event) => {
-      self.saveStore('mapCenter', self.map.getCenter());
-      self.saveStore('mapZoom', self.map.getZoom());
-      self.saveStore('lastaction', 'dblclick');
+      this.saveMapPosition();
+      this.saveAction('dblclick');
     });
 
     this.map.on('keypress', (event) => {
-      self.saveStore('mapCenter', self.map.getCenter());
-      self.saveStore('mapZoom', self.map.getZoom());
-      self.saveStore('lastaction', 'keypress');
+      this.saveMapPosition();
+      this.saveAction('keypress');
     });
 
     // click
     this.map.on('click', (ev) => {
-      self.saveStore('mapCenter', self.map.getCenter());
-      self.saveStore('mapZoom', self.map.getZoom());
+      this.saveMapPosition();
+      this.saveAction('click');
       self.saveStore('mapClick', ev.latlng);
-      self.saveStore('lastaction', 'click');
       if (ev.containerPoint !== undefined) {
         self.retreiveMapClick();
       }
@@ -418,11 +422,11 @@ export class Map extends Component {
       self.map.setView(mapCenter, mapZoom);
     }
 
-    // handle zoom when only zoom object set
     if (Map.checkValidObject(mapZoom) && !Map.checkValidObject(mapCenter)) {
+      // handle zoom when only zoom object set
       self.setMapZoom(mapZoom);
-      // handle recenter when only mapCenter object set
     } else if (Map.checkValidObject(mapCenter) && !Map.checkValidObject(mapZoom)) {
+      // handle recenter when only mapCenter object set
       self.setMapCenter(mapCenter);
     }
   }

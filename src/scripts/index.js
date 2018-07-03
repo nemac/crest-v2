@@ -6,6 +6,8 @@ import regular from '@fortawesome/fontawesome-free-regular';
 
 // import custom classess
 import { Store } from './store';
+import { URL } from './url';
+
 // import extended components
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
@@ -18,15 +20,74 @@ import NotFoundPage from '../templates/notfound.html';
 
 // initialize navbar
 const navbarComponent = new NavBar('nav-holder');
+const store = new Store({});
+new URL();
+
 let mapComponent;
 let maplayersComponent;
-
-const store = new Store({});
-
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
 if (homeloc === 'https://nemac.github.io') {
   homeloc += '/NFWF_tool/dist';
+}
+
+// Creates a new Leaflet Map in the target DOM element
+//
+// @param selector - string DOM selector
+// Closes over global import Map
+function initMap(selector) {
+  return new Map(selector);
+}
+
+// Creates a new Leaflet Map in the target DOM element
+//
+// @param map - instantiated element of class Map
+// @param selector - string DOM selector
+// Closes over global import MapLayersList
+function initMapLayerList(map, selector) {
+  return new MapLayersList(selector, {
+    events: {
+      layerToggle: (event) => { map.toggleLayer(event.detail); }
+    }
+  });
+}
+
+// Creates the entire map component
+//
+// Closes over global import Map
+function initMapComponent() {
+  if (mapComponent === undefined) {
+    mapComponent = initMap('map-holder');
+    maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
+  }
+
+  // restore only if first render
+  if (mapComponent.renderCount === 0) {
+    mapComponent.restoreMapState();
+  }
+  mapComponent.renderCount += 1;
+
+  // delay listners unitll after setup
+  mapComponent.addMapEventListners(mapComponent.map);
+}
+
+// deal with nav bars so back button is not broken
+//
+// @param selector - string DOM selector
+// Closes over global import NavBar
+function setNavBars(selector) {
+  NavBar.resetTabContent();
+  NavBar.toggleTabContent(selector);
+  NavBar.tabUpdate(selector);
+}
+
+// Initializes the static pages by inserting the rendered template into the selected DOM element
+//
+// @param selector - string DOM selector
+// @param template - HTML template
+function initStaticPage(selector, template) {
+  const componentElem = document.getElementById(selector);
+  componentElem.innerHTML = template;
 }
 
 const router = new Navigo(homeloc, true);
@@ -54,86 +115,30 @@ maintitleElement.addEventListener('click', (e) => {
 
 router.on({
   '/': (params, query) => {
-    if (mapComponent === undefined) {
-      mapComponent = new Map('map-holder');
-
-      maplayersComponent = new MapLayersList('maplayers_list-holder', {
-        events: {
-          // Toggle layer in map controller on "layerToggle" event
-          layerToggle: (event) => { mapComponent.toggleLayer(event.detail); }
-        }
-      });
-    }
-
-    // deal with nav bars so back button is not broken
-    NavBar.resetTabContent();
-    NavBar.toggleTabContent('main-nav-map');
-    NavBar.tabUpdate('main-nav-map');
-
-    // restore only if first render
-    if (mapComponent.renderCount === 0) {
-      mapComponent.restoreMapState();
-    }
-    mapComponent.renderCount += 1;
-    const mapCenter = store.getStateItem('mapCenter');
-
-    // delay listners unitll after setup
-    mapComponent.addMapEventListners(mapComponent.map);
+    setNavBars('main-nav-map');
+    initMapComponent();
   },
   '/Home': (params, query) => {
-    if (mapComponent === undefined) {
-      mapComponent = new Map('map-holder');
-
-      maplayersComponent = new MapLayersList('maplayers_list-holder', {
-        // Toggle layer in map controller on "layerToggle" event
-        events: {
-          layerToggle: (event) => { mapComponent.toggleLayer(event.detail); }
-        }
-      });
-    }
-
-    // deal with nav bars so back button is not broken
-    NavBar.resetTabContent();
-    NavBar.toggleTabContent('main-nav-map');
-    NavBar.tabUpdate('main-nav-map');
-
-    if (mapComponent.renderCount === 0) {
-      mapComponent.restoreMapState();
-    }
-    mapComponent.renderCount += 1;
-    const mapCenter = store.getStateItem('mapCenter');
-
-    // delay listners unitll after setup
-    mapComponent.addMapEventListners(mapComponent.map);
+    setNavBars('main-nav-map');
+    initMapComponent();
   },
   '/About': (params, query) => {
-    // deal with nav bars so back button is not broken
-    NavBar.resetTabContent();
-    NavBar.toggleTabContent('main-nav-about');
-    NavBar.tabUpdate('main-nav-about');
-
-    const componentElem = document.getElementById('about-holder');
-    componentElem.innerHTML = AboutPage;
+    setNavBars('main-nav-about');
+    initStaticPage('about-holder', AboutPage);
   },
   '/Download': (params, query) => {
-    // deal with nav bars so back button is not broken
-    NavBar.resetTabContent();
-    NavBar.toggleTabContent('main-nav-download');
-    NavBar.tabUpdate('main-nav-download');
-
-    const componentElem = document.getElementById('download-holder');
-    componentElem.innerHTML = DownloadDataPage;
+    setNavBars('main-nav-download');
+    initStaticPage('download-holder', DownloadDataPage);
   }
 });
 
 // implement later need to make the tab content area dynamic also
 router.notFound((query) => {
-  // initialize 404
-  this.componentElem = document.getElementById('notfound-holder');
-  this.componentElem.innerHTML = NotFoundPage;
-
   NavBar.resetTabContent();
   NavBar.toggleTabContent('main-nav-notfound');
+
+  // initialize 404
+  initStaticPage('notfound-holder', NotFoundPage);
 });
 
 router.resolve();
