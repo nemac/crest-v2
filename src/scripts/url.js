@@ -14,7 +14,7 @@ export class URL {
 
   static updateURL(url) {
     if (window.history && window.history.replaceState) {
-      window.history.replaceState({}, "", url);
+      window.history.replaceState({}, '', url);
     }
   }
 
@@ -23,7 +23,7 @@ export class URL {
   }
 
   setUrl() {
-    let state = this.encodeStateString();
+    const state = this.encodeStateString();
     URL.updateURL(`?state=${state}`);
   }
 
@@ -32,12 +32,12 @@ export class URL {
   }
 
   static getStateFromURL() {
-    let url = URL.getUrl().substring(1);
+    const url = URL.getUrl().substring(1);
     let state = '';
     url.split('&').forEach((param) => {
       const args = param.split('=');
       if (args[0] === 'state') {
-        state = args[1];
+        [, state] = args;
       }
     });
 
