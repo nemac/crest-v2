@@ -12,6 +12,14 @@ export class StorageAPI {
     if (StorageAPI.storageAvailable()) {
       this.storage = window.localStorage;
     }
+    // We need this custom event since browsers do not generally dispatch the 'storage' event most
+    // of the time. They only tend to fire it when you have the same tab open in two windows and
+    // one tab changes the localStorage.
+    this.storageEvent = new CustomEvent('storages');
+  }
+
+  dispatchStorageEvent() {
+    window.dispatchEvent(this.storageEvent);
   }
 
   // Gets an item from the storage provider, primarily used later in the composed functions
@@ -42,6 +50,7 @@ export class StorageAPI {
   // @param value | string
   setItem(key = '', value = '') {
     this.storage.setItem(key, value);
+    this.dispatchStorageEvent();
   }
 
   // Sets a new state string state, should be a stringified object
@@ -64,6 +73,7 @@ export class StorageAPI {
   // @param key | string
   removeItem(key = '') {
     this.storage.removeItem(key);
+    this.dispatchStorageEvent();
   }
 
   // Removes the current state from the store
@@ -74,6 +84,10 @@ export class StorageAPI {
   // Checks if the state exists in the storage provider
   checkStateExists() {
     return this.getItem(STATE_KEY) ? true : false;
+  }
+
+  static listenForStateChange(handler) {
+    window.addEventListener('storages', handler);
   }
 
   // Check if localStorage available.

@@ -6,6 +6,8 @@ import regular from '@fortawesome/fontawesome-free-regular';
 
 // import custom classess
 import { Store } from './store';
+import { URL } from './url';
+
 // import extended components
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
@@ -19,6 +21,7 @@ import NotFoundPage from '../templates/notfound.html';
 // initialize navbar
 const navbarComponent = new NavBar('nav-holder');
 const store = new Store({});
+new URL();
 
 let mapComponent;
 let maplayersComponent;
