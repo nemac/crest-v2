@@ -1,8 +1,8 @@
 // import dependencies
 import Navigo from 'navigo';
-// import fontawesome from '@fortawesome/fontawesome';
-// import solid from '@fortawesome/fontawesome-free-solid';
-// import regular from '@fortawesome/fontawesome-free-regular';
+import fontawesome from '@fortawesome/fontawesome';
+import solid from '@fortawesome/fontawesome-free-solid';
+import regular from '@fortawesome/fontawesome-free-regular';
 
 // import custom classess
 import { Store } from './store';
@@ -20,7 +20,6 @@ import NotFoundPage from '../templates/notfound.html';
 
 // initialize navbar
 const navBarComponent = new NavBar('nav-holder');
-const store = new Store({});
 new URL();
 
 let mapComponent;
@@ -94,24 +93,25 @@ const router = new Navigo(homeloc, true);
 
 // TODO: make the tab content area dynamic also similar to the nav tabs
 
-// examples of coded map interactions
-const maintitleElement = document.getElementById('maintitle');
-maintitleElement.addEventListener('click', (e) => {
-  // mapComponent.setLayerStatus('SA_ThreatIndex');
-  // mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
-  // mapComponent.setMapZoom(5);
-  // mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
-  // console.log('test')
-  // mapComponent.clearState();
-  // console.log(store.clearState())
-  // console.log(store.getStateItem("mapClick"))
-  // console.log(mapComponent.restoreMapState())
-  // mapComponent.setStateFromObject(store.getState())
-  // console.log(store.getStateItem('mapLayerDisplayStatus'))
-  // console.log(store.removeStateItem('mapClick'));
-  // console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
-  // console.log()
-});
+// examples of coded map interactions for testing
+// const maintitleElement = document.getElementById('maintitle');
+// maintitleElement.addEventListener('click', (e) => {
+//   const store = new Store({});
+//   mapComponent.setLayerStatus('SA_ThreatIndex');
+//   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
+//   mapComponent.setMapZoom(5);
+//   mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
+//   console.log('test')
+//   mapComponent.clearState();
+//   console.log(store.clearState())
+//   console.log(store.getStateItem("mapClick"))
+//   console.log(mapComponent.restoreMapState())
+//   mapComponent.setStateFromObject(store.getState())
+//   console.log(store.getStateItem('mapLayerDisplayStatus'))
+//   console.log(store.removeStateItem('mapClick'));
+//   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
+//   console.log()
+// });
 
 router.on({
   '/': (params, query) => {
