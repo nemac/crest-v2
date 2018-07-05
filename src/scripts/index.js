@@ -1,8 +1,8 @@
 // import dependencies
 import Navigo from 'navigo';
-import fontawesome from '@fortawesome/fontawesome';
-import solid from '@fortawesome/fontawesome-free-solid';
-import regular from '@fortawesome/fontawesome-free-regular';
+// import fontawesome from '@fortawesome/fontawesome';
+// import solid from '@fortawesome/fontawesome-free-solid';
+// import regular from '@fortawesome/fontawesome-free-regular';
 
 // import custom classess
 import { Store } from './store';
@@ -19,7 +19,7 @@ import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 
 // initialize navbar
-const navbarComponent = new NavBar('nav-holder');
+const navBarComponent = new NavBar('nav-holder');
 const store = new Store({});
 new URL();
 

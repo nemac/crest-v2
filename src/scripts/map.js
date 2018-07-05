@@ -256,6 +256,8 @@ export class Map extends Component {
       tooltipContent,
       { opacity: 0.9, autoPan: false, offset: L.point(-123, 20) }
     ).openPopup();
+
+    return true;
   }
 
   static shouldRestore(props) {
@@ -308,6 +310,8 @@ export class Map extends Component {
     }
     this.map.panTo(value);
     this.invalidateSize();
+
+    return true;
   }
 
   /**
@@ -324,6 +328,8 @@ export class Map extends Component {
     }
     this.map.setZoom(value);
     this.invalidateSize();
+
+    return true;
   }
 
   /**
@@ -342,6 +348,8 @@ export class Map extends Component {
     const latlng = L.latLng([value.lat, value.lng]);
     this.map.fireEvent('click', { latlng });
     this.invalidateSize();
+
+    return true;
   }
 
   /**
@@ -429,6 +437,8 @@ export class Map extends Component {
       // handle recenter when only mapCenter object set
       self.setMapCenter(mapCenter);
     }
+
+    return true;
   }
 
   // ensure the object or variable is valid...

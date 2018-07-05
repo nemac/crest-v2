@@ -9,7 +9,6 @@ export function toggleElementDisplay(thisEle, elements) {
     const tabEle = document.querySelector(`[ref="tab-${name}"]`);
     const mapClass = tabEle.className;
     const newMapClass = mapClass + (mapClass.indexOf(' d-none') > 0) ? ' ' : 'd-none';
-    console.log(name, newMapClass);
 
     tabEle.className = newMapClass;
   });
