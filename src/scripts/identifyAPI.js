@@ -2,7 +2,7 @@ import { CancelToken, get } from 'axios';
 
 import { identifyConfig } from '../config/identifyConfig';
 
-const apiEndpoint = 'https://3kmdsrwopk.execute-api.us-east-1.amazonaws.com/';
+const apiEndpoint = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/';
 const identifyPath = 'Prod/';
 
 // https://xi4lrz17r8.execute-api.us-east-1.amazonaws.com/Prod/identify/proxy?x=1745727&y=451980
@@ -28,7 +28,7 @@ export class IdentifyAPI {
   }
 
   getIdentifySummary(lat = '1745727', lng = '451980') {
-    return this.httpGet(`identify/proxy?lat=${lat}&lng=${lng}`);
+    return this.httpGet(`identify?lat=${lat}&lng=${lng}`);
   }
 
   async getAllKingdomDetails(id) {
