@@ -9,7 +9,6 @@ class ViewController {
   initializeComponents() {
     // Initialize Nav Var
     this.navComponent = new NavBar('nav-holder', { activeNav: 'about' });
-    console.log(this.navComponent.activeNav);
   }
 }
 

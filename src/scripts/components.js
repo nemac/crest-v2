@@ -14,11 +14,16 @@ export class Component {
     this.componentElem = document.getElementById(placeholderId);
 
     if (template) {
-      this.componentElem.addEventListener('load', () => { console.log('hi'); });
+      this.componentElem.addEventListener('load', () => {
+        // placeholder for future use
+      });
 
       // Load template into placeholder element
       this.componentElem.innerHTML = template;
-      this.componentElem.addEventListener('unload', () => { console.log('bye bye'); });
+      this.componentElem.addEventListener('unload', () => {
+        // placeholder for future use
+      });
+
       // Find all refs in component
       this.refs = {};
       const refElems = this.componentElem.querySelectorAll('[ref]');
