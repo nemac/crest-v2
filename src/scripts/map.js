@@ -327,8 +327,24 @@ export class Map extends Component {
       { opacity: 0.9, autoPan: false, offset: L.point(-123, 20) }
     ).openPopup();
 
+    // remove class
+    this.map.on('popupclose', Map.removeMapClick);
+
     Map.spinnerOff();
     return true;
+  }
+
+  // remove the map Click from store - used after user close pupup
+  static removeMapClick() {
+    // remove previous marker point
+    if (this.marker !== undefined) {
+      this.map.removeLayer(this.marker);
+    }
+
+    // remove from state
+    store.removeStateItem('mapClick');
+
+    this.invalidateSize();
   }
 
   static shouldRestore(props) {
@@ -494,7 +510,6 @@ export class Map extends Component {
     if (Map.checkValidObject(mapClick)) {
       self.setMapClick(mapClick);
       this.retreiveMapClick();
-      // this.invalidateSize();
     }
 
     // handle zoom and center set view for zoom and center when both state objects set
