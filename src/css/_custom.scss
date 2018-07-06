@@ -15,12 +15,17 @@ html, body {
     height: 100%;
 }
 
+.leaflet-working {
+  z-index: 500;
+  font-size: 2.5em;
+}
+
 #tab-main-nav-map {
   min-height: 0px;
 }
 
 #main-content {
-  min-height: 0px;  
+  min-height: 0px;
 }
 
 #main {
