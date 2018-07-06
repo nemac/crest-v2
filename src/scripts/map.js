@@ -102,6 +102,18 @@ export class Map extends Component {
         [layer.id]: tileLayer
       };
 
+      tileLayer.on('load', () => {
+        Map.spinnerOff();
+      });
+
+      tileLayer.on('unload', () => {
+        Map.spinnerOff();
+      });
+
+      tileLayer.on('error', () => {
+        Map.spinnerOff();
+      });
+
       const mapDisplayLayersObj = { [layer.id]: false };
 
       Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
@@ -114,6 +126,10 @@ export class Map extends Component {
     this.addMapInformationControl();
 
     const mapClick = store.getStateItem('mapClick');
+
+    const workingElement = L.DomUtil.create('div', 'position-relative d-flex align-items-center justify-content-center leaflet-working d-none', L.DomUtil.get('map'));
+    workingElement.innerHTML = '<i id="map-working" class="fa fa-spinner fa-spin d-none"></i>';
+    L.DomUtil.toFront(workingElement);
   }
 
   saveMapPosition() {
@@ -161,6 +177,58 @@ export class Map extends Component {
     });
   }
 
+  // toggle spinner visibility on
+  static spinnerOn() {
+    const el = document.getElementById('map-working');
+    const elHolder = document.querySelector('.leaflet-working');
+
+    // ensure elements and class names exists
+    if (el === undefined) { return false; }
+    if (el.className.baseVal === undefined) { return false; }
+    if (elHolder === undefined) { return false; }
+    if (elHolder.className === undefined) { return false; }
+
+    // update class for svg spinner
+    const elClassName = el.className.baseVal;
+    el.className.baseVal = elClassName.replace(' d-none', '');
+
+    // update class for div element that holds svg.  Do this so it dose not cover
+    // cover other map elements and panes
+    elHolder.className = elHolder.className.replace(' d-none', '');
+    elHolder.className = elHolder.className.replace('h-100', '');
+    elHolder.className = elHolder.className.replace('w-100', '');
+    elHolder.className += ' h-100';
+    elHolder.className += ' w-100';
+
+    return true;
+  }
+
+  // toggle spinner visibility off
+  static spinnerOff() {
+    const el = document.getElementById('map-working');
+    const elHolder = document.querySelector('.leaflet-working');
+
+    // ensure elements and class names exists
+    if (el === undefined) { return false; }
+    if (el.className.baseVal === undefined) { return false; }
+    if (elHolder === undefined) { return false; }
+    if (elHolder.className === undefined) { return false; }
+
+    // update class for svg spinner
+    const elClassName = el.className.baseVal;
+    el.className.baseVal = elClassName.replace(' d-none', '');
+    el.className.baseVal += ' d-none';
+
+    // update class for div element that holds svg.  Do this so it dose not cover
+    // cover other map elements and panes
+    elHolder.className = elHolder.className.replace(' d-none', '');
+    elHolder.className = elHolder.className.replace('h-100', '');
+    elHolder.className = elHolder.className.replace('w-100', '');
+    elHolder.className += ' d-none';
+
+    return true;
+  }
+
   // Identify
   addMapInformationControl() {
     L.Control.Watermark = L.Control.extend({
@@ -202,6 +270,8 @@ export class Map extends Component {
 
   // Load map data from the API
   async retreiveMapClick() {
+    Map.spinnerOn();
+
     if (!store.isStateExists()) {
       return false;
     }
@@ -257,6 +327,7 @@ export class Map extends Component {
       { opacity: 0.9, autoPan: false, offset: L.point(-123, 20) }
     ).openPopup();
 
+    Map.spinnerOff();
     return true;
   }
 
@@ -276,6 +347,7 @@ export class Map extends Component {
       this.map.removeLayer(layer);
       mapDisplayLayersObj = { [layerName]: false };
     } else {
+      Map.spinnerOn();
       this.map.addLayer(layer);
       mapDisplayLayersObj = { [layerName]: true };
     }
