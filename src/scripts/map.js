@@ -130,6 +130,7 @@ export class Map extends Component {
     const workingElement = L.DomUtil.create('div', 'position-relative d-flex align-items-center justify-content-center leaflet-working d-none', L.DomUtil.get('map'));
     workingElement.innerHTML = '<i id="map-working" class="fa fa-spinner fa-spin d-none"></i>';
     L.DomUtil.toFront(workingElement);
+    L.DomEvent.disableClickPropagation(workingElement);
   }
 
   saveMapPosition() {
