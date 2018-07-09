@@ -274,6 +274,7 @@ export class Map extends Component {
     Map.spinnerOn();
 
     if (!store.isStateExists()) {
+      Map.spinnerOff();
       return false;
     }
 
@@ -285,6 +286,7 @@ export class Map extends Component {
     const mapClick = store.getStateItem('mapClick');
 
     if (!Map.checkValidObject(mapClick)) {
+      Map.spinnerOff();
       return false;
     }
 
