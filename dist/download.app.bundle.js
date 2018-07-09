@@ -1,51 +1,4 @@
 /******/ (function(modules) { // webpackBootstrap
-/******/ 	// install a JSONP callback for chunk loading
-/******/ 	function webpackJsonpCallback(data) {
-/******/ 		var chunkIds = data[0];
-/******/ 		var moreModules = data[1];
-/******/ 		var executeModules = data[2];
-/******/ 		// add "moreModules" to the modules object,
-/******/ 		// then flag all "chunkIds" as loaded and fire callback
-/******/ 		var moduleId, chunkId, i = 0, resolves = [];
-/******/ 		for(;i < chunkIds.length; i++) {
-/******/ 			chunkId = chunkIds[i];
-/******/ 			if(installedChunks[chunkId]) {
-/******/ 				resolves.push(installedChunks[chunkId][0]);
-/******/ 			}
-/******/ 			installedChunks[chunkId] = 0;
-/******/ 		}
-/******/ 		for(moduleId in moreModules) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-/******/ 				modules[moduleId] = moreModules[moduleId];
-/******/ 			}
-/******/ 		}
-/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
-/******/ 		while(resolves.length) {
-/******/ 			resolves.shift()();
-/******/ 		}
-/******/
-/******/ 		// add entry modules from loaded chunk to deferred list
-/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
-/******/
-/******/ 		// run deferred modules when all chunks ready
-/******/ 		return checkDeferredModules();
-/******/ 	};
-/******/ 	function checkDeferredModules() {
-/******/ 		var result;
-/******/ 		for(var i = 0; i < deferredModules.length; i++) {
-/******/ 			var deferredModule = deferredModules[i];
-/******/ 			var fulfilled = true;
-/******/ 			for(var j = 1; j < deferredModule.length; j++) {
-/******/ 				var depId = deferredModule[j];
-/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
-/******/ 			}
-/******/ 			if(fulfilled) {
-/******/ 				deferredModules.splice(i--, 1);
-/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-/******/ 			}
-/******/ 		}
-/******/ 		return result;
-/******/ 	}
 /******/ 	function hotDisposeChunk(chunkId) {
 /******/ 		delete installedChunks[chunkId];
 /******/ 	}
@@ -110,7 +63,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a4798ceb5a3802814444"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a42cc298baddcb5ac187"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -298,7 +251,7 @@
 /******/ 				};
 /******/ 			});
 /******/ 			hotUpdate = {};
-/******/ 			for(var chunkId in installedChunks)
+/******/ 			var chunkId = "download";
 /******/ 			{
 /******/ 				// eslint-disable-line no-lone-blocks
 /******/ 				/*globals chunkId */
@@ -743,15 +696,6 @@
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
-/******/ 	// object to store loaded and loading chunks
-/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 	// Promise = chunk loading, 0 = chunk loaded
-/******/ 	var installedChunks = {
-/******/ 		"download": 0
-/******/ 	};
-/******/
-/******/ 	var deferredModules = [];
-/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -835,21 +779,48 @@
 /******/ 	// __webpack_hash__
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
-/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
-/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-/******/ 	jsonpArray.push = webpackJsonpCallback;
-/******/ 	jsonpArray = jsonpArray.slice();
-/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
-/******/
-/******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["./src/scripts/download.js","download~index"]);
-/******/ 	// run deferred modules when ready
-/******/ 	return checkDeferredModules();
+/******/ 	// Load entry module and return exports
+/******/ 	return hotCreateRequire("./src/scripts/download.js")(__webpack_require__.s = "./src/scripts/download.js");
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./src/config/navConfig.js":
+/*!*********************************!*\
+  !*** ./src/config/navConfig.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar navConfig = exports.navConfig = {\n  navs: [{\n    name: \"home\",\n    ref: \"main-nav-map\",\n    text: \"Home\",\n    id: \"main-nav-map\",\n    href: \"./#Home\"\n  }, {\n    name: \"download\",\n    ref: \"main-nav-download\",\n    text: \"Download Data\",\n    id: \"main-nav-download\",\n    href: \"./#Download\"\n  }, {\n    name: \"about\",\n    ref: \"main-nav-about\",\n    text: \"About\",\n    id: \"main-nav-about\",\n    href: \"./#About\"\n  }]\n};\n\n//# sourceURL=webpack:///./src/config/navConfig.js?");
+
+/***/ }),
+
+/***/ "./src/scripts/components.js":
+/*!***********************************!*\
+  !*** ./src/scripts/components.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n/**\n * Base component class to provide view ref binding, template insertion, and event listener setup\n */\nvar Component = exports.Component = function () {\n  /**\n   * Component Constructor\n   * @param { String } placeholderId - Element ID to inflate the component into\n   * @param { Object } props - Component properties\n   * @param { Object } props.events - Component event listeners\n   * @param { Object } props.data - Component data properties\n   * @param { String } template - HTML template to inflate into placeholder id\n   */\n  function Component(placeholderId) {\n    var _this = this;\n\n    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};\n    var template = arguments[2];\n\n    _classCallCheck(this, Component);\n\n    this.componentElem = document.getElementById(placeholderId);\n\n    if (template) {\n      this.componentElem.addEventListener('load', function () {\n        // placeholder for future use\n      });\n\n      // Load template into placeholder element\n      this.componentElem.innerHTML = template;\n      this.componentElem.addEventListener('unload', function () {\n        // placeholder for future use\n      });\n\n      // Find all refs in component\n      this.refs = {};\n      var refElems = this.componentElem.querySelectorAll('[ref]');\n      refElems.forEach(function (elem) {\n        _this.refs[elem.getAttribute('ref')] = elem;\n      });\n    }\n\n    if (props.events) {\n      this.createEvents(props.events);\n    }\n  }\n\n  /** Read \"event\" component parameters, and attach event listeners for each */\n\n\n  _createClass(Component, [{\n    key: 'createEvents',\n    value: function createEvents(events) {\n      var _this2 = this;\n\n      Object.keys(events).forEach(function (eventName) {\n        _this2.componentElem.addEventListener(eventName, events[eventName], false);\n      });\n    }\n\n    /** Trigger a component event with the provided \"detail\" payload */\n\n  }, {\n    key: 'triggerEvent',\n    value: function triggerEvent(eventName, detail) {\n      var event = new window.CustomEvent(eventName, { detail: detail });\n      this.componentElem.dispatchEvent(event);\n    }\n  }]);\n\n  return Component;\n}();\n\n//# sourceURL=webpack:///./src/scripts/components.js?");
+
+/***/ }),
+
+/***/ "./src/scripts/domUtils.js":
+/*!*********************************!*\
+  !*** ./src/scripts/domUtils.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.toggleElementDisplay = toggleElementDisplay;\n/**\n * update the display of element\n *  @param { Object } element - Element object from click event, used to toggle\n *                   display state\n */\nfunction toggleElementDisplay(thisEle, elements) {\n  elements.forEach(function (ele) {\n    var name = ele.replace('main_nav_', '');\n    var tabEle = document.querySelector('[ref=\"tab-' + name + '\"]');\n    var mapClass = tabEle.className;\n    var newMapClass = mapClass + (mapClass.indexOf(' d-none') > 0) ? ' ' : 'd-none';\n\n    tabEle.className = newMapClass;\n  });\n\n  // let element = document.querySelector(`[ref=\"tab-${elementName}\"]`);\n  // console.log(`[ref=\"tab_${elementName}\"]`)\n  // const mapClass = thisEle.componentElem.className;\n  // console.log(thisEle)\n  // if(mapClass.indexOf(' d-none') > 0){\n  //   console.log('here')\n  //   element.className = mapClass.replace(' d-none','');\n  // } else {\n  //   console.log('not here')\n  //\n  //   element.className = mapClass + ' d-none';\n  // }\n\n  // return element\n}\n\n//# sourceURL=webpack:///./src/scripts/domUtils.js?");
+
+/***/ }),
 
 /***/ "./src/scripts/download.js":
 /*!*********************************!*\
@@ -859,7 +830,41 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _nav_bar = __webpack_require__(/*! ./nav_bar */ \"./src/scripts/nav_bar.js\");\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nconsole.log(count);\n\nvar ViewController = function () {\n\n  /** Initialize Application */\n  function ViewController() {\n    _classCallCheck(this, ViewController);\n\n    this.initializeComponents();\n  }\n\n  _createClass(ViewController, [{\n    key: 'initializeComponents',\n    value: function initializeComponents() {\n      // Initialize Nav Var\n      this.navComponent = new _nav_bar.nav_bar('nav-holder');\n    }\n  }]);\n\n  return ViewController;\n}();\n\nwindow.ctrl = new ViewController();\n\n//# sourceURL=webpack:///./src/scripts/download.js?");
+eval("\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _navBar = __webpack_require__(/*! ./navBar */ \"./src/scripts/navBar.js\");\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n// console.log(count);\nvar ViewController = function () {\n  // Initialize Application\n  function ViewController() {\n    _classCallCheck(this, ViewController);\n\n    this.initializeComponents();\n  }\n\n  _createClass(ViewController, [{\n    key: 'initializeComponents',\n    value: function initializeComponents() {\n      // Initialize Nav Bar\n      this.navComponent = new _navBar.NavBar('nav-holder');\n    }\n  }]);\n\n  return ViewController;\n}();\n\nwindow.ctrl = new ViewController();\n\n//# sourceURL=webpack:///./src/scripts/download.js?");
+
+/***/ }),
+
+/***/ "./src/scripts/navBar.js":
+/*!*******************************!*\
+  !*** ./src/scripts/navBar.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.NavBar = undefined;\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _nav_bar = __webpack_require__(/*! ../templates/nav_bar.html */ \"./src/templates/nav_bar.html\");\n\nvar _nav_bar2 = _interopRequireDefault(_nav_bar);\n\nvar _nav_bar_nav = __webpack_require__(/*! ../templates/nav_bar_nav.html */ \"./src/templates/nav_bar_nav.html\");\n\nvar _nav_bar_nav2 = _interopRequireDefault(_nav_bar_nav);\n\nvar _components = __webpack_require__(/*! ./components */ \"./src/scripts/components.js\");\n\nvar _navConfig = __webpack_require__(/*! ../config/navConfig */ \"./src/config/navConfig.js\");\n\nvar _domUtils = __webpack_require__(/*! ./domUtils */ \"./src/scripts/domUtils.js\");\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // default map template\n\n\n/**\n * NavBar Component\n * Render and control map layer control\n */\nvar NavBar = exports.NavBar = function (_Component) {\n  _inherits(NavBar, _Component);\n\n  function NavBar(placeholderId, props) {\n    _classCallCheck(this, NavBar);\n\n    /**\n     * get nav configuration\n     */\n    var _this = _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this, placeholderId, props, _nav_bar2.default));\n\n    _this.navConfig = _navConfig.navConfig;\n\n    _this.activeNav = '';\n\n    // get the main nav element\n    var navHeaderElement = document.getElementById('main-nav');\n\n    /**\n     *  iterate each nav and add it to the ui\n     */\n    var cnt = 1;\n    _navConfig.navConfig.navs.forEach(function (nav) {\n      var navInnerHTML = navHeaderElement.innerHTML;\n      navHeaderElement.innerHTML = navInnerHTML + _nav_bar_nav2.default;\n\n      var navElement = document.getElementById('main-nav-page');\n\n      // first tab is always active\n      if (cnt === 1) {\n        navElement.className += ' active';\n      }\n\n      navElement.setAttribute('ref', nav.ref); // nav ref\n      navElement.setAttribute('href', nav.href); // nav href\n      navElement.setAttribute('id', nav.id); // nav id\n      navElement.textContent = nav.text; // nav text\n\n      cnt += 1;\n    });\n\n    // add click event for active toggle\n    _this.addTabClick();\n    return _this;\n  }\n\n  _createClass(NavBar, [{\n    key: 'addTabClick',\n    value: function addTabClick() {\n      var _this2 = this;\n\n      _navConfig.navConfig.navs.forEach(function (nav) {\n        var el = document.getElementById(nav.id);\n        el.addEventListener('click', function (e) {\n          NavBar.deactivateAllNavs();\n          NavBar.toggleTabContent(e.target.id);\n          var ele = e.target;\n          ele.className += ' active';\n\n          // add to store later\n          _this2.activeNav = nav.id;\n        });\n      });\n    }\n  }], [{\n    key: 'tabUpdate',\n    value: function tabUpdate(id) {\n      NavBar.deactivateAllNavs();\n      var el = document.getElementById(id);\n      el.className = el.className + ' active';\n    }\n  }, {\n    key: 'deactivateAllNavs',\n    value: function deactivateAllNavs() {\n      _navConfig.navConfig.navs.forEach(function (nav) {\n        var el = document.getElementById(nav.id);\n        el.className = el.className.replace(' active', '');\n      });\n    }\n  }, {\n    key: 'toggleTabContent',\n    value: function toggleTabContent(id) {\n      NavBar.resetTabContent();\n      var el = document.getElementById('tab-' + id);\n      el.className = el.className.replace(' d-none', '');\n    }\n  }, {\n    key: 'resetTabContent',\n    value: function resetTabContent() {\n      _navConfig.navConfig.navs.forEach(function (nav) {\n        var el = document.getElementById('tab-' + nav.id);\n        el.className = el.className.replace(' d-none', '');\n        el.className += ' d-none';\n      });\n\n      // not found in case it was revealed.\n      var el = document.getElementById('tab-main-nav-notfound');\n      el.className = el.className.replace(' d-none', '');\n      el.className += ' d-none';\n    }\n  }]);\n\n  return NavBar;\n}(_components.Component);\n\n//# sourceURL=webpack:///./src/scripts/navBar.js?");
+
+/***/ }),
+
+/***/ "./src/templates/nav_bar.html":
+/*!************************************!*\
+  !*** ./src/templates/nav_bar.html ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = \"<nav class=\\\"nav flex-column flex-sm-row\\\" id=\\\"main-nav\\\" >\\n</nav>\\n\";\n\n//# sourceURL=webpack:///./src/templates/nav_bar.html?");
+
+/***/ }),
+
+/***/ "./src/templates/nav_bar_nav.html":
+/*!****************************************!*\
+  !*** ./src/templates/nav_bar_nav.html ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = \"<a ref=\\\"main-nav-page\\\" id=\\\"main-nav-page\\\" class=\\\"nav-link main-nav\\\" href=\\\"\\\"></a>\\n\";\n\n//# sourceURL=webpack:///./src/templates/nav_bar_nav.html?");
 
 /***/ })
 

@@ -1,4 +1,51 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/ 		return result;
+/******/ 	}
 /******/ 	function hotDisposeChunk(chunkId) {
 /******/ 		delete installedChunks[chunkId];
 /******/ 	}
@@ -63,7 +110,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a4798ceb5a3802814444"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a42cc298baddcb5ac187"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -251,7 +298,7 @@
 /******/ 				};
 /******/ 			});
 /******/ 			hotUpdate = {};
-/******/ 			var chunkId = "store";
+/******/ 			for(var chunkId in installedChunks)
 /******/ 			{
 /******/ 				// eslint-disable-line no-lone-blocks
 /******/ 				/*globals chunkId */
@@ -696,6 +743,15 @@
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"store": 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -779,23 +835,18 @@
 /******/ 	// __webpack_hash__
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
-/******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire("./src/scripts/store.js")(__webpack_require__.s = "./src/scripts/store.js");
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push(["./src/scripts/store.js","index~store"]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ "./src/scripts/store.js":
-/*!******************************!*\
-  !*** ./src/scripts/store.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n/**\n * This component is intended to handle the storage and retrieval of the state of\n * the NFWF application. As of this writing it is using localStorage to do this.\n * Uses simple class instance methods with the short-hand method declaration\n * pattern.\n *\n * To note: There is a difference between the Store and the State. As of 0a3106e\n * the Store is a String saved to the browsers localStorage and is a serialized\n * version of the State. The State is an Object which is interacted with by\n * parsing the State string from the Store, modifying the results of the parse,\n * and re-serializing it back to the Store.\n */\nvar Store = exports.Store = function () {\n  // ..and an (optional) custom class constructor. If one is\n  // not supplied, a default constructor is used instead:\n  // constructor() { }\n  function Store() {\n    _classCallCheck(this, Store);\n\n    // this.state = state;\n    this.store = window.localStorage;\n\n    // this.state = {};\n    // if(this.isStateExists){\n    //   this.state = this.getState();\n    // } else {\n    //   const state = {};\n    //   this.state = {state};\n    // }\n  }\n\n  //// GETTERS\n\n  // As of 0a3106e this is probably intended to be used as a getter for the\n  // Store. However it is pulling an unused and undeclared variable _state so it\n  // probably just returns undefined.\n\n\n  _createClass(Store, [{\n    key: \"getStateItem\",\n\n\n    // Gets an individual item from the state\n    //\n    // @param item - string\n    // @return string || object\n    value: function getStateItem(item) {\n      if (this.checkItem(item)) {\n        var currentState = this.getState(\"state\");\n        var stateItem = currentState[item];\n        return stateItem;\n      }\n\n      return {};\n    }\n\n    // Gets the entire state object\n    //\n    // @return object\n\n  }, {\n    key: \"getState\",\n    value: function getState() {\n      if (this.storageAvailable()) {\n        if (this.isStateExists()) {\n          var currentStateStr = this.store[\"state\"];\n          var currentState = JSON.parse(currentStateStr);\n          return currentState;\n        }\n        return {};\n      }\n      return {};\n    }\n\n    //// SETTERS\n\n    // Setter for the state to the Store, preserving any non-overwritten\n    // properties in the Store.\n    //\n    // @param state - object\n\n  }, {\n    key: \"saveState\",\n    value: function saveState(state) {\n      if (this.storageAvailable()) {\n        var currentState = this.getState(\"state\");\n        var newState = _extends({}, currentState, state);\n        var newStateStr = JSON.stringify(newState);\n\n        this.store.setItem(\"state\", newStateStr);\n      }\n    }\n\n    // Setter for the state to the Store, overriding any non-overwritten\n    // properties in the Store.\n    //\n    // @param state - object\n\n  }, {\n    key: \"saveNewState\",\n    value: function saveNewState(state) {\n      if (this.storageAvailable()) {\n        var newStateStr = JSON.stringify(state);\n        this.store.setItem(\"state\", newStateStr);\n      }\n    }\n\n    // Setter which overrides the entire Store with a new State object.\n    //\n    // @param StateObject - object\n\n  }, {\n    key: \"setStateFromObject\",\n    value: function setStateFromObject(StateObject) {\n      this.saveNewState(StateObject);\n    }\n\n    // Setter for a key value pair to the State, which means that it writes it to\n    // the Store.\n    //\n    // @param key - string\n    // @param value - string\n\n  }, {\n    key: \"addStateItem\",\n    value: function addStateItem(key, value) {\n      var currentState = this.getState();\n      currentState[key] = value;\n      var newStateObj = JSON.parse(JSON.stringify(currentState));\n      this.saveNewState(newStateObj);\n    }\n\n    // Setter for a key value pair to the Store.\n    //\n    // @param key - string\n    // @param value - string\n\n  }, {\n    key: \"setStoreItem\",\n    value: function setStoreItem(key, value) {\n      var storeObj = _defineProperty({}, key, value);\n      var newStateObj = _extends({}, this.getState(), storeObj);\n      this.saveState(newStateObj);\n    }\n\n    //// REMOVERS\n\n    // Removes the entire state from the browser.\n\n  }, {\n    key: \"clearState\",\n    value: function clearState() {\n      if (this.storageAvailable()) {\n        this.store.removeItem(\"state\");\n      }\n    }\n\n    // Removes a key value pair from the State and the Store.\n    //\n    // @param key - string\n\n  }, {\n    key: \"removeStateItem\",\n    value: function removeStateItem(key) {\n      var currentState = this.getState();\n      currentState[key] = undefined;\n      var newStateObj = JSON.parse(JSON.stringify(currentState));\n      this.saveNewState(newStateObj);\n    }\n\n    //// UTILITIES\n\n    // Check if localStorage available.\n    // Taken from https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API\n    //\n    // @return boolean\n\n  }, {\n    key: \"storageAvailable\",\n    value: function storageAvailable() {\n      var type = 'localStorage';\n      try {\n        var storage = window[type],\n            x = '__storage_test__';\n        storage.setItem(x, x);\n        storage.removeItem(x);\n        return true;\n      } catch (e) {\n        return e instanceof DOMException && (\n        // everything except Firefox\n        e.code === 22 ||\n        // Firefox\n        e.code === 1014 ||\n        // test name field too, because code might not be present\n        // everything except Firefox\n        e.name === 'QuotaExceededError' ||\n        // Firefox\n        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&\n        // acknowledge QuotaExceededError only if there's something already stored\n        storage.length !== 0;\n      }\n    }\n\n    // Check if the state has been saved to the browser store\n    //\n    // @return boolean\n\n  }, {\n    key: \"isStateExists\",\n    value: function isStateExists() {\n      if (this.storageAvailable()) {\n        var stateStr = this.store[\"state\"];\n\n        if (stateStr) {\n          return true;\n        } else {\n          return false;\n        }\n      }\n      return false;\n    }\n\n    // Check if an item has been saved to the store\n    // unused as of 0a3106e\n    //\n    // @param item - string\n    // @return boolean\n\n  }, {\n    key: \"isStateItemExist\",\n    value: function isStateItemExist(item) {\n      if (this.isStateExists()) {\n        var stateStr = this.store[\"state\"];\n        if (stateStr.indexOf(item) > 0) {\n          return true;\n        } else {\n          return false;\n        }\n      }\n      return false;\n    }\n\n    // Also checks if an item has been saved to the store\n    //\n    // @param item - string\n    // @return boolean\n\n  }, {\n    key: \"checkItem\",\n    value: function checkItem(item) {\n      if (this.isStateExists()) {\n        var stateStr = this.store[\"state\"];\n        if (typeof stateStr === \"string\" && stateStr.indexOf(item) > 0) {\n          return true;\n        } else {\n          return false;\n        }\n      }\n      return false;\n    }\n\n    //  const ele.addEventListener('click', (e) => {\n    //    this.setStateFromObject();\n    //  })\n\n    // We will look at static and subclassed methods shortly\n\n  }, {\n    key: \"Store\",\n    get: function get() {\n      return this._state;\n    }\n  }]);\n\n  return Store;\n}();\n\n//# sourceURL=webpack:///./src/scripts/store.js?");
-
-/***/ })
-
-/******/ });
+/******/ ([]);
