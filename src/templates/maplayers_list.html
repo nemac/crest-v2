@@ -1,6 +1,17 @@
 <div ref="maplayers_list" class="maplayers_list">
-  <div class="toggle-list">
-    <h5>Map Layers</h5>
+  <div id="map_info_list_collapse" ref="map_info_list_collapse" class="map_info_list map_info_list_collapse d-none">
+    <h5>Map Layers
+      <span  id="maplayers_list_open" class="float-right text-center">
+        <i class="fas fa-angle-down"></i>
+      </span>
+    </h5>
+  </div>
+  <div class="toggle-list" id="maplayers_list_opened">
+    <h5  >Map Layers
+      <span id="maplayers_list_close" class="float-right text-center" >
+        <i class="fas fa-times"></i>
+      </span>
+    </h5>
     <hr />
     <div ref="ToggleLayers" id="ToggleLayerList" class="layer-toggles">
 
@@ -10,13 +21,6 @@
         <label ref="SA_HubsPreliminary-label" class="custom-control-label" for="SA_HubsPreliminary-toggle" id="SA_HubsPreliminary-label">Hubs (preliminary)</label>
       </div>
 
-      <div class="LayerList-spacer" id="ExposureLayers-Header" ></div>
-
-      <div class="LayerInput-header" id="ExposureLayers-Header" >Exposure</div>
-      <div ref="LayerInput" id="SA_ExposureIndex-layerToggle" class="custom-control custom-checkbox">
-        <input ref="SA_ExposureIndex-toggle" type="checkbox" class="custom-control-input" id="SA_ExposureIndex-toggle">
-        <label ref="SA_ExposureIndex-label" class="custom-control-label" for="SA_ExposureIndex-toggle" id="SA_ExposureIndex-label">Exposure Index</label>
-      </div>
 
       <div class="LayerList-spacer" id="ExposureLayers-Header" ></div>
 
@@ -32,6 +36,14 @@
       </div>
     <!-- </div> -->
 
+    <div class="LayerList-spacer" id="ExposureLayers-Header" ></div>
+
+    <div class="LayerInput-header" id="ExposureLayers-Header" >Exposure</div>
+    <div ref="LayerInput" id="SA_ExposureIndex-layerToggle" class="custom-control custom-checkbox">
+      <input ref="SA_ExposureIndex-toggle" type="checkbox" class="custom-control-input" id="SA_ExposureIndex-toggle">
+      <label ref="SA_ExposureIndex-label" class="custom-control-label" for="SA_ExposureIndex-toggle" id="SA_ExposureIndex-label">Exposure Index</label>
+    </div>
+    
     <div class="LayerList-spacer" id="ExposureLayers-Header" ></div>
 
       <div class="LayerInput-header" id="FishnWildlife-Header" >Fish and Wildlife</div>

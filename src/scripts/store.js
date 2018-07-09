@@ -1,3 +1,5 @@
+import { StorageAPI } from './localStorageAPI';
+
 /**
  * This component is intended to handle the storage and retrieval of the state of
  * the NFWF application. As of this writing it is using localStorage to do this.
@@ -16,7 +18,7 @@ export class Store {
   // constructor() { }
   constructor() {
     // this.state = state;
-    this.store = window.localStorage;
+    this.store = new StorageAPI();
 
     // this.state = {};
     // if(this.isStateExists){
@@ -27,58 +29,40 @@ export class Store {
     // }
   }
 
-  //// GETTERS
+  // // GETTERS
 
   // As of 0a3106e this is probably intended to be used as a getter for the
   // Store. However it is pulling an unused and undeclared variable _state so it
   // probably just returns undefined.
   get Store() {
-     return this._state;
+    return this._state;
   }
 
-  // Gets an individual item from the state
+  // Gets an individual top level item from the state
   //
   // @param item - string
   // @return string || object
   getStateItem(item) {
-    if (this.checkItem(item)) {
-      const currentState = this.getState("state");
-      const stateItem = currentState[item];
-      return stateItem;
-    }
-
-    return {};
+    return this.checkItem(item) ? this.getState()[item] : {};
   }
 
   // Gets the entire state object
   //
   // @return object
   getState() {
-    if (this.storageAvailable()) {
-      if (this.isStateExists()) {
-        const currentStateStr = this.store["state"];
-        const currentState = JSON.parse(currentStateStr);
-        return currentState;
-      }
-      return {};
-    }
-    return {};
+    return this.store.getState();
   }
 
-  //// SETTERS
+  // // SETTERS
 
   // Setter for the state to the Store, preserving any non-overwritten
   // properties in the Store.
   //
   // @param state - object
   saveState(state) {
-    if (this.storageAvailable()) {
-      const currentState = this.getState("state");
-      const newState = { ...currentState, ...state};
-      const newStateStr = JSON.stringify(newState);
-
-      this.store.setItem("state", newStateStr);
-    }
+    const currentState = this.getState();
+    const newState = { ...currentState, ...state };
+    this.store.setState(newState);
   }
 
   // Setter for the state to the Store, overriding any non-overwritten
@@ -86,10 +70,7 @@ export class Store {
   //
   // @param state - object
   saveNewState(state) {
-    if (this.storageAvailable()) {
-      const newStateStr = JSON.stringify(state);
-      this.store.setItem("state", newStateStr);
-    }
+    this.store.setState(state);
   }
 
   // Setter which overrides the entire Store with a new State object.
@@ -105,10 +86,9 @@ export class Store {
   // @param key - string
   // @param value - string
   addStateItem(key, value) {
-    var currentState = this.getState();
-    currentState[key] = value;
-    const newStateObj = JSON.parse(JSON.stringify(currentState));
-    this.saveNewState(newStateObj);
+    const state = this.getState();
+    state[key] = value;
+    this.saveNewState(state);
   }
 
   // Setter for a key value pair to the Store.
@@ -116,74 +96,42 @@ export class Store {
   // @param key - string
   // @param value - string
   setStoreItem(key, value) {
-    const storeObj = {[key]: value};
-    const newStateObj = {...this.getState(), ...storeObj};
-    this.saveState(newStateObj);
+    const storeObj = { [key]: value };
+    const newStateObj = { ...this.getState(), ...storeObj };
+    this.saveNewState(newStateObj);
   }
 
-  //// REMOVERS
+  // // REMOVERS
 
   // Removes the entire state from the browser.
   clearState() {
-    if (this.storageAvailable()) {
-      this.store.removeItem("state");
-    }
+    this.store.removeState();
   }
 
   // Removes a key value pair from the State and the Store.
   //
   // @param key - string
   removeStateItem(key) {
-    var currentState = this.getState();
-    currentState[key] = undefined;
-    const newStateObj = JSON.parse(JSON.stringify(currentState));
-    this.saveNewState(newStateObj);
+    const currentState = this.getState();
+    delete currentState[key];
+    this.saveNewState(currentState);
   }
 
-  //// UTILITIES
+  // // UTILITIES
 
   // Check if localStorage available.
   // Taken from https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
   //
   // @return boolean
-  storageAvailable() {
-    const type = 'localStorage';
-    try {
-      var storage = window[type],
-          x = '__storage_test__';
-      storage.setItem(x, x);
-      storage.removeItem(x);
-      return true;
-    } catch(e) {
-      return e instanceof DOMException && (
-        // everything except Firefox
-        e.code === 22 ||
-        // Firefox
-        e.code === 1014 ||
-        // test name field too, because code might not be present
-        // everything except Firefox
-        e.name === 'QuotaExceededError' ||
-        // Firefox
-        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-        // acknowledge QuotaExceededError only if there's something already stored
-        storage.length !== 0;
-    }
+  static storageAvailable() {
+    return StorageAPI.storageAvailable();
   }
 
   // Check if the state has been saved to the browser store
   //
   // @return boolean
   isStateExists() {
-    if (this.storageAvailable()) {
-      const stateStr = this.store["state"];
-
-      if (stateStr) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
+    return this.store.checkStateExists();
   }
 
   // Check if an item has been saved to the store
@@ -193,30 +141,25 @@ export class Store {
   // @return boolean
   isStateItemExist(item) {
     if (this.isStateExists()) {
-      const stateStr = this.store["state"];
+      const stateStr = this.store.getStateAsString();
       if (stateStr.indexOf(item) > 0) {
         return true;
-      } else {
-        return false;
       }
     }
     return false;
   }
 
   // Also checks if an item has been saved to the store
+  // TODO: Rewrite the indexOf check to parse the deeply nested keys of an object since the current
+  // code will give an error in some edge cases. EX:
+  //
+  // this.store.setStateAsString('{foo:"bar",bars:"baz"}');
+  // checkItem('bar'); // returns TRUE ();
   //
   // @param item - string
   // @return boolean
   checkItem(item) {
-    if (this.isStateExists()) {
-      const stateStr = this.store["state"];
-      if (typeof(stateStr) === "string" && stateStr.indexOf(item) > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
+    return this.isStateExists() && this.store.getStateAsString().indexOf(item) > 0;
   }
 
   //  const ele.addEventListener('click', (e) => {
