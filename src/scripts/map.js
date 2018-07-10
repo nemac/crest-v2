@@ -41,7 +41,7 @@ export class Map extends Component {
 
     // set last storage object, it will be overwritten after map is intialized
     this.restoreStateStore = store.getState();
-    // console.log('test3',store.getState());
+
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
@@ -349,20 +349,6 @@ export class Map extends Component {
     return true;
   }
 
-  // remove the map Click from store - used after user close pupup
-  removeMapClick() {
-    // remove previous marker point
-    if (this.marker !== undefined) {
-      // console.log(marker)
-      // this.map.removeLayer(this.marker);
-    }
-
-    // remove from state
-    store.removeStateItem('mapClick');
-
-    // this.map.invalidateSize();
-  }
-
   static shouldRestore(props) {
     if (props === undefined || props.restore === undefined) {
       return false;
@@ -409,12 +395,12 @@ export class Map extends Component {
    *   })
    */
   setMapCenter(value) {
-    if (Map.checkValidObject(value)) {
+    this.map.panTo(value);
+
+    if (!Map.checkValidObject(value)) {
       return false;
     }
     this.map.panTo(value);
-    this.invalidateSize();
-
     return true;
   }
 
@@ -427,12 +413,10 @@ export class Map extends Component {
    *   })
    */
   setMapZoom(value) {
-    if (Map.checkValidObject(value)) {
+    if (!Map.checkValidObject(value)) {
       return false;
     }
     this.map.setZoom(value);
-    this.invalidateSize();
-
     return true;
   }
 
@@ -445,14 +429,11 @@ export class Map extends Component {
    *
    */
   setMapClick(value) {
-    if (Map.checkValidObject(value)) {
+    if (!Map.checkValidObject(value)) {
       return false;
     }
-
     const latlng = L.latLng([value.lat, value.lng]);
     this.map.fireEvent('click', { latlng });
-    this.invalidateSize();
-
     return true;
   }
 
@@ -493,8 +474,6 @@ export class Map extends Component {
       return false;
     }
 
-    this.invalidateSize();
-
     // Instantiate store variables. Otherwise the order will cause
     // the startup position to shift occasionally
     let mapZoom = null;
@@ -531,6 +510,7 @@ export class Map extends Component {
     // handle zoom and center set view for zoom and center when both state objects set
     if (Map.checkValidObject(mapZoom) && Map.checkValidObject(mapCenter)) {
       self.map.setView(mapCenter, mapZoom);
+      self.setMapCenter(mapCenter);
     }
 
     if (Map.checkValidObject(mapZoom) && !Map.checkValidObject(mapCenter)) {

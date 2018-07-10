@@ -66,8 +66,8 @@ function initMapComponent() {
   }
   mapComponent.renderCount += 1;
 
-  // delay listners unitll after setup
-  mapComponent.addMapEventListners(mapComponent.map);
+  // delay listners unitll after setup also needs slight time out so the map dose not move on start
+  setTimeout(() => { mapComponent.addMapEventListners(mapComponent.map); }, 1000);
 }
 
 // deal with nav bars so back button is not broken
