@@ -274,6 +274,7 @@ export class Map extends Component {
     Map.spinnerOn();
 
     if (!store.isStateExists()) {
+      Map.spinnerOff();
       return false;
     }
 
@@ -285,6 +286,7 @@ export class Map extends Component {
     const mapClick = store.getStateItem('mapClick');
 
     if (!Map.checkValidObject(mapClick)) {
+      Map.spinnerOff();
       return false;
     }
 
@@ -329,23 +331,36 @@ export class Map extends Component {
     ).openPopup();
 
     // remove class
-    this.map.on('popupclose', Map.removeMapClick);
+    this.map.on('popupclose', () => {
+      // remove previous marker point
+      if (this.marker !== undefined) {
+        this.map.removeLayer(this.marker);
+      }
 
+      // remove from state
+      store.removeStateItem('mapClick');
+
+      // not sure where this.store is created byt it appears it is in
+      // saveStore in map.js.  which means this is a bug.  for now I will fix it with updating
+      //  this.store after map click is removed
+      this.store = store.getState();
+    });
     Map.spinnerOff();
     return true;
   }
 
   // remove the map Click from store - used after user close pupup
-  static removeMapClick() {
+  removeMapClick() {
     // remove previous marker point
     if (this.marker !== undefined) {
-      this.map.removeLayer(this.marker);
+      // console.log(marker)
+      // this.map.removeLayer(this.marker);
     }
 
     // remove from state
     store.removeStateItem('mapClick');
 
-    this.invalidateSize();
+    // this.map.invalidateSize();
   }
 
   static shouldRestore(props) {
