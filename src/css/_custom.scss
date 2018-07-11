@@ -129,7 +129,7 @@ html, body {
 
  .leaflet-popup-content {
    user-select: none;
-   cursor: pointer;
+   cursor: default; 
    min-width: 205px;
  }
 
