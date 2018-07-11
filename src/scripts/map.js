@@ -102,6 +102,7 @@ export class Map extends Component {
         [layer.id]: tileLayer
       };
 
+
       tileLayer.on('load', () => {
         Map.spinnerOff();
       });
@@ -113,6 +114,15 @@ export class Map extends Component {
       tileLayer.on('error', () => {
         Map.spinnerOff();
       });
+
+      tileLayer.on('tileunload', () => {
+        Map.spinnerOff();
+      });
+
+      tileLayer.on('tileerror', () => {
+        Map.spinnerOff();
+      });
+
 
       const mapDisplayLayersObj = { [layer.id]: false };
 

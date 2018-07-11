@@ -23,18 +23,17 @@ export class IdentifyAPI {
       //   'Access-Control-Allow-Origin': '*'
       // },
     };
-    const response = await get(`${this.url}${queryString}`, axiosConfig);
-    return response.data;
+
+    try {
+      const response = await get(`${this.url}${queryString}`, axiosConfig);
+      return response.data;
+    } catch (err) {
+      return {};
+    }
   }
 
   getIdentifySummary(lat = '1745727', lng = '451980') {
     return this.httpGet(`identify?lat=${lat}&lng=${lng}`);
-  }
-
-  async getAllKingdomDetails(id) {
-    return {
-      kingdomSize: await this.getKingdomSize(id)
-    };
   }
 
   static getIdentifyItem(item, value) {
