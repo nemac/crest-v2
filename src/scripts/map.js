@@ -132,7 +132,7 @@ export class Map extends Component {
       Object.assign(this.overlayMaps, obj);
     });
 
-    this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers);
+    store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
     this.addMapInformationControl();
 
     const mapClick = store.getStateItem('mapClick');
@@ -144,12 +144,12 @@ export class Map extends Component {
   }
 
   saveMapPosition() {
-    this.saveStore('mapCenter', this.map.getCenter());
-    this.saveStore('mapZoom', this.map.getZoom());
+    store.setStoreItem('mapCenter', this.map.getCenter());
+    store.setStoreItem('mapZoom', this.map.getZoom());
   }
 
-  saveAction(type) {
-    this.saveStore('lastaction', type);
+  static saveAction(type) {
+    store.setStoreItem('lastaction', type);
   }
 
   // Add map listeners in function so we can call it from index or setup and we
@@ -159,29 +159,29 @@ export class Map extends Component {
 
     this.map.on('moveend', (event) => {
       this.saveMapPosition();
-      this.saveAction('moveend');
+      Map.saveAction('moveend');
     });
 
     this.map.on('zoomend', (event) => {
       this.saveMapPosition();
-      this.saveAction('zoomend');
+      Map.saveAction('zoomend');
     });
 
     this.map.on('dblclick', (event) => {
       this.saveMapPosition();
-      this.saveAction('dblclick');
+      Map.saveAction('dblclick');
     });
 
     this.map.on('keypress', (event) => {
       this.saveMapPosition();
-      this.saveAction('keypress');
+      Map.saveAction('keypress');
     });
 
     // click
     this.map.on('click', (ev) => {
       this.saveMapPosition();
-      this.saveAction('click');
-      self.saveStore('mapClick', ev.latlng);
+      Map.saveAction('click');
+      store.setStoreItem('mapClick', ev.latlng);
       if (ev.containerPoint !== undefined) {
         self.retreiveMapClick();
       }
@@ -349,11 +349,6 @@ export class Map extends Component {
 
       // remove from state
       store.removeStateItem('mapClick');
-
-      // not sure where this.store is created byt it appears it is in
-      // saveStore in map.js.  which means this is a bug.  for now I will fix it with updating
-      //  this.store after map click is removed
-      this.store = store.getState();
     });
     Map.spinnerOff();
     return true;
@@ -369,6 +364,7 @@ export class Map extends Component {
 
   // Toggle map layer visibility
   toggleLayer(layerName) {
+    Map.saveAction('maplayertoggle');
     let mapDisplayLayersObj = {};
     const layer = this.overlayMaps[layerName];
     if (this.map.hasLayer(layer)) {
@@ -380,20 +376,12 @@ export class Map extends Component {
       mapDisplayLayersObj = { [layerName]: true };
     }
     Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
-    this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers);
+    store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
   }
 
   // provide access to leaflet invalidateSize
   invalidateSize() {
     this.map.invalidateSize();
-  }
-
-  // TODO: Is this duplicated?
-  saveStore(key, value) {
-    const storeObj = { [key]: value };
-
-    this.store = { ...this.store, ...storeObj };
-    store.saveState(this.store);
   }
 
   /**
