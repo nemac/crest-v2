@@ -3,9 +3,12 @@ import maplayersListTemplate from '../templates/maplayers_list.html';
 
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
+import { Store } from './store';
 
 // scss
 import '../css/maplayers_list.scss';
+
+const store = new Store({});
 
 // templates
 // import layer_checkboxTemplate from '../templates/layer_checkbox.html'
@@ -25,15 +28,28 @@ export class MapLayersList extends Component {
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
+
+    // check if map layer list is minimized on initialization if so minimize it.
+    const mapLayerListState = store.getStateItem('maplayerlist')
+    if(mapLayerListState === 'close'){
+      const element = document.getElementById('maplayers_list_close');
+      const event = new Event('click');
+      element.dispatchEvent(event);
+    }
+
+
   }
 
   static addOpenMapLayerListener() {
+
     const layerListCollapse = document.getElementById('maplayers_list_open');
     layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
     layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
 
     // add the listener
     layerListCollapse.addEventListener('click', (ev) => {
+      store.setStoreItem('lastaction', 'maplayerlistopen');
+      store.setStoreItem('maplayerlist', 'open');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
 
@@ -44,12 +60,15 @@ export class MapLayersList extends Component {
   }
 
   static addCloseMapLayerListener() {
+
     const layerListClose = document.getElementById('maplayers_list_close');
     layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
     layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
 
     // add the listener
     layerListClose.addEventListener('click', (ev) => {
+      store.setStoreItem('lastaction', 'maplayerlistclose');
+      store.setStoreItem('maplayerlist', 'close');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
 
