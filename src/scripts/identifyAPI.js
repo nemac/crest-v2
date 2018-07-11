@@ -27,7 +27,7 @@ export class IdentifyAPI {
     try {
       const response = await get(`${this.url}${queryString}`, axiosConfig);
       return response.data;
-    } catch(err) {
+    } catch (err) {
       return {};
     }
   }
