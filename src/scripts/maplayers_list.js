@@ -30,18 +30,16 @@ export class MapLayersList extends Component {
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
 
     // check if map layer list is minimized on initialization if so minimize it.
-    const mapLayerListState = store.getStateItem('maplayerlist')
-    if(mapLayerListState === 'close'){
+    const mapLayerListState = store.getStateItem('maplayerlist');
+
+    if (mapLayerListState === 'close') {
       const element = document.getElementById('maplayers_list_close');
       const event = new Event('click');
       element.dispatchEvent(event);
     }
-
-
   }
 
   static addOpenMapLayerListener() {
-
     const layerListCollapse = document.getElementById('maplayers_list_open');
     layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
     layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
@@ -60,7 +58,6 @@ export class MapLayersList extends Component {
   }
 
   static addCloseMapLayerListener() {
-
     const layerListClose = document.getElementById('maplayers_list_close');
     layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
     layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
