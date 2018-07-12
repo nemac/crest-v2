@@ -51,7 +51,6 @@ export class MapLayersList extends Component {
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
 
-      // layerListOpened.className = layerListOpened.className.replace(' d-none','');
       layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
       layerListOpened.className = layerListOpened.className.replace(' d-none', '');
     });
