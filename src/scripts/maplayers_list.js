@@ -3,9 +3,12 @@ import maplayersListTemplate from '../templates/maplayers_list.html';
 
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
+import { Store } from './store';
 
 // scss
 import '../css/maplayers_list.scss';
+
+const store = new Store({});
 
 // templates
 // import layer_checkboxTemplate from '../templates/layer_checkbox.html'
@@ -25,6 +28,15 @@ export class MapLayersList extends Component {
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
+
+    // check if map layer list is minimized on initialization if so minimize it.
+    const mapLayerListState = store.getStateItem('maplayerlist');
+
+    if (mapLayerListState === 'close') {
+      const element = document.getElementById('maplayers_list_close');
+      const event = new Event('click');
+      element.dispatchEvent(event);
+    }
   }
 
   static addOpenMapLayerListener() {
@@ -34,10 +46,11 @@ export class MapLayersList extends Component {
 
     // add the listener
     layerListCollapse.addEventListener('click', (ev) => {
+      store.setStoreItem('lastaction', 'maplayerlistopen');
+      store.setStoreItem('maplayerlist', 'open');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
 
-      // layerListOpened.className = layerListOpened.className.replace(' d-none','');
       layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
       layerListOpened.className = layerListOpened.className.replace(' d-none', '');
     });
@@ -50,6 +63,8 @@ export class MapLayersList extends Component {
 
     // add the listener
     layerListClose.addEventListener('click', (ev) => {
+      store.setStoreItem('lastaction', 'maplayerlistclose');
+      store.setStoreItem('maplayerlist', 'close');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
 
