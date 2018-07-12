@@ -102,7 +102,7 @@ export class Map extends Component {
         [layer.id]: tileLayer
       };
 
-
+      // to do add to seperate function/method
       tileLayer.on('load', () => {
         Map.spinnerOff();
       });
@@ -123,7 +123,6 @@ export class Map extends Component {
         Map.spinnerOff();
       });
 
-
       const mapDisplayLayersObj = { [layer.id]: false };
 
       Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
@@ -136,7 +135,6 @@ export class Map extends Component {
     this.addMapInformationControl();
 
     const mapClick = store.getStateItem('mapClick');
-
     const workingElement = L.DomUtil.create('div', 'position-relative d-flex align-items-center justify-content-center leaflet-working d-none', L.DomUtil.get('map'));
     workingElement.innerHTML = '<i id="map-working" class="fa fa-spinner fa-spin d-none"></i>';
     L.DomUtil.toFront(workingElement);
@@ -156,7 +154,6 @@ export class Map extends Component {
   // only update state store after map is intialized.
   addMapEventListners() {
     const self = this;
-
     this.map.on('moveend', (event) => {
       this.saveMapPosition();
       Map.saveAction('moveend');
@@ -177,6 +174,13 @@ export class Map extends Component {
       Map.saveAction('keypress');
     });
 
+    // click
+    this.addMapClickIdentify();
+  }
+
+  // re-instiate mapClick indentify
+  addMapClickIdentify() {
+    const self = this;
     // click
     this.map.on('click', (ev) => {
       this.saveMapPosition();
@@ -337,7 +341,13 @@ export class Map extends Component {
     // TODO overide css popup for leaflet
     this.marker.bindPopup(
       tooltipContent,
-      { opacity: 0.9, autoPan: false, offset: L.point(-123, 20) }
+      {
+        autoClose: false,
+        closeOnClick: false,
+        opacity: 0.9,
+        autoPan: false,
+        offset: L.point(-123, 20)
+      }
     ).openPopup();
 
     // remove class
