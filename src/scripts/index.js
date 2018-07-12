@@ -12,11 +12,13 @@ import { URL } from './url';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
+import { Explore } from  './explore';
 
 // import html templates
 import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
+import ExplorePage from '../templates/explore.html';
 
 // initialize navbar
 const navBarComponent = new NavBar('nav-holder');
@@ -24,6 +26,8 @@ new URL();
 
 let mapComponent;
 let maplayersComponent;
+let exploreComponent;
+
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
 if (homeloc === 'https://nemac.github.io') {
@@ -58,6 +62,7 @@ function initMapComponent() {
   if (mapComponent === undefined) {
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
+    exploreComponent = new Explore('explore-holder', {mapComponent});
   }
 
   // restore only if first render

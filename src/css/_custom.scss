@@ -15,6 +15,39 @@ html, body {
     height: 100%;
 }
 
+.leaflet-editing-icon {
+    max-width: 10px;
+    max-height: 10px;
+    margin-left: -5px !important;
+    margin-top: -5px !important;
+    background-color: $body-color;
+    border: solid 1px $body-bg;
+}
+
+.leaflet-marker-icon-first {
+  max-width: 20px;
+  max-height: 20px;
+  margin-left: -10px !important;
+  margin-top: -10px !important;
+  background-color: $success;
+  border: solid 1px $teal;
+}
+
+.leaflet-draw-tooltip {
+  display:inline-block;
+  white-space: nowrap;
+  width: min-content;
+  background-color: $body-bg-semiTransparent;
+  color: $body-color;
+  padding-left: 15px;
+  z-index: 10000000000;
+  font-size: 1.25em;
+}
+
+.leaflet-draw-tooltip span {
+  display:inline-block;
+}
+
 .leaflet-working {
   z-index: 9000;
   font-size: 2.5em;
@@ -30,6 +63,11 @@ html, body {
 
 #main {
   min-height: 0px;
+}
+
+.btn-light {
+  background-color:  $body-color;
+  color: $body-bg;
 }
 
 .exposure-equals {
@@ -129,7 +167,7 @@ html, body {
 
  .leaflet-popup-content {
    user-select: none;
-   cursor: default; 
+   cursor: default;
    min-width: 205px;
  }
 
@@ -144,6 +182,7 @@ html, body {
 .leaflet-popup-tip-container {
   display: none;
 }
+
 body {
   background-color: $body-bg;
   color: $body-color;
