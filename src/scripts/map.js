@@ -12,6 +12,10 @@ import '../css/_custom_leaflet.scss';
 import { Store } from './store';
 import { IdentifyAPI } from './identifyAPI';
 
+// import utilities
+import { checkValidObject } from './utilitys';
+
+
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
 // See github issue https://github.com/Esri/esri-leaflet-vector/issues/31 from tgirgin23
@@ -299,7 +303,7 @@ export class Map extends Component {
 
     const mapClick = store.getStateItem('mapClick');
 
-    if (!Map.checkValidObject(mapClick)) {
+    if (!checkValidObject(mapClick)) {
       Map.spinnerOff();
       return false;
     }
@@ -405,7 +409,7 @@ export class Map extends Component {
   setMapCenter(value) {
     this.map.panTo(value);
 
-    if (!Map.checkValidObject(value)) {
+    if (!checkValidObject(value)) {
       return false;
     }
     this.map.panTo(value);
@@ -421,7 +425,7 @@ export class Map extends Component {
    *   })
    */
   setMapZoom(value) {
-    if (!Map.checkValidObject(value)) {
+    if (!checkValidObject(value)) {
       return false;
     }
     this.map.setZoom(value);
@@ -437,7 +441,7 @@ export class Map extends Component {
    *
    */
   setMapClick(value) {
-    if (!Map.checkValidObject(value)) {
+    if (!checkValidObject(value)) {
       return false;
     }
     const latlng = L.latLng([value.lat, value.lng]);
@@ -510,40 +514,24 @@ export class Map extends Component {
     }
 
     // check the mapclick variable. if map clicked restore the state
-    if (Map.checkValidObject(mapClick)) {
+    if (checkValidObject(mapClick)) {
       self.setMapClick(mapClick);
       this.retreiveMapClick();
     }
 
     // handle zoom and center set view for zoom and center when both state objects set
-    if (Map.checkValidObject(mapZoom) && Map.checkValidObject(mapCenter)) {
+    if (checkValidObject(mapZoom) && checkValidObject(mapCenter)) {
       self.map.setView(mapCenter, mapZoom);
       self.setMapCenter(mapCenter);
     }
 
-    if (Map.checkValidObject(mapZoom) && !Map.checkValidObject(mapCenter)) {
+    if (checkValidObject(mapZoom) && !checkValidObject(mapCenter)) {
       // handle zoom when only zoom object set
       self.setMapZoom(mapZoom);
-    } else if (Map.checkValidObject(mapCenter) && !Map.checkValidObject(mapZoom)) {
+    } else if (checkValidObject(mapCenter) && !checkValidObject(mapZoom)) {
       // handle recenter when only mapCenter object set
       self.setMapCenter(mapCenter);
     }
-
-    return true;
-  }
-
-  // ensure the object or variable is valid...
-  // TODO: This should probably be looking for positives rather than checking it
-  // isn't one of a few negatives. For example this will let booleans, malformed
-  // lat/long objects, arrays and floats through when it probably shouldn't. The
-  // code doesn't really say what a valid object is other than not undefined,
-  // null, empty arrays, empty objects and empty strings.
-  //
-  // @param obj - typeless
-  static checkValidObject(obj) {
-    if (obj === undefined || obj === null) { return false; }
-    if (typeof obj === 'object' && Object.keys(obj).length === 0) { return false; }
-    if (typeof obj === 'string' && obj.length === 0) { return false; }
 
     return true;
   }

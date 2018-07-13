@@ -5,7 +5,7 @@ import { Component } from './components';
 
 import { navConfig } from '../config/navConfig';
 
-import { toggleElementDisplay } from './domUtils';
+import { toggleElementDisplay } from './utilitys';
 
 /**
  * NavBar Component

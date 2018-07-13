@@ -8,12 +8,14 @@ import exploreTemplate from '../templates/explore.html';
 import { Component } from './components';
 import { Store } from './store';
 
+import { checkValidObject } from './utilitys';
 
 const store = new Store({});
 
 /**
  * explore Component
- * Render explore
+ * Explore handles drawing on map, uploading of shapefile,
+ * and generally handles adding any shapes to the map.
  */
 export class Explore extends Component {
   constructor(placeholderId, props) {
@@ -74,26 +76,9 @@ export class Explore extends Component {
     });
 
     const userarea = store.getStateItem('userarea');
-    if (Explore.checkValidObject(userarea)) {
+    if (checkValidObject(userarea)) {
       const layer = L.geoJson(userarea);
       drawAreaGroup.addLayer(layer);
     }
-  }
-
-  // ensure the object or variable is valid...
-  // TODO: This should probably be looking for positives rather than checking it
-  // isn't one of a few negatives. For example this will let booleans, malformed
-  // lat/long objects, arrays and floats through when it probably shouldn't. The
-  // code doesn't really say what a valid object is other than not undefined,
-  // null, empty arrays, empty objects and empty strings.
-  //
-  // @param obj - typeless
-  // add to store? so not duplicated from mapComponent
-  static checkValidObject(obj) {
-    if (obj === undefined || obj === null) { return false; }
-    if (typeof obj === 'object' && Object.keys(obj).length === 0) { return false; }
-    if (typeof obj === 'string' && obj.length === 0) { return false; }
-
-    return true;
   }
 }
