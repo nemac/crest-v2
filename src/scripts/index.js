@@ -12,7 +12,7 @@ import { URL } from './url';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
-import { Explore } from  './explore';
+import { Explore } from './explore';
 
 // import html templates
 import AboutPage from '../templates/about.html';
@@ -62,7 +62,7 @@ function initMapComponent() {
   if (mapComponent === undefined) {
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
-    exploreComponent = new Explore('explore-holder', {mapComponent});
+    exploreComponent = new Explore('explore-holder', { mapComponent });
   }
 
   // restore only if first render
