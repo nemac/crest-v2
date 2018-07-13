@@ -81,6 +81,4 @@ export class Explore extends Component {
       drawAreaGroup.addLayer(layer);
     }
   }
-
-
 }

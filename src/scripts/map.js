@@ -535,6 +535,4 @@ export class Map extends Component {
 
     return true;
   }
-
-
 }
