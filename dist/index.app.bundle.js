@@ -110,7 +110,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "50034cc7025d26a7f886"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4cd47fc32983273b14f6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1068,7 +1068,7 @@ eval("module.exports = \"<div class=\\\"container-fluid d-flex flex-column\\\">\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"<div class=\\\"container-fluid d-flex flex-column w-100\\\">\\n  <div class=\\\"row d-flex w-100\\\">\\n    <div class=\\\"sticky-top sideheading w-100\\\">\\n      <h3  > Start Exploring</h3>\\n      <hr class=\\\"w-100\\\"/>\\n    </div>\\n    <div id=\\\"add-user-shape\\\" class=\\\"fow d-flex w-100\\\">\\n        <button id=\\\"draw-area-btn\\\" type=\\\"button\\\" class=\\\"btn btn-light btn-box\\\">Draw Area</button>\\n    </div>\\n  </div>\\n</div>\\n\";\n\n//# sourceURL=webpack:///./src/templates/explore.html?");
+eval("module.exports = \"<div class=\\\"container-fluid d-flex flex-column w-100\\\">\\n  <div class=\\\"row d-flex w-100\\\">\\n    <div class=\\\"sticky-top sideheading w-100\\\">\\n      <h3  > Start Exploring</h3>\\n      <hr class=\\\"w-100\\\"/>\\n    </div>\\n    <div id=\\\"add-user-shape\\\" class=\\\"fow d-flex w-100\\\">\\n        <button id=\\\"draw-area-btn\\\" type=\\\"button\\\" class=\\\"btn btn-light btn-box btn-draw-area\\\">Draw Area on map</button>\\n    </div>\\n  </div>\\n</div>\\n\";\n\n//# sourceURL=webpack:///./src/templates/explore.html?");
 
 /***/ }),
 
