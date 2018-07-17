@@ -13,6 +13,7 @@ import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
 import { Explore } from './explore';
+import { MapInfo } from './mapinfo';
 
 // import html templates
 import AboutPage from '../templates/about.html';
@@ -27,6 +28,7 @@ new URL();
 let mapComponent;
 let maplayersComponent;
 let exploreComponent;
+let mapInfoComponent;
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
@@ -63,11 +65,14 @@ function initMapComponent() {
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     exploreComponent = new Explore('explore-holder', { mapComponent });
+    mapInfoComponent = new MapInfo('', { mapComponent });
   }
 
   // restore only if first render
   if (mapComponent.renderCount === 0) {
     mapComponent.restoreMapState();
+    // probably need to check if mapInfoComponent exists
+    mapInfoComponent.restoreMapInfoState();
   }
   mapComponent.renderCount += 1;
 

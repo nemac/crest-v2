@@ -10,10 +10,9 @@ import '../css/_custom_leaflet.scss';
 
 // Import custom classess
 import { Store } from './store';
-import { IdentifyAPI } from './identifyAPI';
 
 // import utilities
-import { checkValidObject } from './utilitys';
+import { checkValidObject, spinnerOff, spinnerOn } from './utilitys';
 
 
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
@@ -23,7 +22,6 @@ import * as vector from '../vendor/esri/esri-leaflet-vector/EsriLeafletVector';
 
 // templates
 import mapTemplate from '../templates/map.html';
-import mapInfoTemplate from '../templates/mapinfo.html';
 
 const store = new Store({});
 
@@ -48,8 +46,6 @@ export class Map extends Component {
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
-
-    this.IdentifyAPI = new IdentifyAPI();
 
     this.map.zoomControl.setPosition('topleft'); // Position zoom control
     this.overlayMaps = {}; // Map layer dict (key/value = title/layer)
@@ -108,23 +104,23 @@ export class Map extends Component {
 
       // to do add to seperate function/method
       tileLayer.on('load', () => {
-        Map.spinnerOff();
+        spinnerOff();
       });
 
       tileLayer.on('unload', () => {
-        Map.spinnerOff();
+        spinnerOff();
       });
 
       tileLayer.on('error', () => {
-        Map.spinnerOff();
+        spinnerOff();
       });
 
       tileLayer.on('tileunload', () => {
-        Map.spinnerOff();
+        spinnerOff();
       });
 
       tileLayer.on('tileerror', () => {
-        Map.spinnerOff();
+        spinnerOff();
       });
 
       const mapDisplayLayersObj = { [layer.id]: false };
@@ -136,7 +132,7 @@ export class Map extends Component {
     });
 
     store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
-    this.addMapInformationControl();
+
 
     const mapClick = store.getStateItem('mapClick');
     const workingElement = L.DomUtil.create('div', 'position-relative d-flex align-items-center justify-content-center leaflet-working d-none', L.DomUtil.get('map'));
@@ -150,224 +146,32 @@ export class Map extends Component {
     store.setStoreItem('mapZoom', this.map.getZoom());
   }
 
-  static saveAction(type) {
-    store.setStoreItem('lastaction', type);
-  }
 
   // Add map listeners in function so we can call it from index or setup and we
   // only update state store after map is intialized.
   addMapEventListners() {
-    const self = this;
     this.map.on('moveend', (event) => {
       this.saveMapPosition();
-      Map.saveAction('moveend');
+      store.saveAction('moveend');
     });
 
     this.map.on('zoomend', (event) => {
       this.saveMapPosition();
-      Map.saveAction('zoomend');
+      store.saveAction('zoomend');
     });
 
     this.map.on('dblclick', (event) => {
       this.saveMapPosition();
-      Map.saveAction('dblclick');
+      store.saveAction('dblclick');
     });
 
     this.map.on('keypress', (event) => {
       this.saveMapPosition();
-      Map.saveAction('keypress');
-    });
-
-    // click
-    this.addMapClickIdentify();
-  }
-
-  // re-instiate mapClick indentify
-  addMapClickIdentify() {
-    const self = this;
-    // click
-    this.map.on('click', (ev) => {
-      this.saveMapPosition();
-      Map.saveAction('click');
-      store.setStoreItem('mapClick', ev.latlng);
-      if (ev.containerPoint !== undefined) {
-        self.retreiveMapClick();
-      }
+      store.saveAction('keypress');
     });
   }
 
-  // toggle spinner visibility on
-  static spinnerOn() {
-    const el = document.getElementById('map-working');
-    const elHolder = document.querySelector('.leaflet-working');
-
-    // ensure elements and class names exists
-    if (el === undefined) { return false; }
-    if (el.className.baseVal === undefined) { return false; }
-    if (elHolder === undefined) { return false; }
-    if (elHolder.className === undefined) { return false; }
-
-    // update class for svg spinner
-    const elClassName = el.className.baseVal;
-    el.className.baseVal = elClassName.replace(' d-none', '');
-
-    // update class for div element that holds svg.  Do this so it dose not cover
-    // cover other map elements and panes
-    elHolder.className = elHolder.className.replace(' d-none', '');
-    elHolder.className = elHolder.className.replace('h-100', '');
-    elHolder.className = elHolder.className.replace('w-100', '');
-    elHolder.className += ' h-100';
-    elHolder.className += ' w-100';
-
-    return true;
-  }
-
-  // toggle spinner visibility off
-  static spinnerOff() {
-    const el = document.getElementById('map-working');
-    const elHolder = document.querySelector('.leaflet-working');
-
-    // ensure elements and class names exists
-    if (el === undefined) { return false; }
-    if (el.className.baseVal === undefined) { return false; }
-    if (elHolder === undefined) { return false; }
-    if (elHolder.className === undefined) { return false; }
-
-    // update class for svg spinner
-    const elClassName = el.className.baseVal;
-    el.className.baseVal = elClassName.replace(' d-none', '');
-    el.className.baseVal += ' d-none';
-
-    // update class for div element that holds svg.  Do this so it dose not cover
-    // cover other map elements and panes
-    elHolder.className = elHolder.className.replace(' d-none', '');
-    elHolder.className = elHolder.className.replace('h-100', '');
-    elHolder.className = elHolder.className.replace('w-100', '');
-    elHolder.className += ' d-none';
-
-    return true;
-  }
-
-  // Identify
-  addMapInformationControl() {
-    L.Control.Watermark = L.Control.extend({
-      onAdd: (map) => {
-        const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
-        fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
-        L.DomEvent.disableClickPropagation(fa);
-        return fa;
-      },
-
-      // Nothing to do here
-      onRemove: (map) => {}
-    });
-
-    L.control.watermark = opts => new L.Control.Watermark(opts);
-
-    L.control.watermark({ position: 'topleft' }).addTo(this.map);
-  }
-
-  // Note that the back-ticks are intentional. They use the new ES6 Template
-  // Literals pattern.
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-  static replaceMapInfoValue(doc, type, values) {
-    const element = doc.getElementById(`${type}-score`);
-    if (element !== undefined && element !== null) {
-      element.textContent = values.label;
-    }
-  }
-
-  // TODO: Either generalize this so it isn't always background colot and color but instead
-  // an attribute/value pair. Or preferably make this use classes so we can have the colors
-  // be in css.
-  static addStyle(doc, type, values) {
-    const element = doc.getElementById(`${type}-score`);
-    if (element !== undefined && element !== null) {
-      element.setAttribute('style', `background-color: ${values.backgroundColor}; color: ${values.color};`);
-    }
-  }
-
-  // Load map data from the API
-  async retreiveMapClick() {
-    Map.spinnerOn();
-
-    if (!store.isStateExists()) {
-      Map.spinnerOff();
-      return false;
-    }
-
-    // remove previous marker point
-    if (this.marker !== undefined) {
-      this.map.removeLayer(this.marker);
-    }
-
-    const mapClick = store.getStateItem('mapClick');
-
-    if (!checkValidObject(mapClick)) {
-      Map.spinnerOff();
-      return false;
-    }
-
-    // make call to lambda api.
-    const IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
-
-    // for testing without api
-    // const IdentifyJson = {
-    // "aquatic": 6, "tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"
-    // };
-
-    const myIcon = L.divIcon({ className: 'map-info-point' });
-
-    this.marker = L.marker([mapClick.lat, mapClick.lng], { icon: myIcon });
-    this.map.addLayer(this.marker);
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(mapInfoTemplate, 'text/html');
-
-    // template needs responive info box.
-    Object.keys(IdentifyJson).forEach((key) => {
-      const styleItem = IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
-
-      const templateValues = {
-        name: key,
-        backgroundColor: styleItem[0].backgroundColor,
-        color: styleItem[0].color,
-        label: styleItem[0].label
-      };
-
-      Map.addStyle(doc, key, templateValues);
-      Map.replaceMapInfoValue(doc, key, templateValues);
-    });
-
-    const mapinformationel = doc.getElementById('map_info_list');
-    const tooltipContent = L.Util.template(mapinformationel.outerHTML);
-
-    // TODO overide css popup for leaflet
-    this.marker.bindPopup(
-      tooltipContent,
-      {
-        autoClose: false,
-        closeOnClick: false,
-        opacity: 0.9,
-        autoPan: false,
-        offset: L.point(-123, 20)
-      }
-    ).openPopup();
-
-    // remove class
-    this.map.on('popupclose', () => {
-      // remove previous marker point
-      if (this.marker !== undefined) {
-        this.map.removeLayer(this.marker);
-      }
-
-      // remove from state
-      store.removeStateItem('mapClick');
-    });
-    Map.spinnerOff();
-    return true;
-  }
-
+  // check if should restore the map state
   static shouldRestore(props) {
     if (props === undefined || props.restore === undefined) {
       return false;
@@ -378,14 +182,14 @@ export class Map extends Component {
 
   // Toggle map layer visibility
   toggleLayer(layerName) {
-    Map.saveAction('maplayertoggle');
+    store.saveAction('maplayertoggle');
     let mapDisplayLayersObj = {};
-    const layer = this.overlayMaps[layerName];
+    const layer = this.overlayMaps [layerName];
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer);
       mapDisplayLayersObj = { [layerName]: false };
     } else {
-      Map.spinnerOn();
+      spinnerOn();
       this.map.addLayer(layer);
       mapDisplayLayersObj = { [layerName]: true };
     }
@@ -516,7 +320,7 @@ export class Map extends Component {
     // check the mapclick variable. if map clicked restore the state
     if (checkValidObject(mapClick)) {
       self.setMapClick(mapClick);
-      this.retreiveMapClick();
+      // this.retreiveMapClick();
     }
 
     // handle zoom and center set view for zoom and center when both state objects set

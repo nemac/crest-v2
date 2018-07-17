@@ -29,3 +29,75 @@ export function checkValidObject(obj) {
 
   return true;
 }
+
+// toggle spinner visibility on
+export function spinnerOn() {
+  const el = document.getElementById('map-working');
+  const elHolder = document.querySelector('.leaflet-working');
+
+  // ensure elements and class names exists
+  if (el === undefined) { return false; }
+  if (el.className.baseVal === undefined) { return false; }
+  if (elHolder === undefined) { return false; }
+  if (elHolder.className === undefined) { return false; }
+
+  // update class for svg spinner
+  const elClassName = el.className.baseVal;
+  el.className.baseVal = elClassName.replace(' d-none', '');
+
+  // update class for div element that holds svg.  Do this so it dose not cover
+  // cover other map elements and panes
+  elHolder.className = elHolder.className.replace(' d-none', '');
+  elHolder.className = elHolder.className.replace('h-100', '');
+  elHolder.className = elHolder.className.replace('w-100', '');
+  elHolder.className += ' h-100';
+  elHolder.className += ' w-100';
+
+  return true;
+}
+
+// toggle spinner visibility off
+export function spinnerOff() {
+  const el = document.getElementById('map-working');
+  const elHolder = document.querySelector('.leaflet-working');
+
+  // ensure elements and class names exists
+  if (el === undefined) { return false; }
+  if (el.className.baseVal === undefined) { return false; }
+  if (elHolder === undefined) { return false; }
+  if (elHolder.className === undefined) { return false; }
+
+  // update class for svg spinner
+  const elClassName = el.className.baseVal;
+  el.className.baseVal = elClassName.replace(' d-none', '');
+  el.className.baseVal += ' d-none';
+
+  // update class for div element that holds svg.  Do this so it dose not cover
+  // cover other map elements and panes
+  elHolder.className = elHolder.className.replace(' d-none', '');
+  elHolder.className = elHolder.className.replace('h-100', '');
+  elHolder.className = elHolder.className.replace('w-100', '');
+  elHolder.className += ' d-none';
+
+  return true;
+}
+
+// TODO: Either generalize this so it isn't always background color and color but instead
+// an attribute/value pair. Or preferably make this use classes so we can have the colors
+// be in css.
+export function addStyle(doc, type, values) {
+  const element = doc.getElementById(`${type}-score`);
+  if (element !== undefined && element !== null) {
+    element.setAttribute('style', `background-color: ${values.backgroundColor}; color: ${values.color};`);
+  }
+}
+
+// Note that the back-ticks are intentional. They use the new ES6 Template
+// Literals pattern.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+export function replaceMapInfoValue(doc, type, values) {
+  const element = doc.getElementById(`${type}-score`);
+  if (element !== undefined && element !== null) {
+    element.textContent = values.label;
+  }
+}

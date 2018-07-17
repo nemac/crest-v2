@@ -167,4 +167,10 @@ export class Store {
   //  })
 
   // We will look at static and subclassed methods shortly
+
+  // save map action.
+  // ensures the state map action is consistent
+  saveAction(type) {
+    this.setStoreItem('lastaction', type);
+  }
 }
