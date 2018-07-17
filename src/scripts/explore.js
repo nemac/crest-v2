@@ -22,20 +22,47 @@ export class Explore extends Component {
     super(placeholderId, props, exploreTemplate);
 
     const { mapComponent, mapInfoComponent } = props;
-    const drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
-    // const polygonOptions =  { allowIntersection: false, showArea: true};
+    this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
 
-    // draw polygon handler
-    const polygonDrawer = new L.Draw.Polygon(mapComponent.map);
+    // handler for when drawing is completed
+    this.addDrawVertexCreatedHandler(mapComponent, mapInfoComponent);
 
-    // color first vertex green
-    mapComponent.map.on('draw:drawvertex', (e) => {
-      const vertexElements = document.querySelectorAll('.leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-zoom-animated.leaflet-interactive');
-      const fistVertexElement = vertexElements[0];
-      fistVertexElement.className += ' leaflet-marker-icon-first';
-    });
+    // handler for drawing first vertex
+    Explore.addDrawVertexHandler(mapComponent);
+
+    // handler for clicking the draw area button
+    this.addDrawAreaClickHandler(mapComponent);
 
     // handle stop of draw with escape before finsihed
+    Explore.addDrawVertexStop(mapComponent, mapInfoComponent);
+
+    // draw the user area on the map
+    this.drawUserArea();
+  }
+
+  // draw the user area on the map
+  drawUserArea() {
+    const userarea = store.getStateItem('userarea');
+
+    // ensure the user area object is valid (actuall has a value)
+    if (checkValidObject(userarea)) {
+      // convert geoJson to leaflet layer
+      const layer = L.geoJson(userarea);
+
+      // add layer to the leaflet map
+      this.drawAreaGroup.addLayer(layer);
+      return layer;
+    }
+    return null;
+  }
+
+  // handler for stoping (cancel) drawing on the map
+  // adding not as hanlder callback so I can use this (class) calls
+  // would be better to handle this as a traditional callback
+  // the other vertexes
+  // @param { Object } mapComponent object
+  // @param { Object } mapInfoComponent object
+  static addDrawVertexStop(mapComponent, mapInfoComponent) {
     mapComponent.map.on('draw:deletestop', () => {
       store.removeStateItem('userarea');
 
@@ -44,15 +71,60 @@ export class Explore extends Component {
         mapInfoComponent.addMapClickIdentifyClickHandler();
       }
     });
+  }
+
+  // handler for drawing the first vertex (green) on the map differently then
+  // adding not as hanlder callback so I can use this (class) calls
+  // would be better to handle this as a traditional callback
+  // the other vertexes
+  // @param { Object } mapComponent object
+  static addDrawVertexHandler(mapComponent) {
+    // color first vertex green
+    mapComponent.map.on('draw:drawvertex', (e) => {
+      const vertexElements = document.querySelectorAll('.leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-zoom-animated.leaflet-interactive');
+      const fistVertexElement = vertexElements[0];
+      fistVertexElement.className += ' leaflet-marker-icon-first';
+    });
+  }
+
+  // handler for click the button drawing vertexes on the map
+  // adding not as hanlder callback so I can use this (class) calls
+  // would be better to handle this as a traditional callback
+  // @param { Object } mapComponent object
+  addDrawAreaClickHandler(mapComponent) {
+    // draw polygon handler
+    const polygonDrawer = new L.Draw.Polygon(mapComponent.map);
+
+    // Click handler for you button to start drawing polygons
+    const drawAreaElement = document.getElementById('draw-area-btn');
+
+    drawAreaElement.addEventListener('click', (ev) => {
+      // remove existing Area
+      this.drawAreaGroup.clearLayers();
+      store.removeStateItem('userarea');
+
+      // turn off other map click events expecting this
+      //  to be indentify if we add other map click events
+      //  we will have to add that back.  so this not ideal
+      mapComponent.map.off('click');
+
+      // enable polygon drawer for leaflet map
+      polygonDrawer.enable();
+    });
+  }
+
+  // handler for when drawing is complete on the map
+  // adding not as hanlder callback so I can use this (class) calls
+  // would be better to handle this as a traditional callback
+  // @param { Object } mapComponent object
+  // @param { Object } mapInfoComponent object
+  addDrawVertexCreatedHandler(mapComponent, mapInfoComponent) {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', (e) => {
       const { layer } = e;
-      drawAreaGroup.addLayer(layer);
+      this.drawAreaGroup.addLayer(layer);
 
-      // Do whatever you want with the layer.
-      // e.type will be the type of layer that has been draw
-      //    (polyline, marker, polygon, rectangle, circle)
-      // E.g. add it to the map
+      // start adding the user draw shape to the map
       layer.addTo(mapComponent.map);
 
       if (checkValidObject(mapInfoComponent)) {
@@ -64,25 +136,5 @@ export class Explore extends Component {
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', layer.toGeoJSON());
     });
-
-    // Click handler for you button to start drawing polygons
-    const drawAreaElement = document.getElementById('draw-area-btn');
-
-    // console.log(drawAreaElement)
-    drawAreaElement.addEventListener('click', (ev) => {
-      // draw existing Area
-      drawAreaGroup.clearLayers();
-      store.removeStateItem('userarea');
-
-      // currently removes old indentify which is not correct
-      mapComponent.map.off('click');
-      polygonDrawer.enable();
-    });
-
-    const userarea = store.getStateItem('userarea');
-    if (checkValidObject(userarea)) {
-      const layer = L.geoJson(userarea);
-      drawAreaGroup.addLayer(layer);
-    }
   }
 }
