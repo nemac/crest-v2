@@ -126,14 +126,27 @@ export class MapInfo extends Component {
     // "aquatic": 6, "tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"
     // };
 
-    const myIcon = L.divIcon({ className: 'map-info-point' });
+    const myIcon = MapInfo.createMapInfoIcon();
 
-    this.marker = L.marker([mapClick.lat, mapClick.lng], { icon: myIcon });
-    this.map.addLayer(this.marker);
+    this.addMaker(mapClick, myIcon);
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(mapInfoTemplate, 'text/html');
+    const doc = MapInfo.getDocument();
+    MapInfo.buildMapInfoConent(IdentifyJson, doc);
 
+    this.bindPopup(doc);
+
+    this.addRemoveMarkerOnClick();
+
+    // toggle spinner css from utility.js
+    spinnerOff();
+    return true;
+  }
+
+  // build content from identify api (lamda function)
+  // @param { Object } IdentifyJson is json data returned from api
+  // @param { Object } doc is html document (identify/mapinfo html element)
+  //
+  static buildMapInfoConent(IdentifyJson, doc) {
     // template needs responive info box.
     Object.keys(IdentifyJson).forEach((key) => {
       const styleItem = IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
@@ -149,10 +162,13 @@ export class MapInfo extends Component {
       addStyle(doc, key, templateValues);
       replaceMapInfoValue(doc, key, templateValues);
     });
+  }
 
+  // bind popup to marker
+  // @param { Object } doc is html document (identify/mapinfo html element)
+  bindPopup(doc) {
     const mapinformationel = doc.getElementById('map_info_list');
     const tooltipContent = L.Util.template(mapinformationel.outerHTML);
-
     // TODO overide css popup for leaflet
     this.marker.bindPopup(
       tooltipContent,
@@ -164,8 +180,24 @@ export class MapInfo extends Component {
         offset: L.point(-123, 20)
       }
     ).openPopup();
+  }
 
-    // remove class
+  // creates custom icon and adds css class for styling
+  static createMapInfoIcon() {
+    return L.divIcon({ className: 'map-info-point' });
+  }
+
+  // add maker for identify/mapInfo
+  // @param { Object } mapclick object lat long
+  // @param { Object } icon leaflet icon used as maker on map
+  addMaker(mapClick, icon) {
+    this.marker = L.marker([mapClick.lat, mapClick.lng], { icon });
+    this.map.addLayer(this.marker);
+  }
+
+  // add remove popup when use closes the popup
+  // remove class
+  addRemoveMarkerOnClick() {
     this.map.on('popupclose', () => {
       // remove previous marker point
       if (this.marker !== undefined) {
@@ -175,13 +207,11 @@ export class MapInfo extends Component {
       // remove from state
       store.removeStateItem('mapClick');
     });
-
-    // toggle spinner css from utility.js
-    spinnerOff();
-    return true;
   }
-  // // bind popup to marker
-  // bindPopup() {
-  //
-  // }
+
+  // create a dom element from the mapinfo html template
+  static getDocument() {
+    const parser = new DOMParser();
+    return parser.parseFromString(mapInfoTemplate, 'text/html');
+  }
 }
