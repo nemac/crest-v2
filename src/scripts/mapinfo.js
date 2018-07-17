@@ -20,8 +20,9 @@ import {
 const store = new Store({});
 
 /**
-* explore Component
-* Explore handles drawing on map, uploading of shapefile,
+* handles the identify interactions on the map
+* dosen't not deal with lambda api call but it does make that call
+* it does deal with the response information
 * and generally handles adding any shapes to the map.
 */
 export class MapInfo extends Component {
@@ -46,20 +47,32 @@ export class MapInfo extends Component {
   // add Identify control to leaflet map
   static addMapInformationControl(leafletmap) {
     L.Control.Watermark = L.Control.extend({
-      onAdd: (map) => {
-        const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
-        fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
-        L.DomEvent.disableClickPropagation(fa);
-        return fa;
-      },
+      onAdd: MapInfo.mapInfoMakerOnAddHandler,
 
       // Nothing to do here
-      onRemove: (map) => {}
+      onRemove: MapInfo.mapInfoMakerOnRemoveHandler
     });
 
     L.control.watermark = opts => new L.Control.Watermark(opts);
 
     L.control.watermark({ position: 'topleft' }).addTo(leafletmap);
+  }
+
+  // mapinfo (identify) control (button) on add function.
+  // fires when the control (button) is removed
+  static mapInfoMakerOnRemoveHandler(map) {
+    // Nothing to do here yet
+    return null;
+  }
+
+  // mapinfo (identify) control (button) on add function.
+  // fires when the control (button) is added
+  static mapInfoMakerOnAddHandler(map) {
+    // setup custom style for mapinfo indentify control (button)
+    const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
+    fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
+    L.DomEvent.disableClickPropagation(fa);
+    return fa;
   }
 
   // restore the state form map info/identify
@@ -84,17 +97,27 @@ export class MapInfo extends Component {
   }
 
   // re-instiate mapClick indentify
+  // adding not as hanlder callback so I can use this (class) calls
+  // would be better to handle this as a traditional callback
   addMapClickIdentifyClickHandler() {
     // click
     this.map.on('click', (ev) => {
       // remove old maker if it exists
-      //  this.marker is defined at class creation
+      // this.marker is defined at class creation
       this.removeMapMarker();
 
+      // set zoom and map position on map click (just and case it changes)
+      // it's possible the add marker will autopan
       this.mapComponent.saveZoomAndMapPosition();
+
+      // save the map action to state store
       store.saveAction('click');
+
+      // save the mapclick location to the state store
       store.setStoreItem('mapClick', ev.latlng);
 
+      // if there was a point retrieve the information from the
+      // lambda api function
       if (ev.containerPoint !== undefined) {
         this.retreiveMapClick();
       }
@@ -108,13 +131,16 @@ export class MapInfo extends Component {
     // toggle spinner css from utility.js
     spinnerOn();
 
+    // if there is no state exit and stop spinner
     if (!store.isStateExists()) {
       spinnerOff();
       return false;
     }
 
+    // get the map click location from the store
     const mapClick = store.getStateItem('mapClick');
 
+    // ensure the mapclick is valid has information we can use
     if (!checkValidObject(mapClick)) {
       spinnerOff();
       return false;
@@ -128,15 +154,22 @@ export class MapInfo extends Component {
     // "aquatic": 6, "tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"
     // };
 
+    // get the custom map marker icon
     const myIcon = MapInfo.createMapInfoIcon();
 
+    // add the marker at the clicked point
     this.addMaker(mapClick, myIcon);
 
+    // get the mapinfo (identify) html document and udpate
+    // the content with returned values
     const doc = MapInfo.getDocument();
     MapInfo.buildMapInfoConent(IdentifyJson, doc);
 
+    // bind the html to the leaflet marker and open as leaflet popup
     this.bindPopup(doc);
 
+    // add the a click handler to popup to remove the
+    // the point marker from the map and state
     this.addRemoveMarkerOnClick();
 
     // toggle spinner css from utility.js
@@ -198,7 +231,8 @@ export class MapInfo extends Component {
   }
 
   // add remove popup when use closes the popup
-  // remove class
+  // adding not as hanlder callback so I can use this (class) calls
+  // would be better to handle this as a traditional callback
   addRemoveMarkerOnClick() {
     this.map.on('popupclose', () => {
       // remove previous marker point
