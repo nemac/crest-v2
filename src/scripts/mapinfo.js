@@ -20,8 +20,9 @@ import {
 const store = new Store({});
 
 /**
-* explore Component
-* Explore handles drawing on map, uploading of shapefile,
+* handles the identify interactions on the map
+* dosen't not deal with lambda api call but it does make that call
+* it does deal with the response information
 * and generally handles adding any shapes to the map.
 */
 export class MapInfo extends Component {
