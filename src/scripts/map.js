@@ -14,7 +14,6 @@ import { Store } from './store';
 // import utilities
 import { checkValidObject, spinnerOff, spinnerOn } from './utilitys';
 
-
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
 // See github issue https://github.com/Esri/esri-leaflet-vector/issues/31 from tgirgin23
@@ -78,11 +77,6 @@ export class Map extends Component {
     // May switch this out for tiled s3 layers or tile esri layers later
     const WMSLayers = mapConfig.TileLayers;
 
-    // Base maps - for now only one
-    const baseMaps = {
-      'Base Map': mapTiles
-    };
-
     // Iterate over each wms map layer and add them to the map
     WMSLayers.forEach((layer) => {
       const tileLayer = L.tileLayer.wms(layer.url, {
@@ -133,8 +127,6 @@ export class Map extends Component {
 
     store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
 
-
-    const mapClick = store.getStateItem('mapClick');
     const workingElement = L.DomUtil.create('div', 'position-relative d-flex align-items-center justify-content-center leaflet-working d-none', L.DomUtil.get('map'));
     workingElement.innerHTML = '<i id="map-working" class="fa fa-spinner fa-spin d-none"></i>';
     L.DomUtil.toFront(workingElement);
@@ -184,7 +176,7 @@ export class Map extends Component {
   toggleLayer(layerName) {
     store.saveAction('maplayertoggle');
     let mapDisplayLayersObj = {};
-    const layer = this.overlayMaps [layerName];
+    const layer = this.overlayMaps[layerName];
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer);
       mapDisplayLayersObj = { [layerName]: false };

@@ -7,6 +7,7 @@ import regular from '@fortawesome/fontawesome-free-regular';
 // import custom classess
 import { Store } from './store';
 import { URL } from './url';
+import { checkValidObject } from './utilitys';
 
 // import extended components
 import { Map } from './map';
@@ -64,15 +65,17 @@ function initMapComponent() {
   if (mapComponent === undefined) {
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
-    exploreComponent = new Explore('explore-holder', { mapComponent });
     mapInfoComponent = new MapInfo('', { mapComponent });
+    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
   }
 
   // restore only if first render
   if (mapComponent.renderCount === 0) {
     mapComponent.restoreMapState();
-    // probably need to check if mapInfoComponent exists
-    mapInfoComponent.restoreMapInfoState();
+
+    if (checkValidObject(mapInfoComponent)) {
+      mapInfoComponent.restoreMapInfoState();
+    }
   }
   mapComponent.renderCount += 1;
 
