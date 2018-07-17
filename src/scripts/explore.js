@@ -21,7 +21,7 @@ export class Explore extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, exploreTemplate);
 
-    const { mapComponent } = props;
+    const { mapComponent, mapInfoComponent } = props;
     const drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
     // const polygonOptions =  { allowIntersection: false, showArea: true};
 
@@ -39,8 +39,10 @@ export class Explore extends Component {
     mapComponent.map.on('draw:deletestop', () => {
       store.removeStateItem('userarea');
 
-      // re-add indentify
-      mapComponent.addMapClickIdentify();
+      if (checkValidObject(mapInfoComponent)) {
+        // re-add indentify
+        mapInfoComponent.addMapClickIdentify();
+      }
     });
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', (e) => {
@@ -53,8 +55,10 @@ export class Explore extends Component {
       // E.g. add it to the map
       layer.addTo(mapComponent.map);
 
-      // re-add indentify
-      mapComponent.addMapClickIdentify();
+      if (checkValidObject(mapInfoComponent)) {
+        // re-add indentify
+        mapInfoComponent.addMapClickIdentify();
+      }
 
       // update store
       store.setStoreItem('lastaction', 'draw area');
