@@ -7,7 +7,10 @@ const identifyPath = 'Prod/';
 
 // https://xi4lrz17r8.execute-api.us-east-1.amazonaws.com/Prod/identify/proxy?x=1745727&y=451980
 
-/** API Wrapper Service Class */
+/** API Wrapper Service Class
+* this wrapps the lambda service into axios js calls
+* it should only handle the api calls
+*/
 export class IdentifyAPI {
   constructor(url = apiEndpoint, path = identifyPath) {
     this.url = url + path;
