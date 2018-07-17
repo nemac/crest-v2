@@ -196,7 +196,6 @@ export class Map extends Component {
     });
   }
 
-
   // add handler for loading for tile layer
   // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
   static handleAlllTileHanlders(tileLayer) {
@@ -288,6 +287,8 @@ export class Map extends Component {
   }
 
   // Toggle map layer visibility
+  // this needs to be made more modular but not sure
+  // ho do that yet
   toggleLayer(layerName) {
     store.saveAction('maplayertoggle');
     let mapDisplayLayersObj = {};
