@@ -102,6 +102,8 @@ export class MapInfo extends Component {
   }
 
   // Load map data from the API
+  // todo what else can be seperated out to make functions more
+  // testable.
   async retreiveMapClick() {
     // toggle spinner css from utility.js
     spinnerOn();
