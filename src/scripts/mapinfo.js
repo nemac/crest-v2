@@ -40,7 +40,7 @@ export class MapInfo extends Component {
     // setup marker layer which is not set yet.
     this.marker = undefined;
 
-    this.addMapClickIdentify();
+    this.addMapClickIdentifyClickHandler();
   }
 
   // add Identify control to leaflet map
@@ -84,14 +84,14 @@ export class MapInfo extends Component {
   }
 
   // re-instiate mapClick indentify
-  addMapClickIdentify() {
+  addMapClickIdentifyClickHandler() {
     // click
     this.map.on('click', (ev) => {
       // remove old maker if it exists
       //  this.marker is defined at class creation
       this.removeMapMarker();
 
-      this.mapComponent.saveMapPosition();
+      this.mapComponent.saveZoomAndMapPosition();
       store.saveAction('click');
       store.setStoreItem('mapClick', ev.latlng);
 
@@ -171,7 +171,7 @@ export class MapInfo extends Component {
   bindPopup(doc) {
     const mapinformationel = doc.getElementById('map_info_list');
     const tooltipContent = L.Util.template(mapinformationel.outerHTML);
-    // TODO overide css popup for leaflet
+
     this.marker.bindPopup(
       tooltipContent,
       {
@@ -211,7 +211,7 @@ export class MapInfo extends Component {
     });
   }
 
-  // create a dom element from the mapinfo html template
+  // create a html dom element for the mapinfo html template
   static getDocument() {
     const parser = new DOMParser();
     return parser.parseFromString(mapInfoTemplate, 'text/html');

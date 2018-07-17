@@ -41,7 +41,7 @@ export class Explore extends Component {
 
       if (checkValidObject(mapInfoComponent)) {
         // re-add indentify
-        mapInfoComponent.addMapClickIdentify();
+        mapInfoComponent.addMapClickIdentifyClickHandler();
       }
     });
     // Assumming you have a Leaflet map accessible
@@ -57,7 +57,7 @@ export class Explore extends Component {
 
       if (checkValidObject(mapInfoComponent)) {
         // re-add indentify
-        mapInfoComponent.addMapClickIdentify();
+        mapInfoComponent.addMapClickIdentifyClickHandler();
       }
 
       // update store
