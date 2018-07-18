@@ -15,12 +15,14 @@ import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
 import { Explore } from './explore';
 import { MapInfo } from './mapinfo';
+import { SearchLocations } from './searchlocations';
 
 // import html templates
 import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 import ExplorePage from '../templates/explore.html';
+import SearchLocationsPage from '../templates/explore.html';
 
 // initialize navbar
 const navBarComponent = new NavBar('nav-holder');
@@ -30,6 +32,7 @@ let mapComponent;
 let maplayersComponent;
 let exploreComponent;
 let mapInfoComponent;
+let searchLocationsComponen;
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
@@ -67,6 +70,7 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
+    searchLocationsComponen = new SearchLocations('', { mapComponent });
   }
 
   // restore only if first render

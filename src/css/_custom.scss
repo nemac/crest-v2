@@ -133,6 +133,17 @@ html, body {
 
 }
 
+.searchlocations-point{
+  background-color: red;
+  border-radius: 10px;
+
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+
+}
+
 .mapInfo {
   background-color: $body-bg;
   color: $body-color;

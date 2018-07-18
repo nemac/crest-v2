@@ -28,6 +28,7 @@
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "esri-leaflet": "^2.1.4",
+    "esri-leaflet-geocoder": "^2.2.13",
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.2",
     "i": "^0.3.6",
