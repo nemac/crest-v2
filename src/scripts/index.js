@@ -32,7 +32,7 @@ let mapComponent;
 let maplayersComponent;
 let exploreComponent;
 let mapInfoComponent;
-let searchLocationsComponen;
+let searchLocationsComponent;
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
@@ -70,7 +70,7 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
-    searchLocationsComponen = new SearchLocations('', { mapComponent });
+    searchLocationsComponent = new SearchLocations('', { mapComponent });
   }
 
   // restore only if first render
@@ -79,6 +79,10 @@ function initMapComponent() {
 
     if (checkValidObject(mapInfoComponent)) {
       mapInfoComponent.restoreMapInfoState();
+    }
+
+    if (checkValidObject(searchLocationsComponent)) {
+      searchLocationsComponent.restoreSearchLocationsState();
     }
   }
   mapComponent.renderCount += 1;
