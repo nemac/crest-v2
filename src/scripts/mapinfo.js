@@ -106,10 +106,6 @@ export class MapInfo extends Component {
       // this.marker is defined at class creation
       this.removeMapMarker();
 
-      // set zoom and map position on map click (just and case it changes)
-      // it's possible the add marker will autopan
-      this.mapComponent.saveZoomAndMapPosition();
-
       // save the map action to state store
       store.saveAction('click');
 

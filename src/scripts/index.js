@@ -22,7 +22,7 @@ import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 import ExplorePage from '../templates/explore.html';
-import SearchLocationsPage from '../templates/explore.html';
+import SearchLocationsPage from '../templates/searchlocations.html';
 
 // initialize navbar
 const navBarComponent = new NavBar('nav-holder');
@@ -33,6 +33,8 @@ let maplayersComponent;
 let exploreComponent;
 let mapInfoComponent;
 let searchLocationsComponent;
+
+const store = new Store({});
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
@@ -70,7 +72,7 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
-    searchLocationsComponent = new SearchLocations('', { mapComponent });
+    searchLocationsComponent = new SearchLocations('', { mapComponent, exploreComponent });
   }
 
   // restore only if first render
@@ -85,6 +87,7 @@ function initMapComponent() {
       searchLocationsComponent.restoreSearchLocationsState();
     }
   }
+
   mapComponent.renderCount += 1;
 
   // delay listners unitll after setup also needs slight time out so the map dose not move on start
@@ -117,21 +120,26 @@ const router = new Navigo(homeloc, true);
 // examples of coded map interactions for testing
 // const maintitleElement = document.getElementById('maintitle');
 // maintitleElement.addEventListener('click', (e) => {
-//   const store = new Store({});
-//   mapComponent.setLayerStatus('SA_ThreatIndex');
-//   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
-//   mapComponent.setMapZoom(5);
-//   mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
-//   console.log('test')
-//   mapComponent.clearState();
-//   console.log(store.clearState())
-//   console.log(store.getStateItem("mapClick"))
-//   console.log(mapComponent.restoreMapState())
-//   mapComponent.setStateFromObject(store.getState())
-//   console.log(store.getStateItem('mapLayerDisplayStatus'))
-//   console.log(store.removeStateItem('mapClick'));
-//   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
-//   console.log()
+//   const mapCenter = store.getStateItem('mapCenter')
+//
+//   mapComponent.restoreMapCenter(mapCenter)
+//   mapComponent.map.panTo(mapCenter);
+//   console.log('end', mapCenter)
+// //   const store = new Store({});
+// //   mapComponent.setLayerStatus('SA_ThreatIndex');
+// //   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
+// //   mapComponent.setMapZoom(5);
+// //   mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
+// //   console.log('test')
+// //   mapComponent.clearState();
+// //   console.log(store.clearState())
+// //   console.log(store.getStateItem("mapClick"))
+// //   console.log(mapComponent.restoreMapState())
+// //   mapComponent.setStateFromObject(store.getState())
+// //   console.log(store.getStateItem('mapLayerDisplayStatus'))
+// //   console.log(store.removeStateItem('mapClick'));
+// //   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
+// //   console.log()
 // });
 
 router.on({

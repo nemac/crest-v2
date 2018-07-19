@@ -50,6 +50,20 @@ export class Map extends Component {
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
+    console.log(this.restoreStateStore);
+    console.log(Object.keys(this.restoreStateStore).length === 0 && this.restoreStateStore.constructor === Object)
+    if (Object.keys(this.restoreStateStore).length === 0 && this.restoreStateStore.constructor === Object) {
+
+        this.map.panTo(mapConfig.mapDefaults.center);
+        this.map.setZoom(mapConfig.mapDefaults.zoom);
+        console.log('mapConfig.mapDefaults.center', mapConfig.mapDefaults.center)
+        store.addStateItem('mapCenter', mapConfig.mapDefaults.center);
+        store.addStateItem('mapZoom', mapConfig.mapDefaults.zoom);
+        console.log('here')
+        // this.saveZoomAndMapPosition();
+        store.saveAction('init');
+    }
+
     this.map.zoomControl.setPosition('topleft'); // Position zoom control
     this.overlayMaps = {}; // Map layer dict (key/value = title/layer)
     this.value = null; // Store currently selected region
@@ -406,7 +420,7 @@ export class Map extends Component {
   restoreMapCenter(mapCenter) {
     // check the mapdisplay variable and toggle layers on when state
     if (checkValidObject(mapCenter)) {
-      // handle zoom when only zoom object set
+      // handle zoom when only mapCenter object set
       this.setMapCenter(mapCenter);
       return true;
     }
@@ -424,9 +438,7 @@ export class Map extends Component {
   restoreMapState() {
     // get last storage object
     store.setStateFromObject(this.restoreStateStore);
-
     const state = store.getState();
-
     // state exits
     if (!store.isStateExists()) {
       return false;
@@ -453,7 +465,8 @@ export class Map extends Component {
 
     this.restoreMapZoom(mapZoom);
     this.restoreMapCenter(mapCenter);
-
+    store.setStoreItem('mapZoom', mapZoom)
+    store.setStoreItem('mapCenter', mapCenter)
     return true;
   }
 }
