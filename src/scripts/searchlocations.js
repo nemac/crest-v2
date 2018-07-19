@@ -48,23 +48,53 @@ export class SearchLocations extends Component {
         // test whether there are any results
         if (data.results.length > 0) {
           const location = data.results[0].latlng;
+          const label = data.results[0].properties.ShortLabel;
+          console.log( data.results[0]);
+
           // set map view to coordinates of the first item in the results and the zoom level to 18
           this.mapComponent.map.setView(location, 16);
 
           // add marker at location to the map
           this.addMaker(location, icon)
 
-          console.log(data.results[0].text);
+          const searchLocationsPopup = this.SearchLocationResults.bindPopup(
+            label,
+            {
+              autoClose: false,
+              closeOnClick: false,
+              opacity: 0.9,
+              autoPan: false,
+              offset: L.point(-123, 20)
+            }
+          ).openPopup();
 
-          // create a popup at the coordinates of the result and add the result text to the popup and open it on the map
-         const popup = L.popup({ closeOnClick: true })
-           .setLatLng(location)
-           .setContent(data.results[0].text)
-           .openOn(this.mapComponent.map);
+          // searchLocationsPopup.on('popupclose', function() { alert('Clicked on a member of the group!'); })
+          // console.log(searchLocationsPopup);
+          // this.mapComponent.map.on('popupclose', (ev) => {
+          //   console.log(ev)
+          // });
 
-          popup.
+          searchLocationsPopup.on('popupclose', (ev) => {
+            // remove previous marker point
+            if (this.SearchLocationResults !== undefined) {
+              this.mapComponent.map.removeLayer(this.SearchLocationResults);
+            }
+
+            // remove from state
+            store.removeStateItem('mapSearchLocations');
+          });
+
+          // console.log(data.results[0].text);
+
+         //  // create a popup at the coordinates of the result and add the result text to the popup and open it on the map
+         // const popup = L.popup({ closeOnClick: true })
+         //   .setLatLng(location)
+         //   .setContent(label)
+         //   .openOn(this.mapComponent.map);
+
+          // popup.
           // set state for mapSearchLocations
-          store.setStoreItem('mapSearchLocations', location);
+          store.setStoreItem('mapSearchLocations', {location, label});
 
         }
       }
@@ -88,19 +118,28 @@ export class SearchLocations extends Component {
   restoreSearchLocationsState() {
     // check the mapclick variable. if map clicked restore the state
     const mapSearchLocations = store.getStateItem('mapSearchLocations');
-
-
+    const location = mapSearchLocations.location;
+    const label = mapSearchLocations.label;
 
     // ensure the mapclick state is a valid object
-    if (checkValidObject(mapSearchLocations)) {
+    if (checkValidObject(location)) {
       // get the custom map marker icon for the SearchLocations result
       const icon = SearchLocations.createSearchLocationsIcon();
-      
+
       // set map view to coordinates of the first item in the results and the zoom level to 18
-      this.mapComponent.map.setView(mapSearchLocations, 16);
+      this.mapComponent.map.setView([location.lat, location.lng], 16);
 
       // add marker at location to the map
-      this.addMaker(mapSearchLocations, icon)
+      this.addMaker(location, icon)
+
+     //  // create a popup at the coordinates of the result and add the result text to the popup and open it on the map
+     // const popup = L.popup({ closeOnClick: true })
+     //   .setLatLng(location)
+     //   .setContent(label)
+     //   .openOn(this.mapComponent.map);
+
+       // set state for mapSearchLocations
+       store.setStoreItem('mapSearchLocations', {location, label});
     }
   }
 }
