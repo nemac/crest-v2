@@ -154,7 +154,7 @@ html, body {
 }
 
 .searchlocations-point{
-  background-color: red;
+  background-color: #3388ff;
   border-radius: 10px;
 
   /* Prevent background color leak outs */
@@ -170,6 +170,14 @@ html, body {
   padding: $padding;
   width: 250px;
   height: 250px;
+}
+
+.search-locations-popup .leaflet-popup-content-wrapper{
+  background-color: $body-bg-semiTransparent;
+  color: $body-color;
+  padding: $padding;
+  width: 250px;
+  font-size: .85rem;
 }
 
 .mapinfodata {
