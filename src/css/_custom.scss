@@ -18,12 +18,33 @@ html, body {
 .geocoder-control-suggestions .geocoder-control-suggestion {
   background-color: $body-color;
   color: $body-bg;
+  border-color: $body-bg;
 }
 
 .geocoder-control-suggestions .geocoder-control-suggestion.geocoder-control-selected,
 .geocoder-control-suggestions .geocoder-control-suggestion:hover {
   background: $body-bg;
   color: $body-color;
+  border-color: $body-color;
+}
+
+.btn-search-locations-collapse-holder {
+  width: 25px;
+  height: 25px;
+}
+
+.btn-search-locations-collapse {
+  width: 30px !important;
+  height: 30px !important;
+  padding: 5px;
+  background-color: $body-color;
+  margin-left: 25px;
+  margin-top: 2px;
+  font-size: .5em;
+  line-height: 30px;
+  background-size: 30px;
+  color: $gray-700;
+  color: $body-bg;
 }
 
 .btn-draw-area {

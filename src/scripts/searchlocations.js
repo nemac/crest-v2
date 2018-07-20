@@ -25,8 +25,48 @@ export class SearchLocations extends Component {
 
     const { mapComponent } = props;
 
-    const searchControl = geosearch().addTo(mapComponent.map);
+    // TODO: add config for geosearch
+    // might need to add other limits
+    const GeoSearchOptions = {
+      useMapBounds: false,
+      countries: 'USA',
+      collapseAfterResult: false,
+      allowMultipleResults: false,
+      attribution: 'Powered by ESRI'
+    }
 
+    // add search control with options
+    const searchControl = geosearch(GeoSearchOptions).addTo(mapComponent.map);
+    const searchControlElement = document.querySelector('.geocoder-control.leaflet-control');
+    const searchBoxElement = document.querySelector('.geocoder-control-input.leaflet-bar');
+    const searchSuggElement = document.querySelector('.geocoder-control-suggestions.leaflet-bar');
+    const collapseSearch = L.DomUtil.create('div', 'btn-search-locations-collapse-holder float-right d-none', searchControlElement);
+
+    L.DomEvent.disableClickPropagation(searchControlElement);
+
+    // handle expanding of search box.  displays a collapse button to dom
+    searchBoxElement.addEventListener('click', (ev) => {
+        searchControl.options.collapseAfterResult = false;
+        L.DomUtil.removeClass(collapseSearch, 'd-none');
+    });
+
+    // handle collapse of search box.  removed from displays the collapse button
+    /// from dom
+    collapseSearch.addEventListener('click', (ev) => {
+        searchControl.options.collapseAfterResult = true;
+        searchControl.clear();
+        searchControl.disable();
+        // the leaflet-geocodiong force focus on the search input box
+        // which forces the code to keep the css dom elements vissible
+        // the onlly way to overcopme this is disable and the shortly
+        // re-enable the dom element via the plugins code
+        setTimeout(() => { searchControl.enable(); }, 0);
+        L.DomUtil.addClass(collapseSearch, 'd-none');
+    });
+
+    collapseSearch.innerHTML = '<i class="fas fa-angle-double-left btn-search-locations-collapse"></i>';
+
+    // get mapcompment
     this.mapComponent = mapComponent;
 
     // setup marker layer which is not set yet.
@@ -106,6 +146,7 @@ export class SearchLocations extends Component {
     // add search location marker
     this.addSearchLocationsMarker(false);
     const location = SearchLocations.getSearchLocationsLocation();
+    // TODO Deal with changing width on startup
     const popup = this.addSearchLocationsPopup(location, 265);
 
     if (checkValidObject(popup)) {

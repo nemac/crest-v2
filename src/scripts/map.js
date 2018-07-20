@@ -50,18 +50,12 @@ export class Map extends Component {
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
-    console.log(this.restoreStateStore);
-    console.log(Object.keys(this.restoreStateStore).length === 0 && this.restoreStateStore.constructor === Object)
+    // not sure why but something changed and I can no longer use maptions for inital zoom
     if (Object.keys(this.restoreStateStore).length === 0 && this.restoreStateStore.constructor === Object) {
-
-        this.map.panTo(mapConfig.mapDefaults.center);
-        this.map.setZoom(mapConfig.mapDefaults.zoom);
-        console.log('mapConfig.mapDefaults.center', mapConfig.mapDefaults.center)
-        store.addStateItem('mapCenter', mapConfig.mapDefaults.center);
-        store.addStateItem('mapZoom', mapConfig.mapDefaults.zoom);
-        console.log('here')
-        // this.saveZoomAndMapPosition();
-        store.saveAction('init');
+      this.map.panTo(mapConfig.mapDefaults.center);
+      this.map.setZoom(mapConfig.mapDefaults.zoom);
+      this.saveZoomAndMapPosition();
+      store.saveAction('moveend');
     }
 
     this.map.zoomControl.setPosition('topleft'); // Position zoom control
@@ -391,13 +385,16 @@ export class Map extends Component {
   static restoreMapDisplayStatus(mapLayerDisplayStatus) {
     // check the mapdisplay variable and toggle layers on when state
     // says to display = true
-    if (!mapLayerDisplayStatus !== null) {
-      Object.keys(mapLayerDisplayStatus).forEach((key) => {
-        if (mapLayerDisplayStatus[key]) {
-          Map.setLayerStatus(key);
-        }
-      });
-      return true;
+    if (mapLayerDisplayStatus !== undefined) {
+      if (mapLayerDisplayStatus !== null) {
+        Object.keys(mapLayerDisplayStatus).forEach((key) => {
+          if (mapLayerDisplayStatus[key]) {
+            Map.setLayerStatus(key);
+          }
+        });
+        return true;
+
+      }
     }
     return false;
   }
@@ -436,13 +433,14 @@ export class Map extends Component {
    *
    */
   restoreMapState() {
+    // check if last storage object exists and is not empty
+    if (Object.keys(this.restoreStateStore).length === 0 && this.restoreStateStore.constructor === Object) {
+      return false;
+    }
+
     // get last storage object
     store.setStateFromObject(this.restoreStateStore);
     const state = store.getState();
-    // state exits
-    if (!store.isStateExists()) {
-      return false;
-    }
 
     // Instantiate store variables. Otherwise the order will cause
     // the startup position to shift occasionally
