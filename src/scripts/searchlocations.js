@@ -48,7 +48,7 @@ export class SearchLocations extends Component {
       searchControl.options.collapseAfterResult = false;
       L.DomUtil.removeClass(collapseSearch, 'd-none');
     });
-
+    
     // handle collapse of search box.  removed from displays the collapse button
     // from dom
     collapseSearch.addEventListener('click', (ev) => {
@@ -82,6 +82,10 @@ export class SearchLocations extends Component {
 
       // add search location marker
       this.addSearchLocationsMarker(true);
+
+      // // get the mapinfo (identify) html document and udpate
+      // // the content with returned values
+      // const doc = SearchLocations.getDocument();
       const popup = this.addSearchLocationsPopup(location, -123);
 
       if (checkValidObject(popup)) {
@@ -162,10 +166,27 @@ export class SearchLocations extends Component {
   // for some reason when I restore the offset is different so I have
   // pass it differently for search and add and restore and add
   addSearchLocationsPopup(location, offsetx) {
+
+
     if (checkValidObject(this.marker)) {
       const content = SearchLocations.getSearchLocationsLabel();
+
+      // get the SearchLocations html document and udpate
+      // the content with returned values
+      const doc = SearchLocations.getDocument();
+
+      const element = doc.getElementById('searchlocations-content');
+      if (element !== undefined && element !== null) {
+        element.innerHTML = content;
+      }
+
+      const searchlocationsEl = doc.getElementById('searchlocations_list');
+      const searchlocationsContent = L.Util.template(searchlocationsEl.outerHTML);
+
+      console.log(searchlocationsContent);
+
       const popup = this.marker.bindPopup(
-        content,
+        searchlocationsContent,
         {
           autoClose: false,
           closeOnClick: false,
@@ -204,5 +225,11 @@ export class SearchLocations extends Component {
       return mapSearchLocations.location;
     }
     return '';
+  }
+
+  // create a html dom element for the SearchLocations html template
+  static getDocument() {
+    const parser = new DOMParser();
+    return parser.parseFromString(searchlocationsTemplate, 'text/html');
   }
 }
