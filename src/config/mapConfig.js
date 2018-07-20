@@ -89,9 +89,14 @@ export var mapConfig = {
 
  ],
 
+ mapDefaults: {
+    center: [ 32.7765, -79.9311 ],
+    zoom: 12
+ },
+
   //leaflet optoins expand as needed
   mapOptions: {
-    center: [ 32.7765, -79.9311 ],
+    // center: [ 32.7765, -79.9311 ],
     zoom: 12,
     maxZoom: 16,
     minZoom: 4,

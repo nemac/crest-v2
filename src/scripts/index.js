@@ -7,18 +7,23 @@ import regular from '@fortawesome/fontawesome-free-regular';
 // import custom classess
 import { Store } from './store';
 import { URL } from './url';
+import { checkValidObject } from './utilitys';
 
 // import extended components
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
-// import { AboutNavBar } from './aboutNav';
-
+import { AboutNavBar } from './aboutNav';
+import { Explore } from './explore';
+import { MapInfo } from './mapinfo';
+import { SearchLocations } from './searchlocations';
 
 // import html templates
 import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
+import ExplorePage from '../templates/explore.html';
+import SearchLocationsPage from '../templates/searchlocations.html';
 
 // initialize navbar
 // const aboutnavBarComponent = new AboutNavBar('nav-holder');
@@ -28,6 +33,12 @@ new URL();
 
 let mapComponent;
 let maplayersComponent;
+let exploreComponent;
+let mapInfoComponent;
+let searchLocationsComponent;
+
+const store = new Store({});
+
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
 if (homeloc === 'https://nemac.github.io') {
@@ -62,12 +73,24 @@ function initMapComponent() {
   if (mapComponent === undefined) {
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
+    mapInfoComponent = new MapInfo('', { mapComponent });
+    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
+    searchLocationsComponent = new SearchLocations('', { mapComponent, exploreComponent });
   }
 
   // restore only if first render
   if (mapComponent.renderCount === 0) {
     mapComponent.restoreMapState();
+
+    if (checkValidObject(mapInfoComponent)) {
+      mapInfoComponent.restoreMapInfoState();
+    }
+
+    if (checkValidObject(searchLocationsComponent)) {
+      searchLocationsComponent.restoreSearchLocationsState();
+    }
   }
+
   mapComponent.renderCount += 1;
 
   // delay listners unitll after setup also needs slight time out so the map dose not move on start
@@ -100,6 +123,11 @@ const router = new Navigo(homeloc, true);
 // examples of coded map interactions for testing
 // const maintitleElement = document.getElementById('maintitle');
 // maintitleElement.addEventListener('click', (e) => {
+//   const mapCenter = store.getStateItem('mapCenter')
+//
+//   mapComponent.restoreMapCenter(mapCenter)
+//   mapComponent.map.panTo(mapCenter);
+//   console.log('end', mapCenter)
 //   const store = new Store({});
 //   mapComponent.setLayerStatus('SA_ThreatIndex');
 //   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});

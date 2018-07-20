@@ -33,7 +33,7 @@ $map_right_margin: 10px;
     width: $layer_list_width;
     left: - (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
     top: (($grid-gutter-width / 2));
-    z-index: 1000;
+    z-index: 10000;
     padding: $layer_list_padding;
     border-radius: 0.25rem;
     margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));

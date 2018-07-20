@@ -1,6 +1,9 @@
 // dependencies
 import L from 'leaflet';
-import { basemapLayer, featureLayer } from 'esri-leaflet';
+import { basemapLayer } from 'esri-leaflet';
+// may need feature layer latter if store the user generated shapefiles, drawon
+// user drawn shapes somehere else if so add this
+// import { basemapLayer, featureLayer } from 'esri-leaflet';
 
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
@@ -10,16 +13,18 @@ import '../css/_custom_leaflet.scss';
 
 // Import custom classess
 import { Store } from './store';
-import { IdentifyAPI } from './identifyAPI';
+
+// import utilities
+import { checkValidObject, spinnerOff, spinnerOn } from './utilitys';
 
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
+// vector layers not used yet will need to uncomment later
 // See github issue https://github.com/Esri/esri-leaflet-vector/issues/31 from tgirgin23
-import * as vector from '../vendor/esri/esri-leaflet-vector/EsriLeafletVector';
+// import * as vector from '../vendor/esri/esri-leaflet-vector/EsriLeafletVector';
 
 // templates
 import mapTemplate from '../templates/map.html';
-import mapInfoTemplate from '../templates/mapinfo.html';
 
 const store = new Store({});
 
@@ -45,43 +50,81 @@ export class Map extends Component {
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
-    this.IdentifyAPI = new IdentifyAPI();
+    // not sure why but something changed and I can no longer use maptions for inital zoom
+    if (Object.keys(this.restoreStateStore).length === 0 &&
+                  this.restoreStateStore.constructor === Object) {
+      this.map.panTo(mapConfig.mapDefaults.center);
+      this.map.setZoom(mapConfig.mapDefaults.zoom);
+      this.saveZoomAndMapPosition();
+      store.saveAction('moveend');
+    }
 
     this.map.zoomControl.setPosition('topleft'); // Position zoom control
     this.overlayMaps = {}; // Map layer dict (key/value = title/layer)
     this.value = null; // Store currently selected region
-    this.mapOverlayLayers = {};
+    this.mapOverlayLayers = {}; // map overlay (wms layer)
+    this.mapStates = ['mapCenter', 'mapZoom', 'mapLayerDisplayStatus', 'mapContainerPoint']; // all the potential map states
 
+    // add base map
+    this.addBaseMap();
+
+    // zoom in and out to ensure proper rendering of tiles
+    this.zoomInAndOut();
+
+    // force map re-render
+    this.forceMapReRender();
+
+    this.addWmsLayers();
+
+    // set the state to manage initial display status of wms "overlay" layers
+    store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
+
+    // add spinner element
+    Map.addSpinnerElement();
+  }
+
+  // add spinner element to leftlet map panes
+  // any user action with map will show the site is working by
+  // by displaying a working spinner
+  static addSpinnerElement() {
+    const workingElement = L.DomUtil.create('div', 'position-relative d-flex align-items-center justify-content-center leaflet-working d-none', L.DomUtil.get('map'));
+    workingElement.innerHTML = '<i id="map-working" class="fa fa-spinner fa-spin d-none"></i>';
+    L.DomUtil.toFront(workingElement);
+    L.DomEvent.disableClickPropagation(workingElement);
+  }
+
+  // saves the current map center and zoom level to state in locat storage
+  saveZoomAndMapPosition() {
+    store.setStoreItem('mapCenter', this.map.getCenter());
+    store.setStoreItem('mapZoom', this.map.getZoom());
+  }
+
+  // force map render and setup
+  forceMapReRender() {
+    // this ensures the map is full setup.
+    // we have issues becuase the map height is 100% and is
+    // explicitly set
+    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
+  }
+
+  // adds leaflet base map defined in mapConfig.js
+  addBaseMap() {
     /**
-     * Adds ESRI vector map
+     * Adds ESRI  map (may switch to vector map layer)
      * var vectorTiles = vector.basemap(mapConfig.ESRIVectorBasemap.name);
      * Not using vector tiles yet since there is some bugginess from ESRI
      * mainly the map starts out not fully rendering
      */
     const mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
     mapTiles.addTo(this.map);
+  }
 
-    /**
-     * Yes I am zooming in then zooming out. But leaflets tiles
-     * do not setup with fully with a dynamic map container (set to 100% height.)
-     * and the overlays are offset with intial draw. This zoom in zoom out
-     * forces leaflet to Render everything correctly
-     */
-    if (!store.isStateExists()) {
-      this.map.zoomOut(1);
-      this.map.zoomIn(1);
-    }
-
-    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
-
+  // iterate and add leaflet tile layers from  mapconfig.js
+  // Iterate over each wms map layer and add them to the map
+  addWmsLayers() {
     // Adds wms layers
     // May switch this out for tiled s3 layers or tile esri layers later
     const WMSLayers = mapConfig.TileLayers;
-
-    // Base maps - for now only one
-    const baseMaps = {
-      'Base Map': mapTiles
-    };
 
     // Iterate over each wms map layer and add them to the map
     WMSLayers.forEach((layer) => {
@@ -102,253 +145,148 @@ export class Map extends Component {
         [layer.id]: tileLayer
       };
 
-      tileLayer.on('load', () => {
-        Map.spinnerOff();
-      });
+      // add all tile load handlers
+      Map.handleAlllTileHanlders(tileLayer);
 
-      tileLayer.on('unload', () => {
-        Map.spinnerOff();
-      });
-
-      tileLayer.on('error', () => {
-        Map.spinnerOff();
-      });
-
+      // set inital display status
       const mapDisplayLayersObj = { [layer.id]: false };
 
+      // merge map overlay (wms layers) objects display status
       Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
 
       // Merge current layer into overlayMaps layers object
       Object.assign(this.overlayMaps, obj);
     });
-
-    this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers);
-    this.addMapInformationControl();
-
-    const mapClick = store.getStateItem('mapClick');
-
-    const workingElement = L.DomUtil.create('div', 'position-relative d-flex align-items-center justify-content-center leaflet-working d-none', L.DomUtil.get('map'));
-    workingElement.innerHTML = '<i id="map-working" class="fa fa-spinner fa-spin d-none"></i>';
-    L.DomUtil.toFront(workingElement);
-    L.DomEvent.disableClickPropagation(workingElement);
   }
 
-  saveMapPosition() {
-    this.saveStore('mapCenter', this.map.getCenter());
-    this.saveStore('mapZoom', this.map.getZoom());
+  // tile load handler
+  // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
+  static handleWMSLoad(tileLayer) {
+    tileLayer.on('load', () => {
+      spinnerOff();
+    });
   }
 
-  saveAction(type) {
-    this.saveStore('lastaction', type);
+  // tile unload handler
+  // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
+  static handleWMSUnload(tileLayer) {
+    tileLayer.on('unload', () => {
+      spinnerOff();
+    });
+  }
+
+  // tile load error handler
+  // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
+  static handleWMSError(tileLayer) {
+    tileLayer.on('error', () => {
+      spinnerOff();
+    });
+  }
+
+  // there are two types of unloads with tile layers
+  // see leaflet documenation for differences
+  // https://leafletjs.com/reference-1.3.0.html#gridlayer-tileunload
+  // tile load error handler
+  // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
+  static handleTileUnload(tileLayer) {
+    tileLayer.on('tileunload', () => {
+      spinnerOff();
+    });
+  }
+
+  // there are two types of errors with tile layers
+  // see leaflet documenation for differences
+  // https://leafletjs.com/reference-1.3.0.html#gridlayer-tileerror
+  // tile load error handler
+  // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
+  static handleTileError(tileLayer) {
+    tileLayer.on('tileerror', () => {
+      spinnerOff();
+    });
+  }
+
+  // add handler for loading for tile layer
+  // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
+  static handleAlllTileHanlders(tileLayer) {
+    // add seperate map layer handlers
+    Map.handleWMSLoad(tileLayer);
+    Map.handleWMSUnload(tileLayer);
+    Map.handleWMSError(tileLayer);
+    Map.handleTileUnload(tileLayer);
+    Map.handleTileError(tileLayer);
+  }
+
+  // force the map to redraw by zooming in than out.
+  // this ensurese leaflet will intialize all the tile layers
+  // and ensures leaflet with align the tile layers properly
+  zoomInAndOut() {
+    /**
+     * Yes I am zooming in then zooming out. But leaflets tiles
+     * do not setup with fully with a dynamic map container (set to 100% height.)
+     * and the overlays are offset with intial draw. This zoom in zoom out
+     * forces leaflet to Render everything correctly
+     */
+    if (!store.isStateExists()) {
+      this.map.zoomOut(1);
+      this.map.zoomIn(1);
+      return true;
+    }
+    return false;
+  }
+
+  // map move end map handler
+  // https://leafletjs.com/reference-1.3.0.html#map-moveend
+  mapMoveEndHandler() {
+    this.map.on('moveend', (event) => {
+      this.saveZoomAndMapPosition();
+      store.saveAction('moveend');
+    });
+  }
+
+  // map zoom end map handler
+  // https://leafletjs.com/reference-1.3.0.html#map-zoomend
+  mapZoomEndHandler() {
+    this.map.on('zoomend', (event) => {
+      this.saveZoomAndMapPosition();
+      store.saveAction('zoomend');
+    });
+  }
+
+  // map double click map handler
+  // https://leafletjs.com/reference-1.3.0.html#map-dblclick
+  mapDoubleClickHandler() {
+    this.map.on('dblclick', (event) => {
+      this.saveZoomAndMapPosition();
+      store.saveAction('dblclick');
+    });
+  }
+
+  // map keypress map handler
+  // https://leafletjs.com/reference-1.3.0.html#map-keypress
+  mapKeyPressHandler() {
+    this.map.on('keypress', (event) => {
+      this.saveZoomAndMapPosition();
+      store.saveAction('keypress');
+    });
   }
 
   // Add map listeners in function so we can call it from index or setup and we
   // only update state store after map is intialized.
   addMapEventListners() {
-    const self = this;
+    // move end handler
+    this.mapMoveEndHandler();
 
-    this.map.on('moveend', (event) => {
-      this.saveMapPosition();
-      this.saveAction('moveend');
-    });
+    // zoom end handler
+    this.mapZoomEndHandler();
 
-    this.map.on('zoomend', (event) => {
-      this.saveMapPosition();
-      this.saveAction('zoomend');
-    });
+    // double click handler
+    this.mapDoubleClickHandler();
 
-    this.map.on('dblclick', (event) => {
-      this.saveMapPosition();
-      this.saveAction('dblclick');
-    });
-
-    this.map.on('keypress', (event) => {
-      this.saveMapPosition();
-      this.saveAction('keypress');
-    });
-
-    // click
-    this.map.on('click', (ev) => {
-      this.saveMapPosition();
-      this.saveAction('click');
-      self.saveStore('mapClick', ev.latlng);
-      if (ev.containerPoint !== undefined) {
-        self.retreiveMapClick();
-      }
-    });
+    // key press handlers
+    this.mapKeyPressHandler();
   }
 
-  // toggle spinner visibility on
-  static spinnerOn() {
-    const el = document.getElementById('map-working');
-    const elHolder = document.querySelector('.leaflet-working');
-
-    // ensure elements and class names exists
-    if (el === undefined) { return false; }
-    if (el.className.baseVal === undefined) { return false; }
-    if (elHolder === undefined) { return false; }
-    if (elHolder.className === undefined) { return false; }
-
-    // update class for svg spinner
-    const elClassName = el.className.baseVal;
-    el.className.baseVal = elClassName.replace(' d-none', '');
-
-    // update class for div element that holds svg.  Do this so it dose not cover
-    // cover other map elements and panes
-    elHolder.className = elHolder.className.replace(' d-none', '');
-    elHolder.className = elHolder.className.replace('h-100', '');
-    elHolder.className = elHolder.className.replace('w-100', '');
-    elHolder.className += ' h-100';
-    elHolder.className += ' w-100';
-
-    return true;
-  }
-
-  // toggle spinner visibility off
-  static spinnerOff() {
-    const el = document.getElementById('map-working');
-    const elHolder = document.querySelector('.leaflet-working');
-
-    // ensure elements and class names exists
-    if (el === undefined) { return false; }
-    if (el.className.baseVal === undefined) { return false; }
-    if (elHolder === undefined) { return false; }
-    if (elHolder.className === undefined) { return false; }
-
-    // update class for svg spinner
-    const elClassName = el.className.baseVal;
-    el.className.baseVal = elClassName.replace(' d-none', '');
-    el.className.baseVal += ' d-none';
-
-    // update class for div element that holds svg.  Do this so it dose not cover
-    // cover other map elements and panes
-    elHolder.className = elHolder.className.replace(' d-none', '');
-    elHolder.className = elHolder.className.replace('h-100', '');
-    elHolder.className = elHolder.className.replace('w-100', '');
-    elHolder.className += ' d-none';
-
-    return true;
-  }
-
-  // Identify
-  addMapInformationControl() {
-    L.Control.Watermark = L.Control.extend({
-      onAdd: (map) => {
-        const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
-        fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
-        L.DomEvent.disableClickPropagation(fa);
-        return fa;
-      },
-
-      // Nothing to do here
-      onRemove: (map) => {}
-    });
-
-    L.control.watermark = opts => new L.Control.Watermark(opts);
-
-    L.control.watermark({ position: 'topleft' }).addTo(this.map);
-  }
-
-  // Note that the back-ticks are intentional. They use the new ES6 Template
-  // Literals pattern.
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-  static replaceMapInfoValue(doc, type, values) {
-    const element = doc.getElementById(`${type}-score`);
-    if (element !== undefined && element !== null) {
-      element.textContent = values.label;
-    }
-  }
-
-  // TODO: Either generalize this so it isn't always background colot and color but instead
-  // an attribute/value pair. Or preferably make this use classes so we can have the colors
-  // be in css.
-  static addStyle(doc, type, values) {
-    const element = doc.getElementById(`${type}-score`);
-    if (element !== undefined && element !== null) {
-      element.setAttribute('style', `background-color: ${values.backgroundColor}; color: ${values.color};`);
-    }
-  }
-
-  // Load map data from the API
-  async retreiveMapClick() {
-    Map.spinnerOn();
-
-    if (!store.isStateExists()) {
-      Map.spinnerOff();
-      return false;
-    }
-
-    // remove previous marker point
-    if (this.marker !== undefined) {
-      this.map.removeLayer(this.marker);
-    }
-
-    const mapClick = store.getStateItem('mapClick');
-
-    if (!Map.checkValidObject(mapClick)) {
-      Map.spinnerOff();
-      return false;
-    }
-
-    // make call to lambda api.
-    const IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
-
-    // for testing without api
-    // const IdentifyJson = {
-    // "aquatic": 6, "tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"
-    // };
-
-    const myIcon = L.divIcon({ className: 'map-info-point' });
-
-    this.marker = L.marker([mapClick.lat, mapClick.lng], { icon: myIcon });
-    this.map.addLayer(this.marker);
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(mapInfoTemplate, 'text/html');
-
-    // template needs responive info box.
-    Object.keys(IdentifyJson).forEach((key) => {
-      const styleItem = IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
-
-      const templateValues = {
-        name: key,
-        backgroundColor: styleItem[0].backgroundColor,
-        color: styleItem[0].color,
-        label: styleItem[0].label
-      };
-
-      Map.addStyle(doc, key, templateValues);
-      Map.replaceMapInfoValue(doc, key, templateValues);
-    });
-
-    const mapinformationel = doc.getElementById('map_info_list');
-    const tooltipContent = L.Util.template(mapinformationel.outerHTML);
-
-    // TODO overide css popup for leaflet
-    this.marker.bindPopup(
-      tooltipContent,
-      { opacity: 0.9, autoPan: false, offset: L.point(-123, 20) }
-    ).openPopup();
-
-    // remove class
-    this.map.on('popupclose', () => {
-      // remove previous marker point
-      if (this.marker !== undefined) {
-        this.map.removeLayer(this.marker);
-      }
-
-      // remove from state
-      store.removeStateItem('mapClick');
-
-      // not sure where this.store is created byt it appears it is in
-      // saveStore in map.js.  which means this is a bug.  for now I will fix it with updating
-      //  this.store after map click is removed
-      this.store = store.getState();
-    });
-    Map.spinnerOff();
-    return true;
-  }
-
+  // check if should restore the map state
   static shouldRestore(props) {
     if (props === undefined || props.restore === undefined) {
       return false;
@@ -358,32 +296,22 @@ export class Map extends Component {
   }
 
   // Toggle map layer visibility
+  // this needs to be made more modular but not sure
+  // ho do that yet
   toggleLayer(layerName) {
+    store.saveAction('maplayertoggle');
     let mapDisplayLayersObj = {};
     const layer = this.overlayMaps[layerName];
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer);
       mapDisplayLayersObj = { [layerName]: false };
     } else {
-      Map.spinnerOn();
+      spinnerOn();
       this.map.addLayer(layer);
       mapDisplayLayersObj = { [layerName]: true };
     }
     Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
-    this.saveStore('mapLayerDisplayStatus', this.mapOverlayLayers);
-  }
-
-  // provide access to leaflet invalidateSize
-  invalidateSize() {
-    this.map.invalidateSize();
-  }
-
-  // TODO: Is this duplicated?
-  saveStore(key, value) {
-    const storeObj = { [key]: value };
-
-    this.store = { ...this.store, ...storeObj };
-    store.saveState(this.store);
+    store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
   }
 
   /**
@@ -395,13 +323,11 @@ export class Map extends Component {
    *   })
    */
   setMapCenter(value) {
-    this.map.panTo(value);
-
-    if (!Map.checkValidObject(value)) {
-      return false;
+    if (!checkValidObject(value)) {
+      return value;
     }
     this.map.panTo(value);
-    return true;
+    return value;
   }
 
   /**
@@ -413,11 +339,11 @@ export class Map extends Component {
    *   })
    */
   setMapZoom(value) {
-    if (!Map.checkValidObject(value)) {
-      return false;
+    if (!checkValidObject(value)) {
+      return value;
     }
     this.map.setZoom(value);
-    return true;
+    return value;
   }
 
   /**
@@ -429,12 +355,12 @@ export class Map extends Component {
    *
    */
   setMapClick(value) {
-    if (!Map.checkValidObject(value)) {
-      return false;
+    if (!checkValidObject(value)) {
+      return value;
     }
     const latlng = L.latLng([value.lat, value.lng]);
     this.map.fireEvent('click', { latlng });
-    return true;
+    return value;
   }
 
   /**
@@ -453,6 +379,51 @@ export class Map extends Component {
     layerToggleElement.checked = !layerToggleElement.checked;
   }
 
+  // restores map display status..
+  // ensures the vissibility of each tile layer (wms)
+  // matches the last state the user set
+  // @param { string }  layer id examples are SA_ExposureIndex, SA_AssetIndex, SA_ThreatIndex
+  static restoreMapDisplayStatus(mapLayerDisplayStatus) {
+    // check the mapdisplay variable and toggle layers on when state
+    // says to display = true
+    if (mapLayerDisplayStatus !== undefined) {
+      if (mapLayerDisplayStatus !== null) {
+        Object.keys(mapLayerDisplayStatus).forEach((key) => {
+          if (mapLayerDisplayStatus[key]) {
+            Map.setLayerStatus(key);
+          }
+        });
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // restores map zoom level
+  // @param { integer }  zoomLevel integer values depends on min and max zoom defined
+  // in mapConfig.js  usually 1-20 I am setting to   4 -16
+  restoreMapZoom(zoomLevel) {
+    // check the mapdisplay variable and toggle layers on when state
+    if (checkValidObject(zoomLevel)) {
+      // handle zoom when only zoom object set
+      this.setMapZoom(zoomLevel);
+      return true;
+    }
+    return false;
+  }
+
+  // restores map center
+  // @param { object }  mapCenter  {lat: 32.76966654128219, lng: -79.93103027343751}
+  restoreMapCenter(mapCenter) {
+    // check the mapdisplay variable and toggle layers on when state
+    if (checkValidObject(mapCenter)) {
+      // handle zoom when only mapCenter object set
+      this.setMapCenter(mapCenter);
+      return true;
+    }
+    return false;
+  }
+
   /**
    *  restore mapComponent when state exists
    *
@@ -462,81 +433,39 @@ export class Map extends Component {
    *
    */
   restoreMapState() {
-    // get last storage object
-    store.setStateFromObject(this.restoreStateStore);
-
-    const mapStates = ['mapCenter', 'mapClick', 'mapZoom', 'mapLayerDisplayStatus', 'mapContainerPoint'];
-    const state = store.getState();
-    const self = this;
-
-    // state exits
-    if (!store.isStateExists()) {
+    // check if last storage object exists and is not empty
+    if (Object.keys(this.restoreStateStore).length === 0 &&
+            this.restoreStateStore.constructor === Object) {
       return false;
     }
+
+    // get last storage object
+    store.setStateFromObject(this.restoreStateStore);
+    const state = store.getState();
 
     // Instantiate store variables. Otherwise the order will cause
     // the startup position to shift occasionally
     let mapZoom = null;
-    let mapClick = null;
     let mapCenter = null;
     let mapLayerDisplayStatus = null;
 
     // iterate over the state objects and set the store variables
-    mapStates.forEach((stateItem) => {
+    // iterating so we can run checkes that the object exists in
+    // the state (local storage)
+    this.mapStates.forEach((stateItem) => {
       const stateObj = state[stateItem];
-
       if (stateItem === 'mapCenter') { mapCenter = stateObj; } // recenter from store
-      if (stateItem === 'mapClick') { mapClick = stateObj; } // map click from store
       if (stateItem === 'mapZoom') { mapZoom = stateObj; } // reset map zoom from store
       if (stateItem === 'mapLayerDisplayStatus') { mapLayerDisplayStatus = stateObj; } // set layer display
     });
 
-    // check the mapdisplay variable and toggle layers on when state
-    // says to
-    if (!mapLayerDisplayStatus !== null) {
-      Object.keys(mapLayerDisplayStatus).forEach((key) => {
-        if (mapLayerDisplayStatus[key]) {
-          Map.setLayerStatus(key);
-        }
-      });
-    }
+    // restore or set the Display status of tile layers
+    Map.restoreMapDisplayStatus(mapLayerDisplayStatus);
 
-    // check the mapclick variable. if map clicked restore the state
-    if (Map.checkValidObject(mapClick)) {
-      self.setMapClick(mapClick);
-      this.retreiveMapClick();
-    }
-
-    // handle zoom and center set view for zoom and center when both state objects set
-    if (Map.checkValidObject(mapZoom) && Map.checkValidObject(mapCenter)) {
-      self.map.setView(mapCenter, mapZoom);
-      self.setMapCenter(mapCenter);
-    }
-
-    if (Map.checkValidObject(mapZoom) && !Map.checkValidObject(mapCenter)) {
-      // handle zoom when only zoom object set
-      self.setMapZoom(mapZoom);
-    } else if (Map.checkValidObject(mapCenter) && !Map.checkValidObject(mapZoom)) {
-      // handle recenter when only mapCenter object set
-      self.setMapCenter(mapCenter);
-    }
-
-    return true;
-  }
-
-  // ensure the object or variable is valid...
-  // TODO: This should probably be looking for positives rather than checking it
-  // isn't one of a few negatives. For example this will let booleans, malformed
-  // lat/long objects, arrays and floats through when it probably shouldn't. The
-  // code doesn't really say what a valid object is other than not undefined,
-  // null, empty arrays, empty objects and empty strings.
-  //
-  // @param obj - typeless
-  static checkValidObject(obj) {
-    if (obj === undefined || obj === null) { return false; }
-    if (typeof obj === 'object' && Object.keys(obj).length === 0) { return false; }
-    if (typeof obj === 'string' && obj.length === 0) { return false; }
-
+    this.restoreMapZoom(mapZoom);
+    this.restoreMapCenter(mapCenter);
+    store.setStoreItem('mapZoom', mapZoom);
+    store.setStoreItem('mapCenter', mapCenter);
     return true;
   }
 }
