@@ -50,6 +50,15 @@ export class Map extends Component {
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
+    // not sure why but something changed and I can no longer use maptions for inital zoom
+    if (Object.keys(this.restoreStateStore).length === 0 &&
+                  this.restoreStateStore.constructor === Object) {
+      this.map.panTo(mapConfig.mapDefaults.center);
+      this.map.setZoom(mapConfig.mapDefaults.zoom);
+      this.saveZoomAndMapPosition();
+      store.saveAction('moveend');
+    }
+
     this.map.zoomControl.setPosition('topleft'); // Position zoom control
     this.overlayMaps = {}; // Map layer dict (key/value = title/layer)
     this.value = null; // Store currently selected region
@@ -377,13 +386,15 @@ export class Map extends Component {
   static restoreMapDisplayStatus(mapLayerDisplayStatus) {
     // check the mapdisplay variable and toggle layers on when state
     // says to display = true
-    if (!mapLayerDisplayStatus !== null) {
-      Object.keys(mapLayerDisplayStatus).forEach((key) => {
-        if (mapLayerDisplayStatus[key]) {
-          Map.setLayerStatus(key);
-        }
-      });
-      return true;
+    if (mapLayerDisplayStatus !== undefined) {
+      if (mapLayerDisplayStatus !== null) {
+        Object.keys(mapLayerDisplayStatus).forEach((key) => {
+          if (mapLayerDisplayStatus[key]) {
+            Map.setLayerStatus(key);
+          }
+        });
+        return true;
+      }
     }
     return false;
   }
@@ -406,7 +417,7 @@ export class Map extends Component {
   restoreMapCenter(mapCenter) {
     // check the mapdisplay variable and toggle layers on when state
     if (checkValidObject(mapCenter)) {
-      // handle zoom when only zoom object set
+      // handle zoom when only mapCenter object set
       this.setMapCenter(mapCenter);
       return true;
     }
@@ -422,15 +433,15 @@ export class Map extends Component {
    *
    */
   restoreMapState() {
-    // get last storage object
-    store.setStateFromObject(this.restoreStateStore);
-
-    const state = store.getState();
-
-    // state exits
-    if (!store.isStateExists()) {
+    // check if last storage object exists and is not empty
+    if (Object.keys(this.restoreStateStore).length === 0 &&
+            this.restoreStateStore.constructor === Object) {
       return false;
     }
+
+    // get last storage object
+    store.setStateFromObject(this.restoreStateStore);
+    const state = store.getState();
 
     // Instantiate store variables. Otherwise the order will cause
     // the startup position to shift occasionally
@@ -453,7 +464,8 @@ export class Map extends Component {
 
     this.restoreMapZoom(mapZoom);
     this.restoreMapCenter(mapCenter);
-
+    store.setStoreItem('mapZoom', mapZoom);
+    store.setStoreItem('mapCenter', mapCenter);
     return true;
   }
 }

@@ -106,10 +106,6 @@ export class MapInfo extends Component {
       // this.marker is defined at class creation
       this.removeMapMarker();
 
-      // set zoom and map position on map click (just and case it changes)
-      // it's possible the add marker will autopan
-      this.mapComponent.saveZoomAndMapPosition();
-
       // save the map action to state store
       store.saveAction('click');
 
@@ -166,11 +162,11 @@ export class MapInfo extends Component {
     MapInfo.buildMapInfoConent(IdentifyJson, doc);
 
     // bind the html to the leaflet marker and open as leaflet popup
-    this.bindPopup(doc);
+    const popup = this.bindPopup(doc);
 
     // add the a click handler to popup to remove the
     // the point marker from the map and state
-    this.addRemoveMarkerOnClick();
+    this.addRemoveMarkerOnClick(popup);
 
     // toggle spinner css from utility.js
     spinnerOff();
@@ -205,7 +201,7 @@ export class MapInfo extends Component {
     const mapinformationel = doc.getElementById('map_info_list');
     const tooltipContent = L.Util.template(mapinformationel.outerHTML);
 
-    this.marker.bindPopup(
+    const popup = this.marker.bindPopup(
       tooltipContent,
       {
         autoClose: false,
@@ -215,6 +211,8 @@ export class MapInfo extends Component {
         offset: L.point(-123, 20)
       }
     ).openPopup();
+
+    return popup;
   }
 
   // creates custom icon and adds css class for styling
@@ -233,8 +231,9 @@ export class MapInfo extends Component {
   // add remove popup when use closes the popup
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
-  addRemoveMarkerOnClick() {
-    this.map.on('popupclose', () => {
+  // @param { Object } popup to add popupclose event too.
+  addRemoveMarkerOnClick(popup) {
+    popup.on('popupclose', () => {
       // remove previous marker point
       if (this.marker !== undefined) {
         this.map.removeLayer(this.marker);

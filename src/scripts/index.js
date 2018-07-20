@@ -15,12 +15,14 @@ import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
 import { Explore } from './explore';
 import { MapInfo } from './mapinfo';
+import { SearchLocations } from './searchlocations';
 
 // import html templates
 import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 import ExplorePage from '../templates/explore.html';
+import SearchLocationsPage from '../templates/searchlocations.html';
 
 // initialize navbar
 const navBarComponent = new NavBar('nav-holder');
@@ -30,6 +32,9 @@ let mapComponent;
 let maplayersComponent;
 let exploreComponent;
 let mapInfoComponent;
+let searchLocationsComponent;
+
+const store = new Store({});
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
@@ -67,6 +72,7 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
+    searchLocationsComponent = new SearchLocations('', { mapComponent, exploreComponent });
   }
 
   // restore only if first render
@@ -76,7 +82,12 @@ function initMapComponent() {
     if (checkValidObject(mapInfoComponent)) {
       mapInfoComponent.restoreMapInfoState();
     }
+
+    if (checkValidObject(searchLocationsComponent)) {
+      searchLocationsComponent.restoreSearchLocationsState();
+    }
   }
+
   mapComponent.renderCount += 1;
 
   // delay listners unitll after setup also needs slight time out so the map dose not move on start
@@ -109,6 +120,11 @@ const router = new Navigo(homeloc, true);
 // examples of coded map interactions for testing
 // const maintitleElement = document.getElementById('maintitle');
 // maintitleElement.addEventListener('click', (e) => {
+//   const mapCenter = store.getStateItem('mapCenter')
+//
+//   mapComponent.restoreMapCenter(mapCenter)
+//   mapComponent.map.panTo(mapCenter);
+//   console.log('end', mapCenter)
 //   const store = new Store({});
 //   mapComponent.setLayerStatus('SA_ThreatIndex');
 //   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
