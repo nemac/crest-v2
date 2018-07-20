@@ -12,6 +12,8 @@ import { URL } from './url';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
+// import { AboutNavBar } from './aboutNav';
+
 
 // import html templates
 import AboutPage from '../templates/about.html';
@@ -19,7 +21,9 @@ import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 
 // initialize navbar
+// const aboutnavBarComponent = new AboutNavBar('nav-holder');
 const navBarComponent = new NavBar('nav-holder');
+
 new URL();
 
 let mapComponent;
