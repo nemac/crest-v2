@@ -125,21 +125,21 @@ const router = new Navigo(homeloc, true);
 //   mapComponent.restoreMapCenter(mapCenter)
 //   mapComponent.map.panTo(mapCenter);
 //   console.log('end', mapCenter)
-// //   const store = new Store({});
-// //   mapComponent.setLayerStatus('SA_ThreatIndex');
-// //   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
-// //   mapComponent.setMapZoom(5);
-// //   mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
-// //   console.log('test')
-// //   mapComponent.clearState();
-// //   console.log(store.clearState())
-// //   console.log(store.getStateItem("mapClick"))
-// //   console.log(mapComponent.restoreMapState())
-// //   mapComponent.setStateFromObject(store.getState())
-// //   console.log(store.getStateItem('mapLayerDisplayStatus'))
-// //   console.log(store.removeStateItem('mapClick'));
-// //   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
-// //   console.log()
+//   const store = new Store({});
+//   mapComponent.setLayerStatus('SA_ThreatIndex');
+//   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
+//   mapComponent.setMapZoom(5);
+//   mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
+//   console.log('test')
+//   mapComponent.clearState();
+//   console.log(store.clearState())
+//   console.log(store.getStateItem("mapClick"))
+//   console.log(mapComponent.restoreMapState())
+//   mapComponent.setStateFromObject(store.getState())
+//   console.log(store.getStateItem('mapLayerDisplayStatus'))
+//   console.log(store.removeStateItem('mapClick'));
+//   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
+//   console.log()
 // });
 
 router.on({
