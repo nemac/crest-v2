@@ -8,16 +8,16 @@ export var navConfig = {
   },
   {
     name: "exposure",
-    ref: " about-nav-exposure",
+    ref: "about-nav-exposure",
     text: "Making of Exposure",
-    id: " about-nav-exposure",
-    href: "./#About"
+    id: "about-nav-exposure",
+    href: "./#"
   },
   {
     name: "example",
-    ref: " about-nav-examples",
+    ref: "about-nav-examples",
     text: "Exposure Examples",
-    id: " about-nav-examples",
-    href: "./#About"
+    id: "about-nav-examples",
+    href: "./#"
   }]
 }

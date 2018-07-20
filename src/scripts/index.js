@@ -13,6 +13,7 @@ import { checkValidObject } from './utilitys';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
+import { AboutNavBar } from './aboutNav';
 import { Explore } from './explore';
 import { MapInfo } from './mapinfo';
 import { SearchLocations } from './searchlocations';
@@ -25,7 +26,9 @@ import ExplorePage from '../templates/explore.html';
 import SearchLocationsPage from '../templates/searchlocations.html';
 
 // initialize navbar
+// const aboutnavBarComponent = new AboutNavBar('nav-holder');
 const navBarComponent = new NavBar('nav-holder');
+
 new URL();
 
 let mapComponent;
