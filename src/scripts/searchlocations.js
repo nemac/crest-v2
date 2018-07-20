@@ -48,7 +48,7 @@ export class SearchLocations extends Component {
       searchControl.options.collapseAfterResult = false;
       L.DomUtil.removeClass(collapseSearch, 'd-none');
     });
-    
+
     // handle collapse of search box.  removed from displays the collapse button
     // from dom
     collapseSearch.addEventListener('click', (ev) => {
@@ -166,8 +166,6 @@ export class SearchLocations extends Component {
   // for some reason when I restore the offset is different so I have
   // pass it differently for search and add and restore and add
   addSearchLocationsPopup(location, offsetx) {
-
-
     if (checkValidObject(this.marker)) {
       const content = SearchLocations.getSearchLocationsLabel();
 
@@ -182,8 +180,6 @@ export class SearchLocations extends Component {
 
       const searchlocationsEl = doc.getElementById('searchlocations_list');
       const searchlocationsContent = L.Util.template(searchlocationsEl.outerHTML);
-
-      console.log(searchlocationsContent);
 
       const popup = this.marker.bindPopup(
         searchlocationsContent,

@@ -5,8 +5,6 @@ import { Component } from './components';
 
 import { navConfig } from '../config/navConfig';
 
-import { toggleElementDisplay } from './utilitys';
-
 /**
  * NavBar Component
  * Render and control map layer control
