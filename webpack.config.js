@@ -34,6 +34,7 @@ module.exports = {
         'Access-Control-Allow-Origin': '*'
       }
     },
+    devtool: 'eval-source-map',
     optimization: {
       splitChunks: {
         chunks: 'all'
