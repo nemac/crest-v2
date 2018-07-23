@@ -134,6 +134,28 @@ html, body {
   align-items: center !important;
 }
 
+.i-btn {
+  background-color: $body-color;
+  color: $body-bg;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
+.e-btn {
+  background-color: $body-color;
+  color: $body-bg;
+  width: 75px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
 .geocoder-control-input {
   background-color: $body-color;
   color: $body-bg;

@@ -75,7 +75,7 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
-    searchLocationsComponent = new SearchLocations('', { mapComponent, exploreComponent });
+    searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent });
   }
 
   // restore only if first render

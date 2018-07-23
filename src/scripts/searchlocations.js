@@ -8,7 +8,11 @@ import searchlocationsTemplate from '../templates/searchlocations.html';
 import { Component } from './components';
 import { Store } from './store';
 
-import { checkValidObject } from './utilitys';
+import {
+  checkValidObject,
+  spinnerOff,
+  spinnerOn
+} from './utilitys';
 
 const store = new Store({});
 
@@ -23,7 +27,10 @@ export class SearchLocations extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, searchlocationsTemplate);
 
-    const { mapComponent } = props;
+    const { mapComponent, mapInfoComponent, exploreComponent } = props;
+
+    this.mapComponent = mapComponent;
+    this.mapInfoComponent = mapInfoComponent;
 
     // TODO: add config for geosearch
     // might need to add other limits
@@ -70,6 +77,7 @@ export class SearchLocations extends Component {
 
     // setup marker layer which is not set yet.
     this.marker = undefined;
+    this.markerBounds = undefined;
 
     searchControl.on('results', (data) => {
       // clear old locations\
@@ -88,12 +96,18 @@ export class SearchLocations extends Component {
       // const doc = SearchLocations.getDocument();
       const popup = this.addSearchLocationsPopup(location, -123);
 
+
       if (checkValidObject(popup)) {
         // set popup close handler
         popup.on('popupclose', () => {
           this.removeSearchLocations();
         });
       }
+
+      this.addSearchLocationsMapInfoHandler();
+      // this.addSearchLocationsExploreHandler();
+
+
     });
   }
 
@@ -144,6 +158,98 @@ export class SearchLocations extends Component {
     return L.divIcon({ className: 'searchlocations-point' });
   }
 
+  clickIdentify() {
+      console.log('click iButtonElement')
+  }
+
+  addSearchLocationsMapInfoHandler() {
+
+    console.log('addSearchLocationsMapInfoHandler')
+    const iButtonElement = document.getElementById('i-btn');
+    console.log(iButtonElement)
+    if (iButtonElement !== null){
+      console.log('inside', 'addSearchLocationsMapInfoHandler')
+      setTimeout(() => {()=>{'test'} }, 0);
+      iButtonElement.addEventListener('click', this.clickIdentify);
+      // (ev) => {
+      //   console.log('click iButtonElement')
+      //   // spinnerOn();
+      //   // store.setStoreItem('mapClick', store.getStateItem('mapSearchLocations').location );
+      //   // this.mapInfoComponent.retreiveMapClick();
+      //   // this.removeSearchLocations();
+      // });
+    }
+
+  }
+
+  addSearchLocationsExploreHandler() {
+    const eButtonElement = document.getElementById('e-btn');
+    if (eButtonElement !== null){
+      eButtonElement.addEventListener('click', (ev) => {
+        // spinnerOn();
+        console.log('test')
+
+        console.log('here', this.markerBounds)
+
+        if(this.markerBounds !== undefined) {
+          this.mapInfoComponent.map.removeLayer(this.markerBounds);
+        }
+
+        const userArea = store.getStateItem('mapSearchLocations').location;
+        // const userAreaPT1 = L.point(userArea.lat, userArea.lng);
+        const center = L.latLng(userArea.lat, userArea.lng);
+        const bounds = center.toBounds(50);
+
+        let latlngs = [];
+
+        latlngs.push(bounds.getSouthWest());//bottom left
+        latlngs.push(bounds.getSouthEast());//bottom right
+        latlngs.push(bounds.getNorthEast());//top right
+        latlngs.push(bounds.getNorthWest());//top left
+
+        const userPoly =  L.polygon(latlngs);
+        const userPolyGeoJSON = userPoly.toGeoJSON();
+        store.setStoreItem('userarea', userPolyGeoJSON);
+        this.markerBounds = L.geoJSON( userPolyGeoJSON ).addTo(this.mapInfoComponent.map);
+
+        // const myLayer = L.geoJSON( poly.toGeoJSON()).addTo(this.mapInfoComponent.map);
+        // const userAreaPT2 = L.point(userArea.lat, userArea.lng).add(-2);
+        // const bounds = L.latLngBounds(userAreaPT1, userAreaPT2);
+        // console.log(userAreaPT1, userAreaPT2, bounds)
+        // const userMaker = L.marker([userArea.lat, userArea.lng]);
+        // console.log(userMaker.toGeoJSON());
+        // const myLayer = L.geoJSON().addTo(this.mapInfoComponent.map);
+        // const latLngs = [ userMaker.getLatLng() ];
+        // const markerBounds = L.latLngBounds(latLngs);
+        // console.log(markerBounds.pad(.5));
+        // this.mapInfoComponent.map.removeLayer(userMaker);
+
+        // const userAreaPT = L.point(userArea.lat, userArea.lng);
+        // console.log(geoJson.getBounds());
+        // const userMaker = L.marker([userArea.lat, userArea.lng]);
+
+        // const userCircle = L.circle([50.5, 30.5], {radius: 1000});
+        // const userAreaBounds = L.bounds(userAreaPT);
+        // const geoJson = userCircle.toGeoJSON();
+        //
+        // // const userAreaGeoJson = L.rectangle(userAreaBounds).toGeoJSON();
+        // console.log(geoJson.getBounds());
+
+        // const userAreaMarker = L.marker(userArea);
+        // const userAreaBounds = userArea.getBounds();
+
+        // const userAreaMarker = L.marker(userArea)
+        // const userAreaGeoJson = userArea.getBounds().toGeoJSON();
+        // // const userAreaGeoJson =  userAreaMarker.toGeoJSON();
+        // console.log(userAreaGeoJson)
+        // console.log('eButtonElement')
+        // store.setStoreItem('userarea', store.getStateItem('mapSearchLocations').location );
+        // this.mapInfoComponent.retreiveMapClick();
+        // this.removeSearchLocations();
+      });
+    }
+
+  }
   // restore the state form map info/identify
   restoreSearchLocationsState() {
     // add search location marker
@@ -151,6 +257,9 @@ export class SearchLocations extends Component {
     const location = SearchLocations.getSearchLocationsLocation();
     // TODO Deal with changing width on startup
     const popup = this.addSearchLocationsPopup(location, 265);
+
+    this.addSearchLocationsMapInfoHandler();
+    // this.addSearchLocationsExploreHandler();
 
     if (checkValidObject(popup)) {
       // set popup close handler
