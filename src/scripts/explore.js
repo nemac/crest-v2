@@ -30,6 +30,9 @@ export class Explore extends Component {
     // handler for drawing first vertex
     Explore.addDrawVertexHandler(mapComponent);
 
+    // handler for clicking the clear area button
+    this.addClearAreaClickHandler();
+
     // handler for clicking the draw area button
     this.addDrawAreaClickHandler(mapComponent);
 
@@ -91,6 +94,15 @@ export class Explore extends Component {
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
+  }
+
+  // handler for click the button tp clear all drawings
+  addClearAreaClickHandler() {
+    // Click handler for you button to start drawing polygons
+    const clearAreaElement = document.getElementById('btn-clear-area');
+    clearAreaElement.addEventListener('click', (ev) => {
+      this.removeExistingArea();
+    });
   }
 
   // handler for click the button drawing vertexes on the map
