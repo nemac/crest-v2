@@ -7,7 +7,10 @@ const identifyPath = 'Prod/';
 
 // https://xi4lrz17r8.execute-api.us-east-1.amazonaws.com/Prod/identify/proxy?x=1745727&y=451980
 
-/** API Wrapper Service Class */
+/** API Wrapper Service Class
+* this wrapps the lambda service into axios js calls
+* it should only handle the api calls
+*/
 export class IdentifyAPI {
   constructor(url = apiEndpoint, path = identifyPath) {
     this.url = url + path;
@@ -23,18 +26,17 @@ export class IdentifyAPI {
       //   'Access-Control-Allow-Origin': '*'
       // },
     };
-    const response = await get(`${this.url}${queryString}`, axiosConfig);
-    return response.data;
+
+    try {
+      const response = await get(`${this.url}${queryString}`, axiosConfig);
+      return response.data;
+    } catch (err) {
+      return {};
+    }
   }
 
   getIdentifySummary(lat = '1745727', lng = '451980') {
     return this.httpGet(`identify?lat=${lat}&lng=${lng}`);
-  }
-
-  async getAllKingdomDetails(id) {
-    return {
-      kingdomSize: await this.getKingdomSize(id)
-    };
   }
 
   static getIdentifyItem(item, value) {

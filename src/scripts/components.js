@@ -13,21 +13,26 @@ export class Component {
   constructor(placeholderId, props = {}, template) {
     this.componentElem = document.getElementById(placeholderId);
 
+
+    this.refs = {};
+
     if (template) {
-      this.componentElem.addEventListener('load', () => {
-        // placeholder for future use
-      });
+      if (this.componentElem != null) {
+        this.componentElem.addEventListener('load', () => {
+          // placeholder for future use
+        });
 
-      // Load template into placeholder element
-      this.componentElem.innerHTML = template;
-      this.componentElem.addEventListener('unload', () => {
-        // placeholder for future use
-      });
+        this.componentElem.addEventListener('unload', () => {
+          // placeholder for future use
+        });
 
-      // Find all refs in component
-      this.refs = {};
-      const refElems = this.componentElem.querySelectorAll('[ref]');
-      refElems.forEach((elem) => { this.refs[elem.getAttribute('ref')] = elem; });
+        // Load template into placeholder element
+        this.componentElem.innerHTML = template;
+
+        // Find all refs in component
+        const refElems = this.componentElem.querySelectorAll('[ref]');
+        refElems.forEach((elem) => { this.refs[elem.getAttribute('ref')] = elem; });
+      }
     }
 
     if (props.events) { this.createEvents(props.events); }
