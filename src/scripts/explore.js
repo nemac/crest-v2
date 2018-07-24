@@ -64,7 +64,7 @@ export class Explore extends Component {
   // @param { Object } mapInfoComponent object
   static addDrawVertexStop(mapComponent, mapInfoComponent) {
     mapComponent.map.on('draw:deletestop', () => {
-      store.removeStateItem('userarea');
+      this.removeExistingArea();
 
       if (checkValidObject(mapInfoComponent)) {
         // re-add indentify
@@ -87,6 +87,12 @@ export class Explore extends Component {
     });
   }
 
+  // remove the existing area
+  removeExistingArea() {
+    this.drawAreaGroup.clearLayers();
+    store.removeStateItem('userarea');
+  }
+
   // handler for click the button drawing vertexes on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
@@ -100,8 +106,7 @@ export class Explore extends Component {
 
     drawAreaElement.addEventListener('click', (ev) => {
       // remove existing Area
-      this.drawAreaGroup.clearLayers();
-      store.removeStateItem('userarea');
+      this.removeExistingArea();
 
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events

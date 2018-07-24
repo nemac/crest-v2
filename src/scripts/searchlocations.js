@@ -26,11 +26,11 @@ export class SearchLocations extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, searchlocationsTemplate);
 
-    const { mapComponent, mapInfoComponent } = props;
+    const { mapComponent, mapInfoComponent, exploreComponent } = props;
 
     this.mapComponent = mapComponent;
     this.mapInfoComponent = mapInfoComponent;
-
+    this.exploreComponent = exploreComponent;
     // TODO: add config for geosearch
     // might need to add other limits
     const GeoSearchOptions = {
@@ -88,12 +88,6 @@ export class SearchLocations extends Component {
     // re-enable the dom element via the plugins code
     setTimeout(() => { this.searchControl.enable(); }, 0);
     L.DomUtil.addClass(this.collapseSearch, 'd-none');
-  }
-
-  static saveResultsToStore(data) {
-    // save location to store
-    // only retrieve first item (need to remove multiselect)
-    store.setStoreItem('mapSearchLocations', { location: data.results[0].latlng, label: data.results[0].properties.ShortLabel });
   }
 
   // handle geocoding results from the esri leaflet geocoding plugin
@@ -158,11 +152,6 @@ export class SearchLocations extends Component {
     }
   }
 
-  // creates custom icon and adds css class for styling
-  static createSearchLocationsIcon() {
-    return L.divIcon({ className: 'searchlocations-point' });
-  }
-
   // handler for adding the location as an mapInfo point
   addSearchLocationsMapInfoHandler() {
     // get the info button element
@@ -195,6 +184,11 @@ export class SearchLocations extends Component {
           this.mapInfoComponent.map.removeLayer(this.markerBounds);
         }
 
+        // clear old user area
+        // remove existing Area
+        this.exploreComponent.drawAreaGroup.clearLayers();
+        store.removeStateItem('userarea');
+
         // add the user area. in this case the user area is a point
         // we are running zonal states so we need a polygon. we are using a small
         // bounding box of "50" meters for now we may need to make 1 kilomter later
@@ -219,18 +213,12 @@ export class SearchLocations extends Component {
         store.setStoreItem('userarea', userPolyGeoJSON);
 
         // add the shape to the map
-        this.markerBounds = L.geoJSON(userPolyGeoJSON).addTo(this.mapInfoComponent.map);
+        this.exploreComponent.drawUserArea();
+
+        // this.markerBounds = L.geoJSON(userPolyGeoJSON).addTo(this.mapInfoComponent.map);
         this.removeSearchLocations();
       });
     }
-  }
-
-  // return lat long of search location from store
-  static getSearchLocationsLatLong() {
-    return L.latLng(
-      SearchLocations.getSearchLocationsLocation().lat,
-      SearchLocations.getSearchLocationsLocation().lng
-    );
   }
 
   delayedSearchLocationPopup() {
@@ -252,11 +240,14 @@ export class SearchLocations extends Component {
       // make sure thge popup object exists
       if (checkValidObject(popup)) {
         // set popup close handler
-        popup.on('popupclose', () => {
-          this.removeSearchLocations();
-        });
+        popup.on('popupclose', this.popupCloseHanlder.bind(this));
       }
     }, 10);
+  }
+
+  // handler for closing popup
+  popupCloseHanlder() {
+    this.removeSearchLocations();
   }
 
   // restore the state form map info/identify
@@ -264,33 +255,6 @@ export class SearchLocations extends Component {
     // add search location marker
     this.addSearchLocationsMarker(false);
     this.delayedSearchLocationPopup();
-    //
-    // // have to set time the popup is not added to the dom immediately
-    // // so we must wait a very breif time to add the marker and popu.
-    // // otherwise the popup will be appear in the wrong location
-    // setTimeout(() => {
-    //   const location = L.latLng(
-    //     SearchLocations.getSearchLocationsLocation().lat,
-    //     SearchLocations.getSearchLocationsLocation().lng
-    //   );
-    //
-    //   // get the mapinfo (identify) html document and udpate
-    //   // the content with returned values
-    //   // const doc = SearchLocations.getDocument();
-    //   const popup = this.addSearchLocationsPopup(location, -123);
-    //
-    //   // add event handlers
-    //   this.addSearchLocationsMapInfoHandler();
-    //   this.addSearchLocationsExploreHandler();
-    //
-    //   // make sure thge popup object exists
-    //   if (checkValidObject(popup)) {
-    //     // set popup close handler
-    //     popup.on('popupclose', () => {
-    //       this.removeSearchLocations();
-    //     });
-    //   }
-    // }, 5);
   }
 
   // add the search location popup to the maker (searched location)
@@ -364,5 +328,24 @@ export class SearchLocations extends Component {
   static getDocument() {
     const parser = new DOMParser();
     return parser.parseFromString(searchlocationsTemplate, 'text/html');
+  }
+
+  // return lat long of search location from store
+  static getSearchLocationsLatLong() {
+    return L.latLng(
+      SearchLocations.getSearchLocationsLocation().lat,
+      SearchLocations.getSearchLocationsLocation().lng
+    );
+  }
+
+  // creates custom icon and adds css class for styling
+  static createSearchLocationsIcon() {
+    return L.divIcon({ className: 'searchlocations-point' });
+  }
+
+  static saveResultsToStore(data) {
+    // save location to store
+    // only retrieve first item (need to remove multiselect)
+    store.setStoreItem('mapSearchLocations', { location: data.results[0].latlng, label: data.results[0].properties.ShortLabel });
   }
 }
