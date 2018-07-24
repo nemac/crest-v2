@@ -5,7 +5,7 @@ import { Component } from './components';
 
 import { navConfig } from '../config/aboutConfig';
 
-import { toggleElementDisplay } from './domUtils';
+import { toggleElementDisplay } from './utilitys';
 
 /**
  * NavBar Component
@@ -32,7 +32,8 @@ export class AboutNavBar extends Component {
     navConfig.navs.forEach((nav) => {
       const navInnerHTML = navHeaderElement.innerHTML;
       navHeaderElement.innerHTML = navInnerHTML + NavBarsTemplate;
-
+      console.log(navInnerHTML);
+      console.log(nav);
       const navElement = document.getElementById('about-nav-page');
 
       // first tab is always active
@@ -93,9 +94,6 @@ export class AboutNavBar extends Component {
       el.className += ' d-none';
     });
 
-    // not found in case it was revealed.
-    const el = document.getElementById('tab-about-nav-notfound');
-    el.className = el.className.replace(' d-none', '');
-    el.className += ' d-none';
+
   }
 }
