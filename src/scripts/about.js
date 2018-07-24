@@ -12,8 +12,7 @@ export class About extends Component {
 
   initializeComponents() {
     // Initialize Nav Var
-    // this.navComponent = new NavBar('nav-holder', { activeNav: 'about' });
-    // console.log(hi i work);
+    this.navComponent = new NavBar('nav-holder', { activeNav: 'about' });
     this.aboutNavComponent = new AboutNavBar('about-nav-holder');
   }
 }

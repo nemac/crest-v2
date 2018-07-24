@@ -165,8 +165,8 @@ router.on({
   },
   '/About': (params, query) => {
     setNavBars('main-nav-about');
-    const aboutComponent = new initAbout('about-holder');
     // setAboutNavBars('about-nav');
+    const aboutComponent = new initAbout('about-holder');
     // initStaticPage('about-holder', AboutPage);
   },
   '/Download': (params, query) => {
