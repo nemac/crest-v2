@@ -12,7 +12,6 @@ import { URL } from './url';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
-// import { AboutNavBar } from './aboutNav';
 
 
 // import html templates
