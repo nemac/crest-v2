@@ -5,8 +5,11 @@ import { Component } from './components';
 
 import { navConfig } from '../config/aboutConfig';
 
+<<<<<<< HEAD
 import { toggleElementDisplay } from './utilitys';
 
+=======
+>>>>>>> refs/remotes/origin/master
 /**
  * NavBar Component
  * Render and control map layer control

@@ -205,6 +205,10 @@ html, body {
   font-size: .85rem;
 }
 
+.searchlocationsdata {
+  font-size: .85rem;
+}
+
 .mapinfodata-score {
   float: left;
   padding: 1px;
@@ -231,6 +235,23 @@ html, body {
   min-height: 25px;
 }
 
+.searchlocationsdata-content {
+  padding: 5px;
+  min-height: 25px;
+}
+
+.search-locations-popup .leaflet-popup-content {
+  margin: 5px !important;
+}
+
+.search-locations-popup .leaflet-popup-content-wrapper .leaflet-popup-content {
+  width: 200px !important;
+}
+
+.search-locations-popup .leaflet-popup-content-wrapper {
+  padding: 5px;
+}
+
 .leaflet-popup {
    bottom: 0;
    min-width: 205px;
@@ -241,6 +262,9 @@ html, body {
    cursor: default;
    min-width: 205px;
  }
+.btn-search-locations-collapse {
+  cursor: pointer;
+}
 
  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
    background: $body-bg;
