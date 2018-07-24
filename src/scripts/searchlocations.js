@@ -79,38 +79,57 @@ export class SearchLocations extends Component {
     this.marker = undefined;
     this.markerBounds = undefined;
 
-    searchControl.on('results', (data) => {
-      // clear old locations\
-      this.removeSearchLocations();
+    searchControl.on('results', this.resultsHandler.bind(this));
 
-      // only retrieve first item (need to remove multiselect)
-      const location = data.results[0].latlng;
-      const label = data.results[0].properties.ShortLabel;
-      store.setStoreItem('mapSearchLocations', { location, label });
+    // searchControl.on('resultsadd', () => console.log("resultsadd"));
+    // this.restoreSearchLocationsState();
 
-      // add search location marker
-      this.addSearchLocationsMarker(true);
-
-      // // get the mapinfo (identify) html document and udpate
-      // // the content with returned values
-      // const doc = SearchLocations.getDocument();
-      const popup = this.addSearchLocationsPopup(location, -123);
-
-
-      if (checkValidObject(popup)) {
-        // set popup close handler
-        popup.on('popupclose', () => {
-          this.removeSearchLocations();
-        });
-      }
-
-      this.addSearchLocationsMapInfoHandler();
-      // this.addSearchLocationsExploreHandler();
-
-
-    });
   }
 
+  resultsHandler(data) {
+    // clear old locations\
+    this.removeSearchLocations();
+
+    // only retrieve first item (need to remove multiselect)
+    const location = data.results[0].latlng;
+    const label = data.results[0].properties.ShortLabel;
+    store.setStoreItem('mapSearchLocations', { location, label });
+    console.log('mapSearchLocations results', { location, label })
+    // setTimeout(() => {()=>{console.log(' timeout results')} }, 1000);
+    // add search location marker
+    this.addSearchLocationsMarker(true);
+
+    // get the mapinfo (identify) html document and udpate
+    // the content with returned values
+    // const doc = SearchLocations.getDocument();
+    const popup = this.addSearchLocationsPopup(location, -123);
+    setTimeout(() => {
+      this.addSearchLocationsMapInfoHandler();
+      this.addSearchLocationsExploreHandler();
+    }, 1000);
+    // const iButtonElement = document.getElementById('i-btn');
+    // console.log(popup)
+    // var event = new Event('resultsadd');
+    // popup.dispatchEvent(event);
+
+    // const storageEvent = new CustomEvent('resultsadd');
+    //
+    // window.dispatchEvent(storageEvent);
+
+    // console.log('popup', popup);
+    //
+    // if (checkValidObject(popup)) {
+    //   // set popup close handler
+    //   popup.on('popupclose', () => {
+    //     console.log('popupclose')
+    //     this.removeSearchLocations();
+    //   });
+    //
+    //   this.addSearchLocationsMapInfoHandler();
+    //   this.addSearchLocationsExploreHandler();
+    // }
+
+  }
   // add maker for idenSearchLocations
   // @param { Object } location object lat long
   // @param { Object } icon leaflet icon used as maker on map
@@ -164,20 +183,26 @@ export class SearchLocations extends Component {
 
   addSearchLocationsMapInfoHandler() {
 
-    console.log('addSearchLocationsMapInfoHandler')
     const iButtonElement = document.getElementById('i-btn');
-    console.log(iButtonElement)
+
     if (iButtonElement !== null){
-      console.log('inside', 'addSearchLocationsMapInfoHandler')
-      setTimeout(() => {()=>{'test'} }, 0);
-      iButtonElement.addEventListener('click', this.clickIdentify);
-      // (ev) => {
-      //   console.log('click iButtonElement')
+
+      // iButtonElement.addEventListener('mouseover', (ev) => {
+      //   console.log('mouseover iButtonElement')
       //   // spinnerOn();
       //   // store.setStoreItem('mapClick', store.getStateItem('mapSearchLocations').location );
       //   // this.mapInfoComponent.retreiveMapClick();
       //   // this.removeSearchLocations();
       // });
+
+
+      iButtonElement.addEventListener('click', (ev) => {
+        // console.log('click iButtonElement')
+        spinnerOn();
+        store.setStoreItem('mapClick', store.getStateItem('mapSearchLocations').location );
+        this.mapInfoComponent.retreiveMapClick();
+        this.removeSearchLocations();
+      });
     }
 
   }
@@ -187,10 +212,6 @@ export class SearchLocations extends Component {
     if (eButtonElement !== null){
       eButtonElement.addEventListener('click', (ev) => {
         // spinnerOn();
-        console.log('test')
-
-        console.log('here', this.markerBounds)
-
         if(this.markerBounds !== undefined) {
           this.mapInfoComponent.map.removeLayer(this.markerBounds);
         }
@@ -259,7 +280,7 @@ export class SearchLocations extends Component {
     const popup = this.addSearchLocationsPopup(location, 265);
 
     this.addSearchLocationsMapInfoHandler();
-    // this.addSearchLocationsExploreHandler();
+    this.addSearchLocationsExploreHandler();
 
     if (checkValidObject(popup)) {
       // set popup close handler
@@ -289,6 +310,22 @@ export class SearchLocations extends Component {
 
       const searchlocationsEl = doc.getElementById('searchlocations_list');
       const searchlocationsContent = L.Util.template(searchlocationsEl.outerHTML);
+      // console.log('searchlocationsContent', searchlocationsEl)
+      //
+      // const iButtonElement = doc.getElementById('i-btn');
+      // console.log('iButtonElement', searchlocationsEl)
+      //
+      // if (iButtonElement !== null){
+      //   console.log('iButtonElement', 'iButtonElement before listener')
+      //
+      //   iButtonElement.addEventListener('mouseover', (ev) => {
+      //     console.log('click iButtonElement2')
+      //     // spinnerOn();
+      //     // store.setStoreItem('mapClick', store.getStateItem('mapSearchLocations').location );
+      //     // this.mapInfoComponent.retreiveMapClick();
+      //     // this.removeSearchLocations();
+      //   });
+      // }
 
       const popup = this.marker.bindPopup(
         searchlocationsContent,
