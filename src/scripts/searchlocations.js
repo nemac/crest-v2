@@ -253,6 +253,14 @@ export class SearchLocations extends Component {
   // popup so the new location should render once
   // TODO handle no base done.
   delayedSearchLocationPopup() {
+
+    let check = false;
+    if (checkValidObject(this.marker)) {
+      check = this.marker.isPopupOpen();
+    }
+
+    const location = SearchLocations.getSearchLocationsLatLong();
+
     // have to set time the popup is not added to the dom immediately
     // so we must wait a very breif time to add the marker and popu.
     // otherwise the popup will be appear in the wrong location
@@ -289,9 +297,8 @@ export class SearchLocations extends Component {
       // needs to work when nothing loaded too
       this.mapComponent.map.on('basemaploaded', () => {
         console.log("basemaploaded event")
-        const location = SearchLocations.getSearchLocationsLatLong();
 
-        let check = false;
+        check = this.checkPopupOpen();
 
         console.log('check', check)
         if(!check){
