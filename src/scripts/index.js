@@ -110,11 +110,11 @@ function setNavBars(selector) {
   NavBar.toggleTabContent(selector);
   NavBar.tabUpdate(selector);
 }
-function setAboutNavBars(selector) {
-  AboutNavBar.resetTabContent();
-  AboutNavBar.toggleTabContent(selector);
-  AboutNavBar.tabUpdate(selector);
-}
+// function setAboutNavBars(selector) {
+//   AboutNavBar.resetTabContent();
+//   AboutNavBar.toggleTabContent(selector);
+//   AboutNavBar.tabUpdate(selector);
+// }
 
 // Initializes the static pages by inserting the rendered template into the selected DOM element
 //
@@ -166,7 +166,7 @@ router.on({
   '/About': (params, query) => {
     setNavBars('main-nav-about');
     // setAboutNavBars('about-nav');
-    const aboutComponent = new initAbout('about-holder');
+    const aboutComponent = initAbout('about-holder');
     // initStaticPage('about-holder', AboutPage);
   },
   '/Download': (params, query) => {

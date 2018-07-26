@@ -31,8 +31,6 @@ export class AboutNavBar extends Component {
     navConfig.navs.forEach((nav) => {
       const navInnerHTML = navHeaderElement.innerHTML;
       navHeaderElement.innerHTML = navInnerHTML + NavBarsTemplate;
-      console.log(navInnerHTML);
-      console.log(nav);
       const navElement = document.getElementById('about-nav-page');
 
       // first tab is always active
@@ -92,7 +90,5 @@ export class AboutNavBar extends Component {
       el.className = el.className.replace(' d-none', '');
       el.className += ' d-none';
     });
-
-
   }
 }

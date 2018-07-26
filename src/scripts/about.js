@@ -5,8 +5,8 @@ import aboutTemplate from '../templates/about.html';
 
 export class About extends Component {
   /** Initialize Application */
-    constructor(aboutPlaceholderId, props) {
-      super(aboutPlaceholderId, props, aboutTemplate);
+  constructor(aboutPlaceholderId, props) {
+    super(aboutPlaceholderId, props, aboutTemplate);
     this.initializeComponents();
   }
 
