@@ -43,7 +43,7 @@ export class Map extends Component {
     super(mapPlaceholderId, props, mapTemplate);
 
     this.renderCount = 0;
-
+    this.basemaploaded = false;
     // set last storage object, it will be overwritten after map is intialized
     this.restoreStateStore = store.getState();
 
@@ -117,6 +117,15 @@ export class Map extends Component {
      */
     const mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
     mapTiles.addTo(this.map);
+
+    mapTiles.on('load', () => {
+      this.map.fireEvent('basemaploaded')
+      this.basemaploaded = true;
+    });
+
+    mapTiles.on('loading', () => {
+      this.map.fireEvent('basemaploading')
+    });
   }
 
   // iterate and add leaflet tile layers from  mapconfig.js

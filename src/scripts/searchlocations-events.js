@@ -69,10 +69,7 @@ export class SearchLocations extends Component {
     // add results hanlder for when user picks a location
     this.searchControl.on('results', this.resultsHandler.bind(this));
 
-    const popupconentElement = document.querySelector('.leaflet-popup-content');
-    console.log(popupconentElement);
-    // popupconentElement.addEventListener('popopcreated',() => {console.log('popopcreated')});
-
+    // // popupconentElement.addEventListener('popupcreated',() => {console.log('popupcreated')});
   }
 
   // handle search box click.  This expands the search box.
@@ -107,7 +104,11 @@ export class SearchLocations extends Component {
     this.addSearchLocationsMarker(true);
 
     // add popup with slight delay
-    this.delayedSearchLocationPopup();
+    // this.delayedSearchLocationPopup();
+
+    // const popupconentElement = document.querySelector('.leaflet-popup-content');
+    // console.log(popupconentElement);
+
   }
 
   // popup close handler
@@ -119,7 +120,14 @@ export class SearchLocations extends Component {
   // @param { Object } location object lat long
   // @param { Object } icon leaflet icon used as maker on map
   addMaker(location, icon) {
+
+
     this.marker = L.marker([location.lat, location.lng], { icon });
+
+    this.marker.on('add', () => {
+      console.log('this.marker add')
+    })
+
     this.mapComponent.map.addLayer(this.marker);
   }
 
@@ -154,6 +162,25 @@ export class SearchLocations extends Component {
 
       // add marker at location to the map
       this.addMaker(location, icon);
+
+      const mapElement = this.mapComponent.map.getContainer();
+      mapElement.addEventListener('locationmarkeradded',() => {
+        console.log('locationmarkeradded');
+        const { location } = store.getStateItem('mapSearchLocations');
+        const popup = this.addSearchLocationsPopup(location, -123);
+        // make sure thge popup object exists
+        if (checkValidObject(popup)) {
+          // set popup close handler
+          popup.on('popupclose', this.popupCloseHandler.bind(this));
+        }
+
+      });
+
+      // Create a new event
+      var event = new CustomEvent('locationmarkeradded');
+
+      // Dispatch the event
+      mapElement.dispatchEvent(event);
     }
   }
 
@@ -226,103 +253,45 @@ export class SearchLocations extends Component {
     }
   }
 
-  try() {
-    const element = this.mapComponent.map.getContainer();
-      if (element !== null) {
-        window.requestAnimationFrame(this.try(element));
-      }else {
-         return true
-       }
-    };
+  // checklistnerok(el) {
+  //   if (el.addEventListener){
+  //     return true;
+  //   } else {
+  //     checklistnerok(el);
+  //   }
+  // }
 
-  // we need to check if the popup is open so we don't
-  // render multiple popups
-  checkPopupOpen() {
-    if (checkValidObject(this.marker)) {
-      return this.marker.isPopupOpen();
-    }
-    return false;
-  }
-
-  // if map tiles are drawing for a base map leaflet will not
-  // place the popup in the correct lication so we must wait till they
-  // have completed to draw.
-  // second we also have to make sure there is no popup already open
-  // when panning or zooming otherwise it will draw multiple
-  // popups.  When a new search is initated it will first delete the
-  // popup so the new location should render once
-  // TODO handle no base done.
-  delayedSearchLocationPopup() {
-    // have to set time the popup is not added to the dom immediately
-    // so we must wait a very breif time to add the marker and popu.
-    // otherwise the popup will be appear in the wrong location
-    // setTimeout(() => {
-    // const ButtonElement =  document.getElementById('i-btn');
-    // const ButtonElementRendered = this.try(ButtonElement);
-    //
-    // const mapElement = this.mapComponent.map.getContainer();
-    // const mapElementRendered = this.try(mapElement);
-
-    if (this.try) {
-
-
-      // get the mapinfo (identify) html document and udpate
-      // the content with returned values
-      // const doc = SearchLocations.getDocument();
-      // const popup = this.addSearchLocationsPopup(location, -123);
-
-
-      // if(this.mapComponent.basemaploaded) {
-      //   console.log("this.mapComponent.basemaploaded")
-      //   const popup = this.addSearchLocationsPopup(location, -123);
-      //
-      //   // add event handlers
-      //   this.addSearchLocationsMapInfoHandler();
-      //   this.addSearchLocationsExploreHandler();
-      //
-      //   if (checkValidObject(popup)) {
-      //     // set popup close handler
-      //     popup.on('popupclose', this.popupCloseHanlder.bind(this));
-      //   }
-      // }
-
-      // needs to work when nothing loaded too
-      this.mapComponent.map.on('basemaploaded', () => {
-        console.log("basemaploaded event")
-        const location = SearchLocations.getSearchLocationsLatLong();
-
-        let check = false;
-
-        console.log('check', check)
-        if(!check){
-          console.log('incheck', check)
-
-          const popup = this.addSearchLocationsPopup(location, -123);
-          // console.log('this.marker.isPopupOpen', this.marker.isPopupOpen)
-
-          // add event handlers
-          this.addSearchLocationsMapInfoHandler();
-          this.addSearchLocationsExploreHandler();
-
-          if (checkValidObject(popup)) {
-            // set popup close handler
-            popup.on('popupclose', this.popupCloseHanlder.bind(this));
-          }
-        }
-
-      });
-
-      // // make sure thge popup object exists
-      // if (checkValidObject(popup)) {
-      //   // set popup close handler
-      //   popup.on('popupclose', this.popupCloseHanlder.bind(this));
-      // }
-    // }, 10);
-    }
-  }
+  //
+  // delayedSearchLocationPopup(popup) {
+  //   // have to set time the popup is not added to the dom immediately
+  //   // so we must wait a very breif time to add the marker and popu.
+  //   // otherwise the popup will be appear in the wrong location
+  //   // setTimeout(() => {
+  //   //  // const location = SearchLocations.getSearchLocationsLatLong();
+  //     //
+  //     // get the mapinfo (identify) html document and udpate
+  //     // the content with returned values
+  //     // const doc = SearchLocations.getDocument();
+  //     //  // const popup = this.addSearchLocationsPopup(location, -123);
+  //
+  //     // const iButtonElement = document.getElementById('i-btn');
+  //     // console.log('', this.checklistnerok(iButtonElement))
+  //
+  //
+  //     // add event handlers
+  //     this.addSearchLocationsMapInfoHandler();
+  //     this.addSearchLocationsExploreHandler();
+  //
+  //     // make sure thge popup object exists
+  //     // if (checkValidObject(popup)) {
+  //     //   // set popup close handler
+  //     //   popup.on('popupclose', this.popupCloseHandler.bind(this));
+  //     // }
+  //   // }, 10);
+  // }
 
   // handler for closing popup
-  popupCloseHanlder() {
+  popupCloseHandler() {
     this.removeSearchLocations();
   }
 
@@ -330,7 +299,6 @@ export class SearchLocations extends Component {
   restoreSearchLocationsState() {
     // add search location marker
     this.addSearchLocationsMarker(false);
-    this.delayedSearchLocationPopup();
   }
 
   // add the search location popup to the maker (searched location)
@@ -368,21 +336,48 @@ export class SearchLocations extends Component {
           offset: L.point(offsetx, 20)
         }
       );
+      // const popupOptions = {
+      //     autoClose: false,
+      //     closeOnClick: false,
+      //     opacity: 0.9,
+      //     autoPan: false,
+      //     className: 'search-locations-popup',
+      //     offset: L.point(offsetx, 20)
+      //   };
+      //
+      // let popup = L.popup(popupOptions);
+      // popup.setLatLng(location);
+      // popup.setContent(searchlocationsContent);
+      // popup.openOn(this.mapComponent.map);
+
+      this.marker.on('popupcreatedLeaflet', () => {
+        console.log('popupcreatedLeaflet')
+      });
+
+      this.mapComponent.map.on('popupopen', () => {
+        console.log('popupopen map')
+      });
 
       // open popup if location is valid
       if (checkValidObject(location)) {
         // open popup
         this.marker.openPopup(location);
+        this.marker.fireEvent('popupcreatedLeaflet')
       }
 
-      // const popupconentElement = document.querySelector('.leaflet-popup-content');
-      //
-      // // Create a new event
-      // var event = new CustomEvent('popopcreated');
-      //
-      // // Dispatch the event
-      // popupconentElement.dispatchEvent(event);
+      const mapElement = this.mapComponent.map.getContainer();
+      mapElement.addEventListener('popupcreated',() => {
+        console.log('popupcreated')
+        this.addSearchLocationsMapInfoHandler();
+        this.addSearchLocationsExploreHandler();
+        popup.setLatLng(location)
+      });
 
+      // Create a new event
+      var event = new CustomEvent('popupcreated');
+
+      // Dispatch the event
+      mapElement.dispatchEvent(event);
 
       // return the popup object
       return popup;
