@@ -47,7 +47,7 @@ html, body {
   color: $body-bg;
 }
 
-.btn-draw-area {
+.user-shape {
   // for text to wrap in button
   white-space: pre-wrap;      /* CSS3 */
   white-space: -moz-pre-wrap; /* Firefox */
@@ -56,6 +56,7 @@ html, body {
   word-wrap: break-word;      /* IE */
   width: 80px;
   height: 80px;
+  margin: 5px;
 }
 
 .leaflet-editing-icon {
@@ -128,6 +129,28 @@ html, body {
 .btn-mapinfo {
   background-color: $body-color;
   color: $body-bg;
+  font-size: 15px;
+  border-radius: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
+.i-btn {
+  background-color: $body-color;
+  color: $body-bg;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
+.e-btn {
+  background-color: $body-color;
+  color: $body-bg;
+  width: 75px;
+  height: 30px;
   font-size: 15px;
   border-radius: 2px;
   vertical-align: middle !important;
