@@ -73,7 +73,8 @@ export class Map extends Component {
 
     // force map re-render
     this.forceMapReRender();
-
+    this.forceMapReRender();
+    
     this.addWmsLayers();
 
     // set the state to manage initial display status of wms "overlay" layers
