@@ -74,7 +74,7 @@ export class Map extends Component {
     // force map re-render
     this.forceMapReRender();
     this.forceMapReRender();
-    
+
     this.addWmsLayers();
 
     // set the state to manage initial display status of wms "overlay" layers
@@ -119,13 +119,16 @@ export class Map extends Component {
     const mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
     mapTiles.addTo(this.map);
 
+    // add new event to check on base map has completed uploading
+    //  map will not initialize settings untill this has completed
     mapTiles.on('load', () => {
-      this.map.fireEvent('basemaploaded')
+      this.map.fireEvent('basemaploaded');
       this.basemaploaded = true;
     });
 
+    // add new event to fire when on base map is in process of loading
     mapTiles.on('loading', () => {
-      this.map.fireEvent('basemaploading')
+      this.map.fireEvent('basemaploading');
     });
   }
 
@@ -236,12 +239,9 @@ export class Map extends Component {
      * and the overlays are offset with intial draw. This zoom in zoom out
      * forces leaflet to Render everything correctly
      */
-    if (!store.isStateExists()) {
-      this.map.zoomOut(1);
-      this.map.zoomIn(1);
-      return true;
-    }
-    return false;
+    this.map.zoomOut(1);
+    this.map.zoomIn(1);
+    return true;
   }
 
   // map move end map handler

@@ -13,18 +13,18 @@ import { checkValidObject } from './utilitys';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
-import { AboutNavBar } from './aboutNav';
+// import { AboutNavBar } from './aboutNav';
 import { About } from './about';
 import { Explore } from './explore';
 import { MapInfo } from './mapinfo';
 import { SearchLocations } from './searchlocations';
 
 // import html templates
-import AboutPage from '../templates/about.html';
+// import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
-import ExplorePage from '../templates/explore.html';
-import SearchLocationsPage from '../templates/searchlocations.html';
+// import ExplorePage from '../templates/explore.html';
+// import SearchLocationsPage from '../templates/searchlocations.html';
 
 // initialize navbar
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
@@ -37,6 +37,7 @@ let maplayersComponent;
 let exploreComponent;
 let mapInfoComponent;
 let searchLocationsComponent;
+let aboutComponent;
 
 const store = new Store({});
 
@@ -53,6 +54,11 @@ if (homeloc === 'https://nemac.github.io') {
 function initMap(selector) {
   return new Map(selector);
 }
+
+// Creates a new about page component
+//
+// @param selector - string DOM selector
+// Closes over global import Map
 function initAbout(selector) {
   return new About(selector);
 }
@@ -131,8 +137,8 @@ const router = new Navigo(homeloc, true);
 
 // examples of coded map interactions for testing
 const maintitleElement = document.getElementById('maintitle');
-maintitleElement.addEventListener('click', (e) => {
-  searchLocationsComponent.delayedSearchLocationPopup();
+// maintitleElement.addEventListener('click', (e) => {
+//   searchLocationsComponent.delayedSearchLocationPopup();
 //   const mapCenter = store.getStateItem('mapCenter')
 //
 //   mapComponent.restoreMapCenter(mapCenter)
@@ -153,7 +159,7 @@ maintitleElement.addEventListener('click', (e) => {
 //   console.log(store.removeStateItem('mapClick'));
 //   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
 //   console.log()
-});
+// });
 
 router.on({
   '/': (params, query) => {
@@ -167,7 +173,7 @@ router.on({
   '/About': (params, query) => {
     setNavBars('main-nav-about');
     // setAboutNavBars('about-nav');
-    const aboutComponent = initAbout('about-holder');
+    aboutComponent = initAbout('about-holder');
     // initStaticPage('about-holder', AboutPage);
   },
   '/Download': (params, query) => {
