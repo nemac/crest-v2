@@ -10,7 +10,8 @@ import { Store } from './store';
 
 import {
   checkValidObject,
-  spinnerOn
+  spinnerOn,
+  spinnerOff
 } from './utilitys';
 
 const store = new Store({});
@@ -46,6 +47,7 @@ export class SearchLocations extends Component {
     this.searchControlElement = document.querySelector('.geocoder-control.leaflet-control');
     this.searchBoxElement = document.querySelector('.geocoder-control-input.leaflet-bar');
     this.collapseSearch = L.DomUtil.create('div', 'btn-search-locations-collapse-holder float-right d-none', this.searchControlElement);
+    this.collapseSearch.setAttribute('id', 'btn-search-locations-collapse');
 
     // make sure map click events do not fire when user clicks on search conrol
     L.DomEvent.disableClickPropagation(this.searchControlElement);
@@ -79,15 +81,24 @@ export class SearchLocations extends Component {
   // handle collapse of search box.  removed from displays the collapse button
   // from dom
   searchBoxCollapseClickHandler(ev) {
-    this.searchControl.options.collapseAfterResult = true;
-    this.searchControl.clear();
-    this.searchControl.disable();
-    // the leaflet-geocodiong force focus on the search input box
-    // which forces the code to keep the css dom elements vissible
-    // the onlly way to overcopme this is disable and the shortly
-    // re-enable the dom element via the plugins code
-    setTimeout(() => { this.searchControl.enable(); }, 0);
-    L.DomUtil.addClass(this.collapseSearch, 'd-none');
+    // get the search location buttons holder element
+    const CollapseElement = document.querySelector('.geocoder-control-expanded');
+
+    // make the element exists in the dom
+    if (CollapseElement !== null) {
+      // if clicked child or explore buttton
+      if (ev.target.id === 'btn-search-locations-collapse' || SearchLocations.ParentContains(ev.target, 'btn-search-locations-collapse')) {
+        this.searchControl.options.collapseAfterResult = true;
+        this.searchControl.clear();
+        this.searchControl.disable();
+        // the leaflet-geocodiong force focus on the search input box
+        // which forces the code to keep the css dom elements vissible
+        // the onlly way to overcopme this is disable and the shortly
+        // re-enable the dom element via the plugins code
+        setTimeout(() => { this.searchControl.enable(); }, 0);
+        L.DomUtil.addClass(this.collapseSearch, 'd-none');
+      }
+    }
   }
 
   // handle geocoding results from the esri leaflet geocoding plugin
@@ -102,7 +113,11 @@ export class SearchLocations extends Component {
     this.addSearchLocationsMarker(true);
 
     // add popup with slight delay
-    this.delayedSearchLocationPopup();
+    this.addSearchLocationPopup();
+
+    // force basemap redraw for force popup to
+    // at similar location to open and bind
+    this.mapComponent.zoomInAndOut();
   }
 
   // popup close handler
@@ -152,97 +167,168 @@ export class SearchLocations extends Component {
     }
   }
 
+  // check if a parentelemet contains a dom id
+  // deals with event bubbling so we can check
+  // if the child is in a specifc parent
+  static ParentContains(target, id) {
+    for (let p = target && target.parentElement; p; p = p.parentElement) {
+      if (p.id === id) { return true; }
+    }
+    return false;
+  }
+
   // handler for adding the location as an mapInfo point
-  addSearchLocationsMapInfoHandler() {
-    // get the info button element
-    const iButtonElement = document.getElementById('i-btn');
+  addSearchLocationsHandler() {
+    // get the search location buttons holder element
+    const iButtonElement = document.getElementById('searchlocations-buttons');
 
-    // make the info button exists in the dom
+    // make the element exists in the dom
     if (iButtonElement !== null) {
-      // add the click handler
+      // add the click handler to parent element of buttons
       iButtonElement.addEventListener('click', (ev) => {
-        spinnerOn();
-        // remove old marker
-        this.mapInfoComponent.removeMapMarker();
+        // if clicked child or explore buttton
+        if (ev.target.id === 'e-btn' || SearchLocations.ParentContains(ev.target, 'e-btn')) {
+          this.addSearchLocationsExploreHandler();
+        }
 
-        // add new marker location to store so the new marker can be added
-        store.setStoreItem('mapClick', store.getStateItem('mapSearchLocations').location);
-
-        // add the marker for the mapinfo from the mapinfo component
-        this.mapInfoComponent.retreiveMapClick();
-        this.removeSearchLocations();
+        // if clicked child or mapinfo buttton
+        if (ev.target.id === 'i-btn' || SearchLocations.ParentContains(ev.target, 'i-btn')) {
+          this.addSearchLocationsMapInfoHandler();
+        }
       });
     }
+  }
+
+  // handler for adding the location as an mapInfo point
+  addSearchLocationsMapInfoHandler() {
+    spinnerOn();
+    // remove old marker
+    this.mapInfoComponent.removeMapMarker();
+
+    // add new marker location to store so the new marker can be added
+    store.setStoreItem('mapClick', store.getStateItem('mapSearchLocations').location);
+
+    // add the marker for the mapinfo from the mapinfo component
+    this.mapInfoComponent.retreiveMapClick();
+
+    // remove search locations so there is not duplicate points
+    this.removeSearchLocations();
   }
 
   addSearchLocationsExploreHandler() {
-    const eButtonElement = document.getElementById('e-btn');
-    if (eButtonElement !== null) {
-      eButtonElement.addEventListener('click', (ev) => {
-        // spinnerOn();
-        if (this.markerBounds !== undefined) {
-          this.mapInfoComponent.map.removeLayer(this.markerBounds);
-        }
-
-        // clear old user area
-        // remove existing Area
-        this.exploreComponent.drawAreaGroup.clearLayers();
-        store.removeStateItem('userarea');
-
-        // add the user area. in this case the user area is a point
-        // we are running zonal states so we need a polygon. we are using a small
-        // bounding box of "50" meters for now we may need to make 1 kilomter later
-        // to pass to the zonal stats api
-        const userArea = store.getStateItem('mapSearchLocations').location;
-        const center = L.latLng(userArea.lat, userArea.lng);
-        const bounds = center.toBounds(50);
-
-        const latlngs = [];
-
-        // get the corners of the box so we can convert it too geoJSON
-        latlngs.push(bounds.getSouthWest()); // bottom left
-        latlngs.push(bounds.getSouthEast()); // bottom right
-        latlngs.push(bounds.getNorthEast()); // top right
-        latlngs.push(bounds.getNorthWest()); // top left
-
-        // create a polygon. leaflet can only convert shapes, markers to geoJSON
-        const userPoly = L.polygon(latlngs);
-        const userPolyGeoJSON = userPoly.toGeoJSON();
-
-        // add the geoJSON to the store
-        store.setStoreItem('userarea', userPolyGeoJSON);
-
-        // add the shape to the map
-        this.exploreComponent.drawUserArea();
-
-        // this.markerBounds = L.geoJSON(userPolyGeoJSON).addTo(this.mapInfoComponent.map);
-        this.removeSearchLocations();
-      });
+    spinnerOn();
+    if (this.markerBounds !== undefined) {
+      this.mapInfoComponent.map.removeLayer(this.markerBounds);
     }
+
+    // clear old user area
+    // remove existing Area
+    this.exploreComponent.drawAreaGroup.clearLayers();
+    store.removeStateItem('userarea');
+
+    // add the user area. in this case the user area is a point
+    // we are running zonal states so we need a polygon. we are using a small
+    // bounding box of "50" meters for now we may need to make 1 kilomter later
+    // to pass to the zonal stats api
+    const userArea = store.getStateItem('mapSearchLocations').location;
+    const center = L.latLng(userArea.lat, userArea.lng);
+    const bounds = center.toBounds(50);
+
+    const latlngs = [];
+
+    // get the corners of the box so we can convert it too geoJSON
+    latlngs.push(bounds.getSouthWest()); // bottom left
+    latlngs.push(bounds.getSouthEast()); // bottom right
+    latlngs.push(bounds.getNorthEast()); // top right
+    latlngs.push(bounds.getNorthWest()); // top left
+
+    // create a polygon. leaflet can only convert shapes, markers to geoJSON
+    const userPoly = L.polygon(latlngs);
+    const userPolyGeoJSON = userPoly.toGeoJSON();
+
+    // add the geoJSON to the store
+    store.setStoreItem('userarea', userPolyGeoJSON);
+
+    // add the shape to the map
+    this.exploreComponent.drawUserArea();
+
+    // remove old search locations? do I need this?
+    this.removeSearchLocations();
+    spinnerOff();
   }
 
-  delayedSearchLocationPopup() {
+  // Check for DOM animation.  This would include map
+  // zooms, pans, etc.  We check becuase we cannot do things
+  // like add a popup until the map completes this - it seems map will
+  // not complete intialize until this is finsished
+  checkAnimation() {
+    const element = this.mapComponent.map.getContainer();
+    if (element !== null) {
+      window.requestAnimationFrame(this.checkAnimation(element));
+    } else {
+      return true;
+    }
+    return true;
+  }
+
+  // we need to check if the popup is open so we don't
+  // render multiple popups
+  checkPopupOpen() {
+    if (checkValidObject(this.marker)) {
+      return this.marker.isPopupOpen();
+    }
+    return false;
+  }
+
+  // just add the popup to map
+  drawPopup() {
+    const location = SearchLocations.getSearchLocationsLatLong();
+    const popup = this.addSearchLocationsPopup(location, -123);
+
+    if (checkValidObject(popup)) {
+      // set popup close handler
+      popup.on('popupclose', this.popupCloseHanlder.bind(this));
+    }
+
+    this.mapComponent.map.invalidateSize();
+  }
+
+  // if map tiles are drawing for a base map leaflet will not
+  // place the popup in the correct lication so we must wait till they
+  // have completed to draw.
+  // second we also have to make sure there is no popup already open
+  // when panning or zooming otherwise it will draw multiple
+  // popups.  When a new search is initated it will first delete the
+  // popup so the new location should render once
+  // TODO handle no basemap redraw aka the search subsequent search
+  // locations are similar
+  addSearchLocationPopup() {
+    spinnerOn();
+    // see if popup is open
+    let check = false;
+    if (checkValidObject(this.marker)) {
+      check = this.marker.isPopupOpen();
+    }
+
     // have to set time the popup is not added to the dom immediately
-    // so we must wait a very breif time to add the marker and popu.
+    // so we must wait a very breif time to add the marker and popup.
     // otherwise the popup will be appear in the wrong location
-    setTimeout(() => {
-      const location = SearchLocations.getSearchLocationsLatLong();
+    if (this.checkAnimation) {
+      // needs to work when nothing loaded too
+      this.mapComponent.map.on('basemaploaded', () => {
+        // find if popu is currently open so we avoid
+        // opening multiple instances
+        check = this.checkPopupOpen();
 
-      // get the mapinfo (identify) html document and udpate
-      // the content with returned values
-      // const doc = SearchLocations.getDocument();
-      const popup = this.addSearchLocationsPopup(location, -123);
-
-      // add event handlers
-      this.addSearchLocationsMapInfoHandler();
-      this.addSearchLocationsExploreHandler();
-
-      // make sure thge popup object exists
-      if (checkValidObject(popup)) {
-        // set popup close handler
-        popup.on('popupclose', this.popupCloseHanlder.bind(this));
-      }
-    }, 10);
+        // only open the popup if it's not avoid s
+        // opening multiple instances
+        if (!check) {
+          this.drawPopup();
+          spinnerOff();
+        }
+      });
+    }
+    spinnerOff();
   }
 
   // handler for closing popup
@@ -254,7 +340,7 @@ export class SearchLocations extends Component {
   restoreSearchLocationsState() {
     // add search location marker
     this.addSearchLocationsMarker(false);
-    this.delayedSearchLocationPopup();
+    this.addSearchLocationPopup();
   }
 
   // add the search location popup to the maker (searched location)
@@ -266,10 +352,16 @@ export class SearchLocations extends Component {
     if (checkValidObject(this.marker)) {
       const content = SearchLocations.getSearchLocationsLabel();
 
+      const oldContentElement = document.getElementById('searchlocations_list');
+      if (oldContentElement !== null) {
+        oldContentElement.parentNode.removeChild(oldContentElement);
+      }
+
       // get the SearchLocations html document and udpate
       // the content with returned values
       const doc = SearchLocations.getDocument();
 
+      // get the Explore button element
       const element = doc.getElementById('searchlocations-content');
       if (element !== undefined && element !== null) {
         element.innerHTML = content;
@@ -297,6 +389,10 @@ export class SearchLocations extends Component {
       if (checkValidObject(location)) {
         // open popup
         this.marker.openPopup(location);
+        // add handler for parent button element
+        // need parent to deal with lag in dom manipulation
+        // with bootstrap, fontawesome, and leaflet
+        this.addSearchLocationsHandler();
       }
       // return the popup object
       return popup;
@@ -343,6 +439,7 @@ export class SearchLocations extends Component {
     return L.divIcon({ className: 'searchlocations-point' });
   }
 
+  // save the search results to the state store
   static saveResultsToStore(data) {
     // save location to store
     // only retrieve first item (need to remove multiselect)

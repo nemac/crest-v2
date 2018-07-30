@@ -43,7 +43,7 @@ export class Map extends Component {
     super(mapPlaceholderId, props, mapTemplate);
 
     this.renderCount = 0;
-
+    this.basemaploaded = false;
     // set last storage object, it will be overwritten after map is intialized
     this.restoreStateStore = store.getState();
 
@@ -72,6 +72,7 @@ export class Map extends Component {
     this.zoomInAndOut();
 
     // force map re-render
+    this.forceMapReRender();
     this.forceMapReRender();
 
     this.addWmsLayers();
@@ -117,6 +118,18 @@ export class Map extends Component {
      */
     const mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
     mapTiles.addTo(this.map);
+
+    // add new event to check on base map has completed uploading
+    //  map will not initialize settings untill this has completed
+    mapTiles.on('load', () => {
+      this.map.fireEvent('basemaploaded');
+      this.basemaploaded = true;
+    });
+
+    // add new event to fire when on base map is in process of loading
+    mapTiles.on('loading', () => {
+      this.map.fireEvent('basemaploading');
+    });
   }
 
   // iterate and add leaflet tile layers from  mapconfig.js
@@ -226,12 +239,9 @@ export class Map extends Component {
      * and the overlays are offset with intial draw. This zoom in zoom out
      * forces leaflet to Render everything correctly
      */
-    if (!store.isStateExists()) {
-      this.map.zoomOut(1);
-      this.map.zoomIn(1);
-      return true;
-    }
-    return false;
+    this.map.zoomOut(1);
+    this.map.zoomIn(1);
+    return true;
   }
 
   // map move end map handler
