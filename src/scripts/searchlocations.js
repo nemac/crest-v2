@@ -47,6 +47,7 @@ export class SearchLocations extends Component {
     this.searchControlElement = document.querySelector('.geocoder-control.leaflet-control');
     this.searchBoxElement = document.querySelector('.geocoder-control-input.leaflet-bar');
     this.collapseSearch = L.DomUtil.create('div', 'btn-search-locations-collapse-holder float-right d-none', this.searchControlElement);
+    this.collapseSearch.setAttribute('id', 'btn-search-locations-collapse');
 
     // make sure map click events do not fire when user clicks on search conrol
     L.DomEvent.disableClickPropagation(this.searchControlElement);
@@ -80,22 +81,30 @@ export class SearchLocations extends Component {
   // handle collapse of search box.  removed from displays the collapse button
   // from dom
   searchBoxCollapseClickHandler(ev) {
-    this.searchControl.options.collapseAfterResult = true;
-    this.searchControl.clear();
-    this.searchControl.disable();
-    // the leaflet-geocodiong force focus on the search input box
-    // which forces the code to keep the css dom elements vissible
-    // the onlly way to overcopme this is disable and the shortly
-    // re-enable the dom element via the plugins code
-    setTimeout(() => { this.searchControl.enable(); }, 0);
-    L.DomUtil.addClass(this.collapseSearch, 'd-none');
+    // get the search location buttons holder element
+    const CollapseElement = document.querySelector('.geocoder-control-expanded');
+
+    // make the element exists in the dom
+    if (CollapseElement !== null) {
+      // if clicked child or explore buttton
+      if (ev.target.id === 'btn-search-locations-collapse' || SearchLocations.ParentContains(ev.target, 'btn-search-locations-collapse')) {
+        this.searchControl.options.collapseAfterResult = true;
+        this.searchControl.clear();
+        this.searchControl.disable();
+        // the leaflet-geocodiong force focus on the search input box
+        // which forces the code to keep the css dom elements vissible
+        // the onlly way to overcopme this is disable and the shortly
+        // re-enable the dom element via the plugins code
+        setTimeout(() => { this.searchControl.enable(); }, 0);
+        L.DomUtil.addClass(this.collapseSearch, 'd-none');
+      }
+    }
   }
 
   // handle geocoding results from the esri leaflet geocoding plugin
   resultsHandler(data) {
     // clear old locations
     this.removeSearchLocations();
-
 
     // save results
     SearchLocations.saveResultsToStore(data);
