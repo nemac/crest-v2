@@ -34,7 +34,7 @@ export class MapInfo extends Component {
     this.map = mapComponent.map;
     this.mapComponent = mapComponent;
 
-    MapInfo.addMapInformationControl(this.map);
+    this.addMapInformationControl(this.map);
 
     this.IdentifyAPI = new IdentifyAPI();
 
@@ -45,9 +45,9 @@ export class MapInfo extends Component {
   }
 
   // add Identify control to leaflet map
-  static addMapInformationControl(leafletmap) {
+  addMapInformationControl(leafletmap) {
     L.Control.Watermark = L.Control.extend({
-      onAdd: MapInfo.mapInfoMakerOnAddHandler,
+      onAdd: this.mapInfoMakerOnAddHandler,
 
       // Nothing to do here
       onRemove: MapInfo.mapInfoMakerOnRemoveHandler
@@ -65,15 +65,41 @@ export class MapInfo extends Component {
     return null;
   }
 
+  // map info click handler
+  mapInformationClickHandler(ev) {
+    console.log(this.mapComponent.map, ev);
+
+    // remove previous marker point
+    if (this.marker !== undefined) {
+      this.mapComponent.map.removeLayer(this.marker);
+    }
+
+    // remove from state
+    store.removeStateItem('mapClick');
+  }
+
   // mapinfo (identify) control (button) on add function.
   // fires when the control (button) is added
-  static mapInfoMakerOnAddHandler(map) {
+  mapInfoMakerOnAddHandler() {
     // setup custom style for mapinfo indentify control (button)
     const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
     fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
+    // fa.addEventListener('click', this.mapInformationClickHandler);
+    L.DomEvent.addListener(fa, 'click', (ev) => {
+      console.log('addListener', this.marker, ev);
+
+      // remove previous marker point
+      if (this.marker !== undefined) {
+        map.removeLayer(this.marker);
+      }
+
+      // remove from state
+      store.removeStateItem('mapClick');
+    }, this);
     L.DomEvent.disableClickPropagation(fa);
     return fa;
   }
+
 
   // restore the state form map info/identify
   restoreMapInfoState() {
