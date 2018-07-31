@@ -40,14 +40,12 @@ export class MapInfo extends Component {
 
     // setup marker layer which is not set yet.
     this.marker = undefined;
-
-    this.addMapClickIdentifyClickHandler();
   }
 
   // add Identify control to leaflet map
   addMapInformationControl(leafletmap) {
     L.Control.Watermark = L.Control.extend({
-      onAdd: this.mapInfoMakerOnAddHandler,
+      onAdd: MapInfo.mapInfoMakerOnAddHandler,
 
       // Nothing to do here
       onRemove: MapInfo.mapInfoMakerOnRemoveHandler
@@ -56,6 +54,10 @@ export class MapInfo extends Component {
     L.control.watermark = opts => new L.Control.Watermark(opts);
 
     L.control.watermark({ position: 'topleft' }).addTo(leafletmap);
+
+    // get btn for mapinfo add click event
+    const leafletControlElement = document.querySelector('.btn-mapinfo-holder');
+    leafletControlElement.addEventListener('click', this.mapInformationClickHandler.bind(this));
   }
 
   // mapinfo (identify) control (button) on add function.
@@ -67,12 +69,15 @@ export class MapInfo extends Component {
 
   // map info click handler
   mapInformationClickHandler(ev) {
-    console.log(this.mapComponent.map, ev);
+    this.addMapClickIdentifyClickHandler();
 
     // remove previous marker point
     if (this.marker !== undefined) {
       this.mapComponent.map.removeLayer(this.marker);
     }
+
+    // make the map cursor cross hairs
+    this.mapComponent.mapCursorCrosshair();
 
     // remove from state
     store.removeStateItem('mapClick');
@@ -80,26 +85,14 @@ export class MapInfo extends Component {
 
   // mapinfo (identify) control (button) on add function.
   // fires when the control (button) is added
-  mapInfoMakerOnAddHandler() {
+  static mapInfoMakerOnAddHandler() {
     // setup custom style for mapinfo indentify control (button)
-    const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
-    fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
-    // fa.addEventListener('click', this.mapInformationClickHandler);
-    L.DomEvent.addListener(fa, 'click', (ev) => {
-      console.log('addListener', this.marker, ev);
-
-      // remove previous marker point
-      if (this.marker !== undefined) {
-        map.removeLayer(this.marker);
-      }
-
-      // remove from state
-      store.removeStateItem('mapClick');
-    }, this);
+    const fa = L.DomUtil.create('div', 'btn-mapinfo-holder');
+    fa.setAttribute('id', 'btn-mapinfo-holder');
+    fa.innerHTML = '<div id="btn-mapinfo-inner" class="btn btn-light btn-mapinfo" ><i class="fas fa-info i-mapinfo"></i></div>';
     L.DomEvent.disableClickPropagation(fa);
     return fa;
   }
-
 
   // restore the state form map info/identify
   restoreMapInfoState() {
@@ -156,6 +149,12 @@ export class MapInfo extends Component {
     // if there is no state exit and stop spinner
     if (!store.isStateExists()) {
       spinnerOff();
+      this.mapComponent.mapCursorDefault();
+
+      // this removes the map click for mapinfo the user
+      // must click the i button to do this action we will have to remove this
+      // if we want users to always be able to click the map and do mapinfo
+      this.mapComponent.map.off('click');
       return false;
     }
 
@@ -165,6 +164,10 @@ export class MapInfo extends Component {
     // ensure the mapclick is valid has information we can use
     if (!checkValidObject(mapClick)) {
       spinnerOff();
+      this.mapComponent.mapCursorDefault();
+      // must click the i button to do this action we will have to remove this
+      // if we want users to always be able to click the map and do mapinfo
+      this.mapComponent.map.off('click');
       return false;
     }
 
@@ -196,6 +199,10 @@ export class MapInfo extends Component {
 
     // toggle spinner css from utility.js
     spinnerOff();
+    this.mapComponent.mapCursorDefault();
+    // must click the i button to do this action we will have to remove this
+    // if we want users to always be able to click the map and do mapinfo
+    this.mapComponent.map.off('click');
     return true;
   }
 

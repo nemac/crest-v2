@@ -137,8 +137,8 @@ const router = new Navigo(homeloc, true);
 
 // examples of coded map interactions for testing
 const maintitleElement = document.getElementById('maintitle');
-maintitleElement.addEventListener('click', (e) => {
-  console.log(mapInfoComponent.marker)
+// maintitleElement.addEventListener('click', (e) => {
+//   console.log(mapInfoComponent.marker)
 //   searchLocationsComponent.delayedSearchLocationPopup();
 //   const mapCenter = store.getStateItem('mapCenter')
 //
@@ -160,7 +160,7 @@ maintitleElement.addEventListener('click', (e) => {
 //   console.log(store.removeStateItem('mapClick'));
 //   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
 //   console.log()
-});
+// });
 
 router.on({
   '/': (params, query) => {

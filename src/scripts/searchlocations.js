@@ -11,7 +11,8 @@ import { Store } from './store';
 import {
   checkValidObject,
   spinnerOn,
-  spinnerOff
+  spinnerOff,
+  ParentContains
 } from './utilitys';
 
 const store = new Store({});
@@ -87,7 +88,7 @@ export class SearchLocations extends Component {
     // make the element exists in the dom
     if (CollapseElement !== null) {
       // if clicked child or explore buttton
-      if (ev.target.id === 'btn-search-locations-collapse' || SearchLocations.ParentContains(ev.target, 'btn-search-locations-collapse')) {
+      if (ev.target.id === 'btn-search-locations-collapse' || ParentContains(ev.target, 'btn-search-locations-collapse')) {
         this.searchControl.options.collapseAfterResult = true;
         this.searchControl.clear();
         this.searchControl.disable();
@@ -167,16 +168,6 @@ export class SearchLocations extends Component {
     }
   }
 
-  // check if a parentelemet contains a dom id
-  // deals with event bubbling so we can check
-  // if the child is in a specifc parent
-  static ParentContains(target, id) {
-    for (let p = target && target.parentElement; p; p = p.parentElement) {
-      if (p.id === id) { return true; }
-    }
-    return false;
-  }
-
   // handler for adding the location as an mapInfo point
   addSearchLocationsHandler() {
     // get the search location buttons holder element
@@ -187,12 +178,12 @@ export class SearchLocations extends Component {
       // add the click handler to parent element of buttons
       iButtonElement.addEventListener('click', (ev) => {
         // if clicked child or explore buttton
-        if (ev.target.id === 'e-btn' || SearchLocations.ParentContains(ev.target, 'e-btn')) {
+        if (ev.target.id === 'e-btn' || ParentContains(ev.target, 'e-btn')) {
           this.addSearchLocationsExploreHandler();
         }
 
         // if clicked child or mapinfo buttton
-        if (ev.target.id === 'i-btn' || SearchLocations.ParentContains(ev.target, 'i-btn')) {
+        if (ev.target.id === 'i-btn' || ParentContains(ev.target, 'i-btn')) {
           this.addSearchLocationsMapInfoHandler();
         }
       });

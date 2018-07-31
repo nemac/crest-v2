@@ -69,10 +69,12 @@ export class Explore extends Component {
     mapComponent.map.on('draw:deletestop', () => {
       this.removeExistingArea();
 
-      if (checkValidObject(mapInfoComponent)) {
-        // re-add indentify
-        mapInfoComponent.addMapClickIdentifyClickHandler();
-      }
+      // must click the i button to do this action we will have to remove this
+      // if we want users to always be able to click the map and do mapinfo
+      // if (checkValidObject(mapInfoComponent)) {
+      //   // re-add indentify
+      //   mapInfoComponent.addMapClickIdentifyClickHandler();
+      // }
     });
   }
 
@@ -144,10 +146,12 @@ export class Explore extends Component {
       // start adding the user draw shape to the map
       layer.addTo(mapComponent.map);
 
-      if (checkValidObject(mapInfoComponent)) {
-        // re-add indentify
-        mapInfoComponent.addMapClickIdentifyClickHandler();
-      }
+      // must click the i button to do this action we will have to remove this
+      // if we want users to always be able to click the map and do mapinfo
+      // if (checkValidObject(mapInfoComponent)) {
+      //   // re-add indentify
+      //   mapInfoComponent.addMapClickIdentifyClickHandler();
+      // }
 
       // update store
       store.setStoreItem('lastaction', 'draw area');
