@@ -104,6 +104,8 @@ export class SearchLocations extends Component {
 
   // handle geocoding results from the esri leaflet geocoding plugin
   resultsHandler(data) {
+    // console.log('results');
+    spinnerOn();
     // clear old locations
     this.removeSearchLocations();
 
@@ -192,7 +194,7 @@ export class SearchLocations extends Component {
 
   // handler for adding the location as an mapInfo point
   addSearchLocationsMapInfoHandler() {
-    spinnerOn();
+    // spinnerOn();
     // remove old marker
     this.mapInfoComponent.removeMapMarker();
 
@@ -207,7 +209,7 @@ export class SearchLocations extends Component {
   }
 
   addSearchLocationsExploreHandler() {
-    spinnerOn();
+    // spinnerOn();
     if (this.markerBounds !== undefined) {
       this.mapInfoComponent.map.removeLayer(this.markerBounds);
     }
@@ -294,7 +296,7 @@ export class SearchLocations extends Component {
   // TODO handle no basemap redraw aka the search subsequent search
   // locations are similar
   addSearchLocationPopup() {
-    spinnerOn();
+    // spinnerOn();
     // see if popup is open
     let check = false;
     if (checkValidObject(this.marker)) {
@@ -315,11 +317,13 @@ export class SearchLocations extends Component {
         // opening multiple instances
         if (!check) {
           this.drawPopup();
+          // console.log('results added');
           spinnerOff();
         }
       });
+    } else {
+      spinnerOff();
     }
-    spinnerOff();
   }
 
   // handler for closing popup
