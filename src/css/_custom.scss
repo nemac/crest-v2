@@ -198,7 +198,7 @@ html, body {
 }
 
 .searchlocations-point{
-  background-color: #3388ff;
+  background-color: $body-bg;
   border-radius: 10px;
 
   /* Prevent background color leak outs */
