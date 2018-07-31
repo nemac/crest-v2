@@ -94,6 +94,18 @@ export class Map extends Component {
     L.DomEvent.disableClickPropagation(workingElement);
   }
 
+  // make the map cursor a crosshair
+  mapCursorCrosshair() {
+    const mapElement = this.map.getContainer();
+    mapElement.style.cursor = 'crosshair';
+  }
+
+  // make the map cursor a default
+  mapCursorDefault() {
+    const mapElement = this.map.getContainer();
+    mapElement.style.cursor = '';
+  }
+
   // saves the current map center and zoom level to state in locat storage
   saveZoomAndMapPosition() {
     store.setStoreItem('mapCenter', this.map.getCenter());

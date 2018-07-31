@@ -138,6 +138,7 @@ const router = new Navigo(homeloc, true);
 // examples of coded map interactions for testing
 const maintitleElement = document.getElementById('maintitle');
 // maintitleElement.addEventListener('click', (e) => {
+//   console.log(mapInfoComponent.marker)
 //   searchLocationsComponent.delayedSearchLocationPopup();
 //   const mapCenter = store.getStateItem('mapCenter')
 //
