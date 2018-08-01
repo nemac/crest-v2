@@ -41,6 +41,10 @@ export class Explore extends Component {
 
     // draw the user area on the map
     this.drawUserArea();
+
+    // uncomment this if we want to add the draw area button to leaflet
+    // control
+    // this.addDrawButtons(mapComponent);
   }
 
   // draw the user area on the map
@@ -112,8 +116,17 @@ export class Explore extends Component {
   // would be better to handle this as a traditional callback
   // @param { Object } mapComponent object
   addDrawAreaClickHandler(mapComponent) {
+    // draw polygon options
+    const options = {
+      allowIntersection: false, // Restricts shapes to simple polygons
+      drawError: {
+        color: 'red', // Color the shape will turn when intersects
+        message: '<strong>Oh snap!<strong> you can\'t draw a polygon that intersects itself!' // Message that will show when intersect
+      }
+    };
+
     // draw polygon handler
-    const polygonDrawer = new L.Draw.Polygon(mapComponent.map);
+    const polygonDrawer = new L.Draw.Polygon(mapComponent.map, options);
 
     // Click handler for you button to start drawing polygons
     const drawAreaElement = document.getElementById('draw-area-btn');
@@ -129,6 +142,52 @@ export class Explore extends Component {
 
       // enable polygon drawer for leaflet map
       polygonDrawer.enable();
+    });
+  }
+
+  // add leaflet drawbuttons to leaflet Control area
+  // only adding fro future use.
+  addDrawButtons(mapComponent) {
+    const options = {
+      position: 'topleft',
+      draw: {
+        polyline: false,
+        polygon: {
+          allowIntersection: false, // Restricts shapes to simple polygons
+          drawError: {
+            color: '#e1e100', // Color the shape will turn when intersects
+            message: '<strong>Oh snap!<strong> you can\'t draw a polygon that intersects itself!'// Message that will show when intersect
+          }
+        },
+        circle: false, // Turns off this drawing tool
+        circlemarker: false,
+        rectangle: false,
+        marker: false,
+        edit: false
+      }
+    };
+
+    const drawControl = new L.Control.Draw(options);
+    mapComponent.map.addControl(drawControl);
+
+    this.addDrawStartedHandler(mapComponent);
+  }
+
+  // handler for when drawing is started on the map
+  // adding not as hanlder callback so I can use this (class) calls
+  // would be better to handle this as a traditional callback
+  // @param { Object } mapComponent object
+  // @param { Object } mapInfoComponent object
+  addDrawStartedHandler(mapComponent) {
+    // Assumming you have a Leaflet map accessible
+    mapComponent.map.on('draw:drawstart', (e) => {
+      // remove existing Area
+      this.removeExistingArea();
+
+      // turn off other map click events expecting this
+      //  to be indentify if we add other map click events
+      //  we will have to add that back.  so this not ideal
+      mapComponent.map.off('click');
     });
   }
 
