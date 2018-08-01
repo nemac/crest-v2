@@ -87,9 +87,11 @@ export class MapInfo extends Component {
   // fires when the control (button) is added
   static mapInfoMakerOnAddHandler() {
     // setup custom style for mapinfo indentify control (button)
-    const fa = L.DomUtil.create('div', 'btn-mapinfo-holder');
+    const fa = L.DomUtil.create('div', 'btn-mapinfo-holder leaflet-bar');
     fa.setAttribute('id', 'btn-mapinfo-holder');
-    fa.innerHTML = '<div id="btn-mapinfo-inner" class="btn btn-light btn-mapinfo" ><i class="fas fa-info i-mapinfo"></i></div>';
+    fa.innerHTML = '<a class="btn btn-light btn-mapinfo" href="#" title="Map Information" ' +
+                    'role="button" aria-label="Map Information"> ' +
+                    '<i class="fas fa-info i-mapinfo"></a>';
     L.DomEvent.disableClickPropagation(fa);
     return fa;
   }

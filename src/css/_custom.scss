@@ -30,22 +30,31 @@ html, body {
 }
 
 .btn-search-locations-collapse-holder {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  left: 275px;
+  bottom: 0px;
+  border-radius: 4px;
+  margin-left: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
 }
 
 .btn-search-locations-collapse {
   width: 30px !important;
   height: 30px !important;
   padding: 5px;
-  background-color: $body-color;
-  margin-left: 25px;
-  margin-top: 2px;
+  background-color: #fff;
+  vertical-align: middle !important;
+  align-items: center !important;
   font-size: .5em;
   line-height: 30px;
   background-size: 30px;
   color: $gray-700;
   color: $body-bg;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
 .user-shape {
@@ -58,6 +67,7 @@ html, body {
   width: 80px;
   height: 80px;
   margin: 5px;
+  font-size: .9rem
 }
 
 .leaflet-editing-icon {
@@ -123,20 +133,45 @@ html, body {
 
 }
 
+.leaflet-bar a, .leaflet-bar a:hover {
+  width: 30px !important;
+  height: 30px !important;
+}
+
 .mapinfo-math-hr {
   border-bottom: .75px solid $gray-700;
   margin-top: 7px;
   margin-bottom: 5px;
 }
 
-.btn-mapinfo {
-  background-color: $body-color;
-  color: $body-bg;
-  font-size: 15px;
-  border-radius: 2px;
-  vertical-align: middle !important;
-  align-items: center !important;
+
+.i-mapinfo {
+  margin-bottom: 5px;
+  margin-left: -1px;
 }
+
+// .btn-mapinfo-holder {
+//   width: 30px !important;
+//   height: 30px !important;
+// }
+//
+// .btn-mapinfo {
+//   background-color: #fff;
+//   color: $body-bg;
+//   width: 30px !important;
+//   height: 30px !important;
+//
+//   border-radius: 2px;
+//   text-indent: 1px;
+//   // font: bold 18px 'Lucida Console', Monaco, monospace;
+//   font-size: 12px;
+//   font-weight: bold;
+//   // border-radius: 4px;
+//   // height: 30px;
+//   // height: 30px;
+//   // vertical-align: middle !important;
+//   // align-items: center !important;
+// }
 
 .i-btn {
   background-color: $body-color;
@@ -144,7 +179,7 @@ html, body {
   width: 30px;
   height: 30px;
   font-size: 15px;
-  border-radius: 2px;
+  border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
 }
@@ -155,18 +190,46 @@ html, body {
   width: 75px;
   height: 30px;
   font-size: 15px;
-  border-radius: 2px;
+  border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
 }
 
+.geocoder-control-overall {
+  height: 30px;
+}
+
+.geocoder-control-input.leaflet-bar {
+  border-width: 0px;
+  height: 30px;
+}
+
+.btn-search-locations-collapse-holder.leaflet-bar{
+  border-width: 0px;
+  height: 30px;
+}
+
 .geocoder-control-input {
-  background-color: $body-color;
+  padding-bottom: 0px;
+  padding-left: 0px;
+
+  // background-color: $body-color;
   color: $body-bg;
-  font-size: 15px;
-  border-radius: 2px;
+  // font-size: 15px;
+  // border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
+  height: 30px;
+  // line-height: 30px;
+  // background-size: 30px;
+}
+
+.geocoder-control {
+  width: 30px;
+}
+
+.geocoder-control-expanded {
+    width: 275px;
 }
 
 .i-mapinfo {
@@ -200,7 +263,7 @@ html, body {
 
 }
 
-.searchlocations-point{
+.searchlocations-point {
   background-color: $body-bg;
   border-radius: 10px;
 
@@ -288,9 +351,6 @@ html, body {
    cursor: default;
    min-width: 205px;
  }
-.btn-search-locations-collapse {
-  cursor: pointer;
-}
 
  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
    background: $body-bg;

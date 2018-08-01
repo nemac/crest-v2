@@ -47,13 +47,15 @@ export class SearchLocations extends Component {
     this.searchControl = geosearch(GeoSearchOptions).addTo(mapComponent.map);
     this.searchControlElement = document.querySelector('.geocoder-control.leaflet-control');
     this.searchBoxElement = document.querySelector('.geocoder-control-input.leaflet-bar');
-    this.collapseSearch = L.DomUtil.create('div', 'btn-search-locations-collapse-holder float-right d-none', this.searchControlElement);
+    this.collapseSearch = L.DomUtil.create('div', 'btn-search-locations-collapse-holder leaflet-bar d-none', this.searchControlElement);
     this.collapseSearch.setAttribute('id', 'btn-search-locations-collapse');
 
     // make sure map click events do not fire when user clicks on search conrol
     L.DomEvent.disableClickPropagation(this.searchControlElement);
 
     // handle expanding of search box.  displays a collapse button to dom
+    this.searchBoxElement = document.querySelector('.geocoder-control-input.leaflet-bar');
+    this.searchBoxElement.addEventListener('mousedown', this.searchBoxExpandClickHandler.bind(this));
     this.searchBoxElement.addEventListener('click', this.searchBoxExpandClickHandler.bind(this));
 
     // handle collapse of search box.  removed from displays the collapse button
