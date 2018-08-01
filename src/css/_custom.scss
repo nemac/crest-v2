@@ -140,6 +140,7 @@ html, body {
 .leaflet-bar a, .leaflet-bar a:hover {
   width: 30px !important;
   height: 30px !important;
+  // border-width: 0px;
 }
 
 .mapinfo-math-hr {
@@ -147,7 +148,6 @@ html, body {
   margin-top: 7px;
   margin-bottom: 5px;
 }
-
 
 .i-mapinfo {
   margin-bottom: 5px;
@@ -202,10 +202,23 @@ html, body {
 
 .geocoder-control {
   width: 30px;
+  height: 30px;
 }
 
-.geocoder-control-expanded {
-    width: 275px;
+.geocoder-control.leaflet-control.geocoder-control-expanded {
+  width: 275px !important;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  border-left: 0px;
+}
+
+#btn-mapinfo-holder {
+  border-left: 0px;
+}
+
+.geocoder-control.leaflet-control {
+  width: 30px !important;
 }
 
 .i-mapinfo {
