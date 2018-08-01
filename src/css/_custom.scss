@@ -73,6 +73,8 @@ html, body {
 .leaflet-editing-icon {
     max-width: 10px;
     max-height: 10px;
+    min-width: 10px;
+    min-height: 10px;
     margin-left: -5px !important;
     margin-top: -5px !important;
     background-color: $body-color;
@@ -82,6 +84,8 @@ html, body {
 .leaflet-marker-icon-first {
   max-width: 20px;
   max-height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   margin-left: -10px !important;
   margin-top: -10px !important;
   background-color: $success;
@@ -150,29 +154,6 @@ html, body {
   margin-left: -1px;
 }
 
-// .btn-mapinfo-holder {
-//   width: 30px !important;
-//   height: 30px !important;
-// }
-//
-// .btn-mapinfo {
-//   background-color: #fff;
-//   color: $body-bg;
-//   width: 30px !important;
-//   height: 30px !important;
-//
-//   border-radius: 2px;
-//   text-indent: 1px;
-//   // font: bold 18px 'Lucida Console', Monaco, monospace;
-//   font-size: 12px;
-//   font-weight: bold;
-//   // border-radius: 4px;
-//   // height: 30px;
-//   // height: 30px;
-//   // vertical-align: middle !important;
-//   // align-items: center !important;
-// }
-
 .i-btn {
   background-color: $body-color;
   color: $body-bg;
@@ -213,16 +194,10 @@ html, body {
 .geocoder-control-input {
   padding-bottom: 0px;
   padding-left: 0px;
-
-  // background-color: $body-color;
   color: $body-bg;
-  // font-size: 15px;
-  // border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
   height: 30px;
-  // line-height: 30px;
-  // background-size: 30px;
 }
 
 .geocoder-control {
