@@ -243,9 +243,16 @@ export class MapInfo extends Component {
         closeOnClick: false,
         opacity: 0.9,
         autoPan: false,
+        className: 'map-information-popup',
         offset: L.point(-123, 20)
       }
     ).openPopup();
+
+
+    // add labels for assessabbility
+    const SearchLocationsCloseButtonElement = document.querySelector('.map-information-popup .leaflet-popup-close-button');
+    SearchLocationsCloseButtonElement.setAttribute('aria-label', 'Close Map Information');
+    SearchLocationsCloseButtonElement.setAttribute('title', 'Close Map Information');
 
     return popup;
   }

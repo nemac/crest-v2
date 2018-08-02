@@ -179,6 +179,11 @@ export class SearchLocations extends Component {
 
     // make the element exists in the dom
     if (iButtonElement !== null) {
+      // add labels for assessabbility
+      const SearchLocationsCloseButtonElement = document.querySelector('.search-locations-popup .leaflet-popup-close-button');
+      SearchLocationsCloseButtonElement.setAttribute('aria-label', 'Close Locations');
+      SearchLocationsCloseButtonElement.setAttribute('title', 'Close Locations');
+
       // add the click handler to parent element of buttons
       iButtonElement.addEventListener('click', (ev) => {
         // if clicked child or explore buttton
