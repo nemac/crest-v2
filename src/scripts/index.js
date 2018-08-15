@@ -25,7 +25,6 @@ import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 // import ExplorePage from '../templates/explore.html';
 // import SearchLocationsPage from '../templates/searchlocations.html';
-
 // initialize navbar
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
@@ -137,7 +136,9 @@ const router = new Navigo(homeloc, true);
 
 // examples of coded map interactions for testing
 const maintitleElement = document.getElementById('maintitle');
-// maintitleElement.addEventListener('click', (e) => {
+maintitleElement.addEventListener('click', (e) => {
+  exploreComponent.retreiveS3GeojsonFile();
+})
 //   console.log(mapInfoComponent.marker)
 //   searchLocationsComponent.delayedSearchLocationPopup();
 //   const mapCenter = store.getStateItem('mapCenter')

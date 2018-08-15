@@ -7,6 +7,7 @@ import exploreTemplate from '../templates/explore.html';
 
 import { Component } from './components';
 import { Store } from './store';
+import { StoreShapesAPI } from './StoreShapesAPI';
 
 import { checkValidObject } from './utilitys';
 
@@ -42,9 +43,21 @@ export class Explore extends Component {
     // draw the user area on the map
     this.drawUserArea();
 
+    // initalize s3 stored shapes API
+    this.StoreShapesAPI = new StoreShapesAPI();
+
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  // retreive a saved geojson data from s3
+  async retreiveS3GeojsonFile() {
+    const SaveGeoJSON = await this.StoreShapesAPI.getSaveGeoJSON('projected_4326_62155.geojson');
+    console.log(SaveGeoJSON);
+    // can't comment out uintill url ignores shape
+    // store.setStoreItem('userarea', SaveGeoJSON);
+    return  SaveGeoJSON
   }
 
   // draw the user area on the map
