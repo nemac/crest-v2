@@ -25,7 +25,6 @@ import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 // import ExplorePage from '../templates/explore.html';
 // import SearchLocationsPage from '../templates/searchlocations.html';
-
 // initialize navbar
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
@@ -99,6 +98,10 @@ function initMapComponent() {
     if (checkValidObject(searchLocationsComponent)) {
       searchLocationsComponent.restoreSearchLocationsState();
     }
+
+    if (checkValidObject(exploreComponent)) {
+      exploreComponent.restoreSavedGeoJson();
+    }
   }
 
   mapComponent.renderCount += 1;
@@ -136,7 +139,7 @@ const router = new Navigo(homeloc, true);
 // TODO: make the tab content area dynamic also similar to the nav tabs
 
 // examples of coded map interactions for testing
-const maintitleElement = document.getElementById('maintitle');
+// const maintitleElement = document.getElementById('maintitle');
 // maintitleElement.addEventListener('click', (e) => {
 //   console.log(mapInfoComponent.marker)
 //   searchLocationsComponent.delayedSearchLocationPopup();
