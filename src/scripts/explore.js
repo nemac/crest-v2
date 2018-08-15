@@ -90,6 +90,8 @@ export class Explore extends Component {
       // force map to bounds
       if (checkValidObject(this.mapComponent)) {
         this.mapComponent.map.fitBounds(layer.getBounds());
+        this.mapComponent.saveZoomAndMapPosition();
+        store.saveAction('addsavedgeojson');
       }
 
       return layer;
