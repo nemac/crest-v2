@@ -23,6 +23,7 @@ export class Explore extends Component {
     super(placeholderId, props, exploreTemplate);
 
     const { mapComponent, mapInfoComponent } = props;
+    this.mapComponent = mapComponent;
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
 
     // handler for when drawing is completed
@@ -52,12 +53,45 @@ export class Explore extends Component {
   }
 
   // retreive a saved geojson data from s3
-  async retreiveS3GeojsonFile() {
-    const SaveGeoJSON = await this.StoreShapesAPI.getSaveGeoJSON('projected_4326_62155.geojson');
-    console.log(SaveGeoJSON);
-    // can't comment out uintill url ignores shape
-    // store.setStoreItem('userarea', SaveGeoJSON);
-    return  SaveGeoJSON
+  async retreiveS3GeojsonFile(projectfile = 'projected_4326_62155.geojson') {
+    const SaveGeoJSON = await this.StoreShapesAPI.getSavedGeoJSON(projectfile);
+
+    // draw poly on map
+    // ensure the user area object is valid (actuall has a value)
+    if (checkValidObject(SaveGeoJSON)) {
+      store.setStoreItem('projectfile', projectfile);
+
+      this.drawSavedGeoJson(SaveGeoJSON);
+    }
+
+    // return geoJson
+    return SaveGeoJSON;
+  }
+
+  // restore saved Geojson File
+  restoreSavedGeoJson() {
+    const projectfile = store.getStateItem('projectfile');
+    this.retreiveS3GeojsonFile(projectfile);
+  }
+
+  // draw saved Geojson File
+  drawSavedGeoJson(SaveGeoJSON) {
+    // ensure the user area object is valid (actuall has a value)
+    if (checkValidObject(SaveGeoJSON)) {
+      // convert geoJson to leaflet layer
+      const layer = L.geoJson(SaveGeoJSON);
+
+      // add layer to the leaflet map
+      this.drawAreaGroup.addLayer(layer);
+
+      // force map to bounds
+      if (checkValidObject(this.mapComponent)) {
+        this.mapComponent.map.fitBounds(layer.getBounds());
+      }
+
+      return layer;
+    }
+    return null;
   }
 
   // draw the user area on the map
@@ -113,6 +147,7 @@ export class Explore extends Component {
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
+    store.removeStateItem('projectfile');
   }
 
   // handler for click the button tp clear all drawings

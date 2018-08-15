@@ -98,6 +98,10 @@ function initMapComponent() {
     if (checkValidObject(searchLocationsComponent)) {
       searchLocationsComponent.restoreSearchLocationsState();
     }
+
+    if (checkValidObject(exploreComponent)) {
+      exploreComponent.restoreSavedGeoJson();
+    }
   }
 
   mapComponent.renderCount += 1;
@@ -135,10 +139,8 @@ const router = new Navigo(homeloc, true);
 // TODO: make the tab content area dynamic also similar to the nav tabs
 
 // examples of coded map interactions for testing
-const maintitleElement = document.getElementById('maintitle');
-maintitleElement.addEventListener('click', (e) => {
-  exploreComponent.retreiveS3GeojsonFile();
-})
+// const maintitleElement = document.getElementById('maintitle');
+// maintitleElement.addEventListener('click', (e) => {
 //   console.log(mapInfoComponent.marker)
 //   searchLocationsComponent.delayedSearchLocationPopup();
 //   const mapCenter = store.getStateItem('mapCenter')
