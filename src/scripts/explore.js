@@ -62,6 +62,9 @@ export class Explore extends Component {
       store.setStoreItem('projectfile', projectfile);
 
       this.drawSavedGeoJson(SaveGeoJSON);
+    } else {
+      // add failed to get file from s3 code
+
     }
 
     // return geoJson
