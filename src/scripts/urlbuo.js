@@ -1,8 +1,6 @@
 import { StorageAPI } from './localStorageAPI';
-import { checkValidObject } from './utilitys';
 
 const URL_IGNORE_KEYS = ['userarea', 'item3'];
-
 /**
  * This component listens for the localstoreage to be updated, and will update the url
  * if the browser is able to do so.
@@ -24,28 +22,6 @@ export class URL {
   encodeStateString() {
     const stateStringWithOutIgnoredKeys = this.removeIgnoreKeys();
     return encodeURIComponent(stateStringWithOutIgnoredKeys);
-  }
-
-  setUrl() {
-    const state = this.encodeStateString();
-    URL.updateURL(`?state=${state}`);
-  }
-
-  static getUrl() {
-    return window.location.search;
-  }
-
-  static getStateFromURL() {
-    const url = URL.getUrl().substring(1);
-    let state = '';
-    url.split('&').forEach((param) => {
-      const args = param.split('=');
-      if (args[0] === 'state') {
-        [, state] = args;
-      }
-    });
-
-    return decodeURIComponent(state);
   }
 
   // some keys are to big for the URL so we have to ignore them
@@ -77,22 +53,7 @@ export class URL {
   // this will add the key back to string so we can retain the state in a refersh
   addIgnoreKeys() {
     // get current state
-    const stateOBJ = this.url.getState();
-
-    // not state return {} object
-    if (!checkValidObject(stateOBJ)) {
-      return '';
-    }
-
-    // get current state from url without ignored stae
-    const urlstate = URL.getStateFromURL();
-
-    // not state return {} object
-    if (!checkValidObject(urlstate)) {
-      return '';
-    }
-    // convert the URL state string to a object
-    const urlstateOBJ = JSON.parse(urlstate);
+    const stateOBJ = JSON.parse(this.url.getItem('state'))
 
     // add the ignored keys
     const filtered = Object.keys(stateOBJ)
@@ -102,19 +63,80 @@ export class URL {
         return obj;
     }, {});
 
-    // add the ignore state to url state
-    const realstate = {...urlstateOBJ, ...filtered}
+    // // get current state from url without ignored stae
+    // const urlstate = URL.getStateFromURL();
+    //
+    // // convert the URL state string to a object
+    // const urlstateOBJ = JSON.parse(urlstate)
+    //
+    // // add the ignore state to url state
+    // const realstate = {...urlstate, ...filtered}
 
     // return state string
-    return JSON.stringify(realstate)
+    return JSON.stringify(filtered)
+  }
+  
+  setUrl() {
+    const state = this.encodeStateString();
+    // const stateOBJ = JSON.parse(this.url.getStateAsString());
+    // const notallowed = ['userarea', 'item3'];
+    //
+    // const filtered = Object.keys(stateOBJ)
+    //   .filter(key => !notallowed.includes(key))
+    //   .reduce((obj, key) => {
+    //     obj[key] = stateOBJ[key];
+    //     return obj;
+    // }, {});
+    //
+    // const state2 = encodeURIComponent(JSON.stringify(filtered));
+    URL.updateURL(`?state=${state}`);
+  }
+
+  static getUrl() {
+    return window.location.search;
+  }
+
+  static getStateFromURL() {
+    const url = URL.getUrl().substring(1);
+    let state = '';
+    url.split('&').forEach((param) => {
+      const args = param.split('=');
+      if (args[0] === 'state') {
+        [, state] = args;
+      }
+    });
+
+    return decodeURIComponent(state);
   }
 
   // TODO: Add handler to ensure the state string is valid and that the end user did not tamper with
   // it
   setStateFromURL() {
-    const addState = this.addIgnoreKeys();
-    if (addState) {
-      this.url.setStateAsString(addState);
+    const state = URL.getStateFromURL();
+
+      // need to get current state from store and deal with ignored state items.
+      // shapes are to big for url so we will ignore them.
+      // if we need to share shape we will have to hold them externally on a gist or s3 folder
+      // the gist is not built yet.
+      const curstate = JSON.parse(this.url.getItem('state'))
+
+      const allowed = ['userarea', 'item3'];
+
+      const filtered = Object.keys(curstate)
+        .filter(key => allowed.includes(key))
+        .reduce((obj, key) => {
+          obj[key] = curstate[key];
+          return obj;
+      }, {});
+
+      console.log('setStateFromURL curstate', curstate)
+      console.log('setStateFromURL filtered', filtered)
+    const urlstate = JSON.parse(state)
+    const realstate = {...urlstate, ...filtered}
+    console.log('setStateFromURL realstate', realstate)
+    const realstatestr = JSON.stringify(realstate)
+    if (realstatestr) {
+      this.url.setStateAsString(realstatestr);
     }
   }
 }

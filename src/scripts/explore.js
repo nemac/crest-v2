@@ -8,6 +8,7 @@ import exploreTemplate from '../templates/explore.html';
 import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
+import { ZonalStatsAPI } from './ZonalStatsAPI';
 
 import { checkValidObject } from './utilitys';
 
@@ -47,9 +48,23 @@ export class Explore extends Component {
     // initalize s3 stored shapes API
     this.StoreShapesAPI = new StoreShapesAPI();
 
+    this.ZonalStatsAPI = new ZonalStatsAPI();
+
+    const maintitleElement = document.getElementById('maintitle');
+    maintitleElement.addEventListener('click', (e) => {
+      this.getZonal();
+    })
+
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  async getZonal() {
+    const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary();
+    console.log('ZonalStatsJson', ZonalStatsJson)
+    store.setStoreItem('projectfile', projectfile);
+    return ZonalStatsJson;
   }
 
   // retreive a saved geojson data from s3
@@ -102,7 +117,7 @@ export class Explore extends Component {
   // draw the user area on the map
   drawUserArea() {
     const userarea = store.getStateItem('userarea');
-
+    console.log(' drawUserArea', userarea)
     // ensure the user area object is valid (actuall has a value)
     if (checkValidObject(userarea)) {
       // convert geoJson to leaflet layer
