@@ -1,7 +1,7 @@
 import { CancelToken, get } from 'axios';
 
 
-const apiEndpoint = 'https://s3.amazonaws.com/nfwf-tool/tool_shapes/';
+const apiEndpoint = 'https://s3.amazonaws.com/nfwf-tool-user-shapes/08-2018-projects/';
 
 const testGeojsonFile = 'projected_4326_62155.geojson';
 
