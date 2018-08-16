@@ -63,10 +63,10 @@ export class URL {
       .reduce((obj, key) => {
         obj[key] = stateOBJ[key];
         return obj;
-    }, {});
+      }, {});
 
     // return state string
-    return JSON.stringify(filtered)
+    return JSON.stringify(filtered);
   }
 
   // some keys are to big for the URL so we have to ignore them
@@ -100,13 +100,13 @@ export class URL {
       .reduce((obj, key) => {
         obj[key] = stateOBJ[key];
         return obj;
-    }, {});
+      }, {});
 
     // add the ignore state to url state
-    const realstate = {...urlstateOBJ, ...filtered}
+    const realstate = { ...urlstateOBJ, ...filtered };
 
     // return state string
-    return JSON.stringify(realstate)
+    return JSON.stringify(realstate);
   }
 
   // TODO: Add handler to ensure the state string is valid and that the end user did not tamper with

@@ -53,7 +53,7 @@ export class Explore extends Component {
     const maintitleElement = document.getElementById('maintitle');
     maintitleElement.addEventListener('click', (e) => {
       this.getZonal();
-    })
+    });
 
     // uncomment this if we want to add the draw area button to leaflet
     // control
@@ -62,8 +62,8 @@ export class Explore extends Component {
 
   async getZonal() {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary();
-    console.log('ZonalStatsJson', ZonalStatsJson)
-    store.setStoreItem('projectfile', projectfile);
+    console.log('ZonalStatsJson', ZonalStatsJson);
+    // store.setStoreItem('projectfile', projectfile);
     return ZonalStatsJson;
   }
 
@@ -117,7 +117,7 @@ export class Explore extends Component {
   // draw the user area on the map
   drawUserArea() {
     const userarea = store.getStateItem('userarea');
-    console.log(' drawUserArea', userarea)
+    // console.log(' drawUserArea', userarea)
     // ensure the user area object is valid (actuall has a value)
     if (checkValidObject(userarea)) {
       // convert geoJson to leaflet layer
