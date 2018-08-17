@@ -69,7 +69,7 @@ export class Explore extends Component {
 
     let html = '';
     Object.keys(zonalstatsjson).forEach((obj) => {
-      let value = Math.round(zonalstatsjson[obj] * 100) / 100;
+      let value = parseFloat(zonalstatsjson[obj]).toFixed(2);
       if (zonalstatsjson[obj] === 'NaN') {
         value = 'Not Available';
       }
@@ -223,6 +223,8 @@ export class Explore extends Component {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
     store.removeStateItem('projectfile');
+    const clearAreaElement = document.getElementById('details-holder');
+    clearAreaElement.innerHTML = '';
   }
 
   // handler for click the button tp clear all drawings
