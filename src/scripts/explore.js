@@ -54,13 +54,40 @@ export class Explore extends Component {
     // draw the user area on the map
     this.drawUserArea();
 
-    // this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
-    //   console.log('zonalstatsend');
-    // });
+    this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
+      Explore.zonalStatsHandler();
+    });
 
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  static zonalStatsHandler() {
+    const clearAreaElement = document.getElementById('details-holder');
+    const zonalstatsjson = store.getStateItem('zonalstatsjson');
+
+    let html = '';
+    Object.keys(zonalstatsjson).forEach((obj) => {
+      let value = Math.round(zonalstatsjson[obj] * 100) / 100;
+      if (zonalstatsjson[obj] === 'NaN') {
+        value = 'Not Available';
+      }
+
+      // setup cards for zonal stats just a place holder...
+      html += '<div class="card text-dark bg-light mb-3" style="width: 18rem;">';
+      html += '  <div class="card-header">';
+      html += obj;
+      html += '  </div>';
+      html += '  <div class="card-body">';
+      html += '   <h5 class="card-title">';
+      html += value;
+      html += '   </h5>';
+      html += '  </div>';
+      html += '</div>';
+    });
+
+    clearAreaElement.innerHTML = html;
   }
 
   async getZonal() {
