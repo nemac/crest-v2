@@ -61,8 +61,8 @@ export class URL {
     const filtered = Object.keys(stateOBJ)
       .filter(key => !URL_IGNORE_KEYS.includes(key))
       .reduce((obj, key) => {
-        obj[key] = stateOBJ[key];
-        return obj;
+        const newobj = { ...obj, [key]: stateOBJ[key] };
+        return newobj;
       }, {});
 
     // return state string
@@ -98,8 +98,8 @@ export class URL {
     const filtered = Object.keys(stateOBJ)
       .filter(key => URL_IGNORE_KEYS.includes(key))
       .reduce((obj, key) => {
-        obj[key] = stateOBJ[key];
-        return obj;
+        const newobj = { ...obj, [key]: stateOBJ[key] };
+        return newobj;
       }, {});
 
     // add the ignore state to url state

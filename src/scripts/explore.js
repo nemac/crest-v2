@@ -63,7 +63,6 @@ export class Explore extends Component {
   async getZonal() {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary();
     console.log('ZonalStatsJson', ZonalStatsJson);
-    // store.setStoreItem('projectfile', projectfile);
     return ZonalStatsJson;
   }
 
