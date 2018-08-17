@@ -8,6 +8,7 @@ import regular from '@fortawesome/fontawesome-free-regular';
 import { Store } from './store';
 import { URL } from './url';
 import { checkValidObject } from './utilitys';
+import { initZonalEvents } from './zonalStats';
 
 // import extended components
 import { Map } from './map';
@@ -30,6 +31,7 @@ import NotFoundPage from '../templates/notfound.html';
 const navBarComponent = new NavBar('nav-holder');
 
 new URL();
+initZonalEvents();
 
 let mapComponent;
 let maplayersComponent;
