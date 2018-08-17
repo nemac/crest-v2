@@ -10,7 +10,11 @@ import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
 
-import { checkValidObject } from './utilitys';
+import {
+  checkValidObject,
+  spinnerOff,
+  spinnerOn
+} from './utilitys';
 
 const store = new Store({});
 
@@ -42,18 +46,17 @@ export class Explore extends Component {
     // handle stop of draw with escape before finsihed
     Explore.addDrawVertexStop(mapComponent, mapInfoComponent);
 
-    // draw the user area on the map
-    this.drawUserArea();
-
     // initalize s3 stored shapes API
     this.StoreShapesAPI = new StoreShapesAPI();
 
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
-    const maintitleElement = document.getElementById('maintitle');
-    maintitleElement.addEventListener('click', (e) => {
-      this.getZonal();
-    });
+    // draw the user area on the map
+    this.drawUserArea();
+
+    // this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
+    //   console.log('zonalstatsend');
+    // });
 
     // uncomment this if we want to add the draw area button to leaflet
     // control
@@ -61,8 +64,32 @@ export class Explore extends Component {
   }
 
   async getZonal() {
-    const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary();
-    console.log('ZonalStatsJson', ZonalStatsJson);
+    spinnerOn();
+    store.removeStateItem('zonalstatsjson');
+
+    // get geoJSON to send to zonal stats lambda function
+    const rawpostdata = store.getStateItem('userarea');
+    let postdata = '';
+
+    // some Geojson is not a feature collection lambda function expects a
+    // a feature collection
+    if (rawpostdata.type === 'Feature') {
+      const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+      const FeatureCollectionEnd = ']}';
+      postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+    }
+
+    if (rawpostdata.type === 'FeatureCollection') {
+      postdata = JSON.stringify(rawpostdata);
+    }
+
+    // send request to api
+    const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+    store.setStoreItem('zonalstatsjson', ZonalStatsJson);
+    spinnerOff();
+
+    // add event to map for a listner that zonal stats have been calculated
+    this.mapComponent.map.fireEvent('zonalstatsend');
     return ZonalStatsJson;
   }
 
@@ -125,6 +152,7 @@ export class Explore extends Component {
 
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
+      this.getZonal();
       return layer;
     }
     return null;
@@ -283,6 +311,7 @@ export class Explore extends Component {
       // update store
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', layer.toGeoJSON());
+      this.getZonal();
     });
   }
 }

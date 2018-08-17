@@ -1,5 +1,6 @@
 import { CancelToken, post } from 'axios';
-import { postData } from '../config/testpost';
+// import { postData } from '../config/testpost';
+import { checkValidObject } from './utilitys';
 
 const apiEndpoint = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/';
 const zonalStatsPath = 'Prod/zonal_stats';
@@ -16,7 +17,12 @@ export class ZonalStatsAPI {
     this.cancelToken = CancelToken.source();
   }
 
-  async httpPost() {
+  async httpPost(postdata) {
+    // make sure we have post data don't bother sending anything if we don't
+    if (!checkValidObject(postdata)) {
+      return { baddata: postdata };
+    }
+
     this.cancelToken.cancel('Cancelled Ongoing Request');
     this.cancelToken = CancelToken.source();
     const axiosConfig = {
@@ -27,10 +33,10 @@ export class ZonalStatsAPI {
     };
 
     try {
-      const response = await post(this.url, postData, axiosConfig);
+      const response = await post(this.url, postdata, axiosConfig);
       return response.data.features[0].mean;
     } catch (err) {
-      return {};
+      return { err };
     }
   }
 
@@ -55,7 +61,7 @@ export class ZonalStatsAPI {
   // }
 
 
-  getZonalStatsSummary() {
-    return this.httpPost();
+  getZonalStatsSummary(postdata) {
+    return this.httpPost(postdata);
   }
 }
