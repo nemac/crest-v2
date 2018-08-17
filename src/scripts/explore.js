@@ -67,27 +67,29 @@ export class Explore extends Component {
     const clearAreaElement = document.getElementById('details-holder');
     const zonalstatsjson = store.getStateItem('zonalstatsjson');
 
-    let html = '';
-    Object.keys(zonalstatsjson).forEach((obj) => {
-      let value = parseFloat(zonalstatsjson[obj]).toFixed(2);
-      if (zonalstatsjson[obj] === 'NaN') {
-        value = 'Not Available';
-      }
+    if (clearAreaElement) {
+      let html = '';
+      Object.keys(zonalstatsjson).forEach((obj) => {
+        let value = parseFloat(zonalstatsjson[obj]).toFixed(2);
+        if (zonalstatsjson[obj] === 'NaN') {
+          value = 'Not Available';
+        }
 
-      // setup cards for zonal stats just a place holder...
-      html += '<div class="card text-dark bg-light mb-3" style="width: 18rem;">';
-      html += '  <div class="card-header">';
-      html += obj;
-      html += '  </div>';
-      html += '  <div class="card-body">';
-      html += '   <h5 class="card-title">';
-      html += value;
-      html += '   </h5>';
-      html += '  </div>';
-      html += '</div>';
-    });
+        // setup cards for zonal stats just a place holder...
+        html += '<div class="card text-dark bg-light mb-3" style="width: 18rem;">';
+        html += '  <div class="card-header">';
+        html += obj;
+        html += '  </div>';
+        html += '  <div class="card-body">';
+        html += '   <h5 class="card-title">';
+        html += value;
+        html += '   </h5>';
+        html += '  </div>';
+        html += '</div>';
+      });
 
-    clearAreaElement.innerHTML = html;
+      clearAreaElement.innerHTML = html;
+    }
   }
 
   async getZonal() {
