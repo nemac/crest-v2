@@ -56,12 +56,12 @@ function initMapLayerList(map, selector) {
 }
 
 const zonalTempData = {
-  "asset": 1.001414273281114,
-  "threat": 2.989012184508268,
-  "exposure": 2.99325500435161,
-  "aquatic": 5.0,
-  "terrestrial": 1.0,
-  "hubs": NaN
+  asset: 1.001414273281114,
+  threat: 2.989012184508268,
+  exposure: 2.99325500435161,
+  aquatic: 5.0,
+  terrestrial: 1.0,
+  hubs: NaN
 };
 
 function makeDiv() {
@@ -74,7 +74,7 @@ function makeTextElement(text) {
 
 function makeScreenReaderText(text) {
   const elem = document.createElement('span');
-  elem.className = 'hidden'
+  elem.className = 'hidden';
   elem.appendChild(makeTextElement(text));
   return elem;
 }
@@ -101,17 +101,19 @@ function makeLabel() {
 
 function getIdentifyValue(type, rank) {
   const identifyData = identifyConfig.colorLookup;
+  const trueRank = Math.round(typeof rank !== 'number' ? parseFloat(rank) : rank);
   let item;
-  let i, l;
+  let i;
+  let l;
 
-  rank = Math.round(typeof(rank) !== 'number' ? parseFloat(rank) : rank);
-
-  for (i = 0, l = identifyData.length; i < l; i++) {
+  for (i = 0, l = identifyData.length; i < l; i += 1) {
     item = identifyData[i];
-    if (item.layer === type && item.value === rank) {
-      return item;
+    if (item.layer === type && item.value === trueRank) {
+      break;
     }
   }
+
+  return item;
 }
 
 function makeZonalBox(type, rank) {
@@ -174,7 +176,7 @@ function makeOutHubBox() {
 }
 
 function makeHubBox(inHub) {
-  return isNaN(inHub) ? makeInHubBox() : makeOutHubBox();
+  return Number.isNaN(inHub) ? makeInHubBox() : makeOutHubBox();
 }
 
 function makeShortZonalStatsInterior(data) {
@@ -188,7 +190,7 @@ function makeShortZonalStatsInterior(data) {
 
 function drawShortZonalStats(data) {
   const wrapper = makeZonalWrapper();
-  makeShortZonalStatsInterior(data).forEach(elem => {
+  makeShortZonalStatsInterior(data).forEach((elem) => {
     wrapper.appendChild(elem);
   });
   document.getElementById('zonal-content').appendChild(wrapper);
@@ -199,13 +201,13 @@ function getZonalStatsData(geojson = '') {
 }
 
 function tempDrawShortZonalStats() {
-  if (!document.getElementById("zonal-header")) {
-    document.getElementById("zonal-wrapper").innerHTML = ZonalWrapper;
+  if (!document.getElementById('zonal-header')) {
+    document.getElementById('zonal-wrapper').innerHTML = ZonalWrapper;
   }
   drawShortZonalStats(getZonalStatsData());
 }
 
-document.getElementById("testzonal").addEventListener("click", tempDrawShortZonalStats);
+document.getElementById('testzonal').addEventListener('click', tempDrawShortZonalStats);
 
 // Creates the entire map component
 //
