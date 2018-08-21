@@ -102,39 +102,31 @@ export class Explore extends Component {
     return ZonalStatsJson;
   }
 
-  // retreive a saved geojson data from s3
   async retreiveS3GeojsonFile(projectfile = 'projected_4326_62155.geojson') {
-    const SaveGeoJSON = await this.StoreShapesAPI.getSavedGeoJSON(projectfile);
+    const geojson = await this.StoreShapesAPI.getSavedGeoJSON(projectfile);
 
     // draw poly on map
     // ensure the user area object is valid (actuall has a value)
-    if (checkValidObject(SaveGeoJSON)) {
+    if (checkValidObject(geojson)) {
       store.setStoreItem('projectfile', projectfile);
 
-      this.drawSavedGeoJson(SaveGeoJSON);
-      store.setStoreItem('userarea', SaveGeoJSON);
+      this.drawSavedGeoJson(geojson);
+      store.setStoreItem('userarea', geojson);
     } else {
       // add failed to get file from s3 code
 
     }
-
-    // return geoJson
-    return SaveGeoJSON;
+    return geojson;
   }
 
-  // restore saved Geojson File
   restoreSavedGeoJson() {
     const projectfile = store.getStateItem('projectfile');
     this.retreiveS3GeojsonFile(projectfile);
   }
 
-  // draw saved Geojson File
-  drawSavedGeoJson(SaveGeoJSON) {
-    // ensure the user area object is valid (actuall has a value)
-    if (checkValidObject(SaveGeoJSON)) {
-      // convert geoJson to leaflet layer
-      const layer = L.geoJson(SaveGeoJSON);
-
+  drawSavedGeoJson(geojson) {
+    if (checkValidObject(geojson)) {
+      const layer = L.geoJson(geojson);
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
 
@@ -150,11 +142,8 @@ export class Explore extends Component {
     return null;
   }
 
-  // draw the user area on the map
   drawUserArea() {
     const userarea = store.getStateItem('userarea');
-    // console.log(' drawUserArea', userarea)
-    // ensure the user area object is valid (actuall has a value)
     if (checkValidObject(userarea)) {
       // convert geoJson to leaflet layer
       const layer = L.geoJson(userarea);
@@ -325,14 +314,16 @@ export class Explore extends Component {
   }
 
 
+  addShapeToMap(geojson) {
+
+  }
 
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
     const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
-    uploadFeaturesBtn.addEventListener('change', (e) => this.fileSelectHandler(e));
+    uploadFeaturesBtn.addEventListener('change', e => this.fileSelectHandler(e));
   }
 
-  // Handler that fires when a user selects files to upload
   fileSelectHandler(event) {
     let fileList = event.target.files;
     // Move files from FileList object to an Array
@@ -360,7 +351,8 @@ export class Explore extends Component {
       fileSets.push(...zipFileSets);
     }
     // Non-zip files are all put into one file set.
-    fileSets.push(files.filter(file => this.fileExt(file.name) !== 'zip'))
+    let nonZips = files.filter(file => this.fileExt(file.name) !== 'zip')
+    fileSets.push(nonZips)
     fileSets.forEach(this.processFileSet, this)
   }
 
@@ -370,17 +362,21 @@ export class Explore extends Component {
     });
     let otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     let shpfileBundles = this.bundleShpfileFiles(shpfileFiles);
-    let convertedShpfiles = shpfileBundles.map(this.processShpfileBundle, this)
-    let processed = await Promise.all(otherFiles.map(
-      file => {
-        return this.readFileAsync(file, 'readAsText').then(
-          text => JSON.parse(text),
-          error => { console.log(error); }
-        )
-      }
-    ))
-    console.log(processed);
-    console.log(convertedShpfiles);
+    shpfileBundles.forEach(bundle => this.processShpfileBundle(bundle))
+    otherFiles.forEach(file => {
+      this.readFileAsync(file, 'readAsText').then(
+        text => {
+          let geojson = JSON.parse(text)
+          this.doSomethingWithShape(geojson)
+        },
+        error => { console.error(error); }
+      )
+    })
+
+  }
+
+  doSomethingWithShape(geojson) {
+    console.log(geojson);
   }
 
   bundleShpfileFiles(shpfileFiles) {
@@ -392,11 +388,11 @@ export class Explore extends Component {
       let files = shpfileFiles.filter(
         file => this.getFilenameWithoutExt(file.name) === filename
       )
-      let shp = pieces.filter(file => file.type === 'shp')[0];
+      let shp = files.filter(file => file.type === 'shp')[0];
       if (shp) {
         let obj = {}; obj.shp = shp;
-        let dbf = pieces.filter(file => file.type === 'dbf')[0];
-        let prj = pieces.filter(file => file.type === 'prj')[0];
+        let dbf = files.filter(file => file.type === 'dbf')[0];
+        let prj = files.filter(file => file.type === 'prj')[0];
         if (dbf) obj.dbf = dbf;
         if (prj) obj.prj = prj;
         shpfileBundles.push(obj);
@@ -432,7 +428,7 @@ export class Explore extends Component {
       }
     )
     let fileSets = [];
-    for (let dir of folders) {
+    for (let dir in folders) {
       let files = await Promise.all(folders[dir]
         .filter(this.isValidFile, this)
         .map(file => {
@@ -469,18 +465,17 @@ export class Explore extends Component {
     let geojson = await shapefile.read(dbf, shp);
     if (bundle.prj) {
       let prj = await this.readFileAsync(bundle.prj, 'readAsText');
-      geojson.features = geojson.features.map((feature => {
+      geojson.features = geojson.features.map(feature => {
         return this.convertFeatureProjection(feature, prj);
-      }))
+      })
     }
-    console.log(geojson);
-    return geojson;
+    this.doSomethingWithShape(geojson);
   }
 
   convertFeatureProjection(feature, prj) {
-    let coords = feature.geometry.coordinates;
-    coords = coords.map((coord) => {
-      return proj4(prj, 'EPSG:4326', coord);
+    let coords = feature.geometry.coordinates
+    feature.geometry.coordinates = coords.map(coordSet => {
+      return coordSet.map(coord => proj4(prj, 'EPSG:4326', coord));
     })
     return feature;
   }
@@ -507,15 +502,6 @@ export class Explore extends Component {
     })
   }
 
-  makeFilePromise(file) {
-    return new Promise((resolve, reject) => {
-      resolve({
-        type: this.fileExt(file.name),
-        file: file
-      })
-    })
-  }
-
   getFilenameWithoutExt(filename) {
     return filename.split('.').slice(0, -1).join('');
   }
@@ -528,15 +514,6 @@ export class Explore extends Component {
 
   fileExt(filename) {
     return filename.split('.').pop()
-  }
-
-  flatten(arr) {
-    let flat = [];
-    arr.forEach(d => {
-      if (Array.isArray(d)) { flat.push(...d); }
-      else { flat.push(d) }
-    })
-    return flat;
   }
 
 }
