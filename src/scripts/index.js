@@ -13,20 +13,20 @@ import { checkValidObject } from './utilitys';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
-import { AboutNavBar } from './aboutNav';
+// import { AboutNavBar } from './aboutNav';
+import { About } from './about';
 import { Explore } from './explore';
 import { MapInfo } from './mapinfo';
 import { SearchLocations } from './searchlocations';
 
 // import html templates
-import AboutPage from '../templates/about.html';
+// import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
-import ExplorePage from '../templates/explore.html';
-import SearchLocationsPage from '../templates/searchlocations.html';
-
+// import ExplorePage from '../templates/explore.html';
+// import SearchLocationsPage from '../templates/searchlocations.html';
 // initialize navbar
-// const aboutnavBarComponent = new AboutNavBar('nav-holder');
+// const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
 
 new URL();
@@ -36,6 +36,7 @@ let maplayersComponent;
 let exploreComponent;
 let mapInfoComponent;
 let searchLocationsComponent;
+let aboutComponent;
 
 const store = new Store({});
 
@@ -51,6 +52,14 @@ if (homeloc === 'https://nemac.github.io') {
 // Closes over global import Map
 function initMap(selector) {
   return new Map(selector);
+}
+
+// Creates a new about page component
+//
+// @param selector - string DOM selector
+// Closes over global import Map
+function initAbout(selector) {
+  return new About(selector);
 }
 
 // Creates a new Leaflet Map in the target DOM element
@@ -75,7 +84,7 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
-    searchLocationsComponent = new SearchLocations('', { mapComponent, exploreComponent });
+    searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent });
   }
 
   // restore only if first render
@@ -88,6 +97,10 @@ function initMapComponent() {
 
     if (checkValidObject(searchLocationsComponent)) {
       searchLocationsComponent.restoreSearchLocationsState();
+    }
+
+    if (checkValidObject(exploreComponent)) {
+      exploreComponent.restoreSavedGeoJson();
     }
   }
 
@@ -106,6 +119,11 @@ function setNavBars(selector) {
   NavBar.toggleTabContent(selector);
   NavBar.tabUpdate(selector);
 }
+// function setAboutNavBars(selector) {
+//   AboutNavBar.resetTabContent();
+//   AboutNavBar.toggleTabContent(selector);
+//   AboutNavBar.tabUpdate(selector);
+// }
 
 // Initializes the static pages by inserting the rendered template into the selected DOM element
 //
@@ -123,6 +141,8 @@ const router = new Navigo(homeloc, true);
 // examples of coded map interactions for testing
 // const maintitleElement = document.getElementById('maintitle');
 // maintitleElement.addEventListener('click', (e) => {
+//   console.log(mapInfoComponent.marker)
+//   searchLocationsComponent.delayedSearchLocationPopup();
 //   const mapCenter = store.getStateItem('mapCenter')
 //
 //   mapComponent.restoreMapCenter(mapCenter)
@@ -156,7 +176,9 @@ router.on({
   },
   '/About': (params, query) => {
     setNavBars('main-nav-about');
-    initStaticPage('about-holder', AboutPage);
+    // setAboutNavBars('about-nav');
+    aboutComponent = initAbout('about-holder');
+    // initStaticPage('about-holder', AboutPage);
   },
   '/Download': (params, query) => {
     setNavBars('main-nav-download');

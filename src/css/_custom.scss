@@ -6,6 +6,7 @@
 $body-bg:    $gray-800;
 $body-color: $gray-200;
 $body-color-visited: $gray-400;
+$body-color-medium: $gray-600;
 $margin: 10px;
 $padding: 10px;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
@@ -29,25 +30,34 @@ html, body {
 }
 
 .btn-search-locations-collapse-holder {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  left: 275px;
+  bottom: 0px;
+  border-radius: 2px;
+  margin-left: 2px;
+  vertical-align: middle !important;
+  align-items: center !important;
 }
 
 .btn-search-locations-collapse {
   width: 30px !important;
   height: 30px !important;
   padding: 5px;
-  background-color: $body-color;
-  margin-left: 25px;
-  margin-top: 2px;
+  background-color: #fff;
+  vertical-align: middle !important;
+  align-items: center !important;
   font-size: .5em;
   line-height: 30px;
   background-size: 30px;
   color: $gray-700;
   color: $body-bg;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
-.btn-draw-area {
+.user-shape {
   // for text to wrap in button
   white-space: pre-wrap;      /* CSS3 */
   white-space: -moz-pre-wrap; /* Firefox */
@@ -56,11 +66,15 @@ html, body {
   word-wrap: break-word;      /* IE */
   width: 80px;
   height: 80px;
+  margin: 5px;
+  font-size: .9rem
 }
 
 .leaflet-editing-icon {
     max-width: 10px;
     max-height: 10px;
+    min-width: 10px;
+    min-height: 10px;
     margin-left: -5px !important;
     margin-top: -5px !important;
     background-color: $body-color;
@@ -70,6 +84,8 @@ html, body {
 .leaflet-marker-icon-first {
   max-width: 20px;
   max-height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   margin-left: -10px !important;
   margin-top: -10px !important;
   background-color: $success;
@@ -94,6 +110,8 @@ html, body {
 .leaflet-working {
   z-index: 9000;
   font-size: 2.5em;
+  color: $body-color;
+  mix-blend-mode: difference;
 }
 
 #tab-main-nav-map {
@@ -119,28 +137,88 @@ html, body {
 
 }
 
+.leaflet-bar a, .leaflet-bar a:hover {
+  width: 30px !important;
+  height: 30px !important;
+  // border-width: 0px;
+}
+
 .mapinfo-math-hr {
   border-bottom: .75px solid $gray-700;
   margin-top: 7px;
   margin-bottom: 5px;
 }
 
-.btn-mapinfo {
+.i-mapinfo {
+  margin-bottom: 7px;
+  margin-left: -1px;
+}
+
+.i-btn {
   background-color: $body-color;
   color: $body-bg;
+  width: 30px;
+  height: 30px;
   font-size: 15px;
-  border-radius: 2px;
+  border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
 }
 
-.geocoder-control-input {
+.e-btn {
   background-color: $body-color;
   color: $body-bg;
+  width: 75px;
+  height: 30px;
   font-size: 15px;
-  border-radius: 2px;
+  border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
+}
+
+.geocoder-control-overall {
+  height: 30px;
+}
+
+.geocoder-control-input.leaflet-bar {
+  border-width: 0px;
+  height: 30px;
+  border-radius: 2px;
+}
+
+.btn-search-locations-collapse-holder.leaflet-bar{
+  border-width: 0px;
+  height: 30px;
+}
+
+.geocoder-control-input {
+  padding-bottom: 0px;
+  padding-left: 0px;
+  color: $body-bg;
+  vertical-align: middle !important;
+  align-items: center !important;
+  height: 30px;
+}
+
+.geocoder-control {
+  width: 30px;
+  height: 30px;
+}
+
+.geocoder-control.leaflet-control.geocoder-control-expanded {
+  width: 275px !important;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  border-left: 0px;
+}
+
+#btn-mapinfo-holder {
+  border-left: 0px;
+}
+
+.geocoder-control.leaflet-control {
+  width: 30px !important;
 }
 
 .i-mapinfo {
@@ -174,8 +252,8 @@ html, body {
 
 }
 
-.searchlocations-point{
-  background-color: #3388ff;
+.searchlocations-point {
+  background-color: $body-bg;
   border-radius: 10px;
 
   /* Prevent background color leak outs */
@@ -262,9 +340,6 @@ html, body {
    cursor: default;
    min-width: 205px;
  }
-.btn-search-locations-collapse {
-  cursor: pointer;
-}
 
  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
    background: $body-bg;

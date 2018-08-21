@@ -101,3 +101,13 @@ export function replaceMapInfoValue(doc, type, values) {
     element.textContent = values.label;
   }
 }
+
+// check if a parentelemet contains a dom id
+// deals with event bubbling so we can check
+// if the child is in a specifc parent
+export function ParentContains(target, id) {
+  for (let p = target && target.parentElement; p; p = p.parentElement) {
+    if (p.id === id) { return true; }
+  }
+  return false;
+}

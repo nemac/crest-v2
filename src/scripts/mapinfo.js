@@ -34,18 +34,16 @@ export class MapInfo extends Component {
     this.map = mapComponent.map;
     this.mapComponent = mapComponent;
 
-    MapInfo.addMapInformationControl(this.map);
+    this.addMapInformationControl(this.map);
 
     this.IdentifyAPI = new IdentifyAPI();
 
     // setup marker layer which is not set yet.
     this.marker = undefined;
-
-    this.addMapClickIdentifyClickHandler();
   }
 
   // add Identify control to leaflet map
-  static addMapInformationControl(leafletmap) {
+  addMapInformationControl(leafletmap) {
     L.Control.Watermark = L.Control.extend({
       onAdd: MapInfo.mapInfoMakerOnAddHandler,
 
@@ -56,6 +54,10 @@ export class MapInfo extends Component {
     L.control.watermark = opts => new L.Control.Watermark(opts);
 
     L.control.watermark({ position: 'topleft' }).addTo(leafletmap);
+
+    // get btn for mapinfo add click event
+    const leafletControlElement = document.querySelector('.btn-mapinfo-holder');
+    leafletControlElement.addEventListener('click', this.mapInformationClickHandler.bind(this));
   }
 
   // mapinfo (identify) control (button) on add function.
@@ -65,12 +67,31 @@ export class MapInfo extends Component {
     return null;
   }
 
+  // map info click handler
+  mapInformationClickHandler(ev) {
+    this.addMapClickIdentifyClickHandler();
+
+    // remove previous marker point
+    if (this.marker !== undefined) {
+      this.mapComponent.map.removeLayer(this.marker);
+    }
+
+    // make the map cursor cross hairs
+    this.mapComponent.mapCursorCrosshair();
+
+    // remove from state
+    store.removeStateItem('mapClick');
+  }
+
   // mapinfo (identify) control (button) on add function.
   // fires when the control (button) is added
-  static mapInfoMakerOnAddHandler(map) {
+  static mapInfoMakerOnAddHandler() {
     // setup custom style for mapinfo indentify control (button)
-    const fa = L.DomUtil.create('div', 'btn btn-light btn-mapinfo');
-    fa.innerHTML = '<i class="fas fa-info i-mapinfo"></i>';
+    const fa = L.DomUtil.create('div', 'btn-mapinfo-holder leaflet-bar');
+    fa.setAttribute('id', 'btn-mapinfo-holder');
+    fa.innerHTML = '<a class="btn btn-light btn-mapinfo" href="#" title="Map Information" ' +
+                    'role="button" aria-label="Map Information"> ' +
+                    '<i class="fas fa-info i-mapinfo"></a>';
     L.DomEvent.disableClickPropagation(fa);
     return fa;
   }
@@ -130,6 +151,12 @@ export class MapInfo extends Component {
     // if there is no state exit and stop spinner
     if (!store.isStateExists()) {
       spinnerOff();
+      this.mapComponent.mapCursorDefault();
+
+      // this removes the map click for mapinfo the user
+      // must click the i button to do this action we will have to remove this
+      // if we want users to always be able to click the map and do mapinfo
+      this.mapComponent.map.off('click');
       return false;
     }
 
@@ -139,6 +166,10 @@ export class MapInfo extends Component {
     // ensure the mapclick is valid has information we can use
     if (!checkValidObject(mapClick)) {
       spinnerOff();
+      this.mapComponent.mapCursorDefault();
+      // must click the i button to do this action we will have to remove this
+      // if we want users to always be able to click the map and do mapinfo
+      this.mapComponent.map.off('click');
       return false;
     }
 
@@ -170,6 +201,10 @@ export class MapInfo extends Component {
 
     // toggle spinner css from utility.js
     spinnerOff();
+    this.mapComponent.mapCursorDefault();
+    // must click the i button to do this action we will have to remove this
+    // if we want users to always be able to click the map and do mapinfo
+    this.mapComponent.map.off('click');
     return true;
   }
 
@@ -208,9 +243,16 @@ export class MapInfo extends Component {
         closeOnClick: false,
         opacity: 0.9,
         autoPan: false,
+        className: 'map-information-popup',
         offset: L.point(-123, 20)
       }
     ).openPopup();
+
+
+    // add labels for assessabbility
+    const SearchLocationsCloseButtonElement = document.querySelector('.map-information-popup .leaflet-popup-close-button');
+    SearchLocationsCloseButtonElement.setAttribute('aria-label', 'Close Map Information');
+    SearchLocationsCloseButtonElement.setAttribute('title', 'Close Map Information');
 
     return popup;
   }

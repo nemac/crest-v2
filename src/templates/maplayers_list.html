@@ -1,15 +1,15 @@
 <div ref="maplayers_list" class="maplayers_list">
   <div id="map_info_list_collapse" ref="map_info_list_collapse" class="map_info_list map_info_list_collapse d-none">
     <h5>Map Layers
-      <span  id="maplayers_list_open" class="float-right text-center">
-        <i class="fas fa-angle-down"></i>
+      <span title="Open" aria-label="Open" id="maplayers_list_open" class="float-right text-center">
+        <i title="Open" aria-label="Open" class="fas fa-angle-down"></i>
       </span>
     </h5>
   </div>
   <div class="toggle-list" id="maplayers_list_opened">
     <h5  >Map Layers
-      <span id="maplayers_list_close" class="float-right text-center" >
-        <i class="fas fa-times"></i>
+      <span title="Close Map Layer List" aria-label="Close Map Layer List" id="maplayers_list_close" class="float-right text-center" >
+        <i title="Close Map Layer List" aria-label="Close Map Layer List" class="fas fa-times"></i>
       </span>
     </h5>
     <hr />
@@ -17,8 +17,8 @@
 
       <div class="LayerInput-header" id="HubsLayers-Header" >Hubs (Preliminary)</div>
       <div ref="LayerInput" id="SA_HubsPreliminary-layerToggle" class="custom-control custom-checkbox">
-        <input ref="SA_HubsPreliminaryPreliminary-toggle" type="checkbox" class="custom-control-input" id="SA_HubsPreliminary-toggle">
-        <label ref="SA_HubsPreliminary-label" class="custom-control-label" for="SA_HubsPreliminary-toggle" id="SA_HubsPreliminary-label">Hubs (preliminary)</label>
+        <input title="Toggle Hubs" aria-label="Toggle Hubs" ref="SA_HubsPreliminaryPreliminary-toggle" type="checkbox" class="custom-control-input" id="SA_HubsPreliminary-toggle">
+        <label title="Toggle Hubs" aria-label="Toggle Hubs" ref="SA_HubsPreliminary-label" class="custom-control-label" for="SA_HubsPreliminary-toggle" id="SA_HubsPreliminary-label">Hubs (preliminary)</label>
       </div>
 
 
@@ -27,12 +27,12 @@
       <!-- <div class="row offset-1 layerList-sub-group"> -->
       <div class="LayerInput-header" id="ExposureLayers-Header" >Asset and Threat</div>
       <div ref="LayerInput" id="SA_AssetIndex-layerToggle" class="custom-control custom-checkbox">
-        <input ref="SA_AssetIndex-toggle" type="checkbox" class="custom-control-input" id="SA_AssetIndex-toggle">
-        <label ref="SA_AssetIndex-label" class="custom-control-label" for="SA_AssetIndex-toggle" id="SA_AssetIndex-label">Asset Index</label>
+        <input title="Toggle Asset Layer" aria-label="Toggle Asset Layer" ref="SA_AssetIndex-toggle" type="checkbox" class="custom-control-input" id="SA_AssetIndex-toggle">
+        <label title="Toggle Asset Layer" aria-label="Toggle Asset Layer" ref="SA_AssetIndex-label" class="custom-control-label" for="SA_AssetIndex-toggle" id="SA_AssetIndex-label">Asset Index</label>
       </div>
       <div ref="LayerInput" id="SA_ThreatIndex-layerToggle" class="custom-control custom-checkbox">
-        <input ref="SA_ThreatIndex-toggle" type="checkbox" class="custom-control-input" id="SA_ThreatIndex-toggle">
-        <label ref="SA_ThreatIndex-label" class="custom-control-label" for="SA_ThreatIndex-toggle" id="SA_ThreatIndex-label">Threat Index</label>
+        <input title="Toggle Threat Layer" aria-label="Toggle Threat Layer" ref="SA_ThreatIndex-toggle" type="checkbox" class="custom-control-input" id="SA_ThreatIndex-toggle">
+        <label title="Threat Threat Layer" aria-label="Toggle Threat Layer" ref="SA_ThreatIndex-label" class="custom-control-label" for="SA_ThreatIndex-toggle" id="SA_ThreatIndex-label">Threat Index</label>
       </div>
     <!-- </div> -->
 
@@ -40,20 +40,20 @@
 
     <div class="LayerInput-header" id="ExposureLayers-Header" >Exposure</div>
     <div ref="LayerInput" id="SA_ExposureIndex-layerToggle" class="custom-control custom-checkbox">
-      <input ref="SA_ExposureIndex-toggle" type="checkbox" class="custom-control-input" id="SA_ExposureIndex-toggle">
-      <label ref="SA_ExposureIndex-label" class="custom-control-label" for="SA_ExposureIndex-toggle" id="SA_ExposureIndex-label">Exposure Index</label>
+      <input title="Threat Exposure Index Layer" aria-label="Toggle Exposure Index Layer" ref="SA_ExposureIndex-toggle" type="checkbox" class="custom-control-input" id="SA_ExposureIndex-toggle">
+      <label title="Threat Exposure Index Layer" aria-label="Toggle Explore Index Layer" ref="SA_ExposureIndex-label" class="custom-control-label" for="SA_ExposureIndex-toggle" id="SA_ExposureIndex-label">Exposure Index</label>
     </div>
-    
+
     <div class="LayerList-spacer" id="ExposureLayers-Header" ></div>
 
       <div class="LayerInput-header" id="FishnWildlife-Header" >Fish and Wildlife</div>
       <div ref="LayerInput" id="SA_AquaticIndex-layerToggle" class="custom-control custom-checkbox">
-        <input ref="SA_AquaticIndex-toggle" type="checkbox" class="custom-control-input" id="SA_AquaticIndex-toggle">
-        <label ref="SA_AquaticIndex-label" class="custom-control-label" for="SA_AquaticIndex-toggle" id="SA_AquaticIndex-label">Aquatic Index</label>
+        <input title="Threat Aquatic Index Layer" aria-label="Toggle Aquatic Index Layer" ref="SA_AquaticIndex-toggle" type="checkbox" class="custom-control-input" id="SA_AquaticIndex-toggle">
+        <label title="Threat Aquatic Index Layer" aria-label="Toggle Aquatic Index Layer" ref="SA_AquaticIndex-label" class="custom-control-label" for="SA_AquaticIndex-toggle" id="SA_AquaticIndex-label">Aquatic Index</label>
       </div>
       <div ref="LayerInput" id="SA_TerrestrialIndex-layerToggle" class="custom-control custom-checkbox">
-        <input ref="SA_TerrestrialIndex-toggle" type="checkbox" class="custom-control-input" id="SA_TerrestrialIndex-toggle">
-        <label ref="SA_TerrestrialIndex-label" class="custom-control-label" for="SA_TerrestrialIndex-toggle" id="SA_TerrestrialIndex-label">Terrestrial Index</label>
+        <input title="Threat Terrestrial Index Layer" aria-label="Toggle Terrestrial Index Layer" ref="SA_TerrestrialIndex-toggle" type="checkbox" class="custom-control-input" id="SA_TerrestrialIndex-toggle">
+        <label title="Threat Terrestrial Index Layer" aria-label="Toggle Terrestrial Index Layer" ref="SA_TerrestrialIndex-label" class="custom-control-label" for="SA_TerrestrialIndex-toggle" id="SA_TerrestrialIndex-label">Terrestrial Index</label>
       </div>
     </div>
   </div>
