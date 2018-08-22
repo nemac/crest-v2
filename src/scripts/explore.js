@@ -19,8 +19,6 @@ import {
 } from './utilitys';
 
 // Shapefile library must be imported with require.
-// import shapefile from 'shapefile' causes the library
-// to be unavailable within a promise context for some reason.
 var shapefile = require("shapefile");
 
 const store = new Store({});
@@ -63,13 +61,43 @@ export class Explore extends Component {
     this.drawUserArea();
 
     this.addUploadShapeHandler()
-    // this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
-    //   console.log('zonalstatsend');
-    // });
+
+    this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
+      Explore.zonalStatsHandler();
+    });
 
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  static zonalStatsHandler() {
+    const clearAreaElement = document.getElementById('details-holder');
+    const zonalstatsjson = store.getStateItem('zonalstatsjson');
+
+    if (clearAreaElement) {
+      let html = '';
+      Object.keys(zonalstatsjson).forEach((obj) => {
+        let value = parseFloat(zonalstatsjson[obj]).toFixed(2);
+        if (zonalstatsjson[obj] === 'NaN') {
+          value = 'Not Available';
+        }
+
+        // setup cards for zonal stats just a place holder...
+        html += '<div class="card text-dark bg-light mb-3" style="width: 18rem;">';
+        html += '  <div class="card-header">';
+        html += obj;
+        html += '  </div>';
+        html += '  <div class="card-body">';
+        html += '   <h5 class="card-title">';
+        html += value;
+        html += '   </h5>';
+        html += '  </div>';
+        html += '</div>';
+      });
+
+      clearAreaElement.innerHTML = html;
+    }
   }
 
   async getZonal() {
@@ -194,6 +222,10 @@ export class Explore extends Component {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
     store.removeStateItem('projectfile');
+    const clearAreaElement = document.getElementById('details-holder');
+    if (clearAreaElement) {
+      clearAreaElement.innerHTML = '';
+    }
   }
 
   // handler for click the button tp clear all drawings
@@ -314,10 +346,6 @@ export class Explore extends Component {
   }
 
 
-  addShapeToMap(geojson) {
-
-  }
-
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
     const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
@@ -328,18 +356,7 @@ export class Explore extends Component {
     let fileList = event.target.files;
     // Move files from FileList object to an Array
     let files = []; for (let f of fileList) { files.push(f); }
-    let validFiles = files.filter(this.isValidFile, this)
-    if (validFiles.length) {
-      this.processFiles(validFiles)
-    } else {
-      console.log("No valid files were selected.")
-    }
-  }
-
-  isValidFile(file) {
-    let validExts = [ 'zip', 'geojson', 'json', 'shp', 'dbf', 'prj' ]
-    let isValid = validExts.filter(ext => ext === this.fileExt(file.name)).length
-    return Boolean(isValid)
+    this.processFiles(files);
   }
 
   async processFiles(files) {
@@ -353,7 +370,26 @@ export class Explore extends Component {
     // Non-zip files are all put into one file set.
     let nonZips = files.filter(file => this.fileExt(file.name) !== 'zip')
     fileSets.push(nonZips)
+    
+    /*
+    // We're not ready to handle multiple shapes yet.
     fileSets.forEach(this.processFileSet, this)
+    */
+
+    // For now just process the first fileset.
+    let fileSet = fileSets[0];
+    let featureCollection = processFileSet(fileSet);
+    
+    // Just grab the first feature we find for now
+    let feature = featureCollection.features[0];
+
+    const layer = L.geoJson(feature);
+
+    this.drawAreaGroup.addLayer(layer);
+    store.setStoreItem('lastaction', 'upload_shape');
+    store.setStoreItem('userarea', layer.toGeoJSON());
+    this.getZonal();
+
   }
 
   async processFileSet(files) {
@@ -362,21 +398,35 @@ export class Explore extends Component {
     });
     let otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     let shpfileBundles = this.bundleShpfileFiles(shpfileFiles);
+    
+    /*
+    // We're not ready to handle multiple shapes yet.
+
     shpfileBundles.forEach(bundle => this.processShpfileBundle(bundle))
     otherFiles.forEach(file => {
       this.readFileAsync(file, 'readAsText').then(
         text => {
           let geojson = JSON.parse(text)
-          this.doSomethingWithShape(geojson)
+          //this.doSomethingWithShape(geojson)
         },
         error => { console.error(error); }
       )
     })
 
-  }
+    // For now just grab the first shapefile available.
+    // If no shapefile bundles exist just grab the first geojson file.
+    */
+    if (shpfileBundles.length) {
+      let bundleToProcess = shpfileBundles[0];
+      let geojson = this.convertShpfileBundleToGeojson(bundleToProcess);
+      return geojson;
+    } else {
+      let file = otherFiles[0];
+      let text = await this.readFileAsync(file, 'readAsText');
+      let geojson = JSON.parse(text);
+      return geojson;
+    }
 
-  doSomethingWithShape(geojson) {
-    console.log(geojson);
   }
 
   bundleShpfileFiles(shpfileFiles) {
@@ -459,7 +509,7 @@ export class Explore extends Component {
     return folders;
   }
 
-  async processShpfileBundle(bundle) {
+  async convertShpfileBundleToGeojson(bundle) {
     let dbf = await this.readFileAsync(bundle.shp);
     let shp = await this.readFileAsync(bundle.dbf);
     let geojson = await shapefile.read(dbf, shp);
@@ -469,7 +519,7 @@ export class Explore extends Component {
         return this.convertFeatureProjection(feature, prj);
       })
     }
-    this.doSomethingWithShape(geojson);
+    return geojson
   }
 
   convertFeatureProjection(feature, prj) {
