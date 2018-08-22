@@ -54,13 +54,42 @@ export class Explore extends Component {
     // draw the user area on the map
     this.drawUserArea();
 
-    // this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
-    //   console.log('zonalstatsend');
-    // });
+    this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
+      Explore.zonalStatsHandler();
+    });
 
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  static zonalStatsHandler() {
+    const clearAreaElement = document.getElementById('details-holder');
+    const zonalstatsjson = store.getStateItem('zonalstatsjson');
+
+    if (clearAreaElement) {
+      let html = '';
+      Object.keys(zonalstatsjson).forEach((obj) => {
+        let value = parseFloat(zonalstatsjson[obj]).toFixed(2);
+        if (zonalstatsjson[obj] === 'NaN') {
+          value = 'Not Available';
+        }
+
+        // setup cards for zonal stats just a place holder...
+        html += '<div class="card text-dark bg-light mb-3" style="width: 18rem;">';
+        html += '  <div class="card-header">';
+        html += obj;
+        html += '  </div>';
+        html += '  <div class="card-body">';
+        html += '   <h5 class="card-title">';
+        html += value;
+        html += '   </h5>';
+        html += '  </div>';
+        html += '</div>';
+      });
+
+      clearAreaElement.innerHTML = html;
+    }
   }
 
   async getZonal() {
@@ -196,6 +225,8 @@ export class Explore extends Component {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
     store.removeStateItem('projectfile');
+    const clearAreaElement = document.getElementById('details-holder');
+    clearAreaElement.innerHTML = '';
   }
 
   // handler for click the button tp clear all drawings
