@@ -378,23 +378,29 @@ export class Explore extends Component {
 
     // For now just process the first fileset.
     let fileSet = fileSets[0];
-    let featureCollection = processFileSet(fileSet);
-    
+    let featureCollection = await this.processFileSet(fileSet);
+
     // Just grab the first feature we find for now
     let feature = featureCollection.features[0];
 
     const layer = L.geoJson(feature);
 
+    this.drawAreaGroup.getLayers().forEach(layer => { 
+      this.drawAreaGroup.removeLayer(layer)
+      //layer.remove()
+    })
     this.drawAreaGroup.addLayer(layer);
     store.setStoreItem('lastaction', 'upload_shape');
     store.setStoreItem('userarea', layer.toGeoJSON());
+    this.mapComponent.map.fitBounds(layer.getBounds());
+    this.mapComponent.saveZoomAndMapPosition();
+    store.saveAction('addsavedgeojson');
     this.getZonal();
-
   }
 
   async processFileSet(files) {
     let shpfileFiles = files.filter(file => {
-      return ['shp', 'dbf', 'prj'].indexOf(file.type) > -1;
+      return ['shp', 'dbf', 'prj'].indexOf(this.fileExt(file.name)) > -1;
     });
     let otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     let shpfileBundles = this.bundleShpfileFiles(shpfileFiles);
@@ -438,11 +444,11 @@ export class Explore extends Component {
       let files = shpfileFiles.filter(
         file => this.getFilenameWithoutExt(file.name) === filename
       )
-      let shp = files.filter(file => file.type === 'shp')[0];
+      let shp = files.filter(file => this.fileExt(file.name) === 'shp')[0];
       if (shp) {
         let obj = {}; obj.shp = shp;
-        let dbf = files.filter(file => file.type === 'dbf')[0];
-        let prj = files.filter(file => file.type === 'prj')[0];
+        let dbf = files.filter(file => this.fileExt(file.name) === 'dbf')[0];
+        let prj = files.filter(file => this.fileExt(file.name) === 'prj')[0];
         if (dbf) obj.dbf = dbf;
         if (prj) obj.prj = prj;
         shpfileBundles.push(obj);
@@ -484,7 +490,7 @@ export class Explore extends Component {
         .map(file => {
           let filename = file.name.split('/').slice(-1).join('');
           return file.async('blob').then(
-            blob => new File([blob], filename, { type: this.fileExt(filename) }),
+            blob => new File([blob], filename),
             err => {
               console.log(`Error reading ${filename}.`, `${err}`)
             }
