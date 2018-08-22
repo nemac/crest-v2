@@ -226,7 +226,9 @@ export class Explore extends Component {
     store.removeStateItem('userarea');
     store.removeStateItem('projectfile');
     const clearAreaElement = document.getElementById('details-holder');
-    clearAreaElement.innerHTML = '';
+    if (clearAreaElement) {
+      clearAreaElement.innerHTML = '';
+    }
   }
 
   // handler for click the button tp clear all drawings
