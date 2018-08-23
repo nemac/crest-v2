@@ -16,6 +16,22 @@ html, body {
     height: 100%;
 }
 
+.btn-file {
+	width: 0.001px;
+	height: 0.001px;
+	opacity: 0;
+  padding: 0px !important;
+  border-width: 0px !important;
+  margin: 0px !important;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.btn-file-label {
+  margin-bottom: 0px !important
+}
+
 .geocoder-control-suggestions .geocoder-control-suggestion {
   background-color: $body-color;
   color: $body-bg;
@@ -64,7 +80,7 @@ html, body {
   white-space: -pre-wrap;     /* Opera <7 */
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
-  width: 80px;
+  width: 90px;
   height: 80px;
   margin: 5px;
   font-size: .9rem
