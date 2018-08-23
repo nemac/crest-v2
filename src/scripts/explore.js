@@ -190,7 +190,7 @@ export class Explore extends Component {
 
       // force map to bounds
       if (checkValidObject(this.mapComponent)) {
-        this.mapComponent.map.fitBounds(layer.getBounds());
+        this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
         this.mapComponent.saveZoomAndMapPosition();
         store.saveAction('addsavedgeojson');
       }
@@ -435,7 +435,7 @@ export class Explore extends Component {
     this.drawAreaGroup.addLayer(newLayer);
     this.drawAreaGroup.addLayer(bufferedLayer);
 
-    this.mapComponent.map.fitBounds(newLayer.getBounds());
+    this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
     this.mapComponent.saveZoomAndMapPosition();
     store.saveAction('addsavedgeojson');
     this.getZonal();
