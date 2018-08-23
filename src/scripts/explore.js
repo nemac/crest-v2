@@ -1,4 +1,6 @@
 // dependencies
+import proj4 from 'proj4';
+import JSZip from 'jszip';
 import L from 'leaflet';
 import { Draw } from 'leaflet-draw';
 
@@ -16,6 +18,9 @@ import {
   spinnerOn
 } from './utilitys';
 
+// Shapefile library must be imported with require.
+const shapefile = require('shapefile');
+
 const store = new Store({});
 
 /**
@@ -29,6 +34,7 @@ export class Explore extends Component {
 
     const { mapComponent, mapInfoComponent } = props;
     this.mapComponent = mapComponent;
+
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
 
     // handler for when drawing is completed
@@ -53,6 +59,8 @@ export class Explore extends Component {
 
     // draw the user area on the map
     this.drawUserArea();
+
+    this.addUploadShapeHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
@@ -122,39 +130,31 @@ export class Explore extends Component {
     return ZonalStatsJson;
   }
 
-  // retreive a saved geojson data from s3
   async retreiveS3GeojsonFile(projectfile = 'projected_4326_62155.geojson') {
-    const SaveGeoJSON = await this.StoreShapesAPI.getSavedGeoJSON(projectfile);
+    const geojson = await this.StoreShapesAPI.getSavedGeoJSON(projectfile);
 
     // draw poly on map
     // ensure the user area object is valid (actuall has a value)
-    if (checkValidObject(SaveGeoJSON)) {
+    if (checkValidObject(geojson)) {
       store.setStoreItem('projectfile', projectfile);
 
-      this.drawSavedGeoJson(SaveGeoJSON);
-      store.setStoreItem('userarea', SaveGeoJSON);
+      this.drawSavedGeoJson(geojson);
+      store.setStoreItem('userarea', geojson);
     } else {
       // add failed to get file from s3 code
 
     }
-
-    // return geoJson
-    return SaveGeoJSON;
+    return geojson;
   }
 
-  // restore saved Geojson File
   restoreSavedGeoJson() {
     const projectfile = store.getStateItem('projectfile');
     this.retreiveS3GeojsonFile(projectfile);
   }
 
-  // draw saved Geojson File
-  drawSavedGeoJson(SaveGeoJSON) {
-    // ensure the user area object is valid (actuall has a value)
-    if (checkValidObject(SaveGeoJSON)) {
-      // convert geoJson to leaflet layer
-      const layer = L.geoJson(SaveGeoJSON);
-
+  drawSavedGeoJson(geojson) {
+    if (checkValidObject(geojson)) {
+      const layer = L.geoJson(geojson);
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
 
@@ -170,11 +170,8 @@ export class Explore extends Component {
     return null;
   }
 
-  // draw the user area on the map
   drawUserArea() {
     const userarea = store.getStateItem('userarea');
-    // console.log(' drawUserArea', userarea)
-    // ensure the user area object is valid (actuall has a value)
     if (checkValidObject(userarea)) {
       // convert geoJson to leaflet layer
       const layer = L.geoJson(userarea);
@@ -187,7 +184,7 @@ export class Explore extends Component {
     return null;
   }
 
-  // handler for stoping (cancel) drawing on the map
+  // handler for stopping (cancel) drawing on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
   // the other vertexes
@@ -346,5 +343,227 @@ export class Explore extends Component {
       store.setStoreItem('userarea', layer.toGeoJSON());
       this.getZonal();
     });
+  }
+
+
+  // Listens for click events on the upload shape button.
+  addUploadShapeHandler() {
+    const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
+    uploadFeaturesBtn.addEventListener('change', e => this.fileSelectHandler(e));
+  }
+
+  fileSelectHandler(event) {
+    const fileList = event.target.files;
+    const files = Explore.convertFileListToArray(fileList);
+    this.processFiles(files);
+  }
+
+  async processFiles(files) {
+    const fileSets = [];
+    // Treat each folder in a zip archive as its own file set.
+    const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
+    const readProms = zips.map(zip => Explore.readZip(zip));
+    const zipFileSets = await Promise.all(readProms);
+    fileSets.push(...zipFileSets);
+    // Non-zip files are all put into one file set.
+    const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
+    fileSets.push(nonZips);
+
+    /*
+    // We're not ready to handle multiple shapes yet.
+    fileSets.forEach(Explore.processFileSet, this)
+    */
+
+    // For now just process the first fileset.
+    const fileSet = fileSets[0];
+    const featureCollection = await Explore.processFileSet(fileSet);
+
+    // Just grab the first feature we find for now
+    const feature = featureCollection.features[0];
+
+    const newLayer = L.geoJson(feature);
+
+    this.drawAreaGroup.getLayers().forEach((layer) => {
+      this.drawAreaGroup.removeLayer(layer);
+    });
+    this.drawAreaGroup.addLayer(newLayer);
+    store.setStoreItem('lastaction', 'upload_shape');
+    store.setStoreItem('userarea', newLayer.toGeoJSON());
+    this.mapComponent.map.fitBounds(newLayer.getBounds());
+    this.mapComponent.saveZoomAndMapPosition();
+    store.saveAction('addsavedgeojson');
+    this.getZonal();
+  }
+
+  static async processFileSet(files) {
+    const shpfileFiles = files
+      .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
+    const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
+    const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
+
+    /*
+    // We're not ready to handle multiple shapes yet.
+
+    shpfileBundles.forEach(bundle => this.processShpfileBundle(bundle))
+    otherFiles.forEach(file => {
+      Explore.readFileAsync(file, 'readAsText').then(
+        text => {
+          let geojson = JSON.parse(text)
+          //this.doSomethingWithShape(geojson)
+        },
+        error => { console.error(error); }
+      )
+    })
+
+    // For now just grab the first shapefile available.
+    // If no shapefile bundles exist just grab the first geojson file.
+    */
+    if (shpfileBundles.length) {
+      const bundleToProcess = shpfileBundles[0];
+      const geojson = Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      return geojson;
+    }
+    const file = otherFiles[0];
+    const text = await Explore.readFileAsync(file, 'readAsText');
+    const geojson = JSON.parse(text);
+    return geojson;
+  }
+
+  static bundleShpfileFiles(shpfileFiles) {
+    const shpfileFilenames = new Set(
+      shpfileFiles.map(file => Explore.getFilenameWithoutExt(file.name))
+    );
+    const shpfileBundles = [];
+    shpfileFilenames.forEach((filename) => {
+      const files = shpfileFiles
+        .filter(file => Explore.getFilenameWithoutExt(file.name) === filename);
+      const shp = files.filter(file => Explore.fileExt(file.name) === 'shp')[0];
+      if (shp) {
+        const obj = {}; obj.shp = shp;
+        const dbf = files.filter(file => Explore.fileExt(file.name) === 'dbf')[0];
+        const prj = files.filter(file => Explore.fileExt(file.name) === 'prj')[0];
+        if (dbf) obj.dbf = dbf;
+        if (prj) obj.prj = prj;
+        shpfileBundles.push(obj);
+      }
+    });
+    return shpfileBundles;
+  }
+
+  /**
+   * Read a zip file and organize its contents by folder.
+   *
+   * Returns an Array of Arrays, where sub-arrays are lists of files
+   * broken out by folder (top-level of zip is its own folder).
+   *
+   * @param archive is a File object representing a zip file
+   */
+  static async readZip(archive) {
+    const jszip = new JSZip();
+    const folders = await jszip.loadAsync(archive).then(
+      (zip) => {
+        const files = [];
+        Object.keys(zip.files).forEach((key) => {
+          const entry = zip.files[key];
+          if (!entry.dir) files.push(entry);
+        });
+        return Explore.readZipFolders(files);
+      },
+      (err) => { alert(`Error loading ${archive}: ${err}`); }
+    );
+    const fileSetProms = [];
+    Object.keys(folders).forEach((dir) => {
+      const files = folders[dir]
+        .filter(file => Explore.isValidFile(file))
+        .map((file) => {
+          const filename = file.name.split('/').slice(-1).join('');
+          return file.async('blob').then(
+            blob => new File([blob], filename),
+            (err) => { alert(`Error reading ${filename}.`, `${err}`); }
+          );
+        });
+      const prom = Promise.all(files);
+      fileSetProms.push(prom);
+    });
+    return fileSetProms;
+  }
+
+  static readZipFolders(files) {
+    const folders = { top: [] };
+    files.forEach((f) => {
+      let dir = f.name.split('/').slice(0, -1).join('');
+      if (!dir) dir = 'top';
+      if (!folders[dir]) folders[dir] = [];
+      folders[dir].push(f);
+    });
+    return folders;
+  }
+
+  static async convertShpfileBundleToGeojson(bundle) {
+    const dbf = await Explore.readFileAsync(bundle.shp);
+    const shp = await Explore.readFileAsync(bundle.dbf);
+    const geojson = await shapefile.read(dbf, shp);
+    if (bundle.prj) {
+      const prj = await Explore.readFileAsync(bundle.prj, 'readAsText');
+      geojson.features = geojson.features
+        .map(feature => Explore.convertFeatureProjection(feature, prj));
+    }
+    return geojson;
+  }
+
+  static convertFeatureProjection(feature, prj) {
+    const converted = feature;
+    converted.geometry.coordinates = feature.geometry.coordinates
+      .map(coordSet => coordSet.map(coord => proj4(prj, 'EPSG:4326', coord)));
+    return converted;
+  }
+
+  static readFileAsync(file, readFunc = 'readAsArrayBuffer', resolveUndefinedFiles = true) {
+    return new Promise((resolve, reject) => {
+      if (file !== undefined) {
+        const fileReader = new FileReader();
+        fileReader.onload = (event) => {
+          resolve(event.target.result);
+        };
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+        fileReader[readFunc](file);
+      } else if (resolveUndefinedFiles) {
+        resolve();
+      } else {
+        reject(new Error('No file specified.'));
+      }
+    });
+  }
+
+  static getFilenameWithoutExt(filename) {
+    return filename.split('.').slice(0, -1).join('');
+  }
+
+  static isValidFile(file) {
+    const validExts = ['geojson', 'json', 'shp', 'dbf', 'prj'];
+    const isValid = validExts.filter(ext => ext === Explore.fileExt(file.name)).length;
+    return Boolean(isValid);
+  }
+
+  static replaceFilenameExtWith(ext, filename) {
+    const nameform = filename.split('.').slice(0, -1).join('');
+    return [nameform, ext].join('.');
+  }
+
+  static fileExt(filename) {
+    return filename.split('.').pop();
+  }
+
+  static convertFileListToArray(fileList) {
+    const files = [];
+    const len = fileList.length;
+    let i = 0;
+    while (i < len) {
+      files.push(fileList.item(i));
+      i += 1;
+    }
+    return files;
   }
 }
