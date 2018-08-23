@@ -113,10 +113,13 @@ export function ParentContains(target, id) {
 }
 
 export function flatten(arr) {
-  let flat = [];
-  arr.forEach(d => {
-    if (Array.isArray(d)) { flat.push(...d); }
-    else { flat.push(d) }
-  })
+  const flat = [];
+  arr.forEach((d) => {
+    if (Array.isArray(d)) {
+      flat.push(...d);
+    } else {
+      flat.push(d);
+    }
+  });
   return flat;
 }

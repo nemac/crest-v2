@@ -19,7 +19,7 @@ import {
 } from './utilitys';
 
 // Shapefile library must be imported with require.
-var shapefile = require("shapefile");
+const shapefile = require('shapefile');
 
 const store = new Store({});
 
@@ -60,7 +60,7 @@ export class Explore extends Component {
     // draw the user area on the map
     this.drawUserArea();
 
-    this.addUploadShapeHandler()
+    this.addUploadShapeHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
@@ -353,64 +353,60 @@ export class Explore extends Component {
   }
 
   fileSelectHandler(event) {
-    let fileList = event.target.files;
-    // Move files from FileList object to an Array
-    let files = []; for (let f of fileList) { files.push(f); }
+    const fileList = event.target.files;
+    const files = Explore.convertFileListToArray(fileList);
     this.processFiles(files);
   }
 
   async processFiles(files) {
-    let fileSets = [];
+    const fileSets = [];
     // Treat each folder in a zip archive as its own file set.
-    let zips = files.filter(file => this.fileExt(file.name) === 'zip')
-    for (let zip of zips) {
-      let zipFileSets = await this.readZip(zip);
-      fileSets.push(...zipFileSets);
-    }
+    const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
+    const readProms = zips.map(zip => Explore.readZip(zip));
+    const zipFileSets = await Promise.all(readProms);
+    fileSets.push(...zipFileSets);
     // Non-zip files are all put into one file set.
-    let nonZips = files.filter(file => this.fileExt(file.name) !== 'zip')
-    fileSets.push(nonZips)
-    
+    const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
+    fileSets.push(nonZips);
+
     /*
     // We're not ready to handle multiple shapes yet.
-    fileSets.forEach(this.processFileSet, this)
+    fileSets.forEach(Explore.processFileSet, this)
     */
 
     // For now just process the first fileset.
-    let fileSet = fileSets[0];
-    let featureCollection = await this.processFileSet(fileSet);
+    const fileSet = fileSets[0];
+    const featureCollection = await Explore.processFileSet(fileSet);
 
     // Just grab the first feature we find for now
-    let feature = featureCollection.features[0];
+    const feature = featureCollection.features[0];
 
-    const layer = L.geoJson(feature);
+    const newLayer = L.geoJson(feature);
 
-    this.drawAreaGroup.getLayers().forEach(layer => { 
-      this.drawAreaGroup.removeLayer(layer)
-      //layer.remove()
-    })
-    this.drawAreaGroup.addLayer(layer);
+    this.drawAreaGroup.getLayers().forEach((layer) => {
+      this.drawAreaGroup.removeLayer(layer);
+    });
+    this.drawAreaGroup.addLayer(newLayer);
     store.setStoreItem('lastaction', 'upload_shape');
-    store.setStoreItem('userarea', layer.toGeoJSON());
-    this.mapComponent.map.fitBounds(layer.getBounds());
+    store.setStoreItem('userarea', newLayer.toGeoJSON());
+    this.mapComponent.map.fitBounds(newLayer.getBounds());
     this.mapComponent.saveZoomAndMapPosition();
     store.saveAction('addsavedgeojson');
     this.getZonal();
   }
 
-  async processFileSet(files) {
-    let shpfileFiles = files.filter(file => {
-      return ['shp', 'dbf', 'prj'].indexOf(this.fileExt(file.name)) > -1;
-    });
-    let otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
-    let shpfileBundles = this.bundleShpfileFiles(shpfileFiles);
-    
+  static async processFileSet(files) {
+    const shpfileFiles = files
+      .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
+    const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
+    const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
+
     /*
     // We're not ready to handle multiple shapes yet.
 
     shpfileBundles.forEach(bundle => this.processShpfileBundle(bundle))
     otherFiles.forEach(file => {
-      this.readFileAsync(file, 'readAsText').then(
+      Explore.readFileAsync(file, 'readAsText').then(
         text => {
           let geojson = JSON.parse(text)
           //this.doSomethingWithShape(geojson)
@@ -423,37 +419,34 @@ export class Explore extends Component {
     // If no shapefile bundles exist just grab the first geojson file.
     */
     if (shpfileBundles.length) {
-      let bundleToProcess = shpfileBundles[0];
-      let geojson = this.convertShpfileBundleToGeojson(bundleToProcess);
-      return geojson;
-    } else {
-      let file = otherFiles[0];
-      let text = await this.readFileAsync(file, 'readAsText');
-      let geojson = JSON.parse(text);
+      const bundleToProcess = shpfileBundles[0];
+      const geojson = Explore.convertShpfileBundleToGeojson(bundleToProcess);
       return geojson;
     }
-
+    const file = otherFiles[0];
+    const text = await Explore.readFileAsync(file, 'readAsText');
+    const geojson = JSON.parse(text);
+    return geojson;
   }
 
-  bundleShpfileFiles(shpfileFiles) {
-    let shpfileFilenames = new Set(
-      shpfileFiles.map(file => this.getFilenameWithoutExt(file.name))
-    )
-    let shpfileBundles = [];
-    shpfileFilenames.forEach(filename => {
-      let files = shpfileFiles.filter(
-        file => this.getFilenameWithoutExt(file.name) === filename
-      )
-      let shp = files.filter(file => this.fileExt(file.name) === 'shp')[0];
+  static bundleShpfileFiles(shpfileFiles) {
+    const shpfileFilenames = new Set(
+      shpfileFiles.map(file => Explore.getFilenameWithoutExt(file.name))
+    );
+    const shpfileBundles = [];
+    shpfileFilenames.forEach((filename) => {
+      const files = shpfileFiles
+        .filter(file => Explore.getFilenameWithoutExt(file.name) === filename);
+      const shp = files.filter(file => Explore.fileExt(file.name) === 'shp')[0];
       if (shp) {
-        let obj = {}; obj.shp = shp;
-        let dbf = files.filter(file => this.fileExt(file.name) === 'dbf')[0];
-        let prj = files.filter(file => this.fileExt(file.name) === 'prj')[0];
+        const obj = {}; obj.shp = shp;
+        const dbf = files.filter(file => Explore.fileExt(file.name) === 'dbf')[0];
+        const prj = files.filter(file => Explore.fileExt(file.name) === 'prj')[0];
         if (dbf) obj.dbf = dbf;
         if (prj) obj.prj = prj;
         shpfileBundles.push(obj);
       }
-    })
+    });
     return shpfileBundles;
   }
 
@@ -462,114 +455,115 @@ export class Explore extends Component {
    *
    * Returns an Array of Arrays, where sub-arrays are lists of files
    * broken out by folder (top-level of zip is its own folder).
-   * 
+   *
    * @param archive is a File object representing a zip file
    */
-  async readZip(archive) {
-    let jszip = new JSZip();
-    let folders = await jszip.loadAsync(archive).then(
-      zip => {
-        let files = [];
-        for (let key in zip.files) {
-          let entry = zip.files[key];
+  static async readZip(archive) {
+    const jszip = new JSZip();
+    const folders = await jszip.loadAsync(archive).then(
+      (zip) => {
+        const files = [];
+        Object.keys(zip.files).forEach((key) => {
+          const entry = zip.files[key];
           if (!entry.dir) files.push(entry);
-        }
-        return this.readZipFolders(files);
+        });
+        return Explore.readZipFolders(files);
       },
-      err => {
-        console.log(
-          `Error loading ${archive}.`,
-          `Actual error: ${err}`
-        );
-      }
-    )
-    let fileSets = [];
-    for (let dir in folders) {
-      let files = await Promise.all(folders[dir]
-        .filter(this.isValidFile, this)
-        .map(file => {
-          let filename = file.name.split('/').slice(-1).join('');
+      (err) => { alert(`Error loading ${archive}: ${err}`); }
+    );
+    const fileSetProms = [];
+    Object.keys(folders).forEach((dir) => {
+      const files = folders[dir]
+        .filter(file => Explore.isValidFile(file))
+        .map((file) => {
+          const filename = file.name.split('/').slice(-1).join('');
           return file.async('blob').then(
             blob => new File([blob], filename),
-            err => {
-              console.log(`Error reading ${filename}.`, `${err}`)
-            }
-          )
-        })
-      )
-      fileSets.push(files);
-    }
-    return fileSets;
+            (err) => { alert(`Error reading ${filename}.`, `${err}`); }
+          );
+        });
+      const prom = Promise.all(files);
+      fileSetProms.push(prom);
+    });
+    return fileSetProms;
   }
 
-  readZipFolders(files) {
-    let folders = {
-      'top': []
-    }
-    files.forEach(f => {
-      let dir = f.name.split('/').slice(0,-1).join('');
-      dir = dir ? dir : 'top';
+  static readZipFolders(files) {
+    const folders = { top: [] };
+    files.forEach((f) => {
+      let dir = f.name.split('/').slice(0, -1).join('');
+      if (!dir) dir = 'top';
       if (!folders[dir]) folders[dir] = [];
       folders[dir].push(f);
-    })
+    });
     return folders;
   }
 
-  async convertShpfileBundleToGeojson(bundle) {
-    let dbf = await this.readFileAsync(bundle.shp);
-    let shp = await this.readFileAsync(bundle.dbf);
-    let geojson = await shapefile.read(dbf, shp);
+  static async convertShpfileBundleToGeojson(bundle) {
+    const dbf = await Explore.readFileAsync(bundle.shp);
+    const shp = await Explore.readFileAsync(bundle.dbf);
+    const geojson = await shapefile.read(dbf, shp);
     if (bundle.prj) {
-      let prj = await this.readFileAsync(bundle.prj, 'readAsText');
-      geojson.features = geojson.features.map(feature => {
-        return this.convertFeatureProjection(feature, prj);
-      })
+      const prj = await Explore.readFileAsync(bundle.prj, 'readAsText');
+      geojson.features = geojson.features
+        .map(feature => Explore.convertFeatureProjection(feature, prj));
     }
-    return geojson
+    return geojson;
   }
 
-  convertFeatureProjection(feature, prj) {
-    let coords = feature.geometry.coordinates
-    feature.geometry.coordinates = coords.map(coordSet => {
-      return coordSet.map(coord => proj4(prj, 'EPSG:4326', coord));
-    })
-    return feature;
+  static convertFeatureProjection(feature, prj) {
+    const converted = feature;
+    converted.geometry.coordinates = feature.geometry.coordinates
+      .map(coordSet => coordSet.map(coord => proj4(prj, 'EPSG:4326', coord)));
+    return converted;
   }
 
-  readFileAsync(file, readFunc='readAsArrayBuffer', resolveUndefinedFiles=true) {
+  static readFileAsync(file, readFunc = 'readAsArrayBuffer', resolveUndefinedFiles = true) {
     return new Promise((resolve, reject) => {
       if (file !== undefined) {
-        let fileReader = new FileReader();
+        const fileReader = new FileReader();
         fileReader.onload = (event) => {
-          resolve(event.target.result)
-        }
+          resolve(event.target.result);
+        };
         fileReader.onerror = (error) => {
-          reject(error)
-        }
-        fileReader[readFunc](file)
+          reject(error);
+        };
+        fileReader[readFunc](file);
+      } else if (resolveUndefinedFiles) {
+        resolve();
+      } else {
+        reject(new Error('No file specified.'));
       }
-      else {
-        if (resolveUndefinedFiles) {
-          resolve()
-        } else {
-          reject("No file specified.")
-        }
-      }
-    })
+    });
   }
 
-  getFilenameWithoutExt(filename) {
+  static getFilenameWithoutExt(filename) {
     return filename.split('.').slice(0, -1).join('');
   }
 
-  replaceFilenameExtWith(ext, filename) {
-    let nameform = filename.split('.').slice(0, -1).join('');
+  static isValidFile(file) {
+    const validExts = ['geojson', 'json', 'shp', 'dbf', 'prj'];
+    const isValid = validExts.filter(ext => ext === Explore.fileExt(file.name)).length;
+    return Boolean(isValid);
+  }
+
+  static replaceFilenameExtWith(ext, filename) {
+    const nameform = filename.split('.').slice(0, -1).join('');
     return [nameform, ext].join('.');
   }
 
-
-  fileExt(filename) {
-    return filename.split('.').pop()
+  static fileExt(filename) {
+    return filename.split('.').pop();
   }
 
+  static convertFileListToArray(fileList) {
+    const files = [];
+    const len = fileList.length;
+    let i = 0;
+    while (i < len) {
+      files.push(fileList.item(i));
+      i += 1;
+    }
+    return files;
+  }
 }
