@@ -93,7 +93,8 @@ export class Explore extends Component {
 
   static zonalStatsHandler() {
     const clearAreaElement = document.getElementById('details-holder');
-    const zonalstatsjson = store.getStateItem('zonalstatsjson');
+    const zonalstatsgeojson = store.getStateItem('zonalstatsjson');
+    const zonalstatsjson = zonalstatsgeojson.features[0].mean;
 
     if (clearAreaElement) {
       let html = '';
@@ -182,7 +183,7 @@ export class Explore extends Component {
   drawSavedGeoJson(geojson) {
     if (checkValidObject(geojson)) {
       const layer = L.geoJson(geojson);
-      const bufferedLayer = this.bufferArea(geojson)
+      const bufferedLayer = this.bufferArea(geojson);
 
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
@@ -205,7 +206,7 @@ export class Explore extends Component {
     if (checkValidObject(userarea)) {
       // convert geoJson to leaflet layer
       const layer = L.geoJson(userarea);
-      const bufferedLayer = this.bufferArea(userarea)
+      const bufferedLayer = this.bufferArea(userarea);
 
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
@@ -361,7 +362,7 @@ export class Explore extends Component {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', (e) => {
       const { layer } = e;
-      const bufferedLayer = this.bufferArea(layer.toGeoJSON())
+      const bufferedLayer = this.bufferArea(layer.toGeoJSON());
 
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
@@ -429,7 +430,7 @@ export class Explore extends Component {
     store.setStoreItem('lastaction', 'upload_shape');
     store.setStoreItem('userarea', newLayer.toGeoJSON());
 
-    const bufferedLayer = this.bufferArea(newLayer.toGeoJSON())
+    const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
 
     // add layer to the leaflet map
     this.drawAreaGroup.addLayer(newLayer);
