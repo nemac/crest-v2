@@ -286,6 +286,12 @@ export class Explore extends Component {
     const clearAreaElement = document.getElementById('btn-clear-area');
     clearAreaElement.addEventListener('click', (ev) => {
       this.removeExistingArea();
+
+      // this temp remove of stats while we work on multiple shapes.
+      const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
+      if (zonalAreaWrapper) {
+        zonalAreaWrapper.innerHTML = '<p class="zonal-instructions-initial">Click on the map to bring up information. Select multiple points to draw an area and get information on the area.</p>';
+      }
     });
   }
 
