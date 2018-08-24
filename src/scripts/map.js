@@ -15,7 +15,11 @@ import '../css/_custom_leaflet.scss';
 import { Store } from './store';
 
 // import utilities
-import { checkValidObject, spinnerOff, spinnerOn } from './utilitys';
+import {
+  checkValidObject,
+  spinnerOff,
+  spinnerOn
+} from './utilitys';
 
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
 // Must update manually since there are custom changes to the component!
@@ -136,11 +140,14 @@ export class Map extends Component {
     mapTiles.on('load', () => {
       this.map.fireEvent('basemaploaded');
       this.basemaploaded = true;
+      store.setStoreItem('working_basemap', false);
+      spinnerOff('load');
     });
 
     // add new event to fire when on base map is in process of loading
     mapTiles.on('loading', () => {
       this.map.fireEvent('basemaploading');
+      store.setStoreItem('working_basemap', true);
     });
   }
 
@@ -188,7 +195,8 @@ export class Map extends Component {
   // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
   static handleWMSLoad(tileLayer) {
     tileLayer.on('load', () => {
-      spinnerOff();
+      store.setStoreItem('working_basemap', false);
+      spinnerOff('handleWMSLoad');
     });
   }
 
@@ -196,7 +204,8 @@ export class Map extends Component {
   // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
   static handleWMSUnload(tileLayer) {
     tileLayer.on('unload', () => {
-      spinnerOff();
+      store.setStoreItem('working_basemap', false);
+      spinnerOff('handleWMSUnload');
     });
   }
 
@@ -204,7 +213,8 @@ export class Map extends Component {
   // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
   static handleWMSError(tileLayer) {
     tileLayer.on('error', () => {
-      spinnerOff();
+      store.setStoreItem('working_basemap', false);
+      spinnerOff('handleWMSError');
     });
   }
 
@@ -215,7 +225,8 @@ export class Map extends Component {
   // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
   static handleTileUnload(tileLayer) {
     tileLayer.on('tileunload', () => {
-      spinnerOff();
+      store.setStoreItem('working_basemap', false);
+      spinnerOff('handleTileUnload');
     });
   }
 
@@ -226,7 +237,8 @@ export class Map extends Component {
   // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
   static handleTileError(tileLayer) {
     tileLayer.on('tileerror', () => {
-      spinnerOff();
+      store.setStoreItem('working_basemap', false);
+      spinnerOff('handleTileError');
     });
   }
 

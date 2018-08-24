@@ -83,7 +83,7 @@ export class StorageAPI {
 
   // Checks if the state exists in the storage provider
   checkStateExists() {
-    return this.getItem(STATE_KEY) ? true : false;
+    return Boolean(this.getItem(STATE_KEY));
   }
 
   static listenForStateChange(handler) {

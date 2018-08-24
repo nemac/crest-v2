@@ -106,8 +106,9 @@ export class SearchLocations extends Component {
 
   // handle geocoding results from the esri leaflet geocoding plugin
   resultsHandler(data) {
-    // console.log('results');
+    store.setStoreItem('working_search', true);
     spinnerOn();
+
     // clear old locations
     this.removeSearchLocations();
 
@@ -254,7 +255,8 @@ export class SearchLocations extends Component {
 
     // remove old search locations? do I need this?
     this.removeSearchLocations();
-    spinnerOff();
+    store.setStoreItem('working_search', false);
+    spinnerOff('addSearchLocationsExploreHandler');
   }
 
   // Check for DOM animation.  This would include map
@@ -324,13 +326,17 @@ export class SearchLocations extends Component {
         // opening multiple instances
         if (!check) {
           this.drawPopup();
-          // console.log('results added');
-          spinnerOff();
+          store.setStoreItem('working_search', false);
+          spinnerOff('addSearchLocationsExploreHandler not finsiehd');
         }
       });
     } else {
-      spinnerOff();
+      store.setStoreItem('working_search', false);
+      spinnerOff('addSearchLocationsExploreHandler failed lookup');
     }
+
+    store.setStoreItem('working_search', false);
+    spinnerOff('addSearchLocationsExploreHandler failed lookup');
   }
 
   // handler for closing popup
