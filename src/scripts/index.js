@@ -89,10 +89,10 @@ function setworkingstates() {
 // Closes over global import Map
 function initMapComponent() {
   if (mapComponent === undefined) {
-    setworkingstates();
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
+    setworkingstates();
     exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
     searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent });
   }
