@@ -94,35 +94,40 @@ export class Explore extends Component {
   static zonalStatsHandler() {
     const clearAreaElement = document.getElementById('details-holder');
     const zonalstatsgeojson = store.getStateItem('zonalstatsjson');
-    const zonalstatsjson = zonalstatsgeojson.features[0].mean;
 
-    if (clearAreaElement) {
-      let html = '';
-      Object.keys(zonalstatsjson).forEach((obj) => {
-        let value = parseFloat(zonalstatsjson[obj]).toFixed(2);
-        if (zonalstatsjson[obj] === 'NaN') {
-          value = 'Not Available';
-        }
+    if (checkValidObject(zonalstatsgeojson) && !checkValidObject(zonalstatsgeojson.err)) {
+      const zonalstatsjson = zonalstatsgeojson.features[0].mean;
 
-        // setup cards for zonal stats just a place holder...
-        html += '<div class="card text-dark bg-light mb-3" style="width: 18rem;">';
-        html += '  <div class="card-header">';
-        html += obj;
-        html += '  </div>';
-        html += '  <div class="card-body">';
-        html += '   <h5 class="card-title">';
-        html += value;
-        html += '   </h5>';
-        html += '  </div>';
-        html += '</div>';
-      });
+      if (clearAreaElement) {
+        let html = '';
+        Object.keys(zonalstatsjson).forEach((obj) => {
+          let value = parseFloat(zonalstatsjson[obj]).toFixed(2);
+          if (zonalstatsjson[obj] === 'NaN') {
+            value = 'Not Available';
+          }
 
-      clearAreaElement.innerHTML = html;
+          // setup cards for zonal stats just a place holder...
+          html += '<div class="card text-dark bg-light mb-3" style="width: 18rem;">';
+          html += '  <div class="card-header">';
+          html += obj;
+          html += '  </div>';
+          html += '  <div class="card-body">';
+          html += '   <h5 class="card-title">';
+          html += value;
+          html += '   </h5>';
+          html += '  </div>';
+          html += '</div>';
+        });
+
+        clearAreaElement.innerHTML = html;
+      }
     }
+    return '';
   }
 
   async getZonal() {
     spinnerOn();
+    store.setStoreItem('working_zonalstats', true);
     store.removeStateItem('zonalstatsjson');
 
     // get geoJSON to send to zonal stats lambda function
@@ -142,14 +147,16 @@ export class Explore extends Component {
     }
 
     if (!checkValidObject(rawpostdata)) {
-      spinnerOff();
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff('getZonal checkValidObject rawpostdata');
       return {};
     }
 
     // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
-    spinnerOff();
+    store.setStoreItem('working_zonalstats', false);
+    spinnerOff('getZonal done');
 
     // add event to map for a listner that zonal stats have been calculated
     //  add timeout for write of more complex data to complete
@@ -164,6 +171,7 @@ export class Explore extends Component {
     // ensure the user area object is valid (actuall has a value)
     if (checkValidObject(geojson)) {
       spinnerOn();
+      store.setStoreItem('working_zonalstats', true);
       this.removeExistingArea();
       store.setStoreItem('projectfile', projectfile);
       store.setStoreItem('userarea', geojson);
@@ -390,20 +398,25 @@ export class Explore extends Component {
     });
   }
 
-
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
+    spinnerOn();
     const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
     uploadFeaturesBtn.addEventListener('change', e => this.fileSelectHandler(e));
+    spinnerOff();
   }
 
   fileSelectHandler(event) {
+    spinnerOn('');
+    store.setStoreItem('working_zonalstats', true);
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
     this.processFiles(files);
   }
 
   async processFiles(files) {
+    spinnerOn();
+    store.setStoreItem('working_zonalstats', true);
     const fileSets = [];
     // Treat each folder in a zip archive as its own file set.
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
@@ -423,11 +436,15 @@ export class Explore extends Component {
     const fileSet = fileSets[0];
     const featureCollection = await Explore.processFileSet(fileSet);
 
+    if (!checkValidObject(featureCollection)) {
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff();
+      return false;
+    }
     // Just grab the first feature we find for now
     const feature = featureCollection.features[0];
 
     if (checkValidObject(feature)) {
-      spinnerOn();
       const newLayer = L.geoJson(feature);
 
       this.drawAreaGroup.getLayers().forEach((layer) => {
@@ -449,10 +466,13 @@ export class Explore extends Component {
       this.mapComponent.saveZoomAndMapPosition();
       store.saveAction('addsavedgeojson');
       this.getZonal();
+      return true;
     }
+    return false;
   }
 
   static async processFileSet(files) {
+    spinnerOn();
     const shpfileFiles = files
       .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
@@ -480,10 +500,15 @@ export class Explore extends Component {
       const geojson = Explore.convertShpfileBundleToGeojson(bundleToProcess);
       return geojson;
     }
+
     const file = otherFiles[0];
     const text = await Explore.readFileAsync(file, 'readAsText');
-    const geojson = JSON.parse(text);
-    return geojson;
+    // only do this is the file has text
+    if (checkValidObject(text)) {
+      const geojson = JSON.parse(text);
+      return geojson;
+    }
+    return {};
   }
 
   static bundleShpfileFiles(shpfileFiles) {

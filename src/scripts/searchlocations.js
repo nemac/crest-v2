@@ -254,7 +254,7 @@ export class SearchLocations extends Component {
 
     // remove old search locations? do I need this?
     this.removeSearchLocations();
-    spinnerOff();
+    spinnerOff('addSearchLocationsExploreHandler');
   }
 
   // Check for DOM animation.  This would include map
@@ -325,11 +325,11 @@ export class SearchLocations extends Component {
         if (!check) {
           this.drawPopup();
           // console.log('results added');
-          spinnerOff();
+          spinnerOff('addSearchLocationsExploreHandler not finsiehd');
         }
       });
     } else {
-      spinnerOff();
+      spinnerOff('addSearchLocationsExploreHandler failed lookup');
     }
   }
 
