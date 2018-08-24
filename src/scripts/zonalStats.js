@@ -153,8 +153,15 @@ function tempDrawShortZonalStats() {
   drawShortZonalStats(getZonalStatsData());
 }
 
+function drawShortZonalStatsFromAPI(data) {
+  if (!document.getElementById('zonal-header')) {
+    document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
+  }
+  drawShortZonalStats(data);
+}
+
 function initZonalEvents() {
   document.getElementById('testzonal').addEventListener('click', tempDrawShortZonalStats);
 }
 
-export { initZonalEvents };
+export { initZonalEvents, drawShortZonalStatsFromAPI };
