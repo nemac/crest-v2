@@ -148,7 +148,7 @@ function getZonalStatsData(geojson = '') {
 
 function tempDrawShortZonalStats() {
   if (!document.getElementById('zonal-header')) {
-    document.getElementById('zonal-wrapper').innerHTML = ZonalWrapper;
+    document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
   drawShortZonalStats(getZonalStatsData());
 }
