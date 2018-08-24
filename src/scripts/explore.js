@@ -152,7 +152,8 @@ export class Explore extends Component {
     spinnerOff();
 
     // add event to map for a listner that zonal stats have been calculated
-    this.mapComponent.map.fireEvent('zonalstatsend');
+    //  add timeout for write of more complex data to complete
+    setTimeout(() => { this.mapComponent.map.fireEvent('zonalstatsend'); }, 10);
     return ZonalStatsJson;
   }
 
@@ -162,10 +163,11 @@ export class Explore extends Component {
     // draw poly on map
     // ensure the user area object is valid (actuall has a value)
     if (checkValidObject(geojson)) {
+      spinnerOn();
+      this.removeExistingArea();
       store.setStoreItem('projectfile', projectfile);
-
-      this.drawSavedGeoJson(geojson);
       store.setStoreItem('userarea', geojson);
+      this.drawSavedGeoJson(geojson);
     } else {
       // add failed to get file from s3 code
 
@@ -176,6 +178,9 @@ export class Explore extends Component {
   restoreSavedGeoJson() {
     const projectfile = store.getStateItem('projectfile');
     if (checkValidObject(projectfile)) {
+      // now that we have a user area and buffer remove the projectfile
+      // it's no longer needed.
+      this.removeExistingArea();
       this.retreiveS3GeojsonFile(projectfile);
     }
   }
@@ -194,8 +199,8 @@ export class Explore extends Component {
         this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
         this.mapComponent.saveZoomAndMapPosition();
         store.saveAction('addsavedgeojson');
+        this.getZonal();
       }
-
       return layer;
     }
     return null;
@@ -421,25 +426,30 @@ export class Explore extends Component {
     // Just grab the first feature we find for now
     const feature = featureCollection.features[0];
 
-    const newLayer = L.geoJson(feature);
+    if (checkValidObject(feature)) {
+      spinnerOn();
+      const newLayer = L.geoJson(feature);
 
-    this.drawAreaGroup.getLayers().forEach((layer) => {
-      this.drawAreaGroup.removeLayer(layer);
-    });
+      this.drawAreaGroup.getLayers().forEach((layer) => {
+        this.drawAreaGroup.removeLayer(layer);
+      });
 
-    store.setStoreItem('lastaction', 'upload_shape');
-    store.setStoreItem('userarea', newLayer.toGeoJSON());
+      this.removeExistingArea();
 
-    const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
+      store.setStoreItem('lastaction', 'upload_shape');
+      store.setStoreItem('userarea', newLayer.toGeoJSON());
 
-    // add layer to the leaflet map
-    this.drawAreaGroup.addLayer(newLayer);
-    this.drawAreaGroup.addLayer(bufferedLayer);
+      const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
 
-    this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
-    this.mapComponent.saveZoomAndMapPosition();
-    store.saveAction('addsavedgeojson');
-    this.getZonal();
+      // add layer to the leaflet map
+      this.drawAreaGroup.addLayer(newLayer);
+      this.drawAreaGroup.addLayer(bufferedLayer);
+
+      this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
+      this.mapComponent.saveZoomAndMapPosition();
+      store.saveAction('addsavedgeojson');
+      this.getZonal();
+    }
   }
 
   static async processFileSet(files) {
@@ -516,7 +526,7 @@ export class Explore extends Component {
         });
         return Explore.readZipFolders(files);
       },
-      (err) => { alert(`Error loading ${archive}: ${err}`); }
+      (err) => { throw new Error(`Error loading ${archive}: ${err}`); }
     );
     const fileSetProms = [];
     Object.keys(folders).forEach((dir) => {
@@ -526,7 +536,7 @@ export class Explore extends Component {
           const filename = file.name.split('/').slice(-1).join('');
           return file.async('blob').then(
             blob => new File([blob], filename),
-            (err) => { alert(`Error reading ${filename}.`, `${err}`); }
+            (err) => { throw new Error(`Error reading ${filename}.`, `${err}`); }
           );
         });
       const prom = Promise.all(files);
