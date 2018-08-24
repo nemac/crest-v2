@@ -7,7 +7,8 @@ const URL_IGNORE_KEYS = [
   'zonalstatsjson',
   'working_basemap',
   'working_mapinfo',
-  'working_zonalstats'
+  'working_zonalstats',
+  'working_search'
 ];
 
 /**
