@@ -71,6 +71,9 @@ export function checkworking() {
   const workingZonalstats = store.getStateItem('working_zonalstats');
   if (workingZonalstats) { return true; }
 
+  const workingSearch = store.getStateItem('working_search');
+  if (workingSearch) { return true; }
+
   return false;
 }
 
