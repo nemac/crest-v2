@@ -82,6 +82,7 @@ function setworkingstates() {
   store.setStoreItem('working_basemap', false);
   store.setStoreItem('working_mapinfo', false);
   store.setStoreItem('working_zonalstats', false);
+  store.setStoreItem('working_search', false);
 }
 
 // Creates the entire map component
