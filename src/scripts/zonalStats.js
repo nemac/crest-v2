@@ -1,15 +1,6 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import identifyConfig from '../config/identifyConfig';
 
-const zonalTempData = {
-  asset: 1.001414273281114,
-  threat: 2.989012184508268,
-  exposure: 2.99325500435161,
-  aquatic: 5.0,
-  terrestrial: 1.0,
-  hubs: NaN
-};
-
 function makeDiv() {
   return document.createElement('div');
 }
@@ -142,17 +133,6 @@ function drawShortZonalStats(data) {
   document.getElementById('zonal-content').appendChild(wrapper);
 }
 
-function getZonalStatsData(geojson = '') {
-  return zonalTempData;
-}
-
-function tempDrawShortZonalStats() {
-  if (!document.getElementById('zonal-header')) {
-    document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
-  }
-  drawShortZonalStats(getZonalStatsData());
-}
-
 function drawShortZonalStatsFromAPI(data) {
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
@@ -160,8 +140,4 @@ function drawShortZonalStatsFromAPI(data) {
   drawShortZonalStats(data);
 }
 
-function initZonalEvents() {
-  document.getElementById('testzonal').addEventListener('click', tempDrawShortZonalStats);
-}
-
-export { initZonalEvents, drawShortZonalStatsFromAPI };
+export { drawShortZonalStatsFromAPI };

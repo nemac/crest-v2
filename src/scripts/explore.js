@@ -13,8 +13,6 @@ import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
 
-import { initZonalEvents } from './zonalStats';
-
 import {
   checkValidObject,
   spinnerOff,
@@ -80,8 +78,6 @@ export class Explore extends Component {
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
-
-    initZonalEvents();
   }
 
   bufferArea(unbufferedGeoJSON) {
