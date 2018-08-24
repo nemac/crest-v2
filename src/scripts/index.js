@@ -75,11 +75,21 @@ function initMapLayerList(map, selector) {
   });
 }
 
+// set the state for items that could be working
+// we will need this to make sure we do not stop the spinner befire the work
+// is actually complete
+function setworkingstates() {
+  store.setStoreItem('working_basemap', false);
+  store.setStoreItem('working_mapinfo', false);
+  store.setStoreItem('working_zonalstats', false);
+}
+
 // Creates the entire map component
 //
 // Closes over global import Map
 function initMapComponent() {
   if (mapComponent === undefined) {
+    setworkingstates();
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });

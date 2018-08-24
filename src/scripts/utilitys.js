@@ -1,3 +1,6 @@
+import { Store } from './store';
+
+const store = new Store({});
 /**
  * update the display of element
  *  @param { Object } element - Element object from click event, used to toggle
@@ -56,8 +59,26 @@ export function spinnerOn() {
   return true;
 }
 
+// check if one of our ajax calls is working
+// if we add anymore we will need to add it here
+export function checkworking() {
+  const workingBasemap = store.getStateItem('working_basemap');
+  if (workingBasemap) { return true; }
+
+  const workingMapinfo = store.getStateItem('working_mapinfo');
+  if (workingMapinfo) { return true; }
+
+  const workingZonalstats = store.getStateItem('working_zonalstats');
+  if (workingZonalstats) { return true; }
+
+  return false;
+}
+
+
 // toggle spinner visibility off
-export function spinnerOff() {
+export function spinnerOff(source = '') {
+  if (checkworking()) { return false; }
+
   const el = document.getElementById('map-working');
   const elHolder = document.querySelector('.leaflet-working');
 

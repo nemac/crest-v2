@@ -1,7 +1,14 @@
 import { StorageAPI } from './localStorageAPI';
 import { checkValidObject } from './utilitys';
 
-const URL_IGNORE_KEYS = ['userarea', 'userarea_buffered', 'zonalstatsjson'];
+const URL_IGNORE_KEYS = [
+  'userarea',
+  'userarea_buffered',
+  'zonalstatsjson',
+  'working_basemap',
+  'working_mapinfo',
+  'working_zonalstats'
+];
 
 /**
  * This component listens for the localstoreage to be updated, and will update the url

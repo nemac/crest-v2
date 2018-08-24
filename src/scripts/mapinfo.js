@@ -147,10 +147,12 @@ export class MapInfo extends Component {
   async retreiveMapClick() {
     // toggle spinner css from utility.js
     spinnerOn();
+    store.setStoreItem('working_mapinfo', true);
 
     // if there is no state exit and stop spinner
     if (!store.isStateExists()) {
-      spinnerOff();
+      store.setStoreItem('working_mapinfo', false);
+      spinnerOff('retreiveMapClick isStateExists');
       this.mapComponent.mapCursorDefault();
 
       // this removes the map click for mapinfo the user
@@ -165,7 +167,8 @@ export class MapInfo extends Component {
 
     // ensure the mapclick is valid has information we can use
     if (!checkValidObject(mapClick)) {
-      spinnerOff();
+      store.setStoreItem('working_mapinfo', false);
+      spinnerOff('retreiveMapClick checkValidObject mapClick');
       this.mapComponent.mapCursorDefault();
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
@@ -200,7 +203,8 @@ export class MapInfo extends Component {
     this.addRemoveMarkerOnClick(popup);
 
     // toggle spinner css from utility.js
-    spinnerOff();
+    store.setStoreItem('working_mapinfo', false);
+    spinnerOff('retreiveMapClick complete');
     this.mapComponent.mapCursorDefault();
     // must click the i button to do this action we will have to remove this
     // if we want users to always be able to click the map and do mapinfo
