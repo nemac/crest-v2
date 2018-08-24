@@ -19,6 +19,8 @@ import {
   spinnerOn
 } from './utilitys';
 
+import { drawShortZonalStatsFromAPI } from './zonalStats';
+
 // Shapefile library must be imported with require.
 const shapefile = require('shapefile');
 
@@ -156,6 +158,7 @@ export class Explore extends Component {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     store.setStoreItem('working_zonalstats', false);
+    drawShortZonalStatsFromAPI(ZonalStatsJson.features[0].mean);
     spinnerOff('getZonal done');
 
     // add event to map for a listner that zonal stats have been calculated
