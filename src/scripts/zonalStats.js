@@ -113,7 +113,7 @@ function makeOutHubBox() {
 }
 
 function makeHubBox(inHub) {
-  return Number.isNaN(inHub) ? makeInHubBox() : makeOutHubBox();
+  return Number.isNaN(inHub) ? makeOutHubBox() : makeInHubBox();
 }
 
 function makeShortZonalStatsInterior(data) {
