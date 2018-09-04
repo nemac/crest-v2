@@ -22,12 +22,14 @@ export class MapLayersList extends Component {
     super(placeholderId, props, maplayersListTemplate);
 
     const WMSLayers = mapConfig.TileLayers;
+    const TMSLayers = mapConfig.TMSLayers;
 
     MapLayersList.addOpenMapLayerListener();
     MapLayersList.addCloseMapLayerListener();
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
+    TMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
 
     // check if map layer list is minimized on initialization if so minimize it.
     const mapLayerListState = store.getStateItem('maplayerlist');

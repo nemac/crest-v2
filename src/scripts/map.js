@@ -80,7 +80,7 @@ export class Map extends Component {
     this.forceMapReRender();
 
     this.addWmsLayers();
-
+    this.addTileLayers();
     // set the state to manage initial display status of wms "overlay" layers
     store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
 
@@ -148,6 +148,47 @@ export class Map extends Component {
     mapTiles.on('loading', () => {
       this.map.fireEvent('basemaploading');
       store.setStoreItem('working_basemap', true);
+    });
+  }
+
+  // iterate and add leaflet tile layers from  mapconfig.js
+  // Iterate over each wms map layer and add them to the map
+  addTileLayers() {
+    // Adds wms layers
+    // May switch this out for tiled s3 layers or tile esri layers later
+    const TMSLayers = mapConfig.TMSLayers
+
+    // Iterate over each wms map layer and add them to the map
+    TMSLayers.forEach((layer) => {
+      const tileLayer = L.tileLayer(layer.url, {
+        tms: true,
+        id: layer.id,
+        layers: layer.layer,
+        crs: layer.crs,
+        opacity: layer.opacity,
+        attribution: layer.attribution,
+        tileSize: layer.tileSize,
+        transparent: layer.transparent,
+        zIndex: layer.zIndex,
+        maxNativeZoom: layer.maxNativeZoom
+      });
+
+      // Current leaflet layer object
+      const obj = {
+        [layer.id]: tileLayer
+      };
+
+      // add all tile load handlers
+      Map.handleAlllTileHanlders(tileLayer);
+
+      // set inital display status
+      const mapDisplayLayersObj = { [layer.id]: false };
+
+      // merge map overlay (wms layers) objects display status
+      Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
+
+      // Merge current layer into overlayMaps layers object
+      Object.assign(this.overlayMaps, obj);
     });
   }
 

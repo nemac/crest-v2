@@ -7,6 +7,25 @@ export var mapConfig = {
   },
 
   //tile layers (WMS)
+  TMSLayers:[
+    {
+      id: "HubsTMS",
+      layer: "Hubs TMS",
+      label: "Hubs TMS Index",
+      url: "https://s3.amazonaws.com/nfwf-tiles/HUbsIndexTiles/{z}/{x}/{y}.png",
+      attribution: "NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.75,
+      zIndex: 9000,
+      crs: L.CRS.EPSG3857,
+      maxNativeZoom: 10
+    },
+  ],
+
+
+  //tile layers (WMS)
   TileLayers:[
     {
       id: "SA_ExposureIndex",
