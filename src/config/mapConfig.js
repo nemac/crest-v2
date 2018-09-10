@@ -11,7 +11,7 @@ export var mapConfig = {
     {
       id: "HubsTMS",
       layer: "Hubs TMS",
-      label: "Hubs TMS Index",
+      label: "Hubs Index",
       url: "https://s3.amazonaws.com/nfwf-tiles/HUbsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -20,52 +20,94 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 10
+      maxNativeZoom: 11
     },
-  ],
-
-
-  //tile layers (WMS)
-  TileLayers:[
     {
-      id: "SA_ExposureIndex",
-      layer: "SA_ExposureIndex",
+      id: "ExposureTMS",
+      layer: "Exposure TMS",
       label: "Exposure Index",
-      url: "https://gis.nemac.org/nfwf?",
+      url: "https://s3.amazonaws.com/nfwf-tiles/ExposureIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,
       transparent: true,
       opacity: 0.75,
       zIndex: 9000,
-      crs: L.CRS.EPSG3857
+      crs: L.CRS.EPSG3857,
+      maxNativeZoom: 14
     },
     {
-      id: "SA_AssetIndex",
-      layer: "SA_AssetIndex",
-      label: "Asset Index",
-      url: "https://gis.nemac.org/nfwf?",
-      attribution: "NFWF 2018WF",
-      format: "image/png",
-      tileSize: 256,
-      transparent: true,
-      opacity: 0.75,
-      zIndex: 8999,
-      crs: L.CRS.EPSG3857
-    },
-    {
-      id: "SA_ThreatIndex",
-      layer: "SA_ThreatIndex",
-      label: "Threat Index",
-      url: "https://gis.nemac.org/nfwf?",
+      id: "AssetsTMS",
+      layer: "Assets TMS",
+      label: "Assets Index",
+      url: "https://s3.amazonaws.com/nfwf-tiles/AssetsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,
       transparent: true,
       opacity: 0.75,
-      zIndex: 8999,
-      crs: L.CRS.EPSG3857
+      zIndex: 9000,
+      crs: L.CRS.EPSG3857,
+      maxNativeZoom: 12
     },
+    {
+      id: "ThreatsTMS",
+      layer: "Threats TMS",
+      label: "Threats Index",
+      url: "https://s3.amazonaws.com/nfwf-tiles/ThreatsIndexTiles/{z}/{x}/{y}.png",
+      attribution: "NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.75,
+      zIndex: 9000,
+      crs: L.CRS.EPSG3857,
+      maxNativeZoom: 12
+    },
+  ],
+
+
+  //tile layers (WMS)
+  TileLayers:[
+    // {
+    //   id: "SA_ExposureIndex",
+    //   layer: "SA_ExposureIndex",
+    //   label: "Exposure Index",
+    //   url: "https://gis.nemac.org/nfwf?",
+    //   attribution: "NFWF 2018",
+    //   format: "image/png",
+    //   tileSize: 256,
+    //   transparent: true,
+    //   opacity: 0.75,
+    //   zIndex: 9000,
+    //   crs: L.CRS.EPSG3857
+    // },
+    // {
+    //   id: "SA_AssetIndex",
+    //   layer: "SA_AssetIndex",
+    //   label: "Asset Index",
+    //   url: "https://gis.nemac.org/nfwf?",
+    //   attribution: "NFWF 2018WF",
+    //   format: "image/png",
+    //   tileSize: 256,
+    //   transparent: true,
+    //   opacity: 0.75,
+    //   zIndex: 8999,
+    //   crs: L.CRS.EPSG3857
+    // },
+    // {
+    //   id: "SA_ThreatIndex",
+    //   layer: "SA_ThreatIndex",
+    //   label: "Threat Index",
+    //   url: "https://gis.nemac.org/nfwf?",
+    //   attribution: "NFWF 2018",
+    //   format: "image/png",
+    //   tileSize: 256,
+    //   transparent: true,
+    //   opacity: 0.75,
+    //   zIndex: 8999,
+    //   crs: L.CRS.EPSG3857
+    // },
     {
       id: "SA_AquaticIndex",
       layer: "SA_AquaticIndex",
@@ -92,19 +134,19 @@ export var mapConfig = {
       zIndex: 8999,
       crs: L.CRS.EPSG3857
     },
-    {
-      id: "SA_HubsPreliminary",
-      layer: "SA_HubsPreliminary",
-      label: "Hubs (Preliminary)",
-      url: "https://gis.nemac.org/nfwf?",
-      attribution: "NFWF 2018",
-      format: "image/png",
-      tileSize: 256,
-      transparent: true,
-      opacity: 0.75,
-      zIndex: 9001,
-      crs: L.CRS.EPSG3857
-    }
+    // {
+    //   id: "SA_HubsPreliminary",
+    //   layer: "SA_HubsPreliminary",
+    //   label: "Hubs (Preliminary)",
+    //   url: "https://gis.nemac.org/nfwf?",
+    //   attribution: "NFWF 2018",
+    //   format: "image/png",
+    //   tileSize: 256,
+    //   transparent: true,
+    //   opacity: 0.75,
+    //   zIndex: 9001,
+    //   crs: L.CRS.EPSG3857
+    // }
 
  ],
 

@@ -97,7 +97,8 @@ export class MapLayersList extends Component {
     const label = document.getElementById(`${layerId}-label`);
 
     // ensure the html dom element exists
-    if (label !== undefined || label !== null) {
+    if (label !== undefined)
+      if(label != null) {
       // update the label
       label.textContent = layerName;
     }
@@ -112,11 +113,13 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
-
+    console.log(checkBox != null)
     // ensure the html dom element exists
-    if (checkBox !== undefined || checkBox !== null) {
-      // add the listner
-      checkBox.addEventListener('click', (e) => { this.toggleMapLayer(layerId); });
+    if (checkBox !== undefined) {
+      if (checkBox != null){
+        // add the listner
+        checkBox.addEventListener('click', (e) => { this.toggleMapLayer(layerId); });
+      }
     }
   }
 
