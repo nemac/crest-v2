@@ -22,7 +22,7 @@ export class MapLayersList extends Component {
     super(placeholderId, props, maplayersListTemplate);
 
     const WMSLayers = mapConfig.TileLayers;
-    const { TMSLayers } = mapConfig.TMSLayers;
+    const TMSLayers = mapConfig.TMSLayers;
 
     MapLayersList.addOpenMapLayerListener();
     MapLayersList.addCloseMapLayerListener();
