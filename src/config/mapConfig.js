@@ -20,7 +20,7 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 11
+      maxNativeZoom: 12
     },
     {
       id: "ExposureTMS",
@@ -34,7 +34,7 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 14
+      maxNativeZoom: 12
     },
     {
       id: "AssetsTMS",
