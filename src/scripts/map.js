@@ -156,7 +156,7 @@ export class Map extends Component {
   addTileLayers() {
     // Adds wms layers
     // May switch this out for tiled s3 layers or tile esri layers later
-    const TMSLayers = mapConfig.TMSLayers
+    const { TMSLayers } = mapConfig.TMSLayers;
 
     // Iterate over each wms map layer and add them to the map
     TMSLayers.forEach((layer) => {
