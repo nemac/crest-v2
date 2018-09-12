@@ -22,7 +22,7 @@ export class MapLayersList extends Component {
     super(placeholderId, props, maplayersListTemplate);
 
     const WMSLayers = mapConfig.TileLayers;
-    const TMSLayers = mapConfig.TMSLayers;
+    const { TMSLayers } = mapConfig.TMSLayers;
 
     MapLayersList.addOpenMapLayerListener();
     MapLayersList.addCloseMapLayerListener();
@@ -97,10 +97,11 @@ export class MapLayersList extends Component {
     const label = document.getElementById(`${layerId}-label`);
 
     // ensure the html dom element exists
-    if (label !== undefined)
-      if(label != null) {
-      // update the label
-      label.textContent = layerName;
+    if (label !== undefined) {
+      if (label != null) {
+        // update the label
+        label.textContent = layerName;
+      }
     }
   }
 
@@ -113,10 +114,10 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
-    console.log(checkBox != null)
+
     // ensure the html dom element exists
     if (checkBox !== undefined) {
-      if (checkBox != null){
+      if (checkBox != null) {
         // add the listner
         checkBox.addEventListener('click', (e) => { this.toggleMapLayer(layerId); });
       }
