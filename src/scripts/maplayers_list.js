@@ -22,12 +22,14 @@ export class MapLayersList extends Component {
     super(placeholderId, props, maplayersListTemplate);
 
     const WMSLayers = mapConfig.TileLayers;
+    const TMSLayers = mapConfig.TMSLayers;
 
     MapLayersList.addOpenMapLayerListener();
     MapLayersList.addCloseMapLayerListener();
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
+    TMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
 
     // check if map layer list is minimized on initialization if so minimize it.
     const mapLayerListState = store.getStateItem('maplayerlist');
@@ -95,7 +97,8 @@ export class MapLayersList extends Component {
     const label = document.getElementById(`${layerId}-label`);
 
     // ensure the html dom element exists
-    if (label !== undefined || label !== null) {
+    if (label !== undefined)
+      if(label != null) {
       // update the label
       label.textContent = layerName;
     }
@@ -110,11 +113,13 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
-
+    console.log(checkBox != null)
     // ensure the html dom element exists
-    if (checkBox !== undefined || checkBox !== null) {
-      // add the listner
-      checkBox.addEventListener('click', (e) => { this.toggleMapLayer(layerId); });
+    if (checkBox !== undefined) {
+      if (checkBox != null){
+        // add the listner
+        checkBox.addEventListener('click', (e) => { this.toggleMapLayer(layerId); });
+      }
     }
   }
 
