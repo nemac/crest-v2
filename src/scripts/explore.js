@@ -71,6 +71,8 @@ export class Explore extends Component {
 
     this.addUploadShapeHandler();
 
+    this.addListAreasHandler();
+
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
     });
@@ -157,6 +159,7 @@ export class Explore extends Component {
     // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
+    this.storeShapes();
     store.setStoreItem('working_zonalstats', false);
     drawShortZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean);
     spinnerOff('getZonal done');
@@ -271,6 +274,8 @@ export class Explore extends Component {
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
+    store.removeStateItem('userareas');
+    this.resetshapescounter();
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
     store.removeStateItem('zonalstatsjson');
@@ -317,7 +322,7 @@ export class Explore extends Component {
 
     drawAreaElement.addEventListener('click', (ev) => {
       // remove existing Area
-      this.removeExistingArea();
+      // this.removeExistingArea();
 
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events
@@ -400,12 +405,61 @@ export class Explore extends Component {
       //   mapInfoComponent.addMapClickIdentifyClickHandler();
       // }
 
+      const geojson = layer.toGeoJSON();
       // update store
       store.setStoreItem('lastaction', 'draw area');
-      store.setStoreItem('userarea', layer.toGeoJSON());
+      store.setStoreItem('userarea', geojson);
       this.getZonal();
     });
   }
+
+  resetshapescounter() {
+    store.removeStateItem('userareacount');
+  }
+
+  storeshapescounter() {
+    let userareacount = store.getStateItem('userareacount');
+    if (!checkValidObject(userareacount)) {
+      userareacount = 1;
+    } else {
+      userareacount = userareacount + 1;
+    }
+
+    store.setStoreItem('userareacount', userareacount);
+    return userareacount;
+  }
+
+  // add a new shape to user shape store
+  storeShapes() {
+
+    const currentshapes = store.getStateItem('userareas');
+
+    console.log('Object.keys(currentshapes).length', Object.keys(currentshapes).length);
+
+    const shapecount = this.storeshapescounter();
+    const newshape = {['userarea' + shapecount]: [
+        {"userarea": store.getStateItem('userarea')},
+        {"userarea_buffered": store.getStateItem('userarea_buffered')},
+        {"zonalstatsjson": store.getStateItem('zonalstatsjson')}
+      ]
+    }
+
+    const newshapes = { ...currentshapes, ...newshape };
+    store.setStoreItem('userareas', newshapes);
+  }
+
+ restoreshapes() {
+   const currentshapes = store.getStateItem('userareas');
+   currentshapes.forEach((shapes) => {
+     console.log(shapes);
+   })
+ }
+
+ // Listens for click events on the upload shape button.
+ addListAreasHandler() {
+   const ListAreasBtn = document.getElementById('btn-list-areas');
+   ListAreasBtn.addEventListener('change', e => this.restoreshapes);
+ }
 
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {

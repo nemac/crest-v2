@@ -8,7 +8,8 @@ const URL_IGNORE_KEYS = [
   'working_basemap',
   'working_mapinfo',
   'working_zonalstats',
-  'working_search'
+  'working_search',
+  'userareas'
 ];
 
 /**
