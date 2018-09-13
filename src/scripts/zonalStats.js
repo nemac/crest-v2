@@ -1,4 +1,5 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
+import ZonalLong from '../templates/zonal_long.html';
 import identifyConfig from '../config/identifyConfig';
 
 function checkNoData(val) {
@@ -68,6 +69,17 @@ function makeZonalBox(type, rank) {
   return zonalBox;
 }
 
+function makeInHubBox(rank) {
+  return makeZonalBox('hubs', rank);
+}
+
+function makeHubBox(hubs) {
+  const hubWrapper = makeBoxWrapper();
+  hubWrapper.classList.add('zonal-item-hub');
+  hubWrapper.appendChild(makeInHubBox(checkNoData(hubs) ? 255 : hubs));
+  return hubWrapper;
+}
+
 function makeAssetBox(rank) {
   return makeZonalBox('asset', rank);
 }
@@ -98,28 +110,6 @@ function makeExposureBox(asset, threat) {
   return exposureWrapper;
 }
 
-function makeHubBoxElem(hubText, hubStatus) {
-  const hubWrapper = makeDiv();
-  hubWrapper.className = 'zonal-hub-wrapper zonal-item';
-  const hubElem = makeDiv();
-  hubElem.className = `zonal-hub zonal-hub-${hubStatus} noselect`;
-  hubElem.appendChild(makeScreenReaderText(hubText));
-  hubWrapper.appendChild(hubElem);
-  return hubWrapper;
-}
-
-function makeInHubBox() {
-  return makeHubBoxElem('The Zone is in at least one Hub', 'in');
-}
-
-function makeOutHubBox() {
-  return makeHubBoxElem('The Zone is not in at least one Hub', 'out');
-}
-
-function makeHubBox(inHub) {
-  return checkNoData(inHub) ? makeOutHubBox() : makeInHubBox();
-}
-
 function makeShortZonalStatsInterior(data) {
   return [
     makeLabel(),
@@ -129,19 +119,269 @@ function makeShortZonalStatsInterior(data) {
   ];
 }
 
+function viewLongZonalStats(shortElem) {
+  shortElem.nextElementSibling.classList.add('active');
+}
+
+function shortZonalClickHandler(e) {
+  e.preventDefault();
+  viewLongZonalStats(this);
+}
+
 function drawShortZonalStats(data) {
   const wrapper = makeZonalWrapper();
   makeShortZonalStatsInterior(data).forEach((elem) => {
     wrapper.appendChild(elem);
   });
-  document.getElementById('zonal-content').appendChild(wrapper);
+  wrapper.addEventListener('click', shortZonalClickHandler);
+  return wrapper;
+//  document.getElementById('zonal-content').appendChild(wrapper);
+}
+
+// This function finds the scaled position of a value from [0,100]
+// It does the addition of scale and division by scaleGroups since the value falls into one of
+//  multiple ranges and so it needs to put the scaled value into the correct area.
+//
+// @param val - float
+// @param rangeMin - int
+// @param rangeMax - int
+// @param scale - int. [0,scaleGroups - 1]
+// @param scaleGroups - int. Number of groups the value could be scaled for. [1,]
+function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
+  let position = (val - rangeMin) / (rangeMax - rangeMin); // [0,1]
+  position += scale; // [0,scaleGroups]
+  position = (position / scaleGroups) * 100; // [0, 100]
+  return position;
+}
+
+function getExposurePosition(val, low, med, high) {
+  const BOTTOM_RANGE = 0;
+  const LOW_SCALE = 0;
+  const MED_SCALE = 1;
+  const HIGH_SCALE = 2;
+  const SCALE_GROUPS = 3;
+
+  if (val < low) {
+    return getValuePosition(val, BOTTOM_RANGE, low, LOW_SCALE, SCALE_GROUPS);
+  }
+
+  if (val < med) {
+    return getValuePosition(val, low, med, MED_SCALE, SCALE_GROUPS);
+  }
+
+  return getValuePosition(val, med, high, HIGH_SCALE, SCALE_GROUPS);
+}
+
+function getAssetPosition(asset) {
+  const LOW_ASSET = 1.5;
+  const MED_ASSET = 2.5;
+  const HIGH_ASSET = 13;
+
+  return getExposurePosition(asset, LOW_ASSET, MED_ASSET, HIGH_ASSET);
+}
+
+function getThreatPosition(threat) {
+  const LOW_THREAT = 7.5;
+  const MED_THREAT = 11.5;
+  const HIGH_THREAT = 29;
+
+  return getExposurePosition(threat, LOW_THREAT, MED_THREAT, HIGH_THREAT);
+}
+
+function getFishPosition(fish) {
+  const LOW_RANGE = 1;
+  const HIGH_RANGE = 5;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(fish, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+function getWildlifePosition(wildlife) {
+  const LOW_RANGE = 1;
+  const HIGH_RANGE = 5;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(wildlife, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+function getHubPosition(hub) {
+  const LOW_RANGE = 1;
+  const HIGH_RANGE = 7;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(hub, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+function formatTablePosition(position) {
+  return `${position}%`;
+}
+
+function drawExposure(wrapper, asset, threat) {
+  const assetPosition = getAssetPosition(asset);
+  const threatPosition = getThreatPosition(threat);
+
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = formatTablePosition(assetPosition);
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = formatTablePosition(threatPosition);
+
+  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = formatTablePosition(assetPosition);
+  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = formatTablePosition(threatPosition);
+}
+
+function drawFishWildlife(wrapper, fish, wildlife) {
+  const fishPosition = getFishPosition(fish);
+  const wildlifePosition = getWildlifePosition(wildlife);
+
+  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatTablePosition(fishPosition);
+  wrapper.querySelector('.zonal-long-table-bar-wildlife').style.left = formatTablePosition(wildlifePosition);
+}
+
+function drawHub(wrapper, hub) {
+  const hubPosition = getHubPosition(hub);
+
+  wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatTablePosition(hubPosition);
+}
+
+function getAssetDrivers(data) {
+  return [
+    {
+      label: 'Population Density',
+      key: 'population-density',
+      value: data.pop_density
+    },
+    {
+      label: 'Social Vulnerability',
+      key: 'social-vulnerability',
+      value: data.social_vuln
+    },
+    {
+      label: 'Critical Facilities',
+      key: 'critical-facilities',
+      value: data.crit_facilities
+    },
+    {
+      label: 'Critical Infrastructure',
+      key: 'critical-infrastructure',
+      value: data.crit_infra
+    }
+  ];
+}
+
+function getThreatDrivers(data) {
+  return [
+    {
+      label: 'Drainage',
+      key: 'drainage',
+      value: data.drainage
+    },
+    {
+      label: 'Erosion',
+      key: 'erosion',
+      value: data.erosion
+    },
+    {
+      label: 'Flood Prone',
+      key: 'floodprone-areas',
+      value: data.floodprone_areas
+    },
+    {
+      label: 'Sea Level Rise',
+      key: 'sea-level-rise',
+      value: data.sea_level_rise
+    },
+    {
+      label: 'Storm Surge',
+      key: 'storm-surge',
+      value: data.storm_surge
+    },
+    {
+      label: 'Subsidence Shift',
+      key: 'geostress',
+      value: data.geostress
+    },
+    {
+      label: 'Slope',
+      key: 'slope',
+      value: data.slope
+    }
+  ];
+}
+
+function getDriverHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 5;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+function getDriverColor(driver) {
+  if (driver <= 20) {
+    return 'green';
+  }
+  if (driver <= 40) {
+    return 'blue';
+  }
+  if (driver <= 60) {
+    return 'yellow';
+  }
+  if (driver <= 80) {
+    return 'orange';
+  }
+  return 'red';
+}
+
+function drawDriver(graph, driver) {
+  const height = getDriverHeight(driver.value);
+  const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
+  bar.style.height = formatTablePosition(height);
+  bar.style.backgroundColor = getDriverColor(height);
+}
+
+function drawAssetDrivers(wrapper, drivers) {
+  const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
+  drivers.forEach(drawDriver.bind(null, assetGraph));
+}
+
+function drawThreatDrivers(wrapper, drivers) {
+  const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
+  drivers.forEach(drawDriver.bind(null, threatGraph));
+}
+
+function dismissLongZonalStats(elem) {
+  elem.parentElement.parentElement.classList.remove('active');
+}
+
+function dismissZonalClickHandler(e) {
+  e.preventDefault();
+  dismissLongZonalStats(this);
+}
+
+function drawLongZonalStats(data) {
+  const wrapper = makeDiv();
+  wrapper.classList.add('zonal-long-wrapper');
+  wrapper.innerHTML = ZonalLong;
+  drawExposure(wrapper, data.asset, data.threat);
+  drawAssetDrivers(wrapper, getAssetDrivers(data));
+  drawThreatDrivers(wrapper, getThreatDrivers(data));
+  drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
+  drawHub(wrapper, data.hubs);
+  wrapper.querySelector('.zonal-long-dismiss').addEventListener('click', dismissZonalClickHandler);
+  return wrapper;
 }
 
 function drawShortZonalStatsFromAPI(data) {
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
-  drawShortZonalStats(data);
+  const wrapper = makeDiv();
+  wrapper.classList.add('zonal-stats-wrapper');
+  wrapper.appendChild(drawShortZonalStats(data));
+  wrapper.appendChild(drawLongZonalStats(data));
+  document.getElementById('zonal-content').appendChild(wrapper);
 }
 
 export { drawShortZonalStatsFromAPI };
