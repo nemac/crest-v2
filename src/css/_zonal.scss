@@ -1,42 +1,53 @@
+$fish-1: #cce2e8;
+$fish-2: #8fc8d6;
+$fish-3: #5ea4ba;
+$fish-4: #047e91;
+$fish-5: #095a62;
+$fish-bar: #f00;
+
+$wildlife-1: #ffe9c4;
+$wildlife-2: #e0c879;
+$wildlife-3: #76974e;
+$wildlife-4: #385b24;
+$wildlife-5: #004908;
+$wildlife-bar: #0f0;
+
+$hub-1: #edf8e9;
+$hub-2: #c5ddca;
+$hub-3: #9ec3ac;
+$hub-4: #76a98d;
+$hub-5: #4f8e6f;
+$hub-6: #277450;
+$hub-7: #005a32;
+$hub-bar: #0ff;
+
+$exposure-1: #568b93;
+$exposure-2: #7db0a3;
+$exposure-3: #d4e5ba;
+$exposure-4: #ecd79c;
+$exposure-6: #c38e59;
+$exposure-9: #9b5526;
+$asset-bar: #68ace7;
+$threat-bar: #d4182b;
+
+$label-font-size: 12px;
+
+$graph-axis-width: 40px;
+$graph-axis-color: #999;
+
 #zonal-area-wrapper {
   width: 100%;
+  position: relative;
 }
 
 .zonal-wrapper {
   margin-bottom: 10px;
+  cursor: pointer;
 
   > div, > button {
     display: inline-block;
     vertical-align: top;
   }
-}
-
-.zonal-hub {
-  background-color: white;
-  border-radius: 50%;
-  position: relative;
-  width: 25px;
-  height: 25px;
-  left: 50%;
-  margin-left: -7px;
-}
-
-.zonal-hub-in:after {
-  content: '\2713';
-  position: absolute;
-  top: -1px;
-  left: 5px;
-  color: green;
-  font-size: 20px;
-}
-
-.zonal-hub-out:after {
-  content: '\274C';
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  color: red;
-  font-size: 10px;
 }
 
 .zonal-expand-button {
@@ -56,6 +67,7 @@
 .zonal-box {
   display: inline-block;
   width: 45%;
+  min-width: 56px;
   height: 25px;
   line-height: 25px;
   font-size: 14px;
@@ -112,16 +124,492 @@ div.zonal-asset {
 
 .zonal-label {
   width: 15%;
-}
 
-div.zonal-hub-wrapper {
-  width: 15%;
-  margin-right: 12px;
+  &:after {
+    content: "\203a";
+    display: inline;
+    padding-left: 2px;
+  }
 }
 
 .zonal-item {
   width: 33%;
   text-align: center;
+
+  &-hub {
+    width: 15%;
+    margin-right: 12px;
+  }
+}
+
+.zonal-long-wrapper {
+  width: 100%;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: 125%;
+  transition: left .5s ease-in-out;
+  background-color: #343a40;
+  overflow: hidden;
+
+  &.active {
+    left: 0;
+    height: auto;
+  }
+}
+
+.zonal-long-exposure-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-hub-wrapper {
+  h5, h6 {
+    margin-bottom: 0;
+  }
+}
+
+.zonal-long-asset-threat, .zonal-long-fish-wildlife-wrapper, .zonal-long-exposure-wrapper {
+  margin-top: 40px;
+}
+
+.zonal-long-dismiss {
+  cursor: pointer;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: #e6e6e6;
+  }
+
+  &:before {
+    content: "\2039";
+    display: inline;
+    padding-right: 2px;
+  }
+
+  &-wrapper {
+    margin-bottom: 20px;
+  }
+}
+
+.zonal-long-table-index {
+  display: inline-block;
+  margin-right: 30px;
+  margin-top: 15px;
+
+  h6 {
+    text-align: center;
+  }
+}
+
+.zonal-long-table {
+  position: relative;
+  display: inline-block;
+  font-size: $label-font-size;
+}
+
+.zonal-long-table-row-header-simple {
+  position: relative;
+  height: 30px;
+}
+
+.zonal-long-table-item {
+  $box-dimensions: 56px;
+  display: inline-block;
+  width: $box-dimensions;
+  height: $box-dimensions;
+  text-align: center;
+  line-height: $box-dimensions;
+  vertical-align: top;
+  margin: 2px 1px 2px 0px;
+
+  &-fw {
+    width: 32px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &-hub {
+    width: 21px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.zonal-long-table-header {
+  position: relative;
+
+  &:after {
+    $circle-dimensions: 16px;
+
+    position: absolute;
+    content: "";
+    width: $circle-dimensions;
+    height: $circle-dimensions;
+    line-height: $circle-dimensions;
+    bottom: 2px;
+    left: 20px;
+    border-radius: 50%;
+  }
+
+  &-low:after {
+    content: "1";
+  }
+
+  &-med:after {
+    content: "2";
+  }
+
+  &-high:after {
+    content: "3";
+  }
+
+  &-threat:after {
+    background-color: $threat-bar;
+  }
+
+  &-asset:after {
+    background-color: $asset-bar;
+  }
+}
+
+.zonal-long-table-exposure .zonal-long-table-header-asset {
+  line-height: 40px;
+
+  &:after {
+    bottom: 10px;
+  }
+}
+
+.zonal-long-table-cell {
+  &-lowest {
+    background-color: $exposure-1;
+  }
+
+  &-low {
+    background-color: $exposure-2;
+  }
+
+  &-mediumlow {
+    background-color: $exposure-3;
+    color: #000;
+  }
+
+  &-medium {
+    background-color: $exposure-4;
+    color: #000;
+  }
+
+  &-high {
+    background-color: $exposure-6;
+  }
+
+  &-highest {
+    background-color: $exposure-9;
+  }
+
+  &-fish {
+    &-lowest {
+      background-color: $fish-1;
+      color: #000;
+    }
+
+    &-low {
+      background-color: $fish-2;
+      color: #000;
+    }
+
+    &-medium {
+      background-color: $fish-3;
+    }
+
+    &-high {
+      background-color: $fish-4;
+    }
+
+    &-highest {
+      background-color: $fish-5;
+    }
+  }
+
+  &-wildlife {
+    &-lowest {
+      background-color: $wildlife-1;
+      color: #000;
+    }
+
+    &-low {
+      background-color: $wildlife-2;
+      color: #000;
+    }
+
+    &-medium {
+      background-color: $wildlife-3;
+    }
+
+    &-high {
+      background-color: $wildlife-4;
+    }
+
+    &-highest {
+      background-color: $wildlife-5;
+    }
+  }
+
+  &-hub {
+    &-lowest {
+      background-color: $hub-1;
+      color: #000;
+    }
+
+    &-low {
+      background-color: $hub-2;
+      color: #000;
+    }
+
+    &-mediumlow{
+      background-color: $hub-3;
+      color: #000;
+    }
+
+    &-medium {
+      background-color: $hub-4;
+    }
+
+    &-mediumhigh {
+      background-color: $hub-5;
+    }
+
+    &-high {
+      background-color: $hub-6;
+    }
+
+    &-highest {
+      background-color: $hub-7;
+    }
+  }
+}
+
+.zonal-long-table-header-simple {
+  position: absolute;
+  bottom: 0;
+
+  &-low {
+    left: 0;
+  }
+
+  &-high {
+      right: 0;
+  }
+}
+
+.zonal-long-table-bar-wrapper {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+
+  &-exposure {
+    left: 25%;
+    top: 25%;
+    width: 75%;
+    height: 75%;
+  }
+}
+
+.zonal-long-table-bar {
+  $bar-width: 3px;
+
+  position: absolute;
+  width: $bar-width;
+  height: 100%;
+  top: 0;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, .5);
+
+  &-threat {
+    background-color: $threat-bar;
+  }
+
+  &-asset {
+    background-color: $asset-bar;
+
+    &-exposure {
+      width: 100%;
+      height: $bar-width;
+      top: auto;
+      left: 0;
+    }
+  }
+
+  &-fish {
+    background-color: $fish-bar;
+  }
+
+  &-wildlife {
+    background-color: $wildlife-bar;
+  }
+
+  &-hub {
+    background-color: $hub-bar;
+  }
+}
+
+.zonal-long-graph-wrapper {
+  width: 320px;
+  margin-top: 25px;
+
+  h6 {
+    text-align: center;
+    padding-left: $graph-axis-width;
+  }
+}
+
+.zonal-long-graph {
+  display: inline-block;
+  width: 100%;
+  padding-left: $graph-axis-width;
+  font-size: $label-font-size;
+}
+
+.zonal-long-graph-content {
+  position: relative;
+}
+
+.zonal-long-graph-axis {
+  width: $graph-axis-width;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -$graph-axis-width;
+  border-right: 2px solid $graph-axis-color;
+
+  &-label {
+    position: absolute;
+    left: 0;
+
+    &-high {
+      top: 0;
+    }
+
+    &-low {
+      bottom: 0;
+    }
+  }
+}
+
+.zonal-long-graph-steps {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+}
+
+.zonal-long-graph-step {
+  position: absolute;
+  width: 100%;
+  border-bottom: 1px dashed rgba($graph-axis-color, .2);
+
+  &-1 {
+    bottom: 20%;
+  }
+
+  &-2 {
+    bottom: 40%;
+  }
+
+  &-3 {
+    bottom: 60%;
+  }
+
+  &-4 {
+    bottom: 80%;
+  }
+}
+
+.zonal-long-graph-bars {
+  height: 100px;
+  border-bottom: 2px solid $graph-axis-color;
+  font-size: 0;
+}
+
+.zonal-long-graph-bar-wrapper {
+  display: inline-block;
+  position: relative;
+  height: 100%;
+}
+
+.zonal-long-graph-bar {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+$graph-tick-height-short: 5px;
+.zonal-long-graph-labels {
+  height: 65px;
+  font-size: 0px;
+  padding-top: $graph-tick-height-short;
+}
+
+.zonal-long-graph-label {
+  display: inline-block;
+  position: relative;
+  font-size: $label-font-size;
+
+  &:before {
+    content: "";
+    width: 2px;
+    height: $graph-tick-height-short;
+    position: absolute;
+    top: -$graph-tick-height-short;
+    left: 50%;
+    background-color: $graph-axis-color;
+  }
+
+  &:nth-child(2n) {
+    $graph-tick-height-long: 35px;
+    padding-top: $graph-tick-height-long;
+    vertical-align: top;
+
+    &:before {
+      height: $graph-tick-height-long;
+    }
+  }
+
+  &-text {
+    position: absolute;
+    left: 0%;
+    text-align: center;
+  }
+}
+
+.zonal-long-graph-wrapper-asset {
+  $asset-bar-wrapper-width: 100% / 4;
+  .zonal-long-graph-label {
+    width: $asset-bar-wrapper-width;
+  }
+
+  .zonal-long-graph-bar-wrapper {
+    $asset-bar-width: 15%;
+    $asset-bar-margin: ($asset-bar-wrapper-width - $asset-bar-width) / 2;
+    width: $asset-bar-width;
+    margin: 0 $asset-bar-margin;
+  }
+}
+
+.zonal-long-graph-wrapper-threat {
+  $threat-bar-wrapper-width: 100% / 7;
+  .zonal-long-graph-label {
+    width: $threat-bar-wrapper-width;
+  }
+
+  .zonal-long-graph-bar-wrapper {
+    $threat-bar-width: 10%;
+    $threat-bar-margin: ($threat-bar-wrapper-width - $threat-bar-width) / 2;
+    width: $threat-bar-width;
+    margin: 0 $threat-bar-margin;
+  }
 }
 
 .hidden {
