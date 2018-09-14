@@ -612,8 +612,12 @@ $graph-tick-height-short: 5px;
   }
 }
 
-.zonal-long-missing-data {
-  font-size: $label-font-size;
+.zonal-long-raw-values {
+
+  ul {
+    padding-left: 18px;
+    margin-bottom: 0;
+  }
 }
 
 .hidden {

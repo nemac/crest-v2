@@ -525,7 +525,7 @@ function formatToThreePlaces(value) {
 }
 
 function formatRawValue(value) {
-  return checkNoData(value) ? 255 : formatToThreePlaces(value);
+  return checkNoData(value) ? 'No data' : formatToThreePlaces(value);
 }
 
 function drawRawValue(wrapper, value) {
