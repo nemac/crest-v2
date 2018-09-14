@@ -355,6 +355,48 @@ function drawHub(wrapper, hub) {
   wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatPosition(hubPosition);
 }
 
+function getTableCategoryText(type, rank) {
+  return getIdentifyValue(type, rank).label;
+}
+
+// Reformats data for the indexes
+// @param data | Object - all data from the API
+// @return Array
+function getIndexes(data) {
+  return [
+    {
+      label: 'Hubs',
+      key: 'hubs',
+      value: data.hubs,
+      category: getTableCategoryText('hubs', data.hubs)
+    },
+    {
+      label: 'Assets',
+      key: 'asset',
+      value: data.asset,
+      category: getTableCategoryText('asset', data.asset)
+    },
+    {
+      label: 'Threats',
+      key: 'threats',
+      value: data.asset,
+      category: getTableCategoryText('threat', data.asset)
+    },
+    {
+      label: 'Aquatic',
+      key: 'aquatic',
+      value: data.aquatic,
+      category: getTableCategoryText('aquatic', data.aquatic)
+    },
+    {
+      label: 'Terrestrial',
+      key: 'terrestrial',
+      value: data.terrestrial,
+      category: getTableCategoryText('terrestrial', data.terrestrial)
+    }
+  ]
+}
+
 // Reformats data for the asset drivers
 // @param data | Object - all data from the API
 // @return Array
@@ -363,22 +405,26 @@ function getAssetDrivers(data) {
     {
       label: 'Population Density',
       key: 'population-density',
-      value: data.pop_density
+      value: data.pop_density,
+      category: 'TBD'
     },
     {
       label: 'Social Vulnerability',
       key: 'social-vulnerability',
-      value: data.social_vuln
+      value: data.social_vuln,
+      category: 'TBD'
     },
     {
       label: 'Critical Facilities',
       key: 'critical-facilities',
-      value: data.crit_facilities
+      value: data.crit_facilities,
+      category: 'TBD'
     },
     {
       label: 'Critical Infrastructure',
       key: 'critical-infrastructure',
-      value: data.crit_infra
+      value: data.crit_infra,
+      category: 'TBD'
     }
   ];
 }
@@ -391,37 +437,44 @@ function getThreatDrivers(data) {
     {
       label: 'Drainage',
       key: 'drainage',
-      value: data.drainage
+      value: data.drainage,
+      category: 'TBD'
     },
     {
       label: 'Erosion',
       key: 'erosion',
-      value: data.erosion
+      value: data.erosion,
+      category: 'TBD'
     },
     {
       label: 'Flood Prone',
       key: 'floodprone-areas',
-      value: data.floodprone_areas
+      value: data.floodprone_areas,
+      category: 'TBD'
     },
     {
       label: 'Sea Level Rise',
       key: 'sea-level-rise',
-      value: data.sea_level_rise
+      value: data.sea_level_rise,
+      category: 'TBD'
     },
     {
       label: 'Storm Surge',
       key: 'storm-surge',
-      value: data.storm_surge
+      value: data.storm_surge,
+      category: 'TBD'
     },
     {
       label: 'Subsidence Shift',
       key: 'geostress',
-      value: data.geostress
+      value: data.geostress,
+      category: 'TBD'
     },
     {
       label: 'Slope',
       key: 'slope',
-      value: data.slope
+      value: data.slope,
+      category: 'TBD'
     }
   ];
 }
@@ -471,16 +524,72 @@ function drawThreatDrivers(wrapper, drivers) {
   drivers.forEach(drawDriver.bind(null, threatGraph));
 }
 
+function getZonalWrapper(elem) {
+  return elem.closest('.zonal-long-wrapper.active')
+}
+
 // Switches the display to the short zonal stats
-// @param elem | DOM element
-function dismissLongZonalStats(elem) {
-  elem.closest('.zonal-long-wrapper.active').classList.remove('active');
+// @param wrapper | DOM element
+function dismissLongZonalStats(wrapper) {
+  wrapper.classList.remove('active');
+  wrapper.classList.remove('active-table');
 }
 
 // Click handler to trigger the dismiss of the long zonal stats
 function dismissZonalClickHandler(e) {
   e.preventDefault();
-  dismissLongZonalStats(this);
+  dismissLongZonalStats(getZonalWrapper(this));
+}
+
+function findRawValue(wrapper, key) {
+  return wrapper.querySelector(`.zonal-long-raw-value-${key}`);
+}
+
+function findRawCategory(wrapper, key) {
+  return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
+}
+
+function formatToThreePlaces(value) {
+  return (Math.round(value * 1000) / 1000).toString();
+}
+
+function formatRawValue(value) {
+  return checkNoData(value) ? 'No data' : formatToThreePlaces(value);
+}
+
+function drawRawValue(wrapper, value) {
+  findRawValue(wrapper, value.key).appendChild(makeTextElement(formatRawValue(value.value)));
+}
+
+function drawRawCategory(wrapper, value) {
+  findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
+}
+
+function populateRawTableRow(wrapper, value) {
+  drawRawValue(wrapper, value);
+  drawRawCategory(wrapper, value);
+}
+
+function drawRawValues(wrapper, data) {
+  data.forEach(populateRawTableRow.bind(null, wrapper));
+}
+
+function displayRawValues(wrapper) {
+  wrapper.classList.add('active-table');
+}
+
+function displayGraphs(wrapper) {
+  wrapper.classList.remove('active-table');
+}
+
+function displayZonalTableHandler(e) {
+  e.preventDefault();
+  displayRawValues(getZonalWrapper(this));
+}
+
+function displayZonalGraphsHandler(e) {
+  e.preventDefault();
+  displayGraphs(getZonalWrapper(this));
 }
 
 // Draws and configures the long zonal stats
@@ -495,7 +604,10 @@ function drawLongZonalStats(data) {
   drawThreatDrivers(wrapper, getThreatDrivers(data));
   drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
   drawHub(wrapper, data.hubs);
-  wrapper.querySelector('.zonal-long-dismiss').addEventListener('click', dismissZonalClickHandler);
+  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
+  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
+  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
+  drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
   return wrapper;
 }
 
