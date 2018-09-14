@@ -612,6 +612,10 @@ $graph-tick-height-short: 5px;
   }
 }
 
+.zonal-long-missing-data {
+  font-size: $label-font-size;
+}
+
 .hidden {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);

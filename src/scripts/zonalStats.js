@@ -355,6 +355,39 @@ function drawHub(wrapper, hub) {
   wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatPosition(hubPosition);
 }
 
+// Reformats data for the indexes
+// @param data | Object - all data from the API
+// @return Array
+function getIndexes(data) {
+  return [
+    {
+      label: 'Hubs',
+      key: 'hubs',
+      value: data.hubs
+    },
+    {
+      label: 'Assets',
+      key: 'asset',
+      value: data.asset
+    },
+    {
+      label: 'Threats',
+      key: 'threats',
+      value: data.asset
+    },
+    {
+      label: 'Aquatic',
+      key: 'aquatic',
+      value: data.aquatic
+    },
+    {
+      label: 'Terrestrial',
+      key: 'terrestrial',
+      value: data.terrestrial
+    }
+  ]
+}
+
 // Reformats data for the asset drivers
 // @param data | Object - all data from the API
 // @return Array
@@ -483,6 +516,26 @@ function dismissZonalClickHandler(e) {
   dismissLongZonalStats(this);
 }
 
+function findRawElement(wrapper, key) {
+  return wrapper.querySelector(`.zonal-long-raw-${key}`);
+}
+
+function formatToThreePlaces(value) {
+  return (Math.round(value * 1000) / 1000).toString();
+}
+
+function formatRawValue(value) {
+  return checkNoData(value) ? 255 : formatToThreePlaces(value);
+}
+
+function drawRawValue(wrapper, value) {
+  findRawElement(wrapper, value.key).appendChild(makeTextElement(formatRawValue(value.value)));
+}
+
+function drawRawValues(wrapper, data) {
+  data.forEach(drawRawValue.bind(null, wrapper));
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
@@ -496,6 +549,7 @@ function drawLongZonalStats(data) {
   drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
   drawHub(wrapper, data.hubs);
   wrapper.querySelector('.zonal-long-dismiss').addEventListener('click', dismissZonalClickHandler);
+  drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
   return wrapper;
 }
 
