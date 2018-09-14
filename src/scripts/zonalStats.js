@@ -355,6 +355,10 @@ function drawHub(wrapper, hub) {
   wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatPosition(hubPosition);
 }
 
+function getTableCategoryText(type, rank) {
+  return getIdentifyValue(type, rank).label;
+}
+
 // Reformats data for the indexes
 // @param data | Object - all data from the API
 // @return Array
@@ -363,27 +367,32 @@ function getIndexes(data) {
     {
       label: 'Hubs',
       key: 'hubs',
-      value: data.hubs
+      value: data.hubs,
+      category: getTableCategoryText('hubs', data.hubs)
     },
     {
       label: 'Assets',
       key: 'asset',
-      value: data.asset
+      value: data.asset,
+      category: getTableCategoryText('asset', data.asset)
     },
     {
       label: 'Threats',
       key: 'threats',
-      value: data.asset
+      value: data.asset,
+      category: getTableCategoryText('threat', data.asset)
     },
     {
       label: 'Aquatic',
       key: 'aquatic',
-      value: data.aquatic
+      value: data.aquatic,
+      category: getTableCategoryText('aquatic', data.aquatic)
     },
     {
       label: 'Terrestrial',
       key: 'terrestrial',
-      value: data.terrestrial
+      value: data.terrestrial,
+      category: getTableCategoryText('terrestrial', data.terrestrial)
     }
   ]
 }
@@ -396,22 +405,26 @@ function getAssetDrivers(data) {
     {
       label: 'Population Density',
       key: 'population-density',
-      value: data.pop_density
+      value: data.pop_density,
+      category: 'TBD'
     },
     {
       label: 'Social Vulnerability',
       key: 'social-vulnerability',
-      value: data.social_vuln
+      value: data.social_vuln,
+      category: 'TBD'
     },
     {
       label: 'Critical Facilities',
       key: 'critical-facilities',
-      value: data.crit_facilities
+      value: data.crit_facilities,
+      category: 'TBD'
     },
     {
       label: 'Critical Infrastructure',
       key: 'critical-infrastructure',
-      value: data.crit_infra
+      value: data.crit_infra,
+      category: 'TBD'
     }
   ];
 }
@@ -424,37 +437,44 @@ function getThreatDrivers(data) {
     {
       label: 'Drainage',
       key: 'drainage',
-      value: data.drainage
+      value: data.drainage,
+      category: 'TBD'
     },
     {
       label: 'Erosion',
       key: 'erosion',
-      value: data.erosion
+      value: data.erosion,
+      category: 'TBD'
     },
     {
       label: 'Flood Prone',
       key: 'floodprone-areas',
-      value: data.floodprone_areas
+      value: data.floodprone_areas,
+      category: 'TBD'
     },
     {
       label: 'Sea Level Rise',
       key: 'sea-level-rise',
-      value: data.sea_level_rise
+      value: data.sea_level_rise,
+      category: 'TBD'
     },
     {
       label: 'Storm Surge',
       key: 'storm-surge',
-      value: data.storm_surge
+      value: data.storm_surge,
+      category: 'TBD'
     },
     {
       label: 'Subsidence Shift',
       key: 'geostress',
-      value: data.geostress
+      value: data.geostress,
+      category: 'TBD'
     },
     {
       label: 'Slope',
       key: 'slope',
-      value: data.slope
+      value: data.slope,
+      category: 'TBD'
     }
   ];
 }
@@ -521,8 +541,12 @@ function dismissZonalClickHandler(e) {
   dismissLongZonalStats(getZonalWrapper(this));
 }
 
-function findRawElement(wrapper, key) {
-  return wrapper.querySelector(`.zonal-long-raw-${key}`);
+function findRawValue(wrapper, key) {
+  return wrapper.querySelector(`.zonal-long-raw-value-${key}`);
+}
+
+function findRawCategory(wrapper, key) {
+  return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
 }
 
 function formatToThreePlaces(value) {
@@ -534,11 +558,20 @@ function formatRawValue(value) {
 }
 
 function drawRawValue(wrapper, value) {
-  findRawElement(wrapper, value.key).appendChild(makeTextElement(formatRawValue(value.value)));
+  findRawValue(wrapper, value.key).appendChild(makeTextElement(formatRawValue(value.value)));
+}
+
+function drawRawCategory(wrapper, value) {
+  findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
+}
+
+function populateRawTableRow(wrapper, value) {
+  drawRawValue(wrapper, value);
+  drawRawCategory(wrapper, value);
 }
 
 function drawRawValues(wrapper, data) {
-  data.forEach(drawRawValue.bind(null, wrapper));
+  data.forEach(populateRawTableRow.bind(null, wrapper));
 }
 
 function displayRawValues(wrapper) {

@@ -1,4 +1,3 @@
-
 export var identifyConfig = {
   colorLookup:[
     {
