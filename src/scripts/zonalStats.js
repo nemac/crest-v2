@@ -315,7 +315,7 @@ function getDriverHeight(driver) {
 // Returns a position formatted as a percentage
 // @param position | float
 // @return String
-function formatTablePosition(position) {
+function formatPosition(position) {
   return `${position}%`;
 }
 
@@ -327,11 +327,11 @@ function drawExposure(wrapper, asset, threat) {
   const assetPosition = getAssetPosition(asset);
   const threatPosition = getThreatPosition(threat);
 
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = formatTablePosition(assetPosition);
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = formatTablePosition(threatPosition);
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = formatPosition(assetPosition);
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = formatPosition(threatPosition);
 
-  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = formatTablePosition(assetPosition);
-  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = formatTablePosition(threatPosition);
+  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = formatPosition(assetPosition);
+  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = formatPosition(threatPosition);
 }
 
 // Configures the aquatic and terrestrial bars in the individual graphs
@@ -342,8 +342,8 @@ function drawFishWildlife(wrapper, fish, wildlife) {
   const fishPosition = getFishPosition(fish);
   const wildlifePosition = getWildlifePosition(wildlife);
 
-  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatTablePosition(fishPosition);
-  wrapper.querySelector('.zonal-long-table-bar-wildlife').style.left = formatTablePosition(wildlifePosition);
+  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatPosition(fishPosition);
+  wrapper.querySelector('.zonal-long-table-bar-wildlife').style.left = formatPosition(wildlifePosition);
 }
 
 // Configures the hub bar in the individual graph
@@ -352,7 +352,7 @@ function drawFishWildlife(wrapper, fish, wildlife) {
 function drawHub(wrapper, hub) {
   const hubPosition = getHubPosition(hub);
 
-  wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatTablePosition(hubPosition);
+  wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatPosition(hubPosition);
 }
 
 // Reformats data for the asset drivers
@@ -451,7 +451,7 @@ function getDriverColor(driver) {
 function drawDriver(graph, driver) {
   const height = getDriverHeight(driver.value);
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
-  bar.style.height = formatTablePosition(height);
+  bar.style.height = formatPosition(height);
   bar.style.backgroundColor = getDriverColor(height);
 }
 
@@ -501,7 +501,7 @@ function drawLongZonalStats(data) {
 
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
-function drawShortZonalStatsFromAPI(data) {
+function drawZonalStatsFromAPI(data) {
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
@@ -512,4 +512,4 @@ function drawShortZonalStatsFromAPI(data) {
   document.getElementById('zonal-content').appendChild(wrapper);
 }
 
-export { drawShortZonalStatsFromAPI };
+export { drawZonalStatsFromAPI };
