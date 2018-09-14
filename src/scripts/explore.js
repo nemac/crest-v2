@@ -448,7 +448,8 @@ export class Explore extends Component {
     store.setStoreItem('userareas', newshapes);
   }
 
- restoreshapes() {
+ restoreshapes(e) {
+   console.log(e)
    const currentshapes = store.getStateItem('userareas');
    currentshapes.forEach((shapes) => {
      console.log(shapes);
@@ -458,7 +459,7 @@ export class Explore extends Component {
  // Listens for click events on the upload shape button.
  addListAreasHandler() {
    const ListAreasBtn = document.getElementById('btn-list-areas');
-   ListAreasBtn.addEventListener('change', e => this.restoreshapes);
+   ListAreasBtn.addEventListener('click', e => this.restoreshapes(e));
  }
 
   // Listens for click events on the upload shape button.
