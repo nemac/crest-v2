@@ -504,16 +504,21 @@ function drawThreatDrivers(wrapper, drivers) {
   drivers.forEach(drawDriver.bind(null, threatGraph));
 }
 
+function getZonalWrapper(elem) {
+  return elem.closest('.zonal-long-wrapper.active')
+}
+
 // Switches the display to the short zonal stats
-// @param elem | DOM element
-function dismissLongZonalStats(elem) {
-  elem.closest('.zonal-long-wrapper.active').classList.remove('active');
+// @param wrapper | DOM element
+function dismissLongZonalStats(wrapper) {
+  wrapper.classList.remove('active');
+  wrapper.classList.remove('active-table');
 }
 
 // Click handler to trigger the dismiss of the long zonal stats
 function dismissZonalClickHandler(e) {
   e.preventDefault();
-  dismissLongZonalStats(this);
+  dismissLongZonalStats(getZonalWrapper(this));
 }
 
 function findRawElement(wrapper, key) {
@@ -536,6 +541,24 @@ function drawRawValues(wrapper, data) {
   data.forEach(drawRawValue.bind(null, wrapper));
 }
 
+function displayRawValues(wrapper) {
+  wrapper.classList.add('active-table');
+}
+
+function displayGraphs(wrapper) {
+  wrapper.classList.remove('active-table');
+}
+
+function displayZonalTableHandler(e) {
+  e.preventDefault();
+  displayRawValues(getZonalWrapper(this));
+}
+
+function displayZonalGraphsHandler(e) {
+  e.preventDefault();
+  displayGraphs(getZonalWrapper(this));
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
@@ -548,7 +571,9 @@ function drawLongZonalStats(data) {
   drawThreatDrivers(wrapper, getThreatDrivers(data));
   drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
   drawHub(wrapper, data.hubs);
-  wrapper.querySelector('.zonal-long-dismiss').addEventListener('click', dismissZonalClickHandler);
+  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
+  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
+  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
   return wrapper;
 }
