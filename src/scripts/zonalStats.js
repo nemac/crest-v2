@@ -324,14 +324,14 @@ function formatPosition(position) {
 // @param asset | float - value from the api for the asset
 // @param threat | float - value from the api for the threat
 function drawExposure(wrapper, asset, threat) {
-  const assetPosition = getAssetPosition(asset);
-  const threatPosition = getThreatPosition(threat);
+  const assetPosition = formatPosition(getAssetPosition(asset));
+  const threatPosition = formatPosition(getThreatPosition(threat));
 
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = formatPosition(assetPosition);
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = formatPosition(threatPosition);
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = assetPosition;
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = threatPosition;
 
-  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = formatPosition(assetPosition);
-  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = formatPosition(threatPosition);
+  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = assetPosition;
+  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = threatPosition;
 }
 
 // Configures the aquatic and terrestrial bars in the individual graphs
@@ -474,7 +474,7 @@ function drawThreatDrivers(wrapper, drivers) {
 // Switches the display to the short zonal stats
 // @param elem | DOM element
 function dismissLongZonalStats(elem) {
-  elem.parentElement.parentElement.classList.remove('active');
+  elem.closest('.zonal-long-wrapper.active').classList.remove('active');
 }
 
 // Click handler to trigger the dismiss of the long zonal stats
@@ -513,3 +513,29 @@ function drawZonalStatsFromAPI(data) {
 }
 
 export { drawZonalStatsFromAPI };
+
+// Polyfill for Element.closest for IE9+ and Safari
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+if (!Element.prototype.matches) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector ||
+        Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+  Element.prototype.closest = function(s) {
+    var el = this;
+
+    if (!document.documentElement.contains(el)) {
+      return null;
+    }
+
+    do {
+      if (el.matches(s)) {
+        return el;
+      }
+      el = el.parentElement || el.parentNode;
+    } while (el !== null && el.nodeType === 1);
+
+    return null;
+  };
+}
