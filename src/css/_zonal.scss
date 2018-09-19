@@ -168,7 +168,7 @@ div.zonal-asset {
   margin-top: 40px;
 }
 
-.zonal-long-dismiss {
+.zonal-long-button {
   cursor: pointer;
   border-radius: 2px;
 
@@ -176,14 +176,36 @@ div.zonal-asset {
     background-color: #e6e6e6;
   }
 
-  &:before {
+  &-dismiss:before {
     content: "\2039";
     display: inline;
     padding-right: 2px;
   }
 
+  &-graphs {
+    display: none;
+  }
+
   &-wrapper {
     margin-bottom: 20px;
+  }
+}
+
+.zonal-long-raw-values {
+  display: none;
+}
+
+.active-table {
+  .zonal-long-raw-values {
+    display: block;
+  }
+
+  .zonal-long-button-graphs {
+    display: inline-block;
+  }
+
+  .zonal-long-graphs, .zonal-long-button-raw {
+    display: none;
   }
 }
 
@@ -609,6 +631,14 @@ $graph-tick-height-short: 5px;
     $threat-bar-margin: ($threat-bar-wrapper-width - $threat-bar-width) / 2;
     width: $threat-bar-width;
     margin: 0 $threat-bar-margin;
+  }
+}
+
+.zonal-long-raw-values {
+
+  ul {
+    padding-left: 18px;
+    margin-bottom: 0;
   }
 }
 
