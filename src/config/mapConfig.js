@@ -20,7 +20,8 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 13
+      maxNativeZoom: 13,
+      tms: true
     },
     {
       id: "ExposureTMS",
@@ -34,7 +35,8 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 13
+      maxNativeZoom: 13,
+      tms: true
     },
     {
       id: "AssetsTMS",
@@ -48,7 +50,8 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 12
+      maxNativeZoom: 12,
+      tms: true
     },
     {
       id: "ThreatsTMS",
@@ -62,7 +65,8 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 12
+      maxNativeZoom: 12,
+      tms: true
     },
     {
       id: "AquaticTMS",
@@ -76,7 +80,8 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 12
+      maxNativeZoom: 12,
+      tms: true
     },
     {
       id: "TerrestrialTMS",
@@ -90,7 +95,8 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 12
+      maxNativeZoom: 12,
+      tms: true
     },
   ],
 

@@ -161,7 +161,7 @@ export class Map extends Component {
     // Iterate over each wms map layer and add them to the map
     TMSLayers.forEach((layer) => {
       const tileLayer = L.tileLayer(layer.url, {
-        tms: true,
+        tms: layer.tms,
         id: layer.id,
         layers: layer.layer,
         crs: layer.crs,
