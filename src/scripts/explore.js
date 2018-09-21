@@ -67,11 +67,12 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
     // draw the user area on the map
-    this.drawUserArea();
+    // this.drawUserArea();
+    this.drawUserAreaFromUsereas();
 
     this.addUploadShapeHandler();
 
-    // Explore.addListAreasHandler();
+    Explore.addListAreasHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
@@ -236,6 +237,39 @@ export class Explore extends Component {
     }
     return null;
   }
+
+  drawUserAreaFromUsereas() {
+    // const userarea = store.getStateItem('userarea');
+
+    const currentshapes = store.getStateItem('userareas');
+    console.log(currentshapes)
+    Object.keys(currentshapes).forEach((key) => {
+      // console.log(key + '--' + currentshapes[key][o]);
+      const userarea = currentshapes[key][0].userarea;
+      const buffered = currentshapes[key][1].userarea_buffered;
+      const zonal = currentshapes[key][2].zonalstatsjson;
+
+      if (checkValidObject(userarea)) {
+        // convert geoJson to leaflet layer
+        const layer = L.geoJson(userarea);
+        const bufferedLayer =  L.geoJson(buffered);
+
+        // add layer to the leaflet map
+        this.drawAreaGroup.addLayer(layer);
+        this.drawAreaGroup.addLayer(bufferedLayer);
+
+        drawZonalStatsFromAPI(zonal.features[0].properties.mean);
+
+        // this.getZonal();
+        return layer;
+      }
+
+    });
+
+
+    return null;
+  }
+
 
   // handler for stopping (cancel) drawing on the map
   // adding not as hanlder callback so I can use this (class) calls
@@ -447,17 +481,22 @@ export class Explore extends Component {
   }
 
   static restoreshapes(e) {
-    // console.log(e)
     const currentshapes = store.getStateItem('userareas');
-    currentshapes.forEach((shapes) => {
-      // console.log(shapes);
+    console.log(currentshapes)
+    Object.keys(currentshapes).forEach((key) => {
+      console.log(currentshapes[key][0].userarea);
     });
+    // currentshapes.map((shapes) => {
+    //
+    // });
   }
 
   // Listens for click events on the upload shape button.
   static addListAreasHandler() {
     const ListAreasBtn = document.getElementById('btn-list-areas');
-    ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
+    if(checkValidObject(ListAreasBtn)) {
+      ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));      
+    }
   }
 
   // Listens for click events on the upload shape button.
