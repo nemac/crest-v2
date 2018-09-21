@@ -394,7 +394,7 @@ function getIndexes(data) {
       value: data.terrestrial,
       category: getTableCategoryText('terrestrial', data.terrestrial)
     }
-  ]
+  ];
 }
 
 // Reformats data for the asset drivers
@@ -525,7 +525,7 @@ function drawThreatDrivers(wrapper, drivers) {
 }
 
 function getZonalWrapper(elem) {
-  return elem.closest('.zonal-long-wrapper.active')
+  return elem.closest('.zonal-long-wrapper.active');
 }
 
 // Switches the display to the short zonal stats
@@ -634,8 +634,8 @@ if (!Element.prototype.matches) {
 }
 
 if (!Element.prototype.closest) {
-  Element.prototype.closest = function(s) {
-    var el = this;
+  Element.prototype.closest = (s) => {
+    let el = this;
 
     if (!document.documentElement.contains(el)) {
       return null;

@@ -56,7 +56,7 @@ export class Explore extends Component {
     this.addClearAreaClickHandler();
 
     // handler for clicking the draw area button
-    this.addDrawAreaClickHandler(mapComponent);
+    Explore.addDrawAreaClickHandler(mapComponent);
 
     // handle stop of draw with escape before finsihed
     Explore.addDrawVertexStop(mapComponent, mapInfoComponent);
@@ -70,6 +70,8 @@ export class Explore extends Component {
     this.drawUserArea();
 
     this.addUploadShapeHandler();
+
+    // Explore.addListAreasHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
@@ -157,6 +159,7 @@ export class Explore extends Component {
     // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
+    Explore.storeShapes();
     store.setStoreItem('working_zonalstats', false);
     drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean);
     spinnerOff('getZonal done');
@@ -271,6 +274,8 @@ export class Explore extends Component {
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
+    store.removeStateItem('userareas');
+    Explore.resetshapescounter();
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
     store.removeStateItem('zonalstatsjson');
@@ -299,7 +304,7 @@ export class Explore extends Component {
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
   // @param { Object } mapComponent object
-  addDrawAreaClickHandler(mapComponent) {
+  static addDrawAreaClickHandler(mapComponent) {
     // draw polygon options
     const options = {
       allowIntersection: false, // Restricts shapes to simple polygons
@@ -317,7 +322,7 @@ export class Explore extends Component {
 
     drawAreaElement.addEventListener('click', (ev) => {
       // remove existing Area
-      this.removeExistingArea();
+      // this.removeExistingArea();
 
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events
@@ -400,11 +405,59 @@ export class Explore extends Component {
       //   mapInfoComponent.addMapClickIdentifyClickHandler();
       // }
 
+      const geojson = layer.toGeoJSON();
       // update store
       store.setStoreItem('lastaction', 'draw area');
-      store.setStoreItem('userarea', layer.toGeoJSON());
+      store.setStoreItem('userarea', geojson);
       this.getZonal();
     });
+  }
+
+  static resetshapescounter() {
+    store.removeStateItem('userareacount');
+  }
+
+  static storeshapescounter() {
+    let userareacount = store.getStateItem('userareacount');
+    if (!checkValidObject(userareacount)) {
+      userareacount = 1;
+    } else {
+      userareacount += 1;
+    }
+
+    store.setStoreItem('userareacount', userareacount);
+    return userareacount;
+  }
+
+  // add a new shape to user shape store
+  static storeShapes() {
+    const currentshapes = store.getStateItem('userareas');
+
+    const shapecount = Explore.storeshapescounter();
+    const newshape = {
+      ['userarea' + shapecount]: [
+        { 'userarea': store.getStateItem('userarea') },
+        { 'userarea_buffered': store.getStateItem('userarea_buffered') },
+        { 'zonalstatsjson': store.getStateItem('zonalstatsjson') }
+      ]
+    };
+
+    const newshapes = { ...currentshapes, ...newshape };
+    store.setStoreItem('userareas', newshapes);
+  }
+
+  static restoreshapes(e) {
+    // console.log(e)
+    const currentshapes = store.getStateItem('userareas');
+    currentshapes.forEach((shapes) => {
+      // console.log(shapes);
+    });
+  }
+
+  // Listens for click events on the upload shape button.
+  static addListAreasHandler() {
+    const ListAreasBtn = document.getElementById('btn-list-areas');
+    ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
   }
 
   // Listens for click events on the upload shape button.
