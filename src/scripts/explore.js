@@ -242,9 +242,7 @@ export class Explore extends Component {
     // const userarea = store.getStateItem('userarea');
 
     const currentshapes = store.getStateItem('userareas');
-    console.log(currentshapes)
     Object.keys(currentshapes).forEach((key) => {
-      // console.log(key + '--' + currentshapes[key][o]);
       const userarea = currentshapes[key][0].userarea;
       const buffered = currentshapes[key][1].userarea_buffered;
       const zonal = currentshapes[key][2].zonalstatsjson;
@@ -252,7 +250,7 @@ export class Explore extends Component {
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer
         const layer = L.geoJson(userarea);
-        const bufferedLayer =  L.geoJson(buffered);
+        const bufferedLayer = L.geoJson(buffered);
 
         // add layer to the leaflet map
         this.drawAreaGroup.addLayer(layer);
@@ -263,10 +261,8 @@ export class Explore extends Component {
         // this.getZonal();
         return layer;
       }
-
+      return null;
     });
-
-
     return null;
   }
 
@@ -482,9 +478,8 @@ export class Explore extends Component {
 
   static restoreshapes(e) {
     const currentshapes = store.getStateItem('userareas');
-    console.log(currentshapes)
     Object.keys(currentshapes).forEach((key) => {
-      console.log(currentshapes[key][0].userarea);
+      // console.log(currentshapes[key][0].userarea);
     });
     // currentshapes.map((shapes) => {
     //
@@ -494,8 +489,8 @@ export class Explore extends Component {
   // Listens for click events on the upload shape button.
   static addListAreasHandler() {
     const ListAreasBtn = document.getElementById('btn-list-areas');
-    if(checkValidObject(ListAreasBtn)) {
-      ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));      
+    if (checkValidObject(ListAreasBtn)) {
+      ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
     }
   }
 
