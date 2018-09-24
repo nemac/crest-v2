@@ -157,7 +157,8 @@ div.zonal-asset {
 
   &.active {
     left: 0;
-    height: auto;
+    // this is a hacky way of dealing with height.
+    height: 1700px;
   }
 }
 
@@ -177,7 +178,7 @@ div.zonal-asset {
   background-color:  $body-color;
   color: $body-bg;
   font-size: 15px;
-  
+
   &:hover {
     background-color: #e6e6e6;
   }

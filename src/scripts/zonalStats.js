@@ -597,10 +597,11 @@ function displayZonalGraphsHandler(e) {
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
-function drawLongZonalStats(data) {
+function drawLongZonalStats(data, name) {
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.innerHTML = ZonalLong;
+  drawName(wrapper, name);
   drawExposure(wrapper, data.asset, data.threat);
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
@@ -613,6 +614,10 @@ function drawLongZonalStats(data) {
   return wrapper;
 }
 
+function drawName(wrapper, name) {
+  wrapper.querySelector('#zonal-long-name').textContent = name;
+}
+
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
 function drawZonalStatsFromAPI(data, name) {
@@ -622,7 +627,7 @@ function drawZonalStatsFromAPI(data, name) {
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
   wrapper.appendChild(drawShortZonalStats(data, name));
-  wrapper.appendChild(drawLongZonalStats(data));
+  wrapper.appendChild(drawLongZonalStats(data, name));
   document.getElementById('zonal-content').appendChild(wrapper);
 }
 
