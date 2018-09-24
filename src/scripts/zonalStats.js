@@ -48,16 +48,18 @@ function makeBoxWrapper() {
 
 // Gets text for an individual short zonal stats item title
 // @return String
-function makeLabelText() {
-  return `Area ${document.getElementsByClassName('zonal-wrapper').length + 1}`;
+function makeLabelText(name) {
+  return `${name}`;
+  // return `${name} ${document.getElementsByClassName('zonal-wrapper').length + 1}`;
 }
 
 // Makes main title for an individual short zonal stats item
 // @return DOM element
-function makeLabel() {
+function makeLabel(name) {
   const zonalLabel = makeDiv();
   zonalLabel.classList.add('zonal-label');
-  zonalLabel.appendChild(makeTextElement(makeLabelText()));
+  zonalLabel.setAttribute('id', 'zonal-label');
+  zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
 }
 
@@ -169,9 +171,9 @@ function makeExposureBox(asset, threat) {
 // Creates all of the interior html for the short zonal stats
 // @param data | Object
 // @return Array
-function makeShortZonalStatsInterior(data) {
+function makeShortZonalStatsInterior(data, name) {
   return [
-    makeLabel(),
+    makeLabel(name),
     makeHubBox(data.hubs),
     makeFishWildBox(data.terrestrial, data.aquatic),
     makeExposureBox(data.asset, data.threat)
@@ -193,9 +195,9 @@ function shortZonalClickHandler(e) {
 // Creates the entire short zonal stats block of html
 // @param data | Object
 // @return DOM element
-function drawShortZonalStats(data) {
+function drawShortZonalStats(data, name) {
   const wrapper = makeZonalWrapper();
-  makeShortZonalStatsInterior(data).forEach((elem) => {
+  makeShortZonalStatsInterior(data, name).forEach((elem) => {
     wrapper.appendChild(elem);
   });
   wrapper.addEventListener('click', shortZonalClickHandler);
@@ -613,13 +615,13 @@ function drawLongZonalStats(data) {
 
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
-function drawZonalStatsFromAPI(data) {
+function drawZonalStatsFromAPI(data, name) {
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
-  wrapper.appendChild(drawShortZonalStats(data));
+  wrapper.appendChild(drawShortZonalStats(data, name));
   wrapper.appendChild(drawLongZonalStats(data));
   document.getElementById('zonal-content').appendChild(wrapper);
 }

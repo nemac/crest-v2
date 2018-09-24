@@ -160,9 +160,9 @@ export class Explore extends Component {
     // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
-    Explore.storeShapes();
+    const name = Explore.storeShapes();
     store.setStoreItem('working_zonalstats', false);
-    drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean);
+    drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
     spinnerOff('getZonal done');
 
     // add event to map for a listner that zonal stats have been calculated
@@ -243,9 +243,10 @@ export class Explore extends Component {
 
     const currentshapes = store.getStateItem('userareas');
     Object.keys(currentshapes).forEach((key) => {
-      const userarea = currentshapes[key][0].userarea;
-      const buffered = currentshapes[key][1].userarea_buffered;
-      const zonal = currentshapes[key][2].zonalstatsjson;
+      const name = currentshapes[key][0].name;
+      const userarea = currentshapes[key][1].userarea;
+      const buffered = currentshapes[key][2].userarea_buffered;
+      const zonal = currentshapes[key][3].zonalstatsjson;
 
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer
@@ -256,7 +257,7 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(layer);
         this.drawAreaGroup.addLayer(bufferedLayer);
 
-        drawZonalStatsFromAPI(zonal.features[0].properties.mean);
+        drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
 
         // this.getZonal();
         return layer;
@@ -464,8 +465,10 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('userareas');
 
     const shapecount = Explore.storeshapescounter();
+    const name =  "Area " + shapecount;
     const newshape = {
       ['userarea' + shapecount]: [
+        { name},
         { 'userarea': store.getStateItem('userarea') },
         { 'userarea_buffered': store.getStateItem('userarea_buffered') },
         { 'zonalstatsjson': store.getStateItem('zonalstatsjson') }
@@ -474,6 +477,7 @@ export class Explore extends Component {
 
     const newshapes = { ...currentshapes, ...newshape };
     store.setStoreItem('userareas', newshapes);
+    return name;
   }
 
   static restoreshapes(e) {
