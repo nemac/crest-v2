@@ -1,6 +1,6 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
-import identifyConfig from '../config/identifyConfig';
+import { identifyConfig } from '../config/identifyConfig';
 
 // Checks if a value falls in the range of accepted values
 // @param val | string || integer || float
