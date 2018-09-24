@@ -51,6 +51,19 @@ $body-color: $gray-200;
     display: inline-block;
     vertical-align: top;
   }
+
+  // left: 150%;
+  // position: absolute;
+ // left: 0px;
+ left: 150%;
+ position: relative;
+
+  &.active {
+    height: 100%;
+    display: block;
+    left: 0px;
+    position: relative;
+  }
 }
 
 .zonal-expand-button {

@@ -2,6 +2,8 @@ import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import { identifyConfig } from '../config/identifyConfig';
 
+const LONG_GRAPH_HEIGHT = '1750px';
+
 // Checks if a value falls in the range of accepted values
 // @param val | string || integer || float
 // @return boolean
@@ -35,6 +37,7 @@ function makeScreenReaderText(text) {
 function makeZonalWrapper() {
   const zonalWrap = makeDiv();
   zonalWrap.classList.add('zonal-wrapper');
+  zonalWrap.classList.add('active');
   return zonalWrap;
 }
 
@@ -184,6 +187,15 @@ function makeShortZonalStatsInterior(data, name) {
 // @param shortElem | DOM element
 function viewLongZonalStats(shortElem) {
   shortElem.nextElementSibling.classList.add('active');
+
+  var x = document.querySelectorAll(".zonal-wrapper");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].classList.remove('active');
+  }
+
+
+  shortElem.style.height = LONG_GRAPH_HEIGHT;
 }
 
 // Click handler to trigger the load of the long zonal stats
@@ -535,6 +547,19 @@ function getZonalWrapper(elem) {
 function dismissLongZonalStats(wrapper) {
   wrapper.classList.remove('active');
   wrapper.classList.remove('active-table');
+  // wrapper.previousSibling.classList.add('active');
+  wrapper.previousSibling.style.height = '100%';
+
+  var x = document.querySelectorAll(".zonal-wrapper");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].classList.add('active');
+  }
+
+
+
+  // wrapper.previousSibling.style.height = '100%';
+  // shortElem.position.left = '0%';
 }
 
 // Click handler to trigger the dismiss of the long zonal stats
