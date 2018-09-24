@@ -251,7 +251,7 @@ export class Explore extends Component {
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer
         const layer = L.geoJson(userarea);
-        const bufferedLayer = L.geoJson(buffered);
+        const bufferedLayer = L.geoJson(buffered, this.bufferedoptions);
 
         // add layer to the leaflet map
         this.drawAreaGroup.addLayer(layer);
@@ -465,10 +465,10 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('userareas');
 
     const shapecount = Explore.storeshapescounter();
-    const name =  "Area " + shapecount;
+    const name = 'Area ' + shapecount;
     const newshape = {
       ['userarea' + shapecount]: [
-        { name},
+        { name },
         { 'userarea': store.getStateItem('userarea') },
         { 'userarea_buffered': store.getStateItem('userarea_buffered') },
         { 'zonalstatsjson': store.getStateItem('zonalstatsjson') }

@@ -44,7 +44,7 @@ $body-color: $gray-200;
 }
 
 .zonal-wrapper {
-  margin-bottom: 10px;
+
   cursor: pointer;
 
   > div, > button {
@@ -52,13 +52,12 @@ $body-color: $gray-200;
     vertical-align: top;
   }
 
-  // left: 150%;
-  // position: absolute;
- // left: 0px;
- left: 150%;
- position: relative;
+  margin-bottom: 0px;
+  left: 150%;
+  position: absolute;
 
   &.active {
+    margin-bottom: 10px;
     height: 100%;
     display: block;
     left: 0px;
@@ -96,6 +95,11 @@ div.zonal-asset {
 
 #zonal-header {
   margin-bottom: 15px;
+}
+
+.zonal-long-name-sticky {
+  position: -webkit-sticky;
+  position: sticky;
 }
 
 .zonal-header-item {
@@ -167,11 +171,15 @@ div.zonal-asset {
   transition: left .5s ease-in-out;
   background-color: #343a40;
   overflow: hidden;
+  padding-bottom: 0px;
 
   &.active {
     left: 0;
+    position: relative;
+    left: 0px;
     // this is a hacky way of dealing with height.
-    height: 1700px;
+     height: 100%;
+     padding-bottom: 30px;
   }
 }
 

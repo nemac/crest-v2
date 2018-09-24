@@ -2,8 +2,6 @@ import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import { identifyConfig } from '../config/identifyConfig';
 
-const LONG_GRAPH_HEIGHT = '1750px';
-
 // Checks if a value falls in the range of accepted values
 // @param val | string || integer || float
 // @return boolean
@@ -183,19 +181,28 @@ function makeShortZonalStatsInterior(data, name) {
   ];
 }
 
+function ZonalWrapperActiveRemove() {
+  const x = document.querySelectorAll('.zonal-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.remove('active');
+  }
+}
+
+function ZonalWrapperActiveAdd() {
+  const x = document.querySelectorAll('.zonal-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.add('active');
+  }
+}
+
 // Switches the display to the long zonal stats
 // @param shortElem | DOM element
 function viewLongZonalStats(shortElem) {
   shortElem.nextElementSibling.classList.add('active');
-
-  var x = document.querySelectorAll(".zonal-wrapper");
-  var i;
-  for (i = 0; i < x.length; i++) {
-      x[i].classList.remove('active');
-  }
-
-
-  shortElem.style.height = LONG_GRAPH_HEIGHT;
+  document.getElementById('zonal-header').classList.add('d-none');
+  ZonalWrapperActiveRemove();
 }
 
 // Click handler to trigger the load of the long zonal stats
@@ -542,24 +549,15 @@ function getZonalWrapper(elem) {
   return elem.closest('.zonal-long-wrapper.active');
 }
 
+
 // Switches the display to the short zonal stats
 // @param wrapper | DOM element
 function dismissLongZonalStats(wrapper) {
   wrapper.classList.remove('active');
   wrapper.classList.remove('active-table');
-  // wrapper.previousSibling.classList.add('active');
-  wrapper.previousSibling.style.height = '100%';
-
-  var x = document.querySelectorAll(".zonal-wrapper");
-  var i;
-  for (i = 0; i < x.length; i++) {
-      x[i].classList.add('active');
-  }
-
-
-
+  document.getElementById('zonal-header').classList.remove('d-none');
   // wrapper.previousSibling.style.height = '100%';
-  // shortElem.position.left = '0%';
+  ZonalWrapperActiveAdd();
 }
 
 // Click handler to trigger the dismiss of the long zonal stats
@@ -619,6 +617,10 @@ function displayZonalGraphsHandler(e) {
   displayGraphs(getZonalWrapper(this));
 }
 
+function drawName(wrapper, name) {
+  wrapper.querySelector('#zonal-long-name').textContent = name;
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
@@ -637,10 +639,6 @@ function drawLongZonalStats(data, name) {
   wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
   return wrapper;
-}
-
-function drawName(wrapper, name) {
-  wrapper.querySelector('#zonal-long-name').textContent = name;
 }
 
 // Draws and configures the entire zonal stats
