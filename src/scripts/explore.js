@@ -465,13 +465,13 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('userareas');
 
     const shapecount = Explore.storeshapescounter();
-    const name = 'Area ' + shapecount;
+    const name = `Area ${shapecount}`;
     const newshape = {
-      ['userarea' + shapecount]: [
+      [`userarea${shapecount}`]: [
         { name },
-        { 'userarea': store.getStateItem('userarea') },
-        { 'userarea_buffered': store.getStateItem('userarea_buffered') },
-        { 'zonalstatsjson': store.getStateItem('zonalstatsjson') }
+        { userarea: store.getStateItem('userarea') },
+        { userarea_buffered: store.getStateItem('userarea_buffered') },
+        { zonalstatsjson: store.getStateItem('zonalstatsjson') }
       ]
     };
 
