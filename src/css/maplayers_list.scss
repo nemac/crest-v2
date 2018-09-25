@@ -11,7 +11,7 @@ $layer_list_padding: 10px;
 $map_top_margin: 5px;
 $map_right_margin: 10px;
 
-  #maplayers_list_close, #map_info_list_collapse {
+#maplayers_list_close, #map_info_list_collapse {
   color: $body-color;
   font-size: 14px;
 }
@@ -37,8 +37,36 @@ $map_right_margin: 10px;
     padding: $layer_list_padding;
     border-radius: 0.25rem;
     margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
-
+    max-height: 500px;
+    overflow: scroll;
 }
+
+@media (max-height: 550px) {
+  .maplayers_list {
+    max-height: 400px;
+  }
+}
+
+@media (max-height: 300px) {
+  .maplayers_list {
+    max-height: 250px;
+  }
+}
+
+.maplayers_list::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 7px;
+ }
+
+.maplayers_list::-webkit-scrollbar-thumb {
+   border-radius: 4px;
+   background-color: $body-color
+ }
+
+.maplayers_list::-webkit-scrollbar-corner{
+   display: none;
+ }
+
 
 .layerList-sub-group {
   padding-top: 5px;
