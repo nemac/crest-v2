@@ -67,11 +67,12 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
     // draw the user area on the map
-    this.drawUserArea();
+    // this.drawUserArea();
+    this.drawUserAreaFromUsereas();
 
     this.addUploadShapeHandler();
 
-    // Explore.addListAreasHandler();
+    Explore.addListAreasHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
@@ -159,9 +160,9 @@ export class Explore extends Component {
     // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
-    Explore.storeShapes();
+    const name = Explore.storeShapes();
     store.setStoreItem('working_zonalstats', false);
-    drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean);
+    drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
     spinnerOff('getZonal done');
 
     // add event to map for a listner that zonal stats have been calculated
@@ -236,6 +237,36 @@ export class Explore extends Component {
     }
     return null;
   }
+
+  drawUserAreaFromUsereas() {
+    // const userarea = store.getStateItem('userarea');
+
+    const currentshapes = store.getStateItem('userareas');
+    Object.keys(currentshapes).forEach((key) => {
+      const name = currentshapes[key][0].name;
+      const userarea = currentshapes[key][1].userarea;
+      const buffered = currentshapes[key][2].userarea_buffered;
+      const zonal = currentshapes[key][3].zonalstatsjson;
+
+      if (checkValidObject(userarea)) {
+        // convert geoJson to leaflet layer
+        const layer = L.geoJson(userarea);
+        const bufferedLayer = L.geoJson(buffered, this.bufferedoptions);
+
+        // add layer to the leaflet map
+        this.drawAreaGroup.addLayer(layer);
+        this.drawAreaGroup.addLayer(bufferedLayer);
+
+        drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
+
+        // this.getZonal();
+        return layer;
+      }
+      return null;
+    });
+    return null;
+  }
+
 
   // handler for stopping (cancel) drawing on the map
   // adding not as hanlder callback so I can use this (class) calls
@@ -434,30 +465,37 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('userareas');
 
     const shapecount = Explore.storeshapescounter();
+    const name = `Area ${shapecount}`;
     const newshape = {
-      ['userarea' + shapecount]: [
-        { 'userarea': store.getStateItem('userarea') },
-        { 'userarea_buffered': store.getStateItem('userarea_buffered') },
-        { 'zonalstatsjson': store.getStateItem('zonalstatsjson') }
+      [`userarea${shapecount}`]: [
+        { name },
+        { userarea: store.getStateItem('userarea') },
+        { userarea_buffered: store.getStateItem('userarea_buffered') },
+        { zonalstatsjson: store.getStateItem('zonalstatsjson') }
       ]
     };
 
     const newshapes = { ...currentshapes, ...newshape };
     store.setStoreItem('userareas', newshapes);
+    return name;
   }
 
   static restoreshapes(e) {
-    // console.log(e)
     const currentshapes = store.getStateItem('userareas');
-    currentshapes.forEach((shapes) => {
-      // console.log(shapes);
+    Object.keys(currentshapes).forEach((key) => {
+      // console.log(currentshapes[key][0].userarea);
     });
+    // currentshapes.map((shapes) => {
+    //
+    // });
   }
 
   // Listens for click events on the upload shape button.
   static addListAreasHandler() {
     const ListAreasBtn = document.getElementById('btn-list-areas');
-    ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
+    if (checkValidObject(ListAreasBtn)) {
+      ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
+    }
   }
 
   // Listens for click events on the upload shape button.

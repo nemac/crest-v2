@@ -35,18 +35,36 @@ $label-font-size: 12px;
 $graph-axis-width: 40px;
 $graph-axis-color: #999;
 
+$body-bg:    $gray-800;
+$body-color: $gray-200;
+
 #zonal-area-wrapper {
   width: 100%;
   position: relative;
 }
 
 .zonal-wrapper {
-  margin-bottom: 10px;
+
   cursor: pointer;
 
   > div, > button {
     display: inline-block;
     vertical-align: top;
+  }
+
+  margin-bottom: 0px;
+  left: 150%;
+  top: -150px;
+  position: absolute;
+  height: 0px;
+
+  &.active {
+    margin-bottom: 10px;
+    height: 100%;
+    display: block;
+    left: 0px;
+    top: 0px;
+    position: relative;
   }
 }
 
@@ -80,6 +98,11 @@ div.zonal-asset {
 
 #zonal-header {
   margin-bottom: 15px;
+}
+
+.zonal-long-name-sticky {
+  position: -webkit-sticky;
+  position: sticky;
 }
 
 .zonal-header-item {
@@ -151,10 +174,15 @@ div.zonal-asset {
   transition: left .5s ease-in-out;
   background-color: #343a40;
   overflow: hidden;
+  padding-bottom: 0px;
 
   &.active {
     left: 0;
-    height: auto;
+    position: relative;
+    left: 0px;
+    // this is a hacky way of dealing with height.
+     height: 100%;
+     padding-bottom: 30px;
   }
 }
 
@@ -171,6 +199,9 @@ div.zonal-asset {
 .zonal-long-button {
   cursor: pointer;
   border-radius: 2px;
+  background-color:  $body-color;
+  color: $body-bg;
+  font-size: 15px;
 
   &:hover {
     background-color: #e6e6e6;

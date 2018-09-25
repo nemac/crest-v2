@@ -1,6 +1,6 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
-import identifyConfig from '../config/identifyConfig';
+import { identifyConfig } from '../config/identifyConfig';
 
 // Checks if a value falls in the range of accepted values
 // @param val | string || integer || float
@@ -35,6 +35,7 @@ function makeScreenReaderText(text) {
 function makeZonalWrapper() {
   const zonalWrap = makeDiv();
   zonalWrap.classList.add('zonal-wrapper');
+  zonalWrap.classList.add('active');
   return zonalWrap;
 }
 
@@ -48,16 +49,20 @@ function makeBoxWrapper() {
 
 // Gets text for an individual short zonal stats item title
 // @return String
-function makeLabelText() {
-  return `Area ${document.getElementsByClassName('zonal-wrapper').length + 1}`;
+function makeLabelText(name) {
+  return `${name}`;
+  // return `${name} ${document.getElementsByClassName('zonal-wrapper').length + 1}`;
 }
 
 // Makes main title for an individual short zonal stats item
 // @return DOM element
-function makeLabel() {
+function makeLabel(name) {
   const zonalLabel = makeDiv();
+  const HTMLName = name.replace(' ', '_');
   zonalLabel.classList.add('zonal-label');
-  zonalLabel.appendChild(makeTextElement(makeLabelText()));
+  zonalLabel.classList.add(`zonal-label-${HTMLName}`);
+  zonalLabel.setAttribute('id', 'zonal-label');
+  zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
 }
 
@@ -169,19 +174,37 @@ function makeExposureBox(asset, threat) {
 // Creates all of the interior html for the short zonal stats
 // @param data | Object
 // @return Array
-function makeShortZonalStatsInterior(data) {
+function makeShortZonalStatsInterior(data, name) {
   return [
-    makeLabel(),
+    makeLabel(name),
     makeHubBox(data.hubs),
     makeFishWildBox(data.terrestrial, data.aquatic),
     makeExposureBox(data.asset, data.threat)
   ];
 }
 
+function ZonalWrapperActiveRemove() {
+  const x = document.querySelectorAll('.zonal-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.remove('active');
+  }
+}
+
+function ZonalWrapperActiveAdd() {
+  const x = document.querySelectorAll('.zonal-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.add('active');
+  }
+}
+
 // Switches the display to the long zonal stats
 // @param shortElem | DOM element
 function viewLongZonalStats(shortElem) {
   shortElem.nextElementSibling.classList.add('active');
+  document.getElementById('zonal-header').classList.add('d-none');
+  ZonalWrapperActiveRemove();
 }
 
 // Click handler to trigger the load of the long zonal stats
@@ -193,9 +216,9 @@ function shortZonalClickHandler(e) {
 // Creates the entire short zonal stats block of html
 // @param data | Object
 // @return DOM element
-function drawShortZonalStats(data) {
+function drawShortZonalStats(data, name) {
   const wrapper = makeZonalWrapper();
-  makeShortZonalStatsInterior(data).forEach((elem) => {
+  makeShortZonalStatsInterior(data, name).forEach((elem) => {
     wrapper.appendChild(elem);
   });
   wrapper.addEventListener('click', shortZonalClickHandler);
@@ -528,11 +551,15 @@ function getZonalWrapper(elem) {
   return elem.closest('.zonal-long-wrapper.active');
 }
 
+
 // Switches the display to the short zonal stats
 // @param wrapper | DOM element
 function dismissLongZonalStats(wrapper) {
   wrapper.classList.remove('active');
   wrapper.classList.remove('active-table');
+  document.getElementById('zonal-header').classList.remove('d-none');
+  // wrapper.previousSibling.style.height = '100%';
+  ZonalWrapperActiveAdd();
 }
 
 // Click handler to trigger the dismiss of the long zonal stats
@@ -592,13 +619,18 @@ function displayZonalGraphsHandler(e) {
   displayGraphs(getZonalWrapper(this));
 }
 
+function drawName(wrapper, name) {
+  wrapper.querySelector('#zonal-long-name').textContent = name;
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
-function drawLongZonalStats(data) {
+function drawLongZonalStats(data, name) {
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.innerHTML = ZonalLong;
+  drawName(wrapper, name);
   drawExposure(wrapper, data.asset, data.threat);
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
@@ -613,14 +645,14 @@ function drawLongZonalStats(data) {
 
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
-function drawZonalStatsFromAPI(data) {
+function drawZonalStatsFromAPI(data, name) {
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
-  wrapper.appendChild(drawShortZonalStats(data));
-  wrapper.appendChild(drawLongZonalStats(data));
+  wrapper.appendChild(drawShortZonalStats(data, name));
+  wrapper.appendChild(drawLongZonalStats(data, name));
   document.getElementById('zonal-content').appendChild(wrapper);
 }
 
