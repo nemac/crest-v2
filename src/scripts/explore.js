@@ -73,6 +73,7 @@ export class Explore extends Component {
     this.addUploadShapeHandler();
 
     Explore.addListAreasHandler();
+    this.addUpdateStatisticsHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
@@ -130,6 +131,129 @@ export class Explore extends Component {
     return '';
   }
 
+
+  async getZonalforShape() {
+    spinnerOn();
+    const currentshapes = store.getStateItem('userareas');
+    console.log(currentshapes)
+    for (let key in currentshapes) {
+      const rawpostdata = currentshapes[key][2].userarea_buffered;
+      console.log(rawpostdata)
+
+      let postdata = '';
+
+      // some Geojson is not a feature collection lambda function expects a
+      // a feature collection
+      if (rawpostdata.type === 'Feature') {
+        const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+        const FeatureCollectionEnd = ']}';
+        postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+      }
+
+      if (rawpostdata.type === 'FeatureCollection') {
+        postdata = JSON.stringify(rawpostdata);
+      }
+
+      if (!checkValidObject(rawpostdata)) {
+        store.setStoreItem('working_zonalstats', false);
+        spinnerOff('getZonal checkValidObject rawpostdata');
+        return {};
+      }
+
+      const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+      console.log(ZonalStatsJson);
+      currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
+    }
+
+    store.setStoreItem('userareas', currentshapes);
+    console.log('done')
+    spinnerOff('getZonal done');
+    return null;
+    // store.setStoreItem('working_zonalstats', true);
+    // // store.removeStateItem('zonalstatsjson');
+    //
+    // const self = this;
+    // const currentshapes = store.getStateItem('userareas');
+    //
+    //
+    //
+    //   // for await (const key of currentshapes) {
+    //   //   console.log(currentshapes[key][2].userarea_buffered)
+    //   // }
+    //   // const rawpostdata = currentshapes[key][2].userarea_buffered;
+    //   // console.log('rawpostdata', rawpostdata)
+    //   //
+    //   // let postdata = '';
+    //   //
+    //   // // some Geojson is not a feature collection lambda function expects a
+    //   // // a feature collection
+    //   // if (rawpostdata.type === 'Feature') {
+    //   //   const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+    //   //   const FeatureCollectionEnd = ']}';
+    //   //   postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+    //   // }
+    //   //
+    //   // if (rawpostdata.type === 'FeatureCollection') {
+    //   //   postdata = JSON.stringify(rawpostdata);
+    //   // }
+    //   //
+    //   // if (!checkValidObject(rawpostdata)) {
+    //   //   store.setStoreItem('working_zonalstats', false);
+    //   //   spinnerOff('getZonal checkValidObject rawpostdata');
+    //   //   return {};
+    //   // }
+    //   //
+    //   // // send request to api
+    //   // const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+    //   // console.log(ZonalStatsJson)
+    //   // return ZonalStatsJson
+    //   // // setTimeout(() => { currentshapes[key][3].zonalstatsjson = ZonalStatsJson; }, 10);
+    // // }));
+    //
+    // // console.log('return', ret)
+    // // Object.keys(currentshapes).forEach( async (key) => {
+    // //   const rawpostdata = currentshapes[key][2].userarea_buffered;
+    // //   console.log(rawpostdata)
+    // //
+    // //   let postdata = '';
+    // //
+    // //   // some Geojson is not a feature collection lambda function expects a
+    // //   // a feature collection
+    // //   if (rawpostdata.type === 'Feature') {
+    // //     const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+    // //     const FeatureCollectionEnd = ']}';
+    // //     postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+    // //   }
+    // //
+    // //   if (rawpostdata.type === 'FeatureCollection') {
+    // //     postdata = JSON.stringify(rawpostdata);
+    // //   }
+    // //
+    // //   if (!checkValidObject(rawpostdata)) {
+    // //     store.setStoreItem('working_zonalstats', false);
+    // //     spinnerOff('getZonal checkValidObject rawpostdata');
+    // //     return {};
+    // //   }
+    // //
+    // //   // send request to api
+    // //   const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+    // //   console.log(ZonalStatsJson)
+    // //   setTimeout(() => { currentshapes[key][3].zonalstatsjson = ZonalStatsJson; }, 10);
+    // //
+    // //
+    // // });
+    //
+    // // store.setStoreItem('userareas', currentshapes);
+    // store.setStoreItem('working_zonalstats', false);
+    //
+    // spinnerOff('getZonal done');
+    //
+    // // add event to map for a listner that zonal stats have been calculated
+    // //  add timeout for write of more complex data to complete
+    // setTimeout(() => { this.mapComponent.map.fireEvent('zonalstatsend'); }, 10);
+    // return null;
+  }
+
   async getZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
@@ -162,7 +286,10 @@ export class Explore extends Component {
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = Explore.storeShapes();
     store.setStoreItem('working_zonalstats', false);
-    drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+    if(checkValidObject(ZonalStatsJson.features)) {
+      drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+    }
+
     spinnerOff('getZonal done');
 
     // add event to map for a listner that zonal stats have been calculated
@@ -257,7 +384,9 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(layer);
         this.drawAreaGroup.addLayer(bufferedLayer);
 
-        drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
+        if(checkValidObject(zonal.features)) {
+          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
+        }
 
         // this.getZonal();
         return layer;
@@ -480,19 +609,59 @@ export class Explore extends Component {
     return name;
   }
 
-  static restoreshapes(e) {
-    const currentshapes = store.getStateItem('userareas');
-    Object.keys(currentshapes).forEach((key) => {
-      // console.log(currentshapes[key][0].userarea);
-    });
-    // currentshapes.map((shapes) => {
-    //
-    // });
+  addUpdateStatisticsHandler() {
+    const self = this;
+    const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
+    // if (checkValidObject(UpdateZonalStatsBtn)) {
+      UpdateZonalStatsBtn.addEventListener('click', this.getZonalforShape.bind(this));
+    // }
   }
+
+  // async statsUpdate() {
+  //   const self = this;
+  //   const currentshapes = store.getStateItem('userareas');
+  //   Object.keys(currentshapes).forEach((key) => {
+  //     const rawpostdata = currentshapes[key][2].userarea_buffered;
+  //     // const zonastats = self.getZonalforShape(buffered);
+  //     // console.log(zonastats);
+  //
+  //     // some Geojson is not a feature collection lambda function expects a
+  //     // a feature collection
+  //     if (rawpostdata.type === 'Feature') {
+  //       const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+  //       const FeatureCollectionEnd = ']}';
+  //       postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+  //     }
+  //
+  //     if (rawpostdata.type === 'FeatureCollection') {
+  //       postdata = JSON.stringify(rawpostdata);
+  //     }
+  //
+  //     if (!checkValidObject(rawpostdata)) {
+  //       store.setStoreItem('working_zonalstats', false);
+  //       spinnerOff('getZonal checkValidObject rawpostdata');
+  //       return {};
+  //     }
+  //
+  //     // send request to api
+  //     const ZonalStatsJson = await self.ZonalStatsAPI.getZonalStatsSummary(postdata);
+  //
+  //     currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
+  //   });
+  //   store.setStoreItem('userareas', currentshapes);
+  // }
 
   // Listens for click events on the upload shape button.
   static addListAreasHandler() {
     const ListAreasBtn = document.getElementById('btn-list-areas');
+    if (checkValidObject(ListAreasBtn)) {
+      ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
+    }
+  }
+
+  // Listens for click events on the update statistics.
+  static restoreshapes() {
+    const ListAreasBtn = document.getElementById('btn-update-zonal-stats');
     if (checkValidObject(ListAreasBtn)) {
       ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
     }
