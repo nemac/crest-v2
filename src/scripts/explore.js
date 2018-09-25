@@ -73,6 +73,7 @@ export class Explore extends Component {
     this.addUploadShapeHandler();
 
     Explore.addListAreasHandler();
+    this.addUpdateStatisticsHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
@@ -130,6 +131,65 @@ export class Explore extends Component {
     return '';
   }
 
+  // update zonal stats for all user ares in the state store
+  async updateZonal() {
+    spinnerOn();
+    // this temp remove of stats so we can recalulate.
+    const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
+    if (zonalAreaWrapper) {
+      zonalAreaWrapper.innerHTML = 'Recalculating area information';
+    }
+
+    // get the curreent shapes from the sore
+    const currentshapes = store.getStateItem('userareas');
+
+    const checkobj = {}.hasOwnProperty;
+
+    // using for loop because it allows await functionality with
+    // async calls to zonal stats api.  this will ensure we wait for the promise to
+    // resolve and is added to the store before we progress on. using a check for hasOwnProperty
+    // to deal with all the prototpe entries
+    for (const key in currentshapes) {
+      if (checkobj.call(currentshapes, key)) {
+        const rawpostdata = currentshapes[key][2].userarea_buffered;
+        const name = currentshapes[key][0].name;
+
+        let postdata = '';
+
+        // some Geojson is not a feature collection lambda function expects a
+        // a feature collection
+        if (rawpostdata.type === 'Feature') {
+          const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+          const FeatureCollectionEnd = ']}';
+          postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+        }
+
+        if (rawpostdata.type === 'FeatureCollection') {
+          postdata = JSON.stringify(rawpostdata);
+        }
+
+        if (!checkValidObject(rawpostdata)) {
+          store.setStoreItem('working_zonalstats', false);
+          spinnerOff('getZonal checkValidObject rawpostdata');
+          return {};
+        }
+
+        // send to zonal stas and await
+        const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+
+        currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
+        if (checkValidObject(ZonalStatsJson.features)) {
+          drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+        }
+      }
+    }
+
+    // updae as complete
+    store.setStoreItem('userareas', currentshapes);
+    spinnerOff('getZonal done');
+    return null;
+  }
+
   async getZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
@@ -162,7 +222,10 @@ export class Explore extends Component {
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = Explore.storeShapes();
     store.setStoreItem('working_zonalstats', false);
-    drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+    if (checkValidObject(ZonalStatsJson.features)) {
+      drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+    }
+
     spinnerOff('getZonal done');
 
     // add event to map for a listner that zonal stats have been calculated
@@ -257,7 +320,9 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(layer);
         this.drawAreaGroup.addLayer(bufferedLayer);
 
-        drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
+        if (checkValidObject(zonal.features)) {
+          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
+        }
 
         // this.getZonal();
         return layer;
@@ -480,19 +545,22 @@ export class Explore extends Component {
     return name;
   }
 
-  static restoreshapes(e) {
-    const currentshapes = store.getStateItem('userareas');
-    Object.keys(currentshapes).forEach((key) => {
-      // console.log(currentshapes[key][0].userarea);
-    });
-    // currentshapes.map((shapes) => {
-    //
-    // });
+  addUpdateStatisticsHandler() {
+    const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
+    UpdateZonalStatsBtn.addEventListener('click', this.updateZonal.bind(this));
   }
 
   // Listens for click events on the upload shape button.
   static addListAreasHandler() {
     const ListAreasBtn = document.getElementById('btn-list-areas');
+    if (checkValidObject(ListAreasBtn)) {
+      ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
+    }
+  }
+
+  // Listens for click events on the update statistics.
+  static restoreshapes() {
+    const ListAreasBtn = document.getElementById('btn-update-zonal-stats');
     if (checkValidObject(ListAreasBtn)) {
       ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
     }
