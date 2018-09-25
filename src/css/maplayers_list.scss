@@ -11,9 +11,10 @@ $layer_list_padding: 10px;
 $map_top_margin: 5px;
 $map_right_margin: 10px;
 
-  #maplayers_list_close, #map_info_list_collapse {
+#maplayers_list_close, #map_info_list_collapse {
   color: $body-color;
   font-size: 14px;
+  padding: $layer_list_padding;
 }
 
 .mapinfodata-header, .LayerInput-header {
@@ -22,6 +23,16 @@ $map_right_margin: 10px;
 
 .LayerList-spacer {
   padding-top: 10px;
+}
+
+.stickcustom {
+  background-color: $body-bg-semiTransparent;
+  padding-top: 10px;
+  margin-top: -10px;
+}
+
+.toggle-list {
+  padding: $layer_list_padding;
 }
 
 .maplayers_list {
@@ -34,11 +45,57 @@ $map_right_margin: 10px;
     left: - (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
     top: (($grid-gutter-width / 2));
     z-index: 10000;
-    padding: $layer_list_padding;
     border-radius: 0.25rem;
     margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
-
+    max-height: 500px;
+    overflow: scroll;
 }
+
+
+@media (max-height: 675px) {
+  .maplayers_list {
+    max-height: 450px;
+  }
+}
+
+@media (max-height: 575px) {
+  .maplayers_list {
+    max-height: 350px;
+  }
+}
+
+@media (max-height: 475px) {
+  .maplayers_list {
+    max-height: 250px;
+  }
+}
+
+@media (max-height: 375px) {
+  .maplayers_list {
+    max-height: 150px;
+  }
+}
+
+@media (max-height: 250px) {
+  .maplayers_list {
+    max-height: 50px;
+  }
+}
+
+.maplayers_list::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 7px;
+ }
+
+.maplayers_list::-webkit-scrollbar-thumb {
+   border-radius: 4px;
+   background-color: $body-color
+ }
+
+.maplayers_list::-webkit-scrollbar-corner{
+   display: none;
+ }
+
 
 .layerList-sub-group {
   padding-top: 5px;
@@ -52,7 +109,7 @@ $map_right_margin: 10px;
     left: -$layer_list_padding * 2;
     width: 100%;
     z-index: 1000;
-    padding: $layer_list_padding;
+    // padding: $layer_list_padding;
     margin: $grid-gutter-width / 2;
     border: 1px solid $body-color;
     border-radius: 0.25rem;
@@ -64,7 +121,7 @@ $map_right_margin: 10px;
     left: 0px;
     float: none;
     width: 100%;
-    padding: $layer_list_padding;
+    // padding: $layer_list_padding;
     margin: $grid-gutter-width / 2;
   }
 
