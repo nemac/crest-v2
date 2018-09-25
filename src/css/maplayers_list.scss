@@ -51,25 +51,26 @@ $map_right_margin: 10px;
     overflow: scroll;
 }
 
-@media (max-height: 650px) {
+
+@media (max-height: 675px) {
   .maplayers_list {
     max-height: 450px;
   }
 }
 
-@media (max-height: 550px) {
+@media (max-height: 575px) {
   .maplayers_list {
     max-height: 350px;
   }
 }
 
-@media (max-height: 450px) {
+@media (max-height: 475px) {
   .maplayers_list {
     max-height: 250px;
   }
 }
 
-@media (max-height: 350px) {
+@media (max-height: 375px) {
   .maplayers_list {
     max-height: 150px;
   }
