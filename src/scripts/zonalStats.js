@@ -58,7 +58,9 @@ function makeLabelText(name) {
 // @return DOM element
 function makeLabel(name) {
   const zonalLabel = makeDiv();
+  const HTMLName = name.replace(' ','_');
   zonalLabel.classList.add('zonal-label');
+  zonalLabel.classList.add(`zonal-label-${HTMLName}`);
   zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
