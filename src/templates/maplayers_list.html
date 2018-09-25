@@ -1,21 +1,21 @@
 <div ref="maplayers_list" class="maplayers_list">
   <div id="map_info_list_collapse" ref="map_info_list_collapse" class="map_info_list map_info_list_collapse d-none">
-    <div class="sticky-top">
     <h5>Map Layers
       <span title="Open" aria-label="Open" id="maplayers_list_open" class="float-right text-center">
         <i title="Open" aria-label="Open" class="fas fa-angle-down"></i>
       </span>
     </h5>
   </div>
-  </div>
 
   <div class="toggle-list" id="maplayers_list_opened">
-    <h5  >Map Layers
+    <div class="sticky-top stickbg">
+    <h5  > Map Layers
       <span title="Close Map Layer List" aria-label="Close Map Layer List" id="maplayers_list_close" class="float-right text-center" >
         <i title="Close Map Layer List" aria-label="Close Map Layer List" class="fas fa-times"></i>
       </span>
     </h5>
     <hr />
+  </div>
     <div ref="ToggleLayers" id="ToggleLayerList" class="layer-toggles">
 
       <div class="LayerInput-header" id="HubsLayers-Header" >Hubs</div>
@@ -85,6 +85,39 @@
     <input title="Critical Infrastructure Index Layer" aria-label="Toggle Critical Infrastructure Index Layer" ref="CriticalInfrastructureTMS-toggle" type="checkbox" class="custom-control-input" id="CriticalInfrastructureTMS-toggle">
     <label title="Critical Infrastructure Index Layer" aria-label="Toggle Critical Infrastructure Index Layer" ref="CriticalInfrastructureTMS-label" class="custom-control-label" for="CriticalInfrastructureTMS-toggle" id="CriticalInfrastructureTMS-label">Critical Infrastructure Index</label>
   </div>
+
+
+  <div class="LayerList-spacer" id="ThreatsInputs-Header" ></div>
+  <div class="LayerInput-header" id="ThreatsInputs-Header" >Threats Inputs</div>
+  <div ref="LayerInput" id="DraingeTMS-layerToggle" class="custom-control custom-checkbox">
+    <input title="Drainge Density Layer" aria-label="Toggle Drainge Density Layer" ref="DraingeTMS-toggle" type="checkbox" class="custom-control-input" id="DraingeTMS-toggle">
+    <label title="Drainge Density Layer" aria-label="Toggle Drainge Density Layer" ref="DraingeTMS-label" class="custom-control-label" for="DraingeTMS-toggle" id="DraingeTMS-label">Drainge Index</label>
+  </div>
+  <div ref="LayerInput" id="ErosionTMS-layerToggle" class="custom-control custom-checkbox">
+    <input title="Erosion Index Layer" aria-label="Toggle Erosion Index Layer" ref="ErosionTMS-toggle" type="checkbox" class="custom-control-input" id="ErosionTMS-toggle">
+    <label title="Erosion Index Layer" aria-label="Toggle Erosion Index Layer" ref="ErosionTMS-label" class="custom-control-label" for="ErosionTMS-toggle" id="ErosionTMS-label">Erosion Vulnerability Index</label>
+  </div>
+  <div ref="LayerInput" id="FloodProneAreasTMS-layerToggle" class="custom-control custom-checkbox">
+    <input title="Flood Prone Areas Index Layer" aria-label="Toggle Flood Prone Areas Index Layer" ref="FloodProneAreasTMS-toggle" type="checkbox" class="custom-control-input" id="FloodProneAreasTMS-toggle">
+    <label title="Flood Prone Areas Index Layer" aria-label="Toggle Flood Prone Areas Index Layer" ref="FloodProneAreasTMS-label" class="custom-control-label" for="FloodProneAreasTMS-toggle" id="FloodProneAreasTMS-label">Flood Prone Areas Index</label>
+  </div>
+  <div ref="LayerInput" id="SLRTMS-layerToggle" class="custom-control custom-checkbox">
+    <input title="Sea Level Rise Index Layer" aria-label="Toggle Sea Level Rise Index Layer" ref="SLRTMS-toggle" type="checkbox" class="custom-control-input" id="SLRTMS-toggle">
+    <label title="Sea Level Rise Index Layer" aria-label="Toggle Sea Level Rise Index Layer" ref="SLRTMS-label" class="custom-control-label" for="SLRTMS-toggle" id="SLRTMS-label">Sea Level Rise Facilities Index</label>
+  </div>
+  <div ref="LayerInput" id="StormSurgeTMS-layerToggle" class="custom-control custom-checkbox">
+    <input title="Storm Surge Index Layer" aria-label="Toggle Storm Surge Index Layer" ref="StormSurgeTMS-toggle" type="checkbox" class="custom-control-input" id="StormSurgeTMS-toggle">
+    <label title="Storm Surge Index Layer" aria-label="Toggle Storm Surge Index Layer" ref="StormSurgeTMS-label" class="custom-control-label" for="StormSurgeTMS-toggle" id="StormSurgeTMS-label">Storm Surge Index</label>
+  </div>
+  <div ref="LayerInput" id="GeoStressTMS-layerToggle" class="custom-control custom-checkbox">
+    <input title="Geo Stressors Index Layer" aria-label="Toggle Geo Stressors Index Layer" ref="GeoStressTMS-toggle" type="checkbox" class="custom-control-input" id="GeoStressTMS-toggle">
+    <label title="Geo Stressors Index Layer" aria-label="Toggle Geo Stressors Index Layer" ref="GeoStressTMS-label" class="custom-control-label" for="GeoStressTMS-toggle" id="GeoStressTMS-label">Geo Stressors Index</label>
+  </div>
+  <div ref="LayerInput" id="SlopeTMS-layerToggle" class="custom-control custom-checkbox">
+    <input title="Slope Index Layer" aria-label="Toggle Slope Index Layer" ref="SlopeTMS-toggle" type="checkbox" class="custom-control-input" id="SlopeTMS-toggle">
+    <label title="Slope Index Layer" aria-label="Toggle Slope Index Layer" ref="SlopeTMS-label" class="custom-control-label" for="SlopeTMS-toggle" id="SlopeTMS-label">Slope Index</label>
+  </div>
+
 
 </div>
 </div>

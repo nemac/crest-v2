@@ -221,7 +221,7 @@ export var mapConfig = {
     {
       id: "GeoStressTMS",
       layer: "Geo Stressors TMS",
-      label: "Geo Stressors  Index",
+      label: "Geo Stressors Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/GeoStressIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -236,8 +236,23 @@ export var mapConfig = {
     {
       id: "SlopeTMS",
       layer: "Slope TMS",
-      label: "Slope  Index",
+      label: "Slope Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/SlopeIndexTiles/{z}/{x}/{y}.png",
+      attribution: "NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.75,
+      zIndex: 9000,
+      crs: L.CRS.EPSG3857,
+      maxNativeZoom: 12,
+      tms: false
+    },
+    {
+      id: "FloodProneAreasTMS",
+      layer: "Flood Prone Areas TMS",
+      label: "Flood Prone Areas Index",
+      url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/FloodProneAreasIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,
