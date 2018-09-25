@@ -131,52 +131,61 @@ export class Explore extends Component {
     return '';
   }
 
-
-  async getZonalforShape() {
+  // update zonal stats for all user ares in the state store
+  async updateZonal() {
     spinnerOn();
-    // this temp remove of stats while we work on multiple shapes.
+    // this temp remove of stats so we can recalulate.
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
       zonalAreaWrapper.innerHTML = 'Recalculating area information';
     }
 
+    // get the curreent shapes from the sore
     const currentshapes = store.getStateItem('userareas');
-    console.log(currentshapes)
-    for (let key in currentshapes) {
-      const rawpostdata = currentshapes[key][2].userarea_buffered;
-      const name = currentshapes[key][0].name;
-      console.log(rawpostdata)
 
-      let postdata = '';
+    const checkobj = {}.hasOwnProperty;
 
-      // some Geojson is not a feature collection lambda function expects a
-      // a feature collection
-      if (rawpostdata.type === 'Feature') {
-        const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
-        const FeatureCollectionEnd = ']}';
-        postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
-      }
+    // using for loop because it allows await functionality with
+    // async calls to zonal stats api.  this will ensure we wait for the promise to
+    // resolve and is added to the store before we progress on. using a check for hasOwnProperty
+    // to deal with all the prototpe entries
+    for (const key in currentshapes) {
+      if (checkobj.call(currentshapes, key)) {
+        const rawpostdata = currentshapes[key][2].userarea_buffered;
+        const name = currentshapes[key][0].name;
 
-      if (rawpostdata.type === 'FeatureCollection') {
-        postdata = JSON.stringify(rawpostdata);
-      }
+        let postdata = '';
 
-      if (!checkValidObject(rawpostdata)) {
-        store.setStoreItem('working_zonalstats', false);
-        spinnerOff('getZonal checkValidObject rawpostdata');
-        return {};
-      }
+        // some Geojson is not a feature collection lambda function expects a
+        // a feature collection
+        if (rawpostdata.type === 'Feature') {
+          const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+          const FeatureCollectionEnd = ']}';
+          postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+        }
 
-      const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
-      console.log(ZonalStatsJson);
-      currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
-      if(checkValidObject(ZonalStatsJson.features)) {
-        drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+        if (rawpostdata.type === 'FeatureCollection') {
+          postdata = JSON.stringify(rawpostdata);
+        }
+
+        if (!checkValidObject(rawpostdata)) {
+          store.setStoreItem('working_zonalstats', false);
+          spinnerOff('getZonal checkValidObject rawpostdata');
+          return {};
+        }
+
+        // send to zonal stas and await
+        const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+
+        currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
+        if (checkValidObject(ZonalStatsJson.features)) {
+          drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+        }
       }
     }
 
+    // updae as complete
     store.setStoreItem('userareas', currentshapes);
-    console.log('done')
     spinnerOff('getZonal done');
     return null;
   }
@@ -213,7 +222,7 @@ export class Explore extends Component {
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = Explore.storeShapes();
     store.setStoreItem('working_zonalstats', false);
-    if(checkValidObject(ZonalStatsJson.features)) {
+    if (checkValidObject(ZonalStatsJson.features)) {
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
     }
 
@@ -311,7 +320,7 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(layer);
         this.drawAreaGroup.addLayer(bufferedLayer);
 
-        if(checkValidObject(zonal.features)) {
+        if (checkValidObject(zonal.features)) {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
         }
 
@@ -537,46 +546,9 @@ export class Explore extends Component {
   }
 
   addUpdateStatisticsHandler() {
-    const self = this;
     const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
-    // if (checkValidObject(UpdateZonalStatsBtn)) {
-      UpdateZonalStatsBtn.addEventListener('click', this.getZonalforShape.bind(this));
-    // }
+    UpdateZonalStatsBtn.addEventListener('click', this.updateZonal.bind(this));
   }
-
-  // async statsUpdate() {
-  //   const self = this;
-  //   const currentshapes = store.getStateItem('userareas');
-  //   Object.keys(currentshapes).forEach((key) => {
-  //     const rawpostdata = currentshapes[key][2].userarea_buffered;
-  //     // const zonastats = self.getZonalforShape(buffered);
-  //     // console.log(zonastats);
-  //
-  //     // some Geojson is not a feature collection lambda function expects a
-  //     // a feature collection
-  //     if (rawpostdata.type === 'Feature') {
-  //       const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
-  //       const FeatureCollectionEnd = ']}';
-  //       postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
-  //     }
-  //
-  //     if (rawpostdata.type === 'FeatureCollection') {
-  //       postdata = JSON.stringify(rawpostdata);
-  //     }
-  //
-  //     if (!checkValidObject(rawpostdata)) {
-  //       store.setStoreItem('working_zonalstats', false);
-  //       spinnerOff('getZonal checkValidObject rawpostdata');
-  //       return {};
-  //     }
-  //
-  //     // send request to api
-  //     const ZonalStatsJson = await self.ZonalStatsAPI.getZonalStatsSummary(postdata);
-  //
-  //     currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
-  //   });
-  //   store.setStoreItem('userareas', currentshapes);
-  // }
 
   // Listens for click events on the upload shape button.
   static addListAreasHandler() {
