@@ -499,9 +499,6 @@ export class Explore extends Component {
   // add label to layer.
   // label option defined in Explore class
   addUserAreaLabel(layer, name) {
-
-    console.log('name', name)
-
     // if name not passed create the default area name
     // this happens when the user is drawing a new area
     if (!checkValidObject(name)) {
@@ -515,7 +512,6 @@ export class Explore extends Component {
     }
 
     setTimeout(() => { layer.bindTooltip(name, this.labelOptions).openTooltip(); }, 10);
-
   }
 
   // handler for when drawing is complete on the map
