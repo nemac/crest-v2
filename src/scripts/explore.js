@@ -67,12 +67,12 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
     // draw the user area on the map
-    // this.drawUserArea();
     this.drawUserAreaFromUsereas();
 
     this.addUploadShapeHandler();
 
     Explore.addListAreasHandler();
+
     this.addUpdateStatisticsHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
@@ -318,7 +318,33 @@ export class Explore extends Component {
 
         // add layer to the leaflet map
         this.drawAreaGroup.addLayer(layer);
+
         this.drawAreaGroup.addLayer(bufferedLayer);
+
+        const labelOptions = {
+          className: 'userarealabel',
+          direction: 'center',
+          noHide: false,
+          clickable: false,
+          permanent: true,
+        }
+
+        setTimeout(() => { bufferedLayer.bindTooltip(name, labelOptions).openTooltip() }, 10);
+
+        // const label = L.marker(layer.getBounds().getCenter(), {
+        //   icon: L.divIcon({
+        //     className: 'userarealabel',
+        //     html: 'big text to check',
+        //     iconSize: [24,36],
+        //     iconAnchor: [12,36],
+        //     // iconAnchor: [75, 0],
+        //     clickable: false,
+        // 		direction: 'right',
+        // 		noHide: false
+        //   })
+        // })
+
+        // this.drawAreaGroup.addLayer(label);
 
         if (checkValidObject(zonal.features)) {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
@@ -493,6 +519,25 @@ export class Explore extends Component {
 
       // start adding the user draw shape to the map
       layer.addTo(mapComponent.map);
+
+      let shapecount = store.getStateItem('userareacount');
+      if (!checkValidObject(shapecount)) {
+        shapecount = 1;
+      } else {
+        shapecount += 1;
+      }
+      
+      const name = `Area ${shapecount}`;
+
+      const labelOptions = {
+        className: 'userarealabel',
+        direction: 'center',
+        noHide: false,
+        clickable: false,
+        permanent: true,
+      }
+
+      setTimeout(() => { bufferedLayer.bindTooltip(name, labelOptions).openTooltip() }, 10);
 
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
