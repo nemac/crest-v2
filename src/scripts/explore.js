@@ -145,6 +145,13 @@ export class Explore extends Component {
 
     const checkobj = {}.hasOwnProperty;
 
+    if (!checkValidObject(currentshapes)) {
+      store.setStoreItem('working_zonalstats', false);
+      zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+      spinnerOff('getZonal checkValidObject rawpostdata');
+      return {};
+    }
+
     // using for loop because it allows await functionality with
     // async calls to zonal stats api.  this will ensure we wait for the promise to
     // resolve and is added to the store before we progress on. using a check for hasOwnProperty
@@ -170,6 +177,7 @@ export class Explore extends Component {
 
         if (!checkValidObject(rawpostdata)) {
           store.setStoreItem('working_zonalstats', false);
+          zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
           spinnerOff('getZonal checkValidObject rawpostdata');
           return {};
         }
@@ -184,7 +192,7 @@ export class Explore extends Component {
       }
     }
 
-    // updae as complete
+    // update as complete
     store.setStoreItem('userareas', currentshapes);
     spinnerOff('getZonal done');
     return null;
@@ -526,7 +534,7 @@ export class Explore extends Component {
       } else {
         shapecount += 1;
       }
-      
+
       const name = `Area ${shapecount}`;
 
       const labelOptions = {
