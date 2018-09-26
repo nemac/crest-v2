@@ -25,6 +25,41 @@ html, body {
   box-shadow:  0 0px 0px rgba(0,0,0,0)
 }
 
+.path-highlight {
+  fill: $yellow;
+  stroke: $yellow;
+  stroke-width: 5;
+}
+
+.path-nohighlight {
+  fill: #99c3ff;
+  stroke: #99c3ff;
+  stroke-width: 3;
+}
+
+.path-highlight-perm {
+  fill: $yellow;
+  stroke: $yellow;
+  stroke-width: 5;
+}
+
+.path-nohighlight-perm {
+  fill: #99c3ff;
+  stroke: #99c3ff;
+  stroke-width: 3;
+}
+
+
+.label-name-highlight {
+  color: $yellow;
+  font-weight: bold;
+}
+
+.label-name-nohighlight {
+  color: $body-color;
+  font-weight: normal;
+}
+
 .btn-file {
     width: 0.001px;
     height: 0.001px;
