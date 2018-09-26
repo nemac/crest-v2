@@ -65,7 +65,7 @@ function makeLabel(name) {
   const HTMLName = name.replace(' ', '_');
   zonalLabel.classList.add('zonal-label');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
-  zonalLabel.setAttribute('id', 'zonal-label');
+  // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
 }
@@ -232,6 +232,63 @@ function viewLongZonalStats(shortElem) {
 function shortZonalClickHandler(e) {
   e.preventDefault();
   viewLongZonalStats(this);
+
+  const name = e.target.innerHTML;
+  const HTMLName = name.replace(' ', '_');
+
+  const path = document.querySelector(`.path-${HTMLName}`);
+
+  if (path) {
+    path.classList.add('path-highlight-perm');
+    path.classList.remove('path-nohighlight-perm');
+  }
+}
+
+function zonalLabelMouseOverHandler(e) {
+  const name = e.target.innerHTML;
+  const HTMLName = name.replace(' ', '_');
+
+  if (typeof HTMLName === 'string') {
+    if (HTMLName.indexOf('div_class') === -1) {
+      const path = document.querySelector(`.path-${HTMLName}`);
+      if (checkValidObject(path)) {
+        path.classList.add('path-highlight');
+        path.classList.remove('path-nohighlight');
+      }
+    }
+
+    const labelName = `label-name-${HTMLName}`;
+    const labelElem = document.getElementById(labelName);
+
+    if (labelElem) {
+      labelElem.classList.remove('label-name-nohighlight');
+      labelElem.classList.add('label-name-highlight');
+    }
+  }
+}
+
+function zonalLabelMouseOutHandler(e) {
+  const name = e.target.innerHTML;
+  const HTMLName = name.replace(' ', '_');
+
+  if (typeof HTMLName === 'string') {
+    if (HTMLName.indexOf('div_class') === -1) {
+      const path = document.querySelector(`.path-${HTMLName}`);
+
+      if (checkValidObject(path)) {
+        path.classList.remove('path-highlight');
+        path.classList.add('path-nohighlight');
+      }
+    }
+
+    const labelName = `label-name-${HTMLName}`;
+    const labelElem = document.getElementById(labelName);
+
+    if (labelElem) {
+      labelElem.classList.add('label-name-nohighlight');
+      labelElem.classList.remove('label-name-highlight');
+    }
+  }
 }
 
 // Creates the entire short zonal stats block of html
@@ -243,6 +300,9 @@ function drawShortZonalStats(data, name) {
     wrapper.appendChild(elem);
   });
   wrapper.addEventListener('click', shortZonalClickHandler);
+  wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
+  wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
+
   return wrapper;
 }
 
@@ -588,6 +648,17 @@ function dismissZonalClickHandler(e) {
   e.preventDefault();
   setGraphsState('none', 'none');
   dismissLongZonalStats(getZonalWrapper(this));
+
+  const name = e.target.getAttribute('id');
+
+  const HTMLName = name.replace(' ', '_').replace('dismiss-name-','');
+  const path = document.querySelector(`.path-${HTMLName}`);
+
+  if (path) {
+    path.classList.remove('path-highlight-perm');
+    path.classList.add('path-nohighlight-perm');
+  }
+
 }
 
 function findRawValue(wrapper, key) {
@@ -681,12 +752,20 @@ function restoreGraphState() {
     const elemid = graphstate[0];
     const activestate = graphstate[1];
     const elem = document.getElementById(elemid);
+    const path = document.querySelector(`.path-${elemid.replace('name-','')}`);
+    console.log(path)
 
     switch (activestate) {
       case 'graph':
         displayGraphs(elem);
         elem.classList.add('active');
         document.getElementById('zonal-header').classList.add('d-none');
+
+        if (path) {
+          path.classList.add('path-highlight-perm');
+          path.classList.remove('path-nohighlight-perm');
+        }
+
         ZonalWrapperActiveRemove();
 
         break;
@@ -694,6 +773,12 @@ function restoreGraphState() {
         elem.classList.add('active');
         elem.classList.add('active-table');
         document.getElementById('zonal-header').classList.add('d-none');
+
+        if (path) {
+          path.classList.add('path-highlight-perm');
+          path.classList.remove('path-nohighlight-perm');
+        }
+
         ZonalWrapperActiveRemove();
 
         break;

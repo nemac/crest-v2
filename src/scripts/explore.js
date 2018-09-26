@@ -98,8 +98,48 @@ export class Explore extends Component {
     // buffer the geoJSON by 1 kilometer
     const bufferedGeoJSON = buffer(unbufferedGeoJSON, 1, { units: 'kilometers' });
 
+    let name = '';
+    if (!checkValidObject(name)) {
+      let shapecount = store.getStateItem('userareacount');
+      if (!checkValidObject(shapecount)) {
+        shapecount = 1;
+      } else {
+        shapecount += 1;
+      }
+      name = `${this.defaultAreaName}${shapecount}`;
+    }
+
+    const HTMLName = name.replace(' ', '_');
+    this.bufferedoptions['className'] = `path-${HTMLName}`;
+
     // convert geoJson to leaflet layer
     const bufferedLayer = L.geoJson(bufferedGeoJSON, this.bufferedoptions);
+    // /bufferedLayer
+
+    bufferedLayer.on({
+      mouseover: (e) => {
+        const path = e.target;
+        const labelname = path.options.className.replace('path-', 'label-name-');
+
+        document.getElementById(labelname).classList.add('label-name-highlight');
+        document.getElementById(labelname).classList.remove('label-name-nohighlight');
+
+        const pathelem = document.querySelector(`.${path.options.className}`);
+        pathelem.classList.add('path-highlight');
+        pathelem.classList.remove('path-nohighlight');
+      },
+      mouseout: (e) => {
+        const path = e.target;
+        const labelname = path.options.className.replace('path-', 'label-name-');
+
+        document.getElementById(labelname).classList.add('label-name-nohighlight');
+        document.getElementById(labelname).classList.remove('label-name-highlight');
+
+        const pathelem = document.querySelector(`.${path.options.className}`);
+        pathelem.classList.remove('path-highlight');
+        pathelem.classList.add('path-nohighlight');
+      }
+    });
 
     // add buffered area to store
     store.setStoreItem('userarea_buffered', bufferedGeoJSON);
@@ -332,7 +372,36 @@ export class Explore extends Component {
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer
         const layer = L.geoJson(userarea);
+
+        const HTMLName = name.replace(' ', '_');
+        this.bufferedoptions['className'] = `path-${HTMLName}`;
+
         const bufferedLayer = L.geoJson(buffered, this.bufferedoptions);
+
+        bufferedLayer.on({
+          mouseover: (e) => {
+            const path = e.target;
+            const labelname = path.options.className.replace('path-', 'label-name-');
+
+            document.getElementById(labelname).classList.add('label-name-highlight');
+            document.getElementById(labelname).classList.remove('label-name-nohighlight');
+
+            const pathelem = document.querySelector(`.${path.options.className}`);
+            pathelem.classList.add('path-highlight');
+            pathelem.classList.remove('path-nohighlight');
+          },
+          mouseout: (e) => {
+            const path = e.target;
+            const labelname = path.options.className.replace('path-', 'label-name-');
+
+            document.getElementById(labelname).classList.add('label-name-nohighlight');
+            document.getElementById(labelname).classList.remove('label-name-highlight');
+
+            const pathelem = document.querySelector(`.${path.options.className}`);
+            pathelem.classList.remove('path-highlight');
+            pathelem.classList.add('path-nohighlight');
+          }
+        });
 
         // add layer to the leaflet map
         this.drawAreaGroup.addLayer(layer);
