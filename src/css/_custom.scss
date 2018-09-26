@@ -16,6 +16,15 @@ html, body {
     height: 100%;
 }
 
+.userarealabel {
+  color: $gray-200;
+  font-size: 1.5em;
+  font-weight: 700;
+  background-color:  rgba(0,0,0,0);
+  border-width: 0px;
+  box-shadow:  0 0px 0px rgba(0,0,0,0)
+}
+
 .btn-file {
     width: 0.001px;
     height: 0.001px;

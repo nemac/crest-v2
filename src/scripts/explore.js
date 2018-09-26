@@ -46,6 +46,16 @@ export class Explore extends Component {
       color: '#99c3ff'
     };
 
+    this.labelOptions = {
+      className: 'userarealabel',
+      direction: 'center',
+      noHide: false,
+      clickable: false,
+      permanent: true
+    };
+
+    this.defaultAreaName = 'Area ';
+
     // handler for when drawing is completed
     this.addDrawVertexCreatedHandler(mapComponent, mapInfoComponent);
 
@@ -67,12 +77,12 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
     // draw the user area on the map
-    // this.drawUserArea();
     this.drawUserAreaFromUsereas();
 
     this.addUploadShapeHandler();
 
     Explore.addListAreasHandler();
+
     this.addUpdateStatisticsHandler();
 
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
@@ -145,6 +155,13 @@ export class Explore extends Component {
 
     const checkobj = {}.hasOwnProperty;
 
+    if (!checkValidObject(currentshapes)) {
+      store.setStoreItem('working_zonalstats', false);
+      zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+      spinnerOff('getZonal checkValidObject rawpostdata');
+      return {};
+    }
+
     // using for loop because it allows await functionality with
     // async calls to zonal stats api.  this will ensure we wait for the promise to
     // resolve and is added to the store before we progress on. using a check for hasOwnProperty
@@ -170,6 +187,7 @@ export class Explore extends Component {
 
         if (!checkValidObject(rawpostdata)) {
           store.setStoreItem('working_zonalstats', false);
+          zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
           spinnerOff('getZonal checkValidObject rawpostdata');
           return {};
         }
@@ -184,7 +202,7 @@ export class Explore extends Component {
       }
     }
 
-    // updae as complete
+    // update as complete
     store.setStoreItem('userareas', currentshapes);
     spinnerOff('getZonal done');
     return null;
@@ -220,7 +238,7 @@ export class Explore extends Component {
     // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
-    const name = Explore.storeShapes();
+    const name = this.storeShapes();
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
@@ -318,13 +336,15 @@ export class Explore extends Component {
 
         // add layer to the leaflet map
         this.drawAreaGroup.addLayer(layer);
+
         this.drawAreaGroup.addLayer(bufferedLayer);
+
+        this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
         }
 
-        // this.getZonal();
         return layer;
       }
       return null;
@@ -476,6 +496,25 @@ export class Explore extends Component {
     });
   }
 
+  // add label to layer.
+  // label option defined in Explore class
+  addUserAreaLabel(layer, name) {
+    // if name not passed create the default area name
+    // this happens when the user is drawing a new area
+    let newname = name;
+    if (!checkValidObject(name)) {
+      let shapecount = store.getStateItem('userareacount');
+      if (!checkValidObject(shapecount)) {
+        shapecount = 1;
+      } else {
+        shapecount += 1;
+      }
+      newname = `${this.defaultAreaName}${shapecount}`;
+    }
+
+    setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 10);
+  }
+
   // handler for when drawing is complete on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
@@ -493,6 +532,8 @@ export class Explore extends Component {
 
       // start adding the user draw shape to the map
       layer.addTo(mapComponent.map);
+
+      this.addUserAreaLabel(bufferedLayer);
 
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
@@ -526,11 +567,11 @@ export class Explore extends Component {
   }
 
   // add a new shape to user shape store
-  static storeShapes() {
+  storeShapes() {
     const currentshapes = store.getStateItem('userareas');
 
     const shapecount = Explore.storeshapescounter();
-    const name = `Area ${shapecount}`;
+    const name = `${this.defaultAreaName}${shapecount}`;
     const newshape = {
       [`userarea${shapecount}`]: [
         { name },
