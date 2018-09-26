@@ -651,14 +651,13 @@ function dismissZonalClickHandler(e) {
 
   const name = e.target.getAttribute('id');
 
-  const HTMLName = name.replace(' ', '_').replace('dismiss-name-','');
+  const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
   const path = document.querySelector(`.path-${HTMLName}`);
 
   if (path) {
     path.classList.remove('path-highlight-perm');
     path.classList.add('path-nohighlight-perm');
   }
-
 }
 
 function findRawValue(wrapper, key) {
@@ -752,8 +751,7 @@ function restoreGraphState() {
     const elemid = graphstate[0];
     const activestate = graphstate[1];
     const elem = document.getElementById(elemid);
-    const path = document.querySelector(`.path-${elemid.replace('name-','')}`);
-    console.log(path)
+    const path = document.querySelector(`.path-${elemid.replace('name-', '')}`);
 
     switch (activestate) {
       case 'graph':
