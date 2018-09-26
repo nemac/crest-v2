@@ -2,7 +2,10 @@ import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
-import { checkValidObject } from './utilitys';
+import {
+  checkValidObject,
+  ParentContains
+} from './utilitys';
 
 const store = new Store({});
 
@@ -146,9 +149,11 @@ function makeAquaticBox(rank) {
 // Creates wrapper for hub and the content in it
 // @param hubs | String || Number
 // @return DOM element
-function makeHubBox(hubs) {
+function makeHubBox(hubs, name) {
+  const HTMLName = name.replace(' ', '_');
   const hubWrapper = makeBoxWrapper();
   hubWrapper.classList.add('zonal-item-hub');
+  hubWrapper.setAttribute('id', `hub-${HTMLName}`)
   hubWrapper.appendChild(makeInHubBox(checkNoData(hubs) ? 255 : hubs));
   return hubWrapper;
 }
@@ -181,7 +186,7 @@ function makeExposureBox(asset, threat) {
 function makeShortZonalStatsInterior(data, name) {
   return [
     makeLabel(name),
-    makeHubBox(data.hubs),
+    makeHubBox(data.hubs, name),
     makeFishWildBox(data.terrestrial, data.aquatic),
     makeExposureBox(data.asset, data.threat)
   ];
@@ -235,12 +240,15 @@ function shortZonalClickHandler(e) {
 
   const name = e.target.innerHTML;
   const HTMLName = name.replace(' ', '_');
+  console.log(e.target, HTMLName)
+  console.log(ParentContains(e.target, HTMLName))
+  if (HTMLName.indexOf('div_class') === -1) {
+    const path = document.querySelector(`.path-${HTMLName}`);
 
-  const path = document.querySelector(`.path-${HTMLName}`);
-
-  if (path) {
-    path.classList.add('path-highlight-perm');
-    path.classList.remove('path-nohighlight-perm');
+    if (checkValidObject(path)) {
+      path.classList.add('path-highlight-perm');
+      path.classList.remove('path-nohighlight-perm');
+    }
   }
 }
 
@@ -253,10 +261,10 @@ function zonalLabelMouseOverHandler(e) {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
 
-      path.classList.remove('path-highlight-perm');
-      path.classList.remove('path-nohighlight-perm');
+      if (checkValidObject(path)) {
+        path.classList.remove('path-highlight-perm');
+        path.classList.remove('path-nohighlight-perm');
 
-      if (path) {
         path.classList.add('path-highlight');
         path.classList.remove('path-nohighlight');
       }
@@ -280,7 +288,7 @@ function zonalLabelMouseOutHandler(e) {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
 
-      if (path) {
+      if (checkValidObject(path)) {
         path.classList.remove('path-highlight');
         path.classList.add('path-nohighlight');
       }
@@ -795,11 +803,15 @@ function restoreGraphState() {
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
 function drawZonalStatsFromAPI(data, name) {
+  const HTMLName = name.replace(' ', '_');
+
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
+  wrapper.setAttribute('id',`zonal-stats-wrapper-${HTMLName}`);
+
   wrapper.appendChild(drawShortZonalStats(data, name));
   wrapper.appendChild(drawLongZonalStats(data, name));
   document.getElementById('zonal-content').appendChild(wrapper);
