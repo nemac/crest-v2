@@ -248,10 +248,15 @@ function zonalLabelMouseOverHandler(e) {
   const name = e.target.innerHTML;
   const HTMLName = name.replace(' ', '_');
 
+
   if (typeof HTMLName === 'string') {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
-      if (checkValidObject(path)) {
+
+      path.classList.remove('path-highlight-perm');
+      path.classList.remove('path-nohighlight-perm');
+
+      if (path) {
         path.classList.add('path-highlight');
         path.classList.remove('path-nohighlight');
       }
@@ -275,7 +280,7 @@ function zonalLabelMouseOutHandler(e) {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
 
-      if (checkValidObject(path)) {
+      if (path) {
         path.classList.remove('path-highlight');
         path.classList.add('path-nohighlight');
       }
