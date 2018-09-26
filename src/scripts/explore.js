@@ -46,6 +46,16 @@ export class Explore extends Component {
       color: '#99c3ff'
     };
 
+    this.labelOptions = {
+      className: 'userarealabel',
+      direction: 'center',
+      noHide: false,
+      clickable: false,
+      permanent: true
+    };
+
+    this.defaultAreaName = 'Area ';
+
     // handler for when drawing is completed
     this.addDrawVertexCreatedHandler(mapComponent, mapInfoComponent);
 
@@ -228,7 +238,7 @@ export class Explore extends Component {
     // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
-    const name = Explore.storeShapes();
+    const name = this.storeShapes();
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
@@ -329,36 +339,12 @@ export class Explore extends Component {
 
         this.drawAreaGroup.addLayer(bufferedLayer);
 
-        const labelOptions = {
-          className: 'userarealabel',
-          direction: 'center',
-          noHide: false,
-          clickable: false,
-          permanent: true,
-        }
-
-        setTimeout(() => { bufferedLayer.bindTooltip(name, labelOptions).openTooltip() }, 10);
-
-        // const label = L.marker(layer.getBounds().getCenter(), {
-        //   icon: L.divIcon({
-        //     className: 'userarealabel',
-        //     html: 'big text to check',
-        //     iconSize: [24,36],
-        //     iconAnchor: [12,36],
-        //     // iconAnchor: [75, 0],
-        //     clickable: false,
-        // 		direction: 'right',
-        // 		noHide: false
-        //   })
-        // })
-
-        // this.drawAreaGroup.addLayer(label);
+        this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
         }
 
-        // this.getZonal();
         return layer;
       }
       return null;
@@ -510,6 +496,28 @@ export class Explore extends Component {
     });
   }
 
+  // add label to layer.
+  // label option defined in Explore class
+  addUserAreaLabel(layer, name) {
+
+    console.log('name', name)
+
+    // if name not passed create the default area name
+    // this happens when the user is drawing a new area
+    if (!checkValidObject(name)) {
+      let shapecount = store.getStateItem('userareacount');
+      if (!checkValidObject(shapecount)) {
+        shapecount = 1;
+      } else {
+        shapecount += 1;
+      }
+      name = `${this.defaultAreaName}${shapecount}`;
+    }
+
+    setTimeout(() => { layer.bindTooltip(name, this.labelOptions).openTooltip(); }, 10);
+
+  }
+
   // handler for when drawing is complete on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
@@ -528,24 +536,7 @@ export class Explore extends Component {
       // start adding the user draw shape to the map
       layer.addTo(mapComponent.map);
 
-      let shapecount = store.getStateItem('userareacount');
-      if (!checkValidObject(shapecount)) {
-        shapecount = 1;
-      } else {
-        shapecount += 1;
-      }
-
-      const name = `Area ${shapecount}`;
-
-      const labelOptions = {
-        className: 'userarealabel',
-        direction: 'center',
-        noHide: false,
-        clickable: false,
-        permanent: true,
-      }
-
-      setTimeout(() => { bufferedLayer.bindTooltip(name, labelOptions).openTooltip() }, 10);
+      this.addUserAreaLabel(bufferedLayer);
 
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
@@ -579,11 +570,11 @@ export class Explore extends Component {
   }
 
   // add a new shape to user shape store
-  static storeShapes() {
+  storeShapes() {
     const currentshapes = store.getStateItem('userareas');
 
     const shapecount = Explore.storeshapescounter();
-    const name = `Area ${shapecount}`;
+    const name = `${this.defaultAreaName}${shapecount}`;
     const newshape = {
       [`userarea${shapecount}`]: [
         { name },
