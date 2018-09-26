@@ -1,6 +1,10 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import { identifyConfig } from '../config/identifyConfig';
+import { Store } from './store';
+import { checkValidObject } from './utilitys';
+
+const store = new Store({});
 
 // Checks if a value falls in the range of accepted values
 // @param val | string || integer || float
@@ -60,7 +64,7 @@ function makeLabel(name) {
   const zonalLabel = makeDiv();
   const HTMLName = name.replace(' ', '_');
   zonalLabel.classList.add('zonal-label');
-  zonalLabel.classList.add(`zonal-label-${HTMLName}`);
+  zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
   zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
@@ -199,10 +203,27 @@ function ZonalWrapperActiveAdd() {
   }
 }
 
+function setGraphsState(name, activetype) {
+  let newname = name;
+  const striptext = ['raw-name', 'graph-name', 'dismiss-name'];
+
+  striptext.map((replacetext) => {
+    if (name.indexOf(replacetext) >= 0) {
+      newname = name.replace(replacetext, 'name');
+      return newname;
+    }
+    return newname;
+  });
+
+  store.setStoreItem('zonalactive', [newname, activetype]);
+  return newname;
+}
+
 // Switches the display to the long zonal stats
 // @param shortElem | DOM element
 function viewLongZonalStats(shortElem) {
   shortElem.nextElementSibling.classList.add('active');
+  setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
   document.getElementById('zonal-header').classList.add('d-none');
   ZonalWrapperActiveRemove();
 }
@@ -565,6 +586,7 @@ function dismissLongZonalStats(wrapper) {
 // Click handler to trigger the dismiss of the long zonal stats
 function dismissZonalClickHandler(e) {
   e.preventDefault();
+  setGraphsState('none', 'none');
   dismissLongZonalStats(getZonalWrapper(this));
 }
 
@@ -611,11 +633,13 @@ function displayGraphs(wrapper) {
 
 function displayZonalTableHandler(e) {
   e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'table');
   displayRawValues(getZonalWrapper(this));
 }
 
 function displayZonalGraphsHandler(e) {
   e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'graph');
   displayGraphs(getZonalWrapper(this));
 }
 
@@ -627,8 +651,10 @@ function drawName(wrapper, name) {
 // @param data | Object - results of API
 // @return DOM element
 function drawLongZonalStats(data, name) {
+  const HTMLName = name.replace(' ', '_');
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-long-wrapper');
+  wrapper.setAttribute('id', `name-${HTMLName}`);
   wrapper.innerHTML = ZonalLong;
   drawName(wrapper, name);
   drawExposure(wrapper, data.asset, data.threat);
@@ -636,11 +662,46 @@ function drawLongZonalStats(data, name) {
   drawThreatDrivers(wrapper, getThreatDrivers(data));
   drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
   drawHub(wrapper, data.hubs);
+
+  // add ids so we can deal with state
+  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name-${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name-${HTMLName}`);
+
   wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
   wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
   wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
   return wrapper;
+}
+
+function restoreGraphState() {
+  const graphstate = store.getStateItem('zonalactive');
+  if (checkValidObject(graphstate)) {
+    const elemid = graphstate[0];
+    const activestate = graphstate[1];
+    const elem = document.getElementById(elemid);
+
+    switch (activestate) {
+      case 'graph':
+        displayGraphs(elem);
+        elem.classList.add('active');
+        document.getElementById('zonal-header').classList.add('d-none');
+        ZonalWrapperActiveRemove();
+
+        break;
+      case 'table':
+        elem.classList.add('active');
+        elem.classList.add('active-table');
+        document.getElementById('zonal-header').classList.add('d-none');
+        ZonalWrapperActiveRemove();
+
+        break;
+      default:
+        return null;
+    }
+  }
+  return null;
 }
 
 // Draws and configures the entire zonal stats
@@ -656,7 +717,7 @@ function drawZonalStatsFromAPI(data, name) {
   document.getElementById('zonal-content').appendChild(wrapper);
 }
 
-export { drawZonalStatsFromAPI };
+export { drawZonalStatsFromAPI, restoreGraphState };
 
 // Polyfill for Element.closest for IE9+ and Safari
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/closest

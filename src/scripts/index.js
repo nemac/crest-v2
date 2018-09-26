@@ -29,6 +29,8 @@ import NotFoundPage from '../templates/notfound.html';
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
 
+import { restoreGraphState } from './zonalStats';
+
 new URL();
 
 let mapComponent;
@@ -112,6 +114,7 @@ function initMapComponent() {
 
     if (checkValidObject(exploreComponent)) {
       exploreComponent.restoreSavedGeoJson();
+      restoreGraphState();
     }
   }
 

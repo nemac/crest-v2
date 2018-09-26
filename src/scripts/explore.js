@@ -501,6 +501,7 @@ export class Explore extends Component {
   addUserAreaLabel(layer, name) {
     // if name not passed create the default area name
     // this happens when the user is drawing a new area
+    let newname = name;
     if (!checkValidObject(name)) {
       let shapecount = store.getStateItem('userareacount');
       if (!checkValidObject(shapecount)) {
@@ -508,10 +509,10 @@ export class Explore extends Component {
       } else {
         shapecount += 1;
       }
-      name = `${this.defaultAreaName}${shapecount}`;
+      newname = `${this.defaultAreaName}${shapecount}`;
     }
 
-    setTimeout(() => { layer.bindTooltip(name, this.labelOptions).openTooltip(); }, 10);
+    setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 10);
   }
 
   // handler for when drawing is complete on the map
