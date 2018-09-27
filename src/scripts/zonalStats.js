@@ -233,6 +233,20 @@ function viewLongZonalStats(shortElem) {
   ZonalWrapperActiveRemove();
 }
 
+// checks if inner HTML of element is Plain old Text
+// instead of another HTML element
+// TODO add html ID's to add ability to interogate the current area
+//    name. This breaks clicking on zonal stats short able when it is not the
+//    label elment
+function innerHTMLisText(innerHTML) {
+  if (typeof innerHTML === 'string') {
+    if (innerHTML.indexOf('div') === -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function toggleMouseHighLightsOn(elem) {
   if (elem) {
     elem.classList.add('path-highlight');
@@ -302,14 +316,10 @@ function zonalLabelMouseOverHandler(e) {
   const name = e.target.innerHTML;
   const HTMLName = name.replace(' ', '_');
 
-
-  if (typeof HTMLName === 'string') {
-    if (HTMLName.indexOf('div_class') === -1) {
-      const path = document.querySelector(`.path-${HTMLName}`);
-
-      togglePermHighLightsAllOff(path);
-      toggleMouseHighLightsOn(path);
-    }
+  if (innerHTMLisText(HTMLName)) {
+    const path = document.querySelector(`.path-${HTMLName}`);
+    togglePermHighLightsAllOff(path);
+    toggleMouseHighLightsOn(path);
 
     const labelName = `label-name-${HTMLName}`;
     const labelElem = document.getElementById(labelName);
@@ -321,16 +331,9 @@ function zonalLabelMouseOutHandler(e) {
   const name = e.target.innerHTML;
   const HTMLName = name.replace(' ', '_');
 
-  if (typeof HTMLName === 'string') {
-    if (HTMLName.indexOf('div_class') === -1) {
-      const path = document.querySelector(`.path-${HTMLName}`);
-
-      toggleMouseHighLightsOff(path);
-      // if (checkValidObject(path)) {
-      //   path.classList.remove('path-highlight');
-      //   path.classList.add('path-nohighlight');
-      // }
-    }
+  if (innerHTMLisText(HTMLName)) {
+    const path = document.querySelector(`.path-${HTMLName}`);
+    toggleMouseHighLightsOff(path);
 
     const labelName = `label-name-${HTMLName}`;
     const labelElem = document.getElementById(labelName);
