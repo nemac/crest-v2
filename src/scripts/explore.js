@@ -11,7 +11,7 @@ import exploreTemplate from '../templates/explore.html';
 import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
-import { ZonalStatsAPI, } from './ZonalStatsAPI';
+import { ZonalStatsAPI } from './ZonalStatsAPI';
 
 import {
   checkValidObject,
@@ -24,7 +24,8 @@ import {
   toggleMouseHighLightsOn,
   toggleLabelHighLightsOn,
   toggleMouseHighLightsOff,
-  toggleLabelHighLightsOff
+  toggleLabelHighLightsOff,
+  makeHTMLName
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -115,7 +116,7 @@ export class Explore extends Component {
       name = `${this.defaultAreaName}${shapecount}`;
     }
 
-    const HTMLName = name.replace(' ', '_');
+    const HTMLName = makeHTMLName(name);
     this.bufferedoptions['className'] = `path-${HTMLName}`;
 
     // convert geoJson to leaflet layer
@@ -375,7 +376,7 @@ export class Explore extends Component {
         // convert geoJson to leaflet layer
         const layer = L.geoJson(userarea);
 
-        const HTMLName = name.replace(' ', '_');
+        const HTMLName = makeHTMLName(name);
         this.bufferedoptions['className'] = `path-${HTMLName}`;
 
         const bufferedLayer = L.geoJson(buffered, this.bufferedoptions);

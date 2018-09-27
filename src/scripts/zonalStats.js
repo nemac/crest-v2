@@ -2,10 +2,7 @@ import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
-import {
-  checkValidObject,
-  ParentContains
-} from './utilitys';
+import { checkValidObject } from './utilitys';
 
 const store = new Store({});
 
@@ -27,22 +24,42 @@ function makeTextElement(text) {
   return document.createTextNode(text);
 }
 
-// Creates a text node which is only seen by screen readers
-// @param text | string
-// @return DOM element
-function makeScreenReaderText(text) {
-  const elem = document.createElement('span');
-  elem.classList.add('hidden');
-  elem.appendChild(makeTextElement(text));
-  return elem;
+// // Creates a text node which is only seen by screen readers
+// // @param text | string
+// // @return DOM element
+// function makeScreenReaderText(text) {
+//   const elem = document.createElement('span');
+//   elem.classList.add('hidden');
+//   elem.appendChild(makeTextElement(text));
+//   return elem;
+// }
+
+function makeHTMLName(name) {
+  return `-USERAREA-${name.replace(' ', '_')}`;
+}
+
+function stripUserArea(id) {
+  if (!id) return id;
+  const striptext = '-USERAREA-';
+  const index = id.indexOf(striptext);
+  const idLength = id.length;
+
+  if (index >= 0) {
+    return id.substring(index, idLength).trim();
+  }
+
+  return id;
 }
 
 // Makes wrapper for short zonal stats
 // @return DOM element
-function makeZonalWrapper() {
+function makeZonalWrapper(name) {
   const zonalWrap = makeDiv();
   zonalWrap.classList.add('zonal-wrapper');
   zonalWrap.classList.add('active');
+  const HTMLName = makeHTMLName(name);
+  zonalWrap.setAttribute('id', `zonal-wrapper-${HTMLName}`);
+
   return zonalWrap;
 }
 
@@ -65,7 +82,7 @@ function makeLabelText(name) {
 // @return DOM element
 function makeLabel(name) {
   const zonalLabel = makeDiv();
-  const HTMLName = name.replace(' ', '_');
+  const HTMLName = makeHTMLName(name);
   zonalLabel.classList.add('zonal-label');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
   // zonalLabel.setAttribute('id', 'zonal-label');
@@ -98,13 +115,15 @@ function getIdentifyValue(type, rank) {
 // @param type | String - matches the layer key
 // @param rank | String || Number - rounded and matches the value key
 // @return DOM element
-function makeZonalBox(type, rank) {
+function makeZonalBox(type, rank, name) {
+  const HTMLName = makeHTMLName(name);
   const zonalBox = makeDiv();
   const zonalData = getIdentifyValue(type, rank);
   zonalBox.classList.add(`zonal-${type}`);
   zonalBox.classList.add('zonal-box');
   zonalBox.classList.add('noselect');
   zonalBox.setAttribute('data-ranking', rank);
+  zonalBox.setAttribute('id', `zonal-box-${type}-${HTMLName}`);
   zonalBox.style.color = zonalData.color;
   zonalBox.style.backgroundColor = zonalData.backgroundColor;
   zonalBox.appendChild(makeTextElement(zonalData.label));
@@ -114,47 +133,47 @@ function makeZonalBox(type, rank) {
 // Makes html for the hub based short zonal stats block
 // @param rank | String || Number
 // @return DOM element
-function makeInHubBox(rank) {
-  return makeZonalBox('hubs', rank);
+function makeInHubBox(rank, name) {
+  return makeZonalBox('hubs', rank, name);
 }
 
 // Makes html for the asset based short zonal stats block
 // @param rank | String || Number
 // @return DOM element
-function makeAssetBox(rank) {
-  return makeZonalBox('asset', rank);
+function makeAssetBox(rank, name) {
+  return makeZonalBox('asset', rank, name);
 }
 
 // Makes html for the threat based short zonal stats block
 // @param rank | String || Number
 // @return DOM element
-function makeThreatBox(rank) {
-  return makeZonalBox('threat', rank);
+function makeThreatBox(rank, name) {
+  return makeZonalBox('threat', rank, name);
 }
 
 // Makes html for the terrestrial based short zonal stats block
 // @param rank | String || Number
 // @return DOM element
-function makeTerrestrialBox(rank) {
-  return makeZonalBox('terrestrial', rank);
+function makeTerrestrialBox(rank, name) {
+  return makeZonalBox('terrestrial', rank, name);
 }
 
 // Makes html for the aquatic based short zonal stats block
 // @param rank | String || Number
 // @return DOM element
-function makeAquaticBox(rank) {
-  return makeZonalBox('aquatic', rank);
+function makeAquaticBox(rank, name) {
+  return makeZonalBox('aquatic', rank, name);
 }
 
 // Creates wrapper for hub and the content in it
 // @param hubs | String || Number
 // @return DOM element
 function makeHubBox(hubs, name) {
-  const HTMLName = name.replace(' ', '_');
+  const HTMLName = makeHTMLName(name);
   const hubWrapper = makeBoxWrapper();
   hubWrapper.classList.add('zonal-item-hub');
-  hubWrapper.setAttribute('id', `hub-${HTMLName}`)
-  hubWrapper.appendChild(makeInHubBox(checkNoData(hubs) ? 255 : hubs));
+  hubWrapper.setAttribute('id', `hub-${HTMLName}`);
+  hubWrapper.appendChild(makeInHubBox(checkNoData(hubs) ? 255 : hubs, name));
   return hubWrapper;
 }
 
@@ -162,10 +181,10 @@ function makeHubBox(hubs, name) {
 // @param wildlife | String || Number
 // @param fish | String || Number
 // @return DOM element
-function makeFishWildBox(wildlife, fish) {
+function makeFishWildBox(wildlife, fish, name) {
   const fishWildWrapper = makeBoxWrapper();
-  fishWildWrapper.appendChild(makeAquaticBox(fish));
-  fishWildWrapper.appendChild(makeTerrestrialBox(wildlife));
+  fishWildWrapper.appendChild(makeAquaticBox(fish, name));
+  fishWildWrapper.appendChild(makeTerrestrialBox(wildlife, name));
   return fishWildWrapper;
 }
 
@@ -173,10 +192,10 @@ function makeFishWildBox(wildlife, fish) {
 // @param asset | String || Number
 // @param threat | String || Number
 // @return DOM element
-function makeExposureBox(asset, threat) {
+function makeExposureBox(asset, threat, name) {
   const exposureWrapper = makeBoxWrapper();
-  exposureWrapper.appendChild(makeAssetBox(asset));
-  exposureWrapper.appendChild(makeThreatBox(threat));
+  exposureWrapper.appendChild(makeAssetBox(asset, name));
+  exposureWrapper.appendChild(makeThreatBox(threat, name));
   return exposureWrapper;
 }
 
@@ -187,8 +206,8 @@ function makeShortZonalStatsInterior(data, name) {
   return [
     makeLabel(name),
     makeHubBox(data.hubs, name),
-    makeFishWildBox(data.terrestrial, data.aquatic),
-    makeExposureBox(data.asset, data.threat)
+    makeFishWildBox(data.terrestrial, data.aquatic, name),
+    makeExposureBox(data.asset, data.threat, name)
   ];
 }
 
@@ -301,20 +320,18 @@ function shortZonalClickHandler(e) {
   e.preventDefault();
   viewLongZonalStats(this);
 
-  const name = e.target.innerHTML;
-  const HTMLName = name.replace(' ', '_');
-  // console.log(e.target.parentElement.parentElement, HTMLName)
-  // console.log(ParentContains(e.target, HTMLName))
+  const id = e.target.getAttribute('id');
+  const HTMLName = stripUserArea(id);
+
   if (HTMLName.indexOf('div_class') === -1) {
     const path = document.querySelector(`.path-${HTMLName}`);
-
     togglePermHighLightsOn(path);
   }
 }
 
 function zonalLabelMouseOverHandler(e) {
-  const name = e.target.innerHTML;
-  const HTMLName = name.replace(' ', '_');
+  const id = e.target.getAttribute('id');
+  const HTMLName = stripUserArea(id);
 
   if (innerHTMLisText(HTMLName)) {
     const path = document.querySelector(`.path-${HTMLName}`);
@@ -328,8 +345,8 @@ function zonalLabelMouseOverHandler(e) {
 }
 
 function zonalLabelMouseOutHandler(e) {
-  const name = e.target.innerHTML;
-  const HTMLName = name.replace(' ', '_');
+  const id = e.target.getAttribute('id');
+  const HTMLName = stripUserArea(id);
 
   if (innerHTMLisText(HTMLName)) {
     const path = document.querySelector(`.path-${HTMLName}`);
@@ -345,7 +362,7 @@ function zonalLabelMouseOutHandler(e) {
 // @param data | Object
 // @return DOM element
 function drawShortZonalStats(data, name) {
-  const wrapper = makeZonalWrapper();
+  const wrapper = makeZonalWrapper(name);
   makeShortZonalStatsInterior(data, name).forEach((elem) => {
     wrapper.appendChild(elem);
   });
@@ -768,7 +785,7 @@ function drawName(wrapper, name) {
 // @param data | Object - results of API
 // @return DOM element
 function drawLongZonalStats(data, name) {
-  const HTMLName = name.replace(' ', '_');
+  const HTMLName = makeHTMLName(name);
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.setAttribute('id', `name-${HTMLName}`);
@@ -829,14 +846,14 @@ function restoreGraphState() {
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
 function drawZonalStatsFromAPI(data, name) {
-  const HTMLName = name.replace(' ', '_');
+  const HTMLName = makeHTMLName(name);
 
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
-  wrapper.setAttribute('id',`zonal-stats-wrapper-${HTMLName}`);
+  wrapper.setAttribute('id', `zonal-stats-wrapper-${HTMLName}`);
 
   wrapper.appendChild(drawShortZonalStats(data, name));
   wrapper.appendChild(drawLongZonalStats(data, name));
@@ -849,7 +866,9 @@ export {
   toggleMouseHighLightsOn,
   toggleLabelHighLightsOn,
   toggleMouseHighLightsOff,
-  toggleLabelHighLightsOff
+  toggleLabelHighLightsOff,
+  makeHTMLName,
+  stripUserArea
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
