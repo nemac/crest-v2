@@ -233,6 +233,55 @@ function viewLongZonalStats(shortElem) {
   ZonalWrapperActiveRemove();
 }
 
+function toggleMouseHighLightsOn(elem) {
+  if (elem) {
+    elem.classList.add('path-highlight');
+    elem.classList.remove('path-nohighlight');
+  }
+}
+
+function toggleMouseHighLightsOff(elem) {
+  if (elem) {
+    elem.classList.remove('path-highlight');
+    elem.classList.add('path-nohighlight');
+  }
+}
+
+function togglePermHighLightsAllOff(elem) {
+  if (elem) {
+    elem.classList.remove('path-highlight-perm');
+    elem.classList.remove('path-nohighlight-perm');
+  }
+}
+
+function togglePermHighLightsOff(elem) {
+  if (elem) {
+    elem.classList.remove('path-highlight-perm');
+    elem.classList.add('path-nohighlight-perm');
+  }
+}
+
+function togglePermHighLightsOn(elem) {
+  if (elem) {
+    elem.classList.add('path-highlight-perm');
+    elem.classList.remove('path-nohighlight-perm');
+  }
+}
+
+function toggleLabelHighLightsOff(elem) {
+  if (elem) {
+    elem.classList.remove('label-name-highlight');
+    elem.classList.add('label-name-nohighlight');
+  }
+}
+
+function toggleLabelHighLightsOn(elem) {
+  if (elem) {
+    elem.classList.add('label-name-highlight');
+    elem.classList.remove('label-name-nohighlight');
+  }
+}
+
 // Click handler to trigger the load of the long zonal stats
 function shortZonalClickHandler(e) {
   e.preventDefault();
@@ -240,15 +289,12 @@ function shortZonalClickHandler(e) {
 
   const name = e.target.innerHTML;
   const HTMLName = name.replace(' ', '_');
-  console.log(e.target, HTMLName)
-  console.log(ParentContains(e.target, HTMLName))
+  // console.log(e.target.parentElement.parentElement, HTMLName)
+  // console.log(ParentContains(e.target, HTMLName))
   if (HTMLName.indexOf('div_class') === -1) {
     const path = document.querySelector(`.path-${HTMLName}`);
 
-    if (checkValidObject(path)) {
-      path.classList.add('path-highlight-perm');
-      path.classList.remove('path-nohighlight-perm');
-    }
+    togglePermHighLightsOn(path);
   }
 }
 
@@ -261,22 +307,13 @@ function zonalLabelMouseOverHandler(e) {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
 
-      if (checkValidObject(path)) {
-        path.classList.remove('path-highlight-perm');
-        path.classList.remove('path-nohighlight-perm');
-
-        path.classList.add('path-highlight');
-        path.classList.remove('path-nohighlight');
-      }
+      togglePermHighLightsAllOff(path);
+      toggleMouseHighLightsOn(path);
     }
 
     const labelName = `label-name-${HTMLName}`;
     const labelElem = document.getElementById(labelName);
-
-    if (labelElem) {
-      labelElem.classList.remove('label-name-nohighlight');
-      labelElem.classList.add('label-name-highlight');
-    }
+    toggleLabelHighLightsOn(labelElem);
   }
 }
 
@@ -288,19 +325,16 @@ function zonalLabelMouseOutHandler(e) {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
 
-      if (checkValidObject(path)) {
-        path.classList.remove('path-highlight');
-        path.classList.add('path-nohighlight');
-      }
+      toggleMouseHighLightsOff(path);
+      // if (checkValidObject(path)) {
+      //   path.classList.remove('path-highlight');
+      //   path.classList.add('path-nohighlight');
+      // }
     }
 
     const labelName = `label-name-${HTMLName}`;
     const labelElem = document.getElementById(labelName);
-
-    if (labelElem) {
-      labelElem.classList.add('label-name-nohighlight');
-      labelElem.classList.remove('label-name-highlight');
-    }
+    toggleLabelHighLightsOff(labelElem);
   }
 }
 
@@ -667,10 +701,7 @@ function dismissZonalClickHandler(e) {
   const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
   const path = document.querySelector(`.path-${HTMLName}`);
 
-  if (path) {
-    path.classList.remove('path-highlight-perm');
-    path.classList.add('path-nohighlight-perm');
-  }
+  togglePermHighLightsOff(path);
 }
 
 function findRawValue(wrapper, key) {
@@ -772,11 +803,7 @@ function restoreGraphState() {
         elem.classList.add('active');
         document.getElementById('zonal-header').classList.add('d-none');
 
-        if (path) {
-          path.classList.add('path-highlight-perm');
-          path.classList.remove('path-nohighlight-perm');
-        }
-
+        togglePermHighLightsOn(path);
         ZonalWrapperActiveRemove();
 
         break;
@@ -785,11 +812,7 @@ function restoreGraphState() {
         elem.classList.add('active-table');
         document.getElementById('zonal-header').classList.add('d-none');
 
-        if (path) {
-          path.classList.add('path-highlight-perm');
-          path.classList.remove('path-nohighlight-perm');
-        }
-
+        togglePermHighLightsOn(path);
         ZonalWrapperActiveRemove();
 
         break;
