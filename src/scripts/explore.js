@@ -25,6 +25,7 @@ import {
   toggleLabelHighLightsOn,
   toggleMouseHighLightsOff,
   toggleLabelHighLightsOff,
+  togglePermHighLightsAllOff,
   makeHTMLName
 } from './zonalStats';
 
@@ -389,6 +390,7 @@ export class Explore extends Component {
             toggleLabelHighLightsOn(labelElem);
 
             const pathelem = document.querySelector(`.${path.options.className}`);
+            togglePermHighLightsAllOff(pathelem);
             toggleMouseHighLightsOn(pathelem);
           },
           mouseout: (e) => {

@@ -886,6 +886,7 @@ export {
   toggleLabelHighLightsOn,
   toggleMouseHighLightsOff,
   toggleLabelHighLightsOff,
+  togglePermHighLightsAllOff,
   makeHTMLName,
   stripUserArea
 };
