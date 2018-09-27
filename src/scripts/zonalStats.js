@@ -843,7 +843,14 @@ function drawZonalStatsFromAPI(data, name) {
   document.getElementById('zonal-content').appendChild(wrapper);
 }
 
-export { drawZonalStatsFromAPI, restoreGraphState };
+export {
+  drawZonalStatsFromAPI,
+  restoreGraphState,
+  toggleMouseHighLightsOn,
+  toggleLabelHighLightsOn,
+  toggleMouseHighLightsOff,
+  toggleLabelHighLightsOff
+};
 
 // Polyfill for Element.closest for IE9+ and Safari
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/closest

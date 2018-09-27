@@ -11,7 +11,7 @@ import exploreTemplate from '../templates/explore.html';
 import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
-import { ZonalStatsAPI } from './ZonalStatsAPI';
+import { ZonalStatsAPI, } from './ZonalStatsAPI';
 
 import {
   checkValidObject,
@@ -19,7 +19,13 @@ import {
   spinnerOn
 } from './utilitys';
 
-import { drawZonalStatsFromAPI } from './zonalStats';
+import {
+  drawZonalStatsFromAPI,
+  toggleMouseHighLightsOn,
+  toggleLabelHighLightsOn,
+  toggleMouseHighLightsOff,
+  toggleLabelHighLightsOff
+} from './zonalStats';
 
 // Shapefile library must be imported with require.
 const shapefile = require('shapefile');
@@ -120,24 +126,20 @@ export class Explore extends Component {
       mouseover: (e) => {
         const path = e.target;
         const labelname = path.options.className.replace('path-', 'label-name-');
-
-        document.getElementById(labelname).classList.add('label-name-highlight');
-        document.getElementById(labelname).classList.remove('label-name-nohighlight');
+        const labelElem = document.getElementById(labelname);
+        toggleLabelHighLightsOn(labelElem);
 
         const pathelem = document.querySelector(`.${path.options.className}`);
-        pathelem.classList.add('path-highlight');
-        pathelem.classList.remove('path-nohighlight');
+        toggleMouseHighLightsOn(pathelem);
       },
       mouseout: (e) => {
         const path = e.target;
         const labelname = path.options.className.replace('path-', 'label-name-');
-
-        document.getElementById(labelname).classList.add('label-name-nohighlight');
-        document.getElementById(labelname).classList.remove('label-name-highlight');
+        const labelElem = document.getElementById(labelname);
+        toggleLabelHighLightsOff(labelElem);
 
         const pathelem = document.querySelector(`.${path.options.className}`);
-        pathelem.classList.remove('path-highlight');
-        pathelem.classList.add('path-nohighlight');
+        toggleMouseHighLightsOff(pathelem);
       }
     });
 
@@ -382,24 +384,20 @@ export class Explore extends Component {
           mouseover: (e) => {
             const path = e.target;
             const labelname = path.options.className.replace('path-', 'label-name-');
-
-            document.getElementById(labelname).classList.add('label-name-highlight');
-            document.getElementById(labelname).classList.remove('label-name-nohighlight');
+            const labelElem = document.getElementById(labelname);
+            toggleLabelHighLightsOn(labelElem);
 
             const pathelem = document.querySelector(`.${path.options.className}`);
-            pathelem.classList.add('path-highlight');
-            pathelem.classList.remove('path-nohighlight');
+            toggleMouseHighLightsOn(pathelem);
           },
           mouseout: (e) => {
             const path = e.target;
             const labelname = path.options.className.replace('path-', 'label-name-');
-
-            document.getElementById(labelname).classList.add('label-name-nohighlight');
-            document.getElementById(labelname).classList.remove('label-name-highlight');
+            const labelElem = document.getElementById(labelname);
+            toggleLabelHighLightsOff(labelElem);
 
             const pathelem = document.querySelector(`.${path.options.className}`);
-            pathelem.classList.remove('path-highlight');
-            pathelem.classList.add('path-nohighlight');
+            toggleMouseHighLightsOff(pathelem);
           }
         });
 
