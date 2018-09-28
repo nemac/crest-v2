@@ -27,7 +27,8 @@ import {
   toggleLabelHighLightsOff,
   togglePermHighLightsAllOff,
   makeHTMLName,
-  isGraphActivetate
+  isGraphActivetate,
+  viewLongZonalStatsFromShape
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -103,6 +104,13 @@ export class Explore extends Component {
     // this.addDrawButtons(mapComponent);
   }
 
+  static clickShape(e) {
+    const path = e.target;
+    const pathclass = e.target.options.className;
+    const name = pathclass.replace('path--USERAREA-', '');
+    viewLongZonalStatsFromShape(name);
+  }
+
   bufferArea(unbufferedGeoJSON) {
     // buffer the geoJSON by 1 kilometer
     const bufferedGeoJSON = buffer(unbufferedGeoJSON, 1, { units: 'kilometers' });
@@ -147,6 +155,9 @@ export class Explore extends Component {
           const pathelem = document.querySelector(`.${path.options.className}`);
           toggleMouseHighLightsOff(pathelem);
         }
+      },
+      click: (e) => {
+        Explore.clickShape(e);
       }
     });
 
@@ -361,7 +372,7 @@ export class Explore extends Component {
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
       this.drawAreaGroup.addLayer(bufferedLayer);
-      this.addUserAreaLabel(bufferedLayer)
+      this.addUserAreaLabel(bufferedLayer);
 
       this.getZonal();
       return layer;
@@ -411,6 +422,9 @@ export class Explore extends Component {
               const pathelem = document.querySelector(`.${path.options.className}`);
               toggleMouseHighLightsOff(pathelem);
             }
+          },
+          click: (e) => {
+            Explore.clickShape(e);
           }
         });
 

@@ -252,7 +252,7 @@ export class SearchLocations extends Component {
 
     // add the shape to the map
     this.exploreComponent.drawUserArea();
-    
+
     // remove old search locations? do I need this?
     this.removeSearchLocations();
     store.setStoreItem('working_search', false);
