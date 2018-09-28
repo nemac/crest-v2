@@ -26,7 +26,8 @@ import {
   toggleMouseHighLightsOff,
   toggleLabelHighLightsOff,
   togglePermHighLightsAllOff,
-  makeHTMLName
+  makeHTMLName,
+  isGraphActivetate
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -126,22 +127,26 @@ export class Explore extends Component {
 
     bufferedLayer.on({
       mouseover: (e) => {
-        const path = e.target;
-        const labelname = path.options.className.replace('path-', 'label-name-');
-        const labelElem = document.getElementById(labelname);
-        toggleLabelHighLightsOn(labelElem);
+        if (!isGraphActivetate()) {
+          const path = e.target;
+          const labelname = path.options.className.replace('path-', 'label-name-');
+          const labelElem = document.getElementById(labelname);
+          toggleLabelHighLightsOn(labelElem);
 
-        const pathelem = document.querySelector(`.${path.options.className}`);
-        toggleMouseHighLightsOn(pathelem);
+          const pathelem = document.querySelector(`.${path.options.className}`);
+          toggleMouseHighLightsOn(pathelem);
+        }
       },
       mouseout: (e) => {
-        const path = e.target;
-        const labelname = path.options.className.replace('path-', 'label-name-');
-        const labelElem = document.getElementById(labelname);
-        toggleLabelHighLightsOff(labelElem);
+        if (!isGraphActivetate()) {
+          const path = e.target;
+          const labelname = path.options.className.replace('path-', 'label-name-');
+          const labelElem = document.getElementById(labelname);
+          toggleLabelHighLightsOff(labelElem);
 
-        const pathelem = document.querySelector(`.${path.options.className}`);
-        toggleMouseHighLightsOff(pathelem);
+          const pathelem = document.querySelector(`.${path.options.className}`);
+          toggleMouseHighLightsOff(pathelem);
+        }
       }
     });
 
@@ -384,23 +389,27 @@ export class Explore extends Component {
 
         bufferedLayer.on({
           mouseover: (e) => {
-            const path = e.target;
-            const labelname = path.options.className.replace('path-', 'label-name-');
-            const labelElem = document.getElementById(labelname);
-            toggleLabelHighLightsOn(labelElem);
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOn(labelElem);
 
-            const pathelem = document.querySelector(`.${path.options.className}`);
-            togglePermHighLightsAllOff(pathelem);
-            toggleMouseHighLightsOn(pathelem);
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              togglePermHighLightsAllOff(pathelem);
+              toggleMouseHighLightsOn(pathelem);
+            }
           },
           mouseout: (e) => {
-            const path = e.target;
-            const labelname = path.options.className.replace('path-', 'label-name-');
-            const labelElem = document.getElementById(labelname);
-            toggleLabelHighLightsOff(labelElem);
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOff(labelElem);
 
-            const pathelem = document.querySelector(`.${path.options.className}`);
-            toggleMouseHighLightsOff(pathelem);
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              toggleMouseHighLightsOff(pathelem);
+            }
           }
         });
 

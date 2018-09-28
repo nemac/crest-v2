@@ -828,6 +828,18 @@ function drawLongZonalStats(data, name) {
   return wrapper;
 }
 
+// check if graph or table is the active state is so we can disable the
+// mouse off event on the shape.  This prevents the map from removeing the
+// highlighted shape.
+function isGraphActivetate() {
+  const graphstate = store.getStateItem('zonalactive');
+  if (checkValidObject(graphstate)) {
+    const activestate = graphstate[1];
+    if (activestate === 'graph' || activestate === 'table') return true;
+  }
+  return false;
+}
+
 function restoreGraphState() {
   const graphstate = store.getStateItem('zonalactive');
   if (checkValidObject(graphstate)) {
@@ -888,7 +900,8 @@ export {
   toggleLabelHighLightsOff,
   togglePermHighLightsAllOff,
   makeHTMLName,
-  stripUserArea
+  stripUserArea,
+  isGraphActivetate
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
