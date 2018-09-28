@@ -254,9 +254,6 @@ function viewLongZonalStats(shortElem) {
 
 // checks if inner HTML of element is Plain old Text
 // instead of another HTML element
-// TODO add html ID's to add ability to interogate the current area
-//    name. This breaks clicking on zonal stats short able when it is not the
-//    label elment
 function innerHTMLisText(innerHTML) {
   if (typeof innerHTML === 'string') {
     if (innerHTML.indexOf('div') === -1) {
@@ -313,6 +310,51 @@ function toggleLabelHighLightsOn(elem) {
     elem.classList.add('label-name-highlight');
     elem.classList.remove('label-name-nohighlight');
   }
+}
+
+function hideLastLongStats() {
+  const graphstate = store.getStateItem('zonalactive');
+  // remove any prevous long chart
+  if (checkValidObject(graphstate)) {
+    const elemid = graphstate[0];
+    const activestate = graphstate[1];
+    if (activestate === 'graph' || activestate === 'table') {
+      const lastactive = document.getElementById(elemid);
+      if (lastactive) {
+        lastactive.classList.remove('active');
+      }
+    }
+  }
+}
+
+function hideLastHighlight() {
+  const graphstate = store.getStateItem('zonalactive');
+  // remove any prevous long chart
+  if (checkValidObject(graphstate)) {
+    const elemid = graphstate[0];
+
+    const lastpathid = elemid.replace('name--USERAREA-', 'path--USERAREA-');
+    const lastpathelem = document.querySelector(`.${lastpathid}`);
+
+    togglePermHighLightsOff(lastpathelem);
+    toggleMouseHighLightsOff(lastpathelem);
+  }
+}
+
+function viewLongZonalStatsFromShape(name) {
+  hideLastLongStats();
+  hideLastHighlight();
+
+  document.getElementById('zonal-header').classList.add('d-none');
+  ZonalWrapperActiveRemove();
+
+  const pathid = `path--USERAREA-${name}`;
+  const pathelem = document.querySelector(`.${pathid}`);
+  togglePermHighLightsOn(pathelem);
+
+  const idname = `name--USERAREA-${name}`;
+  document.getElementById(idname).classList.add('active');
+  setGraphsState(idname, 'graph');
 }
 
 // Click handler to trigger the load of the long zonal stats
@@ -718,7 +760,6 @@ function getZonalWrapper(elem) {
   return elem.closest('.zonal-long-wrapper.active');
 }
 
-
 // Switches the display to the short zonal stats
 // @param wrapper | DOM element
 function dismissLongZonalStats(wrapper) {
@@ -901,7 +942,8 @@ export {
   togglePermHighLightsAllOff,
   makeHTMLName,
   stripUserArea,
-  isGraphActivetate
+  isGraphActivetate,
+  viewLongZonalStatsFromShape
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
