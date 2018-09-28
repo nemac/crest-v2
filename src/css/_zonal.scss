@@ -144,6 +144,9 @@ div.zonal-asset {
     margin-left: 10px;
   }
 }
+.btn-details {
+  height: 30px;
+}
 
 .zonal-label {
   width: 15%;
@@ -158,7 +161,8 @@ div.zonal-asset {
 .zonal-item {
   width: 33%;
   text-align: center;
-
+  margin-top: 3px;
+  
   &-hub {
     width: 15%;
     margin-right: 12px;
