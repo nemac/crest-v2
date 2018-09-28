@@ -1,8 +1,8 @@
 // import dependencies
 import Navigo from 'navigo';
-import fontawesome from '@fortawesome/fontawesome';
-import solid from '@fortawesome/fontawesome-free-solid';
-import regular from '@fortawesome/fontawesome-free-regular';
+import { library, dom } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 // import custom classess
 import { Store } from './store';
@@ -13,25 +13,27 @@ import { checkValidObject } from './utilitys';
 import { Map } from './map';
 import { MapLayersList } from './maplayers_list';
 import { NavBar } from './navBar';
-// import { AboutNavBar } from './aboutNav';
 import { About } from './about';
 import { Explore } from './explore';
 import { MapInfo } from './mapinfo';
 import { SearchLocations } from './searchlocations';
 
 // import html templates
-// import AboutPage from '../templates/about.html';
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
-// import ExplorePage from '../templates/explore.html';
-// import SearchLocationsPage from '../templates/searchlocations.html';
+
+import { restoreGraphState } from './zonalStats';
+
 // initialize navbar
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
 
-import { restoreGraphState } from './zonalStats';
-
 new URL();
+
+library.add(fas, far);
+
+// Kicks off the process of finding <i> tags and replacing with <svg>
+dom.watch();
 
 let mapComponent;
 let maplayersComponent;
