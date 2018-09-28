@@ -84,7 +84,11 @@ function makeLabel(name) {
   const zonalLabel = makeDiv();
   const HTMLName = makeHTMLName(name);
   zonalLabel.classList.add('zonal-label');
+  zonalLabel.classList.add('btn');
+  zonalLabel.classList.add('btn-light');
+  zonalLabel.classList.add('btn-details');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
+  zonalLabel.innerHTML = '<i class="far fa-chart-bar"></i> ';
   // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
