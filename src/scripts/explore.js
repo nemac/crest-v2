@@ -361,6 +361,7 @@ export class Explore extends Component {
       // add layer to the leaflet map
       this.drawAreaGroup.addLayer(layer);
       this.drawAreaGroup.addLayer(bufferedLayer);
+      this.addUserAreaLabel(bufferedLayer)
 
       this.getZonal();
       return layer;

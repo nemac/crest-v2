@@ -224,7 +224,7 @@ export class SearchLocations extends Component {
 
     // clear old user area
     // remove existing Area
-    this.exploreComponent.drawAreaGroup.clearLayers();
+    // this.exploreComponent.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
 
     // add the user area. in this case the user area is a point
@@ -252,7 +252,7 @@ export class SearchLocations extends Component {
 
     // add the shape to the map
     this.exploreComponent.drawUserArea();
-
+    
     // remove old search locations? do I need this?
     this.removeSearchLocations();
     store.setStoreItem('working_search', false);
