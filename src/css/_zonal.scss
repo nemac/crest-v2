@@ -204,35 +204,35 @@ div.zonal-asset {
   }
 
   .zonal-hubs{
-    width: 90%;
+    width: 100%;
   }
 
   .zonal-aquatic {
-    width: 33%;
+    width: 50%;
   }
 
   .zonal-terrestrial {
-    width: 33%;
+    width: 50%;
   }
 
   .zonal-asset {
-    width: 33%;
+    width: 50%;
   }
 
   .zonal-threat {
-    width: 33%;
+    width: 50%;
   }
 
   .zonal-item-hub:before {
     content: "Hub";
-    display: inline-block;
+    display: block;
     margin-right: 5px;
     font-size: 12px;
   }
 
   .zonal-item-fishwild:before {
     content: "Aquatic/Terrestrial";
-    display: inline-block;
+    display: block;
     margin-right: 5px;
     font-size: 12px;
     width: 110px;
@@ -240,7 +240,7 @@ div.zonal-asset {
 
   .zonal-item-exposure:before {
     content: "Asset/Threat";
-    display: inline-block;
+    display: block;
     margin-right: 5px;
     font-size: 12px;
     width: 110px;
@@ -266,54 +266,54 @@ div.zonal-asset {
 
 }
 
-// medium small
-@media (max-width: 1309px) {
-
-  .zonal-item-hub {
-    width: 100% !important;
-  }
-  .zonal-item-exposure {
-    width: 100% !important;
-  }
-
-  .zonal-item-fishwild {
-    width: 100% !important;
-  }
-
-  .zonal-hubs{
-    width: 100%;
-  }
-
-  .zonal-aquatic {
-    width: 50%;
-  }
-
-  .zonal-terrestrial {
-    width: 50%;
-  }
-
-  .zonal-asset {
-    width: 50%;
-  }
-
-  .zonal-threat {
-    width: 50%;
-  }
-
-
-  .zonal-item-hub:before {
-    display: block;
-  }
-
-  .zonal-item-fishwild:before {
-    display: block;
-  }
-
-  .zonal-item-exposure:before {
-    display: block;
-  }
-
-}
+// // medium small
+// @media (max-width: 1309px) {
+//
+//   .zonal-item-hub {
+//     width: 100% !important;
+//   }
+//   .zonal-item-exposure {
+//     width: 100% !important;
+//   }
+//
+//   .zonal-item-fishwild {
+//     width: 100% !important;
+//   }
+//
+//   .zonal-hubs{
+//     width: 100%;
+//   }
+//
+//   .zonal-aquatic {
+//     width: 50%;
+//   }
+//
+//   .zonal-terrestrial {
+//     width: 50%;
+//   }
+//
+//   .zonal-asset {
+//     width: 50%;
+//   }
+//
+//   .zonal-threat {
+//     width: 50%;
+//   }
+//
+//
+//   .zonal-item-hub:before {
+//     display: block;
+//   }
+//
+//   .zonal-item-fishwild:before {
+//     display: block;
+//   }
+//
+//   .zonal-item-exposure:before {
+//     display: block;
+//   }
+//
+// }
 
 // small
 @media (max-width: 768px) {
