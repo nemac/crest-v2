@@ -73,7 +73,7 @@ html, body {
 }
 
 .btn-file-label {
-  margin-bottom: 0px !important
+  margin-bottom: 5px !important
 }
 
 .geocoder-control-suggestions .geocoder-control-suggestion {
@@ -117,18 +117,6 @@ html, body {
   cursor: pointer;
 }
 
-.user-shape {
-  // for text to wrap in button
-  white-space: pre-wrap;      /* CSS3 */
-  white-space: -moz-pre-wrap; /* Firefox */
-  white-space: -pre-wrap;     /* Opera <7 */
-  white-space: -o-pre-wrap;   /* Opera 7 */
-  word-wrap: break-word;      /* IE */
-  width: 90px;
-  height: 80px;
-  margin: 5px;
-  font-size: .9rem
-}
 
 .leaflet-editing-icon {
     max-width: 10px;
@@ -191,6 +179,77 @@ html, body {
   color: $body-bg;
   padding: 4px 4px;
   box-shadow: 0 0 1.5px 1.5px rgba(150, 150, 150, .9);
+}
+
+
+.btn-icon:after {
+    content:"\000A";
+    white-space: pre;
+}
+
+// .explore-btns {
+//     display: inline-block !important;
+// }
+
+.user-shape {
+  // for text to wrap in button
+  white-space: pre-wrap;      /* CSS3 */
+  white-space: -moz-pre-wrap; /* Firefox */
+  white-space: -pre-wrap;     /* Opera <7 */
+  white-space: -o-pre-wrap;   /* Opera 7 */
+  word-wrap: break-word;      /* IE */
+  width: 90px;
+  height: 80px;
+  margin: 5px;
+  font-size: .9rem;
+}
+
+.icon-label {
+  margin-top: 15px !important;
+}
+
+// responive explore buttons
+@media (max-width: 1400px) {
+  .btn-lg-label {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .explore-btns {
+    display: block !important;
+  }
+  .user-shape {
+    width: 100% !important;
+  }
+  .btn-lg-label {
+    display: block !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-shape {
+    width: 110px !important;
+    height: 80px !important;
+  }
+  .icon-label {
+    margin-top: 0px !important;
+  }
+  .sticky-top {
+    position: inherit;
+  }
+}
+
+@media (max-width: 590px) {
+  .explore-btns {
+    display: block !important;
+  }
+  .user-shape {
+    width: 100% !important;
+  }
+  .btn-lg-label {
+    display: block !important;
+  }
 }
 
 .exposure-equals {

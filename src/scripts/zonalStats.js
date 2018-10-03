@@ -87,8 +87,9 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn');
   zonalLabel.classList.add('btn-light');
   zonalLabel.classList.add('btn-details');
+  zonalLabel.classList.add('user-shape');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
-  zonalLabel.innerHTML = '<i class="far fa-chart-bar"></i> ';
+  zonalLabel.innerHTML = '<span class="btn-icon"><i class="far fa-chart-bar"></i></span>';
   // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;

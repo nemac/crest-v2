@@ -149,20 +149,65 @@ div.zonal-asset {
 }
 
 .zonal-label {
-  width: 15%;
+  // for text to wrap in button
+  white-space: pre-wrap;      /* CSS3 */
+  white-space: -moz-pre-wrap; /* Firefox */
+  white-space: -pre-wrap;     /* Opera <7 */
+  white-space: -o-pre-wrap;   /* Opera 7 */
+  word-wrap: break-word;      /* IE */
+  width: 60px;
+  height: 50px;
+  margin: 5px;
+  font-size: .9rem;
+  // width: 15%;
+  //
+  // &:after {
+  //   // content: "\203a";
+  //   display: inline;
+  //   padding-left: 2px;
+  // }
+}
 
-  &:after {
-    content: "\203a";
-    display: inline;
-    padding-left: 2px;
+@media (max-width: 1800px) {
+  // .zonal-label {
+  //   &:after {
+  //     content: "";
+  //     display: none;
+  //   }
+  // }
+}
+
+@media (max-width: 1600px) {
+  // .zonal-label {
+  //   margin-right: 5px !important;
+  //   svg {display: none;}
+  // }
+  .zonal-item-hub {
+    margin-right: 6px !important;
+  }
+}
+
+@media (max-width: 1430px) {
+  // .zonal-label {
+  //   width: 100%;
+  //   svg {display: inline-block;}
+  // }
+  .zonal-wrapper {
+    display: block !important;
+    padding-bottom: 15px;
+
+    div.zonal-item {
+      display: block !important;
+
+    }
   }
 }
 
 .zonal-item {
   width: 33%;
   text-align: center;
-  margin-top: 3px;
-  
+  margin-top: 15px;
+
   &-hub {
     width: 15%;
     margin-right: 12px;
