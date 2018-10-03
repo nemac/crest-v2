@@ -148,6 +148,15 @@ div.zonal-asset {
   height: 30px;
 }
 
+
+.zonal-hubs {
+    width: 90%;
+}
+
+.zonal-item-hub {
+  width: 20% !important;
+}
+
 .zonal-label {
   // for text to wrap in button
   white-space: pre-wrap;      /* CSS3 */
@@ -188,14 +197,104 @@ div.zonal-asset {
 }
 
 @media (max-width: 1430px) {
-  // .zonal-label {
-  //   width: 100%;
-  //   svg {display: inline-block;}
-  // }
+  .zonal-label {
+    width: 100%;
+    svg {display: inline-block;}
+  }
+
+  .zonal-item {
+    text-align: left !important;
+  }
+
+  .zonal-item-hub {
+    width: 80% !important;
+  }
+  .zonal-item-exposure {
+    width: 80% !important;
+  }
+
+  .zonal-item-fishwild {
+    width: 80% !important;
+  }
+
+  .zonal-aquatic {
+    width: 30%;
+  }
+
+  .zonal-terrestrial {
+    width: 30%;
+  }
+
+  .zonal-asset {
+    width: 30%;
+  }
+
+  .zonal-threat {
+    width: 30%;
+  }
+
+  .zonal-item-hub:before {
+    content: "Hub";
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 12px;
+  }
+
+  .zonal-item-fishwild:before {
+    content: "Aquatic/Terrestrial";
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 12px;
+    width: 110px;
+  }
+
+  .zonal-item-exposure:before {
+    content: "Asset/Threat";
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 12px;
+    width: 110px;
+  }
+
   .zonal-wrapper {
     display: block !important;
-    padding-bottom: 15px;
+    padding-bottom: 15px !important;
+    margin-bottom: 20px !important;
 
+    &.active {
+      margin-bottom: 40px !important;
+    }
+
+    div.zonal-item {
+      display: block !important;
+    }
+  }
+
+  #zonal-header {
+    display: none !important;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .zonal-label {
+    width: 60px !important;
+    height: 50px !important;
+  }
+  .zonal-item {
+    width: 30% !important;;
+  }
+  .zonal-item-hub {
+    width: 20% !important;;
+  }
+  .zonal-wrapper {
+    display: flex  !important;
+    padding-bottom: 15px !important;
+    margin-bottom: 10px !important;
+
+    &.active {
+      margin-bottom: 10px !important;
+    }
     div.zonal-item {
       display: block !important;
 
@@ -204,7 +303,7 @@ div.zonal-asset {
 }
 
 .zonal-item {
-  width: 33%;
+  width: 30%;
   text-align: center;
   margin-top: 15px;
 

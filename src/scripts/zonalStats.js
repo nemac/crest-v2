@@ -188,6 +188,7 @@ function makeHubBox(hubs, name) {
 // @return DOM element
 function makeFishWildBox(wildlife, fish, name) {
   const fishWildWrapper = makeBoxWrapper();
+  fishWildWrapper.classList.add('zonal-item-fishwild');
   fishWildWrapper.appendChild(makeAquaticBox(fish, name));
   fishWildWrapper.appendChild(makeTerrestrialBox(wildlife, name));
   return fishWildWrapper;
@@ -199,6 +200,7 @@ function makeFishWildBox(wildlife, fish, name) {
 // @return DOM element
 function makeExposureBox(asset, threat, name) {
   const exposureWrapper = makeBoxWrapper();
+  exposureWrapper.classList.add('zonal-item-exposure');
   exposureWrapper.appendChild(makeAssetBox(asset, name));
   exposureWrapper.appendChild(makeThreatBox(threat, name));
   return exposureWrapper;
