@@ -168,34 +168,20 @@ div.zonal-asset {
   height: 50px;
   margin: 5px;
   font-size: .9rem;
-  // width: 15%;
-  //
-  // &:after {
-  //   // content: "\203a";
-  //   display: inline;
-  //   padding-left: 2px;
-  // }
 }
 
 @media (max-width: 1800px) {
-  // .zonal-label {
-  //   &:after {
-  //     content: "";
-  //     display: none;
-  //   }
-  // }
+
 }
 
 @media (max-width: 1600px) {
-  // .zonal-label {
-  //   margin-right: 5px !important;
-  //   svg {display: none;}
-  // }
+
   .zonal-item-hub {
     margin-right: 6px !important;
   }
 }
 
+// medium
 @media (max-width: 1430px) {
   .zonal-label {
     width: 100%;
@@ -207,30 +193,34 @@ div.zonal-asset {
   }
 
   .zonal-item-hub {
-    width: 80% !important;
+    width: 100% !important;
   }
   .zonal-item-exposure {
-    width: 80% !important;
+    width: 100% !important;
   }
 
   .zonal-item-fishwild {
-    width: 80% !important;
+    width: 100% !important;
+  }
+
+  .zonal-hubs{
+    width: 90%;
   }
 
   .zonal-aquatic {
-    width: 30%;
+    width: 33%;
   }
 
   .zonal-terrestrial {
-    width: 30%;
+    width: 33%;
   }
 
   .zonal-asset {
-    width: 30%;
+    width: 33%;
   }
 
   .zonal-threat {
-    width: 30%;
+    width: 33%;
   }
 
   .zonal-item-hub:before {
@@ -276,7 +266,61 @@ div.zonal-asset {
 
 }
 
+// medium small
+@media (max-width: 1309px) {
+
+  .zonal-item-hub {
+    width: 100% !important;
+  }
+  .zonal-item-exposure {
+    width: 100% !important;
+  }
+
+  .zonal-item-fishwild {
+    width: 100% !important;
+  }
+
+  .zonal-hubs{
+    width: 100%;
+  }
+
+  .zonal-aquatic {
+    width: 50%;
+  }
+
+  .zonal-terrestrial {
+    width: 50%;
+  }
+
+  .zonal-asset {
+    width: 50%;
+  }
+
+  .zonal-threat {
+    width: 50%;
+  }
+
+
+  .zonal-item-hub:before {
+    display: block;
+  }
+
+  .zonal-item-fishwild:before {
+    display: block;
+  }
+
+  .zonal-item-exposure:before {
+    display: block;
+  }
+
+}
+
+// small
 @media (max-width: 768px) {
+  #zonal-header {
+    display: block !important;
+  }
+
   .zonal-label {
     width: 60px !important;
     height: 50px !important;
@@ -300,6 +344,66 @@ div.zonal-asset {
 
     }
   }
+
+  .zonal-item {
+    width: 30% !important;
+    text-align: center !important;
+    margin-top: 15px !important;
+  }
+
+  .zonal-box {
+    display: inline-block !important;
+    width: 45% !important;
+    min-width: 56px !important;
+    height: 25px !important;
+    line-height: 25px !important;
+    font-size: 14px !important;
+    text-align: center !important;
+  }
+
+  .zonal-item-hub:before {
+    display: none;
+  }
+
+  .zonal-item-fishwild:before {
+    display: none;
+  }
+
+  .zonal-item-exposure:before {
+    display: none;
+
+  }
+
+  .zonal-item-hub {
+    width: 20% !important;
+  }
+  .zonal-item-exposure {
+    width: 100% !important;
+  }
+
+  .zonal-item-fishwild {
+    width: 100% !important;
+  }
+
+  .zonal-hubs{
+    width: 90%;
+  }
+
+  .zonal-aquatic {
+    width: 33%;
+  }
+
+  .zonal-terrestrial {
+    width: 33%;
+  }
+
+  .zonal-asset {
+    width: 33%;
+  }
+
+  .zonal-threat {
+    width: 33%;
+  }
 }
 
 .zonal-item {
@@ -310,6 +414,95 @@ div.zonal-asset {
   &-hub {
     width: 15%;
     margin-right: 12px;
+  }
+}
+
+// very small
+@media (max-width: 590px) {
+  .zonal-label {
+    width: 100% !important;
+    svg {display: inline-block;}
+  }
+
+  .zonal-item {
+    text-align: left !important;
+  }
+
+  .zonal-item-hub {
+    width: 100% !important;
+  }
+
+  .zonal-item-hub {
+    width: 100% !important;
+  }
+  .zonal-item-exposure {
+    width: 100% !important;
+  }
+
+  .zonal-item-fishwild {
+    width: 100% !important;
+  }
+
+  .zonal-hubs{
+    width: 100% !important;
+  }
+
+  .zonal-aquatic {
+    width: 50% !important;
+  }
+
+  .zonal-terrestrial {
+    width: 50% !important;
+  }
+
+  .zonal-asset {
+    width: 50% !important;
+  }
+
+  .zonal-threat {
+    width: 50% !important;
+  }
+
+
+  .zonal-item-hub:before {
+    content: "Hub";
+    display: block;
+    margin-right: 5px;
+    font-size: 12px;
+  }
+
+  .zonal-item-fishwild:before {
+    content: "Aquatic/Terrestrial";
+    display: block;
+    margin-right: 5px;
+    font-size: 12px;
+    width: 110px;
+  }
+
+  .zonal-item-exposure:before {
+    content: "Asset/Threat";
+    display: block;
+    margin-right: 5px;
+    font-size: 12px;
+    width: 110px;
+  }
+
+  .zonal-wrapper {
+    display: block !important;
+    padding-bottom: 15px !important;
+    margin-bottom: 20px !important;
+
+    &.active {
+      margin-bottom: 40px !important;
+    }
+
+    div.zonal-item {
+      display: block !important;
+    }
+  }
+
+  #zonal-header {
+    display: none !important;
   }
 }
 
