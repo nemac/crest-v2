@@ -140,6 +140,9 @@ export class Explore extends Component {
           const labelname = path.options.className.replace('path-', 'label-name-');
           const labelElem = document.getElementById(labelname);
           toggleLabelHighLightsOn(labelElem);
+          const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+          const labelzElem = document.getElementById(labelzname);
+          toggleLabelHighLightsOn(labelzElem);
 
           const pathelem = document.querySelector(`.${path.options.className}`);
           toggleMouseHighLightsOn(pathelem);
@@ -151,6 +154,9 @@ export class Explore extends Component {
           const labelname = path.options.className.replace('path-', 'label-name-');
           const labelElem = document.getElementById(labelname);
           toggleLabelHighLightsOff(labelElem);
+          const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+          const labelzElem = document.getElementById(labelzname);
+          toggleLabelHighLightsOff(labelzElem);
 
           const pathelem = document.querySelector(`.${path.options.className}`);
           toggleMouseHighLightsOff(pathelem);
@@ -406,6 +412,9 @@ export class Explore extends Component {
               const labelname = path.options.className.replace('path-', 'label-name-');
               const labelElem = document.getElementById(labelname);
               toggleLabelHighLightsOn(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOn(labelzElem);
 
               const pathelem = document.querySelector(`.${path.options.className}`);
               togglePermHighLightsAllOff(pathelem);
@@ -418,6 +427,9 @@ export class Explore extends Component {
               const labelname = path.options.className.replace('path-', 'label-name-');
               const labelElem = document.getElementById(labelname);
               toggleLabelHighLightsOff(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOff(labelzElem);
 
               const pathelem = document.querySelector(`.${path.options.className}`);
               toggleMouseHighLightsOff(pathelem);
