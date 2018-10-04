@@ -276,8 +276,30 @@ div.zonal-asset {
 
 }
 
+// asset drivers
+@media (max-width: 1200px) {
+    .zonal-long-graph-wrapper {
+      width: 280px !important;
+    }
+}
+// asset drivers
+@media (max-width: 1064px) {
+    .zonal-long-graph-wrapper {
+      width: 250px !important;
+    }
+    // .zonal-long-graph-wrapper-asset .zonal-long-graph-bar-wrapper {
+    //   width: 12% !important;
+    // }
+    // .zonal-long-graph-wrapper-asset .zonal-long-graph-label {
+    //   width: 22% !important;
+    // }
+}
+
 // 946 exposure freaks
 @media (max-width: 946px) {
+  .zonal-long-graph-wrapper {
+    width: 210px !important;
+  }
   $box-dimensions: 46px;
   .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
     .zonal-long-table-bar-wrapper {
@@ -297,6 +319,19 @@ div.zonal-asset {
       width: $box-dimensions !important;
     }
   }
+}
+
+// asset drivers
+@media (max-width: 875px) {
+    .zonal-long-graph-wrapper {
+      width: 200px !important;
+    }
+    .zonal-long-graph-wrapper-asset .zonal-long-graph-bar-wrapper {
+      width: 10% !important;
+    }
+    .zonal-long-graph-wrapper-asset .zonal-long-graph-label {
+      width: 20% !important;
+    }
 }
 
 @media (max-width: 825px) {
@@ -327,6 +362,9 @@ div.zonal-asset {
 }
 
 @media screen and (max-width: 768px) {
+  .zonal-long-graph-wrapper {
+    width: 320px !important;
+  }
   $box-dimensions: 56px;
   .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
     .zonal-long-table-bar-wrapper {
@@ -345,6 +383,24 @@ div.zonal-asset {
       $box-dimensions: 32px;
       width: $box-dimensions !important;
     }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .zonal-long-graph-wrapper {
+    width: 280px !important;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .zonal-long-graph-wrapper {
+    width: 240px !important;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .zonal-long-graph-wrapper {
+    width: 210px !important;
   }
 }
 
