@@ -89,7 +89,7 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
-  zonalLabel.innerHTML = '<span class="btn-icon"><i class="far fa-chart-bar"></i></span>';
+  zonalLabel.innerHTML = '<span class="btn-icon" id="btn-details-icon" ><i class="far fa-chart-bar"></i></span>';
   // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
@@ -390,6 +390,10 @@ function zonalLabelMouseOverHandler(e) {
     const labelName = `label-name-${HTMLName}`;
     const labelElem = document.getElementById(labelName);
     toggleLabelHighLightsOn(labelElem);
+
+    const labelzName = `zonal-wrapper-${HTMLName}`;
+    const labelzElem = document.getElementById(labelzName);
+    toggleLabelHighLightsOn(labelzElem);
   }
 }
 
@@ -404,6 +408,10 @@ function zonalLabelMouseOutHandler(e) {
     const labelName = `label-name-${HTMLName}`;
     const labelElem = document.getElementById(labelName);
     toggleLabelHighLightsOff(labelElem);
+
+    const labelzName = `zonal-wrapper-${HTMLName}`;
+    const labelzElem = document.getElementById(labelzName);
+    toggleLabelHighLightsOff(labelzElem);
   }
 }
 
@@ -937,6 +945,10 @@ function drawZonalStatsFromAPI(data, name) {
   wrapper.appendChild(drawShortZonalStats(data, name));
   wrapper.appendChild(drawLongZonalStats(data, name));
   document.getElementById('zonal-content').appendChild(wrapper);
+
+  const iconelem = document.getElementById('btn-details-icon');
+  iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
+  iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
 }
 
 export {
