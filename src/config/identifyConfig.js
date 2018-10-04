@@ -360,7 +360,7 @@ export var identifyConfig = {
     {
       layer: "threat",
       value: 29,
-      backgroundColor: "#080a90",
+      backgroundColor: "#af0e08",
       color: "#e9ecef",
       label: "High",
     },

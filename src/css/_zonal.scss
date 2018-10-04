@@ -21,6 +21,54 @@ $hub-6: #277450;
 $hub-7: #005a32;
 $hub-bar: #0ff;
 
+$asset-0: #b6edf0;
+$asset-1: #a1daed;
+$asset-2: #8ecaed;
+$asset-3: #7abaeb;
+$asset-4: #64aae8;
+$asset-5: #4c99e6;
+$asset-6: #328ae3;
+$asset-7: #217bdb;
+$asset-8: #2166cf;
+$asset-9: #2154c2;
+$asset-10: #1d40b5;
+$asset-11: #192fa8;
+$asset-12: #131f9e;
+$asset-13: #080a90;
+$assetbarsep: #d4182b;
+
+$threat-0: #ffebd6;
+$threat-1: #fce5cf;
+$threat-2: #fadec5;
+$threat-3: #f7d7bc;
+$threat-4: #f5d1b5;
+$threat-5: #f5cbae;
+$threat-6: #f2c4a5;
+$threat-7: #f0bc9c;
+$threat-8: #edb695;
+$threat-9: #ebae8d;
+$threat-10: #eba786;
+$threat-11: #e8a180;
+$threat-12: #e69877;
+$threat-13: #e3906f;
+$threat-14: #e08867;
+$threat-15: #e08063;
+$threat-16: #de775b;
+$threat-17: #db6f53;
+$threat-18: #d9664c;
+$threat-19: #d65f47;
+$threat-20: #d65740;
+$threat-21: #d44e39;
+$threat-22: #d14734;
+$threat-23: #cf3e2d;
+$threat-24: #cc3527;
+$threat-25: #cc2c21;
+$threat-26: #c9251c;
+$threat-27: #c71c16;
+$threat-28: #c41310;
+$threat-29: #af0e08;
+$theatbarsep: #68ace7;
+
 $exposure-1: #568b93;
 $exposure-2: #7db0a3;
 $exposure-3: #d4e5ba;
@@ -743,6 +791,36 @@ div.zonal-asset {
   }
 }
 
+.zonal-long-table-item.zonal-long-table-item-asset {
+  width: 26px;
+  height: 56px;
+}
+
+.zonal-long-table-item.zonal-long-table-item-threat {
+  width: 9.9px;
+  height: 56px;
+  font-size: 0px;
+}
+.zonal-long-table-asset .zonal-long-table-header-simple-low {
+    position: absolute;
+    top: -20px
+}
+
+.zonal-long-table-asset .zonal-long-table-header-simple-high {
+    position: absolute;
+    top: -20px
+}
+
+.zonal-long-table-threat .zonal-long-table-header-simple-low {
+    position: absolute;
+    top: -20px
+}
+
+.zonal-long-table-threat .zonal-long-table-header-simple-high {
+    position: absolute;
+    top: -20px
+}
+
 .zonal-long-table-header {
   position: relative;
 
@@ -795,6 +873,12 @@ div.zonal-asset {
   .zonal-long-table-exposure .zonal-long-table-header-threat {
     line-height: 35px !important;
   }
+  .zonal-long-table-asset .zonal-long-table-header-asset {
+    line-height: 20px !important;
+  }
+  .zonal-long-table-threat .zonal-long-table-header-threat {
+    line-height: 35px !important;
+  }
 }
 
 @media (max-width: 825px) {
@@ -802,6 +886,12 @@ div.zonal-asset {
     line-height: 10px !important;
   }
   .zonal-long-table-exposure .zonal-long-table-header-threat {
+    line-height: 30px !important;
+  }
+  .zonal-long-table-asset .zonal-long-table-header-asset {
+    line-height: 10px !important;
+  }
+  .zonal-long-table-threat .zonal-long-table-header-threat {
     line-height: 30px !important;
   }
 }
@@ -813,6 +903,13 @@ div.zonal-asset {
   &:after {
     bottom: 10px;
   }
+
+  .zonal-long-table-asset .zonal-long-table-header-asset {
+    line-height: 45px !important;
+  }
+  .zonal-long-table-threat .zonal-long-table-header-threat {
+    line-height: 45px !important;
+  }
 }
 
 @media (max-width: 340px) {
@@ -822,9 +919,21 @@ div.zonal-asset {
   .zonal-long-table-exposure .zonal-long-table-header-threat {
     line-height: 30px !important;
   }
+  .zonal-long-table-asset .zonal-long-table-header-asset {
+    line-height: 30px !important;
+  }
+  .zonal-long-table-threat .zonal-long-table-header-threat {
+    line-height: 30px !important;
+  }
 }
 
-@media (max-width: 340px) {
+@media (max-width: 320px) {
+  .zonal-long-table-asset .zonal-long-table-header-asset {
+    line-height: 25px !important;
+  }
+  .zonal-long-table-threat .zonal-long-table-header-threat {
+    line-height: 25px !important;
+  }
   .zonal-long-table-asset .zonal-long-table-header-asset {
     line-height: 25px !important;
   }
@@ -940,6 +1049,213 @@ div.zonal-asset {
       background-color: $hub-7;
     }
   }
+
+  &-asset {
+    &-zero {
+      background-color: $asset-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $asset-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $asset-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $asset-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $asset-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $asset-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $asset-6;
+      color: #000;
+    }
+
+    &-seven {
+      background-color: $asset-7;
+    }
+
+    &-eight {
+      background-color: $asset-8;
+    }
+
+    &-nine {
+      background-color: $asset-9;
+    }
+
+    &-ten {
+      background-color: $asset-10;
+    }
+
+    &-eleven {
+      background-color: $asset-11;
+    }
+
+    &-twelve {
+      background-color: $asset-12;
+    }
+
+    &-thirteen {
+      background-color: $asset-13;
+    }
+  }
+
+  &-threat {
+    &-zero {
+      background-color: $threat-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $threat-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $threat-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $threat-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $threat-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $threat-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $threat-6;
+      color: #000;
+    }
+
+    &-seven {
+      background-color: $threat-7;
+      color: #000;
+    }
+
+    &-eight {
+      background-color: $threat-8;
+      color: #000;
+    }
+
+    &-nine {
+      background-color: $threat-9;
+      color: #000;
+    }
+
+    &-ten {
+      background-color: $threat-10;
+      color: #000;
+    }
+
+    &-eleven {
+      background-color: $threat-11;
+      color: #000;
+    }
+
+    &-twelve {
+      background-color: $threat-12;
+      color: #000;
+    }
+
+    &-thirteen {
+      background-color: $threat-13;
+      color: #000;
+    }
+
+    &-fourteen {
+      background-color: $threat-14;
+      color: #000;
+    }
+
+    &-fifteen {
+      background-color: $threat-15;
+      color: #000;
+    }
+
+    &-sixteen {
+      background-color: $threat-16;
+      color: #000;
+    }
+
+    &-seventeen {
+      background-color: $threat-17;
+      color: #000;
+    }
+
+    &-eightteen {
+      background-color: $threat-18;
+      color: #000;
+    }
+
+    &-nineteen {
+      background-color: $threat-19;
+      color: #000;
+    }
+
+    &-twenty {
+      background-color: $threat-20;
+    }
+
+    &-twentyone {
+      background-color: $threat-21;
+    }
+
+    &-twentytwo {
+      background-color: $threat-22;
+    }
+
+    &-twentythree {
+      background-color: $threat-23;
+    }
+
+    &-twentyfour {
+      background-color: $threat-24;
+    }
+
+    &-twentyfive {
+      background-color: $threat-25;
+    }
+
+    &-twentysix {
+      background-color: $threat-26;
+    }
+
+    &-twentyseven {
+      background-color: $threat-27;
+    }
+
+    &-twentyeight{
+      background-color: $threat-28;
+    }
+
+    &-twentynine {
+      background-color: $threat-29;
+    }
+  }
 }
 
 .zonal-long-table-header-simple {
@@ -1005,6 +1321,15 @@ div.zonal-asset {
   &-hub {
     background-color: $hub-bar;
   }
+}
+
+.zonal-long-table-asset .zonal-long-table-bar-asset-self {
+    background-color: $assetbarsep;
+}
+
+.zonal-long-table-threat .zonal-long-table-bar-threat-self {
+  background-color: $theatbarsep;
+
 }
 
 .zonal-long-graph-wrapper {
