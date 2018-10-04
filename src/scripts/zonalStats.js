@@ -87,8 +87,9 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn');
   zonalLabel.classList.add('btn-light');
   zonalLabel.classList.add('btn-details');
+  zonalLabel.classList.add('user-shape');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
-  zonalLabel.innerHTML = '<i class="far fa-chart-bar"></i> ';
+  zonalLabel.innerHTML = '<span class="btn-icon"><i class="far fa-chart-bar"></i></span>';
   // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
@@ -187,6 +188,7 @@ function makeHubBox(hubs, name) {
 // @return DOM element
 function makeFishWildBox(wildlife, fish, name) {
   const fishWildWrapper = makeBoxWrapper();
+  fishWildWrapper.classList.add('zonal-item-fishwild');
   fishWildWrapper.appendChild(makeAquaticBox(fish, name));
   fishWildWrapper.appendChild(makeTerrestrialBox(wildlife, name));
   return fishWildWrapper;
@@ -198,6 +200,7 @@ function makeFishWildBox(wildlife, fish, name) {
 // @return DOM element
 function makeExposureBox(asset, threat, name) {
   const exposureWrapper = makeBoxWrapper();
+  exposureWrapper.classList.add('zonal-item-exposure');
   exposureWrapper.appendChild(makeAssetBox(asset, name));
   exposureWrapper.appendChild(makeThreatBox(threat, name));
   return exposureWrapper;

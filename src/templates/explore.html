@@ -2,13 +2,13 @@
   <div class="row d-flex w-100">
     <div class="sticky-top sideheading w-100">
       <h3  > Start Exploring</h3>
-      <div id="user-shape" class="fow d-flex w-100">
+      <div id="user-shape" class="fow d-flex w-100 explore-btns">
           <!--   -->
-          <button id="btn-clear-area" title="Clear Map" aria-label="Clear Map" type="button" class="btn btn-light btn-box user-shape btn-clear-area"><i class="far fa-trash-alt"></i><br/>Clear Areas on map</button>
-          <button id="draw-area-btn" title="Draw Area on Map" aria-label="Draw Area on Map" type="button" class="btn btn-light btn-box user-shape btn-draw-area"><i class="fas fa-draw-polygon"></i><br/>Draw Area on map</button>
-          <label class="btn btn-light btn-box user-shape btn-file-label"  for="upload-shape-btn"><i class="fas fa-upload"></i><br/>Upload Shapefile</label>
+          <button id="btn-clear-area" title="Clear Map" aria-label="Clear Map" type="button" class="btn btn-light btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="far fa-trash-alt"></i></span><span class="btn-med-label">Clear</span><span class="btn-lg-label"> Areas on map</span></button>
+          <button id="draw-area-btn" title="Draw Area on Map" aria-label="Draw Area on Map" type="button" class="btn btn-light btn-box user-shape btn-draw-area"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-med-label">Draw Area</span><span class="btn-lg-label"> on map</span></button>
+          <label class="btn btn-light btn-box user-shape btn-file-label"  for="upload-shape-btn"><span class="btn-icon"><i class="fas fa-upload icon-label"></i></span><span class="btn-med-label">Upload</span><span class="btn-lg-label"> Shapefile</span></label>
           <input type="file" multiple=true accept=".zip, .shp, .dbf, .prj, .geojson, .json" id="upload-shape-btn" class="btn btn-light btn-box btn-upload-shape btn-file"></input>
-          <button id="btn-update-zonal-stats" title="Update Statistics" aria-label="Update Statistics" type="button" class="btn btn-light btn-box user-shape btn-clear-area"><i class="fas fa-sync-alt"></i><br/>Update Statistics</button>
+          <button id="btn-update-zonal-stats" title="Update Statistics" aria-label="Update Statistics" type="button" class="btn btn-light btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="fas fa-sync-alt"></i></span><span class="btn-med-label">Update</span><span class="btn-lg-label"> Statistics</span></button>
       </div>
       <div></div>
       <hr class="w-100"/>
