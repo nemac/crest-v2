@@ -279,7 +279,11 @@ div.zonal-asset {
 // 946 exposure freaks
 @media (max-width: 946px) {
   $box-dimensions: 46px;
-
+  .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
+    .zonal-long-table-bar-wrapper {
+      height: $box-dimensions + 4 !important;
+    }
+  }
   .zonal-long-table-item {
     line-height: $box-dimensions !important;
     width: $box-dimensions !important;
@@ -297,7 +301,11 @@ div.zonal-asset {
 
 @media (max-width: 825px) {
   $box-dimensions: 40px;
-
+  .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
+    .zonal-long-table-bar-wrapper {
+      height: $box-dimensions + 4 !important;
+    }
+  }
   .zonal-long-table-item {
     line-height: $box-dimensions !important;
     width: $box-dimensions !important;;
@@ -320,6 +328,11 @@ div.zonal-asset {
 
 @media screen and (max-width: 768px) {
   $box-dimensions: 56px;
+  .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
+    .zonal-long-table-bar-wrapper {
+      height: $box-dimensions + 4 !important;
+    }
+  }
   .zonal-long-table-item {
     line-height: $box-dimensions !important;
     width: $box-dimensions !important;
@@ -528,6 +541,11 @@ div.zonal-asset {
 
 @media (max-width: 340px) {
   $box-dimensions: 42px;
+  .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
+    .zonal-long-table-bar-wrapper {
+      height: $box-dimensions + 4 !important;
+    }
+  }
   .zonal-long-table-item {
     line-height: $box-dimensions !important;
     width: $box-dimensions !important;
@@ -735,6 +753,24 @@ div.zonal-asset {
 
   &:after {
     bottom: 10px;
+  }
+}
+
+@media (max-width: 340px) {
+  .zonal-long-table-exposure .zonal-long-table-header-asset {
+    line-height: 10px !important;
+  }
+  .zonal-long-table-exposure .zonal-long-table-header-threat {
+    line-height: 30px !important;
+  }
+}
+
+@media (max-width: 340px) {
+  .zonal-long-table-asset .zonal-long-table-header-asset {
+    line-height: 25px !important;
+  }
+  .zonal-long-table-threat .zonal-long-table-header-threat {
+    line-height: 25px !important;
   }
 }
 
