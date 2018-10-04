@@ -252,7 +252,7 @@ div.zonal-asset {
     margin-bottom: 20px !important;
 
     &.active {
-      margin-bottom: 40px !important;
+      margin-bottom: 50px !important;
     }
 
     div.zonal-item {
@@ -287,18 +287,15 @@ div.zonal-asset {
     .zonal-long-graph-wrapper {
       width: 250px !important;
     }
-    // .zonal-long-graph-wrapper-asset .zonal-long-graph-bar-wrapper {
-    //   width: 12% !important;
-    // }
-    // .zonal-long-graph-wrapper-asset .zonal-long-graph-label {
-    //   width: 22% !important;
-    // }
 }
 
 // 946 exposure freaks
 @media (max-width: 946px) {
   .zonal-long-graph-wrapper {
     width: 210px !important;
+    .zonal-long-graph-label-text {
+      font-size: 10px;
+    }
   }
   $box-dimensions: 46px;
   .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
@@ -364,6 +361,9 @@ div.zonal-asset {
 @media screen and (max-width: 768px) {
   .zonal-long-graph-wrapper {
     width: 320px !important;
+    .zonal-long-graph-label-text {
+      font-size: 12px;
+    }
   }
   $box-dimensions: 56px;
   .zonal-long-hub-wrapper, .zonal-long-fish-wildlife-wrapper, .zonal-long-asset-threat {
@@ -395,6 +395,9 @@ div.zonal-asset {
 @media screen and (max-width: 370px) {
   .zonal-long-graph-wrapper {
     width: 240px !important;
+    .zonal-long-graph-label-text {
+      font-size: 10px;
+    }
   }
 }
 
@@ -582,7 +585,7 @@ div.zonal-asset {
     margin-bottom: 20px !important;
 
     &.active {
-      margin-bottom: 40px !important;
+      margin-bottom: 50px !important;
     }
 
     div.zonal-item {
