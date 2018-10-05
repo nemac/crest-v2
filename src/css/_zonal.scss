@@ -409,21 +409,24 @@ div.zonal-asset {
     top: -20px
 }
 
+.zonal-long-table-header-threat {
+  margin-bottom: 8px;
+}
+
 .zonal-long-table-header {
   position: relative;
 
-  &:after {
-    $circle-dimensions: 16px;
-
-    position: absolute;
-    content: "";
-    width: $circle-dimensions;
-    height: $circle-dimensions;
-    line-height: $circle-dimensions;
-    bottom: 2px;
-    left: 20px;
-    border-radius: 50%;
-  }
+   &:after {
+     position: relative;
+     content: "";
+     width: 16px;
+     height: 16px;
+     line-height: 14px;
+     border-radius: 50%;
+     top: 20px;
+     left: -15px;
+     padding: 3px;
+   }
 
   &-low:after {
     content: "1";
@@ -810,13 +813,13 @@ div.zonal-asset {
 }
 
 .zonal-long-table-bar {
-  $bar-width: 3px;
+  $bar-width: 8.5px;
 
   position: absolute;
   width: $bar-width;
   height: 100%;
   top: 0;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, .5);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
 
   &-threat {
     background-color: $threat-bar;
