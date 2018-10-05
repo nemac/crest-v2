@@ -208,10 +208,18 @@ html, body {
   margin-top: 15px !important;
 }
 
+.upload-all {
+  position: relative;
+  top: -12px;
+}
+
 // responive explore buttons
 @media (max-width: 1400px) {
   .btn-lg-label {
     display: none !important;
+  }
+  .upload-all {
+    top: 0px;
   }
 }
 
@@ -224,6 +232,10 @@ html, body {
   }
   .btn-lg-label {
     display: block !important;
+  }
+  .upload-all {
+    position: relative;
+    top: -12px;
   }
 }
 
@@ -238,7 +250,10 @@ html, body {
   .sticky-top {
     position: inherit;
   }
-}
+  .upload-all {
+    position: relative;
+    top: 0px;
+  }}
 
 @media (max-width: 590px) {
   .explore-btns {
