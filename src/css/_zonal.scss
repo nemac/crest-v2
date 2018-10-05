@@ -113,7 +113,7 @@ $body-color: $gray-200;
   &.active {
     margin-bottom: 10px;
     height: 100%;
-    display: block;
+    display: flex;
     left: 0px;
     top: 0px;
     position: relative;
@@ -150,6 +150,15 @@ div.zonal-asset {
 
 #zonal-header {
   margin-bottom: 15px;
+  display: flex;
+}
+
+.zonal-content {
+  width: 100%
+}
+
+.zonal-stats-wrapper {
+  width: 100%
 }
 
 .zonal-long-name-sticky {
@@ -163,39 +172,188 @@ div.zonal-asset {
   text-align: center;
 
   &.zonal-header-details {
-    width: 15%;
+    width: 60px !important;
     text-align: left;
   }
 
   &.zonal-header-hub {
-    width: 15%;
+    width: 30%;
   }
 
-  &.zonal-header-fish-wildlife, &.zonal-header-exposure {
-    width: 33%;
+  &.zonal-header-fish-wildlife{
+    width: 30%;
+  }
+
+  &.zonal-header-exposure {
+    width: 30%;
   }
 }
 
 .zonal-header-item-top {
-  font-size: 13px;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 900;
 }
 
 .zonal-header-item-bottom {
   font-size: 13px;
+  display: inline-block;
+  .zonal-header-item-label {
+  }
 }
 
 .zonal-header-item-label {
   display: inline-block;
+}
 
-  &:first-child {
-    margin-right: 10px;
+@media (min-width: 1547px){
+  .zonal-header-exposure .zonal-header-item-label {
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-left: 10px;
+    }
   }
 
-  &:last-child {
-    margin-left: 10px;
+    .zonal-header-fish-wildlife .zonal-header-item-label {
+      &:first-child {
+        margin-right: 10px;
+      }
+
+      &:last-child {
+        margin-left: 10px;
+      }
+    }
+}
+
+@media (max-width: 1546px){
+  .zonal-item-fishwild {
+    margin-top: 0px !important;
+  }
+
+  .zonal-item-exposure {
+    margin-top: 0px !important;
+  }
+
+  .zonal-item-fishwild {
+    .zonal-box {
+      width: 100%;
+    }
+  }
+  .zonal-header-fish-wildlife .zonal-header-item-label {
+    width: 100%
+  }
+
+  .zonal-item-exposure {
+    .zonal-box {
+      width: 100%;
+    }
+  }
+  .zonal-header-exposure .zonal-header-item-label {
+    width: 100%;
   }
 }
+
+
+@media (max-width: 769px){
+  .zonal-item-fishwild {
+    margin-top: 15px !important;
+  }
+
+  .zonal-item-exposure {
+    margin-top: 15px !important;
+  }
+
+  .zonal-header-exposure .zonal-header-item-label {
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-left: 10px;
+    }
+  }
+
+  .zonal-header-fish-wildlife .zonal-header-item-label {
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-left: 10px;
+    }
+  }
+
+  .zonal-item-fishwild {
+    .zonal-box {
+      width: 45%;
+    }
+  }
+  .zonal-header-fish-wildlife .zonal-header-item-label {
+    width: unset;
+  }
+
+  .zonal-item-exposure {
+    .zonal-box {
+      width: 45%;
+    }
+  }
+  .zonal-header-exposure .zonal-header-item-label {
+    width: unset;
+  }
+}
+
+
+
+@media (max-width: 535px){
+  .zonal-item-fishwild {
+    margin-top: 0px !important;
+  }
+
+  .zonal-item-exposure {
+    margin-top: 0px !important;
+  }
+  .zonal-header-exposure .zonal-header-item-label {
+    &:first-child {
+      margin-right: 0px;
+    }
+
+    &:last-child {
+      margin-left: 0px;
+    }
+  }
+
+    .zonal-header-fish-wildlife .zonal-header-item-label {
+      &:first-child {
+        margin-right: 0px;
+      }
+
+      &:last-child {
+        margin-left: 0px;
+      }
+    }
+
+  .zonal-item-fishwild {
+    .zonal-box {
+      width: 100%;
+    }
+  }
+  .zonal-header-fish-wildlife .zonal-header-item-label {
+    width: 100%
+  }
+
+  .zonal-item-exposure {
+    .zonal-box {
+      width: 100%;
+    }
+  }
+  .zonal-header-exposure .zonal-header-item-label {
+    width: 100%
+  }
+}
+
+
 .btn-details {
   height: 30px;
 }
@@ -206,7 +364,18 @@ div.zonal-asset {
 }
 
 .zonal-item-hub {
-  width: 20% !important;
+  width: 30% !important;
+  margin-top: 15px;
+}
+
+.zonal-item-fishwild {
+  width: 30% !important;
+  margin-top: 15px;
+}
+
+.zonal-item-exposure {
+  width: 30% !important;
+  margin-top: 15px;
 }
 
 .zonal-label {
@@ -216,11 +385,12 @@ div.zonal-asset {
   white-space: -pre-wrap;     /* Opera <7 */
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
-  width: 60px;
+  width: 60px !important;
   height: 50px;
   margin: 5px;
   font-size: .9rem;
 }
+
 
 .zonal-long-wrapper {
   width: 100%;
@@ -684,22 +854,27 @@ div.zonal-asset {
 
     &-fifteen {
       background-color: $threat-15;
+      color: #000;
     }
 
     &-sixteen {
       background-color: $threat-16;
+      color: #000;
     }
 
     &-seventeen {
       background-color: $threat-17;
+      color: #000;
     }
 
     &-eightteen {
       background-color: $threat-18;
+      color: #000;
     }
 
     &-nineteen {
       background-color: $threat-19;
+      color: #000;
     }
 
     &-twenty {
