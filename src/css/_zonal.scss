@@ -308,7 +308,6 @@ div.zonal-asset {
   }
 }
 
-
 .zonal-long-table {
   position: relative;
   display: inline-block;
@@ -337,30 +336,7 @@ div.zonal-asset {
   text-align: center;
   line-height: $box-dimensions;
   vertical-align: top;
-  // margin: 2px 1px 2px 0px;
-  &-fw {
-
-  }
-  // &-fw {
-  //
-  //
-  //   &:last-child {
-  //     margin-right: 0;
-  //   }
-  // }
-  //
-  // &-hub {
-  //   width: 100%;
-  //
-  //   &:last-child {
-  //     margin-right: 0;
-  //   }
-  // }
 }
-
-// .zonal-long-table-exposure .zonal-long-table-cell {
-//   width: 56;
-// }
 
 .zonal-long-table-item.zonal-long-table-item-threat {
   font-size: 8px;
@@ -813,7 +789,7 @@ div.zonal-asset {
 }
 
 .zonal-long-table-bar {
-  $bar-width: 8.5px;
+  $bar-width: 5px;
 
   position: absolute;
   width: $bar-width;
@@ -913,6 +889,119 @@ div.zonal-asset {
 
     &-low {
       bottom: 0;
+    }
+  }
+}
+
+.zonal-long-graph-label-slope {
+  .zonal-long-graph-label-text{
+    left: 22% !important;
+  }
+}
+
+
+@media (max-width: 1286px) {
+  .zonal-long-graph-label{
+
+    &-social-vulnerability {
+      .zonal-long-graph-label-text{
+        left: -60% !important;
+      }
+    }
+
+    &-critical-infrastructure {
+      .zonal-long-graph-label-text{
+        left: -70% !important;
+      }
+    }
+
+    &-geostress {
+      .zonal-long-graph-label-text{
+        left: -50% !important;
+      }
+    }
+
+    &-slope {
+      .zonal-long-graph-label-text{
+        left: -30% !important;
+      }
+    }
+
+    &-drainage {
+      .zonal-long-graph-label-text{
+        left: -55% !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .zonal-long-graph-label{
+
+    &-social-vulnerability {
+      .zonal-long-graph-label-text{
+        left: 0% !important;
+      }
+    }
+
+    &-critical-infrastructure {
+      .zonal-long-graph-label-text{
+        left: 0% !important;
+      }
+    }
+
+    &-geostress {
+      .zonal-long-graph-label-text{
+        left: 0% !important;
+      }
+    }
+
+    &-slope {
+      .zonal-long-graph-label-text{
+        left: 0% !important;
+      }
+    }
+
+    &-drainage {
+      .zonal-long-graph-label-text{
+        left: 0% !important;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 450px) {
+  .zonal-long-graph-label{
+
+    &-social-vulnerability {
+      .zonal-long-graph-label-text{
+        left: -60% !important;
+      }
+    }
+
+    &-critical-infrastructure {
+      .zonal-long-graph-label-text{
+        left: -70% !important;
+      }
+    }
+
+    &-geostress {
+      .zonal-long-graph-label-text{
+        left: -50% !important;
+      }
+    }
+
+    &-slope {
+      .zonal-long-graph-label-text{
+        left: -30% !important;
+      }
+    }
+
+    &-drainage {
+      .zonal-long-graph-label-text{
+        left: -55% !important;
+      }
     }
   }
 }
