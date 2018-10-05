@@ -429,6 +429,7 @@ div.zonal-asset {
   background-color:  $body-color;
   color: $body-bg;
   font-size: 15px;
+  margin-right: 5px !important;
 
   &:hover {
     background-color: #e6e6e6;
@@ -453,6 +454,10 @@ div.zonal-asset {
   display: none;
 }
 
+.zonal-long-button-wrapper {
+  display: flex !important;
+}
+
 .active-table {
   .zonal-long-raw-values {
     display: block;
@@ -466,6 +471,7 @@ div.zonal-asset {
     display: none;
   }
 }
+
 
 .zonal-long-table-index {
   display: inline-block;
