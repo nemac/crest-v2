@@ -95,6 +95,38 @@ function makeLabel(name) {
   return zonalLabel;
 }
 
+// remove one of the user shapes in the userarea object
+function removeUserareaByName() {
+  const name = 'Area 1';
+  console.log('remove ' + name)
+  const currentshapes = store.getStateItem('userareas');
+  const result = Object.keys(currentshapes).filter((key) => {
+    return currentshapes[key][0].name !== name;
+  });
+  console.log(result)
+}
+
+// Makes main title for an individual short zonal stats item
+// @return DOM element
+function makeRemoveLabel(name) {
+  const zonalLabel = makeDiv();
+  const HTMLName = makeHTMLName(name);
+  zonalLabel.classList.add('zonal-label-remove');
+  zonalLabel.classList.add('btn');
+  zonalLabel.classList.add('btn-light');
+  zonalLabel.classList.add('btn-details');
+  zonalLabel.classList.add('user-shape');
+  zonalLabel.setAttribute('id', `label-name-remove-${HTMLName}`);
+  zonalLabel.appendChild(makeTextElement(makeLabelText(`remove ${name}`)));
+
+   zonalLabel.addEventListener('click',  (e, name) => {
+     e.stopImmediatePropagation();
+     removeUserareaByName(name);
+   });
+
+  return zonalLabel;
+}
+
 // Parses the configuration of identify values and gets the requested configuration object
 // @param type | String - matches the layer key
 // @param rank | String || Number - rounded and matches the value key
@@ -426,7 +458,9 @@ function drawShortZonalStats(data, name) {
   wrapper.addEventListener('click', shortZonalClickHandler);
   wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
   wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
-
+  const rem = makeRemoveLabel(name);
+  const elemt = document.getElementById(`zonal-wrapper--USERAREA-${name}`)
+  wrapper.insertBefore(rem, wrapper.childNodes[0]);
   return wrapper;
 }
 
