@@ -73,6 +73,7 @@ function initAbout(selector) {
 // Closes over global import MapLayersList
 function initMapLayerList(map, selector) {
   return new MapLayersList(selector, {
+    mapComponent: map,
     events: {
       layerToggle: (event) => { map.toggleLayer(event.detail); }
     }

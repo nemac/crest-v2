@@ -39,6 +39,41 @@ export class MapLayersList extends Component {
       const event = new Event('click');
       element.dispatchEvent(event);
     }
+
+    document.getElementById('basemap-DarkGray').addEventListener( 'click', (e) => {
+      props.mapComponent.changeBaseMap('DarkGray');
+    })
+
+    document.getElementById('basemap-Imagery').addEventListener( 'click', (e) => {
+      props.mapComponent.changeBaseMap('Imagery');
+    })
+
+    document.getElementById('basemap-Topographic').addEventListener( 'click', (e) => {
+      props.mapComponent.changeBaseMap('Topographic');
+    })
+
+    document.getElementById('basemap-Streets').addEventListener( 'click', (e) => {
+      props.mapComponent.changeBaseMap('Streets');
+    })
+
+
+    document.getElementById('basemaplist').classList.add('d-none');
+    document.getElementById('basemaplist').classList.add('d-none');
+    document.getElementById('basemaplist').classList.add('d-none');
+
+    document.getElementById('btn-basemap').addEventListener( 'click', (e) => {
+      // change esri basemap
+      document.getElementById('basemaplist').classList.remove('d-none');
+    })
+
+    document.getElementById('basemaplist').addEventListener( 'click', (e) => {
+      // change esri basemap
+      document.getElementById('basemaplist').classList.add('d-none');
+
+    })
+    // setTimeout(() => {
+    //
+    // }, 10);
   }
 
   static addOpenMapLayerListener() {

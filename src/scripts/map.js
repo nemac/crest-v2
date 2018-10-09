@@ -68,6 +68,8 @@ export class Map extends Component {
     this.value = null; // Store currently selected region
     this.mapOverlayLayers = {}; // map overlay (wms layer)
     this.mapStates = ['mapCenter', 'mapZoom', 'mapLayerDisplayStatus', 'mapContainerPoint']; // all the potential map states
+    this.basemap;
+    this.basemapLabels;
 
     // add base map
     this.addBaseMap();
@@ -86,6 +88,7 @@ export class Map extends Component {
 
     // add spinner element
     Map.addSpinnerElement();
+
   }
 
   // add spinner element to leftlet map panes
@@ -124,6 +127,56 @@ export class Map extends Component {
     L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
   }
 
+  // change esri basemap
+  changeBaseMap(basemapname) {
+
+    if (this.basemap) {
+      this.map.removeLayer(this.basemap);
+    }
+
+    if (this.basemapLabels) {
+      this.map.removeLayer(this.basemapLabels);
+    }
+
+    this.basemap = basemapLayer(basemapname);
+    this.basemapLabels = this.addBaseMapLabels(basemapname)
+
+    this.basemap.addTo(this.map);
+
+    if (this.basemapLabels){
+      this.basemapLabels.addTo(this.map);
+    }
+
+    // add new event to check on base map has completed uploading
+    //  map will not initialize settings untill this has completed
+    this.basemap.on('load', () => {
+      this.map.fireEvent('basemaploaded');
+      this.basemaploaded = true;
+      store.setStoreItem('working_basemap', false);
+      spinnerOff('load');
+    });
+
+    // add new event to fire when on base map is in process of loading
+    this.basemap.on('loading', () => {
+      this.map.fireEvent('basemaploading');
+      store.setStoreItem('working_basemap', true);
+    });
+
+  }
+
+  addBaseMapLabels(basemap) {
+    if (basemap === 'ShadedRelief' ||
+    basemap === 'Oceans' ||
+    basemap === 'Gray' ||
+    basemap === 'DarkGray'||
+    basemap === 'Terrain') {
+      return basemapLayer(basemap + 'Labels');
+    } else if (basemap.includes('Imagery')) {
+      return basemapLayer('ImageryLabels');
+    }
+    return '';
+  }
+
   // adds leaflet base map defined in mapConfig.js
   addBaseMap() {
     /**
@@ -132,12 +185,20 @@ export class Map extends Component {
      * Not using vector tiles yet since there is some bugginess from ESRI
      * mainly the map starts out not fully rendering
      */
-    const mapTiles = basemapLayer(mapConfig.ESRIVectorBasemap.name);
-    mapTiles.addTo(this.map);
+
+    const basemap = mapConfig.ESRIVectorBasemap.name;
+    this.basemap = basemapLayer(basemap);
+    this.basemapLabels = this.addBaseMapLabels(basemap)
+
+    this.basemap.addTo(this.map);
+    if (this.basemapLabels){
+      this.basemapLabels.addTo(this.map);
+    }
+
 
     // add new event to check on base map has completed uploading
     //  map will not initialize settings untill this has completed
-    mapTiles.on('load', () => {
+    this.basemap.on('load', () => {
       this.map.fireEvent('basemaploaded');
       this.basemaploaded = true;
       store.setStoreItem('working_basemap', false);
@@ -145,7 +206,7 @@ export class Map extends Component {
     });
 
     // add new event to fire when on base map is in process of loading
-    mapTiles.on('loading', () => {
+    this.basemap.on('loading', () => {
       this.map.fireEvent('basemaploading');
       store.setStoreItem('working_basemap', true);
     });
