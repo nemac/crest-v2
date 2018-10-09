@@ -89,9 +89,80 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
+  zonalLabel.setAttribute('title', `View details for ${stripUserArea(name)}`);
+  zonalLabel.setAttribute('aria-label', `View details for ${stripUserArea(name)}`);
+
   zonalLabel.innerHTML = '<span class="btn-icon" id="btn-details-icon" ><i class="far fa-chart-bar"></i></span>';
   // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
+  return zonalLabel;
+}
+
+// remove one of the user shapes in the userarea object
+function removeUserareaByName(name) {
+  const currentshapes = store.getStateItem('userareas');
+  Object.keys(currentshapes).map((key) => {
+    if (currentshapes[key][0].name === name) {
+      delete currentshapes[key];
+    }
+    return currentshapes;
+  });
+
+  store.setStoreItem('userareas', currentshapes);
+}
+
+function dispatchRemoveEnd() {
+  const removeUserAreaEvent = new CustomEvent('removeuserareend');
+  window.dispatchEvent(removeUserAreaEvent);
+}
+
+function returnSimpleButtonElementId(element) {
+  let areaname = element.getAttribute('id');
+
+  if (element instanceof SVGElement) {
+    const parentElem = element.parentElement;
+    areaname = parentElem.getAttribute('id');
+    if (element instanceof SVGElement) {
+      const GParent = parentElem.parentElement;
+      areaname = GParent.getAttribute('id');
+    }
+  }
+  return areaname;
+}
+// Makes main title for an individual short zonal stats item
+// @return DOM element
+function makeRemoveLabel(name, mapComponent) {
+  const zonalLabel = makeDiv();
+  const HTMLName = makeHTMLName(name);
+  zonalLabel.classList.add('zonal-label-remove');
+  zonalLabel.classList.add('btn');
+  zonalLabel.classList.add('btn-light');
+  zonalLabel.classList.add('btn-details');
+  zonalLabel.classList.add('user-shape');
+  zonalLabel.classList.add('text-danger');
+  zonalLabel.setAttribute('id', `label-name-remove-${HTMLName}`);
+  zonalLabel.setAttribute('title', `Remove ${stripUserArea(name)} from list`);
+  zonalLabel.setAttribute('aria-label', `Remove ${stripUserArea(name)} from list`);
+
+  zonalLabel.innerHTML = `<i class="far fa-trash-alt" id="svg-name-remove-${HTMLName}" style="z-index: -99;"></i>`;
+  zonalLabel.addEventListener('click', (e) => {
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+    e.preventDefault();
+
+    const areanameid = returnSimpleButtonElementId(e.target);
+    let areaname = stripUserArea(areanameid);
+    const removeElemName = `zonal-stats-wrapper-${areaname}`;
+    const removeElem = document.getElementById(removeElemName);
+    removeElem.parentNode.removeChild(removeElem);
+    areaname = areaname.replace('-USERAREA-', '').replace('_', ' ');
+    removeUserareaByName(areaname);
+
+    // dispatch a event to window so we can redraw the map layers
+    // and redraw the zonal stat area
+    dispatchRemoveEnd();
+  });
+
   return zonalLabel;
 }
 
@@ -371,10 +442,11 @@ function shortZonalClickHandler(e) {
 
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
-
-  if (HTMLName.indexOf('div_class') === -1) {
-    const path = document.querySelector(`.path-${HTMLName}`);
-    togglePermHighLightsOn(path);
+  if (HTMLName) {
+    if (HTMLName.indexOf('div_class') === -1) {
+      const path = document.querySelector(`.path-${HTMLName}`);
+      togglePermHighLightsOn(path);
+    }
   }
 }
 
@@ -418,7 +490,7 @@ function zonalLabelMouseOutHandler(e) {
 // Creates the entire short zonal stats block of html
 // @param data | Object
 // @return DOM element
-function drawShortZonalStats(data, name) {
+function drawShortZonalStats(data, name, mapComponent) {
   const wrapper = makeZonalWrapper(name);
   makeShortZonalStatsInterior(data, name).forEach((elem) => {
     wrapper.appendChild(elem);
@@ -426,7 +498,8 @@ function drawShortZonalStats(data, name) {
   wrapper.addEventListener('click', shortZonalClickHandler);
   wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
   wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
-
+  const rem = makeRemoveLabel(name, mapComponent);
+  wrapper.insertBefore(rem, wrapper.childNodes[0]);
   return wrapper;
 }
 
@@ -443,6 +516,9 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   let position = (val - rangeMin) / (rangeMax - rangeMin); // [0,1]
   position += scale; // [0,scaleGroups]
   position = (position / scaleGroups) * 100; // [0, 100]
+  if (position === 100) {
+    position = 99;
+  }
   return position;
 }
 
@@ -793,10 +869,11 @@ function dismissZonalClickHandler(e) {
 
   const name = e.target.getAttribute('id');
 
-  const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
-  const path = document.querySelector(`.path-${HTMLName}`);
-
-  togglePermHighLightsOff(path);
+  if (name) {
+    const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
+    const path = document.querySelector(`.path-${HTMLName}`);
+    togglePermHighLightsOff(path);
+  }
 }
 
 function findRawValue(wrapper, key) {
@@ -932,7 +1009,7 @@ function restoreGraphState() {
 
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
-function drawZonalStatsFromAPI(data, name) {
+function drawZonalStatsFromAPI(data, name, mapComponent) {
   const HTMLName = makeHTMLName(name);
 
   if (!document.getElementById('zonal-header')) {
@@ -942,7 +1019,7 @@ function drawZonalStatsFromAPI(data, name) {
   wrapper.classList.add('zonal-stats-wrapper');
   wrapper.setAttribute('id', `zonal-stats-wrapper-${HTMLName}`);
 
-  wrapper.appendChild(drawShortZonalStats(data, name));
+  wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
   wrapper.appendChild(drawLongZonalStats(data, name));
   document.getElementById('zonal-content').appendChild(wrapper);
 

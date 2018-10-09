@@ -99,6 +99,11 @@ export class Explore extends Component {
       Explore.zonalStatsHandler();
     });
 
+    window.addEventListener('removeuserareend', (e) => {
+      this.clearLayersAndDetails();
+      this.drawUserAreaFromUsereas();
+    });
+
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
@@ -263,7 +268,9 @@ export class Explore extends Component {
 
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
-          drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+          drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
+            name,
+            this.mapComponent.map);
         }
       }
     }
@@ -307,7 +314,9 @@ export class Explore extends Component {
     const name = this.storeShapes();
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
-      drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name);
+      drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
+        name,
+        this.mapComponent.map);
     }
 
     spinnerOff('getZonal done');
@@ -386,6 +395,7 @@ export class Explore extends Component {
     return null;
   }
 
+
   drawUserAreaFromUsereas() {
     // const userarea = store.getStateItem('userarea');
 
@@ -448,7 +458,7 @@ export class Explore extends Component {
         this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
-          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name);
+          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
         }
 
         return layer;
@@ -492,6 +502,21 @@ export class Explore extends Component {
     });
   }
 
+  // clear zonalstats
+  clearDetails() {
+    // this temp remove of stats while we work on multiple shapes.
+    const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
+    if (zonalAreaWrapper) {
+      zonalAreaWrapper.innerHTML = '<p class="zonal-instructions-initial">Click on the map to bring up information. Select multiple points to draw an area and get information on the area.</p>';
+    }
+  }
+
+  // clear Details
+  clearLayersAndDetails() {
+    this.drawAreaGroup.clearLayers();
+    this.clearDetails();
+  }
+
   // remove the existing area
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
@@ -515,10 +540,7 @@ export class Explore extends Component {
       this.removeExistingArea();
 
       // this temp remove of stats while we work on multiple shapes.
-      const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
-      if (zonalAreaWrapper) {
-        zonalAreaWrapper.innerHTML = '<p class="zonal-instructions-initial">Click on the map to bring up information. Select multiple points to draw an area and get information on the area.</p>';
-      }
+      this.clearDetails();
     });
   }
 
