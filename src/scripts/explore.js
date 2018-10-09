@@ -268,7 +268,9 @@ export class Explore extends Component {
 
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
-          drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name, this.mapComponent.map);
+          drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
+            name,
+            this.mapComponent.map);
         }
       }
     }
@@ -312,7 +314,9 @@ export class Explore extends Component {
     const name = this.storeShapes();
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
-      drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean, name, this.mapComponent.map);
+      drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
+        name,
+        this.mapComponent.map);
     }
 
     spinnerOff('getZonal done');
