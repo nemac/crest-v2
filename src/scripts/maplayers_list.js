@@ -40,40 +40,39 @@ export class MapLayersList extends Component {
       element.dispatchEvent(event);
     }
 
-    document.getElementById('basemap-DarkGray').addEventListener( 'click', (e) => {
-      props.mapComponent.changeBaseMap('DarkGray');
-    })
+    MapLayersList.addBaseMapListener(props.mapComponent);
+  }
 
-    document.getElementById('basemap-Imagery').addEventListener( 'click', (e) => {
-      props.mapComponent.changeBaseMap('Imagery');
-    })
+  static addBaseMapListener(mapComponent) {
+    document.getElementById('basemap-DarkGray').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('DarkGray');
+    });
 
-    document.getElementById('basemap-Topographic').addEventListener( 'click', (e) => {
-      props.mapComponent.changeBaseMap('Topographic');
-    })
+    document.getElementById('basemap-Imagery').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('Imagery');
+    });
 
-    document.getElementById('basemap-Streets').addEventListener( 'click', (e) => {
-      props.mapComponent.changeBaseMap('Streets');
-    })
+    document.getElementById('basemap-Topographic').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('Topographic');
+    });
 
+    document.getElementById('basemap-Streets').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('Streets');
+    });
 
     document.getElementById('basemaplist').classList.add('d-none');
     document.getElementById('basemaplist').classList.add('d-none');
     document.getElementById('basemaplist').classList.add('d-none');
 
-    document.getElementById('btn-basemap').addEventListener( 'click', (e) => {
+    document.getElementById('btn-basemap').addEventListener('click', (e) => {
       // change esri basemap
       document.getElementById('basemaplist').classList.remove('d-none');
-    })
+    });
 
-    document.getElementById('basemaplist').addEventListener( 'click', (e) => {
+    document.getElementById('basemaplist').addEventListener('click', (e) => {
       // change esri basemap
       document.getElementById('basemaplist').classList.add('d-none');
-
-    })
-    // setTimeout(() => {
-    //
-    // }, 10);
+    });
   }
 
   static addOpenMapLayerListener() {

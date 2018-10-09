@@ -67,9 +67,9 @@ export class Map extends Component {
     this.overlayMaps = {}; // Map layer dict (key/value = title/layer)
     this.value = null; // Store currently selected region
     this.mapOverlayLayers = {}; // map overlay (wms layer)
-    this.mapStates = ['mapCenter', 'mapZoom', 'mapLayerDisplayStatus', 'mapContainerPoint']; // all the potential map states
-    this.basemap;
-    this.basemapLabels;
+    this.mapStates = ['mapCenter', 'mapZoom', 'mapLayerDisplayStatus', 'mapContainerPoint', 'basemap']; // all the potential map states
+    this.basemap = null;
+    this.basemapLabels = null;
 
     // add base map
     this.addBaseMap();
@@ -88,7 +88,6 @@ export class Map extends Component {
 
     // add spinner element
     Map.addSpinnerElement();
-
   }
 
   // add spinner element to leftlet map panes
@@ -129,7 +128,6 @@ export class Map extends Component {
 
   // change esri basemap
   changeBaseMap(basemapname) {
-
     if (this.basemap) {
       this.map.removeLayer(this.basemap);
     }
@@ -139,13 +137,14 @@ export class Map extends Component {
     }
 
     this.basemap = basemapLayer(basemapname);
-    this.basemapLabels = this.addBaseMapLabels(basemapname)
-
+    this.basemapLabels = Map.addBaseMapLabels(basemapname);
     this.basemap.addTo(this.map);
 
-    if (this.basemapLabels){
+    if (this.basemapLabels) {
       this.basemapLabels.addTo(this.map);
     }
+
+    store.setStoreItem('basemap', basemapname);
 
     // add new event to check on base map has completed uploading
     //  map will not initialize settings untill this has completed
@@ -161,17 +160,17 @@ export class Map extends Component {
       this.map.fireEvent('basemaploading');
       store.setStoreItem('working_basemap', true);
     });
-
   }
 
-  addBaseMapLabels(basemap) {
+  static addBaseMapLabels(basemap) {
     if (basemap === 'ShadedRelief' ||
-    basemap === 'Oceans' ||
-    basemap === 'Gray' ||
-    basemap === 'DarkGray'||
-    basemap === 'Terrain') {
-      return basemapLayer(basemap + 'Labels');
-    } else if (basemap.includes('Imagery')) {
+         basemap === 'Oceans' ||
+         basemap === 'Gray' ||
+         basemap === 'DarkGray' ||
+         basemap === 'Terrain') {
+      return basemapLayer(`${basemap}Labels`);
+    }
+    if (basemap.includes('Imagery')) {
       return basemapLayer('ImageryLabels');
     }
     return '';
@@ -188,13 +187,14 @@ export class Map extends Component {
 
     const basemap = mapConfig.ESRIVectorBasemap.name;
     this.basemap = basemapLayer(basemap);
-    this.basemapLabels = this.addBaseMapLabels(basemap)
+    this.basemapLabels = Map.addBaseMapLabels(basemap);
 
     this.basemap.addTo(this.map);
-    if (this.basemapLabels){
+    if (this.basemapLabels) {
       this.basemapLabels.addTo(this.map);
     }
 
+    store.setStoreItem('basemap', basemap);
 
     // add new event to check on base map has completed uploading
     //  map will not initialize settings untill this has completed
@@ -584,6 +584,7 @@ export class Map extends Component {
     let mapZoom = null;
     let mapCenter = null;
     let mapLayerDisplayStatus = null;
+    let basemap = null;
 
     // iterate over the state objects and set the store variables
     // iterating so we can run checkes that the object exists in
@@ -593,6 +594,7 @@ export class Map extends Component {
       if (stateItem === 'mapCenter') { mapCenter = stateObj; } // recenter from store
       if (stateItem === 'mapZoom') { mapZoom = stateObj; } // reset map zoom from store
       if (stateItem === 'mapLayerDisplayStatus') { mapLayerDisplayStatus = stateObj; } // set layer display
+      if (stateItem === 'basemap') { basemap = stateObj; } // set basemap
     });
 
     // restore or set the Display status of tile layers
@@ -600,8 +602,11 @@ export class Map extends Component {
 
     this.restoreMapZoom(mapZoom);
     this.restoreMapCenter(mapCenter);
+    this.changeBaseMap(basemap);
     store.setStoreItem('mapZoom', mapZoom);
     store.setStoreItem('mapCenter', mapCenter);
+    store.setStoreItem('basemap', basemap);
+
     return true;
   }
 }

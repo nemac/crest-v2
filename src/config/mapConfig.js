@@ -5,25 +5,7 @@ export var mapConfig = {
   ESRIVectorBasemap: {
     name: "DarkGray"
   },
-
-  //ESRI Vector BaseMap
-  ESRIBaseMapLayers: {
-    basemaps:[
-      {
-        name: "DarkGray"
-      },
-      {
-        name: "Imagery"
-      },
-      {
-        name: "Topographic"
-      },
-      {
-        name: "Streets"
-      },
-    ]
-  },
-
+ 
   //tile layers (WMS)
   TMSLayers:[
     {

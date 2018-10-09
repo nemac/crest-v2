@@ -17,11 +17,15 @@ html, body {
 }
 
 .list-group-dark, .list-group-item {
-  background-color: $body-bg;
-  background:  $body-bg-semiTransparent;
-  color: $body-color;
-  border-color: $body-color;
-  width: 153px;
+    background-color: $body-bg;
+    background:  $body-bg-semiTransparent;
+    color: $body-color;
+    border-color: $body-color;
+    width: 153px;
+}
+
+.list-group-dark {
+  margin-top: 5px;  
 }
 
 .userarealabel {
