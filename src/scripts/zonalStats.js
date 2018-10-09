@@ -96,19 +96,38 @@ function makeLabel(name) {
 }
 
 // remove one of the user shapes in the userarea object
-function removeUserareaByName() {
-  const name = 'Area 1';
-  console.log('remove ' + name)
-  const currentshapes = store.getStateItem('userareas');
-  const result = Object.keys(currentshapes).filter((key) => {
-    return currentshapes[key][0].name !== name;
+function removeUserareaByName(name) {
+  let currentshapes = store.getStateItem('userareas');
+  Object.keys(currentshapes).map((key) => {
+    if (currentshapes[key][0].name === name) {
+      delete currentshapes[key]
+    }
   });
-  console.log(result)
+
+  store.setStoreItem('userareas', currentshapes);
 }
 
+function dispatchRemoveEnd() {
+  const removeUserAreaEvent = new CustomEvent('removeuserareend');
+  window.dispatchEvent(removeUserAreaEvent);
+}
+
+function returnSimpleButtonElementId(element) {
+  let areaname = '';
+
+  if(element instanceof SVGElement) {
+    const parentElem = element.parentElement;
+    areaname = parentElem.getAttribute('id');
+    if(element instanceof SVGElement) {
+      const GParent = parentElem.parentElement;
+      areaname = GParent.getAttribute('id');
+    }
+  }
+  return areaname;
+}
 // Makes main title for an individual short zonal stats item
 // @return DOM element
-function makeRemoveLabel(name) {
+function makeRemoveLabel(name, mapComponent) {
   const zonalLabel = makeDiv();
   const HTMLName = makeHTMLName(name);
   zonalLabel.classList.add('zonal-label-remove');
@@ -116,12 +135,26 @@ function makeRemoveLabel(name) {
   zonalLabel.classList.add('btn-light');
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
+  zonalLabel.classList.add('text-danger');
   zonalLabel.setAttribute('id', `label-name-remove-${HTMLName}`);
-  zonalLabel.appendChild(makeTextElement(makeLabelText(`remove ${name}`)));
+  zonalLabel.innerHTML = `<i class="far fa-trash-alt" id="svg-name-remove-${HTMLName}" style="z-index: -99;"></i>`;
 
-   zonalLabel.addEventListener('click',  (e, name) => {
+   zonalLabel.addEventListener('click',  (e, name, mapComponent) => {
      e.stopImmediatePropagation();
-     removeUserareaByName(name);
+     e.stopPropagation();
+     e.preventDefault();
+
+     const areanameid = returnSimpleButtonElementId(e.target);
+     let areaname = stripUserArea(areanameid);
+     const removeElemName = `zonal-stats-wrapper-${areaname}`;
+     const removeElem = document.getElementById(removeElemName);
+     removeElem.parentNode.removeChild(removeElem);
+     areaname = areaname.replace('-USERAREA-','').replace('_', ' ');
+     removeUserareaByName(areaname);
+
+     // dispatch a event to window so we can redraw the map layers
+     // and redraw the zonal stat area
+     dispatchRemoveEnd();
    });
 
   return zonalLabel;
@@ -450,7 +483,7 @@ function zonalLabelMouseOutHandler(e) {
 // Creates the entire short zonal stats block of html
 // @param data | Object
 // @return DOM element
-function drawShortZonalStats(data, name) {
+function drawShortZonalStats(data, name, mapComponent) {
   const wrapper = makeZonalWrapper(name);
   makeShortZonalStatsInterior(data, name).forEach((elem) => {
     wrapper.appendChild(elem);
@@ -458,7 +491,7 @@ function drawShortZonalStats(data, name) {
   wrapper.addEventListener('click', shortZonalClickHandler);
   wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
   wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
-  const rem = makeRemoveLabel(name);
+  const rem = makeRemoveLabel(name, mapComponent);
   const elemt = document.getElementById(`zonal-wrapper--USERAREA-${name}`)
   wrapper.insertBefore(rem, wrapper.childNodes[0]);
   return wrapper;
@@ -966,7 +999,7 @@ function restoreGraphState() {
 
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
-function drawZonalStatsFromAPI(data, name) {
+function drawZonalStatsFromAPI(data, name, mapComponent) {
   const HTMLName = makeHTMLName(name);
 
   if (!document.getElementById('zonal-header')) {
@@ -976,7 +1009,7 @@ function drawZonalStatsFromAPI(data, name) {
   wrapper.classList.add('zonal-stats-wrapper');
   wrapper.setAttribute('id', `zonal-stats-wrapper-${HTMLName}`);
 
-  wrapper.appendChild(drawShortZonalStats(data, name));
+  wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
   wrapper.appendChild(drawLongZonalStats(data, name));
   document.getElementById('zonal-content').appendChild(wrapper);
 

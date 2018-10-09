@@ -171,6 +171,11 @@ div.zonal-asset {
   vertical-align: top;
   text-align: center;
 
+  &.zonal-header-remove {
+    width: 40px !important;
+    text-align: left;
+  }
+
   &.zonal-header-details {
     width: 60px !important;
     text-align: left;
@@ -391,6 +396,14 @@ div.zonal-asset {
   font-size: .9rem;
 }
 
+.zonal-label-remove {
+  width: 25px !important;
+  height: 50px;
+  padding: 0px;
+  svg {
+    vertical-align: -1.10em;
+  }
+}
 
 .zonal-long-wrapper {
   width: 100%;
