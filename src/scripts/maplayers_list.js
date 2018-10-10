@@ -64,10 +64,6 @@ export class MapLayersList extends Component {
       MapLayersList.updateBaseMapLabel('Streets');
     });
 
-    // document.getElementById('basemap_list_close').addEventListener('click', (e) => {
-    //   MapLayersList.baseMapListToggle(e);
-    // });
-
     const btnBaseMapElem = document.getElementById('btn-basemap');
     if (btnBaseMapElem) {
       btnBaseMapElem.addEventListener('click', (e) => { MapLayersList.baseMapListToggle(e); });
