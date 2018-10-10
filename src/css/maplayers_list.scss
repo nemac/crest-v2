@@ -85,6 +85,7 @@ $map_right_margin: 10px;
 }
 
 .btn-basemap:focus {
+  outline: $gray-600  !important;
   background-color: $gray-600  !important;
   background-color: $gray-600 !important;
   color: $body-color !important;
