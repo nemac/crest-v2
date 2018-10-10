@@ -39,6 +39,62 @@ export class MapLayersList extends Component {
       const event = new Event('click');
       element.dispatchEvent(event);
     }
+
+    MapLayersList.addBaseMapListeners(props.mapComponent);
+  }
+
+  static addBaseMapListeners(mapComponent) {
+    document.getElementById('basemap-DarkGray').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('DarkGray');
+      MapLayersList.updateBaseMapLabel('Dark Gray');
+    });
+
+    document.getElementById('basemap-Imagery').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('Imagery');
+      MapLayersList.updateBaseMapLabel('Imagery');
+    });
+
+    document.getElementById('basemap-Topographic').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('Topographic');
+      MapLayersList.updateBaseMapLabel('Topographic');
+    });
+
+    document.getElementById('basemap-Streets').addEventListener('click', (e) => {
+      mapComponent.changeBaseMap('Streets');
+      MapLayersList.updateBaseMapLabel('Streets');
+    });
+
+    // document.getElementById('basemap_list_close').addEventListener('click', (e) => {
+    //   MapLayersList.baseMapListToggle(e);
+    // });
+
+    const btnBaseMapElem = document.getElementById('btn-basemap');
+    if (btnBaseMapElem) {
+      btnBaseMapElem.addEventListener('click', (e) => { MapLayersList.baseMapListToggle(e); });
+    }
+
+    const btnBaseMapList = document.getElementById('basemaplist');
+    if (btnBaseMapList) {
+      btnBaseMapList.addEventListener('click', (e) => { MapLayersList.baseMapListToggle(e); });
+    }
+  }
+
+  static updateBaseMapLabel(basemapname) {
+    const labelElem = document.getElementById('btn-basemap-label');
+    if (labelElem) {
+      labelElem.innerHTML = basemapname;
+    }
+  }
+
+  // toggle basemap list on
+  static baseMapListToggle(e) {
+    const baseMapListElem = document.getElementById('basemaplist');
+    const isBaseMapListVissible = baseMapListElem.classList.contains('active');
+    if (isBaseMapListVissible) {
+      baseMapListElem.classList.remove('active');
+    } else {
+      baseMapListElem.classList.add('active');
+    }
   }
 
   static addOpenMapLayerListener() {

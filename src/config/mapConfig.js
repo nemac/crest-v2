@@ -5,7 +5,7 @@ export var mapConfig = {
   ESRIVectorBasemap: {
     name: "DarkGray"
   },
-
+ 
   //tile layers (WMS)
   TMSLayers:[
     {
