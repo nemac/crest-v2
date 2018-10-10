@@ -19,14 +19,33 @@
     <div ref="ToggleLayers" id="ToggleLayerList" class="layer-toggles">
 
       <!-- <div class="LayerInput-header" id="BaseMap-Header" >Base Map</div> -->
-      <button id="btn-basemap" title="Change Base Map" aria-label="Clear Map" type="button" class="btn-light zonal-long-button">
-        <span class="btn-icon"><i class="fas fa-th-large"></i> Change Base Map</span>
+      <button id="btn-basemap" title="Change Base Map" aria-label="Clear Map" type="button" class="btn-light zonal-long-button btn-basemap">
+        <span class="btn-icon btn-text-left w-100">
+          <i class="fas fa-th-large icon-left"></i>
+          <span class="btn-action">Base Map</span>
+          <span id="btn-basemap-label" class="btn-label">Dark Gray</span>
+        </span>
       </button>
-      <div id="basemaplist" class="list-group list-group-dark d-none">
-        <button id="basemap-DarkGray" type="button" class="list-group-item list-group-item-action">DarkGray</button>
-        <button id="basemap-Imagery" type="button" class="list-group-item list-group-item-action">Imagery</button>
-        <button id="basemap-Topographic" type="button" class="list-group-item list-group-item-action">Topographic</button>
-        <button id="basemap-Streets" type="button" class="list-group-item list-group-item-action">Streets</button>
+      <div id="basemaplist" class="list-group list-group-dark list-basemap w-100">
+        <!-- <span title="Close Base Map List" aria-label="Close Base Map List" id="basemap_list_close" class="float-right text-right w-100 basemap_list_close" >
+          <i title="Close Base Map List" aria-label="Close Base Map List" class="fas fa-times"></i>
+        </span> -->
+        <button title="Base Map Dark Gray" aria-label="Base Map Dark Gray" id="basemap-DarkGray" type="button" class="list-group-item list-group-item-action">
+          <img src="../images/DGCanvasBase.png" alt="Base Map Dark Gray" class="basemap-img" />
+          <span class="list-label-name">Dark Gray</span>
+        </button>
+        <button title="Base Map Imagery" aria-label="Base Map Imagery" id="basemap-Imagery" type="button" class="list-group-item list-group-item-action">
+          <img src="../images/tempimagery.jpg" alt="Base Map Imagery" class="basemap-img" />
+          <span class="list-label-name">Imagery</span>
+        </button>
+        <button title="Base Map Topographic" aria-label="Base Map Topographic" id="basemap-Topographic" type="button" class="list-group-item list-group-item-action">
+          <img src="../images/topo_map_2.jpg" alt="Base Map Topographic" class="basemap-img" />
+          <span class="list-label-name">Topographic</span>
+        </button>
+        <button title="Base Map Streets" aria-label="Base Map Dark Streets" id="basemap-Streets" type="button" class="list-group-item list-group-item-action">
+          <img src="../images/world_street_map.jpg" alt="Base Map Streets" class="basemap-img" />
+          <span class="list-label-name">Streets</span>
+        </button>
       </div>
 
       <!-- <div ref="LayerInput" id="basemap-layerToggle" class="custom-control custom-checkbox">

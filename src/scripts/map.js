@@ -146,6 +146,11 @@ export class Map extends Component {
 
     store.setStoreItem('basemap', basemapname);
 
+    const labelElem = document.getElementById('btn-basemap-label');
+
+    if (labelElem) {
+      labelElem.innerHTML = Map.makeHumanBaseMapName(basemapname);
+    }
     // add new event to check on base map has completed uploading
     //  map will not initialize settings untill this has completed
     this.basemap.on('load', () => {
@@ -162,12 +167,29 @@ export class Map extends Component {
     });
   }
 
+  static makeHumanBaseMapName(baseMapName) {
+    if (baseMapName === 'DarkGray') {
+      return 'Dark Gray';
+    }
+    if (baseMapName === 'Terrain') {
+      return 'Terrain';
+    }
+    if (baseMapName === 'Imagery') {
+      return 'Imagery';
+    }
+    if (baseMapName === 'Topographic') {
+      return 'Topographic';
+    }
+    if (baseMapName === 'Streets') {
+      return 'Streets';
+    }
+    return 'Dark Gray';
+  }
+
   static addBaseMapLabels(basemap) {
-    if (basemap === 'ShadedRelief' ||
-         basemap === 'Oceans' ||
-         basemap === 'Gray' ||
-         basemap === 'DarkGray' ||
-         basemap === 'Terrain') {
+    if (basemap === 'Oceans' ||
+        basemap === 'DarkGray' ||
+        basemap === 'Terrain') {
       return basemapLayer(`${basemap}Labels`);
     }
     if (basemap.includes('Imagery')) {

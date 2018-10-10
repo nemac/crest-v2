@@ -17,6 +17,96 @@ $map_right_margin: 10px;
   padding: $layer_list_padding;
 }
 
+.icon-left {
+  float: left;
+  font-size: 50px;
+  color: $body-color;
+}
+
+.btn-action, .btn-label {
+  color: $body-color;
+  width: 100%;
+  margin-left: 15px;
+}
+
+.btn-text-left {
+  text-align: left !important;
+  float: left;
+}
+
+.btn-action {
+  font-size: 16px;
+  width: 100% !important;
+}
+
+.btn-label {
+  font-size: 12px;
+  width: 100% !important;
+}
+
+.btn-action:after {
+    content:"\000A";
+    white-space: pre;
+}
+
+.list-basemap {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+}
+
+.list-basemap.active {
+  width: 90% !important;
+  position: absolute;
+  left: 10px;
+  margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
+  top: 125px;
+  z-index: 10001 !important;
+}
+
+.btn-basemap {
+  background-color: $body-bg !important;
+  border-color: $gray-700 !important;
+  width: 100% !important;
+}
+.btn-basemap:focus {
+    outline-color: $gray-700  !important;
+}
+
+.basemap-img {
+  width: 35%;
+  height: 35%;
+  border: $gray-700 solid 1px;
+  border-radius: 10%;
+  margin-right: 10px;
+}
+
+.list-group-dark, .list-group-item {
+    background-color: $body-bg !important;
+    background:  $body-bg-semiTransparent !important;
+    color: $body-color !important;
+    border-color: $gray-700 !important;
+    width: 100%;
+}
+
+.basemap_list_close:hover {
+    cursor: pointer;
+}
+
+.basemap_list_close {
+    font-size: 10px;
+}
+
+.list-group-item:hover {
+  background-color: $gray-600 !important;
+  color: $body-color !important;
+  cursor: pointer;
+}
+
+.list-group-dark {
+  margin-top: 5px;
+}
+
 .mapinfodata-header, .LayerInput-header {
   font-size: 1em;
 }

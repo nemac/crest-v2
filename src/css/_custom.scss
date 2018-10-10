@@ -16,18 +16,6 @@ html, body {
     height: 100%;
 }
 
-.list-group-dark, .list-group-item {
-    background-color: $body-bg;
-    background:  $body-bg-semiTransparent;
-    color: $body-color;
-    border-color: $body-color;
-    width: 153px;
-}
-
-.list-group-dark {
-  margin-top: 5px;  
-}
-
 .userarealabel {
   color: $gray-200;
   font-size: 1.5em;
