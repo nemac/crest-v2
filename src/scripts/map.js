@@ -532,9 +532,11 @@ export class Map extends Component {
    */
   static setLayerStatus(value) {
     const layerToggleElement = document.getElementById(`${value}-toggle`);
-    const event = new Event('click');
-    layerToggleElement.dispatchEvent(event);
-    layerToggleElement.checked = !layerToggleElement.checked;
+    if (layerToggleElement) {
+      const event = new Event('click');
+      layerToggleElement.dispatchEvent(event);
+      layerToggleElement.checked = !layerToggleElement.checked;
+    }
   }
 
   // restores map display status..
@@ -619,6 +621,10 @@ export class Map extends Component {
       if (stateItem === 'basemap') { basemap = stateObj; } // set basemap
     });
 
+    // ensure basemap is set use default fromn config
+    if (!basemap) {
+      basemap = mapConfig.ESRIVectorBasemap.name;
+    }
     // restore or set the Display status of tile layers
     Map.restoreMapDisplayStatus(mapLayerDisplayStatus);
 
