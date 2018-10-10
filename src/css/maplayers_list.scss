@@ -66,19 +66,46 @@ $map_right_margin: 10px;
 
 .btn-basemap {
   background-color: $body-bg !important;
-  border-color: $gray-700 !important;
+  border-radius: 0.25rem !important;
+  -webkit-border-radius: 0.25rem !important;
+  -moz-border-radius: 0.25rem !important;
   width: 100% !important;
+  box-shadow: 0 0 1.5px 1.5px rgba(52, 58, 64, .9) !important;
+  -moz-box-shadow: 0 0 1.5px 1.5px rgba(52, 58, 64, .9) !important;
+  
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
 }
+
 .btn-basemap:focus {
-    outline-color: $gray-700  !important;
+  background-color: $gray-600 !important;
+  color: $body-color !important;
+}
+
+.btn-basemap:hover {
+  background-color: $gray-600 !important;
+  color: $body-color !important;
 }
 
 .basemap-img {
-  width: 35%;
-  height: 35%;
-  border: $gray-700 solid 1px;
+  width: 61px;
+  height: 41px;
+  // border: $gray-700 solid 1px;
   border-radius: 10%;
+  -webkit-border-radius: 10%;
+  -moz-border-radius: 10%;
   margin-right: 10px;
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+}
+
+.list-group-item:hover {
+  background-color: $gray-600 !important;
+  color: $body-color !important;
 }
 
 .list-group-dark, .list-group-item {
@@ -136,6 +163,8 @@ $map_right_margin: 10px;
     top: (($grid-gutter-width / 2));
     z-index: 10000;
     border-radius: 0.25rem;
+    -webkit-border-radius: 0.25rem;
+    -moz-border-radius: 0.25rem;
     margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
     max-height: 500px;
     overflow: scroll;
@@ -179,6 +208,8 @@ $map_right_margin: 10px;
 
 .maplayers_list::-webkit-scrollbar-thumb {
    border-radius: 4px;
+   -webkit-border-radius: 4px;
+   -moz-border-radius: 4px;
    background-color: $body-color
  }
 
@@ -203,6 +234,8 @@ $map_right_margin: 10px;
     margin: $grid-gutter-width / 2;
     border: 1px solid $body-color;
     border-radius: 0.25rem;
+    -webkit-border-radius: 0.25rem;
+    -moz-border-radius: 0.25rem;
     max-height: 750px;
   }
   .maplayers_list-holder  {

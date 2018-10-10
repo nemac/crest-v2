@@ -96,6 +96,8 @@ html, body {
   left: 275px;
   bottom: 0px;
   border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
   margin-left: 2px;
   vertical-align: middle !important;
   align-items: center !important;
@@ -114,6 +116,8 @@ html, body {
   color: $gray-700;
   color: $body-bg;
   border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;  
   cursor: pointer;
 }
 
@@ -303,6 +307,8 @@ html, body {
   height: 30px;
   font-size: 15px;
   border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
 }
@@ -314,6 +320,8 @@ html, body {
   height: 30px;
   font-size: 15px;
   border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
 }
@@ -326,6 +334,8 @@ html, body {
   border-width: 0px;
   height: 30px;
   border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
 }
 
 .btn-search-locations-collapse-holder.leaflet-bar{
@@ -386,7 +396,8 @@ html, body {
 .map-info-point{
   background-color: $body-bg;
   border-radius: 10px;
-
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
   -moz-background-clip:    padding;
@@ -397,6 +408,8 @@ html, body {
 .searchlocations-point {
   background-color: $body-bg;
   border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
 
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
@@ -488,6 +501,8 @@ html, body {
    background:  $body-bg-semiTransparent9;
    color: $body-color;
    border-radius: 0px;
+   -webkit-border-radius: 0px;
+   -moz-border-radius: 0px;
    min-width: 225px;
  }
 
@@ -533,6 +548,8 @@ a.list-group-item.list-group-item-action.not-found{
   border-color: $gray-400;
   border-width: 0px;
   border-radius: 0;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
   text-decoration: underline;
 }
 
@@ -558,6 +575,8 @@ p.not-found {
 
 #explore-holder::-webkit-scrollbar-thumb {
    border-radius: 4px;
+   -webkit-border-radius: 4px;
+   -moz-border-radius: 4px;
    background-color: $body-color
  }
 
@@ -573,6 +592,8 @@ p.not-found {
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
   background-color:  $body-bg;
   border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
   border: 1px solid $gray-700;
   transform: scale(1.75);
 }
@@ -582,6 +603,8 @@ p.not-found {
   background:  $body-bg-semiTransparent;
   border: 0px solid $body-color;
   border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
 }
 
 @media (max-width: 768px) {
@@ -604,6 +627,8 @@ p.not-found {
 
    .mapinfodata::-webkit-scrollbar-thumb {
      border-radius: 4px;
+     -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
      background-color: $body-color
    }
 
