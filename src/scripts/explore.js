@@ -312,6 +312,7 @@ export class Explore extends Component {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = this.storeShapes();
+    const d = this.saveShapesToS3();
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
@@ -522,6 +523,8 @@ export class Explore extends Component {
     this.drawAreaGroup.clearLayers();
     store.removeStateItem('userarea');
     store.removeStateItem('userareas');
+    store.removeStateItem('savedshapes');
+    store.removeStateItem('savedshape');
     Explore.resetshapescounter();
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
@@ -643,6 +646,62 @@ export class Explore extends Component {
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 10);
   }
 
+  async saveShapesToS3 () {
+
+    const currentshapes = store.getStateItem('userareas');
+
+    const shapecount = Explore.storeshapescounter();
+    const name = `${this.defaultAreaName}${shapecount}`;
+
+    const userarea = await this.StoreShapesAPI.saveShape(store.getStateItem('userarea'));
+    const userarea_buffered = await this.StoreShapesAPI.saveShape(store.getStateItem('userarea_buffered'));
+    const zonalstatsjson = await this.StoreShapesAPI.saveShape(store.getStateItem('zonalstatsjson'));
+
+    const newshape = {
+      [`savedshape${shapecount}`]: [
+        { name },
+        { savedshape_userarea: userarea },
+        { savedshape_userarea_buffered: userarea_buffered },
+        { savedshape_zonalstatsjson: zonalstatsjson }
+      ]
+    };
+
+    const newshapes = { ...currentshapes, ...newshape };
+    store.setStoreItem('savedshapes', newshapes);
+    return name;
+
+    // // save shape and await
+    // let postdata = '';
+    //
+    // // some Geojson is not a feature collection lambda function expects a
+    // // a feature collection
+    // if (GeoJSON.type === 'Feature') {
+    //   const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+    //   const FeatureCollectionEnd = ']}';
+    //   postdata = FeatureCollectionStart + JSON.stringify(GeoJSON) + FeatureCollectionEnd;
+    // }
+    //
+    // if (GeoJSON.type === 'FeatureCollection') {
+    //   postdata = JSON.stringify(GeoJSON);
+    // }
+    // console.log(postdata);
+    //
+    //
+    //
+    // const geojsonfile = await this.StoreShapesAPI.saveShape(postdata);
+    // const savedshapes = {
+    //   [`savedshape`]: [
+    //     { name: 'name' },
+    //     { userarea: 'nothing yet' },
+    //     { userarea_buffered: geojsonfile },
+    //     { zonalstatsjson: 'nothing yet' }
+    //   ]
+    // };
+    //
+    // // store.setStoreItem('savedshapes',savedshapes)
+    // // console.log(savedshapes);
+    // return savedshapes;
+  }
   // handler for when drawing is complete on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
