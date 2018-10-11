@@ -104,6 +104,12 @@ export class Explore extends Component {
       this.drawUserAreaFromUsereas();
     });
 
+
+    const testbtn = document.getElementById('btn-test')
+    if (testbtn) {
+      testbtn.addEventListener('click',(e) => {this.getShapeFromS3();} )
+    }
+
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
@@ -312,7 +318,8 @@ export class Explore extends Component {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = this.storeShapes();
-    const d = this.saveShapesToS3();
+    const s3shapes = this.saveShapesToS3();
+
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
@@ -396,10 +403,108 @@ export class Explore extends Component {
     return null;
   }
 
+  // async gshape(bucket, key){
+  //   const test = await this.StoreShapesAPI.httpGetSavedGeoJSON(bucket, key);
+  //   console.log(bucket, key, test);
+  // }
+
+  async getShapeFromS3() {
+    // const userarea = store.getStateItem('userarea');
+
+    const currentshapes = store.getStateItem('savedshapes');
+
+    const checkobj = {}.hasOwnProperty;
+    // using for loop because it allows await functionality with
+    // async calls to zonal stats api.  this will ensure we wait for the promise to
+    // resolve and is added to the store before we progress on. using a check for hasOwnProperty
+    // to deal with all the prototpe entries
+    for (const key in currentshapes) {
+      if (checkobj.call(currentshapes, key)) {
+        const name_saved = currentshapes[key][0].name;
+        const userarea_saved = currentshapes[key][1].savedshape_userarea;
+        const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
+        const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
+
+        if (checkValidObject(userarea_saved)) {
+          const shape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userarea_saved.bucket, userarea_saved.key);
+          console.log(userarea_saved.bucket, userarea_saved.key, shape);
+        }
+      }
+    }
+    return null;
+  }
+    // Object.keys(currentshapes).forEach((key) => {
+    //   const name_saved = currentshapes[key][0].name;
+    //   const userarea_saved = currentshapes[key][1].savedshape_userarea;
+    //   const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
+    //   const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
+    //
+    //   if (checkValidObject(userarea_saved)) {
+    //     this.gshape(userarea_saved.bucket, userarea_saved.key);
+    //   }
+    //
+    //   // return null;
+    //   //   // convert geoJson to leaflet layer
+    //   //   const layer = L.geoJson(userarea);
+    //   //
+    //   //   const HTMLName = makeHTMLName(name);
+    //   //   this.bufferedoptions['className'] = `path-${HTMLName}`;
+    //   //
+    //   //   const bufferedLayer = L.geoJson(buffered, this.bufferedoptions);
+    //   //
+    //   //   bufferedLayer.on({
+    //   //     mouseover: (e) => {
+    //   //       if (!isGraphActivetate()) {
+    //   //         const path = e.target;
+    //   //         const labelname = path.options.className.replace('path-', 'label-name-');
+    //   //         const labelElem = document.getElementById(labelname);
+    //   //         toggleLabelHighLightsOn(labelElem);
+    //   //         const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+    //   //         const labelzElem = document.getElementById(labelzname);
+    //   //         toggleLabelHighLightsOn(labelzElem);
+    //   //
+    //   //         const pathelem = document.querySelector(`.${path.options.className}`);
+    //   //         togglePermHighLightsAllOff(pathelem);
+    //   //         toggleMouseHighLightsOn(pathelem);
+    //   //       }
+    //   //     },
+    //   //     mouseout: (e) => {
+    //   //       if (!isGraphActivetate()) {
+    //   //         const path = e.target;
+    //   //         const labelname = path.options.className.replace('path-', 'label-name-');
+    //   //         const labelElem = document.getElementById(labelname);
+    //   //         toggleLabelHighLightsOff(labelElem);
+    //   //         const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+    //   //         const labelzElem = document.getElementById(labelzname);
+    //   //         toggleLabelHighLightsOff(labelzElem);
+    //   //
+    //   //         const pathelem = document.querySelector(`.${path.options.className}`);
+    //   //         toggleMouseHighLightsOff(pathelem);
+    //   //       }
+    //   //     },
+    //   //     click: (e) => {
+    //   //       Explore.clickShape(e);
+    //   //     }
+    //   //   });
+    //   //
+    //   //   // add layer to the leaflet map
+    //   //   this.drawAreaGroup.addLayer(layer);
+    //   //
+    //   //   this.drawAreaGroup.addLayer(bufferedLayer);
+    //   //
+    //   //   this.addUserAreaLabel(bufferedLayer, name);
+    //   //
+    //   //   if (checkValidObject(zonal.features)) {
+    //   //     drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
+    //   //   }
+    //   //
+    //   //   return layer;
+    //   // }
+    // });
+
 
   drawUserAreaFromUsereas() {
     // const userarea = store.getStateItem('userarea');
-
     const currentshapes = store.getStateItem('userareas');
     Object.keys(currentshapes).forEach((key) => {
       const name = currentshapes[key][0].name;
@@ -648,17 +753,17 @@ export class Explore extends Component {
 
   async saveShapesToS3 () {
 
-    const currentshapes = store.getStateItem('userareas');
+    const currentshapes = store.getStateItem('savedshapes');
 
     const shapecount = Explore.storeshapescounter();
-    const name = `${this.defaultAreaName}${shapecount}`;
+    const name = `${this.defaultAreaName}${shapecount-1}`;
 
     const userarea = await this.StoreShapesAPI.saveShape(store.getStateItem('userarea'));
     const userarea_buffered = await this.StoreShapesAPI.saveShape(store.getStateItem('userarea_buffered'));
     const zonalstatsjson = await this.StoreShapesAPI.saveShape(store.getStateItem('zonalstatsjson'));
 
     const newshape = {
-      [`savedshape${shapecount}`]: [
+      [`savedshape${shapecount-1}`]: [
         { name },
         { savedshape_userarea: userarea },
         { savedshape_userarea_buffered: userarea_buffered },
@@ -668,40 +773,10 @@ export class Explore extends Component {
 
     const newshapes = { ...currentshapes, ...newshape };
     store.setStoreItem('savedshapes', newshapes);
-    return name;
-
-    // // save shape and await
-    // let postdata = '';
-    //
-    // // some Geojson is not a feature collection lambda function expects a
-    // // a feature collection
-    // if (GeoJSON.type === 'Feature') {
-    //   const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
-    //   const FeatureCollectionEnd = ']}';
-    //   postdata = FeatureCollectionStart + JSON.stringify(GeoJSON) + FeatureCollectionEnd;
-    // }
-    //
-    // if (GeoJSON.type === 'FeatureCollection') {
-    //   postdata = JSON.stringify(GeoJSON);
-    // }
-    // console.log(postdata);
-    //
-    //
-    //
-    // const geojsonfile = await this.StoreShapesAPI.saveShape(postdata);
-    // const savedshapes = {
-    //   [`savedshape`]: [
-    //     { name: 'name' },
-    //     { userarea: 'nothing yet' },
-    //     { userarea_buffered: geojsonfile },
-    //     { zonalstatsjson: 'nothing yet' }
-    //   ]
-    // };
-    //
-    // // store.setStoreItem('savedshapes',savedshapes)
-    // // console.log(savedshapes);
-    // return savedshapes;
+    // this.getShapeFromS3();
+    return newshapes;
   }
+
   // handler for when drawing is complete on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback

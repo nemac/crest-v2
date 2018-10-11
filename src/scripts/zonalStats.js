@@ -109,6 +109,16 @@ function removeUserareaByName(name) {
   });
 
   store.setStoreItem('userareas', currentshapes);
+
+  const savedshapes = store.getStateItem('savedshapes');
+  Object.keys(savedshapes).map((key) => {
+    if (savedshapes[key][0].name === name) {
+      delete savedshapes[key];
+    }
+    return savedshapes;
+  });
+
+  store.setStoreItem('savedshapes', savedshapes);
 }
 
 function dispatchRemoveEnd() {
