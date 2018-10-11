@@ -45,9 +45,9 @@ export class Explore extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, exploreTemplate);
 
-    const { mapComponent, mapInfoComponent } = props;
+    const { mapComponent, mapInfoComponent, URLCls } = props;
     this.mapComponent = mapComponent;
-
+    this.URL = URLCls;
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
 
     // defualt buffer style
@@ -107,8 +107,18 @@ export class Explore extends Component {
 
     const testbtn = document.getElementById('btn-test')
     if (testbtn) {
-      testbtn.addEventListener('click',(e) => {this.getShapeFromS3();} )
+      testbtn.addEventListener('click',(e) => {
+        this.getShapesFromS3();
+      })
     }
+
+    const share_urlbtn = document.getElementById('btn-share_url')
+    if (share_urlbtn) {
+      share_urlbtn.addEventListener('click',(e) => {
+        console.log(this.URL.getShareUrl());
+      })
+    }
+
 
     // uncomment this if we want to add the draw area button to leaflet
     // control
@@ -408,10 +418,11 @@ export class Explore extends Component {
   //   console.log(bucket, key, test);
   // }
 
-  async getShapeFromS3() {
+  async getShapesFromS3() {
     // const userarea = store.getStateItem('userarea');
 
     const currentshapes = store.getStateItem('savedshapes');
+    console.log(currentshapes);
 
     const checkobj = {}.hasOwnProperty;
     // using for loop because it allows await functionality with
@@ -421,14 +432,21 @@ export class Explore extends Component {
     for (const key in currentshapes) {
       if (checkobj.call(currentshapes, key)) {
         const name_saved = currentshapes[key][0].name;
+        console.log(name_saved)
         const userarea_saved = currentshapes[key][1].savedshape_userarea;
         const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
         const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
+        console.log(userarea_saved, buffered_saved, zonal_saved)
 
-        if (checkValidObject(userarea_saved)) {
-          const shape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userarea_saved.bucket, userarea_saved.key);
-          console.log(userarea_saved.bucket, userarea_saved.key, shape);
-        }
+        // // if (checkValidObject(userarea_saved)) {
+        const usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userarea_saved.bucket, userarea_saved.key);
+        const bufferedshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(buffered_saved.bucket, buffered_saved.key);
+        const zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonal_saved.bucket, zonal_saved.key);
+
+        console.log(usershape, bufferedshape, zonalshape)
+        console.log('------')
+
+        // }
       }
     }
     return null;
@@ -773,7 +791,6 @@ export class Explore extends Component {
 
     const newshapes = { ...currentshapes, ...newshape };
     store.setStoreItem('savedshapes', newshapes);
-    // this.getShapeFromS3();
     return newshapes;
   }
 

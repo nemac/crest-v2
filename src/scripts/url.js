@@ -9,6 +9,20 @@ const URL_IGNORE_KEYS = [
   'working_mapinfo',
   'working_zonalstats',
   'working_search',
+  'userareas',
+  'savedshapes',
+  'userareacount'
+];
+
+const SHARE_URL_IGNORE_KEYS = [
+  'userarea',
+  'userarea_buffered',
+  'zonalstatsjson',
+  'working_basemap',
+  'working_mapinfo',
+  'working_zonalstats',
+  'working_search',
+  'userareacount',
   'userareas'
 ];
 
@@ -33,6 +47,18 @@ export class URL {
   encodeStateString() {
     const stateStringWithOutIgnoredKeys = this.removeIgnoreKeys();
     return encodeURIComponent(stateStringWithOutIgnoredKeys);
+  }
+
+  encodeStateStringShare() {
+    const stateStringWithOutIgnoredKeys = this.removeShareIgnoreKeys();
+    return encodeURIComponent(stateStringWithOutIgnoredKeys);
+  }
+
+  getShareUrl() {
+    const state = this.encodeStateStringShare();
+    const baseurl = `${window.location.origin}`;
+    console.log(baseurl)
+    return `${baseurl}/?state=${state}`;
   }
 
   setUrl() {
@@ -78,6 +104,26 @@ export class URL {
     return JSON.stringify(filtered);
   }
 
+  // some keys are to big for the URL so we have to ignore them
+  // i.e geoJson instead we will have to share the geojson in
+  // s3 or github-gists - TODO expand the share geojson to use gists
+  // the shape remains in the state store but is removed from the URL
+  // use the constant URL_IGNORE_KEY to ignore state items from the URL
+  removeShareIgnoreKeys() {
+    // get current state
+    const stateOBJ = JSON.parse(this.url.getStateAsString());
+
+    // remove the ignored keys
+    const filtered = Object.keys(stateOBJ)
+      .filter(key => !SHARE_URL_IGNORE_KEYS.includes(key))
+      .reduce((obj, key) => {
+        const newobj = { ...obj, [key]: stateOBJ[key] };
+        return newobj;
+      }, {});
+
+    // return state string
+    return JSON.stringify(filtered);
+  }
   // some keys are to big for the URL so we have to ignore them
   // i.e geoJson instead we will have to share the geojson in
   // s3 or github-gists - TODO expand the share geojson to use gists

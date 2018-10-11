@@ -28,7 +28,7 @@ import { restoreGraphState } from './zonalStats';
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
 
-new URL();
+const URLCls = new URL();
 
 library.add(fas, far);
 
@@ -99,7 +99,7 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     setworkingstates();
-    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
+    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent, URLCls });
     searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent });
   }
 
