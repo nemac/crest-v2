@@ -68,7 +68,8 @@ export class ShareUrl extends Component {
     this.saveShapesToS3();
   }
 
-  static copyToClipboard(str) {
+  static copyToClipboard(e) {
+    e.stopPropagation();
     // const textArea = document.getElementById('shareurltextarea');
     // if (textArea) {
     //   document.body.removeChild(textArea);
@@ -130,26 +131,37 @@ export class ShareUrl extends Component {
 
     const shareurlboxholder = document.getElementById('btn-mapshareurl-holder');
 
+    const wrapper = document.createElement('div');
+    wrapper.setAttribute('id', 'shareurl-holder');
+
     const el = document.createElement('input');
     el.setAttribute('id', 'shareurltextarea');
     el.setAttribute('aria-label', 'share url');
     el.classList.add('form-control');
-
     el.value = this.shareurl;
     el.setAttribute('readonly', '');
-    shareurlboxholder.insertBefore(el, shareurlboxholder.childNodes[0]);
+    wrapper.insertBefore(el, wrapper.firstChild);
 
-    el.style.position = 'relative';
-    // el.style.left = '10px';
-    // el.style.top = '50px';
-    el.style.zIndex = '999999999';
+    const button = document.createElement('button');
+    button.setAttribute('id', 'btn-icon');
+    button.setAttribute('aria-label', 'copy share url');
+    button.setAttribute('title', 'copy share url');
+    button.classList.add('btn-copy-share');
+    button.innerHTML = '<i class="fas fa-copy"></i>';
+    wrapper.insertBefore(button, wrapper.firstChild);
+    shareurlboxholder.insertBefore(wrapper , shareurlboxholder.nextElementSibling);
+
+    // el.style.position = 'relative';
+    // // el.style.left = '10px';
+    // // el.style.top = '50px';
+    // el.style.zIndex = '999999999';
     document.body.appendChild(el);
     console.log('el.value', el.value)
 
     let count = 0;
     const percentcomplete = 0;
     this.shareurl = `Working to generating Share URL ${percentcomplete} percent complete.`;
-    console.log(this.shareurl)
+    el.value = this.shareurl;
 
     const checkobj = {}.hasOwnProperty;
     // using for loop because it allows await functionality with
@@ -193,6 +205,7 @@ export class ShareUrl extends Component {
     console.log(this.shareurl)
     el.value = this.shareurl;
     el.addEventListener('click', ShareUrl.copyToClipboard);
+    button.addEventListener('click', ShareUrl.copyToClipboard);
 
     store.setStoreItem('working_s3save', false);
     spinnerOff();
