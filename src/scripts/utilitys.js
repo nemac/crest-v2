@@ -74,6 +74,12 @@ export function checkworking() {
   const workingSearch = store.getStateItem('working_search');
   if (workingSearch) { return true; }
 
+  const working_s3reteive = store.getStateItem('working_s3reteive');
+  if (working_s3reteive) { return true; }
+
+  const working_s3save = store.getStateItem('working_s3save');
+  if (working_s3save) { return true; }
+
   return false;
 }
 

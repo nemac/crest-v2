@@ -16,6 +16,7 @@ import { NavBar } from './navBar';
 import { About } from './about';
 import { Explore } from './explore';
 import { MapInfo } from './mapinfo';
+import { ShareUrl } from './shareurl';
 import { SearchLocations } from './searchlocations';
 
 // import html templates
@@ -41,6 +42,7 @@ let exploreComponent;
 let mapInfoComponent;
 let searchLocationsComponent;
 let aboutComponent;
+let shareurl;
 
 const store = new Store({});
 
@@ -99,8 +101,9 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     setworkingstates();
-    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent, URLCls });
+    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
     searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent });
+    shareurl = new ShareUrl('', { mapComponent, URLCls });
   }
 
   // restore only if first render

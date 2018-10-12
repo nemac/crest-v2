@@ -64,6 +64,7 @@ export class Explore extends Component {
       permanent: true
     };
 
+
     this.defaultAreaName = 'Area ';
 
     // handler for when drawing is completed
@@ -112,12 +113,6 @@ export class Explore extends Component {
       })
     }
 
-    const share_urlbtn = document.getElementById('btn-share_url')
-    if (share_urlbtn) {
-      share_urlbtn.addEventListener('click',(e) => {
-        console.log(this.URL.getShareUrl());
-      })
-    }
 
 
     // uncomment this if we want to add the draw area button to leaflet
@@ -230,6 +225,7 @@ export class Explore extends Component {
 
   // update zonal stats for all user ares in the state store
   async updateZonal() {
+    store.setStoreItem('working_zonalstats', true);
     spinnerOn();
     // this temp remove of stats so we can recalulate.
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
@@ -293,6 +289,7 @@ export class Explore extends Component {
 
     // update as complete
     store.setStoreItem('userareas', currentshapes);
+    store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
     return null;
   }
@@ -328,7 +325,6 @@ export class Explore extends Component {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = this.storeShapes();
-    const s3shapes = this.saveShapesToS3();
 
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
@@ -337,11 +333,15 @@ export class Explore extends Component {
         this.mapComponent.map);
     }
 
+    store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
 
     // add event to map for a listner that zonal stats have been calculated
     //  add timeout for write of more complex data to complete
-    setTimeout(() => { this.mapComponent.map.fireEvent('zonalstatsend'); }, 10);
+    setTimeout(() => {
+      this.mapComponent.map.fireEvent('zonalstatsend');
+      spinnerOff('getZonal done');
+    }, 10);
     return ZonalStatsJson;
   }
 
@@ -420,9 +420,11 @@ export class Explore extends Component {
 
   async getShapesFromS3() {
     // const userarea = store.getStateItem('userarea');
+    store.setStoreItem('working_s3reteive', true);
+    spinnerOn();
 
     const currentshapes = store.getStateItem('savedshapes');
-    console.log(currentshapes);
+    // console.log(currentshapes);
 
     const checkobj = {}.hasOwnProperty;
     // using for loop because it allows await functionality with
@@ -436,90 +438,31 @@ export class Explore extends Component {
         const userarea_saved = currentshapes[key][1].savedshape_userarea;
         const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
         const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
-        console.log(userarea_saved, buffered_saved, zonal_saved)
+        // console.log(userarea_saved, buffered_saved, zonal_saved)
 
-        // // if (checkValidObject(userarea_saved)) {
-        const usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userarea_saved.bucket, userarea_saved.key);
-        const bufferedshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(buffered_saved.bucket, buffered_saved.key);
-        const zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonal_saved.bucket, zonal_saved.key);
+        let usershape = {};
+        let bufferedshape = {};
+        let zonalshape = {};
 
+        if (checkValidObject(userarea_saved)) {
+          usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userarea_saved.bucket, userarea_saved.key);
+        }
+        if (checkValidObject(buffered_saved)) {
+          bufferedshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(buffered_saved.bucket, buffered_saved.key);
+        }
+        if (checkValidObject(zonal_saved)) {
+          zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonal_saved.bucket, zonal_saved.key);
+        }
         console.log(usershape, bufferedshape, zonalshape)
         console.log('------')
 
         // }
       }
     }
+    store.setStoreItem('working_s3reteive', false);
+    spinnerOff();
     return null;
   }
-    // Object.keys(currentshapes).forEach((key) => {
-    //   const name_saved = currentshapes[key][0].name;
-    //   const userarea_saved = currentshapes[key][1].savedshape_userarea;
-    //   const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
-    //   const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
-    //
-    //   if (checkValidObject(userarea_saved)) {
-    //     this.gshape(userarea_saved.bucket, userarea_saved.key);
-    //   }
-    //
-    //   // return null;
-    //   //   // convert geoJson to leaflet layer
-    //   //   const layer = L.geoJson(userarea);
-    //   //
-    //   //   const HTMLName = makeHTMLName(name);
-    //   //   this.bufferedoptions['className'] = `path-${HTMLName}`;
-    //   //
-    //   //   const bufferedLayer = L.geoJson(buffered, this.bufferedoptions);
-    //   //
-    //   //   bufferedLayer.on({
-    //   //     mouseover: (e) => {
-    //   //       if (!isGraphActivetate()) {
-    //   //         const path = e.target;
-    //   //         const labelname = path.options.className.replace('path-', 'label-name-');
-    //   //         const labelElem = document.getElementById(labelname);
-    //   //         toggleLabelHighLightsOn(labelElem);
-    //   //         const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
-    //   //         const labelzElem = document.getElementById(labelzname);
-    //   //         toggleLabelHighLightsOn(labelzElem);
-    //   //
-    //   //         const pathelem = document.querySelector(`.${path.options.className}`);
-    //   //         togglePermHighLightsAllOff(pathelem);
-    //   //         toggleMouseHighLightsOn(pathelem);
-    //   //       }
-    //   //     },
-    //   //     mouseout: (e) => {
-    //   //       if (!isGraphActivetate()) {
-    //   //         const path = e.target;
-    //   //         const labelname = path.options.className.replace('path-', 'label-name-');
-    //   //         const labelElem = document.getElementById(labelname);
-    //   //         toggleLabelHighLightsOff(labelElem);
-    //   //         const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
-    //   //         const labelzElem = document.getElementById(labelzname);
-    //   //         toggleLabelHighLightsOff(labelzElem);
-    //   //
-    //   //         const pathelem = document.querySelector(`.${path.options.className}`);
-    //   //         toggleMouseHighLightsOff(pathelem);
-    //   //       }
-    //   //     },
-    //   //     click: (e) => {
-    //   //       Explore.clickShape(e);
-    //   //     }
-    //   //   });
-    //   //
-    //   //   // add layer to the leaflet map
-    //   //   this.drawAreaGroup.addLayer(layer);
-    //   //
-    //   //   this.drawAreaGroup.addLayer(bufferedLayer);
-    //   //
-    //   //   this.addUserAreaLabel(bufferedLayer, name);
-    //   //
-    //   //   if (checkValidObject(zonal.features)) {
-    //   //     drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
-    //   //   }
-    //   //
-    //   //   return layer;
-    //   // }
-    // });
-
 
   drawUserAreaFromUsereas() {
     // const userarea = store.getStateItem('userarea');
@@ -769,30 +712,6 @@ export class Explore extends Component {
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 10);
   }
 
-  async saveShapesToS3 () {
-
-    const currentshapes = store.getStateItem('savedshapes');
-
-    const shapecount = Explore.storeshapescounter();
-    const name = `${this.defaultAreaName}${shapecount-1}`;
-
-    const userarea = await this.StoreShapesAPI.saveShape(store.getStateItem('userarea'));
-    const userarea_buffered = await this.StoreShapesAPI.saveShape(store.getStateItem('userarea_buffered'));
-    const zonalstatsjson = await this.StoreShapesAPI.saveShape(store.getStateItem('zonalstatsjson'));
-
-    const newshape = {
-      [`savedshape${shapecount-1}`]: [
-        { name },
-        { savedshape_userarea: userarea },
-        { savedshape_userarea_buffered: userarea_buffered },
-        { savedshape_zonalstatsjson: zonalstatsjson }
-      ]
-    };
-
-    const newshapes = { ...currentshapes, ...newshape };
-    store.setStoreItem('savedshapes', newshapes);
-    return newshapes;
-  }
 
   // handler for when drawing is complete on the map
   // adding not as hanlder callback so I can use this (class) calls

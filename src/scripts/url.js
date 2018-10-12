@@ -8,7 +8,9 @@ const URL_IGNORE_KEYS = [
   'working_basemap',
   'working_mapinfo',
   'working_zonalstats',
+  'working_s3reteive',
   'working_search',
+  'working_s3save',
   'userareas',
   'savedshapes',
   'userareacount'
@@ -21,9 +23,11 @@ const SHARE_URL_IGNORE_KEYS = [
   'working_basemap',
   'working_mapinfo',
   'working_zonalstats',
+  'working_s3reteive',
   'working_search',
-  'userareacount',
-  'userareas'
+  'working_s3save',
+  'userareas',
+  'userareacount'
 ];
 
 /**
@@ -57,8 +61,7 @@ export class URL {
   getShareUrl() {
     const state = this.encodeStateStringShare();
     const baseurl = `${window.location.origin}`;
-    console.log(baseurl)
-    return `${baseurl}/?state=${state}`;
+    return `${baseurl}/?state=${state}&shareurl=true`;
   }
 
   setUrl() {
