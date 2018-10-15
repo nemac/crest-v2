@@ -366,6 +366,10 @@ export class Explore extends Component {
   }
 
   restoreSavedGeoJson() {
+    // restore users shapes from s3 when there is a share UTL
+    const userareas = store.getStateItem('savedshapes');
+    console.log('restoreShapesFromS3', userareas)
+    this.getShapesFromS3();
     // if their is a query string paramter for shareurl=trye restore the shapes.
     if (this.hashareurl === 'true') {
       // const projectfile = store.getStateItem('projectfile');
@@ -373,7 +377,7 @@ export class Explore extends Component {
         // now that we have a user area and buffer remove the projectfile
         // it's no longer needed.
         // this.removeExistingArea();
-        this.getShapesFromS3();
+        // this.getShapesFromS3();
         // this.retreiveS3GeojsonFile(projectfile);
       // }
     }
@@ -434,7 +438,7 @@ export class Explore extends Component {
     spinnerOn();
 
     const currentshapes = store.getStateItem('savedshapes');
-    console.log('currentshapes', currentshapes);
+    // console.log(currentshapes);
 
     let newshapes = {};
     let count = 0;
@@ -451,7 +455,7 @@ export class Explore extends Component {
         const userarea_saved = currentshapes[key][1].savedshape_userarea;
         const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
         const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
-        console.log(userarea_saved, buffered_saved, zonal_saved)
+        // console.log(userarea_saved, buffered_saved, zonal_saved)
 
         let usershape = {};
         let bufferedshape = {};
@@ -473,20 +477,21 @@ export class Explore extends Component {
 
         const newshape = {
           [`userarea${count}`]: [
-            { name: name_saved },
-            { userarea: usershape },
-            { userarea_buffered: bufferedshape },
-            { zonalstatsjson: zonalshape }
+            { 'name': name_saved },
+            { 'userarea': usershape },
+            { 'userarea_buffered': bufferedshape },
+            { 'zonalstatsjson': zonalshape }
           ]
         };
 
+        console.log('getShapesFromS3 newshape', newshape)
         const userareas = store.getStateItem('userareas');
-        newshapes = { ...userareas, ...newshape, };
+        newshapes = { ...userareas, ...newshape };
         store.setStoreItem('userareas',newshapes);
+        console.log('getShapesFromS3 userareas', newshapes)
+        // }
       }
     }
-    this.drawUserAreaFromUsereas();
-    console.log(newshapes)
     store.setStoreItem('working_s3reteive', false);
     spinnerOff();
     return null;
@@ -495,14 +500,11 @@ export class Explore extends Component {
   drawUserAreaFromUsereas() {
     // const userarea = store.getStateItem('userarea');
     const currentshapes = store.getStateItem('userareas');
-    console.log('drawUserAreaFromUsereas', currentshapes);
     Object.keys(currentshapes).forEach((key) => {
       const name = currentshapes[key][0].name;
       const userarea = currentshapes[key][1].userarea;
       const buffered = currentshapes[key][2].userarea_buffered;
       const zonal = currentshapes[key][3].zonalstatsjson;
-
-      console.log('drawUserAreaFromUsereas userarea', userarea);
 
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer

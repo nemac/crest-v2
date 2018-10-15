@@ -106,11 +106,13 @@ export class ShareUrl extends Component {
 
   // restore users shapes from s3 when there is a share UTL
   restoreShapesFromS3 () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get('shareurl')
-    console.log('restoreShapesFromS3', myParam)
-    // =true
-
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const myParam = urlParams.get('shareurl')
+    // console.log('restoreShapesFromS3', myParam)
+    // // =true
+    // const userareas = store.getStateItem('savedshapes');
+    // console.log('restoreShapesFromS3', userareas)
+    // this.mapComponent.getShapesFromS3();
   }
 
   // save shapes to s3 so we can share user added shapes
@@ -180,7 +182,7 @@ export class ShareUrl extends Component {
         const buffered = userareas[key][2].userarea_buffered;
         const zonal = userareas[key][3].zonalstatsjson;
 
-        const saved_userarea = await this.StoreShapesAPI.saveShape(JSON.stringifyuserarea);
+        const saved_userarea = await this.StoreShapesAPI.saveShape(userarea);
         const saved_userarea_buffered = await this.StoreShapesAPI.saveShape(buffered);
         const saved_zonalstatsjson = await this.StoreShapesAPI.saveShape(zonal);
         count += 1;

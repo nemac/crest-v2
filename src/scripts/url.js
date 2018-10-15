@@ -234,8 +234,8 @@ export class URL {
   // it
   setShareStateFromURL() {
     const addState = this.addShareIgnoreKeys();
-    console.log('setShareStateFromURL', addState)
     if (addState) {
+      console.log('setShareStateFromURL addState', addState)
       this.url.setStateAsString(addState);
     }
   }
