@@ -436,6 +436,9 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('savedshapes');
     console.log('currentshapes', currentshapes);
 
+    let newshapes = {};
+    let count = 0;
+
     const checkobj = {}.hasOwnProperty;
     // using for loop because it allows await functionality with
     // async calls to zonal stats api.  this will ensure we wait for the promise to
@@ -448,7 +451,7 @@ export class Explore extends Component {
         const userarea_saved = currentshapes[key][1].savedshape_userarea;
         const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
         const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
-        // console.log(userarea_saved, buffered_saved, zonal_saved)
+        console.log(userarea_saved, buffered_saved, zonal_saved)
 
         let usershape = {};
         let bufferedshape = {};
@@ -466,9 +469,24 @@ export class Explore extends Component {
         console.log(usershape, bufferedshape, zonalshape)
         console.log('------')
 
-        // }
+        count += 1;
+
+        const newshape = {
+          [`userarea${count}`]: [
+            { name: name_saved },
+            { userarea: usershape },
+            { userarea_buffered: bufferedshape },
+            { zonalstatsjson: zonalshape }
+          ]
+        };
+
+        const userareas = store.getStateItem('userareas');
+        newshapes = { ...userareas, ...newshape, };
+        store.setStoreItem('userareas',newshapes);
       }
     }
+    this.drawUserAreaFromUsereas();
+    console.log(newshapes)
     store.setStoreItem('working_s3reteive', false);
     spinnerOff();
     return null;
@@ -477,11 +495,14 @@ export class Explore extends Component {
   drawUserAreaFromUsereas() {
     // const userarea = store.getStateItem('userarea');
     const currentshapes = store.getStateItem('userareas');
+    console.log('drawUserAreaFromUsereas', currentshapes);
     Object.keys(currentshapes).forEach((key) => {
       const name = currentshapes[key][0].name;
       const userarea = currentshapes[key][1].userarea;
       const buffered = currentshapes[key][2].userarea_buffered;
       const zonal = currentshapes[key][3].zonalstatsjson;
+
+      console.log('drawUserAreaFromUsereas userarea', userarea);
 
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer

@@ -183,7 +183,6 @@ export class ShareUrl extends Component {
         const saved_userarea = await this.StoreShapesAPI.saveShape(JSON.stringifyuserarea);
         const saved_userarea_buffered = await this.StoreShapesAPI.saveShape(buffered);
         const saved_zonalstatsjson = await this.StoreShapesAPI.saveShape(zonal);
-
         count += 1;
         const percentcomplete = ((count/totalshapes) * 100).toFixed(0);
         this.shareurl = `Working to generating Share URL ${percentcomplete} percent complete.`;
