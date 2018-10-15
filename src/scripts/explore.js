@@ -45,10 +45,11 @@ export class Explore extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, exploreTemplate);
 
-    const { mapComponent, mapInfoComponent, URLCls } = props;
+    const { mapComponent, mapInfoComponent, URLCls, hashareurl } = props;
     this.mapComponent = mapComponent;
     this.URL = URLCls;
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
+    this.hashareurl = hashareurl;
 
     // defualt buffer style
     this.bufferedoptions = {
@@ -365,12 +366,16 @@ export class Explore extends Component {
   }
 
   restoreSavedGeoJson() {
-    const projectfile = store.getStateItem('projectfile');
-    if (checkValidObject(projectfile)) {
-      // now that we have a user area and buffer remove the projectfile
-      // it's no longer needed.
-      this.removeExistingArea();
-      this.retreiveS3GeojsonFile(projectfile);
+    // if their is a query string paramter for shareurl=trye restore the shapes.
+    if (this.hashareurl === 'true') {
+      // const projectfile = store.getStateItem('projectfile');
+      // if (checkValidObject(projectfile)) {
+        // now that we have a user area and buffer remove the projectfile
+        // it's no longer needed.
+        // this.removeExistingArea();
+        this.getShapesFromS3();
+        // this.retreiveS3GeojsonFile(projectfile);
+      // }
     }
   }
 
@@ -419,12 +424,17 @@ export class Explore extends Component {
   // }
 
   async getShapesFromS3() {
+
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const myParam = urlParams.get('shareurl')
+    // console.log('restoreShapesFromS3', myParam)
+
     // const userarea = store.getStateItem('userarea');
     store.setStoreItem('working_s3reteive', true);
     spinnerOn();
 
     const currentshapes = store.getStateItem('savedshapes');
-    // console.log(currentshapes);
+    console.log('currentshapes', currentshapes);
 
     const checkobj = {}.hasOwnProperty;
     // using for loop because it allows await functionality with

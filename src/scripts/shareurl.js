@@ -23,9 +23,10 @@ export class ShareUrl extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, shareurlTemplate);
 
-    const { mapComponent, URLCls } = props;
+    const { mapComponent, URLCls, hashareurl } = props;
     this.mapComponent = mapComponent;
     this.URL = URLCls;
+    this.hashareurl = hashareurl;
 
     this.map = mapComponent.map;
     this.mapComponent = mapComponent;
@@ -36,6 +37,7 @@ export class ShareUrl extends Component {
     // initalize s3 stored shapes API
     this.StoreShapesAPI = new StoreShapesAPI();
 
+    this.restoreShapesFromS3();
   }
 
   // add Identify control to leaflet map
@@ -70,28 +72,12 @@ export class ShareUrl extends Component {
 
   static copyToClipboard(e) {
     e.stopPropagation();
-    // const textArea = document.getElementById('shareurltextarea');
-    // if (textArea) {
-    //   document.body.removeChild(textArea);
-    // }
-    //
-    // const el = document.createElement('textarea');
-    // el.setAttribute('id', 'shareurltextarea');
-    // el.value = str;
-    // el.setAttribute('readonly', '');
-    // el.style.position = 'absolute';
-    // el.style.left = '-9999px';
-    // document.body.appendChild(el);
-    //
-    // const execCopy = e => {
       const textArea = document.getElementById('shareurltextarea');
-      console.log('copyToClipboard', textArea.value)
       if (textArea) {
         textArea.focus();
         textArea.select();
         const successful = document.execCommand('copy');
         const msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Copying text command was ' + msg);
       }
   };
 
@@ -99,18 +85,32 @@ export class ShareUrl extends Component {
   // fires when the control (button) is added
   static mapShareURLMakerOnAddHandler() {
     // setup custom style for share url indentify control (button)
-    const fa = L.DomUtil.create('div', 'btn-mapshareurl-holder');
-    fa.setAttribute('id', 'btn-mapshareurl-holder');
-    fa.innerHTML = '<a class="btn btn-light btn-mapshareurl" href="#" title="Share URL" ' +
+    const origsharebtn = document.getElementById('btn-mapshareurl-holder');
+    if (origsharebtn) {
+      origsharebtn.outerHTML = "";
+    }
+
+    const sharebtn = L.DomUtil.create('div', 'btn-mapshareurl-holder');
+    sharebtn.setAttribute('id', 'btn-mapshareurl-holder');
+    sharebtn.innerHTML = '<a class="btn btn-light btn-mapshareurl" href="#" title="Share URL" ' +
                     'role="button" aria-label="Share URL"> ' +
                     '<i class="fas fa-share-alt i-shareurl"></i></a>';
-    L.DomEvent.disableClickPropagation(fa);
-    return fa;
+    L.DomEvent.disableClickPropagation(sharebtn);
+    return sharebtn;
   }
 
   // creates custom icon and adds css class for styling
   static createMapShareURLIcon() {
     return L.divIcon({ className: 'map-shareurl-point' });
+  }
+
+  // restore users shapes from s3 when there is a share UTL
+  restoreShapesFromS3 () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('shareurl')
+    console.log('restoreShapesFromS3', myParam)
+    // =true
+
   }
 
   // save shapes to s3 so we can share user added shapes
@@ -134,6 +134,8 @@ export class ShareUrl extends Component {
     const wrapper = document.createElement('div');
     wrapper.setAttribute('id', 'shareurl-holder');
 
+    wrapper.innerHTML = "";
+
     const el = document.createElement('input');
     el.setAttribute('id', 'shareurltextarea');
     el.setAttribute('aria-label', 'share url');
@@ -143,20 +145,23 @@ export class ShareUrl extends Component {
     wrapper.insertBefore(el, wrapper.firstChild);
 
     const button = document.createElement('button');
-    button.setAttribute('id', 'btn-icon');
-    button.setAttribute('aria-label', 'copy share url');
-    button.setAttribute('title', 'copy share url');
-    button.classList.add('btn-copy-share');
-    button.innerHTML = '<i class="fas fa-copy"></i>';
-    wrapper.insertBefore(button, wrapper.firstChild);
-    shareurlboxholder.insertBefore(wrapper , shareurlboxholder.nextElementSibling);
+    const checksharurl = document.querySelector('#shareurl-holder');
 
-    // el.style.position = 'relative';
-    // // el.style.left = '10px';
-    // // el.style.top = '50px';
-    // el.style.zIndex = '999999999';
+    // only add once
+    if (!checksharurl) {
+      if (!checkValidObject(checksharurl)) {
+        button.setAttribute('id', 'btn-icon');
+        button.setAttribute('aria-label', 'copy share url');
+        button.setAttribute('title', 'copy share url');
+        button.classList.add('btn-copy-share');
+        button.classList.add('disabled');
+        button.innerHTML = '<i class="fas fa-copy"></i>';
+        wrapper.insertBefore(button, wrapper.firstChild);
+        shareurlboxholder.insertBefore(wrapper , shareurlboxholder.nextElementSibling);
+      }
+    }
+
     document.body.appendChild(el);
-    console.log('el.value', el.value)
 
     let count = 0;
     const percentcomplete = 0;
@@ -184,7 +189,6 @@ export class ShareUrl extends Component {
         this.shareurl = `Working to generating Share URL ${percentcomplete} percent complete.`;
         el.value = this.shareurl;
 
-        console.log(this.shareurl)
         const newshape = {
           [`savedshape${count}`]: [
             { name },
@@ -202,11 +206,10 @@ export class ShareUrl extends Component {
     }
 
     this.shareurl = this.URL.getShareUrl();
-    console.log(this.shareurl)
     el.value = this.shareurl;
     el.addEventListener('click', ShareUrl.copyToClipboard);
     button.addEventListener('click', ShareUrl.copyToClipboard);
-
+    button.classList.remove('disabled');
     store.setStoreItem('working_s3save', false);
     spinnerOff();
     return this.shareurl;

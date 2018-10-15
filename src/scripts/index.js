@@ -29,6 +29,9 @@ import { restoreGraphState } from './zonalStats';
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
 
+const urlParams = new URLSearchParams(window.location.search);
+const hashareurl = urlParams.get('shareurl')
+
 const URLCls = new URL();
 
 library.add(fas, far);
@@ -101,8 +104,8 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     setworkingstates();
-    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent });
-    searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent });
+    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent, hashareurl });
+    searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent, hashareurl });
     shareurl = new ShareUrl('', { mapComponent, URLCls });
   }
 
