@@ -110,7 +110,7 @@ export class Explore extends Component {
     const testbtn = document.getElementById('btn-test')
     if (testbtn) {
       testbtn.addEventListener('click',(e) => {
-        this.getShapesFromS3();
+        // this.getShapesFromS3();
       })
     }
 
@@ -366,12 +366,15 @@ export class Explore extends Component {
   }
 
   restoreSavedGeoJson() {
-    // restore users shapes from s3 when there is a share UTL
-    const userareas = store.getStateItem('savedshapes');
-    console.log('restoreShapesFromS3', userareas)
-    this.getShapesFromS3();
+
     // if their is a query string paramter for shareurl=trye restore the shapes.
     if (this.hashareurl === 'true') {
+
+      // restore users shapes from s3 when there is a share UTL
+      const userareas = store.getStateItem('savedshapes');
+      console.log('restoreShapesFromS3', userareas)
+      this.getShapesFromS3();
+      this.drawUserAreaFromUsereas();
       // const projectfile = store.getStateItem('projectfile');
       // if (checkValidObject(projectfile)) {
         // now that we have a user area and buffer remove the projectfile
@@ -487,11 +490,12 @@ export class Explore extends Component {
         console.log('getShapesFromS3 newshape', newshape)
         const userareas = store.getStateItem('userareas');
         newshapes = { ...userareas, ...newshape };
-        store.setStoreItem('userareas',newshapes);
         console.log('getShapesFromS3 userareas', newshapes)
         // }
       }
     }
+
+    store.setStoreItem('userareas',newshapes);
     store.setStoreItem('working_s3reteive', false);
     spinnerOff();
     return null;

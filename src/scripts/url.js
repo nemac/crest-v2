@@ -26,8 +26,7 @@ const SHARE_URL_IGNORE_KEYS = [
   'working_s3reteive',
   'working_search',
   'working_s3save',
-  'userareas',
-  'userareacount'
+  'userareas'
 ];
 
 /**
@@ -38,16 +37,16 @@ export class URL {
   constructor() {
     const urlParams = new URLSearchParams(window.location.search);
     this.hashareurl = urlParams.get('shareurl')
-    console.log('this.hashareurl URL.js', this.hashareurl)
+    // console.log('this.hashareurl URL.js', this.hashareurl)
 
     this.url = new StorageAPI();
     const handler = this.setUrl.bind(this);
     StorageAPI.listenForStateChange(handler);
     if (this.hashareurl === 'true') {
-        console.log('this.hashareurl URL.js if true ', this.hashareurl)
+        // console.log('this.hashareurl URL.js if true ', this.hashareurl)
         this.setShareStateFromURL();
     } else {
-      console.log('this.hashareurl URL.js if else', this.hashareurl)
+      // console.log('this.hashareurl URL.js if else', this.hashareurl)
       this.setStateFromURL();
     }
 
@@ -224,7 +223,7 @@ export class URL {
   // it
   setStateFromURL() {
     const addState = this.addIgnoreKeys();
-    console.log('setStateFromURL', addState)
+    // console.log('setStateFromURL', addState)
     if (addState) {
       this.url.setStateAsString(addState);
     }
@@ -233,9 +232,10 @@ export class URL {
   // TODO: Add handler to ensure the state string is valid and that the end user did not tamper with
   // it
   setShareStateFromURL() {
+    // this.url.setStateAsString('');
     const addState = this.addShareIgnoreKeys();
     if (addState) {
-      console.log('setShareStateFromURL addState', addState)
+      // console.log('setShareStateFromURL addState', addState)
       this.url.setStateAsString(addState);
     }
   }
