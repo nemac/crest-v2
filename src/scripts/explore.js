@@ -366,15 +366,18 @@ export class Explore extends Component {
   }
 
   restoreSavedGeoJson() {
-
+    spinnerOn();
+    console.log('working_s3reteive', true)
+    //
     // if their is a query string paramter for shareurl=trye restore the shapes.
     if (this.hashareurl === 'true') {
+
 
       // restore users shapes from s3 when there is a share UTL
       const userareas = store.getStateItem('savedshapes');
       console.log('restoreShapesFromS3', userareas)
       this.getShapesFromS3();
-      this.drawUserAreaFromUsereas();
+
       // const projectfile = store.getStateItem('projectfile');
       // if (checkValidObject(projectfile)) {
         // now that we have a user area and buffer remove the projectfile
@@ -384,6 +387,9 @@ export class Explore extends Component {
         // this.retreiveS3GeojsonFile(projectfile);
       // }
     }
+
+    console.log('working_s3reteive', false)
+    spinnerOff();
   }
 
   drawSavedGeoJson(geojson) {
@@ -443,9 +449,12 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('savedshapes');
     // console.log(currentshapes);
 
+    // remove old shapes so they are not duplicated.  also want to make sure make
+    // sure we are replicating the shared map.
+    this.removeExistingArea();
+
     let newshapes = {};
     let count = 0;
-
     const checkobj = {}.hasOwnProperty;
     // using for loop because it allows await functionality with
     // async calls to zonal stats api.  this will ensure we wait for the promise to
@@ -490,6 +499,7 @@ export class Explore extends Component {
         console.log('getShapesFromS3 newshape', newshape)
         const userareas = store.getStateItem('userareas');
         newshapes = { ...userareas, ...newshape };
+        store.setStoreItem('userareas', newshapes);
         console.log('getShapesFromS3 userareas', newshapes)
         // }
       }
@@ -497,6 +507,7 @@ export class Explore extends Component {
 
     store.setStoreItem('userareas',newshapes);
     store.setStoreItem('working_s3reteive', false);
+    this.drawUserAreaFromUsereas();
     spinnerOff();
     return null;
   }
