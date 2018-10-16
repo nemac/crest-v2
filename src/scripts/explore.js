@@ -618,7 +618,7 @@ export class Explore extends Component {
   }
 
   // clear zonalstats
-  clearDetails() {
+  static clearDetails() {
     // this temp remove of stats while we work on multiple shapes.
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
@@ -629,7 +629,7 @@ export class Explore extends Component {
   // clear Details
   clearLayersAndDetails() {
     this.drawAreaGroup.clearLayers();
-    this.clearDetails();
+    Explore.clearDetails();
   }
 
   // remove the existing area
@@ -657,7 +657,7 @@ export class Explore extends Component {
       this.removeExistingArea();
 
       // this temp remove of stats while we work on multiple shapes.
-      this.clearDetails();
+      Explore.clearDetails();
     });
   }
 
@@ -833,27 +833,27 @@ export class Explore extends Component {
   }
 
   // saves shape to s3 and creates object in state.
-  async saveUserShapesToS3 () {
+  async saveUserShapesToS3() {
     const currentSavedShapes = store.getStateItem('savedshapes');
 
     // get the current users shapes
-    const userarea = store.getStateItem('userarea')
-    const buffered = store.getStateItem('userarea_buffered')
-    const zonal = store.getStateItem('zonalstatsjson')
+    const userarea = store.getStateItem('userarea');
+    const buffered = store.getStateItem('userarea_buffered');
+    const zonal = store.getStateItem('zonalstatsjson');
     const shapecount = store.getStateItem('userareacount');
 
-    const saved_userarea = await this.StoreShapesAPI.saveShape(userarea);
-    const saved_userarea_buffered = await this.StoreShapesAPI.saveShape(buffered);
-    const saved_zonalstatsjson = await this.StoreShapesAPI.saveShape(zonal);
+    const savedUserarea = await this.StoreShapesAPI.saveShape(userarea);
+    const savedUserareaBuffered = await this.StoreShapesAPI.saveShape(buffered);
+    const savedZonalStatsJSON = await this.StoreShapesAPI.saveShape(zonal);
 
     const name = `${this.defaultAreaName}${shapecount}`;
 
     const newSavedShape = {
       [`savedshape${shapecount}`]: [
         { name },
-        { savedshape_userarea: saved_userarea },
-        { savedshape_userarea_buffered: saved_userarea_buffered },
-        { savedshape_zonalstatsjson: saved_zonalstatsjson }
+        { savedshape_userarea: savedUserarea },
+        { savedshape_userarea_buffered: savedUserareaBuffered },
+        { savedshape_zonalstatsjson: savedZonalStatsJSON }
       ]
     };
 
