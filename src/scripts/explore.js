@@ -28,8 +28,7 @@ import {
   togglePermHighLightsAllOff,
   makeHTMLName,
   isGraphActivetate,
-  viewLongZonalStatsFromShape,
-  restoreGraphState
+  viewLongZonalStatsFromShape
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -46,7 +45,13 @@ export class Explore extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, exploreTemplate);
 
-    const { mapComponent, mapInfoComponent, URLCls, hasShareURL } = props;
+    const {
+      mapComponent,
+      mapInfoComponent,
+      URLCls,
+      hasShareURL
+    } = props;
+
     this.mapComponent = mapComponent;
     this.URL = URLCls;
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
@@ -319,7 +324,7 @@ export class Explore extends Component {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = this.storeShapes();
-    const savename = this.saveUserShapesToS3();
+    this.saveUserShapesToS3();
 
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
@@ -361,17 +366,18 @@ export class Explore extends Component {
 
   // get geojson from s3
   restoreSavedGeoJson() {
-    store.setStoreItem('working_s3reteive', true)
+    store.setStoreItem('working_s3retreive', true);
     spinnerOn();
     // if their is a query string paramter for shareurl=trye restore the shapes.
     if (this.hasShareURL === 'true') {
       // restore users shapes from s3 when there is a share UTL
-      const userareas = store.getStateItem('savedshapes');
+      // const userareas = store.getStateItem('savedshapes');
       this.getShapesFromS3();
     }
 
-    store.setStoreItem('working_s3reteive', false)
+    store.setStoreItem('working_s3retreive', false);
     spinnerOff();
+
     setTimeout(() => {
       spinnerOff('');
     }, 10);
@@ -423,8 +429,9 @@ export class Explore extends Component {
   // we are using a lambda function/api to store the the files on s3 this will retreive this.
   //  the only thing in the url is the s3 bucket and file name
   async getShapesFromS3() {
-    // // start the working function so we have spinner active - informs users the website is doing something
-    // store.setStoreItem('working_s3reteive', true);
+    // start the working function so we have spinner active - informs
+    // users the website is doing something
+    // store.setStoreItem('working_s3retreive', true);
     // spinnerOn();
 
     // get the saved shapes state item - holds the s3 bucket and file name
@@ -445,27 +452,28 @@ export class Explore extends Component {
     // to deal with all the prototpe entries
     for (const key in currentshapes) {
       if (checkobj.call(currentshapes, key)) {
-        const name_saved = currentshapes[key][0].name;
+        const nameSaved = currentshapes[key][0].name;
 
         // get bucket and file names for the user area, buffered user area, and zonal stats
-        const userarea_saved = currentshapes[key][1].savedshape_userarea;
-        const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
-        const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
+        const userareaSaved = currentshapes[key][1].savedshape_userarea;
+        const bufferedSaved = currentshapes[key][2].savedshape_userarea_buffered;
+        const zonalSaved = currentshapes[key][3].savedshape_zonalstatsjson;
 
         let usershape = {};
         let bufferedshape = {};
         let zonalshape = {};
 
-        // make sure each area is actuall object then retreive the actual geospatial data from s3. no api required.
+        // make sure each area is actuall object then retreive
+        // the actual geospatial data from s3. no api required.
         // just a http get of data
-        if (checkValidObject(userarea_saved)) {
-          usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userarea_saved.bucket, userarea_saved.key);
+        if (checkValidObject(userareaSaved)) {
+          usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userareaSaved.bucket, userareaSaved.key);
         }
-        if (checkValidObject(buffered_saved)) {
-          bufferedshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(buffered_saved.bucket, buffered_saved.key);
+        if (checkValidObject(bufferedSaved)) {
+          bufferedshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(bufferedSaved.bucket, bufferedSaved.key);
         }
-        if (checkValidObject(zonal_saved)) {
-          zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonal_saved.bucket, zonal_saved.key);
+        if (checkValidObject(zonalSaved)) {
+          zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonalSaved.bucket, zonalSaved.key);
         }
 
         // counter for naming JSON object
@@ -476,7 +484,7 @@ export class Explore extends Component {
         // for the dashboard
         const newshape = {
           [`userarea${count}`]: [
-            { 'name': name_saved },
+            { 'name': nameSaved },
             { 'userarea': usershape },
             { 'userarea_buffered': bufferedshape },
             { 'zonalstatsjson': zonalshape }
@@ -496,7 +504,7 @@ export class Explore extends Component {
     //  set the state items and turn of the site is working
     store.setStoreItem('userareas', newshapes);
     this.drawUserAreaFromUsereas();
-    // store.setStoreItem('working_s3reteive', false);
+    // store.setStoreItem('working_s3retreive', false);
     // spinnerOff();
 
     return null;

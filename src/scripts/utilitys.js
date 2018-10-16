@@ -77,11 +77,11 @@ export function checkworking() {
   const workingSearch = store.getStateItem('working_search');
   if (workingSearch) { return true; }
 
-  const working_s3reteive = store.getStateItem('working_s3reteive');
-  if (working_s3reteive) { return true; }
+  const workingS3Retreive = store.getStateItem('working_s3retreive');
+  if (workingS3Retreive) { return true; }
 
-  const working_s3save = store.getStateItem('working_s3save');
-  if (working_s3save) { return true; }
+  const workingS3Save = store.getStateItem('working_s3save');
+  if (workingS3Save) { return true; }
 
   return false;
 }

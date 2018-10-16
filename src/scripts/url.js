@@ -36,7 +36,7 @@ const SHARE_URL_IGNORE_KEYS = [
 export class URL {
   constructor() {
     const urlParams = new URLSearchParams(window.location.search);
-    this.hasShareURL = urlParams.get('shareurl')
+    this.hasShareURL = urlParams.get('shareurl');
 
     this.url = new StorageAPI();
     const handler = this.setUrl.bind(this);
@@ -46,11 +46,10 @@ export class URL {
     // rebuild a URL with the saveshapes state object. otherwise ignore
     // this state item
     if (this.hasShareURL === 'true') {
-        this.setShareStateFromURL();
+      this.setShareStateFromURL();
     } else {
       this.setStateFromURL();
     }
-
   }
 
   static updateURL(url) {

@@ -8,12 +8,6 @@ import { Store } from './store';
 import shareurlTemplate from '../templates/shareurl.html';
 import { StoreShapesAPI } from './StoreShapesAPI';
 
-import {
-  checkValidObject,
-  spinnerOff,
-  spinnerOn,
-} from './utilitys';
-
 const store = new Store({});
 
 /**
@@ -33,7 +27,7 @@ export class ShareUrl extends Component {
 
     this.map = mapComponent.map;
     this.mapComponent = mapComponent;
-    this.shareurl = ''
+    this.shareurl = '';
 
     this.shareurlTemplate = shareurlTemplate;
 
@@ -70,7 +64,7 @@ export class ShareUrl extends Component {
 
   // map shareurl click handler
   mapShareURLClickHandler(ev) {
-    const sharebutton = document.querySelector('.btn-copy-share')
+    const sharebutton = document.querySelector('.btn-copy-share');
 
     if (sharebutton) {
       const shareurl = document.getElementById('shareurl-holder');
@@ -86,23 +80,22 @@ export class ShareUrl extends Component {
 
   static copyToClipboard(e) {
     e.stopPropagation();
-      const textArea = document.getElementById('shareurltextarea');
-      if (textArea) {
-        textArea.focus();
-        textArea.select();
-        const successful = document.execCommand('copy');
-        const msg = successful ? 'successful' : 'unsuccessful';
-      }
-  };
+    const textArea = document.getElementById('shareurltextarea');
+    if (textArea) {
+      textArea.focus();
+      textArea.select();
+      // const successful = document.execCommand('copy');
+      // const msg = successful ? 'successful' : 'unsuccessful';
+    }
+  }
 
   // share url (identify) control (button) on add function.
   // fires when the control (button) is added
   static mapShareURLMakerOnAddHandler() {
-
     // setup custom style for share url indentify control (button)
     const origsharebtn = document.getElementById('btn-mapshareurl-holder');
     if (origsharebtn) {
-      origsharebtn.outerHTML = "";
+      origsharebtn.outerHTML = '';
     }
 
     const sharebtn = L.DomUtil.create('div', 'btn-mapshareurl-holder');
@@ -121,20 +114,20 @@ export class ShareUrl extends Component {
   }
 
 
-  static createShareURLWrapper () {
+  static createShareURLWrapper() {
     const wrapper = document.createElement('div');
     wrapper.setAttribute('id', 'shareurl-holder');
-    wrapper.innerHTML = "";
-    return wrapper
+    wrapper.innerHTML = '';
+    return wrapper;
   }
 
-  buildShareURLBox () {
+  buildShareURLBox() {
     const shareBox = new DOMParser();
     const docShareBox = shareBox.parseFromString(this.shareurlTemplate, 'text/html');
     const elemShareBox = docShareBox.getElementById('shareurl-holder');
     const innerHTMLShareBox = elemShareBox.innerHTML;
 
-    const newdiv = document.createElement("div");
+    const newdiv = document.createElement('div');
     newdiv.setAttribute('id', 'shareurl-holder');
     newdiv.innerHTML = innerHTMLShareBox;
     const checkShareBox = document.getElementById('shareurl-holder');
@@ -143,23 +136,23 @@ export class ShareUrl extends Component {
     if (!checkShareBox) {
       document.body.appendChild(newdiv);
     }
-    return newdiv
+    return newdiv;
   }
 
-  addShareURLListners () {
+  addShareURLListners() {
     const createShareURLCopyButton = document.querySelector('.btn-copy-share');
     const shareUrlBox = document.getElementById('shareurltextarea');
 
     shareUrlBox.addEventListener('click', ShareUrl.copyToClipboard);
     shareUrlBox.addEventListener('click', (e) => {
-      const shareUrlBox = document.getElementById('shareurltextarea');
-      shareUrlBox.value = this.URL.getShareUrl();
+      const shareurl = document.getElementById('shareurltextarea');
+      shareurl.value = this.URL.getShareUrl();
     });
 
     createShareURLCopyButton.addEventListener('click', ShareUrl.copyToClipboard);
     createShareURLCopyButton.addEventListener('click', (e) => {
       const shareurl = document.getElementById('shareurltextarea');
-      shareUrlBox.value = this.URL.getShareUrl();
+      shareurl.value = this.URL.getShareUrl();
     });
 
     const collapse = document.querySelector('.btn-close-share');
@@ -171,7 +164,7 @@ export class ShareUrl extends Component {
 
   // save shapes to s3 so we can share user added shapes from a URL
   // async saveShapesToS3 () {
-  makeSharedURL () {
+  makeSharedURL() {
     this.buildShareURLBox();
     this.shareurl = this.URL.getShareUrl();
     const shareUrlBox = document.getElementById('shareurltextarea');
@@ -180,5 +173,4 @@ export class ShareUrl extends Component {
     this.addShareURLListners();
     return this.shareurl;
   }
-
 }

@@ -4,8 +4,8 @@ import { checkValidObject } from './utilitys';
 
 const apiEndpoint = 'https://s3.amazonaws.com/nfwf-tool-user-shapes/08-2018-projects/';
 const testGeojsonFile = 'projected_4326_62155.geojson';
-const apiEndpointSave = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/Prod/upload_shape'
-const savedShapeEndpoint = 'https://s3.amazonaws.com/nfwf-tool-user-shapes/Prod/';
+const apiEndpointSave = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/Prod/upload_shape';
+// const savedShapeEndpoint = 'https://s3.amazonaws.com/nfwf-tool-user-shapes/Prod/';
 
 /** API Wrapper Service Class
 * this wrapps the call to a s3 bucket for save geojson into local storage
@@ -52,6 +52,7 @@ export class StoreShapesAPI {
       return {};
     }
   }
+
   // get geojson from s3 bucket
   getSavedGeoJSON(GeojsonFile = testGeojsonFile) {
     return this.httpGet(GeojsonFile);
