@@ -1,3 +1,6 @@
+// todo:
+// need add saved shapes state item.
+
 // dependencies
 import L from 'leaflet';
 import { Component } from './components';
@@ -121,7 +124,12 @@ export class ShareUrl extends Component {
     const newdiv = document.createElement("div");
     newdiv.setAttribute('id', 'shareurl-holder');
     newdiv.innerHTML = innerHTMLShareBox;
-    document.body.appendChild(newdiv);
+    const checkShareBox = document.getElementById('shareurl-holder');
+
+    // make sure the share box dose not already exist
+    if (!checkShareBox) {
+      document.body.appendChild(newdiv);
+    }
     return newdiv
   }
 

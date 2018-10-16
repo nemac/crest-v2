@@ -89,7 +89,9 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
     // draw the user area on the map
-    this.drawUserAreaFromUsereas();
+    if (!this.hasShareURL) {
+      this.drawUserAreaFromUsereas();
+    }
 
     this.addUploadShapeHandler();
 
@@ -271,6 +273,8 @@ export class Explore extends Component {
 
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
+          // this.hasShareURL
+          console.log('updateZonal drawZonalStatsFromAPI')
           drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
             name,
             this.mapComponent.map);
@@ -320,6 +324,7 @@ export class Explore extends Component {
 
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
+      console.log('getZonal drawZonalStatsFromAPI')
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
         name,
         this.mapComponent.map);
@@ -553,6 +558,7 @@ export class Explore extends Component {
         this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
+          console.log('drawUserAreaFromUsereas drawZonalStatsFromAPI')
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
         }
 
