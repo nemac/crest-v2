@@ -30,7 +30,7 @@ import { restoreGraphState } from './zonalStats';
 const navBarComponent = new NavBar('nav-holder');
 
 const urlParams = new URLSearchParams(window.location.search);
-const hashareurl = urlParams.get('shareurl')
+const hasShareURL = urlParams.get('shareurl')
 
 const URLCls = new URL();
 
@@ -104,8 +104,8 @@ function initMapComponent() {
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
     mapInfoComponent = new MapInfo('', { mapComponent });
     setworkingstates();
-    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent, hashareurl });
-    searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent, hashareurl });
+    exploreComponent = new Explore('explore-holder', { mapComponent, mapInfoComponent, hasShareURL });
+    searchLocationsComponent = new SearchLocations('', { mapComponent, mapInfoComponent, exploreComponent, hasShareURL });
     shareurl = new ShareUrl('', { mapComponent, URLCls });
   }
 

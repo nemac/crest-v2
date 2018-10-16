@@ -36,17 +36,18 @@ const SHARE_URL_IGNORE_KEYS = [
 export class URL {
   constructor() {
     const urlParams = new URLSearchParams(window.location.search);
-    this.hashareurl = urlParams.get('shareurl')
-    // console.log('this.hashareurl URL.js', this.hashareurl)
+    this.hasShareURL = urlParams.get('shareurl')
 
     this.url = new StorageAPI();
     const handler = this.setUrl.bind(this);
     StorageAPI.listenForStateChange(handler);
-    if (this.hashareurl === 'true') {
-        // console.log('this.hashareurl URL.js if true ', this.hashareurl)
+
+    // if there was has shareurl=true in the query string
+    // rebuild a URL with the saveshapes state object. otherwise ignore
+    // this state item
+    if (this.hasShareURL === 'true') {
         this.setShareStateFromURL();
     } else {
-      // console.log('this.hashareurl URL.js if else', this.hashareurl)
       this.setStateFromURL();
     }
 
@@ -220,22 +221,19 @@ export class URL {
   }
 
   // TODO: Add handler to ensure the state string is valid and that the end user did not tamper with
-  // it
+  // it.  this is for normal state url
   setStateFromURL() {
     const addState = this.addIgnoreKeys();
-    // console.log('setStateFromURL', addState)
     if (addState) {
       this.url.setStateAsString(addState);
     }
   }
 
   // TODO: Add handler to ensure the state string is valid and that the end user did not tamper with
-  // it
+  // it this is for the share url URL
   setShareStateFromURL() {
-    // this.url.setStateAsString('');
     const addState = this.addShareIgnoreKeys();
     if (addState) {
-      // console.log('setShareStateFromURL addState', addState)
       this.url.setStateAsString(addState);
     }
   }

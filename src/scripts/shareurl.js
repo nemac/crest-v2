@@ -23,10 +23,10 @@ export class ShareUrl extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, shareurlTemplate);
 
-    const { mapComponent, URLCls, hashareurl } = props;
+    const { mapComponent, URLCls, hasShareURL } = props;
     this.mapComponent = mapComponent;
     this.URL = URLCls;
-    this.hashareurl = hashareurl;
+    this.hasShareURL = hasShareURL;
 
     this.map = mapComponent.map;
     this.mapComponent = mapComponent;
@@ -36,8 +36,6 @@ export class ShareUrl extends Component {
 
     // initalize s3 stored shapes API
     this.StoreShapesAPI = new StoreShapesAPI();
-
-    this.restoreShapesFromS3();
   }
 
   // add Identify control to leaflet map
@@ -104,28 +102,30 @@ export class ShareUrl extends Component {
     return L.divIcon({ className: 'map-shareurl-point' });
   }
 
-  // restore users shapes from s3 when there is a share UTL
-  restoreShapesFromS3 () {
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const myParam = urlParams.get('shareurl')
-    // console.log('restoreShapesFromS3', myParam)
-    // // =true
-    // const userareas = store.getStateItem('savedshapes');
-    // console.log('restoreShapesFromS3', userareas)
-    // this.mapComponent.getShapesFromS3();
+  createURLTextBox () {
+
   }
 
-  // save shapes to s3 so we can share user added shapes
+  createShareURLCopyButton () {
+
+  }
+
+  createShareURLWrapper () {
+
+  }
+
+  // save shapes to s3 so we can share user added shapes from a URL
   async saveShapesToS3 () {
-    // spinnerOn();
-    // store.setStoreItem('working_s3save', true);
-    // const savedshapes = store.getStateItem('savedshapes');
-    // const userareas = await this.StoreShapesAPI.saveShape(store.getStateItem('userareas'));
+    store.setStoreItem('working_s3save', true);
+    spinnerOn();
+
+    // get user all users so we can iterate and save the shapes to s3
     this.shareurl = '';
     const userareas = store.getStateItem('userareas');
     let newshapes = {};
     const totalshapes =  Object.keys(userareas).length;
 
+    // construct the share url boxes.
     const shareurlbox = document.getElementById('shareurltextarea');
     if (shareurlbox) {
       document.body.removeChild(shareurlbox);
@@ -138,6 +138,7 @@ export class ShareUrl extends Component {
 
     wrapper.innerHTML = "";
 
+    // create share url input holds the actual url
     const el = document.createElement('input');
     el.setAttribute('id', 'shareurltextarea');
     el.setAttribute('aria-label', 'share url');
@@ -146,10 +147,11 @@ export class ShareUrl extends Component {
     el.setAttribute('readonly', '');
     wrapper.insertBefore(el, wrapper.firstChild);
 
+    // create the copy button
     const button = document.createElement('button');
     const checksharurl = document.querySelector('#shareurl-holder');
 
-    // only add once
+    // only add once otherwise the copy button will be added each time we click it
     if (!checksharurl) {
       if (!checkValidObject(checksharurl)) {
         button.setAttribute('id', 'btn-icon');
@@ -190,6 +192,7 @@ export class ShareUrl extends Component {
         this.shareurl = `Working to generating Share URL ${percentcomplete} percent complete.`;
         el.value = this.shareurl;
 
+        // create new state object with s3 bucket name and file name for the user addded shapes
         const newshape = {
           [`savedshape${count}`]: [
             { name },
@@ -199,6 +202,7 @@ export class ShareUrl extends Component {
           ]
         };
 
+        // update the state item
         const savedshapes = store.getStateItem('savedshapes');
         const newshapes = { ...savedshapes, ...newshape, };
         store.setStoreItem('savedshapes', newshapes);
@@ -206,11 +210,16 @@ export class ShareUrl extends Component {
       }
     }
 
+    // update the url for coping
     this.shareurl = this.URL.getShareUrl();
     el.value = this.shareurl;
+
+    // add event listeners for coping the url
     el.addEventListener('click', ShareUrl.copyToClipboard);
     button.addEventListener('click', ShareUrl.copyToClipboard);
     button.classList.remove('disabled');
+
+    // turn the working state off
     store.setStoreItem('working_s3save', false);
     spinnerOff();
     return this.shareurl;

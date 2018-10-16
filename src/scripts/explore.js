@@ -45,11 +45,11 @@ export class Explore extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, exploreTemplate);
 
-    const { mapComponent, mapInfoComponent, URLCls, hashareurl } = props;
+    const { mapComponent, mapInfoComponent, URLCls, hasShareURL } = props;
     this.mapComponent = mapComponent;
     this.URL = URLCls;
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
-    this.hashareurl = hashareurl;
+    this.hasShareURL = hasShareURL;
 
     // defualt buffer style
     this.bufferedoptions = {
@@ -105,16 +105,6 @@ export class Explore extends Component {
       this.clearLayersAndDetails();
       this.drawUserAreaFromUsereas();
     });
-
-
-    const testbtn = document.getElementById('btn-test')
-    if (testbtn) {
-      testbtn.addEventListener('click',(e) => {
-        // this.getShapesFromS3();
-      })
-    }
-
-
 
     // uncomment this if we want to add the draw area button to leaflet
     // control
@@ -365,33 +355,22 @@ export class Explore extends Component {
     return geojson;
   }
 
+  // get geojson from s3
   restoreSavedGeoJson() {
+    store.setStoreItem('working_s3reteive', true)
     spinnerOn();
-    console.log('working_s3reteive', true)
-    //
     // if their is a query string paramter for shareurl=trye restore the shapes.
-    if (this.hashareurl === 'true') {
-
-
+    if (this.hasShareURL === 'true') {
       // restore users shapes from s3 when there is a share UTL
       const userareas = store.getStateItem('savedshapes');
-      console.log('restoreShapesFromS3', userareas)
       this.getShapesFromS3();
-
-      // const projectfile = store.getStateItem('projectfile');
-      // if (checkValidObject(projectfile)) {
-        // now that we have a user area and buffer remove the projectfile
-        // it's no longer needed.
-        // this.removeExistingArea();
-        // this.getShapesFromS3();
-        // this.retreiveS3GeojsonFile(projectfile);
-      // }
     }
 
-    console.log('working_s3reteive', false)
+    store.setStoreItem('working_s3reteive', false)
     spinnerOff();
   }
 
+  // think this is no longer used...
   drawSavedGeoJson(geojson) {
     if (checkValidObject(geojson)) {
       const layer = L.geoJson(geojson);
@@ -431,23 +410,17 @@ export class Explore extends Component {
     return null;
   }
 
-  // async gshape(bucket, key){
-  //   const test = await this.StoreShapesAPI.httpGetSavedGeoJSON(bucket, key);
-  //   console.log(bucket, key, test);
-  // }
-
+  // get shapes that we saved on s3.  In order to create a share URL - a web URL
+  // we can send to another users we need to be able to pass large geospatial datasets
+  // we are using a lambda function/api to store the the files on s3 this will retreive this.
+  //  the only thing in the url is the s3 bucket and file name
   async getShapesFromS3() {
+    // // start the working function so we have spinner active - informs users the website is doing something
+    // store.setStoreItem('working_s3reteive', true);
+    // spinnerOn();
 
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const myParam = urlParams.get('shareurl')
-    // console.log('restoreShapesFromS3', myParam)
-
-    // const userarea = store.getStateItem('userarea');
-    store.setStoreItem('working_s3reteive', true);
-    spinnerOn();
-
+    // get the saved shapes state item - holds the s3 bucket and file name
     const currentshapes = store.getStateItem('savedshapes');
-    // console.log(currentshapes);
 
     // remove old shapes so they are not duplicated.  also want to make sure make
     // sure we are replicating the shared map.
@@ -456,6 +429,7 @@ export class Explore extends Component {
     let newshapes = {};
     let count = 0;
     const checkobj = {}.hasOwnProperty;
+
     // using for loop because it allows await functionality with
     // async calls to zonal stats api.  this will ensure we wait for the promise to
     // resolve and is added to the store before we progress on. using a check for hasOwnProperty
@@ -463,16 +437,18 @@ export class Explore extends Component {
     for (const key in currentshapes) {
       if (checkobj.call(currentshapes, key)) {
         const name_saved = currentshapes[key][0].name;
-        console.log(name_saved)
+
+        // get bucket and file names for the user area, buffered user area, and zonal stats
         const userarea_saved = currentshapes[key][1].savedshape_userarea;
         const buffered_saved = currentshapes[key][2].savedshape_userarea_buffered;
         const zonal_saved = currentshapes[key][3].savedshape_zonalstatsjson;
-        // console.log(userarea_saved, buffered_saved, zonal_saved)
 
         let usershape = {};
         let bufferedshape = {};
         let zonalshape = {};
 
+        // make sure each area is actuall object then retreive the actual geospatial data from s3. no api required.
+        // just a http get of data
         if (checkValidObject(userarea_saved)) {
           usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userarea_saved.bucket, userarea_saved.key);
         }
@@ -482,11 +458,13 @@ export class Explore extends Component {
         if (checkValidObject(zonal_saved)) {
           zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonal_saved.bucket, zonal_saved.key);
         }
-        console.log(usershape, bufferedshape, zonalshape)
-        console.log('------')
 
+        // counter for naming JSON object
         count += 1;
 
+        // new geospatial data object for inserting into the userareas state item.
+        // this items has the shapes we render on the map and has the zonal statiscs information
+        // for the dashboard
         const newshape = {
           [`userarea${count}`]: [
             { 'name': name_saved },
@@ -496,24 +474,24 @@ export class Explore extends Component {
           ]
         };
 
-        console.log('getShapesFromS3 newshape', newshape)
+        // update the state item with new useras object
         const userareas = store.getStateItem('userareas');
         newshapes = { ...userareas, ...newshape };
         store.setStoreItem('userareas', newshapes);
-        console.log('getShapesFromS3 userareas', newshapes)
-        // }
       }
     }
 
-    store.setStoreItem('userareas',newshapes);
-    store.setStoreItem('working_s3reteive', false);
+    //  set the state items and turn of the site is working
+    store.setStoreItem('userareas', newshapes);
     this.drawUserAreaFromUsereas();
-    spinnerOff();
+    // store.setStoreItem('working_s3reteive', false);
+    // spinnerOff();
     return null;
   }
 
+
+  // renders the shapes from the user areas state object
   drawUserAreaFromUsereas() {
-    // const userarea = store.getStateItem('userarea');
     const currentshapes = store.getStateItem('userareas');
     Object.keys(currentshapes).forEach((key) => {
       const name = currentshapes[key][0].name;
@@ -530,6 +508,7 @@ export class Explore extends Component {
 
         const bufferedLayer = L.geoJson(buffered, this.bufferedoptions);
 
+        // add mouserovers for the shapes.
         bufferedLayer.on({
           mouseover: (e) => {
             if (!isGraphActivetate()) {
