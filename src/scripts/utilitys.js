@@ -62,6 +62,9 @@ export function spinnerOn() {
 // check if one of our ajax calls is working
 // if we add anymore we will need to add it here
 export function checkworking() {
+  const workingDrawlayers = store.getStateItem('working_drawlayers');
+  if (workingDrawlayers) { return true; }
+
   const workingBasemap = store.getStateItem('working_basemap');
   if (workingBasemap) { return true; }
 

@@ -1,5 +1,4 @@
 // todo:
-// collapse shareUrlBox
 // spinner on when restoring not working.
 
 // dependencies

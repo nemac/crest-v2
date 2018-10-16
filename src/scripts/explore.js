@@ -28,7 +28,8 @@ import {
   togglePermHighLightsAllOff,
   makeHTMLName,
   isGraphActivetate,
-  viewLongZonalStatsFromShape
+  viewLongZonalStatsFromShape,
+  restoreGraphState
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -335,7 +336,7 @@ export class Explore extends Component {
     setTimeout(() => {
       this.mapComponent.map.fireEvent('zonalstatsend');
       spinnerOff('getZonal done');
-    }, 10);
+    }, 50);
     return ZonalStatsJson;
   }
 
@@ -371,6 +372,10 @@ export class Explore extends Component {
 
     store.setStoreItem('working_s3reteive', false)
     spinnerOff();
+    setTimeout(() => {
+      spinnerOff('');
+    }, 10);
+
   }
 
   // think this is no longer used...
@@ -419,8 +424,8 @@ export class Explore extends Component {
   //  the only thing in the url is the s3 bucket and file name
   async getShapesFromS3() {
     // // start the working function so we have spinner active - informs users the website is doing something
-    store.setStoreItem('working_s3reteive', true);
-    spinnerOn();
+    // store.setStoreItem('working_s3reteive', true);
+    // spinnerOn();
 
     // get the saved shapes state item - holds the s3 bucket and file name
     const currentshapes = store.getStateItem('savedshapes');
@@ -491,8 +496,9 @@ export class Explore extends Component {
     //  set the state items and turn of the site is working
     store.setStoreItem('userareas', newshapes);
     this.drawUserAreaFromUsereas();
-    store.setStoreItem('working_s3reteive', false);
-    spinnerOff();
+    // store.setStoreItem('working_s3reteive', false);
+    // spinnerOff();
+
     return null;
   }
 
