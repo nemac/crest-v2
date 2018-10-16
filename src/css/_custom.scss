@@ -367,6 +367,22 @@ html, body {
   border-bottom-right-radius: 2px;
 }
 
+.btn-close-share {
+  cursor: pointer;
+  position: relative;
+  top: -170px;
+  left: 412px;
+  z-index: 999999999;
+  height: 50px;
+  width: 40px;
+  font-size: 15px;
+  background-color: $body-color;
+  color: $body-bg;
+  border: 0px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
 .i-shareurl {
   cursor: pointer;
 }

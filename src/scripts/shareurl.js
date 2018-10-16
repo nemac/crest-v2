@@ -1,5 +1,6 @@
 // todo:
-// need add saved shapes state item.
+// collapse shareUrlBox
+// spinner on when restoring not working.
 
 // dependencies
 import L from 'leaflet';
@@ -70,7 +71,18 @@ export class ShareUrl extends Component {
 
   // map shareurl click handler
   mapShareURLClickHandler(ev) {
-    this.makeSharedURL();
+    const sharebutton = document.querySelector('.btn-copy-share')
+
+    if (sharebutton) {
+      const shareurl = document.getElementById('shareurl-holder');
+      if (shareurl.classList.contains('d-none')) {
+        shareurl.classList.remove('d-none');
+      } else {
+        shareurl.classList.add('d-none');
+      }
+    } else {
+      this.makeSharedURL();
+    }
   }
 
   static copyToClipboard(e) {
@@ -87,6 +99,7 @@ export class ShareUrl extends Component {
   // share url (identify) control (button) on add function.
   // fires when the control (button) is added
   static mapShareURLMakerOnAddHandler() {
+
     // setup custom style for share url indentify control (button)
     const origsharebtn = document.getElementById('btn-mapshareurl-holder');
     if (origsharebtn) {
@@ -98,6 +111,7 @@ export class ShareUrl extends Component {
     sharebtn.innerHTML = '<a class="btn btn-light btn-mapshareurl" href="#" title="Share URL" ' +
                     'role="button" aria-label="Share URL"> ' +
                     '<i class="fas fa-share-alt i-shareurl"></i></a>';
+
     L.DomEvent.disableClickPropagation(sharebtn);
     return sharebtn;
   }
@@ -133,12 +147,26 @@ export class ShareUrl extends Component {
     return newdiv
   }
 
-  static addShareURLListners () {
+  addShareURLListners () {
     const createShareURLCopyButton = document.querySelector('.btn-copy-share');
     const shareUrlBox = document.getElementById('shareurltextarea');
 
     shareUrlBox.addEventListener('click', ShareUrl.copyToClipboard);
+    shareUrlBox.addEventListener('click', (e) => {
+      const shareUrlBox = document.getElementById('shareurltextarea');
+      shareUrlBox.value = this.URL.getShareUrl();
+    });
+
     createShareURLCopyButton.addEventListener('click', ShareUrl.copyToClipboard);
+    createShareURLCopyButton.addEventListener('click', (e) => {
+      const shareurl = document.getElementById('shareurltextarea');
+      shareUrlBox.value = this.URL.getShareUrl();
+    });
+
+    const collapse = document.querySelector('.btn-close-share');
+    collapse.addEventListener('click', this.mapShareURLClickHandler.bind(this));
+
+
     createShareURLCopyButton.classList.remove('disabled');
   }
 
@@ -150,7 +178,7 @@ export class ShareUrl extends Component {
     const shareUrlBox = document.getElementById('shareurltextarea');
     shareUrlBox.value = this.shareurl;
 
-    ShareUrl.addShareURLListners();
+    this.addShareURLListners();
     return this.shareurl;
   }
 
