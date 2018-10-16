@@ -344,9 +344,9 @@ html, body {
 #shareurl-holder {
   cursor: pointer;
   position: relative;
-  top: -51px;
+  top: 0px;
   z-index: 999999999;
-  left: 330px;
+  left: 0px;
   height: 50px;
   width: 40px;
 }
@@ -354,9 +354,9 @@ html, body {
 .btn-copy-share {
   cursor: pointer;
   position: relative;
-  top: 0px;
+  top: -120px;
   z-index: 999999999;
-  left: 0px;
+  left: 371px;
   height: 50px;
   width: 40px;
   font-size: 15px;

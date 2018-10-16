@@ -316,6 +316,7 @@ export class Explore extends Component {
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
     const name = this.storeShapes();
+    const savename = this.saveUserShapesToS3();
 
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
@@ -347,7 +348,7 @@ export class Explore extends Component {
       this.removeExistingArea();
       store.setStoreItem('projectfile', projectfile);
       store.setStoreItem('userarea', geojson);
-      this.drawSavedGeoJson(geojson);
+      // this.drawSavedGeoJson(geojson);
     } else {
       // add failed to get file from s3 code
 
@@ -385,7 +386,7 @@ export class Explore extends Component {
         this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
         this.mapComponent.saveZoomAndMapPosition();
         store.saveAction('addsavedgeojson');
-        this.getZonal();
+        // this.getZonal();
       }
       return layer;
     }
@@ -416,8 +417,8 @@ export class Explore extends Component {
   //  the only thing in the url is the s3 bucket and file name
   async getShapesFromS3() {
     // // start the working function so we have spinner active - informs users the website is doing something
-    // store.setStoreItem('working_s3reteive', true);
-    // spinnerOn();
+    store.setStoreItem('working_s3reteive', true);
+    spinnerOn();
 
     // get the saved shapes state item - holds the s3 bucket and file name
     const currentshapes = store.getStateItem('savedshapes');
@@ -484,8 +485,8 @@ export class Explore extends Component {
     //  set the state items and turn of the site is working
     store.setStoreItem('userareas', newshapes);
     this.drawUserAreaFromUsereas();
-    // store.setStoreItem('working_s3reteive', false);
-    // spinnerOff();
+    store.setStoreItem('working_s3reteive', false);
+    spinnerOff();
     return null;
   }
 
@@ -810,6 +811,37 @@ export class Explore extends Component {
     store.setStoreItem('userareas', newshapes);
     return name;
   }
+
+  // saves shape to s3 and creates object in state.
+  async saveUserShapesToS3 () {
+    const currentSavedShapes = store.getStateItem('savedshapes');
+
+    // get the current users shapes
+    const userarea = store.getStateItem('userarea')
+    const buffered = store.getStateItem('userarea_buffered')
+    const zonal = store.getStateItem('zonalstatsjson')
+    const shapecount = store.getStateItem('userareacount');
+
+    const saved_userarea = await this.StoreShapesAPI.saveShape(userarea);
+    const saved_userarea_buffered = await this.StoreShapesAPI.saveShape(buffered);
+    const saved_zonalstatsjson = await this.StoreShapesAPI.saveShape(zonal);
+
+    const name = `${this.defaultAreaName}${shapecount}`;
+
+    const newSavedShape = {
+      [`savedshape${shapecount}`]: [
+        { name },
+        { savedshape_userarea: saved_userarea },
+        { savedshape_userarea_buffered: saved_userarea_buffered },
+        { savedshape_zonalstatsjson: saved_zonalstatsjson }
+      ]
+    };
+
+    const newshapes = { ...currentSavedShapes, ...newSavedShape };
+    store.setStoreItem('savedshapes', newshapes);
+    return name;
+  }
+
 
   addUpdateStatisticsHandler() {
     const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
