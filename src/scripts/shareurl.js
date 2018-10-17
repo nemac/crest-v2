@@ -84,8 +84,7 @@ export class ShareUrl extends Component {
     if (textArea) {
       textArea.focus();
       textArea.select();
-      const successful = document.execCommand('copy');
-      const msg = successful ? 'successful' : 'unsuccessful';
+      document.execCommand('copy');
     }
   }
 

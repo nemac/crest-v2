@@ -75,7 +75,7 @@ export function checkworking() {
   // console.log('working_mapinfo');
 
   const workingZonalstats = store.getStateItem('working_zonalstats');
-  if (workingZonalstats) {return true; }
+  if (workingZonalstats) { return true; }
   // console.log('working_zonalstats');
 
   const workingSearch = store.getStateItem('working_search');
@@ -84,7 +84,7 @@ export function checkworking() {
 
   const workingS3Retreive = store.getStateItem('working_s3retreive');
   if (workingS3Retreive) { return true; }
-   // console.log('working_s3retreive');
+  // console.log('working_s3retreive');
 
   const workingS3Save = store.getStateItem('working_s3save');
   if (workingS3Save) { return true; }
