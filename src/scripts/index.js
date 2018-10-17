@@ -93,6 +93,9 @@ function setworkingstates() {
   store.setStoreItem('working_mapinfo', false);
   store.setStoreItem('working_zonalstats', false);
   store.setStoreItem('working_search', false);
+  store.setStoreItem('working_s3retreive', false);
+  store.setStoreItem('working_s3save', false);
+  store.setStoreItem('working_drawlayers', false);
 }
 
 // Creates the entire map component

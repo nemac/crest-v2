@@ -8,9 +8,10 @@ const URL_IGNORE_KEYS = [
   'working_basemap',
   'working_mapinfo',
   'working_zonalstats',
-  'working_s3reteive',
+  'working_s3retreive',
   'working_search',
   'working_s3save',
+  'working_drawlayers',
   'userareas',
   'savedshapes',
   'userareacount'
@@ -23,9 +24,10 @@ const SHARE_URL_IGNORE_KEYS = [
   'working_basemap',
   'working_mapinfo',
   'working_zonalstats',
-  'working_s3reteive',
+  'working_s3retreive',
   'working_search',
   'working_s3save',
+  'working_drawlayers',
   'userareas'
 ];
 
