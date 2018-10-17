@@ -453,7 +453,6 @@ export class Explore extends Component {
     this.mapComponent.map.fireEvent('retreives3start');
 
     spinnerOn();
-    console.log('getShapesFromS3', 'working_s3retreive start')
     // get the saved shapes state item - holds the s3 bucket and file name
     const currentshapes = store.getStateItem('savedshapes');
     const userareacount = store.getStateItem('userareacount');
@@ -529,7 +528,6 @@ export class Explore extends Component {
     this.drawUserAreaFromUsereas();
 
     store.setStoreItem('working_s3retreive', false);
-    console.log('getShapesFromS3', 'working_s3retreive end')
     this.mapComponent.map.fireEvent('retreives3end');
     spinnerOff();
 
