@@ -301,16 +301,27 @@ html, body {
 }
 
 .i-shareurl {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   margin-left: -1px;
 }
 
 .btn-mapshareurl-holder {
-  width: 50px;
+  width: 60px;
   height: 50px;
-  line-height: 50px;
+  line-height: 10px;
   color: $body-bg !important;
   background-color: $body-color !important;
+}
+
+.btn-mapshareurl {
+    .btn-med-share-label {
+      font-size: 10px;
+      line-height: 10px !important;
+      height: 10px;
+      position: relative;
+      top: -25px;
+      white-space: pre;
+    }
 }
 
 .btn-mapshareurl-holder a, .btn-mapshareurl-holder a:hover{
@@ -346,9 +357,9 @@ html, body {
 #shareurl-holder {
   cursor: pointer;
   position: relative;
-  top: 0px;
+  top: -1px;
+  left: 10px;
   z-index: 999999999;
-  left: 0px;
   height: 50px;
   width: 40px;
 }
