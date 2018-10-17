@@ -84,8 +84,8 @@ export class ShareUrl extends Component {
     if (textArea) {
       textArea.focus();
       textArea.select();
-      // const successful = document.execCommand('copy');
-      // const msg = successful ? 'successful' : 'unsuccessful';
+      const successful = document.execCommand('copy');
+      const msg = successful ? 'successful' : 'unsuccessful';
     }
   }
 
@@ -147,12 +147,14 @@ export class ShareUrl extends Component {
     shareUrlBox.addEventListener('click', (e) => {
       const shareurl = document.getElementById('shareurltextarea');
       shareurl.value = this.URL.getShareUrl();
+      ShareUrl.copyToClipboard(e);
     });
 
     createShareURLCopyButton.addEventListener('click', ShareUrl.copyToClipboard);
     createShareURLCopyButton.addEventListener('click', (e) => {
       const shareurl = document.getElementById('shareurltextarea');
       shareurl.value = this.URL.getShareUrl();
+      ShareUrl.copyToClipboard(e);
     });
 
     const collapse = document.querySelector('.btn-close-share');

@@ -109,6 +109,14 @@ export class Explore extends Component {
       Explore.zonalStatsHandler();
     });
 
+    this.mapComponent.map.addEventListener('retreives3end', (e) => {
+      spinnerOff();
+    });
+
+    this.mapComponent.map.addEventListener('retreives3start', (e) => {
+      spinnerOn();
+    });
+
     window.addEventListener('removeuserareend', (e) => {
       this.clearLayersAndDetails();
       this.drawUserAreaFromUsereas();
@@ -442,8 +450,10 @@ export class Explore extends Component {
     // start the working function so we have spinner active - informs
     // users the website is doing something
     store.setStoreItem('working_s3retreive', true);
-    spinnerOn();
+    this.mapComponent.map.fireEvent('retreives3start');
 
+    spinnerOn();
+    console.log('getShapesFromS3', 'working_s3retreive start')
     // get the saved shapes state item - holds the s3 bucket and file name
     const currentshapes = store.getStateItem('savedshapes');
     const userareacount = store.getStateItem('userareacount');
@@ -519,6 +529,8 @@ export class Explore extends Component {
     this.drawUserAreaFromUsereas();
 
     store.setStoreItem('working_s3retreive', false);
+    console.log('getShapesFromS3', 'working_s3retreive end')
+    this.mapComponent.map.fireEvent('retreives3end');
     spinnerOff();
 
     return null;
