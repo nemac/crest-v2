@@ -611,6 +611,9 @@ function getHubPosition(hub) {
   const SCALE = 0;
   const SCALE_GROUPS = 1;
 
+  if(hub === HIGH_RANGE) {
+    return 99
+  }
   return (100-0)/((HIGH_RANGE+1)-LOW_RANGE)*(hub-(HIGH_RANGE+1))+100;
   // return getValuePosition(hub, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
@@ -663,17 +666,126 @@ function getExposureBoxPosition(exposure) {
   // return getValuePosition(exposure, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
 
+function numberToWord(number) {
+  switch (number) {
+    case 1:
+      return 'one';
+      break;
+    case 2:
+      return 'two';
+      break;
+    case 3:
+      return 'three';
+      break;
+    case 4:
+      return 'four';
+      break;
+    case 5:
+      return 'five';
+      break;
+    case 6:
+      return 'six';
+      break;
+    case 7:
+      return 'seven';
+      break;
+    case 8:
+      return 'eight';
+      break;
+    case 9:
+      return 'nine';
+      break;
+    case 10:
+      return 'ten';
+      break;
+    case 11:
+      return 'eleven';
+      break;
+    case 12:
+      return 'twelve';
+      break;
+    case 13:
+      return 'thirteen';
+      break;
+    case 14:
+      return 'fourteen';
+      break;
+    case 15:
+      return 'fifteen';
+      break;
+    case 16:
+      return 'sixteen';
+      break;
+    case 17:
+      return 'seventeen';
+      break;
+    case 18:
+      return 'eightteen';
+      break;
+    case 19:
+      return 'nineteen';
+      break;
+    case 20:
+      return 'twenty';
+      break;
+    case 21:
+      return 'twentyone';
+      break;
+    case 22:
+      return 'twentytwo';
+      break;
+    case 23:
+      return 'twentythree';
+      break;
+    case 24:
+      return 'twentyfour';
+      break;
+    case 25:
+      return 'twentyfive';
+      break;
+    case 26:
+      return 'twentysix';
+      break;
+    case 27:
+      return 'twentyseven';
+      break;
+    case 28:
+      return 'twentyeight';
+      break;
+    case 29:
+      return 'twentynine';
+      break;
+    case 30:
+      return 'thirty';
+      break;
+    case 31:
+      return 'thirtyone';
+      break;
+    case 32:
+      return 'thirtytwo';
+      break;
+    case 33:
+      return 'thirtythree';
+      break;
+    default:
+  }
+}
+
 // Configures the assets and threat bars in the exposure table and individual graphs
 // @param wrapper | DOM element
 // @param asset | float - value from the api for the asset
 // @param threat | float - value from the api for the threat
 function drawExposureBox(wrapper, exposure) {
-  const exposurePosition = getExposureBoxPosition(exposure);
-  // const width = wrapper.querySelector('.zonal-long-table-bar-wrapper-exposure-box').clientWidth;
-  // console.log(wrapper, width)
-  // console.log((width / exposure) * 100)
-  // wrapper.querySelector('.zonal-long-table-bar-exposure-box').style.left = `${(exposure/(1+9)) * 100}%`;
-  wrapper.querySelector('.zonal-long-table-bar-exposure-box').style.left = formatPosition(exposurePosition);
+  const exposurePosition = Math.round(exposure);
+
+  const exposureCell = numberToWord(exposurePosition);
+
+  if (checkValidObject(exposureCell)) {
+    const selector = `.zonal-long-table-cell-exposure-box-${exposureCell}`;
+    const cell = wrapper.querySelector(selector);
+    cell.classList.add('selected-cell')
+  }
+
 }
 
 // Configures the assets and threat bars in the exposure table and individual graphs
@@ -681,14 +793,22 @@ function drawExposureBox(wrapper, exposure) {
 // @param asset | float - value from the api for the asset
 // @param threat | float - value from the api for the threat
 function drawExposure(wrapper, asset, threat) {
-  const assetPosition = formatPosition(getAssetPosition(asset));
-  const threatPosition = formatPosition(getThreatPosition(threat));
+  const assetPosition = Math.round(asset);
+  const threatPosition = Math.round(threat);
+  const assetCell = numberToWord(assetPosition);
+  const threatCell = numberToWord(threatPosition);
 
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = assetPosition;
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = threatPosition;
+  if (checkValidObject(assetCell)) {
+    const selector = `.zonal-long-table-cell-asset-${assetCell}`;
+    const cell = wrapper.querySelector(selector);
+    cell.classList.add('selected-cell')
+  }
 
-  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = assetPosition;
-  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = threatPosition;
+  if (checkValidObject(threatCell)) {
+    const selector = `.zonal-long-table-cell-threat-${threatCell}`;
+    const cell = wrapper.querySelector(selector);
+    cell.classList.add('selected-cell')
+  }
 }
 
 // Configures the aquatic and terrestrial bars in the individual graphs
@@ -696,23 +816,37 @@ function drawExposure(wrapper, asset, threat) {
 // @param fish | float - value from the api for the aquatic parameter
 // @param wildlife | float - value from the api for the terrestrial parameter
 function drawFishWildlife(wrapper, fish, wildlife) {
-  const fishPosition = getFishPosition(fish);
-  const wildlifePosition = getWildlifePosition(wildlife);
+  const fishPosition = Math.round(fish);
+  const wildlifePosition = Math.round(wildlife);
 
-  // wrapper.querySelector('.zonal-long-table-bar-exposure-box').style.left = `${(exposure/1+9) * 100}%`;
-  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = `${(fish/(1+5)) * 100}%`;
+  const fishCell = numberToWord(fishPosition);
+  const wildlifeCell = numberToWord(wildlifePosition);
 
-  // wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatPosition(fishPosition);
-  wrapper.querySelector('.zonal-long-table-bar-wildlife').style.left = formatPosition(wildlifePosition);
+  if (checkValidObject(fishCell)) {
+    const selector = `.zonal-long-table-cell-fish-${fishCell}`;
+    const cell = wrapper.querySelector(selector);
+    cell.classList.add('selected-cell')
+  }
+
+  if (checkValidObject(fishCell)) {
+    const selector = `.zonal-long-table-cell-wildlife-${wildlifeCell}`;
+    const cell = wrapper.querySelector(selector);
+    cell.classList.add('selected-cell')
+  }
 }
 
 // Configures the hub bar in the individual graph
 // @param wrapper | DOM element
 // @param threat | fish - value from the api for the aquatic parameter
 function drawHub(wrapper, hub) {
-  const hubPosition = getHubPosition(hub);
+  const hubPosition = Math.round(hub);
+  const hubCell = numberToWord(hubPosition);
 
-  wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatPosition(hubPosition);
+  if (checkValidObject(hubCell)) {
+    const selector = `.zonal-long-table-cell-hub-${hubCell}`;
+    const cell = wrapper.querySelector(selector);
+    cell.classList.add('selected-cell')
+  }
 }
 
 function getTableCategoryText(type, rank) {

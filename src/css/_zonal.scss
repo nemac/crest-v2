@@ -94,6 +94,16 @@ $graph-axis-color: #999;
 $body-bg:    $gray-800;
 $body-color: $gray-200;
 
+.selected-cell {
+  position: relative;
+  border: 5px solid #ffc107;
+  width: 130% !important;
+  height: 110% !important;
+  top: -5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 #zonal-area-wrapper {
   width: 100%;
   position: relative;
@@ -514,6 +524,7 @@ div.zonal-asset {
 
 .zonal-long-table-row {
   display: flex;
+  margin-top: 10px;
 }
 
 .zonal-long-table-row-header-simple {
@@ -695,82 +706,82 @@ div.zonal-asset {
   }
 
   &-fish {
-    &-lowest {
+    &-one {
       background-color: $fish-1;
       color: #000;
     }
 
-    &-low {
+    &-two {
       background-color: $fish-2;
       color: #000;
     }
 
-    &-medium {
+    &-three {
       background-color: $fish-3;
     }
 
-    &-high {
+    &-four {
       background-color: $fish-4;
     }
 
-    &-highest {
+    &-five {
       background-color: $fish-5;
     }
   }
 
   &-wildlife {
-    &-lowest {
+    &-one {
       background-color: $wildlife-1;
       color: #000;
     }
 
-    &-low {
+    &-two {
       background-color: $wildlife-2;
       color: #000;
     }
 
-    &-medium {
+    &-three {
       background-color: $wildlife-3;
     }
 
-    &-high {
+    &-four {
       background-color: $wildlife-4;
     }
 
-    &-highest {
+    &-five {
       background-color: $wildlife-5;
     }
   }
 
   &-hub {
-    &-lowest {
+    &-one {
       background-color: $hub-1;
       color: #000;
     }
 
-    &-low {
+    &-two {
       background-color: $hub-2;
       color: #000;
     }
 
-    &-mediumlow{
+    &-three {
       background-color: $hub-3;
       color: #000;
     }
 
-    &-medium {
+    &-four {
       background-color: $hub-4;
     }
 
-    &-mediumhigh {
+    &-five {
       background-color: $hub-5;
     }
 
-    &-high {
+    &-six {
       background-color: $hub-6;
     }
 
-    &-highest {
+    &-seven {
       background-color: $hub-7;
     }
   }
