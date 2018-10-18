@@ -163,3 +163,122 @@ export function flatten(arr) {
   });
   return flat;
 }
+
+// set stateitems if they do not exist
+// we will have to any new ones if added.
+// this will help when we adding new statitems "breaks" the webpage
+export function addMissingStateItems() {
+  // check for base map default is DarkGray
+  if (!checkValidObject(store.getStateItem('basemap'))) {
+    store.setStoreItem('basemap', 'DarkGray');
+  }
+
+  // check for lastaction default is moveend
+  if (!checkValidObject(store.getStateItem('lastaction'))) {
+    store.setStoreItem('lastaction', 'moveend');
+  }
+
+  // check for mapCenter default is {lat: 32.7765, lng: -79.9311} (charleston for now)
+  if (!checkValidObject(store.getStateItem('mapCenter'))) {
+    store.setStoreItem('mapCenter', { lat: 32.7765, lng: -79.9311 });
+  }
+
+  // check for mapLayerDisplayStatus default is listed below
+  // to long to list again
+  if (!checkValidObject(store.getStateItem('mapLayerDisplayStatus'))) {
+    store.setStoreItem('mapLayerDisplayStatus', {
+      HubsTMS: false,
+      ExposureTMS: false,
+      AssetsTMS: false,
+      ThreatsTMS: false,
+      AquaticTMS: false,
+      TerrestrialTMS: false,
+      PopDensityTMS: false,
+      SocVulnTMS: false,
+      CriticalFacilitiesTMS: false,
+      CriticalInfrastructureTMS: false,
+      DraingeTMS: false,
+      ErosionTMS: false,
+      SLRTMS: false,
+      StormSurgeTMS: false,
+      GeoStressTMS: false,
+      SlopeTMS: false,
+      FloodProneAreasTMS: false
+    });
+  }
+
+  // check for userareacount default is 0
+  if (!checkValidObject(store.getStateItem('userareacount'))) {
+    store.setStoreItem('userareacount', 0);
+  }
+
+  // check for mapCenter default is {lat: 32.7765, lng: -79.9311} (charleston for now)
+  if (!checkValidObject(store.getStateItem('mapZoom'))) {
+    store.setStoreItem('mapZoom', 12);
+  }
+
+  // check for savedshapes default is {} NULL object
+  if (!checkValidObject(store.getStateItem('savedshapes'))) {
+    store.setStoreItem('savedshapes', {});
+  }
+
+  // check for userarea default is {} NULL object
+  if (!checkValidObject(store.getStateItem('userarea'))) {
+    store.setStoreItem('userarea', {});
+  }
+
+  // check for userareas default is {} NULL object
+  if (!checkValidObject(store.getStateItem('userareas'))) {
+    store.setStoreItem('userareas', {});
+  }
+
+  // check for userarea_buffered default is {} NULL object
+  if (!checkValidObject(store.getStateItem('userarea_buffered'))) {
+    store.setStoreItem('userarea_buffered', {});
+  }
+
+  // check for zonalstatsjson default is {} NULL object
+  if (!checkValidObject(store.getStateItem('zonalstatsjson'))) {
+    store.setStoreItem('zonalstatsjson', {});
+  }
+
+  // check for working_basemap default is false
+  if (!checkValidObject(store.getStateItem('working_basemap'))) {
+    store.setStoreItem('working_basemap', false);
+  }
+
+  // check for working_mapinfo default is false
+  if (!checkValidObject(store.getStateItem('working_mapinfo'))) {
+    store.setStoreItem('working_mapinfo', false);
+  }
+
+  // check for working_mapinfo default is false
+  if (!checkValidObject(store.getStateItem('working_zonalstats'))) {
+    store.setStoreItem('working_zonalstats', false);
+  }
+
+  // check for working_s3retreive default is false
+  if (!checkValidObject(store.getStateItem('working_s3retreive'))) {
+    store.setStoreItem('working_s3retreive', false);
+  }
+
+  // check for working_search default is false
+  if (!checkValidObject(store.getStateItem('working_search'))) {
+    store.setStoreItem('working_search', false);
+  }
+
+  // check for working_s3save default is false
+  if (!checkValidObject(store.getStateItem('working_s3save'))) {
+    store.setStoreItem('working_s3save', false);
+  }
+
+  // check for working_drawlayers default is false
+  if (!checkValidObject(store.getStateItem('working_drawlayers'))) {
+    store.setStoreItem('working_drawlayers', false);
+  }
+
+  // check for zonalactive default is false
+  if (!checkValidObject(store.getStateItem('zonalactive'))) {
+    store.setStoreItem('zonalactive', ['none', 'none']);
+  }
+}

@@ -7,7 +7,10 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 // import custom classess
 import { Store } from './store';
 import { URL } from './url';
-import { checkValidObject } from './utilitys';
+import {
+  checkValidObject,
+  addMissingStateItems
+} from './utilitys';
 
 // import extended components
 import { Map } from './map';
@@ -194,7 +197,7 @@ const router = new Navigo(homeloc, true);
 //   console.log(store.getStateItem("mapClick"))
 //   console.log(mapComponent.restoreMapState())
 //   mapComponent.setStateFromObject(store.getState())
-//   console.log(store.getStateItem('mapLayerDisplayStatus'))
+//   console.log(JSON.stringify(store.getStateItem('mapLayerDisplayStatus')))
 //   console.log(store.removeStateItem('mapClick'));
 //   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
 //   console.log()
@@ -231,3 +234,4 @@ router.notFound((query) => {
 });
 
 router.resolve();
+addMissingStateItems();
