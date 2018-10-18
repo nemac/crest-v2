@@ -611,7 +611,8 @@ function getHubPosition(hub) {
   const SCALE = 0;
   const SCALE_GROUPS = 1;
 
-  return getValuePosition(hub, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+  return (100-0)/((HIGH_RANGE+1)-LOW_RANGE)*(hub-(HIGH_RANGE+1))+100;
+  // return getValuePosition(hub, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
 
 // Finds the scaled position for the drivers
@@ -647,6 +648,34 @@ function formatPosition(position) {
   return `${position}%`;
 }
 
+// Finds the scaled position for the threats
+// @param threat | float - value from the api for the threat
+// @return float - [0,100]
+function getExposureBoxPosition(exposure) {
+  const LOW_RANGE = 1;
+  const HIGH_RANGE = 9;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  //(max'-min')/(max-min)*(value-max)+max'
+  return (100-0)/((HIGH_RANGE+1)-LOW_RANGE)*(exposure-(HIGH_RANGE+1))+100;
+  // return(exposure * 10)
+  // return getValuePosition(exposure, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Configures the assets and threat bars in the exposure table and individual graphs
+// @param wrapper | DOM element
+// @param asset | float - value from the api for the asset
+// @param threat | float - value from the api for the threat
+function drawExposureBox(wrapper, exposure) {
+  const exposurePosition = getExposureBoxPosition(exposure);
+  // const width = wrapper.querySelector('.zonal-long-table-bar-wrapper-exposure-box').clientWidth;
+  // console.log(wrapper, width)
+  // console.log((width / exposure) * 100)
+  // wrapper.querySelector('.zonal-long-table-bar-exposure-box').style.left = `${(exposure/(1+9)) * 100}%`;
+  wrapper.querySelector('.zonal-long-table-bar-exposure-box').style.left = formatPosition(exposurePosition);
+}
+
 // Configures the assets and threat bars in the exposure table and individual graphs
 // @param wrapper | DOM element
 // @param asset | float - value from the api for the asset
@@ -670,7 +699,10 @@ function drawFishWildlife(wrapper, fish, wildlife) {
   const fishPosition = getFishPosition(fish);
   const wildlifePosition = getWildlifePosition(wildlife);
 
-  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatPosition(fishPosition);
+  // wrapper.querySelector('.zonal-long-table-bar-exposure-box').style.left = `${(exposure/1+9) * 100}%`;
+  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = `${(fish/(1+5)) * 100}%`;
+
+  // wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatPosition(fishPosition);
   wrapper.querySelector('.zonal-long-table-bar-wildlife').style.left = formatPosition(wildlifePosition);
 }
 
@@ -958,6 +990,7 @@ function drawLongZonalStats(data, name) {
   wrapper.innerHTML = ZonalLong;
   drawName(wrapper, name);
   drawExposure(wrapper, data.asset, data.threat);
+  drawExposureBox(wrapper, data.exposure);
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
   drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
