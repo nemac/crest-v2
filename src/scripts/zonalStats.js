@@ -197,6 +197,14 @@ function getIdentifyValue(type, rank) {
   return item;
 }
 
+function toolTipForBox(wrapper, value) {
+  const tooltipValue = checkNoData(value) ? 'None' : Math.round(value * 100) / 100;
+  wrapper.setAttribute('title', `${tooltipValue}`);
+  wrapper.setAttribute('aria-label', `${tooltipValue}`);
+  wrapper.setAttribute('data-toggle', 'tooltip');
+  wrapper.setAttribute('data-placement', 'top');
+}
+
 // Makes short zonal stats item
 // @param type | String - matches the layer key
 // @param rank | String || Number - rounded and matches the value key
@@ -213,6 +221,7 @@ function makeZonalBox(type, rank, name) {
   zonalBox.style.color = zonalData.color;
   zonalBox.style.backgroundColor = zonalData.backgroundColor;
   zonalBox.appendChild(makeTextElement(zonalData.label));
+  toolTipForBox(zonalBox, rank);
   return zonalBox;
 }
 
