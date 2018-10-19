@@ -964,7 +964,6 @@ function getDriverColor(driver) {
 // @param graph | DOM element
 // @param driver | Object
 function drawDriver(graph, name, driver) {
-
   let height = getDriverHeight(driver.value);
 
   if (driver.key === 'hubs') {
@@ -993,14 +992,16 @@ function drawDriver(graph, name, driver) {
   }
 
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
-  bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
-  bar.style.height = formatPosition(height);
-  bar.style.backgroundColor = getDriverColor(height);
-  bar.style.height = formatPosition(height);
-  bar.style.backgroundColor = getDriverColor(height);
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
   if (bar) {
+    bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
+    bar.style.height = formatPosition(height);
+    bar.style.backgroundColor = getDriverColor(height);
+    bar.style.height = formatPosition(height);
+    bar.style.backgroundColor = getDriverColor(height);
+
+
     bar.setAttribute('title', `${tooltipValue}`);
     bar.setAttribute('aria-label', `${tooltipValue}`);
     bar.setAttribute('data-toggle', 'tooltip');
@@ -1061,7 +1062,7 @@ function getShortDataChartData(data) {
 // @param drivers | Array
 function drawAssetDrivers(wrapper, drivers) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, assetGraph));
+  drivers.forEach(drawDriver.bind(null, assetGraph, ''));
 }
 
 function findRawCategory(wrapper, key) {
