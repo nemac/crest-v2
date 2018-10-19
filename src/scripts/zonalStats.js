@@ -963,7 +963,8 @@ function getDriverColor(driver) {
 // Configures each driver bar
 // @param graph | DOM element
 // @param driver | Object
-function drawDriver(graph, driver) {
+function drawDriver(graph, name, driver) {
+
   // social-vulnerability is 0,1 scalled
   let height = getDriverHeight(driver.value);
 
@@ -999,7 +1000,7 @@ function drawDriver(graph, driver) {
     bar.setAttribute('data-toggle', 'tooltip');
     bar.setAttribute('data-placement', 'top');
     bar.style.height = formatPosition(height);
-    bar.style.backgroundColor = getDriverColor(height);    
+    bar.style.backgroundColor = getDriverColor(height);
   }
 }
 
