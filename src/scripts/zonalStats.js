@@ -571,6 +571,9 @@ function numberToWord(number) {
   let numberWord = 'none';
 
   switch (number) {
+    case 0:
+      numberWord = 'zero';
+      break;
     case 1:
       numberWord = 'one';
       break;
@@ -677,13 +680,21 @@ function numberToWord(number) {
 
 function selectChartCell(wrapper, type, value) {
   const roundedValue = parseInt(value, 10);
-  const roundedValueWord = numberToWord(roundedValue);
 
+  const roundedValueWord = numberToWord(roundedValue);
+  let tooltipValue = Math.round(value * 100) / 100;
+  if (Number.isNaN(tooltipValue)) {
+    tooltipValue = 'None';
+  }
   if (checkValidObject(roundedValue)) {
     const selector = `.zonal-long-table-cell-${type}-${roundedValueWord}`;
     const cell = wrapper.querySelector(selector);
     if (cell) {
       cell.classList.add('selected-cell');
+      cell.setAttribute('title', `${tooltipValue}`);
+      cell.setAttribute('aria-label', `${tooltipValue}`);
+      cell.setAttribute('data-toggle', 'tooltip');
+      cell.setAttribute('data-placement', 'top');
     }
   }
 }
@@ -842,6 +853,11 @@ function drawDriver(graph, driver) {
   }
 
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
+  const tooltipValue = Math.round(driver.value * 100) / 100;
+  bar.setAttribute('title', `${tooltipValue}`);
+  bar.setAttribute('aria-label', `${tooltipValue}`);
+  bar.setAttribute('data-toggle', 'tooltip');
+  bar.setAttribute('data-placement', 'top');
   bar.style.height = formatPosition(height);
   bar.style.backgroundColor = getDriverColor(height);
 }
