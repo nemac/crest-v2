@@ -965,7 +965,6 @@ function getDriverColor(driver) {
 // @param driver | Object
 function drawDriver(graph, name, driver) {
 
-  // social-vulnerability is 0,1 scalled
   let height = getDriverHeight(driver.value);
 
   if (driver.key === 'hubs') {
@@ -988,19 +987,24 @@ function drawDriver(graph, name, driver) {
     height = getAssetHeight(driver.value);
   }
 
+
   if (driver.key === 'social-vulnerability') {
     height = getDriverOneZeroHeight(driver.value);
   }
 
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
+  bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
+  bar.style.height = formatPosition(height);
+  bar.style.backgroundColor = getDriverColor(height);
+  bar.style.height = formatPosition(height);
+  bar.style.backgroundColor = getDriverColor(height);
+
   const tooltipValue = Math.round(driver.value * 100) / 100;
   if (bar) {
     bar.setAttribute('title', `${tooltipValue}`);
     bar.setAttribute('aria-label', `${tooltipValue}`);
     bar.setAttribute('data-toggle', 'tooltip');
     bar.setAttribute('data-placement', 'top');
-    bar.style.height = formatPosition(height);
-    bar.style.backgroundColor = getDriverColor(height);
   }
 }
 
