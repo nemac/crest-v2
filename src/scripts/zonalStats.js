@@ -700,6 +700,50 @@ function formatPosition(position) {
   return `${position}%`;
 }
 
+// Reformats data for the short stats charts
+// @param data | Object - all data from the API
+// @return Array
+function getShortDataChartData(data) {
+  return [
+    {
+      label: 'hubs',
+      key: 'hubs',
+      value: data.hubs,
+      category: 'TBD'
+    },
+    {
+      label: 'exposure',
+      key: 'exposure',
+      value: data.exposure,
+      category: 'TBD'
+    },
+    {
+      label: 'asset',
+      key: 'asset',
+      value: data.asset,
+      category: 'TBD'
+    },
+    {
+      label: 'threat',
+      key: 'threat',
+      value: data.threat,
+      category: 'TBD'
+    },
+    {
+      label: 'aquatic',
+      key: 'aquatic',
+      value: data.aquatic,
+      category: 'TBD'
+    },
+    {
+      label: 'terrestrial',
+      key: 'terrestrial',
+      value: data.terrestrial,
+      category: 'TBD'
+    }
+  ];
+}
+
 // convert a number to to the word representation
 // of the number.  We are using the word in the HTML class
 // and will use this to highlight the value in the chart details
@@ -1025,12 +1069,14 @@ function drawDriver(graph, driver) {
 
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
   const tooltipValue = Math.round(driver.value * 100) / 100;
-  bar.setAttribute('title', `${tooltipValue}`);
-  bar.setAttribute('aria-label', `${tooltipValue}`);
-  bar.setAttribute('data-toggle', 'tooltip');
-  bar.setAttribute('data-placement', 'top');
-  bar.style.height = formatPosition(height);
-  bar.style.backgroundColor = getDriverColor(height);
+  if (bar) {
+    bar.setAttribute('title', `${tooltipValue}`);
+    bar.setAttribute('aria-label', `${tooltipValue}`);
+    bar.setAttribute('data-toggle', 'tooltip');
+    bar.setAttribute('data-placement', 'top');
+    bar.style.height = formatPosition(height);
+    bar.style.backgroundColor = getDriverColor(height);    
+  }
 }
 
 
