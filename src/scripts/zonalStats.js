@@ -532,92 +532,6 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   return position;
 }
 
-// Finds the scaled position for assets and threats
-// @param val | float - value from the api for the asset or threat
-// @param low | float - upper limit of the smallest quartile
-// @param med | float - upper limit of the middle quartile
-// @param high | float - upper limit of the largest quartile
-// @return float - [0,100]
-function getExposurePosition(val, low, med, high) {
-  const BOTTOM_RANGE = 0;
-  const LOW_SCALE = 0;
-  const MED_SCALE = 1;
-  const HIGH_SCALE = 2;
-  const SCALE_GROUPS = 3;
-
-  if (val < low) {
-    return getValuePosition(val, BOTTOM_RANGE, low, LOW_SCALE, SCALE_GROUPS);
-  }
-
-  if (val < med) {
-    return getValuePosition(val, low, med, MED_SCALE, SCALE_GROUPS);
-  }
-
-  return getValuePosition(val, med, high, HIGH_SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the asset
-// @param asset | float - value from the api for the asset
-// @return float - [0,100]
-function getAssetPosition(asset) {
-  const LOW_ASSET = 1.5;
-  const MED_ASSET = 2.5;
-  const HIGH_ASSET = 13;
-
-  return getExposurePosition(asset, LOW_ASSET, MED_ASSET, HIGH_ASSET);
-}
-
-// Finds the scaled position for the threats
-// @param threat | float - value from the api for the threat
-// @return float - [0,100]
-function getThreatPosition(threat) {
-  const LOW_THREAT = 7.5;
-  const MED_THREAT = 11.5;
-  const HIGH_THREAT = 29;
-
-  return getExposurePosition(threat, LOW_THREAT, MED_THREAT, HIGH_THREAT);
-}
-
-// Finds the scaled position for the aquatic parameter
-// @param fish | float - value from the api for aquatic
-// @return float - [0,100]
-function getFishPosition(fish) {
-  const LOW_RANGE = 1;
-  const HIGH_RANGE = 5;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(fish, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the terrestrial parameter
-// @param wildlife | float - value from the api for terrestrial
-// @return float - [0,100]
-function getWildlifePosition(wildlife) {
-  const LOW_RANGE = 1;
-  const HIGH_RANGE = 5;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(wildlife, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the hubs
-// @param hub | float - value from the api for hubs
-// @return float - [0,100]
-function getHubPosition(hub) {
-  const LOW_RANGE = 1;
-  const HIGH_RANGE = 7;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  if(hub === HIGH_RANGE) {
-    return 99
-  }
-  return (100-0)/((HIGH_RANGE+1)-LOW_RANGE)*(hub-(HIGH_RANGE+1))+100;
-  // return getValuePosition(hub, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
@@ -643,7 +557,6 @@ function getDriverOneZeroHeight(driver) {
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
 
-
 // Returns a position formatted as a percentage
 // @param position | float
 // @return String
@@ -651,201 +564,127 @@ function formatPosition(position) {
   return `${position}%`;
 }
 
-// Finds the scaled position for the threats
-// @param threat | float - value from the api for the threat
-// @return float - [0,100]
-function getExposureBoxPosition(exposure) {
-  const LOW_RANGE = 1;
-  const HIGH_RANGE = 9;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  //(max'-min')/(max-min)*(value-max)+max'
-  return (100-0)/((HIGH_RANGE+1)-LOW_RANGE)*(exposure-(HIGH_RANGE+1))+100;
-  // return(exposure * 10)
-  // return getValuePosition(exposure, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
+// convert a number to to the word representation
+// of the number.  We are using the word in the HTML class
+// and will use this to highlight the value in the chart details
 function numberToWord(number) {
+  let numberWord = 'none';
+
   switch (number) {
     case 1:
-      return 'one';
+      numberWord = 'one';
       break;
     case 2:
-      return 'two';
+      numberWord = 'two';
       break;
     case 3:
-      return 'three';
+      numberWord = 'three';
       break;
     case 4:
-      return 'four';
+      numberWord = 'four';
       break;
     case 5:
-      return 'five';
+      numberWord = 'five';
       break;
     case 6:
-      return 'six';
+      numberWord = 'six';
       break;
     case 7:
-      return 'seven';
+      numberWord = 'seven';
       break;
     case 8:
-      return 'eight';
+      numberWord = 'eight';
       break;
     case 9:
-      return 'nine';
+      numberWord = 'nine';
       break;
     case 10:
-      return 'ten';
+      numberWord = 'ten';
       break;
     case 11:
-      return 'eleven';
+      numberWord = 'eleven';
       break;
     case 12:
-      return 'twelve';
+      numberWord = 'twelve';
       break;
     case 13:
-      return 'thirteen';
+      numberWord = 'thirteen';
       break;
     case 14:
-      return 'fourteen';
+      numberWord = 'fourteen';
       break;
     case 15:
-      return 'fifteen';
+      numberWord = 'fifteen';
       break;
     case 16:
-      return 'sixteen';
+      numberWord = 'sixteen';
       break;
     case 17:
-      return 'seventeen';
+      numberWord = 'seventeen';
       break;
     case 18:
-      return 'eightteen';
+      numberWord = 'eightteen';
       break;
     case 19:
-      return 'nineteen';
+      numberWord = 'nineteen';
       break;
     case 20:
-      return 'twenty';
+      numberWord = 'twenty';
       break;
     case 21:
-      return 'twentyone';
+      numberWord = 'twentyone';
       break;
     case 22:
-      return 'twentytwo';
+      numberWord = 'twentytwo';
       break;
     case 23:
-      return 'twentythree';
+      numberWord = 'twentythree';
       break;
     case 24:
-      return 'twentyfour';
+      numberWord = 'twentyfour';
       break;
     case 25:
-      return 'twentyfive';
+      numberWord = 'twentyfive';
       break;
     case 26:
-      return 'twentysix';
+      numberWord = 'twentysix';
       break;
     case 27:
-      return 'twentyseven';
+      numberWord = 'twentyseven';
       break;
     case 28:
-      return 'twentyeight';
+      numberWord = 'twentyeight';
       break;
     case 29:
-      return 'twentynine';
+      numberWord = 'twentynine';
       break;
     case 30:
-      return 'thirty';
+      numberWord = 'thirty';
       break;
     case 31:
-      return 'thirtyone';
+      numberWord = 'thirtyone';
       break;
     case 32:
-      return 'thirtytwo';
+      numberWord = 'thirtytwo';
       break;
     case 33:
-      return 'thirtythree';
+      numberWord = 'thirtythree';
       break;
     default:
   }
+  return numberWord;
 }
 
-// Configures the assets and threat bars in the exposure table and individual graphs
-// @param wrapper | DOM element
-// @param asset | float - value from the api for the asset
-// @param threat | float - value from the api for the threat
-function drawExposureBox(wrapper, exposure) {
-  const exposurePosition = Math.round(exposure);
+function selectChartCell(wrapper, type, value) {
+  const roundedValue = parseInt(value, 10)
+  const roundedValueWord = numberToWord(roundedValue);
 
-  const exposureCell = numberToWord(exposurePosition);
-
-  if (checkValidObject(exposureCell)) {
-    const selector = `.zonal-long-table-cell-exposure-box-${exposureCell}`;
+  if (checkValidObject(roundedValue)) {
+    const selector = `.zonal-long-table-cell-${type}-${roundedValueWord}`;
     const cell = wrapper.querySelector(selector);
-    cell.classList.add('selected-cell')
-  }
-
-}
-
-// Configures the assets and threat bars in the exposure table and individual graphs
-// @param wrapper | DOM element
-// @param asset | float - value from the api for the asset
-// @param threat | float - value from the api for the threat
-function drawExposure(wrapper, asset, threat) {
-  const assetPosition = Math.round(asset);
-  const threatPosition = Math.round(threat);
-  const assetCell = numberToWord(assetPosition);
-  const threatCell = numberToWord(threatPosition);
-
-  if (checkValidObject(assetCell)) {
-    const selector = `.zonal-long-table-cell-asset-${assetCell}`;
-    const cell = wrapper.querySelector(selector);
-    cell.classList.add('selected-cell')
-  }
-
-  if (checkValidObject(threatCell)) {
-    const selector = `.zonal-long-table-cell-threat-${threatCell}`;
-    const cell = wrapper.querySelector(selector);
-    cell.classList.add('selected-cell')
-  }
-}
-
-// Configures the aquatic and terrestrial bars in the individual graphs
-// @param wrapper | DOM element
-// @param fish | float - value from the api for the aquatic parameter
-// @param wildlife | float - value from the api for the terrestrial parameter
-function drawFishWildlife(wrapper, fish, wildlife) {
-  const fishPosition = Math.round(fish);
-  const wildlifePosition = Math.round(wildlife);
-
-  const fishCell = numberToWord(fishPosition);
-  const wildlifeCell = numberToWord(wildlifePosition);
-
-  if (checkValidObject(fishCell)) {
-    const selector = `.zonal-long-table-cell-fish-${fishCell}`;
-    const cell = wrapper.querySelector(selector);
-    cell.classList.add('selected-cell')
-  }
-
-  if (checkValidObject(fishCell)) {
-    const selector = `.zonal-long-table-cell-wildlife-${wildlifeCell}`;
-    const cell = wrapper.querySelector(selector);
-    cell.classList.add('selected-cell')
-  }
-}
-
-// Configures the hub bar in the individual graph
-// @param wrapper | DOM element
-// @param threat | fish - value from the api for the aquatic parameter
-function drawHub(wrapper, hub) {
-  const hubPosition = Math.round(hub);
-  const hubCell = numberToWord(hubPosition);
-
-  if (checkValidObject(hubCell)) {
-    const selector = `.zonal-long-table-cell-hub-${hubCell}`;
-    const cell = wrapper.querySelector(selector);
-    cell.classList.add('selected-cell')
+    if (cell) {
+      cell.classList.add('selected-cell');
+    }
   }
 }
 
@@ -1078,7 +917,7 @@ function drawRawCategory(wrapper, value) {
 
 function populateRawTableRow(wrapper, value) {
   drawRawValue(wrapper, value);
-  drawRawCategory(wrapper, value);
+  // drawRawCategory(wrapper, value);
 }
 
 function drawRawValues(wrapper, data) {
@@ -1123,12 +962,16 @@ function drawLongZonalStats(data, name) {
   wrapper.setAttribute('id', `name-${HTMLName}`);
   wrapper.innerHTML = ZonalLong;
   drawName(wrapper, name);
-  drawExposure(wrapper, data.asset, data.threat);
-  drawExposureBox(wrapper, data.exposure);
+
+  selectChartCell(wrapper, 'hub', data.hubs);
+  selectChartCell(wrapper, 'asset', data.asset);
+  selectChartCell(wrapper, 'threat', data.threat);
+  selectChartCell(wrapper, 'exposure-box', data.exposure);
+  selectChartCell(wrapper, 'fish', data.aquatic);
+  selectChartCell(wrapper, 'wildlife', data.terrestrial);
+
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
-  drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
-  drawHub(wrapper, data.hubs);
 
   // add ids so we can deal with state
   wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);

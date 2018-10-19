@@ -1,3 +1,4 @@
+$fish-none: #E9ECEF;
 $fish-1: #cce2e8;
 $fish-2: #8fc8d6;
 $fish-3: #5ea4ba;
@@ -5,6 +6,7 @@ $fish-4: #047e91;
 $fish-5: #095a62;
 $fish-bar: #f00;
 
+$wildlife-none: #E9ECEF;
 $wildlife-1: #ffe9c4;
 $wildlife-2: #e0c879;
 $wildlife-3: #76974e;
@@ -12,6 +14,7 @@ $wildlife-4: #385b24;
 $wildlife-5: #004908;
 $wildlife-bar: #0f0;
 
+$hub-none: #E9ECEF;
 $hub-1: #edf8e9;
 $hub-2: #c5ddca;
 $hub-3: #9ec3ac;
@@ -21,6 +24,7 @@ $hub-6: #277450;
 $hub-7: #005a32;
 $hub-bar: #0ff;
 
+$asset-none: #E9ECEF;
 $asset-0: #b6edf0;
 $asset-1: #a1daed;
 $asset-2: #8ecaed;
@@ -37,6 +41,7 @@ $asset-12: #131f9e;
 $asset-13: #080a90;
 $assetbarsep: #d4182b;
 
+$threat-none: #E9ECEF;
 $threat-0: #ffebd6;
 $threat-1: #fce5cf;
 $threat-2: #fadec5;
@@ -73,6 +78,7 @@ $threat-32: #a60808;
 $threat-33: #9c0808;
 $theatbarsep: #68ace7;
 
+$exposure-none: #E9ECEF;
 $exposure-1: #568b93;
 $exposure-2: #7db0a3;
 $exposure-3: #d4e5ba;
@@ -98,10 +104,12 @@ $body-color: $gray-200;
   position: relative;
   border: 5px solid #ffc107;
   width: 130% !important;
-  height: 110% !important;
-  top: -5px;
+  height: 100% !important;
+  top: -10px;
   padding-left: 10px;
   padding-right: 10px;
+  padding-bottom: 7px;
+  padding-top: 7px;
 }
 
 #zonal-area-wrapper {
@@ -638,6 +646,11 @@ div.zonal-asset {
 }
 
 .zonal-long-table-cell {
+  &-none {
+    background-color: $exposure-none;
+    color: #000;
+  }
+
   &-lowest {
     background-color: $exposure-1;
   }
@@ -665,6 +678,10 @@ div.zonal-asset {
   }
 
   &-exposure-box {
+    &-none {
+      background-color: $exposure-none;
+      color: #000;
+    }
     &-one {
       background-color: $exposure-1;
     }
@@ -706,6 +723,11 @@ div.zonal-asset {
   }
 
   &-fish {
+    &-none {
+      background-color: $fish-none;
+      color: #000;
+    }
+
     &-one {
       background-color: $fish-1;
       color: #000;
@@ -730,6 +752,11 @@ div.zonal-asset {
   }
 
   &-wildlife {
+    &-none {
+      background-color: $wildlife-none;
+      color: #000;
+    }
+
     &-one {
       background-color: $wildlife-1;
       color: #000;
@@ -754,6 +781,11 @@ div.zonal-asset {
   }
 
   &-hub {
+    &-none {
+      background-color: $hub-none;
+      color: #000;
+    }
+
     &-one {
       background-color: $hub-1;
       color: #000;
@@ -787,6 +819,11 @@ div.zonal-asset {
   }
 
   &-asset {
+    &-none {
+      background-color: $asset-none;
+      color: #000;
+    }
+
     &-zero {
       background-color: $asset-0;
       color: #000;
@@ -852,6 +889,11 @@ div.zonal-asset {
   }
 
   &-threat {
+    &-none {
+      background-color: $threat-none;
+      color: #000;
+    }
+
     &-zero {
       background-color: $threat-0;
       color: #000;
