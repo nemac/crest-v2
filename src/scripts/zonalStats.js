@@ -835,6 +835,16 @@ function selectChartCell(wrapper, type, value) {
   }
 }
 
+// Configures each short zonal driver bar
+// @param wrapper | DOM element
+// @param drivers | Array
+function drawShortChart(wrapper, drivers, name) {
+  const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .zonal-long-graph');
+  assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+  drivers.forEach(drawDriver.bind(null, assetGraph, name));
+}
+
+
 function getTableCategoryText(type, rank) {
   return getIdentifyValue(type, rank).label;
 }
