@@ -1146,6 +1146,46 @@ function populateRawTableRow(wrapper, value) {
   drawRawCategory(wrapper, value);
 }
 
+// Configures the assets and threat bars in the exposure table and individual graphs
+// @param wrapper | DOM element
+// @param asset | float - value from the api for the asset
+// @param threat | float - value from the api for the threat
+function drawExposure(wrapper, asset, threat) {
+  const assetPosition = formatPosition(getAssetPosition(asset));
+  const threatPosition = formatPosition(getThreatPosition(threat));
+
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = assetPosition;
+  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = threatPosition;
+
+  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = assetPosition;
+  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = threatPosition;
+}
+
+// Configures the aquatic and terrestrial bars in the individual graphs
+// @param wrapper | DOM element
+// @param fish | float - value from the api for the aquatic parameter
+// @param wildlife | float - value from the api for the terrestrial parameter
+function drawFishWildlife(wrapper, fish, wildlife) {
+  const fishPosition = getFishPosition(fish);
+  const wildlifePosition = getWildlifePosition(wildlife);
+
+  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatPosition(fishPosition);
+  wrapper.querySelector('.zonal-long-table-bar-wildlife').style.left = formatPosition(wildlifePosition);
+}
+
+// Configures the hub bar in the individual graph
+// @param wrapper | DOM element
+// @param threat | fish - value from the api for the aquatic parameter
+function drawHub(wrapper, hub) {
+  const hubPosition = getHubPosition(hub);
+
+  wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatPosition(hubPosition);
+}
+
+function getTableCategoryText(type, rank) {
+  return getIdentifyValue(type, rank).label;
+}
+
 function drawRawValues(wrapper, data) {
  // wrapper.setAttribute('id', `name-${HTMLName}`);
  wrapper.innerHTML = ZonalLong;
