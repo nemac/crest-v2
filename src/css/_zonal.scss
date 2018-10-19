@@ -1,3 +1,4 @@
+$fish-none: #E9ECEF;
 $fish-1: #cce2e8;
 $fish-2: #8fc8d6;
 $fish-3: #5ea4ba;
@@ -5,6 +6,7 @@ $fish-4: #047e91;
 $fish-5: #095a62;
 $fish-bar: #f00;
 
+$wildlife-none: #E9ECEF;
 $wildlife-1: #ffe9c4;
 $wildlife-2: #e0c879;
 $wildlife-3: #76974e;
@@ -12,6 +14,7 @@ $wildlife-4: #385b24;
 $wildlife-5: #004908;
 $wildlife-bar: #0f0;
 
+$hub-none: #E9ECEF;
 $hub-1: #edf8e9;
 $hub-2: #c5ddca;
 $hub-3: #9ec3ac;
@@ -21,6 +24,7 @@ $hub-6: #277450;
 $hub-7: #005a32;
 $hub-bar: #0ff;
 
+$asset-none: #E9ECEF;
 $asset-0: #b6edf0;
 $asset-1: #a1daed;
 $asset-2: #8ecaed;
@@ -37,6 +41,7 @@ $asset-12: #131f9e;
 $asset-13: #080a90;
 $assetbarsep: #d4182b;
 
+$threat-none: #E9ECEF;
 $threat-0: #ffebd6;
 $threat-1: #fce5cf;
 $threat-2: #fadec5;
@@ -73,14 +78,19 @@ $threat-32: #a60808;
 $threat-33: #9c0808;
 $theatbarsep: #68ace7;
 
+$exposure-none: #E9ECEF;
 $exposure-1: #568b93;
 $exposure-2: #7db0a3;
 $exposure-3: #d4e5ba;
 $exposure-4: #ecd79c;
+$exposure-5: #ecd79c;
 $exposure-6: #c38e59;
+$exposure-7: #c38e59;
+$exposure-8: #9b5526;
 $exposure-9: #9b5526;
 $asset-bar: #68ace7;
 $threat-bar: #d4182b;
+$exposure-bar: #0f0;
 
 $label-font-size: 12px;
 
@@ -89,6 +99,18 @@ $graph-axis-color: #999;
 
 $body-bg:    $gray-800;
 $body-color: $gray-200;
+
+.selected-cell {
+  position: relative;
+  border: 5px solid #ffc107;
+  width: 130% !important;
+  height: 100% !important;
+  top: -10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+}
 
 #zonal-area-wrapper {
   width: 100%;
@@ -510,6 +532,7 @@ div.zonal-asset {
 
 .zonal-long-table-row {
   display: flex;
+  margin-top: 10px;
 }
 
 .zonal-long-table-row-header-simple {
@@ -623,6 +646,11 @@ div.zonal-asset {
 }
 
 .zonal-long-table-cell {
+  &-none {
+    background-color: $exposure-none;
+    color: #000;
+  }
+
   &-lowest {
     background-color: $exposure-1;
   }
@@ -649,88 +677,153 @@ div.zonal-asset {
     background-color: $exposure-9;
   }
 
+  &-exposure-box {
+    &-none {
+      background-color: $exposure-none;
+      color: #000;
+    }
+    &-one {
+      background-color: $exposure-1;
+    }
+
+    &-two {
+      background-color: $exposure-2;
+    }
+
+    &-three {
+      background-color: $exposure-3;
+      color: #000;
+    }
+
+    &-four{
+      background-color: $exposure-4;
+      color: #000;
+    }
+
+    &-five{
+      background-color: $exposure-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $exposure-6;
+    }
+
+    &-seven {
+      background-color: $exposure-7;
+    }
+
+    &-eight {
+      background-color: $exposure-8;
+    }
+
+    &-nine {
+      background-color: $exposure-9;
+    }
+  }
+
   &-fish {
-    &-lowest {
+    &-none {
+      background-color: $fish-none;
+      color: #000;
+    }
+
+    &-one {
       background-color: $fish-1;
       color: #000;
     }
 
-    &-low {
+    &-two {
       background-color: $fish-2;
       color: #000;
     }
 
-    &-medium {
+    &-three {
       background-color: $fish-3;
     }
 
-    &-high {
+    &-four {
       background-color: $fish-4;
     }
 
-    &-highest {
+    &-five {
       background-color: $fish-5;
     }
   }
 
   &-wildlife {
-    &-lowest {
+    &-none {
+      background-color: $wildlife-none;
+      color: #000;
+    }
+
+    &-one {
       background-color: $wildlife-1;
       color: #000;
     }
 
-    &-low {
+    &-two {
       background-color: $wildlife-2;
       color: #000;
     }
 
-    &-medium {
+    &-three {
       background-color: $wildlife-3;
     }
 
-    &-high {
+    &-four {
       background-color: $wildlife-4;
     }
 
-    &-highest {
+    &-five {
       background-color: $wildlife-5;
     }
   }
 
   &-hub {
-    &-lowest {
+    &-none {
+      background-color: $hub-none;
+      color: #000;
+    }
+
+    &-one {
       background-color: $hub-1;
       color: #000;
     }
 
-    &-low {
+    &-two {
       background-color: $hub-2;
       color: #000;
     }
 
-    &-mediumlow{
+    &-three {
       background-color: $hub-3;
       color: #000;
     }
 
-    &-medium {
+    &-four {
       background-color: $hub-4;
     }
 
-    &-mediumhigh {
+    &-five {
       background-color: $hub-5;
     }
 
-    &-high {
+    &-six {
       background-color: $hub-6;
     }
 
-    &-highest {
+    &-seven {
       background-color: $hub-7;
     }
   }
 
   &-asset {
+    &-none {
+      background-color: $asset-none;
+      color: #000;
+    }
+
     &-zero {
       background-color: $asset-0;
       color: #000;
@@ -796,6 +889,11 @@ div.zonal-asset {
   }
 
   &-threat {
+    &-none {
+      background-color: $threat-none;
+      color: #000;
+    }
+
     &-zero {
       background-color: $threat-0;
       color: #000;
@@ -993,6 +1091,10 @@ div.zonal-asset {
 
   &-threat {
     background-color: $threat-bar;
+  }
+
+  &-exposure-box {
+    background-color: $exposure-bar;
   }
 
   &-asset {

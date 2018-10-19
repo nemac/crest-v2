@@ -532,88 +532,6 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   return position;
 }
 
-// Finds the scaled position for assets and threats
-// @param val | float - value from the api for the asset or threat
-// @param low | float - upper limit of the smallest quartile
-// @param med | float - upper limit of the middle quartile
-// @param high | float - upper limit of the largest quartile
-// @return float - [0,100]
-function getExposurePosition(val, low, med, high) {
-  const BOTTOM_RANGE = 0;
-  const LOW_SCALE = 0;
-  const MED_SCALE = 1;
-  const HIGH_SCALE = 2;
-  const SCALE_GROUPS = 3;
-
-  if (val < low) {
-    return getValuePosition(val, BOTTOM_RANGE, low, LOW_SCALE, SCALE_GROUPS);
-  }
-
-  if (val < med) {
-    return getValuePosition(val, low, med, MED_SCALE, SCALE_GROUPS);
-  }
-
-  return getValuePosition(val, med, high, HIGH_SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the asset
-// @param asset | float - value from the api for the asset
-// @return float - [0,100]
-function getAssetPosition(asset) {
-  const LOW_ASSET = 1.5;
-  const MED_ASSET = 2.5;
-  const HIGH_ASSET = 13;
-
-  return getExposurePosition(asset, LOW_ASSET, MED_ASSET, HIGH_ASSET);
-}
-
-// Finds the scaled position for the threats
-// @param threat | float - value from the api for the threat
-// @return float - [0,100]
-function getThreatPosition(threat) {
-  const LOW_THREAT = 7.5;
-  const MED_THREAT = 11.5;
-  const HIGH_THREAT = 29;
-
-  return getExposurePosition(threat, LOW_THREAT, MED_THREAT, HIGH_THREAT);
-}
-
-// Finds the scaled position for the aquatic parameter
-// @param fish | float - value from the api for aquatic
-// @return float - [0,100]
-function getFishPosition(fish) {
-  const LOW_RANGE = 1;
-  const HIGH_RANGE = 5;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(fish, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the terrestrial parameter
-// @param wildlife | float - value from the api for terrestrial
-// @return float - [0,100]
-function getWildlifePosition(wildlife) {
-  const LOW_RANGE = 1;
-  const HIGH_RANGE = 5;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(wildlife, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the hubs
-// @param hub | float - value from the api for hubs
-// @return float - [0,100]
-function getHubPosition(hub) {
-  const LOW_RANGE = 1;
-  const HIGH_RANGE = 7;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(hub, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
@@ -639,7 +557,6 @@ function getDriverOneZeroHeight(driver) {
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
 
-
 // Returns a position formatted as a percentage
 // @param position | float
 // @return String
@@ -647,40 +564,139 @@ function formatPosition(position) {
   return `${position}%`;
 }
 
-// Configures the assets and threat bars in the exposure table and individual graphs
-// @param wrapper | DOM element
-// @param asset | float - value from the api for the asset
-// @param threat | float - value from the api for the threat
-function drawExposure(wrapper, asset, threat) {
-  const assetPosition = formatPosition(getAssetPosition(asset));
-  const threatPosition = formatPosition(getThreatPosition(threat));
+// convert a number to to the word representation
+// of the number.  We are using the word in the HTML class
+// and will use this to highlight the value in the chart details
+function numberToWord(number) {
+  let numberWord = 'none';
 
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-asset').style.bottom = assetPosition;
-  wrapper.querySelector('.zonal-long-table-exposure .zonal-long-table-bar-threat').style.left = threatPosition;
-
-  wrapper.querySelector('.zonal-long-table-bar-asset-asset').style.left = assetPosition;
-  wrapper.querySelector('.zonal-long-table-bar-threat-threat').style.left = threatPosition;
+  switch (number) {
+    case 0:
+      numberWord = 'zero';
+      break;
+    case 1:
+      numberWord = 'one';
+      break;
+    case 2:
+      numberWord = 'two';
+      break;
+    case 3:
+      numberWord = 'three';
+      break;
+    case 4:
+      numberWord = 'four';
+      break;
+    case 5:
+      numberWord = 'five';
+      break;
+    case 6:
+      numberWord = 'six';
+      break;
+    case 7:
+      numberWord = 'seven';
+      break;
+    case 8:
+      numberWord = 'eight';
+      break;
+    case 9:
+      numberWord = 'nine';
+      break;
+    case 10:
+      numberWord = 'ten';
+      break;
+    case 11:
+      numberWord = 'eleven';
+      break;
+    case 12:
+      numberWord = 'twelve';
+      break;
+    case 13:
+      numberWord = 'thirteen';
+      break;
+    case 14:
+      numberWord = 'fourteen';
+      break;
+    case 15:
+      numberWord = 'fifteen';
+      break;
+    case 16:
+      numberWord = 'sixteen';
+      break;
+    case 17:
+      numberWord = 'seventeen';
+      break;
+    case 18:
+      numberWord = 'eightteen';
+      break;
+    case 19:
+      numberWord = 'nineteen';
+      break;
+    case 20:
+      numberWord = 'twenty';
+      break;
+    case 21:
+      numberWord = 'twentyone';
+      break;
+    case 22:
+      numberWord = 'twentytwo';
+      break;
+    case 23:
+      numberWord = 'twentythree';
+      break;
+    case 24:
+      numberWord = 'twentyfour';
+      break;
+    case 25:
+      numberWord = 'twentyfive';
+      break;
+    case 26:
+      numberWord = 'twentysix';
+      break;
+    case 27:
+      numberWord = 'twentyseven';
+      break;
+    case 28:
+      numberWord = 'twentyeight';
+      break;
+    case 29:
+      numberWord = 'twentynine';
+      break;
+    case 30:
+      numberWord = 'thirty';
+      break;
+    case 31:
+      numberWord = 'thirtyone';
+      break;
+    case 32:
+      numberWord = 'thirtytwo';
+      break;
+    case 33:
+      numberWord = 'thirtythree';
+      break;
+    default:
+  }
+  return numberWord;
 }
 
-// Configures the aquatic and terrestrial bars in the individual graphs
-// @param wrapper | DOM element
-// @param fish | float - value from the api for the aquatic parameter
-// @param wildlife | float - value from the api for the terrestrial parameter
-function drawFishWildlife(wrapper, fish, wildlife) {
-  const fishPosition = getFishPosition(fish);
-  const wildlifePosition = getWildlifePosition(wildlife);
+function selectChartCell(wrapper, type, value) {
+  const roundedValue = parseInt(value, 10);
 
-  wrapper.querySelector('.zonal-long-table-bar-fish').style.left = formatPosition(fishPosition);
-  wrapper.querySelector('.zonal-long-table-bar-wildlife').style.left = formatPosition(wildlifePosition);
-}
-
-// Configures the hub bar in the individual graph
-// @param wrapper | DOM element
-// @param threat | fish - value from the api for the aquatic parameter
-function drawHub(wrapper, hub) {
-  const hubPosition = getHubPosition(hub);
-
-  wrapper.querySelector('.zonal-long-table-bar-hub').style.left = formatPosition(hubPosition);
+  const roundedValueWord = numberToWord(roundedValue);
+  let tooltipValue = Math.round(value * 100) / 100;
+  if (Number.isNaN(tooltipValue)) {
+    tooltipValue = 'None';
+  }
+  if (checkValidObject(roundedValue)) {
+    const selector = `.zonal-long-table-cell-${type}-${roundedValueWord}`;
+    const cell = wrapper.querySelector(selector);
+    if (cell) {
+      cell.classList.add('selected-cell');
+      cell.setAttribute('title', `${tooltipValue}`);
+      cell.setAttribute('aria-label', `${tooltipValue}`);
+      cell.setAttribute('data-toggle', 'tooltip');
+      cell.setAttribute('data-placement', 'top');
+    }
+  }
 }
 
 function getTableCategoryText(type, rank) {
@@ -837,6 +853,11 @@ function drawDriver(graph, driver) {
   }
 
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
+  const tooltipValue = Math.round(driver.value * 100) / 100;
+  bar.setAttribute('title', `${tooltipValue}`);
+  bar.setAttribute('aria-label', `${tooltipValue}`);
+  bar.setAttribute('data-toggle', 'tooltip');
+  bar.setAttribute('data-placement', 'top');
   bar.style.height = formatPosition(height);
   bar.style.backgroundColor = getDriverColor(height);
 }
@@ -890,10 +911,6 @@ function findRawValue(wrapper, key) {
   return wrapper.querySelector(`.zonal-long-raw-value-${key}`);
 }
 
-function findRawCategory(wrapper, key) {
-  return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
-}
-
 function formatToThreePlaces(value) {
   return (Math.round(value * 1000) / 1000).toString();
 }
@@ -906,13 +923,8 @@ function drawRawValue(wrapper, value) {
   findRawValue(wrapper, value.key).appendChild(makeTextElement(formatRawValue(value.value)));
 }
 
-function drawRawCategory(wrapper, value) {
-  findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
-}
-
 function populateRawTableRow(wrapper, value) {
   drawRawValue(wrapper, value);
-  drawRawCategory(wrapper, value);
 }
 
 function drawRawValues(wrapper, data) {
@@ -957,11 +969,16 @@ function drawLongZonalStats(data, name) {
   wrapper.setAttribute('id', `name-${HTMLName}`);
   wrapper.innerHTML = ZonalLong;
   drawName(wrapper, name);
-  drawExposure(wrapper, data.asset, data.threat);
+
+  selectChartCell(wrapper, 'hub', data.hubs);
+  selectChartCell(wrapper, 'asset', data.asset);
+  selectChartCell(wrapper, 'threat', data.threat);
+  selectChartCell(wrapper, 'exposure-box', data.exposure);
+  selectChartCell(wrapper, 'fish', data.aquatic);
+  selectChartCell(wrapper, 'wildlife', data.terrestrial);
+
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
-  drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
-  drawHub(wrapper, data.hubs);
 
   // add ids so we can deal with state
   wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
