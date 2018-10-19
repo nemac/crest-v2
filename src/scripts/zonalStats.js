@@ -977,27 +977,37 @@ function getDriverColor(driver) {
 // @param driver | Object
 function drawDriver(graph, name, driver) {
   let height = getDriverHeight(driver.value);
+  let cssKey = driver.key;
 
   if (driver.key === 'hubs') {
     height = getSevenHeight(driver.value);
+    cssKey = 'hub';
   }
 
-  if (driver.key === 'aquatic' || driver.key === 'terrestrial') {
+  if (driver.key === 'aquatic') {
     height = getFiveHeight(driver.value);
+    cssKey = 'fish';
+  }
+
+  if (driver.key === 'terrestrial') {
+    height = getFiveHeight(driver.value);
+    cssKey = 'wildlife';
   }
 
   if (driver.key === 'exposure') {
     height = getNineHeight(driver.value);
+    cssKey = 'exposure-box';
   }
 
   if (driver.key === 'threat') {
     height = getThreatHeight(driver.value);
+    cssKey = 'threat';
   }
 
   if (driver.key === 'asset') {
     height = getAssetHeight(driver.value);
+    cssKey = 'asset';
   }
-
 
   if (driver.key === 'social-vulnerability') {
     height = getDriverOneZeroHeight(driver.value);
@@ -1006,14 +1016,18 @@ function drawDriver(graph, name, driver) {
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
+  const roundedValue = parseInt(driver.value, 10);
+  const toolTipword = numberToWord(roundedValue);
+
+
   if (bar) {
     bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
     bar.style.height = formatPosition(height);
-    bar.style.backgroundColor = getDriverColor(height);
-    bar.style.height = formatPosition(height);
-    bar.style.backgroundColor = getDriverColor(height);
-
-
+    if (name) {
+      bar.classList.add(`zonal-long-table-cell-${cssKey}-${toolTipword}`);
+    } else {
+      bar.style.backgroundColor = getDriverColor(height);
+    }    
     bar.setAttribute('title', `${tooltipValue}`);
     bar.setAttribute('aria-label', `${tooltipValue}`);
     bar.setAttribute('data-toggle', 'tooltip');
