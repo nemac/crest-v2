@@ -676,7 +676,7 @@ function numberToWord(number) {
 }
 
 function selectChartCell(wrapper, type, value) {
-  const roundedValue = parseInt(value, 10)
+  const roundedValue = parseInt(value, 10);
   const roundedValueWord = numberToWord(roundedValue);
 
   if (checkValidObject(roundedValue)) {
@@ -895,10 +895,6 @@ function findRawValue(wrapper, key) {
   return wrapper.querySelector(`.zonal-long-raw-value-${key}`);
 }
 
-function findRawCategory(wrapper, key) {
-  return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
-}
-
 function formatToThreePlaces(value) {
   return (Math.round(value * 1000) / 1000).toString();
 }
@@ -911,13 +907,8 @@ function drawRawValue(wrapper, value) {
   findRawValue(wrapper, value.key).appendChild(makeTextElement(formatRawValue(value.value)));
 }
 
-function drawRawCategory(wrapper, value) {
-  findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
-}
-
 function populateRawTableRow(wrapper, value) {
   drawRawValue(wrapper, value);
-  // drawRawCategory(wrapper, value);
 }
 
 function drawRawValues(wrapper, data) {
