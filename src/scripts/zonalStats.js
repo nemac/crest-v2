@@ -1075,7 +1075,7 @@ function drawDriver(graph, driver) {
     bar.setAttribute('data-toggle', 'tooltip');
     bar.setAttribute('data-placement', 'top');
     bar.style.height = formatPosition(height);
-    bar.style.backgroundColor = getDriverColor(height);    
+    bar.style.backgroundColor = getDriverColor(height);
   }
 }
 
@@ -1147,7 +1147,7 @@ function populateRawTableRow(wrapper, value) {
 }
 
 function drawRawValues(wrapper, data) {
- wrapper.setAttribute('id', `name-${HTMLName}`);
+ // wrapper.setAttribute('id', `name-${HTMLName}`);
  wrapper.innerHTML = ZonalLong;
  drawName(wrapper, name);
 
@@ -1165,7 +1165,7 @@ function drawRawValues(wrapper, data) {
  drawHub(wrapper, data.hubs);
 
  // add ids so we can deal with state
- wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
+ // wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
  iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
  iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
 
