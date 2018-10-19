@@ -1,5 +1,6 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
+import ZonalShort from '../templates/zonal_short.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import { checkValidObject } from './utilitys';
@@ -74,8 +75,37 @@ function makeBoxWrapper() {
 // Gets text for an individual short zonal stats item title
 // @return String
 function makeLabelText(name) {
-  return `${name}`;
+  return `Get details for ${name}`;
   // return `${name} ${document.getElementsByClassName('zonal-wrapper').length + 1}`;
+}
+
+// adds a generic id attribute to all the children so the hover and
+// highlghts work for the dom elements and their children
+function addUserAreaIdsToChildren(children, name) {
+  if (!checkValidObject(children)) { return false; }
+  if (children.length > 0) {
+    // create children nodes array so we can map and change it
+    const childrenArray = [...children];
+    childrenArray.map((childItem) => {
+      // add userarea name only if the node is an HTML element
+      if (childItem instanceof Element) {
+        childItem.setAttribute('id', `generic-${name}`);
+      }
+
+      // check if the child has children if so recursivly call this function again
+      if (!checkValidObject(childItem.childNodes)) { return false; }
+      if (childItem.childNodes.length > 0) {
+        const grandChild = childItem.childNodes;
+        addUserAreaIdsToChildren(grandChild, name);
+      } else {
+        return false;
+      }
+      return true;
+    });
+  } else {
+    return false;
+  }
+  return true;
 }
 
 // Makes main title for an individual short zonal stats item
@@ -88,12 +118,13 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn-light');
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
+  zonalLabel.classList.add('col-9');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
   zonalLabel.setAttribute('title', `View details for ${stripUserArea(name)}`);
   zonalLabel.setAttribute('aria-label', `View details for ${stripUserArea(name)}`);
 
   zonalLabel.innerHTML = '<span class="btn-icon" id="btn-details-icon" ><i class="far fa-chart-bar"></i></span>';
-  // zonalLabel.setAttribute('id', 'zonal-label');
+  addUserAreaIdsToChildren(zonalLabel.childNodes, HTMLName);
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
   return zonalLabel;
 }
@@ -150,6 +181,7 @@ function makeRemoveLabel(name, mapComponent) {
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
   zonalLabel.classList.add('text-danger');
+  zonalLabel.classList.add('col-1');
   zonalLabel.setAttribute('id', `label-name-remove-${HTMLName}`);
   zonalLabel.setAttribute('title', `Remove ${stripUserArea(name)} from list`);
   zonalLabel.setAttribute('aria-label', `Remove ${stripUserArea(name)} from list`);
@@ -302,14 +334,14 @@ function makeExposureBox(asset, threat, name) {
 function makeShortZonalStatsInterior(data, name) {
   return [
     makeLabel(name),
-    makeHubBox(data.hubs, name),
-    makeFishWildBox(data.terrestrial, data.aquatic, name),
-    makeExposureBox(data.asset, data.threat, name)
+    // makeHubBox(data.hubs, name),
+    // makeFishWildBox(data.terrestrial, data.aquatic, name),
+    // makeExposureBox(data.asset, data.threat, name)
   ];
 }
 
 function ZonalWrapperActiveRemove() {
-  const x = document.querySelectorAll('.zonal-wrapper');
+  const x = document.querySelectorAll('.zonal-short-wrapper');
   let i;
   for (i = 0; i < x.length; i += 1) {
     x[i].classList.remove('active');
@@ -317,7 +349,7 @@ function ZonalWrapperActiveRemove() {
 }
 
 function ZonalWrapperActiveAdd() {
-  const x = document.querySelectorAll('.zonal-wrapper');
+  const x = document.querySelectorAll('.zonal-short-wrapper');
   let i;
   for (i = 0; i < x.length; i += 1) {
     x[i].classList.add('active');
@@ -470,6 +502,10 @@ function shortZonalClickHandler(e) {
 }
 
 function zonalLabelMouseOverHandler(e) {
+  e.stopImmediatePropagation();
+  e.stopPropagation();
+  e.preventDefault();
+
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
 
@@ -485,10 +521,17 @@ function zonalLabelMouseOverHandler(e) {
     const labelzName = `zonal-wrapper-${HTMLName}`;
     const labelzElem = document.getElementById(labelzName);
     toggleLabelHighLightsOn(labelzElem);
+
+    const shotChartsLabels = `short-chart-${HTMLName}`;
+    const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+    toggleLabelHighLightsOn(shotChartsLabelsElem);
   }
 }
 
 function zonalLabelMouseOutHandler(e) {
+  e.stopImmediatePropagation();
+  e.stopPropagation();
+  e.preventDefault();
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
 
@@ -503,6 +546,10 @@ function zonalLabelMouseOutHandler(e) {
     const labelzName = `zonal-wrapper-${HTMLName}`;
     const labelzElem = document.getElementById(labelzName);
     toggleLabelHighLightsOff(labelzElem);
+
+    const shotChartsLabels = `short-chart-${HTMLName}`;
+    const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+    toggleLabelHighLightsOff(shotChartsLabelsElem);
   }
 }
 
@@ -510,13 +557,32 @@ function zonalLabelMouseOutHandler(e) {
 // @param data | Object
 // @return DOM element
 function drawShortZonalStats(data, name, mapComponent) {
-  const wrapper = makeZonalWrapper(name);
+  const wrapper = makeDiv();
+  wrapper.classList.add('zonal-short-wrapper');
+  wrapper.classList.add('active');
+  wrapper.classList.add('row');
+
+  const HTMLName = makeHTMLName(name);
+  wrapper.setAttribute('id', `short-chart-${HTMLName}`);
+
+  wrapper.innerHTML = ZonalShort;
+  const shortChart = wrapper.querySelector('.zonal-short-wrappper');
+  addUserAreaIdsToChildren(shortChart.childNodes, HTMLName);
+
+
   makeShortZonalStatsInterior(data, name).forEach((elem) => {
-    wrapper.appendChild(elem);
+    wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
+
+  drawShortChart(wrapper, getShortDataChartData(data), HTMLName);
+
   wrapper.addEventListener('click', shortZonalClickHandler);
   wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
   wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
+
+  shortChart.addEventListener('mouseout', zonalLabelMouseOutHandler);
+  shortChart.addEventListener('mouseover', zonalLabelMouseOverHandler);
+
   const rem = makeRemoveLabel(name, mapComponent);
   wrapper.insertBefore(rem, wrapper.childNodes[0]);
   return wrapper;
@@ -553,7 +619,6 @@ function getDriverHeight(driver) {
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
 
-
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
@@ -565,6 +630,68 @@ function getDriverOneZeroHeight(driver) {
 
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getSevenHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 7;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getNineHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 9;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getThreatHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 33;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getAssetHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 13;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getFiveHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 5;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return `${position}%`;
+}
+
 
 // Returns a position formatted as a percentage
 // @param position | float
@@ -857,6 +984,31 @@ function getDriverColor(driver) {
 function drawDriver(graph, driver) {
   // social-vulnerability is 0,1 scalled
   let height = getDriverHeight(driver.value);
+  // if (driver.key === 'social-vulnerability') {
+  //   height = getDriverColor(driver.value);
+  // }
+
+  if (driver.key === 'hubs') {
+    height = getSevenHeight(driver.value);
+  }
+
+  if (driver.key === 'aquatic' || driver.key === 'terrestrial') {
+    height = getFiveHeight(driver.value);
+  }
+
+  if (driver.key === 'exposure') {
+    height = getNineHeight(driver.value);
+  }
+
+  if (driver.key === 'threat') {
+    height = getThreatHeight(driver.value);
+  }
+
+  if (driver.key === 'asset') {
+    height = getAssetHeight(driver.value);
+  }
+
+
   if (driver.key === 'social-vulnerability') {
     height = getDriverOneZeroHeight(driver.value);
   }
@@ -871,12 +1023,13 @@ function drawDriver(graph, driver) {
   bar.style.backgroundColor = getDriverColor(height);
 }
 
+
 // Configures each asset driver bar
 // @param wrapper | DOM element
 // @param drivers | Array
 function drawAssetDrivers(wrapper, drivers) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, assetGraph));
+  drivers.forEach(drawDriver.bind(null, assetGraph, ''));
 }
 
 // Configures each threat driver bar
@@ -884,7 +1037,7 @@ function drawAssetDrivers(wrapper, drivers) {
 // @param drivers | Array
 function drawThreatDrivers(wrapper, drivers) {
   const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, threatGraph));
+  drivers.forEach(drawDriver.bind(null, threatGraph, ''));
 }
 
 function getZonalWrapper(elem) {
@@ -934,10 +1087,43 @@ function drawRawValue(wrapper, value) {
 
 function populateRawTableRow(wrapper, value) {
   drawRawValue(wrapper, value);
+  drawRawCategory(wrapper, value);
 }
 
 function drawRawValues(wrapper, data) {
-  data.forEach(populateRawTableRow.bind(null, wrapper));
+ wrapper.setAttribute('id', `name-${HTMLName}`);
+ wrapper.innerHTML = ZonalLong;
+ drawName(wrapper, name);
+
+ selectChartCell(wrapper, 'hub', data.hubs);
+ selectChartCell(wrapper, 'asset', data.asset);
+ selectChartCell(wrapper, 'threat', data.threat);
+ selectChartCell(wrapper, 'exposure-box', data.exposure);
+ selectChartCell(wrapper, 'fish', data.aquatic);
+ selectChartCell(wrapper, 'wildlife', data.terrestrial);
+
+ drawExposure(wrapper, data.asset, data.threat);
+ drawAssetDrivers(wrapper, getAssetDrivers(data));
+ drawThreatDrivers(wrapper, getThreatDrivers(data));
+ drawFishWildlife(wrapper, data.aquatic, data.terrestrial);
+ drawHub(wrapper, data.hubs);
+
+ // add ids so we can deal with state
+ wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
+ iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
+ iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
+
+ // const iconelem = document.getElementById('btn-details-icon');
+
+ restoreGraphState();
+}
+
+function findRawCategory(wrapper, key) {
+  return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
+}
+
+function drawRawCategory(wrapper, value) {
+  findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
 }
 
 function displayRawValues(wrapper) {
