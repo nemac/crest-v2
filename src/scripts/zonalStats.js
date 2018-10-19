@@ -1,5 +1,6 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
+import ZonalShort from '../templates/zonal_short.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import { checkValidObject } from './utilitys';
@@ -51,31 +52,30 @@ function stripUserArea(id) {
   return id;
 }
 
-// Makes wrapper for short zonal stats
-// @return DOM element
-function makeZonalWrapper(name) {
-  const zonalWrap = makeDiv();
-  zonalWrap.classList.add('zonal-wrapper');
-  zonalWrap.classList.add('active');
-  const HTMLName = makeHTMLName(name);
-  zonalWrap.setAttribute('id', `zonal-wrapper-${HTMLName}`);
-
-  return zonalWrap;
-}
-
-// Makes wrapper for individual short zonal item
-// @return DOM element
-function makeBoxWrapper() {
-  const boxWrap = makeDiv();
-  boxWrap.classList.add('zonal-item');
-  return boxWrap;
-}
+// // Makes wrapper for short zonal stats
+// // @return DOM element
+// function makeZonalWrapper(name) {
+//   const zonalWrap = makeDiv();
+//   zonalWrap.classList.add('zonal-wrapper');
+//   zonalWrap.classList.add('active');
+//   const HTMLName = makeHTMLName(name);
+//   zonalWrap.setAttribute('id', `zonal-wrapper-${HTMLName}`);
+//
+//   return zonalWrap;
+// }
+//
+// // Makes wrapper for individual short zonal item
+// // @return DOM element
+// function makeBoxWrapper() {
+//   const boxWrap = makeDiv();
+//   boxWrap.classList.add('zonal-item');
+//   return boxWrap;
+// }
 
 // Gets text for an individual short zonal stats item title
 // @return String
 function makeLabelText(name) {
-  return `${name}`;
-  // return `${name} ${document.getElementsByClassName('zonal-wrapper').length + 1}`;
+   return `Get details for ${name}`;
 }
 
 // Makes main title for an individual short zonal stats item
