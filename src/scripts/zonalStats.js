@@ -1012,7 +1012,8 @@ function drawDriver(graph, name, driver) {
 function drawShortChart(wrapper, drivers, name) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .zonal-long-graph');
   assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+  drivers.forEach(drawDriver.bind(null, assetGraph, name));
+  console.log(name);
 }
 
 // @return Array
