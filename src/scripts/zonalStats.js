@@ -978,7 +978,7 @@ function getDriverColor(driver) {
 function drawDriver(graph, name, type, driver) {
   let height = getDriverHeight(driver.value);
   let cssKey = driver.key;
-  let csstype = driver.key;
+  let csstype = type;
 
   if (driver.key === 'hubs') {
     height = getSevenHeight(driver.value);
@@ -1043,7 +1043,7 @@ function drawDriver(graph, name, type, driver) {
 function drawShortChart(wrapper, drivers, name) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .zonal-long-graph');
   assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  drivers.forEach(drawDriver.bind(null, assetGraph, name));
+  drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
   console.log(name);
 }
 
@@ -1094,7 +1094,7 @@ function getShortDataChartData(data) {
 // @param drivers | Array
 function drawAssetDrivers(wrapper, drivers) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, assetGraph, ''));
+  drivers.forEach(drawDriver.bind(null, assetGraph, '', 'asset'));
 }
 
 function findRawCategory(wrapper, key) {
@@ -1145,7 +1145,7 @@ function drawShortZonalStats(data, name, mapComponent) {
 // @param drivers | Array
 function drawThreatDrivers(wrapper, drivers) {
   const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
-    drivers.forEach(drawDriver.bind(null, threatGraph, ''));
+    drivers.forEach(drawDriver.bind(null, threatGraph, '', 'threat'));
 }
 
 function getZonalWrapper(elem) {
