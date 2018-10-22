@@ -92,6 +92,20 @@ $asset-bar: #68ace7;
 $threat-bar: #d4182b;
 $exposure-bar: #0f0;
 
+$asset-driver-0: #f7fbff;
+$asset-driver-1: #d1e3f3;
+$asset-driver-2: #9ac8e1;
+$asset-driver-3: #529dcc;
+$asset-driver-4: #1c6cb1;
+$asset-driver-5: #08306b;
+
+$threat-driver-0: #fff5f0;
+$threat-driver-1: #fdccb8;
+$threat-driver-2: #fc8f6f;
+$threat-driver-3: #f44d37;
+$threat-driver-4: #c5161b;
+$threat-driver-5: #67000d;
+
 $label-font-size: 12px;
 
 $graph-axis-width: 40px;
@@ -1437,4 +1451,72 @@ $graph-tick-height-short: 5px;
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
+}
+
+
+.driver-chart-backgroundColor {
+    &-threat {
+      &-zero {
+        background-color: $threat-driver-0 !important;
+      }
+
+      &-one{
+        background-color: $threat-driver-1 !important;
+      }
+
+      &-two {
+        background-color: $threat-driver-2 !important;
+      }
+
+      &-three {
+        background-color: $threat-driver-3 !important;
+      }
+
+      &-four {
+        background-color: $threat-driver-4 !important;
+      }
+
+      &-five {
+        background-color: $threat-driver-5 !important;
+      }
+    }
+
+    &-asset {
+      &-zero {
+        background-color: $asset-driver-0 !important;
+      }
+
+      &-one{
+        background-color: $asset-driver-1 !important;
+      }
+
+      &-two {
+        background-color: $asset-driver-2 !important;
+      }
+
+      &-three {
+        background-color: $asset-driver-3 !important;
+      }
+
+      &-four {
+        background-color: $asset-driver-4 !important;
+      }
+
+      &-five {
+        background-color: $asset-driver-5 !important;
+      }
+
+    }
+
+    &-assettwo {
+      &-zero {
+        background-color: $asset-driver-0 !important;
+      }
+
+      &-one {
+        background-color: $asset-driver-5 !important;
+      }
+
+    }
+
 }
