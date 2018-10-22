@@ -978,6 +978,7 @@ function getDriverColor(driver) {
 function drawDriver(graph, name, driver) {
   let height = getDriverHeight(driver.value);
   let cssKey = driver.key;
+  let csstype = driver.key;
 
   if (driver.key === 'hubs') {
     height = getSevenHeight(driver.value);
@@ -1011,12 +1012,15 @@ function drawDriver(graph, name, driver) {
 
   if (driver.key === 'social-vulnerability') {
     height = getDriverOneZeroHeight(driver.value);
+    csstype = 'assettwo';
   }
+
+  const roundedValue = parseInt(driver.value, 10);
+  const roundedValueWord = numberToWord(roundedValue);
 
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
-  const roundedValue = parseInt(driver.value, 10);
   const toolTipword = numberToWord(roundedValue)
 
   if (bar) {
