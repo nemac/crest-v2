@@ -953,24 +953,24 @@ function getThreatDrivers(data) {
   ];
 }
 
-// Gets the color to be used for the driver bar
-// @param driver | float - [0,100]
-// @return String
-function getDriverColor(driver) {
-  if (driver <= 20) {
-    return 'green';
-  }
-  if (driver <= 40) {
-    return 'blue';
-  }
-  if (driver <= 60) {
-    return 'yellow';
-  }
-  if (driver <= 80) {
-    return 'orange';
-  }
-  return 'red';
-}
+// // Gets the color to be used for the driver bar
+// // @param driver | float - [0,100]
+// // @return String
+// function getDriverColor(driver) {
+//   if (driver <= 20) {
+//     return 'green';
+//   }
+//   if (driver <= 40) {
+//     return 'blue';
+//   }
+//   if (driver <= 60) {
+//     return 'yellow';
+//   }
+//   if (driver <= 80) {
+//     return 'orange';
+//   }
+//   return 'red';
+// }
 
 // Configures each driver bar
 // @param graph | DOM element
