@@ -854,19 +854,26 @@ function getDriverColor(driver) {
 // Configures each driver bar
 // @param graph | DOM element
 // @param driver | Object
-function drawDriver(graph, driver) {
+function drawDriver(graph, type, driver) {
   // social-vulnerability is 0,1 scalled
   let height = getDriverHeight(driver.value);
+  let csstype = type;
   if (driver.key === 'social-vulnerability') {
     height = getDriverOneZeroHeight(driver.value);
+    csstype = 'assettwo';
   }
+
+  const roundedValue = parseInt(driver.value, 10);
+  const roundedValueWord = numberToWord(roundedValue);
 
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
   const tooltipValue = Math.round(driver.value * 100) / 100;
+
   bar.setAttribute('title', `${tooltipValue}`);
   bar.setAttribute('aria-label', `${tooltipValue}`);
   bar.setAttribute('data-toggle', 'tooltip');
   bar.setAttribute('data-placement', 'top');
+  bar.classList.add(`driver-chart-backgroundColor-${csstype}-${roundedValueWord}`);
   bar.style.height = formatPosition(height);
   bar.style.backgroundColor = getDriverColor(height);
 }
@@ -876,7 +883,7 @@ function drawDriver(graph, driver) {
 // @param drivers | Array
 function drawAssetDrivers(wrapper, drivers) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, assetGraph));
+  drivers.forEach(drawDriver.bind(null, assetGraph, 'asset'));
 }
 
 // Configures each threat driver bar
@@ -884,7 +891,7 @@ function drawAssetDrivers(wrapper, drivers) {
 // @param drivers | Array
 function drawThreatDrivers(wrapper, drivers) {
   const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, threatGraph));
+  drivers.forEach(drawDriver.bind(null, threatGraph, 'threat'));
 }
 
 function getZonalWrapper(elem) {
