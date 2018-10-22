@@ -1017,8 +1017,7 @@ function drawDriver(graph, name, driver) {
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const roundedValue = parseInt(driver.value, 10);
-  const toolTipword = numberToWord(roundedValue);
-
+  const toolTipword = numberToWord(roundedValue)
 
   if (bar) {
     bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
@@ -1027,7 +1026,7 @@ function drawDriver(graph, name, driver) {
       bar.classList.add(`zonal-long-table-cell-${cssKey}-${toolTipword}`);
     } else {
       bar.style.backgroundColor = getDriverColor(height);
-    }    
+    }
     bar.setAttribute('title', `${tooltipValue}`);
     bar.setAttribute('aria-label', `${tooltipValue}`);
     bar.setAttribute('data-toggle', 'tooltip');
