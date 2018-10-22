@@ -1028,9 +1028,11 @@ function drawDriver(graph, name, driver) {
     bar.style.height = formatPosition(height);
     if (name) {
       bar.classList.add(`zonal-long-table-cell-${cssKey}-${toolTipword}`);
-    } else {
-      bar.style.backgroundColor = getDriverColor(height);
+    // } else {
+      // bar.style.backgroundColor = getDriverColor(height);
     }
+
+    bar.classList.add(`driver-chart-backgroundColor-${csstype}-${roundedValueWord}`);
     bar.setAttribute('title', `${tooltipValue}`);
     bar.setAttribute('aria-label', `${tooltipValue}`);
     bar.setAttribute('data-toggle', 'tooltip');
