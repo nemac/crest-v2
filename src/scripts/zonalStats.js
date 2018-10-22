@@ -975,7 +975,7 @@ function getDriverColor(driver) {
 // Configures each driver bar
 // @param graph | DOM element
 // @param driver | Object
-function drawDriver(graph, name, driver) {
+function drawDriver(graph, name, type, driver) {
   let height = getDriverHeight(driver.value);
   let cssKey = driver.key;
   let csstype = driver.key;
