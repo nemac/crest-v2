@@ -458,12 +458,15 @@ export class Map extends Component {
   // ho do that yet
   toggleLayer(layerName) {
     store.saveAction('maplayertoggle');
+    store.setStoreItem('working_basemap', true);
+    spinnerOn();
     let mapDisplayLayersObj = {};
     const layer = this.overlayMaps[layerName];
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer);
       mapDisplayLayersObj = { [layerName]: false };
     } else {
+      store.setStoreItem('working_basemap', true);
       spinnerOn();
       this.map.addLayer(layer);
       mapDisplayLayersObj = { [layerName]: true };
