@@ -770,3 +770,12 @@ a.nav-link {
   overflow: hidden scroll;
   overflow: scroll;
 }
+
+.tooltip .tooltip-inner {
+  background-color:  $body-color;
+  color: $body-bg;
+}
+
+.tooltip .arrow:before {
+  border-top-color: $body-color;
+}
