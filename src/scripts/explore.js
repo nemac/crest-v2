@@ -611,7 +611,6 @@ export class Explore extends Component {
 
     store.setStoreItem('working_drawlayers', false);
     spinnerOff();
-
     return null;
   }
 

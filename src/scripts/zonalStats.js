@@ -3,6 +3,20 @@ import ZonalLong from '../templates/zonal_long.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import { checkValidObject } from './utilitys';
+// required for bootstrap
+window.$ = require('jquery');
+// required for tooltip, popup...
+window.Popper = require('popper.js');
+
+window.jQuery = window.$;
+
+// tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
+// use tooltip and popover components everywhere
+$(() => {
+  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="popover"]').popover();
+});
+
 
 const store = new Store({});
 
@@ -1072,6 +1086,11 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
   wrapper.appendChild(drawLongZonalStats(data, name));
   document.getElementById('zonal-content').appendChild(wrapper);
+
+  // initalize new tooltips
+  $(() => {
+    $("[data-toggle='tooltip']").tooltip();
+  });
 
   const iconelem = document.getElementById('btn-details-icon');
   iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
