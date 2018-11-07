@@ -47,7 +47,9 @@
     "octicons": "^7.3.0",
     "popper.js": "^1.14.3",
     "proj4": "^2.4.4",
-    "shapefile": "^0.6.6"
+    "shapefile": "^0.6.6",
+    "terraformer": "^1.0.9",
+    "terraformer-arcgis-parser": "^1.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^8.5.2",
