@@ -64,39 +64,40 @@ function convertAgolHubsFeature(feature) {
   return featureGeojson;
 }
 
-export class HubIntersectionAPI {
+
+export class HubIntersectionApi {
   constructor(url = QUERY_REQUEST_URL) {
     this.queryUrl = url;
     this.agolOutFields = agolOutFields;
   }
 
   async getIntersectedHubs(feature) {
-    const esriGeom = Terraformer.ArcGIS.convert(feature.geometry);
-    const esriGeomStr = JSON.stringify(esriGeom);
-
-    const queryParams = {
-      geometry: esriGeomStr,
-      spatialRel: 'esriSpatialRelIntersects',
-      geometryType: 'esriGeometryPolygon',
-      outFields: this.agolOutFields.join(),
-      f: 'json',
-      inSR: 4326,
-      outSR: 4326
-    };
-
     try {
-      const response = await axios.get(this.queryUrl, {
+      const esriGeom = Terraformer.ArcGIS.convert(feature.geometry);
+      const esriGeomStr = JSON.stringify(esriGeom);
+
+      const queryParams = {
+        geometry: esriGeomStr,
+        spatialRel: 'esriSpatialRelIntersects',
+        geometryType: 'esriGeometryPolygon',
+        outFields: this.agolOutFields.join(),
+        f: 'json',
+        inSR: 4326,
+        outSR: 4326
+      };
+
+     const response = await axios.get(this.queryUrl, {
         params: queryParams
       });
       if (Object.prototype.hasOwnProperty.call(response.data, 'error')) {
-        throw response.data.error.message;
+        throw response.data.message;
       }
       const esriFeatures = response.data.features;
       const geojsonFeatures = esriFeatures.map(f => convertAgolHubsFeature(f));
 
       return geojsonFeatures;
     } catch (err) {
-      return err;
+      return new Error(err);
     }
   }
 }
