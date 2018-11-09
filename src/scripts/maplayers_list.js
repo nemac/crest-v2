@@ -5,6 +5,14 @@ import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
 import { Store } from './store';
 
+// Legend Templates
+import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+import ColorRampExposure from '../templates/colorramp_exposure.html';
+import ColorRampAsset from '../templates/colorramp_asset.html';
+import ColorRampThreat from '../templates/colorramp_threat.html';
+
 // scss
 import '../css/maplayers_list.scss';
 
@@ -30,6 +38,7 @@ export class MapLayersList extends Component {
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
     TMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
+    TMSLayers.forEach((layerProps) => { MapLayersList.addLegendHTML(layerProps); });
 
     // check if map layer list is minimized on initialization if so minimize it.
     const mapLayerListState = store.getStateItem('maplayerlist');
@@ -41,6 +50,7 @@ export class MapLayersList extends Component {
     }
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
+    MapLayersList.addDescriptionListeners();
   }
 
   static addBaseMapListeners(mapComponent) {
@@ -135,6 +145,132 @@ export class MapLayersList extends Component {
 
     // update label
     MapLayersList.updateLayerListName(layerProps.id, layerProps.label);
+  }
+
+  // Gets the HTML wrapper of layer controls by id
+  //
+  // @param id | String
+  // @return DOM Element
+  static getLayerWrapperFromString(id) {
+    return document.getElementById(`${id}-layerToggle`);
+  }
+
+  // Gets the HTML wrapper of layer controls by child elem
+  //
+  // @param elem | DOM Element
+  // @return DOM Element
+  static getLayerWrapperFromElem(elem) {
+    return elem.closest('.custom-control');
+  }
+
+  // Multiple functions need to get the wrapper but have different parameters available in their
+  // closure, so this gets the wrapper based on what they have.
+  //
+  // @param param | String || DOM Element
+  // @return DOM Element
+  static getLayerWrapper(param) {
+    return typeof param === 'string' ? MapLayersList.getLayerWrapperFromString(param) :
+      MapLayersList.getLayerWrapperFromElem(param);
+  }
+
+  // Gets the HTML wrapper of a layers legend and description
+  //
+  // @param elem | DOM Element
+  // @return DOM Element
+  static getLegendWrapper(elem) {
+    return elem.querySelector('.layer-legend');
+  }
+
+  // Returns the HTML for a specified legend type
+  //
+  // @param type | String
+  // @return String
+  static getLegendHtml(type) {
+    switch (type) {
+      case 'hub':
+        return ColorRampHub;
+      case 'asset':
+        return ColorRampAsset;
+      case 'threat':
+        return ColorRampThreat;
+      case 'exposure':
+        return ColorRampExposure;
+      case 'terrestrial':
+        return ColorRampTerrestrial;
+      case 'aquatic':
+        return ColorRampAquatic;
+      default:
+        return '';
+    }
+  }
+
+  // Gets the HTML wrapper of a layers description
+  //
+  // @param elem | DOM Element
+  // @return DOM Element
+  static getDescriptionWrapper(elem) {
+    return elem.querySelector('.layer-description-text');
+  }
+
+  // Opens and closes the legend area
+  //
+  // @param elem | DOM Element
+  static toggleLegendHtml(elem) {
+    elem.classList.toggle('closed');
+    MapLayersList.getLayerWrapper(elem).querySelector('.layer-description-wrapper').classList.toggle('closed');
+  }
+
+  // Gets the id of the legend to be used in the store
+  //
+  // @param elem | DOM Element
+  static getLegendId(elem) {
+    return `${MapLayersList.getLayerWrapper(elem).id.replace('-layerToggle', '')}-legend`;
+  }
+
+  // Adds or removes the legend from the store
+  //
+  // @param elem | DOM Element
+  static toggleLegendState(elem) {
+    const legendId = MapLayersList.getLegendId(elem);
+    store.checkItem(legendId) ? store.removeStateItem(legendId) :
+      store.addStateItem(legendId, 'true');
+  }
+
+  // Opens the legend block if the legend id is in the store
+  //
+  // @param elem | DOM Element
+  static setInitialLegendStatus(elem) {
+    const legendId = MapLayersList.getLegendId(elem);
+    if (store.checkItem(legendId)) {
+      MapLayersList.toggleLegendHtml(elem);
+    }
+  }
+
+  // Inserts the legend and layer description
+  //
+  // @param layerProps | Object
+  static addLegendHTML(layerProps) {
+    const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
+    MapLayersList.getLegendWrapper(layerElem).innerHTML = MapLayersList.getLegendHtml(layerProps.legend);
+    MapLayersList.getDescriptionWrapper(layerElem).textContent = layerProps.description;
+    MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-description-toggler')[0]);
+  }
+
+  // Handles the toggle legend button being interacted with
+  // `this` is the button dom element.
+  static handleLegendChange(e) {
+    MapLayersList.toggleLegendHtml(this);
+    MapLayersList.toggleLegendState(this);
+  }
+
+  // Adds listeners to the legend buttons
+  static addDescriptionListeners() {
+    const descriptionButtons = document.getElementsByClassName('layer-description-toggler');
+    let i;
+    let l;
+    for (i = 0, l = descriptionButtons.length; i < l; i += 1) {
+      descriptionButtons[i].addEventListener('click', MapLayersList.handleLegendChange);
+    }
   }
 
   /**
