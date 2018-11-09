@@ -5,6 +5,14 @@ import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
 import { Store } from './store';
 
+// Legend Templates
+import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+import ColorRampExposure from '../templates/colorramp_exposure.html';
+import ColorRampAsset from '../templates/colorramp_asset.html';
+import ColorRampThreat from '../templates/colorramp_threat.html';
+
 // scss
 import '../css/maplayers_list.scss';
 
@@ -30,6 +38,7 @@ export class MapLayersList extends Component {
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
     TMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
+    TMSLayers.forEach((layerProps) => { this.addLegendHTML(layerProps); });
 
     // check if map layer list is minimized on initialization if so minimize it.
     const mapLayerListState = store.getStateItem('maplayerlist');
@@ -41,6 +50,7 @@ export class MapLayersList extends Component {
     }
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
+    this.addDescriptionListeners();
   }
 
   static addBaseMapListeners(mapComponent) {
@@ -135,6 +145,53 @@ export class MapLayersList extends Component {
 
     // update label
     MapLayersList.updateLayerListName(layerProps.id, layerProps.label);
+  }
+
+  getLayerWrapper(id) {
+    return document.getElementById(`${id}-layerToggle`);
+  }
+
+  getLegendWrapper(elem) {
+    return elem.querySelector('.layer-legend');
+  }
+
+  getLegendHtml(type) {
+    switch (type) {
+      case "hub":
+        return ColorRampHub;
+      case "asset":
+        return ColorRampAsset;
+      case "threat":
+        return ColorRampThreat;
+      case "exposure":
+        return ColorRampExposure;
+      case "terrestrial":
+        return ColorRampTerrestrial;
+      case "aquatic":
+        return ColorRampAquatic;
+    }
+  }
+
+  getDescriptionWrapper(elem) {
+    return elem.querySelector('.layer-description-text');
+  }
+
+  addLegendHTML(layerProps) {
+    const layerElem = this.getLayerWrapper(layerProps.id);
+    this.getLegendWrapper(layerElem).innerHTML = this.getLegendHtml(layerProps.legend);
+    this.getDescriptionWrapper(layerElem).textContent = layerProps.description;
+  }
+
+  openLegendHtml(e) {
+    this.closest(".custom-control").querySelector('.layer-description-wrapper').classList.toggle('closed');
+  }
+
+  addDescriptionListeners() {
+    const descriptionButtons = document.getElementsByClassName('layer-description-toggler');
+    let i, l;
+    for (i = 0, l = descriptionButtons.length; i < l; i++) {
+      descriptionButtons[i].addEventListener('click', this.openLegendHtml);
+    }
   }
 
   /**

@@ -299,3 +299,50 @@ $map_right_margin: 10px;
     font-size: .8rem;
     padding: 2px;
 }
+
+.maplayers_list {
+    .zonal-long-table-row {
+        margin-top: 0;
+    }
+
+    div.zonal-long-table-header-simple {
+        top: 0;
+    }
+
+    .zonal-long-table-row-header-simple {
+        height: 18px;
+    }
+
+    .zonal-long-table-item, .zonal-long-table-row-header-simple {
+        transition-property: all;
+        transition-duration: .5s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+    }
+}
+
+.layer-description-wrapper {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ffffff40;
+    margin-bottom: 5px;
+    margin-left: -1.5rem; /* Negative of the left padding on the .custom-control which is declared.... somewhere.... */
+    overflow: hidden;
+    max-height: 500px;
+    transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.layer-description-text {
+    font-size: .95em;
+    line-height: 1.3em;
+    margin-top: 5px;
+}
+
+.layer-description-wrapper.closed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+    margin-bottom: 0;
+}
