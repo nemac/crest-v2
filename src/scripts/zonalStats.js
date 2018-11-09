@@ -1017,7 +1017,7 @@ function drawLongZonalStats(data, name) {
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.setAttribute('id', `name-${HTMLName}`);
-  buildLongStatsHtml(wrapper)
+  buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
 
   selectChartCell(wrapper, 'hub', data.hubs);

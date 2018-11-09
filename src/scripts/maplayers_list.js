@@ -50,7 +50,7 @@ export class MapLayersList extends Component {
     }
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
-    this.addDescriptionListeners();
+    MapLayersList.addDescriptionListeners();
   }
 
   static addBaseMapListeners(mapComponent) {
@@ -169,7 +169,7 @@ export class MapLayersList extends Component {
   // @param param | String || DOM Element
   // @return DOM Element
   static getLayerWrapper(param) {
-    return typeof(param) === 'string' ? MapLayersList.getLayerWrapperFromString(param) :
+    return typeof param === 'string' ? MapLayersList.getLayerWrapperFromString(param) :
       MapLayersList.getLayerWrapperFromElem(param);
   }
 
@@ -224,7 +224,7 @@ export class MapLayersList extends Component {
   //
   // @param elem | DOM Element
   static getLegendId(elem) {
-    return MapLayersList.getLayerWrapper(elem).id.replace('-layerToggle', '') + '-legend';
+    return `${MapLayersList.getLayerWrapper(elem).id.replace('-layerToggle', '')}-legend`;
   }
 
   // Adds or removes the legend from the store
@@ -264,7 +264,7 @@ export class MapLayersList extends Component {
   }
 
   // Adds listeners to the legend buttons
-  addDescriptionListeners() {
+  static addDescriptionListeners() {
     const descriptionButtons = document.getElementsByClassName('layer-description-toggler');
     let i;
     let l;
