@@ -1,4 +1,10 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
+import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+import ColorRampExposure from '../templates/colorramp_exposure.html';
+import ColorRampAsset from '../templates/colorramp_asset.html';
+import ColorRampThreat from '../templates/colorramp_threat.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import { identifyConfig } from '../config/identifyConfig';
@@ -689,6 +695,20 @@ function formatPosition(position) {
   return `${position}%`;
 }
 
+// Builds the inner HTML for the long zonal stats
+// @param DOM Element | wrapper
+function buildLongStatsHtml(wrapper) {
+  const innerWrapper = wrapper; // lint complains otherwise, but due to chaining of functions it's mistaken
+  innerWrapper.innerHTML = ZonalLong;
+
+  innerWrapper.querySelector('.zonal-long-hub .zonal-long-table-wrapper').innerHTML = ColorRampHub;
+  innerWrapper.querySelector('.zonal-long-table-index--aquatic .zonal-long-table-wrapper').innerHTML = ColorRampAquatic;
+  innerWrapper.querySelector('.zonal-long-table-index--wildlife .zonal-long-table-wrapper').innerHTML = ColorRampTerrestrial;
+  innerWrapper.querySelector('.zonal-long-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
+  innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
+  innerWrapper.querySelector('.zonal-long-table-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampThreat;
+}
+
 // convert a number to to the word representation
 // of the number.  We are using the word in the HTML class
 // and will use this to highlight the value in the chart details
@@ -1251,7 +1271,7 @@ function drawLongZonalStats(data, name) {
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.setAttribute('id', `name-${HTMLName}`);
-  wrapper.innerHTML = ZonalLong;
+  buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
 
   selectChartCell(wrapper, 'hub', data.hubs);
