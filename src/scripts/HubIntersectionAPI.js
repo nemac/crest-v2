@@ -86,7 +86,7 @@ export class HubIntersectionApi {
         outSR: 4326
       };
 
-     const response = await axios.get(this.queryUrl, {
+      const response = await axios.get(this.queryUrl, {
         params: queryParams
       });
       if (Object.prototype.hasOwnProperty.call(response.data, 'error')) {
