@@ -596,14 +596,15 @@ function formatPosition(position) {
 // Builds the inner HTML for the long zonal stats
 // @param DOM Element | wrapper
 function buildLongStatsHtml(wrapper) {
-  wrapper.innerHTML = ZonalLong;
+  const innerWrapper = wrapper; // lint complains otherwise, but due to chaining of functions it's mistaken
+  innerWrapper.innerHTML = ZonalLong;
 
-  wrapper.querySelector(".zonal-long-hub .zonal-long-table-wrapper").innerHTML = ColorRampHub;
-  wrapper.querySelector(".zonal-long-table-index--aquatic .zonal-long-table-wrapper").innerHTML = ColorRampAquatic;
-  wrapper.querySelector(".zonal-long-table-index--wildlife .zonal-long-table-wrapper").innerHTML = ColorRampTerrestrial;
-  wrapper.querySelector(".zonal-long-exposure-box .zonal-long-table-wrapper").innerHTML = ColorRampExposure;
-  wrapper.querySelector(".zonal-long-table-asset-sep .zonal-long-table-wrapper").innerHTML = ColorRampAsset;
-  wrapper.querySelector(".zonal-long-table-threat-sep .zonal-long-table-wrapper").innerHTML = ColorRampThreat;
+  innerWrapper.querySelector('.zonal-long-hub .zonal-long-table-wrapper').innerHTML = ColorRampHub;
+  innerWrapper.querySelector('.zonal-long-table-index--aquatic .zonal-long-table-wrapper').innerHTML = ColorRampAquatic;
+  innerWrapper.querySelector('.zonal-long-table-index--wildlife .zonal-long-table-wrapper').innerHTML = ColorRampTerrestrial;
+  innerWrapper.querySelector('.zonal-long-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
+  innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
+  innerWrapper.querySelector('.zonal-long-table-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampThreat;
 }
 
 // convert a number to to the word representation

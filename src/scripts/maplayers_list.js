@@ -38,7 +38,7 @@ export class MapLayersList extends Component {
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
     TMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
-    TMSLayers.forEach((layerProps) => { this.addLegendHTML(layerProps); });
+    TMSLayers.forEach((layerProps) => { MapLayersList.addLegendHTML(layerProps); });
 
     // check if map layer list is minimized on initialization if so minimize it.
     const mapLayerListState = store.getStateItem('maplayerlist');
@@ -151,7 +151,7 @@ export class MapLayersList extends Component {
   //
   // @param id | String
   // @return DOM Element
-  getLayerWrapper(id) {
+  static getLayerWrapper(id) {
     return document.getElementById(`${id}-layerToggle`);
   }
 
@@ -159,7 +159,7 @@ export class MapLayersList extends Component {
   //
   // @param elem | DOM Element
   // @return DOM Element
-  getLegendWrapper(elem) {
+  static getLegendWrapper(elem) {
     return elem.querySelector('.layer-legend');
   }
 
@@ -167,20 +167,22 @@ export class MapLayersList extends Component {
   //
   // @param type | String
   // @return String
-  getLegendHtml(type) {
+  static getLegendHtml(type) {
     switch (type) {
-      case "hub":
+      case 'hub':
         return ColorRampHub;
-      case "asset":
+      case 'asset':
         return ColorRampAsset;
-      case "threat":
+      case 'threat':
         return ColorRampThreat;
-      case "exposure":
+      case 'exposure':
         return ColorRampExposure;
-      case "terrestrial":
+      case 'terrestrial':
         return ColorRampTerrestrial;
-      case "aquatic":
+      case 'aquatic':
         return ColorRampAquatic;
+      default:
+        return '';
     }
   }
 
@@ -188,17 +190,17 @@ export class MapLayersList extends Component {
   //
   // @param elem | DOM Element
   // @return DOM Element
-  getDescriptionWrapper(elem) {
+  static getDescriptionWrapper(elem) {
     return elem.querySelector('.layer-description-text');
   }
 
   // Inserts the legend and layer description
   //
   // @param layerProps | Object
-  addLegendHTML(layerProps) {
-    const layerElem = this.getLayerWrapper(layerProps.id);
-    this.getLegendWrapper(layerElem).innerHTML = this.getLegendHtml(layerProps.legend);
-    this.getDescriptionWrapper(layerElem).textContent = layerProps.description;
+  static addLegendHTML(layerProps) {
+    const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
+    MapLayersList.getLegendWrapper(layerElem).innerHTML = MapLayersList.getLegendHtml(layerProps.legend);
+    MapLayersList.getDescriptionWrapper(layerElem).textContent = layerProps.description;
   }
 
   // Opens and closes the legend area
@@ -210,8 +212,9 @@ export class MapLayersList extends Component {
   // Adds listeners to the legend buttons
   addDescriptionListeners() {
     const descriptionButtons = document.getElementsByClassName('layer-description-toggler');
-    let i, l;
-    for (i = 0, l = descriptionButtons.length; i < l; i++) {
+    let i;
+    let l;
+    for (i = 0, l = descriptionButtons.length; i < l; i += 1) {
       descriptionButtons[i].addEventListener('click', this.openLegendHtml);
     }
   }
