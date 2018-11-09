@@ -147,14 +147,26 @@ export class MapLayersList extends Component {
     MapLayersList.updateLayerListName(layerProps.id, layerProps.label);
   }
 
+  // Gets the HTML wrapper of layer controls by id
+  //
+  // @param id | String
+  // @return DOM Element
   getLayerWrapper(id) {
     return document.getElementById(`${id}-layerToggle`);
   }
 
+  // Gets the HTML wrapper of a layers legend and description
+  //
+  // @param elem | DOM Element
+  // @return DOM Element
   getLegendWrapper(elem) {
     return elem.querySelector('.layer-legend');
   }
 
+  // Returns the HTML for a specified legend type
+  //
+  // @param type | String
+  // @return String
   getLegendHtml(type) {
     switch (type) {
       case "hub":
@@ -172,20 +184,30 @@ export class MapLayersList extends Component {
     }
   }
 
+  // Gets the HTML wrapper of a layers description
+  //
+  // @param elem | DOM Element
+  // @return DOM Element
   getDescriptionWrapper(elem) {
     return elem.querySelector('.layer-description-text');
   }
 
+  // Inserts the legend and layer description
+  //
+  // @param layerProps | Object
   addLegendHTML(layerProps) {
     const layerElem = this.getLayerWrapper(layerProps.id);
     this.getLegendWrapper(layerElem).innerHTML = this.getLegendHtml(layerProps.legend);
     this.getDescriptionWrapper(layerElem).textContent = layerProps.description;
   }
 
+  // Opens and closes the legend area
   openLegendHtml(e) {
-    this.closest(".custom-control").querySelector('.layer-description-wrapper').classList.toggle('closed');
+    this.classList.toggle('closed');
+    this.closest('.custom-control').querySelector('.layer-description-wrapper').classList.toggle('closed');
   }
 
+  // Adds listeners to the legend buttons
   addDescriptionListeners() {
     const descriptionButtons = document.getElementsByClassName('layer-description-toggler');
     let i, l;

@@ -346,3 +346,17 @@ $map_right_margin: 10px;
     border-bottom: 0;
     margin-bottom: 0;
 }
+
+.layer-description-toggler {
+    width: 30px;
+    color: #999595;
+    cursor: pointer;
+
+    &.closed {
+        color: #fff;
+    }
+
+    &:hover {
+        color: #999595;
+    }
+}
