@@ -123,7 +123,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "asset",
+      legend: "driver-asset",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -140,7 +140,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "asset",
+      legend: "driver-asset",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -157,7 +157,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "asset",
+      legend: "driver-asset",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -174,7 +174,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "asset",
+      legend: "driver-asset",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -191,7 +191,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "threat",
+      legend: "driver-threat",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -208,7 +208,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "threat",
+      legend: "driver-threat",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -225,7 +225,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "threat",
+      legend: "driver-threat",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -242,7 +242,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "threat",
+      legend: "driver-threat",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -259,7 +259,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "threat",
+      legend: "driver-threat",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -276,7 +276,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "threat",
+      legend: "driver-threat",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
@@ -293,7 +293,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "threat",
+      legend: "driver-threat",
       description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
   ],
