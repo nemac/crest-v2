@@ -318,6 +318,12 @@ $map_right_margin: 10px;
         transition-duration: .5s;
         transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
     }
+
+    .driver-chart-backgroundColor-asset, .driver-chart-backgroundColor-threat {
+        &-zero, &-one, &-two {
+            color: #000;
+        }
+    }
 }
 
 .layer-description-wrapper {

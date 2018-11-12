@@ -12,6 +12,8 @@ import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
 import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
+import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
+import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
 
 // scss
 import '../css/maplayers_list.scss';
@@ -199,6 +201,10 @@ export class MapLayersList extends Component {
         return ColorRampTerrestrial;
       case 'aquatic':
         return ColorRampAquatic;
+      case 'driver-asset':
+        return ColorRampDriverAsset;
+      case 'driver-threat':
+        return ColorRampDriverThreat;
       default:
         return '';
     }
@@ -317,4 +323,25 @@ export class MapLayersList extends Component {
     // Trigger layer toggle callback
     this.triggerEvent('layerToggle', layerName);
   }
+}
+
+if (!Element.prototype.matches) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector ||
+    Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+  Element.prototype.closest = (s) => {
+    let el = this;
+    if (!document.documentElement.contains(el)) {
+      return null;
+    }
+    do {
+      if (el.matches(s)) {
+        return el;
+      }
+      el = el.parentElement || el.parentNode;
+    } while (el !== null && el.nodeType === 1);
+    return null;
+  };
 }
