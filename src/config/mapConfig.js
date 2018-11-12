@@ -4,7 +4,7 @@ export var mapConfig = {
   ESRIVectorBasemap: {
     name: "DarkGray"
   },
- 
+
   //tile layers (WMS)
   TMSLayers:[
     {
@@ -112,7 +112,7 @@ export var mapConfig = {
     {
       id: "PopDensityTMS",
       layer: "Population Density TMS",
-      label: "Population Density Index",
+      label: "Population Density",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/PopDensityIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -129,7 +129,7 @@ export var mapConfig = {
     {
       id: "SocVulnTMS",
       layer: "Social Vulnerability TMS",
-      label: "Social Vulnerability Index",
+      label: "Social Vulnerability",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/SocVulnIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -146,7 +146,7 @@ export var mapConfig = {
     {
       id: "CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",
-      label: "Critical Facilities Index",
+      label: "Critical Facilities",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -163,7 +163,7 @@ export var mapConfig = {
     {
       id: "CriticalInfrastructureTMS",
       layer: "Critical Infrastructure TMS",
-      label: "Critical Infrastructure Index",
+      label: "Critical Infrastructure",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -180,7 +180,7 @@ export var mapConfig = {
     {
       id: "DraingeTMS",
       layer: "Drainge TMS",
-      label: "Drainge Index",
+      label: "Drainge",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/DraingeIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -197,7 +197,7 @@ export var mapConfig = {
     {
       id: "ErosionTMS",
       layer: "Erosion TMS",
-      label: "Erosion Index",
+      label: "Erosion",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/ErosionIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -214,7 +214,7 @@ export var mapConfig = {
     {
       id: "SLRTMS",
       layer: "Sea Level Rise TMS",
-      label: "Sea Level Rise Index",
+      label: "Sea Level Rise",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/SLRIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -231,7 +231,7 @@ export var mapConfig = {
     {
       id: "StormSurgeTMS",
       layer: "Storm Surge TMS",
-      label: "Storm Surge Index",
+      label: "Storm Surge",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/StormSurgeIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -248,7 +248,7 @@ export var mapConfig = {
     {
       id: "GeoStressTMS",
       layer: "Geo Stressors TMS",
-      label: "Geo Stressors Index",
+      label: "Geo Stressors",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/GeoStressIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -265,7 +265,7 @@ export var mapConfig = {
     {
       id: "SlopeTMS",
       layer: "Slope TMS",
-      label: "Slope Index",
+      label: "Areas of Low Slope",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/SlopeIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -282,7 +282,7 @@ export var mapConfig = {
     {
       id: "FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
-      label: "Flood Prone Areas Index",
+      label: "Flood Prone Areas",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/FloodProneAreasIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
