@@ -1,4 +1,3 @@
-
 export var mapConfig = {
 
   //ESRI Vector BaseMap
@@ -21,7 +20,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
-      tms: false
+      tms: false,
+      legend: "hub",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "ExposureTMS",
@@ -36,7 +37,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
-      tms: false
+      tms: false,
+      legend: "exposure",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "AssetsTMS",
@@ -51,7 +54,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
-      tms: false
+      tms: false,
+      legend: "asset",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "ThreatsTMS",
@@ -66,7 +71,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
-      tms: false
+      tms: false,
+      legend: "threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "AquaticTMS",
@@ -81,7 +88,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "aquatic",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "TerrestrialTMS",
@@ -96,7 +105,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "terrestrial",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "PopDensityTMS",
@@ -111,7 +122,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-asset",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "SocVulnTMS",
@@ -126,7 +139,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-asset",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "CriticalFacilitiesTMS",
@@ -141,7 +156,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-asset",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "CriticalInfrastructureTMS",
@@ -156,7 +173,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-asset",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "DraingeTMS",
@@ -171,7 +190,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "ErosionTMS",
@@ -186,7 +207,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "SLRTMS",
@@ -201,7 +224,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "StormSurgeTMS",
@@ -216,7 +241,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "GeoStressTMS",
@@ -231,7 +258,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "SlopeTMS",
@@ -246,7 +275,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
     {
       id: "FloodProneAreasTMS",
@@ -261,7 +292,9 @@ export var mapConfig = {
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
-      tms: false
+      tms: false,
+      legend: "driver-threat",
+      description: "A general description of the layer. A general description of the layer. A general description of the layer. A general description of the layer."
     },
   ],
 
@@ -362,7 +395,6 @@ export var mapConfig = {
     minZoom: 4,
     crs: L.CRS.EPSG3857
   }
-
 
 };
 

@@ -1,4 +1,10 @@
 import ZonalWrapper from '../templates/zonal_wrapper.html';
+import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+import ColorRampExposure from '../templates/colorramp_exposure.html';
+import ColorRampAsset from '../templates/colorramp_asset.html';
+import ColorRampThreat from '../templates/colorramp_threat.html';
 import ZonalLong from '../templates/zonal_long.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
@@ -568,23 +574,38 @@ function getDriverHeight(driver) {
 }
 
 
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-function getDriverOneZeroHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 1;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
+// // Finds the scaled position for the drivers
+// // @param driver | float - value from the api for a driver
+// // @return float - [0,100]
+// function getDriverOneZeroHeight(driver) {
+//   const LOW_RANGE = 0;
+//   const HIGH_RANGE = 1;
+//   const SCALE = 0;
+//   const SCALE_GROUPS = 1;
+//
+//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+// }
 
 // Returns a position formatted as a percentage
 // @param position | float
 // @return String
 function formatPosition(position) {
   return `${position}%`;
+}
+
+// Builds the inner HTML for the long zonal stats
+// @param DOM Element | wrapper
+function buildLongStatsHtml(wrapper) {
+  // lint complains otherwise, but due to chaining of functions it's mistaken
+  const innerWrapper = wrapper;
+  innerWrapper.innerHTML = ZonalLong;
+
+  innerWrapper.querySelector('.zonal-long-hub .zonal-long-table-wrapper').innerHTML = ColorRampHub;
+  innerWrapper.querySelector('.zonal-long-table-index--aquatic .zonal-long-table-wrapper').innerHTML = ColorRampAquatic;
+  innerWrapper.querySelector('.zonal-long-table-index--wildlife .zonal-long-table-wrapper').innerHTML = ColorRampTerrestrial;
+  innerWrapper.querySelector('.zonal-long-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
+  innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
+  innerWrapper.querySelector('.zonal-long-table-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampThreat;
 }
 
 // convert a number to to the word representation
@@ -869,13 +890,14 @@ function getThreatDrivers(data) {
 // @param graph | DOM element
 // @param driver | Object
 function drawDriver(graph, type, driver) {
+  const height = getDriverHeight(driver.value);
+  const csstype = type;
+
   // social-vulnerability is 0,1 scalled
-  let height = getDriverHeight(driver.value);
-  let csstype = type;
-  if (driver.key === 'social-vulnerability') {
-    height = getDriverOneZeroHeight(driver.value);
-    csstype = 'assettwo';
-  }
+  // if (driver.key === 'social-vulnerability') {
+  //   height = getDriverOneZeroHeight(driver.value);
+  //   csstype = 'assettwo';
+  // }
 
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
@@ -997,7 +1019,7 @@ function drawLongZonalStats(data, name) {
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.setAttribute('id', `name-${HTMLName}`);
-  wrapper.innerHTML = ZonalLong;
+  buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
 
   selectChartCell(wrapper, 'hub', data.hubs);
