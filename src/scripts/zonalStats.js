@@ -574,17 +574,17 @@ function getDriverHeight(driver) {
 }
 
 
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-function getDriverOneZeroHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 1;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
+// // Finds the scaled position for the drivers
+// // @param driver | float - value from the api for a driver
+// // @return float - [0,100]
+// function getDriverOneZeroHeight(driver) {
+//   const LOW_RANGE = 0;
+//   const HIGH_RANGE = 1;
+//   const SCALE = 0;
+//   const SCALE_GROUPS = 1;
+//
+//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+// }
 
 // Returns a position formatted as a percentage
 // @param position | float
@@ -596,7 +596,8 @@ function formatPosition(position) {
 // Builds the inner HTML for the long zonal stats
 // @param DOM Element | wrapper
 function buildLongStatsHtml(wrapper) {
-  const innerWrapper = wrapper; // lint complains otherwise, but due to chaining of functions it's mistaken
+  // lint complains otherwise, but due to chaining of functions it's mistaken
+  const innerWrapper = wrapper;
   innerWrapper.innerHTML = ZonalLong;
 
   innerWrapper.querySelector('.zonal-long-hub .zonal-long-table-wrapper').innerHTML = ColorRampHub;
@@ -889,13 +890,14 @@ function getThreatDrivers(data) {
 // @param graph | DOM element
 // @param driver | Object
 function drawDriver(graph, type, driver) {
+  const height = getDriverHeight(driver.value);
+  const csstype = type;
+
   // social-vulnerability is 0,1 scalled
-  let height = getDriverHeight(driver.value);
-  let csstype = type;
-  if (driver.key === 'social-vulnerability') {
-    height = getDriverOneZeroHeight(driver.value);
-    csstype = 'assettwo';
-  }
+  // if (driver.key === 'social-vulnerability') {
+  //   height = getDriverOneZeroHeight(driver.value);
+  //   csstype = 'assettwo';
+  // }
 
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
