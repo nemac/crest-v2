@@ -195,11 +195,11 @@ function returnSimpleButtonElementId(element) {
 function makeOverviewLabel() {
   const Overview = makeDiv();
 
-  Overview.setAttribute('title', `Overview`);
-  Overview.setAttribute('aria-label', `Overview`);
+  Overview.setAttribute('title', 'Overview');
+  Overview.setAttribute('aria-label', 'Overview');
   Overview.classList.add('col-12');
-  Overview.setAttribute('id', "overview-label");
-  Overview.innerHTML = `<h3>Overview</h3>`;
+  Overview.setAttribute('id', 'overview-label');
+  Overview.innerHTML = '<h3>Overview</h3>';
   return Overview;
 }
 // Makes main title for an individual short zonal stats item
