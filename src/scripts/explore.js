@@ -122,6 +122,12 @@ export class Explore extends Component {
       this.drawUserAreaFromUsereas();
     });
 
+    document.getElementById('btn-reset').addEventListener('click', (e) => {
+      store.clearState();
+      location.reload();
+    });
+
+
     Explore.windowListnersToStopRoqueSpinner();
     // uncomment this if we want to add the draw area button to leaflet
     // control

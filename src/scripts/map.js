@@ -75,7 +75,7 @@ export class Map extends Component {
     this.addBaseMap();
 
     // zoom in and out to ensure proper rendering of tiles
-    this.zoomInAndOut();
+    // this.zoomInAndOut();
 
     // force map re-render
     this.forceMapReRender();

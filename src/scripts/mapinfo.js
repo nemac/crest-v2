@@ -248,7 +248,7 @@ export class MapInfo extends Component {
         opacity: 0.9,
         autoPan: false,
         className: 'map-information-popup',
-        offset: L.point(-123, 20)
+        offset: L.point(-133, 20)
       }
     ).openPopup();
 

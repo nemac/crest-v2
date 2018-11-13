@@ -383,14 +383,16 @@ export var mapConfig = {
  ],
 
  mapDefaults: {
-    center: [ 32.7765, -79.9311 ],
-    zoom: 12
+    // center: [ 32.7765, -79.9311 ],
+    // zoom: 12
+    center: [ 36.27970720524017, -95.05371093750001],
+    zoom: 4
  },
 
   //leaflet optoins expand as needed
   mapOptions: {
     // center: [ 32.7765, -79.9311 ],
-    zoom: 12,
+    zoom: 4,
     maxZoom: 16,
     minZoom: 4,
     crs: L.CRS.EPSG3857

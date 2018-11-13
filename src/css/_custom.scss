@@ -16,6 +16,9 @@ html, body {
     height: 100%;
 }
 
+.btn-reset {
+  width: 50px !important;
+}
 .userarealabel {
   color: $gray-200;
   font-size: 1.5em;
@@ -203,7 +206,7 @@ html, body {
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
   width: 90px;
-  height: 80px;
+  height: 90px;
   margin: 5px;
   font-size: .9rem;
 }
