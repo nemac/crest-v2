@@ -16,6 +16,27 @@ html, body {
     height: 100%;
 }
 
+.about-main-text, .about-tool-text {
+    margin: $margin;
+}
+
+#second-tab-content {
+  margin-top: 50px;
+}
+
+#glossary-holder, #exposure-holder ,#aboutgen-holder {
+  margin-top: $margin;
+}
+
+.definition-text {
+  font-size: .9em;
+}
+
+.term {
+  font-size: 1em;
+  font-weight: 800;
+}
+
 .userarealabel {
   color: $gray-200;
   font-size: 1.5em;
