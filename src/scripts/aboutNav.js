@@ -2,9 +2,14 @@
 import navTemplate from '../templates/aboutnav_bar.html';
 import NavBarsTemplate from '../templates/aboutnav_bar_nav.html';
 import { Component } from './components';
+import { Store } from './store';
 
 import { navConfig } from '../config/aboutConfig';
-import { toggleElementDisplay } from './utilitys';
+import {
+  checkValidObject
+} from './utilitys';
+
+const store = new Store({});
 
 /**
  * NavBar Component
@@ -23,6 +28,7 @@ export class AboutNavBar extends Component {
 
     // get the main nav element
     const navHeaderElement = document.getElementById('about-nav');
+
 
     /**
      *  iterate each nav and add it to the ui
@@ -48,6 +54,14 @@ export class AboutNavBar extends Component {
       cnt += 1;
     });
 
+    const aboutNav = store.getStateItem('aboutNav');
+
+    if (checkValidObject(aboutNav)) {
+      AboutNavBar.deactivateAllNavs();
+      AboutNavBar.toggleTabContent(aboutNav);
+      const el = document.getElementById(aboutNav);
+      el.className += ' active';
+    }
     // add click event for active toggle
     this.addTabClick();
   }
@@ -63,6 +77,7 @@ export class AboutNavBar extends Component {
 
         // add to store later
         this.activeNav = nav.id;
+        store.setStoreItem('aboutNav', this.activeNav);
       });
     });
   }

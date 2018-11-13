@@ -73,6 +73,7 @@ export class URL {
   getShareUrl() {
     const state = this.encodeStateStringShare();
     let baseurl = `${window.location.origin}`;
+
     // handle gh pages dist folder.
     if (baseurl === 'https://nemac.github.io') {
       baseurl += '/NFWF_tool/dist';
@@ -82,7 +83,8 @@ export class URL {
 
   setUrl() {
     const state = this.encodeStateString();
-    URL.updateURL(`?state=${state}`);
+    const hash = window.location.hash.substr(1);
+    URL.updateURL(`#${hash}?state=${state}`);
   }
 
   static getUrl() {
