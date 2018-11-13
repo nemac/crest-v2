@@ -19,10 +19,10 @@
 //  In these cases an Error object is returned.
 
 import config from '../config/hubIntersectionConfig';
+
 const Terraformer = require('terraformer');
 Terraformer.ArcGIS = require('terraformer-arcgis-parser');
 const axios = require('axios');
-
 
 function transformAgolAttrs(attrs) {
   const props = { mean: {} };

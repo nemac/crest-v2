@@ -395,12 +395,22 @@ div.zonal-asset {
   }
 }
 
-
 .btn-details {
   height: 30px;
-   margin-top: 50px !important;
+  margin-top: 50px !important;
 }
 
+#overview-label {
+    display: none;
+}
+
+.zonal-stats-wrapper:first-of-type {
+
+  #overview-label {
+      display: unset;
+  }
+
+}
 
 .zonal-hubs {
     width: 90%;
@@ -1212,6 +1222,56 @@ div.zonal-asset {
 }
 
 
+.zonal-long-graph-label{
+  &-asset {
+    .zonal-long-graph-label-text{
+      left: 15% !important;
+    }
+  }
+  &-threat {
+    .zonal-long-graph-label-text{
+      left: 15% !important;
+    }
+  }
+  &-aquatic {
+    .zonal-long-graph-label-text{
+      left: 15% !important;
+    }
+  }
+  &-terrestrial {
+    .zonal-long-graph-label-text{
+      left: 15% !important;
+    }
+  }
+}
+
+
+@media (min-width: 1800px) {
+  .zonal-long-graph-label{
+    &-asset {
+      .zonal-long-graph-label-text{
+        left: 25% !important;
+      }
+    }
+    &-threat {
+      .zonal-long-graph-label-text{
+        left: 25% !important;
+      }
+    }
+    &-aquatic {
+      .zonal-long-graph-label-text{
+        left: 25% !important;
+      }
+    }
+    &-terrestrial {
+      .zonal-long-graph-label-text{
+        left: 25% !important;
+      }
+    }
+  }
+}
+
+
 @media (max-width: 1286px) {
   .zonal-long-graph-label{
 
@@ -1244,6 +1304,7 @@ div.zonal-asset {
         left: -55% !important;
       }
     }
+
   }
 }
 

@@ -95,7 +95,7 @@ function stripUserArea(id) {
 // Gets text for an individual short zonal stats item title
 // @return String
 function makeLabelText(name) {
-   return `Get details for ${name}`;
+  return `Get details for ${name}`;
 }
 
 // Makes main title for an individual short zonal stats item
@@ -189,6 +189,19 @@ function returnSimpleButtonElementId(element) {
   }
   return areaname;
 }
+
+// Makes main title for an individual short zonal stats item
+// @return DOM element
+function makeOverviewLabel() {
+  const Overview = makeDiv();
+
+  Overview.setAttribute('title', `Overview`);
+  Overview.setAttribute('aria-label', `Overview`);
+  Overview.classList.add('col-12');
+  Overview.setAttribute('id', "overview-label");
+  Overview.innerHTML = `<h3>Overview</h3>`;
+  return Overview;
+}
 // Makes main title for an individual short zonal stats item
 // @return DOM element
 function makeRemoveLabel(name, mapComponent) {
@@ -248,33 +261,33 @@ function getIdentifyValue(type, rank) {
   return item;
 }
 
-function toolTipForBox(wrapper, value) {
-  const tooltipValue = checkNoData(value) ? 'None' : Math.round(value * 100) / 100;
-  wrapper.setAttribute('title', `${tooltipValue}`);
-  wrapper.setAttribute('aria-label', `${tooltipValue}`);
-  wrapper.setAttribute('data-toggle', 'tooltip');
-  wrapper.setAttribute('data-placement', 'top');
-}
+// function toolTipForBox(wrapper, value) {
+//   const tooltipValue = checkNoData(value) ? 'None' : Math.round(value * 100) / 100;
+//   wrapper.setAttribute('title', `${tooltipValue}`);
+//   wrapper.setAttribute('aria-label', `${tooltipValue}`);
+//   wrapper.setAttribute('data-toggle', 'tooltip');
+//   wrapper.setAttribute('data-placement', 'top');
+// }
 
-// Makes short zonal stats item
-// @param type | String - matches the layer key
-// @param rank | String || Number - rounded and matches the value key
-// @return DOM element
-function makeZonalBox(type, rank, name) {
-  const HTMLName = makeHTMLName(name);
-  const zonalBox = makeDiv();
-  const zonalData = getIdentifyValue(type, rank);
-  zonalBox.classList.add(`zonal-${type}`);
-  zonalBox.classList.add('zonal-box');
-  zonalBox.classList.add('noselect');
-  zonalBox.setAttribute('data-ranking', rank);
-  zonalBox.setAttribute('id', `zonal-box-${type}-${HTMLName}`);
-  zonalBox.style.color = zonalData.color;
-  zonalBox.style.backgroundColor = zonalData.backgroundColor;
-  zonalBox.appendChild(makeTextElement(zonalData.label));
-  toolTipForBox(zonalBox, rank);
-  return zonalBox;
-}
+// // Makes short zonal stats item
+// // @param type | String - matches the layer key
+// // @param rank | String || Number - rounded and matches the value key
+// // @return DOM element
+// function makeZonalBox(type, rank, name) {
+//   const HTMLName = makeHTMLName(name);
+//   const zonalBox = makeDiv();
+//   const zonalData = getIdentifyValue(type, rank);
+//   zonalBox.classList.add(`zonal-${type}`);
+//   zonalBox.classList.add('zonal-box');
+//   zonalBox.classList.add('noselect');
+//   zonalBox.setAttribute('data-ranking', rank);
+//   zonalBox.setAttribute('id', `zonal-box-${type}-${HTMLName}`);
+//   zonalBox.style.color = zonalData.color;
+//   zonalBox.style.backgroundColor = zonalData.backgroundColor;
+//   zonalBox.appendChild(makeTextElement(zonalData.label));
+//   toolTipForBox(zonalBox, rank);
+//   return zonalBox;
+// }
 
 // // Makes html for the hub based short zonal stats block
 // // @param rank | String || Number
@@ -352,7 +365,7 @@ function makeZonalBox(type, rank, name) {
 // @return Array
 function makeShortZonalStatsInterior(data, name) {
   return [
-    makeLabel(name),
+    makeLabel(name)
     // makeHubBox(data.hubs, name),
     // makeFishWildBox(data.terrestrial, data.aquatic, name),
     // makeExposureBox(data.asset, data.threat, name)
@@ -532,17 +545,17 @@ function zonalLabelMouseOverHandler(e) {
     togglePermHighLightsAllOff(path);
     toggleMouseHighLightsOn(path);
 
-    const labelName = `label-name-${HTMLName}`;
-    const labelElem = document.getElementById(labelName);
-    toggleLabelHighLightsOn(labelElem);
+    // const labelName = `label-name-${HTMLName}`;
+    // const labelElem = document.getElementById(labelName);
+    // toggleLabelHighLightsOn(labelElem);
 
-    const labelzName = `zonal-wrapper-${HTMLName}`;
-    const labelzElem = document.getElementById(labelzName);
-    toggleLabelHighLightsOn(labelzElem);
+    // const labelzName = `zonal-wrapper-${HTMLName}`;
+    // const labelzElem = document.getElementById(labelzName);
+    // toggleLabelHighLightsOn(labelzElem);
 
-    const shotChartsLabels = `short-chart-${HTMLName}`;
-    const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
-    toggleLabelHighLightsOn(shotChartsLabelsElem);
+    // const shotChartsLabels = `short-chart-${HTMLName}`;
+    // const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+    // toggleLabelHighLightsOn(shotChartsLabelsElem);
   }
 }
 
@@ -571,21 +584,22 @@ function zonalLabelMouseOutHandler(e) {
   }
 }
 
-// Creates the entire short zonal stats block of html
-// @param data | Object
-// @return DOM element
-function drawShortZonalStats(data, name, mapComponent) {
-  const wrapper = makeZonalWrapper(name);
-  makeShortZonalStatsInterior(data, name).forEach((elem) => {
-    wrapper.appendChild(elem);
-  });
-  wrapper.addEventListener('click', shortZonalClickHandler);
-  wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
-  wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
-  const rem = makeRemoveLabel(name, mapComponent);
-  wrapper.insertBefore(rem, wrapper.childNodes[0]);
-  return wrapper;
-}
+// // Creates the entire short zonal stats block of html
+// // @param data | Object
+// // @return DOM element
+// function drawShortZonalStats(data, name, mapComponent) {
+//   const wrapper = makeZonalWrapper(name);
+//   makeShortZonalStatsInterior(data, name).forEach((elem) => {
+//     wrapper.classList.add('zonal-summary');
+//     wrapper.appendChild(elem);
+//   });
+//   wrapper.addEventListener('click', shortZonalClickHandler);
+//   wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
+//   wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
+//   const rem = makeRemoveLabel(name, mapComponent);
+//   wrapper.insertBefore(rem, wrapper.childNodes[0]);
+//   return wrapper;
+// }
 
 // This function finds the scaled position of a value from [0,100]
 // It does the addition of scale and division by scaleGroups since the value falls into one of
@@ -618,18 +632,17 @@ function getDriverHeight(driver) {
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
 
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-function getDriverOneZeroHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 1;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
+// // Finds the scaled position for the drivers
+// // @param driver | float - value from the api for a driver
+// // @return float - [0,100]
+// function getDriverOneZeroHeight(driver) {
+//   const LOW_RANGE = 0;
+//   const HIGH_RANGE = 1;
+//   const SCALE = 0;
+//   const SCALE_GROUPS = 1;
+//
+//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+// }
 
 function getSevenHeight(driver) {
   const LOW_RANGE = 0;
@@ -824,24 +837,24 @@ function numberToWord(number) {
   return numberWord;
 }
 
-// Gets the color to be used for the driver bar
-// @param driver | float - [0,100]
-// @return String
-function getDriverColor(driver) {
-  if (driver <= 20) {
-    return 'green';
-  }
-  if (driver <= 40) {
-    return 'blue';
-  }
-  if (driver <= 60) {
-    return 'yellow';
-  }
-  if (driver <= 80) {
-    return 'orange';
-  }
-  return 'red';
-}
+// // Gets the color to be used for the driver bar
+// // @param driver | float - [0,100]
+// // @return String
+// function getDriverColor(driver) {
+//   if (driver <= 20) {
+//     return 'green';
+//   }
+//   if (driver <= 40) {
+//     return 'blue';
+//   }
+//   if (driver <= 60) {
+//     return 'yellow';
+//   }
+//   if (driver <= 80) {
+//     return 'orange';
+//   }
+//   return 'red';
+// }
 
 function selectChartCell(wrapper, type, value) {
   const roundedValue = parseInt(value, 10);
@@ -1046,8 +1059,8 @@ function drawDriver(graph, name, type, driver) {
   }
 
   if (driver.key === 'social-vulnerability') {
-    height = getDriverOneZeroHeight(driver.value);
-    csstype = 'assettwo';
+    height = getAssetHeight(driver.value);
+    csstype = 'asset';
   }
 
   const roundedValue = parseInt(driver.value, 10);
@@ -1056,7 +1069,7 @@ function drawDriver(graph, name, type, driver) {
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
-  const toolTipword = numberToWord(roundedValue)
+  const toolTipword = numberToWord(roundedValue);
 
   if (bar) {
     bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
@@ -1079,7 +1092,6 @@ function drawShortChart(wrapper, drivers, name) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .zonal-long-graph');
   assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
   drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
-  console.log(name);
 }
 
 // @return Array
@@ -1132,13 +1144,13 @@ function drawAssetDrivers(wrapper, drivers) {
   drivers.forEach(drawDriver.bind(null, assetGraph, '', 'asset'));
 }
 
-function findRawCategory(wrapper, key) {
-  return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
-}
+// function findRawCategory(wrapper, key) {
+//   return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
+// }
 
-function drawRawCategory(wrapper, value) {
-  findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
-}
+// function drawRawCategory(wrapper, value) {
+//   findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
+// }
 
 // Creates the entire short zonal stats block of html
 // @param data | Object
@@ -1156,7 +1168,6 @@ function drawShortZonalStats(data, name, mapComponent) {
   const shortChart = wrapper.querySelector('.zonal-short-wrappper');
   addUserAreaIdsToChildren(shortChart.childNodes, HTMLName);
 
-
   makeShortZonalStatsInterior(data, name).forEach((elem) => {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
@@ -1171,7 +1182,10 @@ function drawShortZonalStats(data, name, mapComponent) {
   shortChart.addEventListener('mouseover', zonalLabelMouseOverHandler);
 
   const rem = makeRemoveLabel(name, mapComponent);
+  const ovr = makeOverviewLabel();
   wrapper.insertBefore(rem, wrapper.childNodes[0]);
+  wrapper.insertBefore(ovr, wrapper.childNodes[0]);
+
   return wrapper;
 }
 
@@ -1180,7 +1194,7 @@ function drawShortZonalStats(data, name, mapComponent) {
 // @param drivers | Array
 function drawThreatDrivers(wrapper, drivers) {
   const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
-    drivers.forEach(drawDriver.bind(null, threatGraph, '', 'threat'));
+  drivers.forEach(drawDriver.bind(null, threatGraph, '', 'threat'));
 }
 
 function getZonalWrapper(elem) {
