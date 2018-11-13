@@ -1,5 +1,5 @@
 <div class="zonal-long-button-wrapper">
-  <button title="Back to Overview" aria-label="Back to Overview" class="btn-light zonal-long-button zonal-long-button-dismiss"><span class="btn-icon" id="btn-details-icon" ><i class="fas fa-list-ol"></i></span>Return to Overview</button>
+  <button title="Back to Overview" aria-label="Back to Overview" class="btn-light zonal-long-button zonal-long-button-dismiss"><span class="btn-icon" id="btn-details-icon" ><i class="fas fa-list-ol"></i></span>View Overview</button>
   <button title="View as Table" aria-label="View as Table" class="btn-light zonal-long-button zonal-long-button-raw"><span class="btn-icon" id="btn-details-icon" ><i class="far fa-list-alt"></i></i></span>View as table</button>
   <button title="View as Graphs" aria-label="View as Graphs" class="btn-light zonal-long-button zonal-long-button-graphs"><span class="btn-icon" id="btn-details-icon" ><i class="far fa-chart-bar"></i></span>View as graphs</button>
 </div>
@@ -8,9 +8,9 @@
   <h3 id="zonal-long-name" ></h4>
   <div class="zonal-long-hub-wrapper">
     <div class="zonal-long-hub">
-      <h5>Hub Indexes</h5>
+      <h5>Resilience Hub Index</h5>
       <div class="zonal-long-table-index">
-        <h6>Hub Ranking</h6>
+        <h6>Hub Rank</h6>
         <div class="zonal-long-table-wrapper"></div>
       </div>
     </div>
@@ -18,14 +18,14 @@
 
   <div class="zonal-long-fish-wildlife-wrapper">
     <div class="zonal-long-fish-wildlife">
-      <h5>Fish and Wildlife Indexes</h5>
+      <h5>Fish and Wildlife Index</h5>
       <div class="zonal-long-table-index zonal-long-table-index--aquatic">
-        <h6>Aquatic Ranking</h6>
+        <h6>Aquatic Rank</h6>
         <div class="zonal-long-table-wrapper"></div>
       </div>
 
       <div class="zonal-long-table-index zonal-long-table-index--wildlife">
-        <h6>Terrestrial Ranking</h6>
+        <h6>Terrestrial Rank</h6>
         <div class="zonal-long-table-wrapper"></div>
       </div>
     </div>
@@ -34,30 +34,30 @@
   <div class="zonal-long-exposure-wrapper">
 
     <div class="zonal-long-exposure-box">
-      <h5>Exposure</h5>
+      <h5>Community Exposure Index</h5>
       <div class="zonal-long-table-index">
-        <h6>Exposure Ranking</h6>
+        <h6>Exposure Rank</h6>
         <div class="zonal-long-table-wrapper"></div>
       </div>
     </div>
 
     <div class="zonal-long-asset-threat">
-      <h5>Asset and Threat Indexes</h5>
+      <h5>Community Asset and Threat Indices</h5>
       <div class="zonal-long-table-index zonal-long-table-asset-sep">
-        <h6>Asset Ranking</h6>
+        <h6>Community Asset Rank</h6>
         <div class="zonal-long-table-wrapper"></div>
       </div>
 
       <div class="zonal-long-table-index zonal-long-table-threat-sep">
-        <h6>Threat Ranking</h6>
+        <h6>Threat Rank</h6>
         <div class="zonal-long-table-wrapper"></div>
       </div>
     </div>
 
     <div class="zonal-long-asset-threat w-100">
-      <h5>Drivers of Assets and Threats</h5>
+      <h5>Community Asset and Threat Inputs</h5>
       <div class="zonal-long-graph-wrapper zonal-long-graph-wrapper-asset w-100">
-        <h6>Assets</h6>
+        <h6>Community Assets</h6>
         <div class="zonal-long-graph">
           <div class="zonal-long-graph-content">
             <div class="zonal-long-graph-axis">
@@ -135,11 +135,11 @@
           <div class="zonal-long-graph-labels">
             <div class="zonal-long-graph-label zonal-long-graph-label-drainage"><div class="zonal-long-graph-label-text">Drainage</div></div>
             <div class="zonal-long-graph-label zonal-long-graph-label-erosion"><div class="zonal-long-graph-label-text">Erosion</div></div>
-            <div class="zonal-long-graph-label zonal-long-graph-label-floodprone-areas"><div class="zonal-long-graph-label-text">Flood Prone</div></div>
+            <div class="zonal-long-graph-label zonal-long-graph-label-floodprone-areas"><div class="zonal-long-graph-label-text">Flood Prone Areas</div></div>
             <div class="zonal-long-graph-label zonal-long-graph-label-sea-level-rise"><div class="zonal-long-graph-label-text">Sea Level Rise</div></div>
             <div class="zonal-long-graph-label zonal-long-graph-label-storm-surge"><div class="zonal-long-graph-label-text">Storm Surge</div></div>
-            <div class="zonal-long-graph-label zonal-long-graph-label-geostress"><div class="zonal-long-graph-label-text">Subsidence Shift</div></div>
-            <div class="zonal-long-graph-label zonal-long-graph-label-slope"><div class="zonal-long-graph-label-text">Slope</div></div>
+            <div class="zonal-long-graph-label zonal-long-graph-label-geostress"><div class="zonal-long-graph-label-text">Geo Stressors</div></div>
+            <div class="zonal-long-graph-label zonal-long-graph-label-slope"><div class="zonal-long-graph-label-text">Areas of Low Slope</div></div>
           </div>
         </div>
       </div>
@@ -158,27 +158,27 @@
     </thead>
     <tbody>
       <tr>
-        <th scope="row">Hubs</th>
+        <th scope="row">Resilience Hubs</th>
         <td class="zonal-long-raw-value-hubs"></td>
         <td>0 - 7</td>
       </tr>
       <tr>
-        <th scope="row">Aquatic</th>
+        <th scope="row">Aquatic Index</th>
         <td class="zonal-long-raw-value-aquatic"></td>
         <td>0 - 5</td>
       </tr>
       <tr>
-        <th scope="row">Terrestrial</th>
+        <th scope="row">Terrestrial Index</th>
         <td class="zonal-long-raw-value-terrestrial"></td>
         <td>0 - 5</td>
       </tr>
       <tr>
-        <th scope="row">Assets</th>
+        <th scope="row">Community Asset Index</th>
         <td class="zonal-long-raw-value-asset"></td>
         <td>0 - 13</td>
       </tr>
       <tr>
-        <th scope="row">Threats</th>
+        <th scope="row">Threat Index</th>
         <td class="zonal-long-raw-value-threats"></td>
         <td>0 - 33</td>
       </tr>
@@ -213,7 +213,7 @@
         <td>0 - 5</td>
       </tr>
       <tr>
-        <th scope="row">Flood Prone</th>
+        <th scope="row">Flood Prone Areas</th>
         <td class="zonal-long-raw-value-floodprone-areas"></td>
         <td>0 - 5</td>
       </tr>
@@ -228,12 +228,12 @@
         <td>0 - 5</td>
       </tr>
       <tr>
-        <th scope="row">Subsidence Shift</th>
+        <th scope="row">Geo Stressors</th>
         <td class="zonal-long-raw-value-geostress"></td>
         <td>0 - 5</td>
       </tr>
       <tr>
-        <th scope="row">Slope</th>
+        <th scope="row">Areas of Low Slope</th>
         <td class="zonal-long-raw-value-slope"></td>
         <td>0 - 5</td>
       </tr>
