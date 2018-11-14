@@ -952,14 +952,16 @@ export class Explore extends Component {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
     const fileSets = [];
-    // Treat each folder in a zip archive as its own file set.
+    // Treat each folder in a zip archive as its own set of files.
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
-    const readProms = zips.map(zip => Explore.readZip(zip));
-    const zipFileSets = await Promise.all(readProms);
-    fileSets.push(...zipFileSets);
+    for (var i=0; i<zips.length; i++) {
+      const zip = zips[i];
+      const zipFileSets = await Explore.readZip(zip);
+      fileSets.push(...zipFileSets);
+    }
     // Non-zip files are all put into one file set.
     const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
-    fileSets.push(nonZips);
+    if (nonZips.length) { fileSets.push(nonZips); }
 
     /*
     // We're not ready to handle multiple shapes yet.
@@ -1087,9 +1089,11 @@ export class Explore extends Component {
       },
       (err) => { throw new Error(`Error loading ${archive}: ${err}`); }
     );
-    const fileSetProms = [];
-    Object.keys(folders).forEach((dir) => {
-      const files = folders[dir]
+    const fileSets = [];
+    const keys = Object.keys(folders);
+    for (var i=0; i < keys.length; i++) {
+      const key = keys[i];
+      const fileProms = folders[key]
         .filter(file => Explore.isValidFile(file))
         .map((file) => {
           const filename = file.name.split('/').slice(-1).join('');
@@ -1098,10 +1102,10 @@ export class Explore extends Component {
             (err) => { throw new Error(`Error reading ${filename}.`, `${err}`); }
           );
         });
-      const prom = Promise.all(files);
-      fileSetProms.push(prom);
-    });
-    return fileSetProms;
+      const files = await Promise.all(fileProms);
+      fileSets.push(files);
+    }
+    return fileSets;
   }
 
   static readZipFolders(files) {
