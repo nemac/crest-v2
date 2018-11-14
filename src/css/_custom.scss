@@ -26,6 +26,7 @@ html, body {
 
 #glossary-holder, #exposure-holder ,#aboutgen-holder {
   margin-top: $margin;
+  margin-bottom: $margin*2;
 }
 
 .definition-text {
