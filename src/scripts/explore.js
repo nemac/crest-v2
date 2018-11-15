@@ -963,88 +963,94 @@ export class Explore extends Component {
     const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
     if (nonZips.length) { fileSets.push(nonZips); }
 
-    /*
-    // We're not ready to handle multiple shapes yet.
-    fileSets.forEach(Explore.processFileSet, this)
-    */
+    for (var i=0; i<fileSets.length; i++) {
+      const fileSet = fileSets[i];
+      this.processFileSet(fileSet);
+    }
 
-    // For now just process the first fileset.
-    const fileSet = fileSets[0];
-    const featureCollection = await Explore.processFileSet(fileSet);
-
+    return false;
+  }
+  
+  /*
+  static processFeatureCollection(fc) {
     if (!checkValidObject(featureCollection)) {
       store.setStoreItem('working_zonalstats', false);
       spinnerOff();
       return false;
     }
-    // Just grab the first feature we find for now
-    const feature = featureCollection.features[0];
+    for (var i=0; i<featureCollection.features.length; i++) {
+      const feature = featureCollection.features[0];
+      Explore.addFeatureAsMapLayer(feature);
+    } 
 
-    if (checkValidObject(feature)) {
-      const newLayer = L.geoJson(feature);
-
-      this.drawAreaGroup.getLayers().forEach((layer) => {
-        this.drawAreaGroup.removeLayer(layer);
-      });
-
-      this.removeExistingArea();
-
-      store.setStoreItem('lastaction', 'upload_shape');
-      store.setStoreItem('userarea', newLayer.toGeoJSON());
-
-      const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
-
-      // add layer to the leaflet map
-      this.drawAreaGroup.addLayer(newLayer);
-      this.drawAreaGroup.addLayer(bufferedLayer);
-
-      this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
-      this.mapComponent.saveZoomAndMapPosition();
-      store.saveAction('addsavedgeojson');
-      this.getZonal();
-      return true;
-    }
-    return false;
   }
+  */
 
-  static async processFileSet(files) {
+  async processFileSet(files) {
     spinnerOn();
     const shpfileFiles = files
       .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
 
-    /*
-    // We're not ready to handle multiple shapes yet.
-
-    shpfileBundles.forEach(bundle => this.processShpfileBundle(bundle))
-    otherFiles.forEach(file => {
-      Explore.readFileAsync(file, 'readAsText').then(
-        text => {
-          let geojson = JSON.parse(text)
-          //this.doSomethingWithShape(geojson)
-        },
-        error => { console.error(error); }
-      )
-    })
-
     // For now just grab the first shapefile available.
     // If no shapefile bundles exist just grab the first geojson file.
-    */
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
-      const geojson = Explore.convertShpfileBundleToGeojson(bundleToProcess);
-      return geojson;
+      const geojsonFromShpfiles = Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      for (var i=0; i<geojsonFromShpfiles.features.length; i++) {
+        const feature = geojsonFromShpfiles.features[i];
+        this.addFeatureAsMapLayer(feature);
+      }
     }
+    
+    for (var i=0; i<otherFiles.length; i++) {
+      const geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
+      // feature collection, or feature?
+      // if feature collection
+      if (geojsonFromFile.type == 'FeatureCollection') {
+        for (var j=0; j<geojsonFromFile.features.length; j++) {
+          const feature = geojsonFromFile.features[j];
+          this.addFeatureAsMapLayer(feature);
+        }
+      }
+      if (geojsonFromFile.type == 'Feature') {
+        this.addFeatureAsMapLayer(geojson);
+      }
+    }
+  }
 
-    const file = otherFiles[0];
-    const text = await Explore.readFileAsync(file, 'readAsText');
-    // only do this is the file has text
-    if (checkValidObject(text)) {
-      const geojson = JSON.parse(text);
-      return geojson;
+  async addFeatureAsMapLayer(feature) {
+    if (!checkValidObject(feature)) {
+      return false;
     }
-    return {};
+    const newLayer = L.geoJson(feature);
+
+    this.drawAreaGroup.getLayers().forEach((layer) => {
+      this.drawAreaGroup.removeLayer(layer);
+    });
+
+    //this.removeExistingArea();
+
+    store.setStoreItem('lastaction', 'upload_shape');
+    store.setStoreItem('userarea', newLayer.toGeoJSON());
+
+    const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
+
+    // add layer to the leaflet map
+    this.drawAreaGroup.addLayer(newLayer);
+    this.drawAreaGroup.addLayer(bufferedLayer);
+
+    //this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
+    //this.mapComponent.saveZoomAndMapPosition();
+    store.saveAction('addsavedgeojson');
+    this.getZonal();
+  }
+
+  static async readGeojsonFile(file) {
+    const text = await Explore.readFileAsync(file, 'readAsText');
+    const geojson = JSON.parse(text);
+    return geojson;
   }
 
   static bundleShpfileFiles(shpfileFiles) {
