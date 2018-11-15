@@ -2,8 +2,14 @@
 import navTemplate from '../templates/nav_bar.html';
 import navBarsTemplate from '../templates/nav_bar_nav.html';
 import { Component } from './components';
+import { Store } from './store';
 
 import { navConfig } from '../config/navConfig';
+import {
+  checkValidObject
+} from './utilitys';
+
+const store = new Store({});
 
 /**
  * NavBar Component
@@ -48,6 +54,15 @@ export class NavBar extends Component {
       cnt += 1;
     });
 
+    const activeNav = store.getStateItem('activeNav');
+
+    if (checkValidObject(activeNav)) {
+      NavBar.deactivateAllNavs();
+      NavBar.toggleTabContent(activeNav);
+      const el = document.getElementById(activeNav);
+      el.className += ' active';
+    }
+
     // add click event for active toggle
     this.addTabClick();
   }
@@ -63,6 +78,7 @@ export class NavBar extends Component {
 
         // add to store later
         this.activeNav = nav.id;
+        store.setStoreItem('activeNav', nav.id);
       });
     });
   }
