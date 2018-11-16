@@ -21,10 +21,12 @@
 import config from '../config/hubIntersectionConfig';
 
 import { CancelToken, get } from 'axios';
-import { Terraformer } from 'terraformer';
-
+import * as Terraformer from "terraformer";
+//
+//  import {  ArcGIS } from 'terraformer-arcgis-parser';
+//
 // const Terraformer = require('terraformer');
-Terraformer.ArcGIS = require('terraformer-arcgis-parser');
+// Terraformer.ArcGIS = require('terraformer-arcgis-parser');
 // const axios = require('axios');
 
 function transformAgolAttrs(attrs) {
