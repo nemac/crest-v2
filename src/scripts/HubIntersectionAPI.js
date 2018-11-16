@@ -20,9 +20,12 @@
 
 import config from '../config/hubIntersectionConfig';
 
-const Terraformer = require('terraformer');
+import { CancelToken, get } from 'axios';
+import { Terraformer } from 'terraformer';
+
+// const Terraformer = require('terraformer');
 Terraformer.ArcGIS = require('terraformer-arcgis-parser');
-const axios = require('axios');
+// const axios = require('axios');
 
 function transformAgolAttrs(attrs) {
   const props = { mean: {} };
@@ -54,10 +57,12 @@ export class HubIntersectionApi {
   constructor(url = config.queryUrl) {
     this.queryUrl = url;
     this.agolOutFields = config.agolOutFields;
+    console.log(this.queryUrl, this.agolOutFields)
   }
 
   async getIntersectedHubs(feature) {
     try {
+      console.log('getIntersectedHubs')
       const esriGeom = Terraformer.ArcGIS.convert(feature.geometry);
       const esriGeomStr = JSON.stringify(esriGeom);
 
@@ -71,7 +76,7 @@ export class HubIntersectionApi {
         outSR: 4326
       };
 
-      const response = await axios.get(this.queryUrl, {
+      const response = await get(this.queryUrl, {
         params: queryParams
       });
       if (Object.prototype.hasOwnProperty.call(response.data, 'error')) {

@@ -104,7 +104,7 @@ function setworkingstates() {
 // Creates the entire map component
 //
 // Closes over global import Map
-function initMapComponent() {
+function initMapComponent() { // add parameter for type of explore
   if (mapComponent === undefined) {
     mapComponent = initMap('map-holder');
     maplayersComponent = initMapLayerList(mapComponent, 'maplayers_list-holder');
@@ -115,6 +115,7 @@ function initMapComponent() {
       mapInfoComponent,
       hasShareURL
     });
+    // add switch for type of explore
     searchLocationsComponent = new SearchLocations('', {
       mapComponent,
       mapInfoComponent,
@@ -154,14 +155,17 @@ function initMapComponent() {
 // Closes over global import NavBar
 function setNavBars(selector) {
   NavBar.resetTabContent();
-  NavBar.toggleTabContent(selector);
+  
+  // this very hacky need better way to handle
+  if (selector === 'main-nav-map-searchhubs') {
+    NavBar.toggleTabContent('main-nav-map');
+  } else {
+    NavBar.toggleTabContent(selector);
+  }
+
   NavBar.tabUpdate(selector);
 }
-// function setAboutNavBars(selector) {
-//   AboutNavBar.resetTabContent();
-//   AboutNavBar.toggleTabContent(selector);
-//   AboutNavBar.tabUpdate(selector);
-// }
+
 
 // Initializes the static pages by inserting the rendered template into the selected DOM element
 //
@@ -210,6 +214,10 @@ router.on({
   },
   '/Home': (params, query) => {
     setNavBars('main-nav-map');
+    initMapComponent();
+  },
+  '/SearchHubs': (params, query) => {
+    setNavBars('main-nav-map-searchhubs');
     initMapComponent();
   },
   '/About': (params, query) => {

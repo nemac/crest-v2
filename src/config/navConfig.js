@@ -2,9 +2,16 @@ export var navConfig = {
   navs:[{
     name: "home",
     ref: "main-nav-map",
-    text: "Home",
+    text: "Exlpore the Assessment",
     id: "main-nav-map",
     href: "./#Home"
+  },
+  {
+    name: "searchHubs",
+    ref: "main-nav-map-searchhubs",
+    text: "Where should I do a resilience project?",
+    id: "main-nav-map-searchhubs",
+    href: "./#SearchHubs"
   },
   {
     name: "download",

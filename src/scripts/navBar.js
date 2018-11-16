@@ -72,11 +72,17 @@ export class NavBar extends Component {
       const el = document.getElementById(nav.id);
       el.addEventListener('click', (e) => {
         NavBar.deactivateAllNavs();
-        NavBar.toggleTabContent(e.target.id);
-        const ele = e.target;
-        ele.className += ' active';
 
-        // add to store later
+        // this very hacky need better way to handle
+        if (nav.id === 'main-nav-map-searchhubs') {
+          NavBar.toggleTabContent('main-nav-map');
+        } else {
+          NavBar.toggleTabContent(e.target.id);
+        }
+
+        // make tab style active
+        NavBar.tabUpdate(e.target.id);
+
         this.activeNav = nav.id;
         store.setStoreItem('activeNav', nav.id);
       });
@@ -96,17 +102,22 @@ export class NavBar extends Component {
     });
   }
 
+
   static toggleTabContent(id) {
     NavBar.resetTabContent();
     const el = document.getElementById(`tab-${id}`);
-    el.className = el.className.replace(' d-none', '');
+    if (el){
+      el.className = el.className.replace(' d-none', '');
+    }
   }
 
   static resetTabContent() {
     navConfig.navs.forEach((nav) => {
       const el = document.getElementById(`tab-${nav.id}`);
-      el.className = el.className.replace(' d-none', '');
-      el.className += ' d-none';
+      if (el) {
+        el.className = el.className.replace(' d-none', '');
+        el.className += ' d-none';
+      }
     });
 
     // not found in case it was revealed.
