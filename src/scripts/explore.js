@@ -343,7 +343,6 @@ export class Explore extends Component {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
     store.removeStateItem('HubIntersectionJson');
-    this.drawAreaGroup.clearLayers();
 
     // get geoJSON to send to zonal stats lambda function
     const rawpostdata = store.getStateItem('userarea_buffered');
@@ -366,6 +365,8 @@ export class Explore extends Component {
       spinnerOff('getZonal checkValidObject rawpostdata');
       return {};
     }
+
+    this.drawAreaGroup.clearLayers();
 
     // send request to api
     const HubIntersectionJson = await this.HubIntersectionApi.getIntersectedHubs(rawpostdata);
