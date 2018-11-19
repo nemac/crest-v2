@@ -21,12 +21,15 @@
 import config from '../config/hubIntersectionConfig';
 
 import { CancelToken, get } from 'axios';
-import * as Terraformer from "terraformer";
-//
-//  import {  ArcGIS } from 'terraformer-arcgis-parser';
+import L from 'leaflet';
+import * as EL from 'esri-leaflet';
+
+// import * as Terraformer from "terraformer";
+// //
+// import * as Terraformer from 'terraformer-arcgis-parser';
 //
 // const Terraformer = require('terraformer');
-// Terraformer.ArcGIS = require('terraformer-arcgis-parser');
+// TerraformerArcGIS = require('terraformer-arcgis-parser');
 // const axios = require('axios');
 
 function transformAgolAttrs(attrs) {
@@ -34,6 +37,7 @@ function transformAgolAttrs(attrs) {
   Object.keys(attrs).forEach((agolField) => {
     let fieldName;
     const val = attrs[agolField];
+    // console.log(agolField, val)
     if (agolField in config.fieldMaps) {
       fieldName = config.fieldMaps[agolField];
     } else {
@@ -41,11 +45,13 @@ function transformAgolAttrs(attrs) {
     }
     props.mean[fieldName] = val;
   });
+  return props;
+  // console.log('transformAgolAttrs',props.mean)
 }
 
 
 function convertAgolHubsFeature(feature) {
-  const geojsonGeom = Terraformer.ArcGIS.parse(feature.geometry);
+  const geojsonGeom = EL.Util.arcgisToGeoJSON(feature.geometry);  //TerraformerArcGIS.parse(feature.geometry);
   const featureGeojson = {
     type: 'Feature',
     properties: transformAgolAttrs(feature.attributes),
@@ -59,15 +65,17 @@ export class HubIntersectionApi {
   constructor(url = config.queryUrl) {
     this.queryUrl = url;
     this.agolOutFields = config.agolOutFields;
-    console.log(this.queryUrl, this.agolOutFields)
+    // console.log(this.queryUrl, this.agolOutFields)
   }
 
   async getIntersectedHubs(feature) {
-    try {
-      console.log('getIntersectedHubs')
-      const esriGeom = Terraformer.ArcGIS.convert(feature.geometry);
-      const esriGeomStr = JSON.stringify(esriGeom);
-
+    // try {
+      // console.log('getIntersectedHubs1',feature.geometry)
+      const esriGeom = EL.Util.geojsonToArcGIS(feature) //TerraformerArcGIS.convert(feature.geometry);
+      // console.log('getIntersectedHubs2', esriGeom)
+      const esriGeomStr = JSON.stringify(esriGeom.geometry);
+      // console.log('getIntersectedHubs3')
+      // console.log(esriGeom, esriGeomStr)
       const queryParams = {
         geometry: esriGeomStr,
         spatialRel: 'esriSpatialRelIntersects',
@@ -78,18 +86,29 @@ export class HubIntersectionApi {
         outSR: 4326
       };
 
+      // console.log(JSON.stringify(esriGeom.geometry), queryParams);
+
       const response = await get(this.queryUrl, {
         params: queryParams
       });
+
+      // console.log(response);
+
+
       if (Object.prototype.hasOwnProperty.call(response.data, 'error')) {
         throw response.data.message;
       }
+
       const esriFeatures = response.data.features;
+      console.log('esriFeatures',esriFeatures);
+
       const geojsonFeatures = esriFeatures.map(f => convertAgolHubsFeature(f));
 
+      console.log('geojsonFeatures',geojsonFeatures);
+
       return geojsonFeatures;
-    } catch (err) {
-      return new Error(err);
-    }
+    // } catch (err) {
+      // return new Error(err);
+    // }
   }
 }
