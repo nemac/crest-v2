@@ -396,22 +396,20 @@ export class Explore extends Component {
     HubIntersectionJsonSorted.forEach( (feature) =>  {
       store.setStoreItem('working_zonalstats', false);
       const name = feature.properties.mean['TARGET_FID'].toString();
-      console.log(name)
       if (checkValidObject(feature)) {
         drawZonalStatsFromAPI(feature.properties.mean,
           name,
           this.mapComponent.map);
       }
-      const layer = L.geoJson(feature);
-      this.drawAreaGroup.addLayer(layer);
-
     })
 
-    store.setStoreItem('HubIntersectionJson', HubIntersectionJson);
+    store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
     // const name = this.storeShapes();
     // this.saveUserShapesToS3();
 
     // add layer to the leaflet map
+
+    this.drawHubs()
 
     this.mapComponent.map.fireEvent('zonalstatsend');
     store.setStoreItem('working_zonalstats', false);
@@ -422,6 +420,101 @@ export class Explore extends Component {
 
   }
 
+    // renders the shapes from the user areas state object
+    drawHubs() {
+      store.setStoreItem('working_drawlayers', true);
+      spinnerOn();
+
+      const currentshapes = store.getStateItem('HubIntersectionJson');
+      console.log(currentshapes)
+      currentshapes.forEach((feature) => {
+
+        const name = feature.properties.mean['TARGET_FID'].toString();
+        const userarea = feature;
+        // const buffered = currentshapes[key][2].userarea_buffered;
+        // const zonal = currentshapes[key][3].zonalstatsjson;
+
+        if (checkValidObject(userarea)) {
+          // convert geoJson to leaflet layer
+          // const layer = L.geoJson(userarea);
+
+          const HTMLName = makeHTMLName(name);
+          this.bufferedoptions.className = `path-${HTMLName}`;
+
+          const bufferedLayer = L.geoJson(userarea, this.bufferedoptions);
+
+          // add mouserovers for the shapes.
+          bufferedLayer.on({
+            mouseover: (e) => {
+              if (!isGraphActivetate()) {
+                const path = e.target;
+                const labelname = path.options.className.replace('path-', 'label-name-');
+                const labelElem = document.getElementById(labelname);
+                toggleLabelHighLightsOn(labelElem);
+                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+                const labelzElem = document.getElementById(labelzname);
+                toggleLabelHighLightsOn(labelzElem);
+
+                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+                toggleLabelHighLightsOn(shotChartsLabelsElem);
+
+                const pathelem = document.querySelector(`.${path.options.className}`);
+                togglePermHighLightsAllOff(pathelem);
+                toggleMouseHighLightsOn(pathelem);
+              }
+            },
+            mouseout: (e) => {
+              if (!isGraphActivetate()) {
+                const path = e.target;
+                const labelname = path.options.className.replace('path-', 'label-name-');
+                const labelElem = document.getElementById(labelname);
+                toggleLabelHighLightsOff(labelElem);
+                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+                const labelzElem = document.getElementById(labelzname);
+                toggleLabelHighLightsOff(labelzElem);
+
+                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+                toggleLabelHighLightsOff(shotChartsLabelsElem);
+
+                const pathelem = document.querySelector(`.${path.options.className}`);
+                toggleMouseHighLightsOff(pathelem);
+              }
+            },
+            click: (e) => {
+              Explore.clickShape(e);
+            }
+          });
+
+          // add layer to the leaflet map
+          // this.drawAreaGroup.addLayer(layer);
+
+          this.drawAreaGroup.addLayer(bufferedLayer);
+
+          this.addUserAreaLabel(bufferedLayer, name);
+
+          // if (checkValidObject(zonal.features)) {
+          //   drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
+          // }
+
+          return bufferedLayer;
+        }
+
+        return null;
+      });
+
+      store.setStoreItem('working_drawlayers', false);
+      spinnerOff();
+      return null;
+    }
+
+
+
+
+  // const layer = L.geoJson(feature);
+  // this.drawAreaGroup.addLayer(layer);
+  //
   async getZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
