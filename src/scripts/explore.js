@@ -343,6 +343,7 @@ export class Explore extends Component {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
     store.removeStateItem('HubIntersectionJson');
+    this.drawAreaGroup.clearLayers();
 
     // get geoJSON to send to zonal stats lambda function
     const rawpostdata = store.getStateItem('userarea_buffered');
@@ -375,15 +376,7 @@ export class Explore extends Component {
       return {};
     }
 
-    // let responsedata = '';
-    //
-    // // some Geojson is not a feature collection lambda function expects a
-    // // a feature collection
-    // if (HubIntersectionJson[0].type === 'Feature') {
-    //   const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
-    //   const FeatureCollectionEnd = ']}';
-    //   responsedata = JSON.parse(FeatureCollectionStart + JSON.stringify(HubIntersectionJson) + FeatureCollectionEnd);
-    // }
+    let responseData = '';
 
     const HubIntersectionJsonSorted = HubIntersectionJson.sort(function (a, b) {
       if (a.properties.mean['hubs'] > b.properties.mean['hubs']) {
@@ -396,19 +389,29 @@ export class Explore extends Component {
       return 0;
     });
 
+
+    // this.drawAreaGroup.clearLayers();
+
+
     HubIntersectionJsonSorted.forEach( (feature) =>  {
       store.setStoreItem('working_zonalstats', false);
+      const name = feature.properties.mean['TARGET_FID'].toString();
+      console.log(name)
       if (checkValidObject(feature)) {
         drawZonalStatsFromAPI(feature.properties.mean,
           name,
           this.mapComponent.map);
       }
+      const layer = L.geoJson(feature);
+      this.drawAreaGroup.addLayer(layer);
+
     })
 
     store.setStoreItem('HubIntersectionJson', HubIntersectionJson);
     // const name = this.storeShapes();
     // this.saveUserShapesToS3();
 
+    // add layer to the leaflet map
 
     this.mapComponent.map.fireEvent('zonalstatsend');
     store.setStoreItem('working_zonalstats', false);
