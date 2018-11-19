@@ -46,7 +46,7 @@ module.exports = {
           test: /.js$/,
           loader: "babel-loader",
           // addresses issue of typeof not found https://github.com/mapbox/mapbox-gl-js/issues/3422
-          exclude: /mapbox-gl/,
+          exclude: /(mapbox-gl|node_modules)/,
           options: {
             presets: ["es2015",'stage-2']
           }
