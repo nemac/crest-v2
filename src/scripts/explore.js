@@ -1005,8 +1005,7 @@ export class Explore extends Component {
       const bundleToProcess = shpfileBundles[0];
       const geojsonFromShpfiles = Explore.convertShpfileBundleToGeojson(bundleToProcess);
       for (var i=0; i<geojsonFromShpfiles.features.length; i++) {
-        const feature = geojsonFromShpfiles.features[i];
-        this.addFeatureAsMapLayer(feature);
+        this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
     }
     
@@ -1016,12 +1015,11 @@ export class Explore extends Component {
       // if feature collection
       if (geojsonFromFile.type == 'FeatureCollection') {
         for (var j=0; j<geojsonFromFile.features.length; j++) {
-          const feature = geojsonFromFile.features[j];
-          this.addFeatureAsMapLayer(feature);
+          this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
         }
       }
       if (geojsonFromFile.type == 'Feature') {
-        this.addFeatureAsMapLayer(geojson);
+        this.addFeatureAsMapLayer(geojsonFromFile);
       }
     }
   }
@@ -1031,11 +1029,11 @@ export class Explore extends Component {
       return false;
     }
     const newLayer = L.geoJson(feature);
-
+    /*
     this.drawAreaGroup.getLayers().forEach((layer) => {
       this.drawAreaGroup.removeLayer(layer);
     });
-
+    */
     //this.removeExistingArea();
 
     store.setStoreItem('lastaction', 'upload_shape');
