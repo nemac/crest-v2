@@ -347,7 +347,7 @@ export class Explore extends Component {
     // get geoJSON to send to zonal stats lambda function
     const rawpostdata = store.getStateItem('userarea_buffered');
     let postdata = '';
-    // console.log('getHubsZonal rawpostdata',rawpostdata)
+
     // some Geojson is not a feature collection lambda function expects a
     // a feature collection
     if (rawpostdata.type === 'Feature') {
@@ -366,11 +366,14 @@ export class Explore extends Component {
       return {};
     }
 
-    // console.log('getHubsZonal postdata',postdata)
-
     // send request to api
     const HubIntersectionJson = await this.HubIntersectionApi.getIntersectedHubs(rawpostdata);
-    console.log('HubIntersectionJson', HubIntersectionJson)
+
+    if (!checkValidObject(HubIntersectionJson)) {
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff('getZonal checkValidObject HubIntersectionJson');
+      return {};
+    }
 
     // let responsedata = '';
     //
@@ -382,8 +385,18 @@ export class Explore extends Component {
     //   responsedata = JSON.parse(FeatureCollectionStart + JSON.stringify(HubIntersectionJson) + FeatureCollectionEnd);
     // }
 
-    HubIntersectionJson.forEach( (feature) =>  {
-      console.log(feature.properties.mean);
+    const HubIntersectionJsonSorted = HubIntersectionJson.sort(function (a, b) {
+      if (a.properties.mean['hubs'] > b.properties.mean['hubs']) {
+        return -1;
+      }
+      if (a.properties.mean['hubs'] < b.properties.mean['hubs']) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+
+    HubIntersectionJsonSorted.forEach( (feature) =>  {
       store.setStoreItem('working_zonalstats', false);
       if (checkValidObject(feature)) {
         drawZonalStatsFromAPI(feature.properties.mean,
@@ -391,7 +404,6 @@ export class Explore extends Component {
           this.mapComponent.map);
       }
     })
-    // console.log('HubIntersectionJson feature',responsedata.features[0].properties.mean)
 
     store.setStoreItem('HubIntersectionJson', HubIntersectionJson);
     // const name = this.storeShapes();
@@ -527,7 +539,6 @@ export class Explore extends Component {
 
       if ( activeNav ) {
         if ( activeNav === 'main-nav-map-searchhubs') {
-          console.log('do search hubs')
           this.getHubsZonal();
         } else {
           this.getZonal();
@@ -781,6 +792,8 @@ export class Explore extends Component {
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
     store.removeStateItem('zonalstatsjson');
+    store.removeStateItem('HubIntersectionJson');
+
     const clearAreaElement = document.getElementById('details-holder');
     if (clearAreaElement) {
       clearAreaElement.innerHTML = '';
@@ -933,11 +946,9 @@ export class Explore extends Component {
       store.setStoreItem('userarea', geojson);
 
       const activeNav = store.getStateItem('activeNav');
-      // console.log(activeNav)
 
       if ( activeNav ) {
         if ( activeNav === 'main-nav-map-searchhubs') {
-          console.log('do search hubs')
           this.getHubsZonal();
         } else {
           this.getZonal();

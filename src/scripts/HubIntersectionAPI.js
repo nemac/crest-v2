@@ -37,7 +37,6 @@ function transformAgolAttrs(attrs) {
   Object.keys(attrs).forEach((agolField) => {
     let fieldName;
     const val = attrs[agolField];
-    // console.log(agolField, val)
     if (agolField in config.fieldMaps) {
       fieldName = config.fieldMaps[agolField];
     } else {
@@ -46,7 +45,6 @@ function transformAgolAttrs(attrs) {
     props.mean[fieldName] = val;
   });
   return props;
-  // console.log('transformAgolAttrs',props.mean)
 }
 
 
@@ -65,17 +63,12 @@ export class HubIntersectionApi {
   constructor(url = config.queryUrl) {
     this.queryUrl = url;
     this.agolOutFields = config.agolOutFields;
-    // console.log(this.queryUrl, this.agolOutFields)
   }
 
   async getIntersectedHubs(feature) {
-    // try {
-      // console.log('getIntersectedHubs1',feature.geometry)
+    try {
       const esriGeom = EL.Util.geojsonToArcGIS(feature) //TerraformerArcGIS.convert(feature.geometry);
-      // console.log('getIntersectedHubs2', esriGeom)
       const esriGeomStr = JSON.stringify(esriGeom.geometry);
-      // console.log('getIntersectedHubs3')
-      // console.log(esriGeom, esriGeomStr)
       const queryParams = {
         geometry: esriGeomStr,
         spatialRel: 'esriSpatialRelIntersects',
@@ -86,29 +79,24 @@ export class HubIntersectionApi {
         outSR: 4326
       };
 
-      // console.log(JSON.stringify(esriGeom.geometry), queryParams);
-
       const response = await get(this.queryUrl, {
         params: queryParams
       });
-
-      // console.log(response);
-
 
       if (Object.prototype.hasOwnProperty.call(response.data, 'error')) {
         throw response.data.message;
       }
 
       const esriFeatures = response.data.features;
-      console.log('esriFeatures',esriFeatures);
-
       const geojsonFeatures = esriFeatures.map(f => convertAgolHubsFeature(f));
 
-      console.log('geojsonFeatures',geojsonFeatures);
-
       return geojsonFeatures;
-    // } catch (err) {
-      // return new Error(err);
-    // }
+    } catch (err) {
+
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff('');
+
+      return new Error(err);
+    }
   }
 }
