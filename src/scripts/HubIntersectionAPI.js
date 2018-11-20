@@ -1,3 +1,4 @@
+
 // Use Case
 //
 // Normal Flow:
@@ -24,6 +25,14 @@ const Terraformer = require('terraformer');
 Terraformer.ArcGIS = require('terraformer-arcgis-parser');
 const axios = require('axios');
 
+// import { CancelToken, get } from 'axios';
+// import L from 'leaflet';
+// import * as EL from 'esri-leaflet';
+//
+// // import * as Terraformer from "terraformer";
+// // //
+// // import * as Terraformer from 'terraformer-arcgis-parser';
+
 function transformAgolAttrs(attrs) {
   const props = { mean: {} };
   Object.keys(attrs).forEach((agolField) => {
@@ -36,8 +45,8 @@ function transformAgolAttrs(attrs) {
     }
     props.mean[fieldName] = val;
   });
+  return props;
 }
-
 
 function convertAgolHubsFeature(feature) {
   const geojsonGeom = Terraformer.ArcGIS.parse(feature.geometry);
@@ -48,7 +57,6 @@ function convertAgolHubsFeature(feature) {
   };
   return featureGeojson;
 }
-
 
 export class HubIntersectionApi {
   constructor(url = config.queryUrl) {

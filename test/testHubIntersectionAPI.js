@@ -76,7 +76,7 @@ const featureToIntersect = {
 describe('Hub Intersection API Functions', function () {
   it('Return an empty Array for a polygon that does not intersect any hubs.', async function () {
     const result = await Api.getIntersectedHubs(featureForEmptyIntersection);
-    expect(result).to.have.lengthOf(0); 
+    expect(result).to.have.lengthOf(0);
   });
 
   it('Returns an array of geojson features', async function () {
@@ -95,5 +95,3 @@ describe('Hub Intersection API Functions', function () {
     expect(result).to.have.be.an('error');
   });
 });
-
-
