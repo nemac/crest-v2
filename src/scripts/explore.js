@@ -97,30 +97,25 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
     this.HubIntersectionApi = new HubIntersectionApi();
+    this.HubsExploreText = 'Where should I do a resilience project?';
+    this.DefaultExploreText = 'WhStart Exploring the Assessment';
 
     // draw the user area on the map
     if (!this.hasShareURL) {
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
 
-      if ( activeNav ) {
-        if ( activeNav === 'main-nav-map-searchhubs') {
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
-          if (exploreTitle)  {
-            exploreTitle.innerHTML = 'Where should I do a resilience project?'
-          }
-
+          Explore.updateExploreText(exploreTitle, this.HubsExploreText);
         } else {
           this.drawUserAreaFromUsereas();
-          if (exploreTitle)  {
-            exploreTitle.innerHTML = 'Start Exploring the Assessment'
-          }
+          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         }
       } else {
         this.drawUserAreaFromUsereas();
-        if (exploreTitle)  {
-          exploreTitle.innerHTML = 'Start Exploring the Assessment'
-        }
+        Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
       }
     }
 
@@ -155,23 +150,17 @@ export class Explore extends Component {
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
 
-      if ( activeNav ) {
-        if ( activeNav === 'main-nav-map-searchhubs') {
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
-          if (exploreTitle)  {
-            exploreTitle.innerHTML = 'Where should I do a resilience project?'
-          }
+          Explore.updateExploreText(exploreTitle, this.HubsExploreText);
         } else {
           this.drawUserAreaFromUsereas();
-          if (exploreTitle)  {
-            exploreTitle.innerHTML = 'Start Exploring the Assessment'
-          }
+          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         }
       } else {
         this.drawUserAreaFromUsereas();
-        if (exploreTitle)  {
-          exploreTitle.innerHTML = 'Start Exploring the Assessment'
-        }
+        Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
       }
     });
 
@@ -192,6 +181,12 @@ export class Explore extends Component {
     // this.addDrawButtons(mapComponent);
   }
 
+  static updateExploreText(elem, elemText) {
+    if (elem) {
+      elem.innerHTML = elemText;
+    }
+  }
+
   static windowListnersToStopRoqueSpinner() {
     // ensure spinener stops after working us complete...
     window.addEventListener('mouseover', (e) => {
@@ -209,7 +204,6 @@ export class Explore extends Component {
     window.addEventListener('touchstart', (e) => {
       spinnerOff();
     });
-
   }
 
   // user clickss path should navigate into zonal stats details
@@ -394,7 +388,7 @@ export class Explore extends Component {
     return null;
   }
 
-  async getHubsZonal () {
+  async getHubsZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
     store.removeStateItem('HubIntersectionJson');
@@ -440,11 +434,11 @@ export class Explore extends Component {
     }
 
     // sort the hubs by hub ranking
-    const HubIntersectionJsonSorted = HubIntersectionJson.sort(function (a, b) {
-      if (a.properties.mean['hubs'] > b.properties.mean['hubs']) {
+    const HubIntersectionJsonSorted = HubIntersectionJson.sort((a, b) => {
+      if (a.properties.mean.hubs > b.properties.mean.hubs) {
         return -1;
       }
-      if (a.properties.mean['hubs'] < b.properties.mean['hubs']) {
+      if (a.properties.mean.hubs < b.properties.mean.hubs) {
         return 1;
       }
       // a must be equal to b
@@ -477,12 +471,10 @@ export class Explore extends Component {
     }
 
     currentshapes.forEach((feature) => {
-
       const userarea = feature;
-      const name = feature.properties.mean['TARGET_FID'].toString();
+      const name = feature.properties.mean.TARGET_FID.toString();
 
       if (checkValidObject(userarea)) {
-
         const HTMLName = makeHTMLName(name);
         this.bufferedoptions.className = `path-${HTMLName}`;
 
@@ -536,7 +528,7 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(resilienceHubLayer);
         this.addUserAreaLabel(resilienceHubLayer, name);
 
-        //draw zonal stats for each shape
+        // draw zonal stats for each shape
         if (checkValidObject(feature)) {
           drawZonalStatsFromAPI(feature.properties.mean,
             name,
@@ -672,8 +664,8 @@ export class Explore extends Component {
       const activeNav = store.getStateItem('activeNav');
       // console.log(activeNav)
 
-      if ( activeNav ) {
-        if ( activeNav === 'main-nav-map-searchhubs') {
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
           this.getHubsZonal();
         } else {
           this.getZonal();
@@ -921,11 +913,11 @@ export class Explore extends Component {
 
     const activeNav = store.getStateItem('activeNav');
 
-    if (activeNav=== 'main-nav-map-searchhubs') {
+    if (activeNav === 'main-nav-map-searchhubs') {
       store.removeStateItem('HubIntersectionJson');
     }
 
-    if (activeNav=== 'main-nav-map') {
+    if (activeNav === 'main-nav-map') {
       store.removeStateItem('userareas');
       store.removeStateItem('zonalstatsjson');
       Explore.resetshapescounter();
@@ -936,7 +928,7 @@ export class Explore extends Component {
     store.removeStateItem('userarea');
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
-    
+
     const clearAreaElement = document.getElementById('details-holder');
     if (clearAreaElement) {
       clearAreaElement.innerHTML = '';
@@ -1070,8 +1062,8 @@ export class Explore extends Component {
 
       const activeNav = store.getStateItem('activeNav');
 
-      if ( activeNav ) {
-        if ( activeNav !== 'main-nav-map-searchhubs') {
+      if (activeNav) {
+        if (activeNav !== 'main-nav-map-searchhubs') {
           // add layer to the leaflet map
           this.drawAreaGroup.addLayer(layer);
           this.drawAreaGroup.addLayer(bufferedLayer);
@@ -1094,8 +1086,8 @@ export class Explore extends Component {
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', geojson);
 
-      if ( activeNav ) {
-        if ( activeNav === 'main-nav-map-searchhubs') {
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
           this.getHubsZonal();
         } else {
           this.getZonal();
@@ -1103,7 +1095,6 @@ export class Explore extends Component {
       } else {
         this.getZonal();
       }
-
     });
   }
 

@@ -109,7 +109,7 @@ export class NavBar extends Component {
   static toggleTabContent(id) {
     NavBar.resetTabContent();
     const el = document.getElementById(`tab-${id}`);
-    if (el){
+    if (el) {
       el.className = el.className.replace(' d-none', '');
     }
   }
