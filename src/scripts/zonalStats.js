@@ -510,12 +510,16 @@ function viewLongZonalStatsFromShape(name) {
   ZonalWrapperActiveRemove();
 
   const pathid = `path--USERAREA-${name}`;
-  const pathelem = document.querySelector(`.${pathid}`);
-  togglePermHighLightsOn(pathelem);
+  if (pathid) {
+    const pathelem = document.querySelector(`.${pathid}`);
+    togglePermHighLightsOn(pathelem);
+  }
 
   const idname = `name--USERAREA-${name}`;
-  document.getElementById(idname).classList.add('active');
-  setGraphsState(idname, 'graph');
+  if (idname) {
+    document.getElementById(idname).classList.add('active');
+    setGraphsState(idname, 'graph');
+  }
 }
 
 // Click handler to trigger the load of the long zonal stats

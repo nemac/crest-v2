@@ -13,6 +13,8 @@ import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
 
+import { HubIntersectionApi } from './HubIntersectionAPI';
+
 import {
   checkValidObject,
   spinnerOff,
@@ -94,9 +96,27 @@ export class Explore extends Component {
 
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
+    this.HubIntersectionApi = new HubIntersectionApi();
+    this.HubsExploreText = 'Where should I do a resilience project?';
+    this.DefaultExploreText = 'Start Exploring the Assessment';
+
     // draw the user area on the map
     if (!this.hasShareURL) {
-      this.drawUserAreaFromUsereas();
+      const activeNav = store.getStateItem('activeNav');
+      const exploreTitle = document.getElementById('explore-title');
+
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
+          this.drawHubs();
+          Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+        } else {
+          this.drawUserAreaFromUsereas();
+          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+        }
+      } else {
+        this.drawUserAreaFromUsereas();
+        Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+      }
     }
 
     this.addUploadShapeHandler();
@@ -117,6 +137,33 @@ export class Explore extends Component {
       spinnerOn();
     });
 
+    window.addEventListener('aboutNavChange', (e) => {
+      // console.log('test')
+      // console.log(store.getStateItem('activeNav'));
+      this.drawAreaGroup.clearLayers();
+
+      const clearAreaElement = document.getElementById('zonal-area-wrapper');
+      if (clearAreaElement) {
+        clearAreaElement.innerHTML = '';
+      }
+
+      const activeNav = store.getStateItem('activeNav');
+      const exploreTitle = document.getElementById('explore-title');
+
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
+          this.drawHubs();
+          Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+        } else {
+          this.drawUserAreaFromUsereas();
+          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+        }
+      } else {
+        this.drawUserAreaFromUsereas();
+        Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+      }
+    });
+
     window.addEventListener('removeuserareend', (e) => {
       this.clearLayersAndDetails();
       this.drawUserAreaFromUsereas();
@@ -132,6 +179,12 @@ export class Explore extends Component {
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  static updateExploreText(elem, elemText) {
+    if (elem) {
+      elem.innerHTML = elemText;
+    }
   }
 
   static windowListnersToStopRoqueSpinner() {
@@ -335,6 +388,164 @@ export class Explore extends Component {
     return null;
   }
 
+  async getHubsZonal() {
+    spinnerOn();
+    store.setStoreItem('working_zonalstats', true);
+    store.removeStateItem('HubIntersectionJson');
+
+    // get geoJSON to send to zonal stats lambda function
+    // in this case do not use the buffered shape
+    const rawpostdata = store.getStateItem('userarea');
+    let postdata = '';
+
+    // some Geojson is not a feature collection lambda function expects a
+    // a feature collection
+    if (rawpostdata.type === 'Feature') {
+      const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
+      const FeatureCollectionEnd = ']}';
+      postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
+    }
+
+    if (rawpostdata.type === 'FeatureCollection') {
+      postdata = JSON.stringify(rawpostdata);
+    }
+
+    if (!checkValidObject(rawpostdata)) {
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff('getZonal checkValidObject rawpostdata');
+      return {};
+    }
+
+    this.drawAreaGroup.clearLayers();
+
+    const clearAreaElement = document.getElementById('zonal-area-wrapper');
+    if (clearAreaElement) {
+      clearAreaElement.innerHTML = '';
+    }
+
+    // send request to api
+    const HubIntersectionJson = await this.HubIntersectionApi.getIntersectedHubs(rawpostdata);
+
+    // make sure there is valid data back as  a response
+    if (!checkValidObject(HubIntersectionJson)) {
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff('getZonal checkValidObject HubIntersectionJson');
+      return {};
+    }
+
+    // sort the hubs by hub ranking
+    const HubIntersectionJsonSorted = HubIntersectionJson.sort((a, b) => {
+      if (a.properties.mean.hubs > b.properties.mean.hubs) {
+        return -1;
+      }
+      if (a.properties.mean.hubs < b.properties.mean.hubs) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+
+    store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
+
+    // draw the hubs and the zonal stats
+    this.drawHubs();
+
+    this.mapComponent.map.fireEvent('zonalstatsend');
+    store.setStoreItem('working_zonalstats', false);
+    spinnerOff('getZonal done');
+
+    return HubIntersectionJson;
+  }
+
+  // renders the shapes from the user areas state object
+  drawHubs() {
+    store.setStoreItem('working_drawlayers', true);
+    spinnerOn();
+
+    const currentshapes = store.getStateItem('HubIntersectionJson');
+
+    if (!checkValidObject(currentshapes)) {
+      store.setStoreItem('working_drawlayers', false);
+      spinnerOff();
+      return null;
+    }
+
+    currentshapes.forEach((feature) => {
+      const userarea = feature;
+      const name = feature.properties.mean.TARGET_FID.toString();
+
+      if (checkValidObject(userarea)) {
+        const HTMLName = makeHTMLName(name);
+        this.bufferedoptions.className = `path-${HTMLName}`;
+
+        const resilienceHubLayer = L.geoJson(userarea, this.bufferedoptions);
+
+        // add mouserovers for the shapes.
+        resilienceHubLayer.on({
+          mouseover: (e) => {
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOn(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOn(labelzElem);
+
+              const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+              const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+              toggleLabelHighLightsOn(shotChartsLabelsElem);
+
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              togglePermHighLightsAllOff(pathelem);
+              toggleMouseHighLightsOn(pathelem);
+            }
+          },
+          mouseout: (e) => {
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOff(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOff(labelzElem);
+
+              const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+              const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+              toggleLabelHighLightsOff(shotChartsLabelsElem);
+
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              toggleMouseHighLightsOff(pathelem);
+            }
+          },
+          click: (e) => {
+            Explore.clickShape(e);
+          }
+        });
+
+        // draw Resilience hub
+        this.drawAreaGroup.addLayer(resilienceHubLayer);
+        this.addUserAreaLabel(resilienceHubLayer, name);
+
+        // draw zonal stats for each shape
+        if (checkValidObject(feature)) {
+          drawZonalStatsFromAPI(feature.properties.mean,
+            name,
+            this.mapComponent.map);
+        }
+
+        return resilienceHubLayer;
+      }
+
+      return null;
+    });
+
+    store.setStoreItem('working_drawlayers', false);
+    spinnerOff();
+    return null;
+  }
+
   async getZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
@@ -450,7 +661,19 @@ export class Explore extends Component {
       this.drawAreaGroup.addLayer(bufferedLayer);
       this.addUserAreaLabel(bufferedLayer);
 
-      this.getZonal();
+      const activeNav = store.getStateItem('activeNav');
+      // console.log(activeNav)
+
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
+          this.getHubsZonal();
+        } else {
+          this.getZonal();
+        }
+      } else {
+        this.getZonal();
+      }
+
       return layer;
     }
     return null;
@@ -618,7 +841,6 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(layer);
 
         this.drawAreaGroup.addLayer(bufferedLayer);
-
         this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
@@ -688,14 +910,25 @@ export class Explore extends Component {
   // remove the existing area
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
-    store.removeStateItem('userarea');
-    store.removeStateItem('userareas');
+
+    const activeNav = store.getStateItem('activeNav');
+
+    if (activeNav === 'main-nav-map-searchhubs') {
+      store.removeStateItem('HubIntersectionJson');
+    }
+
+    if (activeNav === 'main-nav-map') {
+      store.removeStateItem('userareas');
+      store.removeStateItem('zonalstatsjson');
+      Explore.resetshapescounter();
+    }
+
     store.removeStateItem('savedshapes');
     store.removeStateItem('savedshape');
-    Explore.resetshapescounter();
+    store.removeStateItem('userarea');
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
-    store.removeStateItem('zonalstatsjson');
+
     const clearAreaElement = document.getElementById('details-holder');
     if (clearAreaElement) {
       clearAreaElement.innerHTML = '';
@@ -826,14 +1059,20 @@ export class Explore extends Component {
       const { layer } = e;
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
 
-      // add layer to the leaflet map
-      this.drawAreaGroup.addLayer(layer);
-      this.drawAreaGroup.addLayer(bufferedLayer);
 
-      // start adding the user draw shape to the map
-      layer.addTo(mapComponent.map);
+      const activeNav = store.getStateItem('activeNav');
 
-      this.addUserAreaLabel(bufferedLayer);
+      if (activeNav) {
+        if (activeNav !== 'main-nav-map-searchhubs') {
+          // add layer to the leaflet map
+          this.drawAreaGroup.addLayer(layer);
+          this.drawAreaGroup.addLayer(bufferedLayer);
+
+          // start adding the user draw shape to the map
+          layer.addTo(mapComponent.map);
+          this.addUserAreaLabel(bufferedLayer);
+        }
+      }
 
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
@@ -846,7 +1085,16 @@ export class Explore extends Component {
       // update store
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', geojson);
-      this.getZonal();
+
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
+          this.getHubsZonal();
+        } else {
+          this.getZonal();
+        }
+      } else {
+        this.getZonal();
+      }
     });
   }
 
