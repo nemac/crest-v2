@@ -158,7 +158,6 @@ export class Explore extends Component {
       if ( activeNav ) {
         if ( activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
-          console.log(exploreTitle);
           if (exploreTitle)  {
             exploreTitle.innerHTML = 'Where should I do a resilience project?'
           }
@@ -919,16 +918,25 @@ export class Explore extends Component {
   // remove the existing area
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
-    store.removeStateItem('userarea');
-    store.removeStateItem('userareas');
+
+    const activeNav = store.getStateItem('activeNav');
+
+    if (activeNav=== 'main-nav-map-searchhubs') {
+      store.removeStateItem('HubIntersectionJson');
+    }
+
+    if (activeNav=== 'main-nav-map') {
+      store.removeStateItem('userareas');
+      store.removeStateItem('zonalstatsjson');
+      Explore.resetshapescounter();
+    }
+
     store.removeStateItem('savedshapes');
     store.removeStateItem('savedshape');
-    Explore.resetshapescounter();
+    store.removeStateItem('userarea');
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
-    store.removeStateItem('zonalstatsjson');
-    store.removeStateItem('HubIntersectionJson');
-
+    
     const clearAreaElement = document.getElementById('details-holder');
     if (clearAreaElement) {
       clearAreaElement.innerHTML = '';
