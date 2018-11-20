@@ -100,7 +100,17 @@ export class Explore extends Component {
 
     // draw the user area on the map
     if (!this.hasShareURL) {
-      this.drawUserAreaFromUsereas();
+      const activeNav = store.getStateItem('activeNav');
+
+      if ( activeNav ) {
+        if ( activeNav === 'main-nav-map-searchhubs') {
+          this.drawHubs();
+        } else {
+          this.drawUserAreaFromUsereas();
+        }
+      } else {
+        this.drawUserAreaFromUsereas();
+      }
     }
 
     this.addUploadShapeHandler();
@@ -119,6 +129,23 @@ export class Explore extends Component {
 
     this.mapComponent.map.addEventListener('retreives3start', (e) => {
       spinnerOn();
+    });
+
+    window.addEventListener('aboutNavChange', (e) => {
+      // console.log('test')
+      // console.log(store.getStateItem('activeNav'));
+      this.drawAreaGroup.clearLayers();
+      const activeNav = store.getStateItem('activeNav');
+
+      if ( activeNav ) {
+        if ( activeNav === 'main-nav-map-searchhubs') {
+          this.drawHubs();
+        } else {
+          this.drawUserAreaFromUsereas();
+        }
+      } else {
+        this.drawUserAreaFromUsereas();
+      }
     });
 
     window.addEventListener('removeuserareend', (e) => {
@@ -155,6 +182,7 @@ export class Explore extends Component {
     window.addEventListener('touchstart', (e) => {
       spinnerOff();
     });
+
   }
 
   // user clickss path should navigate into zonal stats details
@@ -345,7 +373,8 @@ export class Explore extends Component {
     store.removeStateItem('HubIntersectionJson');
 
     // get geoJSON to send to zonal stats lambda function
-    const rawpostdata = store.getStateItem('userarea_buffered');
+    // in this case do not use the buffered shape
+    const rawpostdata = store.getStateItem('userarea');
     let postdata = '';
 
     // some Geojson is not a feature collection lambda function expects a
@@ -371,14 +400,14 @@ export class Explore extends Component {
     // send request to api
     const HubIntersectionJson = await this.HubIntersectionApi.getIntersectedHubs(rawpostdata);
 
+    // make sure there is valid data back as  a response
     if (!checkValidObject(HubIntersectionJson)) {
       store.setStoreItem('working_zonalstats', false);
       spinnerOff('getZonal checkValidObject HubIntersectionJson');
       return {};
     }
 
-    let responseData = '';
-
+    // sort the hubs by hub ranking
     const HubIntersectionJsonSorted = HubIntersectionJson.sort(function (a, b) {
       if (a.properties.mean['hubs'] > b.properties.mean['hubs']) {
         return -1;
@@ -390,132 +419,110 @@ export class Explore extends Component {
       return 0;
     });
 
-
-    // this.drawAreaGroup.clearLayers();
-
-
-    HubIntersectionJsonSorted.forEach( (feature) =>  {
-      store.setStoreItem('working_zonalstats', false);
-      const name = feature.properties.mean['TARGET_FID'].toString();
-      if (checkValidObject(feature)) {
-        drawZonalStatsFromAPI(feature.properties.mean,
-          name,
-          this.mapComponent.map);
-      }
-    })
-
     store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
-    // const name = this.storeShapes();
-    // this.saveUserShapesToS3();
 
-    // add layer to the leaflet map
-
-    this.drawHubs()
+    // draw the hubs and the zonal stats
+    this.drawHubs();
 
     this.mapComponent.map.fireEvent('zonalstatsend');
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
 
     return HubIntersectionJson;
-
-
   }
 
-    // renders the shapes from the user areas state object
-    drawHubs() {
-      store.setStoreItem('working_drawlayers', true);
-      spinnerOn();
+  // renders the shapes from the user areas state object
+  drawHubs() {
+    store.setStoreItem('working_drawlayers', true);
+    spinnerOn();
 
-      const currentshapes = store.getStateItem('HubIntersectionJson');
-      console.log(currentshapes)
-      currentshapes.forEach((feature) => {
+    const currentshapes = store.getStateItem('HubIntersectionJson');
 
-        const name = feature.properties.mean['TARGET_FID'].toString();
-        const userarea = feature;
-        // const buffered = currentshapes[key][2].userarea_buffered;
-        // const zonal = currentshapes[key][3].zonalstatsjson;
-
-        if (checkValidObject(userarea)) {
-          // convert geoJson to leaflet layer
-          // const layer = L.geoJson(userarea);
-
-          const HTMLName = makeHTMLName(name);
-          this.bufferedoptions.className = `path-${HTMLName}`;
-
-          const bufferedLayer = L.geoJson(userarea, this.bufferedoptions);
-
-          // add mouserovers for the shapes.
-          bufferedLayer.on({
-            mouseover: (e) => {
-              if (!isGraphActivetate()) {
-                const path = e.target;
-                const labelname = path.options.className.replace('path-', 'label-name-');
-                const labelElem = document.getElementById(labelname);
-                toggleLabelHighLightsOn(labelElem);
-                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
-                const labelzElem = document.getElementById(labelzname);
-                toggleLabelHighLightsOn(labelzElem);
-
-                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
-                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
-                toggleLabelHighLightsOn(shotChartsLabelsElem);
-
-                const pathelem = document.querySelector(`.${path.options.className}`);
-                togglePermHighLightsAllOff(pathelem);
-                toggleMouseHighLightsOn(pathelem);
-              }
-            },
-            mouseout: (e) => {
-              if (!isGraphActivetate()) {
-                const path = e.target;
-                const labelname = path.options.className.replace('path-', 'label-name-');
-                const labelElem = document.getElementById(labelname);
-                toggleLabelHighLightsOff(labelElem);
-                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
-                const labelzElem = document.getElementById(labelzname);
-                toggleLabelHighLightsOff(labelzElem);
-
-                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
-                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
-                toggleLabelHighLightsOff(shotChartsLabelsElem);
-
-                const pathelem = document.querySelector(`.${path.options.className}`);
-                toggleMouseHighLightsOff(pathelem);
-              }
-            },
-            click: (e) => {
-              Explore.clickShape(e);
-            }
-          });
-
-          // add layer to the leaflet map
-          // this.drawAreaGroup.addLayer(layer);
-
-          this.drawAreaGroup.addLayer(bufferedLayer);
-
-          this.addUserAreaLabel(bufferedLayer, name);
-
-          // if (checkValidObject(zonal.features)) {
-          //   drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
-          // }
-
-          return bufferedLayer;
-        }
-
-        return null;
-      });
-
+    if (!checkValidObject(currentshapes)) {
       store.setStoreItem('working_drawlayers', false);
       spinnerOff();
       return null;
     }
 
+    currentshapes.forEach((feature) => {
+
+      const userarea = feature;
+      const name = feature.properties.mean['TARGET_FID'].toString();
+
+      if (checkValidObject(userarea)) {
+
+        const HTMLName = makeHTMLName(name);
+        this.bufferedoptions.className = `path-${HTMLName}`;
+
+        const resilienceHubLayer = L.geoJson(userarea, this.bufferedoptions);
+
+        // add mouserovers for the shapes.
+        resilienceHubLayer.on({
+          mouseover: (e) => {
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOn(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOn(labelzElem);
+
+              const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+              const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+              toggleLabelHighLightsOn(shotChartsLabelsElem);
+
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              togglePermHighLightsAllOff(pathelem);
+              toggleMouseHighLightsOn(pathelem);
+            }
+          },
+          mouseout: (e) => {
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOff(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOff(labelzElem);
+
+              const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+              const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+              toggleLabelHighLightsOff(shotChartsLabelsElem);
+
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              toggleMouseHighLightsOff(pathelem);
+            }
+          },
+          click: (e) => {
+            Explore.clickShape(e);
+          }
+        });
 
 
+        // draw Resilience hub
+        this.drawAreaGroup.addLayer(resilienceHubLayer);
+        this.addUserAreaLabel(resilienceHubLayer, name);
 
-  // const layer = L.geoJson(feature);
-  // this.drawAreaGroup.addLayer(layer);
-  //
+        //draw zonal stats for each shape
+        if (checkValidObject(feature)) {
+          drawZonalStatsFromAPI(feature.properties.mean,
+            name,
+            this.mapComponent.map);
+        }
+
+        return resilienceHubLayer;
+      }
+
+      return null;
+    });
+
+    store.setStoreItem('working_drawlayers', false);
+    spinnerOff();
+    return null;
+  }
+
   async getZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
@@ -1053,7 +1060,7 @@ export class Explore extends Component {
       } else {
         this.getZonal();
       }
-      // this.getZonal();
+
     });
   }
 

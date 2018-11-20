@@ -123,6 +123,19 @@ function initMapComponent() { // add parameter for type of explore
       hasShareURL
     });
     shareurl = new ShareUrl('', { mapComponent, URLCls });
+
+    // const activeNav = store.getStateItem('activeNav');
+    //
+    // if ( activeNav ) {
+    //   if ( activeNav === 'main-nav-map-searchhubs') {
+    //     mapComponent.drawHubs();
+    //   } else {
+    //     mapComponent.drawUserAreaFromUsereas();
+    //   }
+    // } else {
+    //   mapComponent.drawUserAreaFromUsereas();
+    // }
+
   }
 
   // restore only if first render
@@ -155,7 +168,7 @@ function initMapComponent() { // add parameter for type of explore
 // Closes over global import NavBar
 function setNavBars(selector) {
   NavBar.resetTabContent();
-  
+
   // this very hacky need better way to handle
   if (selector === 'main-nav-map-searchhubs') {
     NavBar.toggleTabContent('main-nav-map');

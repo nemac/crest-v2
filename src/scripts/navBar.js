@@ -85,6 +85,9 @@ export class NavBar extends Component {
 
         this.activeNav = nav.id;
         store.setStoreItem('activeNav', nav.id);
+
+        const navChangeEvent = new CustomEvent('aboutNavChange');
+        window.dispatchEvent(navChangeEvent);
       });
     });
   }
