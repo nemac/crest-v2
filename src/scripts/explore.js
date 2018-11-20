@@ -135,6 +135,12 @@ export class Explore extends Component {
       // console.log('test')
       // console.log(store.getStateItem('activeNav'));
       this.drawAreaGroup.clearLayers();
+
+      const clearAreaElement = document.getElementById('zonal-area-wrapper');
+      if (clearAreaElement) {
+        clearAreaElement.innerHTML = '';
+      }
+
       const activeNav = store.getStateItem('activeNav');
 
       if ( activeNav ) {
@@ -397,6 +403,11 @@ export class Explore extends Component {
 
     this.drawAreaGroup.clearLayers();
 
+    const clearAreaElement = document.getElementById('zonal-area-wrapper');
+    if (clearAreaElement) {
+      clearAreaElement.innerHTML = '';
+    }
+
     // send request to api
     const HubIntersectionJson = await this.HubIntersectionApi.getIntersectedHubs(rawpostdata);
 
@@ -499,7 +510,6 @@ export class Explore extends Component {
             Explore.clickShape(e);
           }
         });
-
 
         // draw Resilience hub
         this.drawAreaGroup.addLayer(resilienceHubLayer);
@@ -818,7 +828,6 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(layer);
 
         this.drawAreaGroup.addLayer(bufferedLayer);
-
         this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
@@ -1028,14 +1037,22 @@ export class Explore extends Component {
       const { layer } = e;
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
 
-      // add layer to the leaflet map
-      this.drawAreaGroup.addLayer(layer);
-      this.drawAreaGroup.addLayer(bufferedLayer);
 
-      // start adding the user draw shape to the map
-      layer.addTo(mapComponent.map);
+      const activeNav = store.getStateItem('activeNav');
 
-      this.addUserAreaLabel(bufferedLayer);
+      if ( activeNav ) {
+        if ( activeNav !== 'main-nav-map-searchhubs') {
+          // add layer to the leaflet map
+          this.drawAreaGroup.addLayer(layer);
+          this.drawAreaGroup.addLayer(bufferedLayer);
+
+          // start adding the user draw shape to the map
+          layer.addTo(mapComponent.map);
+          this.addUserAreaLabel(bufferedLayer);
+        }
+      }
+
+
 
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
@@ -1048,8 +1065,6 @@ export class Explore extends Component {
       // update store
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', geojson);
-
-      const activeNav = store.getStateItem('activeNav');
 
       if ( activeNav ) {
         if ( activeNav === 'main-nav-map-searchhubs') {
