@@ -98,7 +98,7 @@ export class Explore extends Component {
 
     this.HubIntersectionApi = new HubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
-    this.DefaultExploreText = 'WhStart Exploring the Assessment';
+    this.DefaultExploreText = 'Start Exploring the Assessment';
 
     // draw the user area on the map
     if (!this.hasShareURL) {
