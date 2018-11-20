@@ -60,7 +60,9 @@ export class NavBar extends Component {
       NavBar.deactivateAllNavs();
       NavBar.toggleTabContent(activeNav);
       const el = document.getElementById(activeNav);
-      el.className += ' active';
+      if (el) {
+        el.className += ' active';
+      }
     }
 
     // add click event for active toggle
