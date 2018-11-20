@@ -155,6 +155,7 @@ function initMapComponent() { // add parameter for type of explore
 // Closes over global import NavBar
 function setNavBars(selector) {
   NavBar.resetTabContent();
+  const activeNav = store.getStateItem('activeNav');
 
   // this very hacky need better way to handle
   if (selector === 'main-nav-map-searchhubs') {
@@ -163,7 +164,15 @@ function setNavBars(selector) {
     NavBar.toggleTabContent(selector);
   }
 
-  NavBar.tabUpdate(selector);
+  if (activeNav) {
+    if (activeNav === 'main-nav-map-searchhubs') {
+      NavBar.tabUpdate(activeNav);
+    } else {
+      NavBar.tabUpdate(selector);
+    }
+  } else {
+    NavBar.tabUpdate(selector);
+  }
 }
 
 
