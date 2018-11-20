@@ -101,15 +101,26 @@ export class Explore extends Component {
     // draw the user area on the map
     if (!this.hasShareURL) {
       const activeNav = store.getStateItem('activeNav');
+      const exploreTitle = document.getElementById('explore-title');
 
       if ( activeNav ) {
         if ( activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
+          if (exploreTitle)  {
+            exploreTitle.innerHTML = 'Where should I do a resilience project?'
+          }
+
         } else {
           this.drawUserAreaFromUsereas();
+          if (exploreTitle)  {
+            exploreTitle.innerHTML = 'Start Exploring the Assessment'
+          }
         }
       } else {
         this.drawUserAreaFromUsereas();
+        if (exploreTitle)  {
+          exploreTitle.innerHTML = 'Start Exploring the Assessment'
+        }
       }
     }
 
@@ -142,15 +153,26 @@ export class Explore extends Component {
       }
 
       const activeNav = store.getStateItem('activeNav');
+      const exploreTitle = document.getElementById('explore-title');
 
       if ( activeNav ) {
         if ( activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
+          console.log(exploreTitle);
+          if (exploreTitle)  {
+            exploreTitle.innerHTML = 'Where should I do a resilience project?'
+          }
         } else {
           this.drawUserAreaFromUsereas();
+          if (exploreTitle)  {
+            exploreTitle.innerHTML = 'Start Exploring the Assessment'
+          }
         }
       } else {
         this.drawUserAreaFromUsereas();
+        if (exploreTitle)  {
+          exploreTitle.innerHTML = 'Start Exploring the Assessment'
+        }
       }
     });
 
@@ -1051,8 +1073,6 @@ export class Explore extends Component {
           this.addUserAreaLabel(bufferedLayer);
         }
       }
-
-
 
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo

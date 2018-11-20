@@ -56,7 +56,7 @@ export class NavBar extends Component {
 
     const activeNav = store.getStateItem('activeNav');
 
-    if (checkValidObject(activeNav)) {
+    if (activeNav) {
       NavBar.deactivateAllNavs();
       NavBar.toggleTabContent(activeNav);
       const el = document.getElementById(activeNav);
