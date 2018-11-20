@@ -4,6 +4,7 @@ import { checkValidObject } from './utilitys';
 const URL_IGNORE_KEYS = [
   'userarea',
   'userarea_buffered',
+  'HubIntersectionJson',
   'zonalstatsjson',
   'working_basemap',
   'working_mapinfo',
@@ -20,6 +21,7 @@ const URL_IGNORE_KEYS = [
 const SHARE_URL_IGNORE_KEYS = [
   'userarea',
   'userarea_buffered',
+  'HubIntersectionJson',
   'zonalstatsjson',
   'working_basemap',
   'working_mapinfo',
