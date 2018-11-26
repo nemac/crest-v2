@@ -218,16 +218,6 @@ export class Explore extends Component {
     const bufferedGeoJSON = buffer(unbufferedGeoJSON, 1, { units: 'kilometers' });
 
     let name = '';
-    if (!checkValidObject(name)) {
-      let shapecount = store.getStateItem('userareacount');
-      if (!checkValidObject(shapecount)) {
-        shapecount = 1;
-      } else {
-        shapecount += 1;
-      }
-      name = `${this.defaultAreaName}${shapecount}`;
-    }
-
     const HTMLName = makeHTMLName(name);
     this.bufferedoptions.className = `path-${HTMLName}`;
 
@@ -1033,15 +1023,8 @@ export class Explore extends Component {
     // if name not passed create the default area name
     // this happens when the user is drawing a new area
     let newname = name;
-    if (!checkValidObject(name)) {
-      let shapecount = store.getStateItem('userareacount');
-      if (!checkValidObject(shapecount)) {
-        shapecount = 1;
-      } else {
-        shapecount += 1;
-      }
-      newname = `${this.defaultAreaName}${shapecount}`;
-    }
+    let shapecount = store.getStateItem('userareacount');
+    newname = `${this.defaultAreaName}${shapecount}`;
 
     // labels nees a sec so it's placed on the correct location
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 50);
@@ -1058,8 +1041,6 @@ export class Explore extends Component {
     mapComponent.map.on('draw:created', (e) => {
       const { layer } = e;
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
-
-
       const activeNav = store.getStateItem('activeNav');
 
       if (activeNav) {
@@ -1070,6 +1051,7 @@ export class Explore extends Component {
 
           // start adding the user draw shape to the map
           layer.addTo(mapComponent.map);
+          Explore.storeshapescounter();
           this.addUserAreaLabel(bufferedLayer);
         }
       }
@@ -1117,8 +1099,7 @@ export class Explore extends Component {
   // add a new shape to user shape store
   storeShapes() {
     const currentshapes = store.getStateItem('userareas');
-
-    const shapecount = Explore.storeshapescounter();
+    const shapecount = store.getStateItem('userareacount');
     const name = `${this.defaultAreaName}${shapecount}`;
     const newshape = {
       [`userarea${shapecount}`]: [
@@ -1200,7 +1181,7 @@ export class Explore extends Component {
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
     this.processFiles(files);
-  }
+ }
 
   async processFiles(files) {
     spinnerOn();
@@ -1219,27 +1200,13 @@ export class Explore extends Component {
 
     for (var i=0; i<fileSets.length; i++) {
       const fileSet = fileSets[i];
-      this.processFileSet(fileSet);
+      await this.processFileSet(fileSet);
     }
-
+    this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
+    this.mapComponent.saveZoomAndMapPosition();
     return false;
   }
   
-  /*
-  static processFeatureCollection(fc) {
-    if (!checkValidObject(featureCollection)) {
-      store.setStoreItem('working_zonalstats', false);
-      spinnerOff();
-      return false;
-    }
-    for (var i=0; i<featureCollection.features.length; i++) {
-      const feature = featureCollection.features[0];
-      Explore.addFeatureAsMapLayer(feature);
-    } 
-
-  }
-  */
-
   async processFileSet(files) {
     spinnerOn();
     const shpfileFiles = files
@@ -1253,7 +1220,7 @@ export class Explore extends Component {
       const bundleToProcess = shpfileBundles[0];
       const geojsonFromShpfiles = Explore.convertShpfileBundleToGeojson(bundleToProcess);
       for (var i=0; i<geojsonFromShpfiles.features.length; i++) {
-        this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
+        await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
     }
     
@@ -1263,16 +1230,17 @@ export class Explore extends Component {
       // if feature collection
       if (geojsonFromFile.type == 'FeatureCollection') {
         for (var j=0; j<geojsonFromFile.features.length; j++) {
-          this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
+          await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
         }
       }
       if (geojsonFromFile.type == 'Feature') {
-        this.addFeatureAsMapLayer(geojsonFromFile);
+        await this.addFeatureAsMapLayer(geojsonFromFile);
       }
     }
   }
 
   async addFeatureAsMapLayer(feature) {
+    Explore.storeshapescounter(); 
     if (!checkValidObject(feature)) {
       return false;
     }
@@ -1292,11 +1260,11 @@ export class Explore extends Component {
     // add layer to the leaflet map
     this.drawAreaGroup.addLayer(newLayer);
     this.drawAreaGroup.addLayer(bufferedLayer);
+    this.addUserAreaLabel(bufferedLayer);
 
-    //this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
-    //this.mapComponent.saveZoomAndMapPosition();
     store.saveAction('addsavedgeojson');
-    this.getZonal();
+    await this.getZonal();
+    await this.storeShapes();
   }
 
   static async readGeojsonFile(file) {
