@@ -15,6 +15,7 @@ const URL_IGNORE_KEYS = [
   'working_drawlayers',
   'userareas',
   'savedshapes',
+  'savedhubs',
   'userareacount'
 ];
 
