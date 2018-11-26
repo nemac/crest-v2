@@ -218,6 +218,9 @@ export class Explore extends Component {
     const bufferedGeoJSON = buffer(unbufferedGeoJSON, 1, { units: 'kilometers' });
 
     let name = '';
+    let shapecount = store.getStateItem('userareacount');
+    name = `${this.defaultAreaName}${shapecount}`;
+
     const HTMLName = makeHTMLName(name);
     this.bufferedoptions.className = `path-${HTMLName}`;
 
@@ -1040,6 +1043,7 @@ export class Explore extends Component {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', (e) => {
       const { layer } = e;
+      Explore.storeshapescounter();
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
       const activeNav = store.getStateItem('activeNav');
 
@@ -1051,7 +1055,6 @@ export class Explore extends Component {
 
           // start adding the user draw shape to the map
           layer.addTo(mapComponent.map);
-          Explore.storeshapescounter();
           this.addUserAreaLabel(bufferedLayer);
         }
       }
