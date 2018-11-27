@@ -138,8 +138,6 @@ export class Explore extends Component {
     });
 
     window.addEventListener('aboutNavChange', (e) => {
-      // console.log('test')
-      // console.log(store.getStateItem('activeNav'));
       this.drawAreaGroup.clearLayers();
 
       const clearAreaElement = document.getElementById('zonal-area-wrapper');
@@ -467,7 +465,6 @@ export class Explore extends Component {
             ]
           };
           const newsavedhubs = { ...storedhubs, ...newhub  };
-          console.log('newsavedhubs', newsavedhubs)
           store.setStoreItem('savedhubs', newsavedhubs )
         }
 
@@ -646,10 +643,7 @@ export class Explore extends Component {
     // if their is a query string paramter for shareurl=trye restore the shapes.
     if (this.hasShareURL === 'true') {
       // restore users shapes from s3 when there is a share UTL
-      // const userareas = store.getStateItem('savedshapes');
       this.getShapesFromS3();
-      const savedhubs = store.getStateItem('savedhubs');
-      console.log('restoreSavedGeoJson savedhubs', savedhubs)
       this.getHubsFromS3();
     }
 
@@ -692,7 +686,6 @@ export class Explore extends Component {
       this.addUserAreaLabel(bufferedLayer);
 
       const activeNav = store.getStateItem('activeNav');
-      // console.log(activeNav)
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
@@ -723,7 +716,6 @@ export class Explore extends Component {
     // get the saved shapes state item - holds the s3 bucket and file name
     const currentshapes = store.getStateItem('savedshapes');
     const savedhubs = store.getStateItem('savedhubs');
-    console.log('savedhubs', savedhubs)
     const userareacount = store.getStateItem('userareacount');
 
     // remove old shapes so they are not duplicated.  also want to make sure make
@@ -813,119 +805,52 @@ export class Explore extends Component {
     return null;
   }
 
+  // get hubs that we saved on s3.  In order to create a share URL - a web URL
+  // we can send to another users we need to be able to pass large geospatial datasets
+  // we are using a lambda function/api to store the the files on s3 this will retreive this.
+  //  the only thing in the url is the s3 bucket and file name
+  async getHubsFromS3() {
+    // start the working function so we have spinner active - informs
+    // users the website is doing something
+    store.setStoreItem('working_s3retreive', true);
+    this.mapComponent.map.fireEvent('retreives3start');
 
+    spinnerOn();
+    // get the saved shapes state item - holds the s3 bucket and file name
+    const savedhubs = store.getStateItem('savedhubs');
 
-    // get hubs that we saved on s3.  In order to create a share URL - a web URL
-    // we can send to another users we need to be able to pass large geospatial datasets
-    // we are using a lambda function/api to store the the files on s3 this will retreive this.
-    //  the only thing in the url is the s3 bucket and file name
-    async getHubsFromS3() {
-      // start the working function so we have spinner active - informs
-      // users the website is doing something
-      store.setStoreItem('working_s3retreive', true);
-      this.mapComponent.map.fireEvent('retreives3start');
+    let newshapes = [];
+    let count = 0;
+    const checkobj = {}.hasOwnProperty;
 
-      spinnerOn();
-      // get the saved shapes state item - holds the s3 bucket and file name
-      const savedhubs = store.getStateItem('savedhubs');
-
-      // remove old shapes so they are not duplicated.  also want to make sure make
-      // sure we are replicating the shared map.
-      // this.removeExistingArea();
-
-      let newshapes = [];
-      let count = 0;
-      const checkobj = {}.hasOwnProperty;
-
-      // using for loop because it allows await functionality with
-      // async calls to zonal stats api.  this will ensure we wait for the promise to
-      // resolve and is added to the store before we progress on. using a check for hasOwnProperty
-      // to deal with all the prototpe entries
-      for (const key in savedhubs) {
-        if (checkobj.call(savedhubs, key)) {
-          // const nameSaved = savedhubs[key][0].name;
-          // console.log(savedhubs[key]);
-          // console.log(savedhubs[key][1]);
-          console.log(savedhubs[key][1].hub.bucket);
-          let hubsZonalshape = {};
-          if (checkValidObject(savedhubs)) {
-            hubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(savedhubs[key][1].hub.bucket,
-              savedhubs[key][1].hub.key);
-          }
-          console.log(hubsZonalshape);
-
-          // // get bucket and file names for the user area, buffered user area, and zonal stats
-          // // const userareaSaved = savedhubs[key][1].savedshape_userarea;
-          // // const bufferedSaved = savedhubs[key][2].savedshape_userarea_buffered;
-          // // const zonalSaved = savedhubs[key][3].savedshape_zonalstatsjson;
-          // // const hubsZonalSaved = savedhubs[key][4].savedshape_hubszonalstatsjson;
-          //
-          // let usershape = {};
-          // let bufferedshape = {};
-          // let zonalshape = {};
-          // let hubsZonalshape = {};
-          //
-          // // make sure each area is actuall object then retreive
-          // // the actual geospatial data from s3. no api required.
-          // // just a http get of data
-          // if (checkValidObject(userareaSaved)) {
-          //   usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userareaSaved.bucket,
-          //     userareaSaved.key);
-          // }
-          // if (checkValidObject(bufferedSaved)) {
-          //   bufferedshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(bufferedSaved.bucket,
-          //     bufferedSaved.key);
-          // }
-          // if (checkValidObject(zonalSaved)) {
-          //   zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonalSaved.bucket,
-          //     zonalSaved.key);
-          // }
-          // if (checkValidObject(hubsZonalSaved)) {
-          //   hubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(hubsZonalSaved.bucket,
-          //     hubsZonalSaved.key);
-          // }
-
-          // counter for naming JSON object
-          // count += 1;
-
-          // // new geospatial data object for inserting into the userareas state item.
-          // // this items has the shapes we render on the map and has the zonal statiscs information
-          // // for the dashboard
-          // const newshape = {
-          //     hubsZonalshape
-          // };
-
-          // const newshapes = store.getStateItem('HubIntersectionJson');
-          newshapes.push({hubsZonalshape})
-
-          // update the state item with new useras object
-          // const userareas = store.getStateItem('HubIntersectionJson');
-
-          // newshapes = { ...userareas, ...newshape };
-          // console.log(newshape);
-
-          // store.setStoreItem('userareas', newshapes);
-          // store.setStoreItem('savedshapes', currentshapes);
-          // store.setStoreItem('userareacount', userareacount);
+    // using for loop because it allows await functionality with
+    // async calls to zonal stats api.  this will ensure we wait for the promise to
+    // resolve and is added to the store before we progress on. using a check for hasOwnProperty
+    // to deal with all the prototpe entries
+    for (const key in savedhubs) {
+      if (checkobj.call(savedhubs, key)) {
+        let hubsZonalshape = {};
+        if (checkValidObject(savedhubs)) {
+          hubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(savedhubs[key][1].hub.bucket,
+            savedhubs[key][1].hub.key);
         }
+
+        // add hub geojson to arrauy
+        newshapes.push(hubsZonalshape);
+
       }
-
-      store.setStoreItem('HubIntersectionJson', newshapes);
-      const testhj = store.getStateItem('HubIntersectionJson');
-      console.log('testhj',testhj)
-
-      // //  set the state items and turn of the site is working
-      // store.setStoreItem('userareas', newshapes);
-      // this.drawUserAreaFromUsereas();
-
-      store.setStoreItem('working_s3retreive', false);
-      this.mapComponent.map.fireEvent('retreives3end');
-      spinnerOff();
-
-      return null;
     }
+    store.setStoreItem('HubIntersectionJson', newshapes);
 
+    // draw the hubs and the zonal stats
+    this.drawHubs();
 
+    store.setStoreItem('working_s3retreive', false);
+    this.mapComponent.map.fireEvent('retreives3end');
+    spinnerOff();
+
+    return null;
+  }
 
   // renders the shapes from the user areas state object
   drawUserAreaFromUsereas() {
