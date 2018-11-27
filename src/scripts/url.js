@@ -58,9 +58,9 @@ export class URL {
   }
 
   static updateURL(url) {
-    if (window.history && window.history.replaceState) {
-      window.history.replaceState({}, '', url);
-    }
+    // if (window.history && window.history.replaceState) {
+    //   window.history.replaceState({}, '', url);
+    // }
   }
 
   encodeStateString() {
@@ -75,19 +75,23 @@ export class URL {
 
   getShareUrl() {
     const state = this.encodeStateStringShare();
+    const activeNav = this.url.getItem('activeNav');
+    const test = this.url.getStateAsString();
+    const test2 = JSON.parse(test)
+
     let baseurl = `${window.location.origin}`;
 
     // handle gh pages dist folder.
     if (baseurl === 'https://nemac.github.io') {
       baseurl += '/NFWF_tool/dist';
     }
-    const hash = window.location.hash.substr(1);
 
-    return `${baseurl}/#${hash}?state=${state}&shareurl=true`;
+    return `${baseurl}/?state=${state}&shareurl=true&fornav=${test2.activeNav}`;
   }
 
   setUrl() {
     const state = this.encodeStateString();
+    // URL.updateURL(`?state=${state}`);
     const hash = window.location.hash.substr(1);
     URL.updateURL(`#${hash}?state=${state}`);
   }
@@ -117,6 +121,8 @@ export class URL {
   removeIgnoreKeys() {
     // get current state
     const stateOBJ = JSON.parse(this.url.getStateAsString());
+
+    // not state return {} object
     if (!checkValidObject(stateOBJ)) {
       return {};
     }
@@ -140,6 +146,11 @@ export class URL {
   removeShareIgnoreKeys() {
     // get current state
     const stateOBJ = JSON.parse(this.url.getStateAsString());
+
+    // not state return {} object
+    if (!checkValidObject(stateOBJ)) {
+      return {};
+    }
 
     // remove the ignored keys
     const filtered = Object.keys(stateOBJ)

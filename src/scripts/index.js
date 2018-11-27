@@ -34,6 +34,7 @@ const navBarComponent = new NavBar('nav-holder');
 
 const urlParams = new URLSearchParams(window.location.search);
 const hasShareURL = urlParams.get('shareurl');
+const theStartNav = urlParams.get('fornav');
 
 const URLCls = new URL();
 
@@ -113,14 +114,16 @@ function initMapComponent() { // add parameter for type of explore
     exploreComponent = new Explore('explore-holder', {
       mapComponent,
       mapInfoComponent,
-      hasShareURL
+      hasShareURL,
+      theStartNav
     });
     // add switch for type of explore
     searchLocationsComponent = new SearchLocations('', {
       mapComponent,
       mapInfoComponent,
       exploreComponent,
-      hasShareURL
+      hasShareURL,
+      theStartNav
     });
     shareurl = new ShareUrl('', { mapComponent, URLCls });
   }
