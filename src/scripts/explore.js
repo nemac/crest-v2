@@ -216,7 +216,7 @@ export class Explore extends Component {
     const bufferedGeoJSON = buffer(unbufferedGeoJSON, 1, { units: 'kilometers' });
 
     let name = '';
-    let shapecount = store.getStateItem('userareacount');
+    const shapecount = store.getStateItem('userareacount');
     name = `${this.defaultAreaName}${shapecount}`;
 
     const HTMLName = makeHTMLName(name);
@@ -1156,7 +1156,6 @@ export class Explore extends Component {
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 50);
   }
 
-
   // handler for when drawing is complete on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
@@ -1307,7 +1306,7 @@ export class Explore extends Component {
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
     this.processFiles(files);
- }
+  }
 
   async processFiles(files) {
     spinnerOn();
@@ -1315,7 +1314,7 @@ export class Explore extends Component {
     const fileSets = [];
     // Treat each folder in a zip archive as its own set of files.
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
-    for (var i=0; i<zips.length; i++) {
+    for (let i = 0; i < zips.length; i += 1) {
       const zip = zips[i];
       const zipFileSets = await Explore.readZip(zip);
       fileSets.push(...zipFileSets);
@@ -1324,7 +1323,7 @@ export class Explore extends Component {
     const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
     if (nonZips.length) { fileSets.push(nonZips); }
 
-    for (var i=0; i<fileSets.length; i++) {
+    for (let i = 0; i < fileSets.length; i += 1) {
       const fileSet = fileSets[i];
       await this.processFileSet(fileSet);
     }
@@ -1345,21 +1344,21 @@ export class Explore extends Component {
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
       const geojsonFromShpfiles = Explore.convertShpfileBundleToGeojson(bundleToProcess);
-      for (var i=0; i<geojsonFromShpfiles.features.length; i++) {
+      for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
         await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
     }
 
-    for (var i=0; i<otherFiles.length; i++) {
+    for (let i = 0; i < otherFiles.length; i += 1) {
       const geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
       // feature collection, or feature?
       // if feature collection
-      if (geojsonFromFile.type == 'FeatureCollection') {
-        for (var j=0; j<geojsonFromFile.features.length; j++) {
+      if (geojsonFromFile.type === 'FeatureCollection') {
+        for (let j = 0; j < geojsonFromFile.features.length; j += 1) {
           await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
         }
       }
-      if (geojsonFromFile.type == 'Feature') {
+      if (geojsonFromFile.type === 'Feature') {
         await this.addFeatureAsMapLayer(geojsonFromFile);
       }
     }
@@ -1385,6 +1384,7 @@ export class Explore extends Component {
     store.saveAction('addsavedgeojson');
     await this.getZonal();
     await this.storeShapes();
+    return '';
   }
 
   static async readGeojsonFile(file) {
@@ -1437,7 +1437,7 @@ export class Explore extends Component {
     );
     const fileSets = [];
     const keys = Object.keys(folders);
-    for (var i=0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
       const fileProms = folders[key]
         .filter(file => Explore.isValidFile(file))
