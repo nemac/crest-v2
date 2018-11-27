@@ -460,7 +460,7 @@ export class Explore extends Component {
               { hub: savedhub }
             ]
           };
-          const newsavedhubs = { ...storedhubs, ...newhub  };
+          const newsavedhubs = { ...storedhubs, ...newhub };
           store.setStoreItem('savedhubs', newsavedhubs);
         }
       }
@@ -653,7 +653,7 @@ export class Explore extends Component {
     spinnerOn();
 
     // check shareurl nav
-    if (this.theStartNav === 'main-nav-map-searchhubs' ) {
+    if (this.theStartNav === 'main-nav-map-searchhubs') {
       this.restoreHubs();
     } else {
       this.restoreExplore();
@@ -726,7 +726,6 @@ export class Explore extends Component {
     spinnerOn();
     // get the saved shapes state item - holds the s3 bucket and file name
     const currentshapes = store.getStateItem('savedshapes');
-    const savedhubs = store.getStateItem('savedhubs');
     const userareacount = store.getStateItem('userareacount');
 
     // remove old shapes so they are not duplicated.  also want to make sure make
@@ -795,7 +794,7 @@ export class Explore extends Component {
         newshapes = { ...userareas, ...newshape };
         store.setStoreItem('userareas', newshapes);
         store.setStoreItem('savedshapes', currentshapes);
-        store.setStoreItem('userareacount', userareacount)
+        store.setStoreItem('userareacount', userareacount);
       }
     }
 
@@ -825,8 +824,7 @@ export class Explore extends Component {
     // get the saved shapes state item - holds the s3 bucket and file name
     const savedhubs = store.getStateItem('savedhubs');
 
-    let newshapes = [];
-    let count = 0;
+    const newshapes = [];
     const checkobj = {}.hasOwnProperty;
 
     // using for loop because it allows await functionality with
@@ -836,14 +834,13 @@ export class Explore extends Component {
     for (const key in savedhubs) {
       if (checkobj.call(savedhubs, key)) {
         let hubsZonalshape = {};
+        const hubobj = savedhubs[key][1].hub;
         if (checkValidObject(savedhubs)) {
-          hubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(savedhubs[key][1].hub.bucket,
-            savedhubs[key][1].hub.key);
+          hubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(hubobj.bucket,
+            hubobj.key);
         }
-
         // add hub geojson to arrauy
         newshapes.push(hubsZonalshape);
-
       }
     }
 
@@ -995,21 +992,21 @@ export class Explore extends Component {
     Explore.clearDetails();
   }
 
-  static removeExistingExlpore(){
+  static removeExistingExlpore() {
     store.removeStateItem('savedshapes');
     store.removeStateItem('savedshape');
     store.removeStateItem('userareas');
     store.removeStateItem('zonalstatsjson');
     Explore.resetshapescounter();
   }
-  static removeUserAreas() {
 
+  static removeUserAreas() {
     store.removeStateItem('userarea');
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
   }
 
-  static removeExistingHubs(){
+  static removeExistingHubs() {
     store.removeStateItem('HubIntersectionJson');
     store.removeStateItem('savedhubs');
   }
@@ -1072,7 +1069,6 @@ export class Explore extends Component {
     const drawAreaElement = document.getElementById('draw-area-btn');
 
     drawAreaElement.addEventListener('click', (ev) => {
-
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events
       //  we will have to add that back.  so this not ideal

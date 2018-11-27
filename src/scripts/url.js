@@ -75,9 +75,8 @@ export class URL {
 
   getShareUrl() {
     const state = this.encodeStateStringShare();
-    const activeNav = this.url.getItem('activeNav');
-    const test = this.url.getStateAsString();
-    const test2 = JSON.parse(test)
+    const statestr = this.url.getStateAsString();
+    const statesobj = JSON.parse(statestr);
 
     let baseurl = `${window.location.origin}`;
 
@@ -86,7 +85,7 @@ export class URL {
       baseurl += '/NFWF_tool/dist';
     }
 
-    return `${baseurl}/?state=${state}&shareurl=true&fornav=${test2.activeNav}`;
+    return `${baseurl}/?state=${state}&shareurl=true&fornav=${statesobj.activeNav}`;
   }
 
   setUrl() {
