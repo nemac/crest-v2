@@ -634,7 +634,10 @@ export class Explore extends Component {
   // get geojson from s3
   restoreSavedGeoJson() {
     store.setStoreItem('working_s3retreive', true);
+
     spinnerOn();
+    console.log('hasShareURL',this.hasShareURL)
+
     // if their is a query string paramter for shareurl=trye restore the shapes.
     if (this.hasShareURL === 'true') {
       // restore users shapes from s3 when there is a share UTL
@@ -702,6 +705,8 @@ export class Explore extends Component {
   // we are using a lambda function/api to store the the files on s3 this will retreive this.
   //  the only thing in the url is the s3 bucket and file name
   async getShapesFromS3() {
+    console.log('getShapesFromS3')
+
     // start the working function so we have spinner active - informs
     // users the website is doing something
     store.setStoreItem('working_s3retreive', true);
@@ -716,7 +721,10 @@ export class Explore extends Component {
     // remove old shapes so they are not duplicated.  also want to make sure make
     // sure we are replicating the shared map.
     Explore.removeExistingExlpore();
+    Explore.removeUserAreas();
+    Explore.clearDetailsHolder();
 
+    console.log('currentshapes', currentshapes)
     let newshapes = {};
     let count = 0;
     const checkobj = {}.hasOwnProperty;
@@ -733,12 +741,12 @@ export class Explore extends Component {
         const userareaSaved = currentshapes[key][1].savedshape_userarea;
         const bufferedSaved = currentshapes[key][2].savedshape_userarea_buffered;
         const zonalSaved = currentshapes[key][3].savedshape_zonalstatsjson;
-        // const hubsZonalSaved = currentshapes[key][4].savedshape_hubszonalstatsjson;
 
         let usershape = {};
         let bufferedshape = {};
         let zonalshape = {};
-        let hubsZonalshape = {};
+
+        console.log('zonalSaved', zonalSaved)
 
         // make sure each area is actuall object then retreive
         // the actual geospatial data from s3. no api required.
@@ -747,18 +755,20 @@ export class Explore extends Component {
           usershape = await this.StoreShapesAPI.httpGetSavedGeoJSON(userareaSaved.bucket,
             userareaSaved.key);
         }
+
+        console.log('s3 usershape', usershape)
+
         if (checkValidObject(bufferedSaved)) {
           bufferedshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(bufferedSaved.bucket,
             bufferedSaved.key);
         }
+        console.log('s3 bufferedshape', bufferedshape)
+
         if (checkValidObject(zonalSaved)) {
           zonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(zonalSaved.bucket,
             zonalSaved.key);
         }
-        // if (checkValidObject(hubsZonalSaved)) {
-        //   hubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(hubsZonalSaved.bucket,
-        //     hubsZonalSaved.key);
-        // }
+        console.log('s3 zonalshape', zonalshape)
 
         // counter for naming JSON object
         count += 1;
@@ -775,14 +785,17 @@ export class Explore extends Component {
           ]
         };
 
+        console.log('newshape', newshape)
+
         // update the state item with new useras object
         const userareas = store.getStateItem('userareas');
 
         newshapes = { ...userareas, ...newshape };
         store.setStoreItem('userareas', newshapes);
         store.setStoreItem('savedshapes', currentshapes);
-        store.setStoreItem('userareacount', userareacount);
-        // store.setStoreItem('HubIntersectionJson', hubsZonalshape);
+        store.setStoreItem('userareacount', userareacount)
+
+        console.log('userareas', newshapes);
       }
     }
 
@@ -790,8 +803,6 @@ export class Explore extends Component {
     store.setStoreItem('userareas', newshapes);
 
     this.drawUserAreaFromUsereas();
-
-    store.setStoreItem('savedhubs', savedhubs);
 
     store.setStoreItem('working_s3retreive', false);
     this.mapComponent.map.fireEvent('retreives3end');
@@ -853,11 +864,16 @@ export class Explore extends Component {
     spinnerOn();
 
     const currentshapes = store.getStateItem('userareas');
+    console.log('drawUserAreaFromUsereas currentshapes', currentshapes);
+
     Object.keys(currentshapes).forEach((key) => {
+      console.log('drawUserAreaFromUsereas forEach',currentshapes)
       const name = currentshapes[key][0].name;
       const userarea = currentshapes[key][1].userarea;
       const buffered = currentshapes[key][2].userarea_buffered;
       const zonal = currentshapes[key][3].zonalstatsjson;
+
+      console.log('drawUserAreaFromUsereas userarea',userarea)
 
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer
@@ -916,7 +932,12 @@ export class Explore extends Component {
         this.drawAreaGroup.addLayer(layer);
 
         this.drawAreaGroup.addLayer(bufferedLayer);
+
+        console.log('drawUserAreaFromUsereas bufferedLayer', bufferedLayer);
+
         this.addUserAreaLabel(bufferedLayer, name);
+        console.log('drawUserAreaFromUsereas addUserAreaLabel', bufferedLayer, name);
+
 
         if (checkValidObject(zonal.features)) {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
@@ -983,13 +1004,14 @@ export class Explore extends Component {
   }
 
   static removeExistingExlpore(){
+    store.removeStateItem('savedshapes');
+    store.removeStateItem('savedshape');
     store.removeStateItem('userareas');
     store.removeStateItem('zonalstatsjson');
     Explore.resetshapescounter();
   }
   static removeUserAreas() {
-    store.removeStateItem('savedshapes');
-    store.removeStateItem('savedshape');
+
     store.removeStateItem('userarea');
     store.removeStateItem('userarea_buffered');
     store.removeStateItem('projectfile');
@@ -1019,9 +1041,9 @@ export class Explore extends Component {
 
     if (activeNav === 'main-nav-map') {
       Explore.removeExistingExlpore();
+      Explore.removeUserAreas();
     }
 
-    Explore.removeUserAreas();
     Explore.clearDetailsHolder();
   }
 
@@ -1058,8 +1080,6 @@ export class Explore extends Component {
     const drawAreaElement = document.getElementById('draw-area-btn');
 
     drawAreaElement.addEventListener('click', (ev) => {
-      // remove existing Area
-      // this.removeExistingArea();
 
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events
@@ -1351,12 +1371,6 @@ export class Explore extends Component {
       return false;
     }
     const newLayer = L.geoJson(feature);
-    /*
-    this.drawAreaGroup.getLayers().forEach((layer) => {
-      this.drawAreaGroup.removeLayer(layer);
-    });
-    */
-    //this.removeExistingArea();
 
     store.setStoreItem('lastaction', 'upload_shape');
     store.setStoreItem('userarea', newLayer.toGeoJSON());

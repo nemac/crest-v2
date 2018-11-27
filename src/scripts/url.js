@@ -81,7 +81,9 @@ export class URL {
     if (baseurl === 'https://nemac.github.io') {
       baseurl += '/NFWF_tool/dist';
     }
-    return `${baseurl}/?state=${state}&shareurl=true`;
+    const hash = window.location.hash.substr(1);
+
+    return `${baseurl}/#${hash}?state=${state}&shareurl=true`;
   }
 
   setUrl() {
@@ -115,7 +117,9 @@ export class URL {
   removeIgnoreKeys() {
     // get current state
     const stateOBJ = JSON.parse(this.url.getStateAsString());
-
+    if (!checkValidObject(stateOBJ)) {
+      return {};
+    }
     // remove the ignored keys
     const filtered = Object.keys(stateOBJ)
       .filter(key => !URL_IGNORE_KEYS.includes(key))
