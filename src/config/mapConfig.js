@@ -179,8 +179,8 @@ export var mapConfig = {
     },
     {
       id: "DraingeTMS",
-      layer: "Drainge TMS",
-      label: "Drainge",
+      layer: "Drainage TMS",
+      label: "Drainage",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/DraingeIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
