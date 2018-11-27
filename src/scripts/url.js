@@ -15,6 +15,7 @@ const URL_IGNORE_KEYS = [
   'working_drawlayers',
   'userareas',
   'savedshapes',
+  'savedhubs',
   'userareacount'
 ];
 
@@ -57,9 +58,9 @@ export class URL {
   }
 
   static updateURL(url) {
-    if (window.history && window.history.replaceState) {
-      window.history.replaceState({}, '', url);
-    }
+    // if (window.history && window.history.replaceState) {
+    //   window.history.replaceState({}, '', url);
+    // }
   }
 
   encodeStateString() {
@@ -74,17 +75,22 @@ export class URL {
 
   getShareUrl() {
     const state = this.encodeStateStringShare();
+    const statestr = this.url.getStateAsString();
+    const statesobj = JSON.parse(statestr);
+
     let baseurl = `${window.location.origin}`;
 
     // handle gh pages dist folder.
     if (baseurl === 'https://nemac.github.io') {
       baseurl += '/NFWF_tool/dist';
     }
-    return `${baseurl}/?state=${state}&shareurl=true`;
+
+    return `${baseurl}/?state=${state}&shareurl=true&fornav=${statesobj.activeNav}`;
   }
 
   setUrl() {
     const state = this.encodeStateString();
+    // URL.updateURL(`?state=${state}`);
     const hash = window.location.hash.substr(1);
     URL.updateURL(`#${hash}?state=${state}`);
   }
@@ -115,6 +121,10 @@ export class URL {
     // get current state
     const stateOBJ = JSON.parse(this.url.getStateAsString());
 
+    // not state return {} object
+    if (!checkValidObject(stateOBJ)) {
+      return {};
+    }
     // remove the ignored keys
     const filtered = Object.keys(stateOBJ)
       .filter(key => !URL_IGNORE_KEYS.includes(key))
@@ -135,6 +145,11 @@ export class URL {
   removeShareIgnoreKeys() {
     // get current state
     const stateOBJ = JSON.parse(this.url.getStateAsString());
+
+    // not state return {} object
+    if (!checkValidObject(stateOBJ)) {
+      return {};
+    }
 
     // remove the ignored keys
     const filtered = Object.keys(stateOBJ)

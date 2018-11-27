@@ -1185,9 +1185,13 @@ function drawShortZonalStats(data, name, mapComponent) {
   shortChart.addEventListener('mouseout', zonalLabelMouseOutHandler);
   shortChart.addEventListener('mouseover', zonalLabelMouseOverHandler);
 
-  const rem = makeRemoveLabel(name, mapComponent);
+  const activeNav = store.getStateItem('activeNav');
+
+  if (activeNav !== 'main-nav-map-searchhubs') {
+    const rem = makeRemoveLabel(name, mapComponent);
+    wrapper.insertBefore(rem, wrapper.childNodes[0]);
+  }
   const ovr = makeOverviewLabel();
-  wrapper.insertBefore(rem, wrapper.childNodes[0]);
   wrapper.insertBefore(ovr, wrapper.childNodes[0]);
 
   return wrapper;

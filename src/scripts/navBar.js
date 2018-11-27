@@ -5,9 +5,6 @@ import { Component } from './components';
 import { Store } from './store';
 
 import { navConfig } from '../config/navConfig';
-import {
-  checkValidObject
-} from './utilitys';
 
 const store = new Store({});
 
