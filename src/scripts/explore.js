@@ -389,6 +389,8 @@ export class Explore extends Component {
     const rawpostdata = store.getStateItem('userarea');
     let postdata = '';
 
+    Explore.removeExistingHubs();
+
     // some Geojson is not a feature collection lambda function expects a
     // a feature collection
     if (rawpostdata.type === 'Feature') {
@@ -489,9 +491,9 @@ export class Explore extends Component {
 
     currentshapes.forEach((feature) => {
       const userarea = feature;
-      const name = feature.properties.mean.TARGET_FID.toString();
 
       if (checkValidObject(userarea)) {
+        const name = feature.properties.mean.TARGET_FID.toString();
         const HTMLName = makeHTMLName(name);
         this.bufferedoptions.className = `path-${HTMLName}`;
 
@@ -713,7 +715,7 @@ export class Explore extends Component {
 
     // remove old shapes so they are not duplicated.  also want to make sure make
     // sure we are replicating the shared map.
-    this.removeExistingArea();
+    Explore.removeExistingExlpore();
 
     let newshapes = {};
     let count = 0;
@@ -980,6 +982,31 @@ export class Explore extends Component {
     Explore.clearDetails();
   }
 
+  static removeExistingExlpore(){
+    store.removeStateItem('userareas');
+    store.removeStateItem('zonalstatsjson');
+    Explore.resetshapescounter();
+  }
+  static removeUserAreas() {
+    store.removeStateItem('savedshapes');
+    store.removeStateItem('savedshape');
+    store.removeStateItem('userarea');
+    store.removeStateItem('userarea_buffered');
+    store.removeStateItem('projectfile');
+  }
+
+  static removeExistingHubs(){
+    store.removeStateItem('HubIntersectionJson');
+    store.removeStateItem('savedhubs');
+  }
+
+  static clearDetailsHolder() {
+    const clearAreaElement = document.getElementById('details-holder');
+    if (clearAreaElement) {
+      clearAreaElement.innerHTML = '';
+    }
+  }
+
   // remove the existing area
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
@@ -987,26 +1014,15 @@ export class Explore extends Component {
     const activeNav = store.getStateItem('activeNav');
 
     if (activeNav === 'main-nav-map-searchhubs') {
-      store.removeStateItem('HubIntersectionJson');
-      store.removeStateItem('savedhubs');
+      Explore.removeExistingHubs();
     }
 
     if (activeNav === 'main-nav-map') {
-      store.removeStateItem('userareas');
-      store.removeStateItem('zonalstatsjson');
-      Explore.resetshapescounter();
+      Explore.removeExistingExlpore();
     }
 
-    store.removeStateItem('savedshapes');
-    store.removeStateItem('savedshape');
-    store.removeStateItem('userarea');
-    store.removeStateItem('userarea_buffered');
-    store.removeStateItem('projectfile');
-
-    const clearAreaElement = document.getElementById('details-holder');
-    if (clearAreaElement) {
-      clearAreaElement.innerHTML = '';
-    }
+    Explore.removeUserAreas();
+    Explore.clearDetailsHolder();
   }
 
   // handler for click the button tp clear all drawings
@@ -1107,8 +1123,14 @@ export class Explore extends Component {
     // if name not passed create the default area name
     // this happens when the user is drawing a new area
     let newname = name;
-    let shapecount = store.getStateItem('userareacount');
-    newname = `${this.defaultAreaName}${shapecount}`;
+    if (!checkValidObject(name)) {
+      let shapecount = store.getStateItem('userareacount');
+      if (!checkValidObject(shapecount)) {
+        shapecount = 1;
+      }
+
+      newname = `${this.defaultAreaName}${shapecount}`;
+    }
 
     // labels nees a sec so it's placed on the correct location
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 50);
@@ -1290,7 +1312,7 @@ export class Explore extends Component {
     this.mapComponent.saveZoomAndMapPosition();
     return false;
   }
-  
+
   async processFileSet(files) {
     spinnerOn();
     const shpfileFiles = files
@@ -1307,7 +1329,7 @@ export class Explore extends Component {
         await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
     }
-    
+
     for (var i=0; i<otherFiles.length; i++) {
       const geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
       // feature collection, or feature?
@@ -1324,7 +1346,7 @@ export class Explore extends Component {
   }
 
   async addFeatureAsMapLayer(feature) {
-    Explore.storeshapescounter(); 
+    Explore.storeshapescounter();
     if (!checkValidObject(feature)) {
       return false;
     }
