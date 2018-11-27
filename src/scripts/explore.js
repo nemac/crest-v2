@@ -216,15 +216,8 @@ export class Explore extends Component {
     const bufferedGeoJSON = buffer(unbufferedGeoJSON, 1, { units: 'kilometers' });
 
     let name = '';
-    if (!checkValidObject(name)) {
-      let shapecount = store.getStateItem('userareacount');
-      if (!checkValidObject(shapecount)) {
-        shapecount = 1;
-      } else {
-        shapecount += 1;
-      }
-      name = `${this.defaultAreaName}${shapecount}`;
-    }
+    let shapecount = store.getStateItem('userareacount');
+    name = `${this.defaultAreaName}${shapecount}`;
 
     const HTMLName = makeHTMLName(name);
     this.bufferedoptions.className = `path-${HTMLName}`;
@@ -1114,15 +1107,8 @@ export class Explore extends Component {
     // if name not passed create the default area name
     // this happens when the user is drawing a new area
     let newname = name;
-    if (!checkValidObject(name)) {
-      let shapecount = store.getStateItem('userareacount');
-      if (!checkValidObject(shapecount)) {
-        shapecount = 1;
-      } else {
-        shapecount += 1;
-      }
-      newname = `${this.defaultAreaName}${shapecount}`;
-    }
+    let shapecount = store.getStateItem('userareacount');
+    newname = `${this.defaultAreaName}${shapecount}`;
 
     // labels nees a sec so it's placed on the correct location
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 50);
@@ -1138,9 +1124,8 @@ export class Explore extends Component {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', (e) => {
       const { layer } = e;
+      Explore.storeshapescounter();
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
-
-
       const activeNav = store.getStateItem('activeNav');
 
       if (activeNav) {
@@ -1198,8 +1183,7 @@ export class Explore extends Component {
   // add a new shape to user shape store
   storeShapes() {
     const currentshapes = store.getStateItem('userareas');
-
-    const shapecount = Explore.storeshapescounter();
+    const shapecount = store.getStateItem('userareacount');
     const name = `${this.defaultAreaName}${shapecount}`;
     const newshape = {
       [`userarea${shapecount}`]: [
@@ -1281,103 +1265,96 @@ export class Explore extends Component {
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
     this.processFiles(files);
-  }
+ }
 
   async processFiles(files) {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
     const fileSets = [];
-    // Treat each folder in a zip archive as its own file set.
+    // Treat each folder in a zip archive as its own set of files.
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
-    const readProms = zips.map(zip => Explore.readZip(zip));
-    const zipFileSets = await Promise.all(readProms);
-    fileSets.push(...zipFileSets);
+    for (var i=0; i<zips.length; i++) {
+      const zip = zips[i];
+      const zipFileSets = await Explore.readZip(zip);
+      fileSets.push(...zipFileSets);
+    }
     // Non-zip files are all put into one file set.
     const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
-    fileSets.push(nonZips);
+    if (nonZips.length) { fileSets.push(nonZips); }
 
-    /*
-    // We're not ready to handle multiple shapes yet.
-    fileSets.forEach(Explore.processFileSet, this)
-    */
-
-    // For now just process the first fileset.
-    const fileSet = fileSets[0];
-    const featureCollection = await Explore.processFileSet(fileSet);
-
-    if (!checkValidObject(featureCollection)) {
-      store.setStoreItem('working_zonalstats', false);
-      spinnerOff();
-      return false;
+    for (var i=0; i<fileSets.length; i++) {
+      const fileSet = fileSets[i];
+      await this.processFileSet(fileSet);
     }
-    // Just grab the first feature we find for now
-    const feature = featureCollection.features[0];
-
-    if (checkValidObject(feature)) {
-      const newLayer = L.geoJson(feature);
-
-      this.drawAreaGroup.getLayers().forEach((layer) => {
-        this.drawAreaGroup.removeLayer(layer);
-      });
-
-      this.removeExistingArea();
-
-      store.setStoreItem('lastaction', 'upload_shape');
-      store.setStoreItem('userarea', newLayer.toGeoJSON());
-
-      const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
-
-      // add layer to the leaflet map
-      this.drawAreaGroup.addLayer(newLayer);
-      this.drawAreaGroup.addLayer(bufferedLayer);
-
-      this.mapComponent.map.fitBounds(bufferedLayer.getBounds());
-      this.mapComponent.saveZoomAndMapPosition();
-      store.saveAction('addsavedgeojson');
-      this.getZonal();
-      return true;
-    }
+    this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
+    this.mapComponent.saveZoomAndMapPosition();
     return false;
   }
-
-  static async processFileSet(files) {
+  
+  async processFileSet(files) {
     spinnerOn();
     const shpfileFiles = files
       .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
 
-    /*
-    // We're not ready to handle multiple shapes yet.
-
-    shpfileBundles.forEach(bundle => this.processShpfileBundle(bundle))
-    otherFiles.forEach(file => {
-      Explore.readFileAsync(file, 'readAsText').then(
-        text => {
-          let geojson = JSON.parse(text)
-          //this.doSomethingWithShape(geojson)
-        },
-        error => { console.error(error); }
-      )
-    })
-
     // For now just grab the first shapefile available.
     // If no shapefile bundles exist just grab the first geojson file.
-    */
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
-      const geojson = Explore.convertShpfileBundleToGeojson(bundleToProcess);
-      return geojson;
+      const geojsonFromShpfiles = Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      for (var i=0; i<geojsonFromShpfiles.features.length; i++) {
+        await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
+      }
     }
+    
+    for (var i=0; i<otherFiles.length; i++) {
+      const geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
+      // feature collection, or feature?
+      // if feature collection
+      if (geojsonFromFile.type == 'FeatureCollection') {
+        for (var j=0; j<geojsonFromFile.features.length; j++) {
+          await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
+        }
+      }
+      if (geojsonFromFile.type == 'Feature') {
+        await this.addFeatureAsMapLayer(geojsonFromFile);
+      }
+    }
+  }
 
-    const file = otherFiles[0];
-    const text = await Explore.readFileAsync(file, 'readAsText');
-    // only do this is the file has text
-    if (checkValidObject(text)) {
-      const geojson = JSON.parse(text);
-      return geojson;
+  async addFeatureAsMapLayer(feature) {
+    Explore.storeshapescounter(); 
+    if (!checkValidObject(feature)) {
+      return false;
     }
-    return {};
+    const newLayer = L.geoJson(feature);
+    /*
+    this.drawAreaGroup.getLayers().forEach((layer) => {
+      this.drawAreaGroup.removeLayer(layer);
+    });
+    */
+    //this.removeExistingArea();
+
+    store.setStoreItem('lastaction', 'upload_shape');
+    store.setStoreItem('userarea', newLayer.toGeoJSON());
+
+    const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
+
+    // add layer to the leaflet map
+    this.drawAreaGroup.addLayer(newLayer);
+    this.drawAreaGroup.addLayer(bufferedLayer);
+    this.addUserAreaLabel(bufferedLayer);
+
+    store.saveAction('addsavedgeojson');
+    await this.getZonal();
+    await this.storeShapes();
+  }
+
+  static async readGeojsonFile(file) {
+    const text = await Explore.readFileAsync(file, 'readAsText');
+    const geojson = JSON.parse(text);
+    return geojson;
   }
 
   static bundleShpfileFiles(shpfileFiles) {
@@ -1422,9 +1399,11 @@ export class Explore extends Component {
       },
       (err) => { throw new Error(`Error loading ${archive}: ${err}`); }
     );
-    const fileSetProms = [];
-    Object.keys(folders).forEach((dir) => {
-      const files = folders[dir]
+    const fileSets = [];
+    const keys = Object.keys(folders);
+    for (var i=0; i < keys.length; i++) {
+      const key = keys[i];
+      const fileProms = folders[key]
         .filter(file => Explore.isValidFile(file))
         .map((file) => {
           const filename = file.name.split('/').slice(-1).join('');
@@ -1433,10 +1412,10 @@ export class Explore extends Component {
             (err) => { throw new Error(`Error reading ${filename}.`, `${err}`); }
           );
         });
-      const prom = Promise.all(files);
-      fileSetProms.push(prom);
-    });
-    return fileSetProms;
+      const files = await Promise.all(fileProms);
+      fileSets.push(files);
+    }
+    return fileSets;
   }
 
   static readZipFolders(files) {
