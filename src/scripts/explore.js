@@ -449,7 +449,6 @@ export class Explore extends Component {
     // to deal with all the prototpe entries
     for (const key in HubIntersectionJsonSorted) {
       if (checkobj.call(HubIntersectionJsonSorted, key)) {
-
         const savedhub = await this.StoreShapesAPI.saveShape(HubIntersectionJsonSorted[key]);
         const fid = HubIntersectionJsonSorted[key].properties.mean.TARGET_FID.toString();
         const storedhubs = store.getStateItem('savedhubs');
@@ -462,9 +461,8 @@ export class Explore extends Component {
             ]
           };
           const newsavedhubs = { ...storedhubs, ...newhub  };
-          store.setStoreItem('savedhubs', newsavedhubs )
+          store.setStoreItem('savedhubs', newsavedhubs);
         }
-
       }
     }
 
