@@ -20,6 +20,20 @@ html, body {
     margin: $margin;
 }
 
+#upload-shapefile-btn {
+  margin-right: 50px;
+}
+
+#upload-shapefile-btn, #draw-area-btn {
+  width: 150px !important;
+}
+
+.exlpore-directions {
+  padding-top: $margin;
+  padding-bottom: $margin;
+  display: flex;
+}
+
 #second-tab-content {
   margin-top: 50px;
 }
@@ -167,7 +181,7 @@ html, body {
 }
 
 .leaflet-draw-tooltip {
-  display:inline-block;
+  // display:inline-block;
   white-space: nowrap;
   width: min-content;
   background-color: $body-bg-semiTransparent;
@@ -175,6 +189,10 @@ html, body {
   padding-left: 15px;
   z-index: 10000000000;
   font-size: 1.25em;
+  transform: inherit !important;
+  position: relative !important;
+  top: 0px !important;
+  left: 0px !important;
 }
 
 .leaflet-draw-tooltip span {
@@ -236,7 +254,7 @@ html, body {
 
 .upload-all {
   position: relative;
-  top: -12px;
+  top: 5px;
 }
 
 // responive explore buttons

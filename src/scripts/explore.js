@@ -327,7 +327,7 @@ export class Explore extends Component {
 
     if (!checkValidObject(currentshapes)) {
       store.setStoreItem('working_zonalstats', false);
-      zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+      zonalAreaWrapper.innerHTML = '' //'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
       spinnerOff('getZonal checkValidObject rawpostdata');
       return {};
     }
@@ -357,7 +357,7 @@ export class Explore extends Component {
 
         if (!checkValidObject(rawpostdata)) {
           store.setStoreItem('working_zonalstats', false);
-          zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+          zonalAreaWrapper.innerHTML = '' //'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
           spinnerOff('getZonal checkValidObject rawpostdata');
           return {};
         }
@@ -982,7 +982,7 @@ export class Explore extends Component {
     // this temp remove of stats while we work on multiple shapes.
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
-      zonalAreaWrapper.innerHTML = '<p class="zonal-instructions-initial">Click on the map to bring up information. Select multiple points to draw an area and get information on the area.</p>';
+      zonalAreaWrapper.innerHTML = '' //'<p class="zonal-instructions-initial">Click on the map to bring up information. Select multiple points to draw an area and get information on the area.</p>';
     }
   }
 
