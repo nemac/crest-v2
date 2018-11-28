@@ -20,12 +20,34 @@ html, body {
     margin: $margin;
 }
 
-#upload-shapefile-btn {
-  margin-right: 50px;
+.layer-legend {
+    margin: 10px;
+}
+
+#primary-shape-holder {
+  margin-left: 0px !important;
+}
+
+#user-shape {
+  margin-left: 0px !important;
+}
+
+#has-shape-holder {
+  margin-left: 25px !important;
 }
 
 #upload-shapefile-btn, #draw-area-btn {
-  width: 150px !important;
+  width: 45% !important;
+}
+
+#btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+  width: 20% !important;
+}
+
+
+
+.btn-secondary {
+  width: 50px !important;
 }
 
 .exlpore-directions {
@@ -216,19 +238,6 @@ html, body {
     margin-left: 50px;
   }
 }
-
-
-// .leaflet-draw-tooltip span {
-//    font-size: 10px;
-// }
-//
-// .leaflet-draw-tooltip span::before {
-//   width: 250px;
-//   display: block;
-//   font-size: 1em !important;
-//   color: white;
-//   content: "Click on the map to start drawing a shape" !important;
-// }
 
 .leaflet-draw-tooltip span {
   display:inline-block;

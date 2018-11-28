@@ -150,6 +150,8 @@ export class Explore extends Component {
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
 
+      Explore.disableShapeExistsButtons();
+
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
@@ -472,7 +474,7 @@ export class Explore extends Component {
     this.mapComponent.map.fireEvent('zonalstatsend');
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
-
+    Explore.enableShapeExistsButtons();
     return HubIntersectionJson;
   }
 
@@ -611,6 +613,7 @@ export class Explore extends Component {
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
 
+    Explore.enableShapeExistsButtons();
     return ZonalStatsJson;
   }
 
@@ -934,7 +937,6 @@ export class Explore extends Component {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
         }
 
-        console.log('draw user shape enable next')
         Explore.enableShapeExistsButtons();
 
         return layer;
@@ -1065,13 +1067,20 @@ export class Explore extends Component {
   static disableShapeExistsButtons () {
     const hasShapeHolder = document.getElementById('has-shape-holder');
     if (hasShapeHolder) {
+      // hasShapeHolder.classList.add('row');
+      // hasShapeHolder.classList.add('d-flex');
+      // hasShapeHolder.classList.add('w-100');
       hasShapeHolder.classList.add('d-none');
+
     }
   }
 
   static enableShapeExistsButtons () {
     const hasShapeHolder = document.getElementById('has-shape-holder');
     if (hasShapeHolder) {
+      // hasShapeHolder.classList.remove('row');
+      // hasShapeHolder.classList.remove('d-flex');
+      // hasShapeHolder.classList.remove('w-100');
       hasShapeHolder.classList.remove('d-none');
     }
   }
@@ -1388,7 +1397,7 @@ export class Explore extends Component {
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
     for (let i = 0; i < zips.length; i += 1) {
       const zip = zips[i];
-      let zipFileSets; 
+      let zipFileSets;
       try {
         zipFileSets = await Explore.readZip(zip);
       } catch (e) {
@@ -1433,14 +1442,14 @@ export class Explore extends Component {
           alert("Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.");
         }
         geojsonFromShpfiles = { features: [] };
-      } 
+      }
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
         await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
     }
 
     for (let i = 0; i < otherFiles.length; i += 1) {
-      let geojsonFromFile; 
+      let geojsonFromFile;
       try {
         geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
       } catch (e) {
@@ -1519,7 +1528,7 @@ export class Explore extends Component {
    */
   static async readZip(archive) {
     const jszip = new JSZip();
-    let folders; 
+    let folders;
     try {
       folders = await jszip.loadAsync(archive).then(
       (zip) => {
@@ -1552,7 +1561,7 @@ export class Explore extends Component {
           }
         })
         // filter undefined entries
-        .filter(prom => prom); 
+        .filter(prom => prom);
       const files = await Promise.all(fileProms);
       fileSets.push(files);
     }
@@ -1638,4 +1647,3 @@ export class Explore extends Component {
     return files;
   }
 }
-
