@@ -1301,8 +1301,16 @@ export class Explore extends Component {
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
     for (let i = 0; i < zips.length; i += 1) {
       const zip = zips[i];
-      const zipFileSets = await Explore.readZip(zip);
-      fileSets.push(...zipFileSets);
+      let zipFileSets; 
+      try {
+        zipFileSets = await Explore.readZip(zip);
+      } catch (e) {
+        alert("Error opening zip archive.");
+        zipFileSets = [];
+      }
+      if (zipFileSets.length) {
+        fileSets.push(...zipFileSets);
+      }
     }
     // Non-zip files are all put into one file set.
     const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
@@ -1345,9 +1353,14 @@ export class Explore extends Component {
     }
 
     for (let i = 0; i < otherFiles.length; i += 1) {
-      const geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
-      // feature collection, or feature?
-      // if feature collection
+      let geojsonFromFile; 
+      try {
+        geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
+      } catch (e) {
+        console.error(e);
+        alert('Error reading geojson.');
+        geojsonFromFile = {};
+      }
       if (geojsonFromFile.type === 'FeatureCollection') {
         for (let j = 0; j < geojsonFromFile.features.length; j += 1) {
           await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
@@ -1419,7 +1432,9 @@ export class Explore extends Component {
    */
   static async readZip(archive) {
     const jszip = new JSZip();
-    const folders = await jszip.loadAsync(archive).then(
+    let folders; 
+    try {
+      folders = await jszip.loadAsync(archive).then(
       (zip) => {
         const files = [];
         Object.keys(zip.files).forEach((key) => {
@@ -1427,9 +1442,12 @@ export class Explore extends Component {
           if (!entry.dir) files.push(entry);
         });
         return Explore.readZipFolders(files);
-      },
-      (err) => { throw new Error(`Error loading ${archive}: ${err}`); }
+      }
     );
+    } catch (e) {
+      alert("Error opening zip archive.");
+      folders = {};
+    }
     const fileSets = [];
     const keys = Object.keys(folders);
     for (let i = 0; i < keys.length; i += 1) {
@@ -1437,12 +1455,17 @@ export class Explore extends Component {
       const fileProms = folders[key]
         .filter(file => Explore.isValidFile(file))
         .map((file) => {
-          const filename = file.name.split('/').slice(-1).join('');
-          return file.async('blob').then(
-            blob => new File([blob], filename),
-            (err) => { throw new Error(`Error reading ${filename}.`, `${err}`); }
-          );
-        });
+          try {
+            const filename = file.name.split('/').slice(-1).join('');
+            return file.async('blob').then(
+              blob => new File([blob], filename),
+            );
+          } catch (e) {
+            alert("Error reading file!");
+          }
+        })
+        // filter undefined entries
+        .filter(prom => prom); 
       const files = await Promise.all(fileProms);
       fileSets.push(files);
     }
