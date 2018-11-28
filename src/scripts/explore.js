@@ -1282,14 +1282,11 @@ export class Explore extends Component {
 
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
-    spinnerOn();
     const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
     uploadFeaturesBtn.addEventListener('change', e => this.fileSelectHandler(e));
-    spinnerOff();
   }
 
   fileSelectHandler(event) {
-    spinnerOn('');
     store.setStoreItem('working_zonalstats', true);
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
@@ -1304,8 +1301,16 @@ export class Explore extends Component {
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
     for (let i = 0; i < zips.length; i += 1) {
       const zip = zips[i];
-      const zipFileSets = await Explore.readZip(zip);
-      fileSets.push(...zipFileSets);
+      let zipFileSets; 
+      try {
+        zipFileSets = await Explore.readZip(zip);
+      } catch (e) {
+        alert("Error opening zip archive.");
+        zipFileSets = [];
+      }
+      if (zipFileSets.length) {
+        fileSets.push(...zipFileSets);
+      }
     }
     // Non-zip files are all put into one file set.
     const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
@@ -1315,13 +1320,17 @@ export class Explore extends Component {
       const fileSet = fileSets[i];
       await this.processFileSet(fileSet);
     }
-    this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
-    this.mapComponent.saveZoomAndMapPosition();
+    try {
+      this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
+      this.mapComponent.saveZoomAndMapPosition();
+    } catch(e) {
+    }
+    store.setStoreItem('working_zonalstats', false);
+    spinnerOff();
     return false;
   }
 
   async processFileSet(files) {
-    spinnerOn();
     const shpfileFiles = files
       .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
@@ -1329,16 +1338,29 @@ export class Explore extends Component {
 
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
-      const geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      let geojsonFromShpfiles;
+      try {
+        geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      } catch (e) {
+        if (e instanceof RangeError) {
+          alert("Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.");
+        }
+        geojsonFromShpfiles = { features: [] };
+      } 
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
         await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
     }
 
     for (let i = 0; i < otherFiles.length; i += 1) {
-      const geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
-      // feature collection, or feature?
-      // if feature collection
+      let geojsonFromFile; 
+      try {
+        geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
+      } catch (e) {
+        console.error(e);
+        alert('Error reading geojson.');
+        geojsonFromFile = {};
+      }
       if (geojsonFromFile.type === 'FeatureCollection') {
         for (let j = 0; j < geojsonFromFile.features.length; j += 1) {
           await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
@@ -1410,7 +1432,9 @@ export class Explore extends Component {
    */
   static async readZip(archive) {
     const jszip = new JSZip();
-    const folders = await jszip.loadAsync(archive).then(
+    let folders; 
+    try {
+      folders = await jszip.loadAsync(archive).then(
       (zip) => {
         const files = [];
         Object.keys(zip.files).forEach((key) => {
@@ -1418,9 +1442,12 @@ export class Explore extends Component {
           if (!entry.dir) files.push(entry);
         });
         return Explore.readZipFolders(files);
-      },
-      (err) => { throw new Error(`Error loading ${archive}: ${err}`); }
+      }
     );
+    } catch (e) {
+      alert("Error opening zip archive.");
+      folders = {};
+    }
     const fileSets = [];
     const keys = Object.keys(folders);
     for (let i = 0; i < keys.length; i += 1) {
@@ -1428,12 +1455,17 @@ export class Explore extends Component {
       const fileProms = folders[key]
         .filter(file => Explore.isValidFile(file))
         .map((file) => {
-          const filename = file.name.split('/').slice(-1).join('');
-          return file.async('blob').then(
-            blob => new File([blob], filename),
-            (err) => { throw new Error(`Error reading ${filename}.`, `${err}`); }
-          );
-        });
+          try {
+            const filename = file.name.split('/').slice(-1).join('');
+            return file.async('blob').then(
+              blob => new File([blob], filename),
+            );
+          } catch (e) {
+            alert("Error reading file!");
+          }
+        })
+        // filter undefined entries
+        .filter(prom => prom); 
       const files = await Promise.all(fileProms);
       fileSets.push(files);
     }
@@ -1452,9 +1484,9 @@ export class Explore extends Component {
   }
 
   static async convertShpfileBundleToGeojson(bundle) {
-    const dbf = await Explore.readFileAsync(bundle.shp);
-    const shp = await Explore.readFileAsync(bundle.dbf);
-    const geojson = await shapefile.read(dbf, shp);
+    const dbf = await Explore.readFileAsync(bundle.dbf);
+    const shp = await Explore.readFileAsync(bundle.shp);
+    const geojson = await shapefile.read(shp, dbf);
     if (bundle.prj) {
       const prj = await Explore.readFileAsync(bundle.prj, 'readAsText');
       geojson.features = geojson.features
@@ -1519,3 +1551,4 @@ export class Explore extends Component {
     return files;
   }
 }
+
