@@ -2,7 +2,7 @@
 import proj4 from 'proj4';
 import JSZip from 'jszip';
 import L from 'leaflet';
-import { Draw } from 'leaflet-draw';
+import { Draw, drawLocal } from 'leaflet-draw';
 import buffer from '@turf/buffer';
 
 // default map template
@@ -951,9 +951,9 @@ export class Explore extends Component {
   // @param { Object } mapComponent object
   // @param { Object } mapInfoComponent object
   static addDrawVertexStop(mapComponent, mapInfoComponent) {
-    mapComponent.map.on('draw:deletestop', () => {
-      this.removeExistingArea();
-
+    mapComponent.map.on('draw:drawstop', () => {
+      // this.removeExistingArea();
+      Explore.removeDrawShapeToolTip();
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
       // if (checkValidObject(mapInfoComponent)) {
@@ -1048,6 +1048,12 @@ export class Explore extends Component {
     });
   }
 
+  static removeDrawShapeToolTip() {
+    const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
+    if (tooltipContainerDelete) {
+      tooltipContainerDelete.parentNode.removeChild(tooltipContainerDelete);
+    }
+  }
   // handler for click the button drawing vertexes on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
@@ -1064,7 +1070,31 @@ export class Explore extends Component {
 
     // draw polygon handler
     const polygonDrawer = new L.Draw.Polygon(mapComponent.map, options);
+    L.drawLocal.draw.handlers.polygon.tooltip.cont = 'Click on the map to continue drawing the shape.';
+    L.drawLocal.draw.handlers.polygon.tooltip.start = 'Click on the map to start drawing a shape';
 
+    // L.Draw.Tooltip = L.Class.extend({
+    //   // overide the default
+    //   // @method updatePosition(latlng): this
+    // 	// Changes the location of the tooltip
+    // 	updatePosition: function (latlng) {
+    //     const latlng = this.mapComponent.map.getCenter();
+    // 		const pos = this._map.latLngToLayerPoint(latlng),
+    // 			tooltipContainer = this._container;
+    //
+    // 		if (this._container) {
+    // 			if (this._visible) {
+    // 				tooltipContainer.style.visibility = 'inherit';
+    // 			}
+    // 			L.DomUtil.setPosition(tooltipContainer, pos);
+    // 		}
+    //
+    // 		return this;
+    // 	}
+    //
+    // )}
+
+    // console.log(L.drawLocal)
     // Click handler for you button to start drawing polygons
     const drawAreaElement = document.getElementById('draw-area-btn');
 
@@ -1074,8 +1104,62 @@ export class Explore extends Component {
       //  we will have to add that back.  so this not ideal
       mapComponent.map.off('click');
 
+      const latlng = mapComponent.map.getCenter();
+      const bounds = mapComponent.map.getBounds();
+      const west = bounds.getEast();
+      const north = bounds.getNorth();
+      const topLeftCorner = bounds.getNorthWest();
+      const toRightCorner = bounds.getNorthEast();
+
+
+      const TLpos = mapComponent.map.latLngToLayerPoint(topLeftCorner);
+      const TRpos = mapComponent.map.latLngToLayerPoint(toRightCorner);
+      const Twidth  = (TRpos.x - TLpos.x);
+      const leftpt = mapComponent.map.layerPointToLatLng(TLpos);
+      const toppt = mapComponent.map.layerPointToLatLng(TRpos);
+      console.log(TLpos, TRpos)
+
+      // const ll = L.latLng(leftpt, toppt);
       // enable polygon drawer for leaflet map
       polygonDrawer.enable();
+
+      // mapComponent.map.removeEventListener()
+      const tooltipContainer = document.querySelector('.leaflet-draw-tooltip');
+      const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
+
+      const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
+      if (tooltipContainerDelete) {
+        tooltipContainerDelete.parentNode.removeChild(tooltipContainerDelete);
+      }
+
+      const tooltipContainerNew = tooltipContainer.cloneNode(true);
+      // tooltipContainer.parentNode.removeChild(tooltipContainer);
+      tooltipContainerNew.style.width = `${Twidth}px`;
+      tooltipContainerNew.style.left = `${TLpos}px`;;
+      tooltipContainerNew.style.top = `${TLpos.y+50}px`;
+      tooltipContainerNew.style.height = `50px`;
+      tooltipContainerNew.style.fontSize = `2em`;
+      tooltipContainerNew.classList.remove('leaflet-draw-tooltip')
+      tooltipContainerNew.classList.remove('leaflet-draw-tooltip-single')
+      tooltipContainerNew.classList.add('leaflet-draw-tooltip-top')
+      tooltipContainerNew.classList.add('leaflet-draw-tooltip-single-top')
+
+      mapComponent.map.addEventListener('mousemove', (e) => {
+        const tooltipContainerNewSpan = document.querySelector('.leaflet-draw-tooltip-top span');
+        const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
+
+        if (tooltipContainerSpan) {
+            tooltipContainerNewSpan.innerHTML = tooltipContainerSpan.innerHTML;
+        }
+
+      });
+
+
+      document.getElementById('map').appendChild(tooltipContainerNew);
+      console.log(tooltipContainerNew.style, `${Twidth}px`)
+      // L.DomUtil.setPosition(tooltipContainer, TLpos);
+      console.log(tooltipContainerSpan)
+
     });
   }
 
@@ -1088,6 +1172,7 @@ export class Explore extends Component {
         polyline: false,
         polygon: {
           allowIntersection: false, // Restricts shapes to simple polygons
+          message: 'test',
           drawError: {
             color: '#e1e100', // Color the shape will turn when intersects
             message: '<strong>Oh snap!<strong> you can\'t draw a polygon that intersects itself!'// Message that will show when intersect
@@ -1102,6 +1187,7 @@ export class Explore extends Component {
     };
 
     const drawControl = new L.Control.Draw(options);
+    console.log( drawControl )
     mapComponent.map.addControl(drawControl);
 
     this.addDrawStartedHandler(mapComponent);
@@ -1152,6 +1238,7 @@ export class Explore extends Component {
   addDrawVertexCreatedHandler(mapComponent, mapInfoComponent) {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', (e) => {
+      Explore.removeDrawShapeToolTip();
       const { layer } = e;
       Explore.storeshapescounter();
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());

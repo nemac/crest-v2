@@ -180,20 +180,55 @@ html, body {
   border: solid 1px $teal;
 }
 
-.leaflet-draw-tooltip {
-  // display:inline-block;
-  white-space: nowrap;
-  width: min-content;
-  background-color: $body-bg-semiTransparent;
-  color: $body-color;
-  padding-left: 15px;
-  z-index: 10000000000;
-  font-size: 1.25em;
-  transform: inherit !important;
-  position: relative !important;
+.leaflet-popup-pane {
+  display: block !important;
+  position: absolute !important;
   top: 0px !important;
   left: 0px !important;
+  height: 100% !important;
+  width: 100% !important;
+  transform: translate(0, 0);
+  float: left;
 }
+
+.leaflet-draw-tooltip {
+  visibility: hidden !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+.leaflet-draw-tooltip-top {
+  // display:inline-block;
+  visibility: inherit !important;
+  white-space: nowrap;
+  width: min-content;
+  background-color: $body-color;
+  color: $body-bg-semiTransparent;
+  // padding-left: 15px;
+  z-index: 500;
+  font-size: 1.25em;
+  // transform: inherit !important;
+  position: absolute !important;
+  top: 0px !important;
+  left: 0px !important;
+  padding: 5px;
+  span {
+    margin-left: 50px;
+  }
+}
+
+
+// .leaflet-draw-tooltip span {
+//    font-size: 10px;
+// }
+//
+// .leaflet-draw-tooltip span::before {
+//   width: 250px;
+//   display: block;
+//   font-size: 1em !important;
+//   color: white;
+//   content: "Click on the map to start drawing a shape" !important;
+// }
 
 .leaflet-draw-tooltip span {
   display:inline-block;
