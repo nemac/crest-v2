@@ -1327,11 +1327,9 @@ export class Explore extends Component {
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
 
-    // For now just grab the first shapefile available.
-    // If no shapefile bundles exist just grab the first geojson file.
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
-      const geojsonFromShpfiles = Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      const geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
         await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
