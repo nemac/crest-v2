@@ -554,6 +554,8 @@ export class Explore extends Component {
             this.mapComponent.map);
         }
 
+        Explore.enableShapeExistsButtons();
+
         return resilienceHubLayer;
       }
 
@@ -932,6 +934,9 @@ export class Explore extends Component {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
         }
 
+        console.log('draw user shape enable next')
+        Explore.enableShapeExistsButtons();
+
         return layer;
       }
 
@@ -1034,6 +1039,7 @@ export class Explore extends Component {
     }
 
     Explore.clearDetailsHolder();
+    Explore.disableShapeExistsButtons();
   }
 
   // handler for click the button tp clear all drawings
@@ -1045,6 +1051,7 @@ export class Explore extends Component {
 
       // this temp remove of stats while we work on multiple shapes.
       Explore.clearDetails();
+      Explore.disableShapeExistsButtons();
     });
   }
 
@@ -1054,6 +1061,22 @@ export class Explore extends Component {
       tooltipContainerDelete.parentNode.removeChild(tooltipContainerDelete);
     }
   }
+
+  static disableShapeExistsButtons () {
+    const hasShapeHolder = document.getElementById('has-shape-holder');
+    if (hasShapeHolder) {
+      hasShapeHolder.classList.add('d-none');
+    }
+  }
+
+  static enableShapeExistsButtons () {
+    const hasShapeHolder = document.getElementById('has-shape-holder');
+    if (hasShapeHolder) {
+      hasShapeHolder.classList.remove('d-none');
+    }
+  }
+
+
   // handler for click the button drawing vertexes on the map
   // adding not as hanlder callback so I can use this (class) calls
   // would be better to handle this as a traditional callback
@@ -1073,31 +1096,10 @@ export class Explore extends Component {
     L.drawLocal.draw.handlers.polygon.tooltip.cont = 'Click on the map to continue drawing the shape.';
     L.drawLocal.draw.handlers.polygon.tooltip.start = 'Click on the map to start drawing a shape';
 
-    // L.Draw.Tooltip = L.Class.extend({
-    //   // overide the default
-    //   // @method updatePosition(latlng): this
-    // 	// Changes the location of the tooltip
-    // 	updatePosition: function (latlng) {
-    //     const latlng = this.mapComponent.map.getCenter();
-    // 		const pos = this._map.latLngToLayerPoint(latlng),
-    // 			tooltipContainer = this._container;
-    //
-    // 		if (this._container) {
-    // 			if (this._visible) {
-    // 				tooltipContainer.style.visibility = 'inherit';
-    // 			}
-    // 			L.DomUtil.setPosition(tooltipContainer, pos);
-    // 		}
-    //
-    // 		return this;
-    // 	}
-    //
-    // )}
-
-    // console.log(L.drawLocal)
     // Click handler for you button to start drawing polygons
     const drawAreaElement = document.getElementById('draw-area-btn');
 
+    // lots of re-work needed
     drawAreaElement.addEventListener('click', (ev) => {
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events
@@ -1117,7 +1119,6 @@ export class Explore extends Component {
       const Twidth  = (TRpos.x - TLpos.x);
       const leftpt = mapComponent.map.layerPointToLatLng(TLpos);
       const toppt = mapComponent.map.layerPointToLatLng(TRpos);
-      console.log(TLpos, TRpos)
 
       // const ll = L.latLng(leftpt, toppt);
       // enable polygon drawer for leaflet map
@@ -1156,9 +1157,7 @@ export class Explore extends Component {
 
 
       document.getElementById('map').appendChild(tooltipContainerNew);
-      console.log(tooltipContainerNew.style, `${Twidth}px`)
       // L.DomUtil.setPosition(tooltipContainer, TLpos);
-      console.log(tooltipContainerSpan)
 
     });
   }
@@ -1187,7 +1186,6 @@ export class Explore extends Component {
     };
 
     const drawControl = new L.Control.Draw(options);
-    console.log( drawControl )
     mapComponent.map.addControl(drawControl);
 
     this.addDrawStartedHandler(mapComponent);
@@ -1278,6 +1276,8 @@ export class Explore extends Component {
         this.getZonal();
       }
     });
+
+
   }
 
   static resetshapescounter() {
