@@ -1282,14 +1282,11 @@ export class Explore extends Component {
 
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
-    spinnerOn();
     const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
     uploadFeaturesBtn.addEventListener('change', e => this.fileSelectHandler(e));
-    spinnerOff();
   }
 
   fileSelectHandler(event) {
-    spinnerOn('');
     store.setStoreItem('working_zonalstats', true);
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
@@ -1315,13 +1312,17 @@ export class Explore extends Component {
       const fileSet = fileSets[i];
       await this.processFileSet(fileSet);
     }
-    this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
-    this.mapComponent.saveZoomAndMapPosition();
+    try {
+      this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
+      this.mapComponent.saveZoomAndMapPosition();
+    } catch(e) {
+    }
+    store.setStoreItem('working_zonalstats', false);
+    spinnerOff();
     return false;
   }
 
   async processFileSet(files) {
-    spinnerOn();
     const shpfileFiles = files
       .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
@@ -1329,7 +1330,15 @@ export class Explore extends Component {
 
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
-      const geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      let geojsonFromShpfiles;
+      try {
+        geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
+      } catch (e) {
+        if (e instanceof RangeError) {
+          alert("Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.");
+        }
+        geojsonFromShpfiles = { features: [] };
+      } 
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
         await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
@@ -1452,9 +1461,9 @@ export class Explore extends Component {
   }
 
   static async convertShpfileBundleToGeojson(bundle) {
-    const dbf = await Explore.readFileAsync(bundle.shp);
-    const shp = await Explore.readFileAsync(bundle.dbf);
-    const geojson = await shapefile.read(dbf, shp);
+    const dbf = await Explore.readFileAsync(bundle.dbf);
+    const shp = await Explore.readFileAsync(bundle.shp);
+    const geojson = await shapefile.read(shp, dbf);
     if (bundle.prj) {
       const prj = await Explore.readFileAsync(bundle.prj, 'readAsText');
       geojson.features = geojson.features
@@ -1519,3 +1528,4 @@ export class Explore extends Component {
     return files;
   }
 }
+
