@@ -52,7 +52,7 @@ export class MapLayersList extends Component {
     }
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
-    MapLayersList.addDescriptionListeners();
+    MapLayersList.addLegendListeners();
   }
 
   static addBaseMapListeners(mapComponent) {
@@ -223,7 +223,7 @@ export class MapLayersList extends Component {
   // @param elem | DOM Element
   static toggleLegendHtml(elem) {
     elem.classList.toggle('closed');
-    MapLayersList.getLayerWrapper(elem).querySelector('.layer-description-wrapper').classList.toggle('closed');
+    MapLayersList.getLayerWrapper(elem).querySelector('.layer-legend-wrapper').classList.toggle('closed');
   }
 
   // Gets the id of the legend to be used in the store
@@ -259,8 +259,8 @@ export class MapLayersList extends Component {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
     MapLayersList.getLegendWrapper(layerElem).innerHTML =
         MapLayersList.getLegendHtml(layerProps.legend);
-    MapLayersList.getDescriptionWrapper(layerElem).textContent = layerProps.description;
-    MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-description-toggler')[0]);
+    MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.description);
+    MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
   }
 
   // Handles the toggle legend button being interacted with
@@ -271,12 +271,12 @@ export class MapLayersList extends Component {
   }
 
   // Adds listeners to the legend buttons
-  static addDescriptionListeners() {
-    const descriptionButtons = document.getElementsByClassName('layer-description-toggler');
+  static addLegendListeners() {
+    const legendButtons = document.getElementsByClassName('layer-legend-toggler');
     let i;
     let l;
-    for (i = 0, l = descriptionButtons.length; i < l; i += 1) {
-      descriptionButtons[i].addEventListener('click', MapLayersList.handleLegendChange);
+    for (i = 0, l = legendButtons.length; i < l; i += 1) {
+      legendButtons[i].addEventListener('click', MapLayersList.handleLegendChange);
     }
   }
 

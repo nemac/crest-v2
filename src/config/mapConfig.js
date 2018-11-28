@@ -178,7 +178,7 @@ export var mapConfig = {
       description: "Infrastructure in and around communities that is integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines. Each type is given a presence or absence score and all infrastructure is added together; highest values indicate areas where infrastructure is nearby or pieces overlap with one another."
     },
     {
-      id: "DraingeTMS",
+      id: "DrainageTMS",
       layer: "Drainage TMS",
       label: "Drainage",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/DraingeIndexTiles/{z}/{x}/{y}.png",
@@ -226,7 +226,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "driver-threat",
-      description: "OAA’s sea level rise scenarios are given rank values from low to high; low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
+      description: "NOAA’s sea level rise scenarios are given rank values from low to high; low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
     },
     {
       id: "StormSurgeTMS",
