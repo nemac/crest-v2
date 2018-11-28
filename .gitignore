@@ -7,7 +7,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Vim swap files
-.swp
+*.swp
 
 # Runtime data
 pids
