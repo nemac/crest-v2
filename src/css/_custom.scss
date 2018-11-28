@@ -850,11 +850,19 @@ a.nav-link {
   overflow: scroll;
 }
 
-.tooltip .tooltip-inner {
-  background-color:  $body-color;
-  color: $body-bg;
-}
+.tooltip {
+    z-index: 10000;
 
-.tooltip .arrow:before {
-  border-top-color: $body-color;
+    .tooltip-inner {
+        background-color: $body-color;
+        color: $body-bg;
+    }
+
+    .arrow:before {
+        border-top-color: $body-color;
+    }
+
+    &.bs-tooltip-bottom .arrow::before, &.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+        border-bottom-color: $body-color;
+    }
 }
