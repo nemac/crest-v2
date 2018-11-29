@@ -2,7 +2,7 @@
 import proj4 from 'proj4';
 import JSZip from 'jszip';
 import L from 'leaflet';
-import { Draw } from 'leaflet-draw';
+import { Draw, drawLocal } from 'leaflet-draw';
 import buffer from '@turf/buffer';
 
 // default map template
@@ -149,6 +149,8 @@ export class Explore extends Component {
 
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
+
+      Explore.disableShapeExistsButtons();
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
@@ -327,7 +329,7 @@ export class Explore extends Component {
 
     if (!checkValidObject(currentshapes)) {
       store.setStoreItem('working_zonalstats', false);
-      zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+      zonalAreaWrapper.innerHTML = '';
       spinnerOff('getZonal checkValidObject rawpostdata');
       return {};
     }
@@ -357,7 +359,7 @@ export class Explore extends Component {
 
         if (!checkValidObject(rawpostdata)) {
           store.setStoreItem('working_zonalstats', false);
-          zonalAreaWrapper.innerHTML = 'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+          zonalAreaWrapper.innerHTML = '';
           spinnerOff('getZonal checkValidObject rawpostdata');
           return {};
         }
@@ -472,7 +474,7 @@ export class Explore extends Component {
     this.mapComponent.map.fireEvent('zonalstatsend');
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
-
+    Explore.enableShapeExistsButtons();
     return HubIntersectionJson;
   }
 
@@ -554,6 +556,8 @@ export class Explore extends Component {
             this.mapComponent.map);
         }
 
+        Explore.enableShapeExistsButtons();
+
         return resilienceHubLayer;
       }
 
@@ -609,6 +613,7 @@ export class Explore extends Component {
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
 
+    Explore.enableShapeExistsButtons();
     return ZonalStatsJson;
   }
 
@@ -932,6 +937,8 @@ export class Explore extends Component {
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
         }
 
+        Explore.enableShapeExistsButtons();
+
         return layer;
       }
 
@@ -951,9 +958,9 @@ export class Explore extends Component {
   // @param { Object } mapComponent object
   // @param { Object } mapInfoComponent object
   static addDrawVertexStop(mapComponent, mapInfoComponent) {
-    mapComponent.map.on('draw:deletestop', () => {
-      this.removeExistingArea();
-
+    mapComponent.map.on('draw:drawstop', () => {
+      // this.removeExistingArea();
+      Explore.removeDrawShapeToolTip();
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
       // if (checkValidObject(mapInfoComponent)) {
@@ -982,7 +989,7 @@ export class Explore extends Component {
     // this temp remove of stats while we work on multiple shapes.
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
-      zonalAreaWrapper.innerHTML = '<p class="zonal-instructions-initial">Click on the map to bring up information. Select multiple points to draw an area and get information on the area.</p>';
+      zonalAreaWrapper.innerHTML = '';
     }
   }
 
@@ -1034,6 +1041,7 @@ export class Explore extends Component {
     }
 
     Explore.clearDetailsHolder();
+    Explore.disableShapeExistsButtons();
   }
 
   // handler for click the button tp clear all drawings
@@ -1045,7 +1053,29 @@ export class Explore extends Component {
 
       // this temp remove of stats while we work on multiple shapes.
       Explore.clearDetails();
+      Explore.disableShapeExistsButtons();
     });
+  }
+
+  static removeDrawShapeToolTip() {
+    const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
+    if (tooltipContainerDelete) {
+      tooltipContainerDelete.parentNode.removeChild(tooltipContainerDelete);
+    }
+  }
+
+  static disableShapeExistsButtons() {
+    const hasShapeHolder = document.getElementById('has-shape-holder');
+    if (hasShapeHolder) {
+      hasShapeHolder.classList.add('d-none');
+    }
+  }
+
+  static enableShapeExistsButtons() {
+    const hasShapeHolder = document.getElementById('has-shape-holder');
+    if (hasShapeHolder) {
+      hasShapeHolder.classList.remove('d-none');
+    }
   }
 
   // handler for click the button drawing vertexes on the map
@@ -1064,18 +1094,58 @@ export class Explore extends Component {
 
     // draw polygon handler
     const polygonDrawer = new L.Draw.Polygon(mapComponent.map, options);
+    L.drawLocal.draw.handlers.polygon.tooltip.cont = 'Click on the map to continue drawing the shape.';
+    L.drawLocal.draw.handlers.polygon.tooltip.start = 'Click on the map to start drawing a shape';
 
     // Click handler for you button to start drawing polygons
     const drawAreaElement = document.getElementById('draw-area-btn');
 
+    // lots of re-work needed
     drawAreaElement.addEventListener('click', (ev) => {
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events
       //  we will have to add that back.  so this not ideal
       mapComponent.map.off('click');
 
-      // enable polygon drawer for leaflet map
+      const bounds = mapComponent.map.getBounds();
+      const topLeftCorner = bounds.getNorthWest();
+      const TLpos = mapComponent.map.latLngToLayerPoint(topLeftCorner);
+
       polygonDrawer.enable();
+
+      const tooltipContainer = document.querySelector('.leaflet-draw-tooltip');
+      const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
+
+      if (tooltipContainerSpan) {
+        tooltipContainerSpan.classList.add('d-flex');
+        tooltipContainerSpan.classList.add('justify-content-center');
+      }
+
+      const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
+      if (tooltipContainerDelete) {
+        tooltipContainerDelete.parentNode.removeChild(tooltipContainerDelete);
+      }
+
+      const tooltipContainerNew = tooltipContainer.cloneNode(true);
+      tooltipContainerNew.style.width = '100%';
+      tooltipContainerNew.style.left = `${TLpos}px`;
+      tooltipContainerNew.style.top = `${TLpos.y + 50}px`;
+      tooltipContainerNew.style.height = '50px';
+      tooltipContainerNew.style.fontSize = '2em';
+      tooltipContainerNew.classList.remove('leaflet-draw-tooltip');
+      tooltipContainerNew.classList.remove('leaflet-draw-tooltip-single');
+      tooltipContainerNew.classList.add('leaflet-draw-tooltip-top');
+      tooltipContainerNew.classList.add('leaflet-draw-tooltip-single-top');
+
+      mapComponent.map.addEventListener('mousemove', (e) => {
+        const tooltipContainerNewSpan = document.querySelector('.leaflet-draw-tooltip-top span');
+        const tooltipContainerSpanList = document.querySelector('.leaflet-draw-tooltip span');
+
+        if (tooltipContainerSpanList) {
+          tooltipContainerNewSpan.innerHTML = tooltipContainerSpanList.innerHTML;
+        }
+      });
+      document.getElementById('map').appendChild(tooltipContainerNew);
     });
   }
 
@@ -1088,6 +1158,7 @@ export class Explore extends Component {
         polyline: false,
         polygon: {
           allowIntersection: false, // Restricts shapes to simple polygons
+          message: 'test',
           drawError: {
             color: '#e1e100', // Color the shape will turn when intersects
             message: '<strong>Oh snap!<strong> you can\'t draw a polygon that intersects itself!'// Message that will show when intersect
@@ -1152,6 +1223,7 @@ export class Explore extends Component {
   addDrawVertexCreatedHandler(mapComponent, mapInfoComponent) {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', (e) => {
+      Explore.removeDrawShapeToolTip();
       const { layer } = e;
       Explore.storeshapescounter();
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
@@ -1301,11 +1373,11 @@ export class Explore extends Component {
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
     for (let i = 0; i < zips.length; i += 1) {
       const zip = zips[i];
-      let zipFileSets; 
+      let zipFileSets;
       try {
         zipFileSets = await Explore.readZip(zip);
       } catch (e) {
-        alert("Error opening zip archive.");
+        alert('Error opening zip archive.');
         zipFileSets = [];
       }
       if (zipFileSets.length) {
@@ -1323,8 +1395,7 @@ export class Explore extends Component {
     try {
       this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
       this.mapComponent.saveZoomAndMapPosition();
-    } catch(e) {
-    }
+    } catch (e) { console.error(e); }
     store.setStoreItem('working_zonalstats', false);
     spinnerOff();
     return false;
@@ -1343,17 +1414,17 @@ export class Explore extends Component {
         geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
       } catch (e) {
         if (e instanceof RangeError) {
-          alert("Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.");
+          alert('Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.');
         }
         geojsonFromShpfiles = { features: [] };
-      } 
+      }
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
         await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
       }
     }
 
     for (let i = 0; i < otherFiles.length; i += 1) {
-      let geojsonFromFile; 
+      let geojsonFromFile;
       try {
         geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
       } catch (e) {
@@ -1423,29 +1494,29 @@ export class Explore extends Component {
   }
 
   /**
-   * Read a zip file and organize its contents by folder.
-   *
-   * Returns an Array of Arrays, where sub-arrays are lists of files
-   * broken out by folder (top-level of zip is its own folder).
-   *
-   * @param archive is a File object representing a zip file
-   */
+  * Read a zip file and organize its contents by folder.
+  *
+  * Returns an Array of Arrays, where sub-arrays are lists of files
+  * broken out by folder (top-level of zip is its own folder).
+  *
+  * @param archive is a File object representing a zip file
+  */
   static async readZip(archive) {
     const jszip = new JSZip();
-    let folders; 
+    let folders;
     try {
       folders = await jszip.loadAsync(archive).then(
-      (zip) => {
-        const files = [];
-        Object.keys(zip.files).forEach((key) => {
-          const entry = zip.files[key];
-          if (!entry.dir) files.push(entry);
-        });
-        return Explore.readZipFolders(files);
-      }
-    );
+        (zip) => {
+          const files = [];
+          Object.keys(zip.files).forEach((key) => {
+            const entry = zip.files[key];
+            if (!entry.dir) files.push(entry);
+          });
+          return Explore.readZipFolders(files);
+        }
+      );
     } catch (e) {
-      alert("Error opening zip archive.");
+      alert('Error opening zip archive.');
       folders = {};
     }
     const fileSets = [];
@@ -1461,11 +1532,11 @@ export class Explore extends Component {
               blob => new File([blob], filename),
             );
           } catch (e) {
-            alert("Error reading file!");
+            alert('Error reading file!');
           }
         })
-        // filter undefined entries
-        .filter(prom => prom); 
+      // filter undefined entries
+        .filter(prom => prom);
       const files = await Promise.all(fileProms);
       fileSets.push(files);
     }
@@ -1551,4 +1622,3 @@ export class Explore extends Component {
     return files;
   }
 }
-

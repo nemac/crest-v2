@@ -5,8 +5,17 @@
 // Your variable overrides
 $body-bg:    $gray-800;
 $body-color: $gray-200;
+
+$btn-color-prinary: $gray-100;
+$btn-color-secondary: $gray-400;
+
+$box-shadow-default: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
 $body-color-visited: $gray-400;
 $body-color-medium: $gray-600;
+
+$leaflet-draw-tooltip-top-bg:    $gray-100;
+
 $margin: 10px;
 $padding: 10px;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
@@ -20,6 +29,68 @@ html, body {
     margin: $margin;
 }
 
+#primary-shape-holder {
+  margin-left: 0px !important;
+}
+
+#user-shape {
+  margin-left: 0px !important;
+}
+
+#has-shape-holder {
+  margin-left: 0px !important;
+}
+
+#upload-shapefile-btn, #draw-area-btn {
+  width: 45% !important;
+}
+
+#nav-holder {
+  box-shadow: $box-shadow-default;
+  min-width: 50px;
+}
+
+#btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+  margin-top: $margin;
+  width: 29.6% !important;
+  background-color: $btn-color-secondary !important;;
+}
+
+// responive explore buttons
+@media (max-width: 1024px) {
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 28.5% !important;
+    background-color: $btn-color-secondary !important;;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 768px) {
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 29.6% !important;
+    background-color: $btn-color-secondary !important;;
+  }
+
+
+  .data-row, .map-list-column, .map-row {
+    padding-top: 15px;
+    height: 750px !important;
+    border-top: 1px solid $body-color;
+    box-shadow: $box-shadow-default;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 640px) {
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 29% !important;
+    background-color: $btn-color-secondary !important;;
+  }
+}
+
 #second-tab-content {
   margin-top: 50px;
 }
@@ -27,6 +98,22 @@ html, body {
 #glossary-holder, #exposure-holder ,#aboutgen-holder {
   margin-top: $margin;
   margin-bottom: $margin*2;
+}
+
+.btn-secondary {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: $btn-color-secondary !important;
+}
+
+.bnt-primary {
+  background-color: $btn-color-prinary !important;
+}
+
+.exlpore-directions {
+  padding-top: $margin;
+  padding-bottom: $margin;
+  display: flex;
 }
 
 .definition-text {
@@ -166,16 +253,53 @@ html, body {
   border: solid 1px $teal;
 }
 
+.leaflet-popup-pane {
+  display: block !important;
+  position: absolute !important;
+  top: 0px !important;
+  left: 0px !important;
+  height: 100% !important;
+  width: 100% !important;
+  transform: translate(0, 0);
+  float: left;
+}
+
 .leaflet-draw-tooltip {
-  display:inline-block;
+  visibility: hidden !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+.leaflet-draw-tooltip-top {
+  width: 100% !important;;
+  visibility: inherit !important;
   white-space: nowrap;
   width: min-content;
-  background-color: $body-bg-semiTransparent;
-  color: $body-color;
-  padding-left: 15px;
-  z-index: 10000000000;
-  font-size: 1.25em;
+  background-color: $leaflet-draw-tooltip-top-bg;
+  color: $body-bg-semiTransparent;
+  box-shadow: $box-shadow-default;
+  z-index: 500;
+  font-size: 2em !important;;
+  position: absolute !important;
+  top: 0px !important;
+  left: 0px !important;
+  padding: 5px;
 }
+
+// responive explore buttons
+@media (max-width: 768px) {
+  .leaflet-draw-tooltip-top {
+      font-size: 1.5em !important;;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 375px) {
+  .leaflet-draw-tooltip-top {
+      font-size: 1.25em !important;;
+  }
+}
+
 
 .leaflet-draw-tooltip span {
   display:inline-block;
@@ -204,21 +328,16 @@ html, body {
   background-color:  $body-color;
   color: $body-bg;
   padding: 4px 4px;
-  box-shadow: 0 0 1.5px 1.5px rgba(150, 150, 150, .9);
+  border-width: 0px;
+  box-shadow: $box-shadow-default;
 }
-
 
 .btn-icon:after {
     content:"\000A";
     white-space: pre;
 }
 
-// .explore-btns {
-//     display: inline-block !important;
-// }
-
 .user-shape {
-  // for text to wrap in button
   white-space: pre-wrap;      /* CSS3 */
   white-space: -moz-pre-wrap; /* Firefox */
   white-space: -pre-wrap;     /* Opera <7 */
@@ -236,67 +355,7 @@ html, body {
 
 .upload-all {
   position: relative;
-  top: -12px;
-}
-
-// responive explore buttons
-@media (max-width: 1400px) {
-  .btn-lg-label {
-    display: none !important;
-  }
-  .upload-all {
-    top: 0px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .explore-btns {
-    display: block !important;
-  }
-  .user-shape {
-    width: 100% !important;
-  }
-  .btn-lg-label {
-    display: block !important;
-  }
-  .upload-all {
-    position: relative;
-    top: -12px;
-  }
-}
-
-@media (max-width: 992px) { //768px
-  .user-shape {
-    width: 110px !important;
-    height: 80px !important;
-  }
-  .zonal-label {
-    height: 50px !important;
-  }
-  .zonal-label-remove {
-    height: 50px !important;
-  }
-  .icon-label {
-    margin-top: 0px !important;
-  }
-  .sticky-top {
-    position: inherit;
-  }
-  .upload-all {
-    position: relative;
-    top: 0px;
-  }}
-
-@media (max-width: 590px) {
-  .explore-btns {
-    display: block !important;
-  }
-  .user-shape {
-    width: 100% !important;
-  }
-  .btn-lg-label {
-    display: block !important;
-  }
+  top: 5px;
 }
 
 .exposure-equals {
@@ -366,12 +425,6 @@ html, body {
   color: $body-bg;
   border-width: 0px;
   padding: 0px;
-  // border-top-left-radius: 4px;
-  // border-bottom-left-radius: 4px;
-  // border-top-right-radius: 0px !important;
-  // border-bottom-right-radius: 0px !important;
-  // -webkit-border-radius: 4px;
-  // -moz-border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
 }

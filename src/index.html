@@ -8,36 +8,29 @@
   <div id="main" class="container-fluid h-100 d-flex flex-column">
     <h2 title="Title" aria-label="Title" id="maintitle" >NFWF Coastal Resilience Assessment</h2>
     <div class="container-fluid h-100 d-flex flex-column" id="main-content">
-      <div class="row justify-content-start" id="top-bar">
-        <div class="col" id="nav-holder">
-        </div>
-        <span id="view"></span>
+
+      <div class="container-fluid" id="nav-holder">
       </div>
+
       <div class="row h-100 flex-fill map-row" ref="tab-index" id="tab-main-nav-map">
-        <div class="col-12 col-lg-8 col-md-12 col-sm-12 h-100 flex-fill" id="map-holder">
-        </div>
-        <div class="col-12 col-lg-4 col-md-12 col-sm-12 h-100 flex-fill" >
-          <div class="" id="maplayers_list-holder">
-          </div>
+
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12  order-xl-1 order-lg-1 order-md-2 order-sm-2 order-2 h-100 flex-fill" >
           <div id="explore-holder" class="flex-fill h-100" >
             <h3 id="exploreTitle" >Start Exploring</h3>
           </div>
         </div>
+
+        <div class="col-lg-8 col-lg-8 col-md-12 col-sm-12 col-12  order-xl-2 order-lg-1 order-md-1 order-sm-1 order-1 h-100 flex-fill" id="map-holder">
+        </div>
+
+        <div class="h-100 flex-fill map-list-column order-xl-3 order-lg-3 order-md-3 order-sm-3 order-3" >
+          <div class="h-100" id="maplayers_list-holder">
+          </div>
+        </div>
+
+
+
       </div>
-
-      <!-- <div class="row h-100 flex-fill map-row d-none" ref="tab-searchHubs" id="tab-main-nav-searchHubs">
-
-          <div class="col-12 col-lg-8 col-md-12 col-sm-12 h-100 flex-fill" id="searchHubs_map-holder">
-          </div>
-          <div class="col-12 col-lg-4 col-md-12 col-sm-12 h-100 flex-fill" >
-            <div class="" id="searchHubs_maplayers_list-holder">
-            </div>
-            <div id="searchHubs_explore-holder" class="flex-fill h-100" >
-              <h3>Start Exploring</h3>
-            </div>
-          </div>
-
-      </div> -->
 
 
       <div class="row h-100 flex-fill map-row d-none" ref="tab-download" id="tab-main-nav-download">

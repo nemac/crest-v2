@@ -6,10 +6,17 @@ $body-bg:    $gray-800;
 $body-color: $gray-200;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .9); // $gray-800
 
+$box-shadow-default: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
 $layer_list_width: 275px;
+$layer_list_width_closed: 200px;
 $layer_list_padding: 10px;
 $map_top_margin: 5px;
 $map_right_margin: 10px;
+
+.layer-legend {
+    margin: 10px;
+}
 
 #maplayers_list_opened, #map_info_list_collapse {
   color: $body-color;
@@ -94,14 +101,16 @@ $map_right_margin: 10px;
   font-weight: bold;
   margin: 5px;
 }
+
 .btn-basemap {
   background-color: $body-bg !important;
+  border-width: 1px !important;;
   border-radius: 0.25rem !important;
   -webkit-border-radius: 0.25rem !important;
   -moz-border-radius: 0.25rem !important;
   width: 100% !important;
-  box-shadow: 0 0 1.5px 1.5px rgba(52, 58, 64, .9) !important;
-  -moz-box-shadow: 0 0 1.5px 1.5px rgba(52, 58, 64, .9) !important;
+  box-shadow: $box-shadow-default !important;
+  -moz-box-shadow: $box-shadow-default !important;
 
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
@@ -186,52 +195,50 @@ $map_right_margin: 10px;
   padding: $layer_list_padding;
 }
 
+.list-closed {
+  height: 65px !important;
+  overflow: inherit;
+  width: $layer_list_width_closed !important;
+  left: - ($layer_list_width_closed + (20)) !important;
+}
+
+#maplayers_list-holder {
+  position: relative;
+  width: $layer_list_width;
+  left: - ($layer_list_width + (20));
+  top: 0px;
+  margin-right: - ($layer_list_width + (15));
+  z-index: 10000;
+  padding-bottom: 25px !important;
+  padding-top: 25px !important;
+}
+
 .maplayers_list {
-    background-color: $body-bg;
-    background:  $body-bg-semiTransparent;
-    color: $body-color;
-    position: relative;
-    float: left;
-    width: $layer_list_width;
-    left: - (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
-    top: (($grid-gutter-width / 2));
-    z-index: 10000;
-    border-radius: 0.25rem;
-    -webkit-border-radius: 0.25rem;
-    -moz-border-radius: 0.25rem;
-    margin-right:- (($layer_list_width * 1.5) - (($grid-gutter-width / 2) * 4));
-    max-height: 500px;
-    overflow: scroll;
+  background-color: $body-bg;
+  background:  $body-bg-semiTransparent;
+  color: $body-color;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  overflow: scroll;
 }
 
-
-@media (max-height: 675px) {
-  .maplayers_list {
-    max-height: 450px;
+@media (max-width: 768px) {
+  #maplayers_list-holder {
+    position: inherit;
+    margin-right: 0px;
+    height: 100% !important;
+    width: 100% !important;
+    left: 0px !important;
+    padding-bottom: 0px !important;
+    padding-top:0px !important;
   }
-}
 
-@media (max-height: 575px) {
   .maplayers_list {
-    max-height: 350px;
   }
-}
 
-@media (max-height: 475px) {
-  .maplayers_list {
-    max-height: 250px;
-  }
-}
-
-@media (max-height: 375px) {
-  .maplayers_list {
-    max-height: 150px;
-  }
-}
-
-@media (max-height: 250px) {
-  .maplayers_list {
-    max-height: 50px;
+  #maplayers_list_close, #map_info_list_collapse {
+    display: none;
   }
 }
 
@@ -256,42 +263,10 @@ $map_right_margin: 10px;
   padding-top: 5px;
 }
 
-@media (max-width: 992px) {
-  .maplayers_list {
-    position: relative;
-    float: none;
-    top: 0px;
-    left: -$layer_list_padding * 2;
-    width: 100%;
-    z-index: 1000;
-    // padding: $layer_list_padding;
-    margin: $grid-gutter-width / 2;
-    border: 1px solid $body-color;
-    border-radius: 0.25rem;
-    -webkit-border-radius: 0.25rem;
-    -moz-border-radius: 0.25rem;
-    max-height: 750px;
-  }
-  
-  .maplayers_list-holder  {
-    position: inherit;
-    top: 0px;
-    left: 0px;
-    float: none;
-    width: 100%;
-    // padding: $layer_list_padding;
-    margin: $grid-gutter-width / 2;
-  }
-
-  #maplayers_list_close, #map_info_list_collapse {
-    display: none;
-  }
-}
-
 .custom-control {
     padding-bottom: 2px;
+    margin-top: 1.5px;
 }
-
 
 .maplayers_list hr {
   border-top: 1px solid rgba(233, 236, 241, 0.75);

@@ -19,6 +19,23 @@ import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
 import '../css/maplayers_list.scss';
 
 const store = new Store({});
+// required for bootstrap
+window.$ = require('jquery');
+// required for tooltip, popup...
+window.Popper = require('popper.js');
+
+window.jQuery = window.$;
+
+// tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
+// use tooltip and popover components everywhere
+$(() => {
+  $('[data-toggle="tooltip"]').tooltip({
+    trigger: 'hover click focus'
+  });
+
+  $('[data-toggle="popover"]').popover();
+});
+
 
 // templates
 // import layer_checkboxTemplate from '../templates/layer_checkbox.html'
@@ -116,9 +133,15 @@ export class MapLayersList extends Component {
       store.setStoreItem('maplayerlist', 'open');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
+      const layerListHolder = document.getElementById('maplayers_list-holder');
+      const layerList = document.querySelector('.maplayers_list');
 
       layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
       layerListOpened.className = layerListOpened.className.replace(' d-none', '');
+      layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
+      layerList.className = layerList.className.replace(' list-closed', '');
+      layerListHolder.className = `${layerListHolder.className} h-100`;
+      layerList.className = `${layerList.className} h-100`;
     });
   }
 
@@ -133,10 +156,15 @@ export class MapLayersList extends Component {
       store.setStoreItem('maplayerlist', 'close');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
+      const layerListHolder = document.getElementById('maplayers_list-holder');
+      const layerList = document.querySelector('.maplayers_list');
 
-      // layerListOpened.className = layerListOpened.className.replace(' d-none','');
       layerListOpened.className = `${layerListOpened.className} d-none`;
       layerListCollapsed.className = layerListCollapsed.className.replace(' d-none', '');
+      layerListHolder.className = `${layerListHolder.className} list-closed`;
+      layerList.className = `${layerList.className} list-closed`;
+      layerListHolder.className = layerListHolder.className.replace('h-100', '');
+      layerList.className = layerList.className.replace('h-100', '');
     });
   }
 
