@@ -329,7 +329,7 @@ export class Explore extends Component {
 
     if (!checkValidObject(currentshapes)) {
       store.setStoreItem('working_zonalstats', false);
-      zonalAreaWrapper.innerHTML = '' //'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+      zonalAreaWrapper.innerHTML = '';
       spinnerOff('getZonal checkValidObject rawpostdata');
       return {};
     }
@@ -359,7 +359,7 @@ export class Explore extends Component {
 
         if (!checkValidObject(rawpostdata)) {
           store.setStoreItem('working_zonalstats', false);
-          zonalAreaWrapper.innerHTML = '' //'Click on the map to bring up information. Select multiple points to draw an area and get information on the area.';
+          zonalAreaWrapper.innerHTML = '';
           spinnerOff('getZonal checkValidObject rawpostdata');
           return {};
         }
@@ -989,7 +989,7 @@ export class Explore extends Component {
     // this temp remove of stats while we work on multiple shapes.
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
-      zonalAreaWrapper.innerHTML = '' //'<p class="zonal-instructions-initial">Click on the map to bring up information. Select multiple points to draw an area and get information on the area.</p>';
+      zonalAreaWrapper.innerHTML = '';
     }
   }
 
@@ -1064,27 +1064,19 @@ export class Explore extends Component {
     }
   }
 
-  static disableShapeExistsButtons () {
+  static disableShapeExistsButtons() {
     const hasShapeHolder = document.getElementById('has-shape-holder');
     if (hasShapeHolder) {
-      // hasShapeHolder.classList.add('row');
-      // hasShapeHolder.classList.add('d-flex');
-      // hasShapeHolder.classList.add('w-100');
       hasShapeHolder.classList.add('d-none');
-
     }
   }
 
-  static enableShapeExistsButtons () {
+  static enableShapeExistsButtons() {
     const hasShapeHolder = document.getElementById('has-shape-holder');
     if (hasShapeHolder) {
-      // hasShapeHolder.classList.remove('row');
-      // hasShapeHolder.classList.remove('d-flex');
-      // hasShapeHolder.classList.remove('w-100');
       hasShapeHolder.classList.remove('d-none');
     }
   }
-
 
   // handler for click the button drawing vertexes on the map
   // adding not as hanlder callback so I can use this (class) calls
@@ -1115,66 +1107,45 @@ export class Explore extends Component {
       //  we will have to add that back.  so this not ideal
       mapComponent.map.off('click');
 
-      const latlng = mapComponent.map.getCenter();
       const bounds = mapComponent.map.getBounds();
-      const west = bounds.getEast();
-      const north = bounds.getNorth();
       const topLeftCorner = bounds.getNorthWest();
-      const toRightCorner = bounds.getNorthEast();
-
-
       const TLpos = mapComponent.map.latLngToLayerPoint(topLeftCorner);
-      const TRpos = mapComponent.map.latLngToLayerPoint(toRightCorner);
-      const Twidth  = (TRpos.x - TLpos.x);
-      const leftpt = mapComponent.map.layerPointToLatLng(TLpos);
-      const toppt = mapComponent.map.layerPointToLatLng(TRpos);
 
-      // const ll = L.latLng(leftpt, toppt);
-      // enable polygon drawer for leaflet map
       polygonDrawer.enable();
 
-      // mapComponent.map.removeEventListener()
       const tooltipContainer = document.querySelector('.leaflet-draw-tooltip');
       const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
 
-      if (tooltipContainerSpan){
+      if (tooltipContainerSpan) {
         tooltipContainerSpan.classList.add('d-flex');
         tooltipContainerSpan.classList.add('justify-content-center');
       }
-      
+
       const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
       if (tooltipContainerDelete) {
         tooltipContainerDelete.parentNode.removeChild(tooltipContainerDelete);
       }
 
       const tooltipContainerNew = tooltipContainer.cloneNode(true);
-      // tooltipContainer.parentNode.removeChild(tooltipContainer);
-      tooltipContainerNew.style.width = `100%`;
-      tooltipContainerNew.style.left = `${TLpos}px`;;
-      tooltipContainerNew.style.top = `${TLpos.y+50}px`;
-      tooltipContainerNew.style.height = `50px`;
-      tooltipContainerNew.style.fontSize = `2em`;
-      tooltipContainerNew.classList.remove('leaflet-draw-tooltip')
-      tooltipContainerNew.classList.remove('leaflet-draw-tooltip-single')
-      tooltipContainerNew.classList.add('leaflet-draw-tooltip-top')
-      tooltipContainerNew.classList.add('leaflet-draw-tooltip-single-top')
-
-
+      tooltipContainerNew.style.width = '100%';
+      tooltipContainerNew.style.left = `${TLpos}px`;
+      tooltipContainerNew.style.top = `${TLpos.y + 50}px`;
+      tooltipContainerNew.style.height = '50px';
+      tooltipContainerNew.style.fontSize = '2em';
+      tooltipContainerNew.classList.remove('leaflet-draw-tooltip');
+      tooltipContainerNew.classList.remove('leaflet-draw-tooltip-single');
+      tooltipContainerNew.classList.add('leaflet-draw-tooltip-top');
+      tooltipContainerNew.classList.add('leaflet-draw-tooltip-single-top');
 
       mapComponent.map.addEventListener('mousemove', (e) => {
         const tooltipContainerNewSpan = document.querySelector('.leaflet-draw-tooltip-top span');
-        const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
+        const tooltipContainerSpanList = document.querySelector('.leaflet-draw-tooltip span');
 
-        if (tooltipContainerSpan) {
-          tooltipContainerNewSpan.innerHTML = tooltipContainerSpan.innerHTML;
+        if (tooltipContainerSpanList) {
+          tooltipContainerNewSpan.innerHTML = tooltipContainerSpanList.innerHTML;
         }
-
       });
-
-
       document.getElementById('map').appendChild(tooltipContainerNew);
-      // L.DomUtil.setPosition(tooltipContainer, TLpos);
-
     });
   }
 
@@ -1292,8 +1263,6 @@ export class Explore extends Component {
         this.getZonal();
       }
     });
-
-
   }
 
   static resetshapescounter() {
@@ -1408,7 +1377,7 @@ export class Explore extends Component {
       try {
         zipFileSets = await Explore.readZip(zip);
       } catch (e) {
-        alert("Error opening zip archive.");
+        alert('Error opening zip archive.');
         zipFileSets = [];
       }
       if (zipFileSets.length) {
@@ -1426,8 +1395,7 @@ export class Explore extends Component {
     try {
       this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
       this.mapComponent.saveZoomAndMapPosition();
-    } catch(e) {
-    }
+    } catch (e) { console.error(e); }
     store.setStoreItem('working_zonalstats', false);
     spinnerOff();
     return false;
@@ -1446,7 +1414,7 @@ export class Explore extends Component {
         geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
       } catch (e) {
         if (e instanceof RangeError) {
-          alert("Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.");
+          alert('Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.');
         }
         geojsonFromShpfiles = { features: [] };
       }
@@ -1526,29 +1494,29 @@ export class Explore extends Component {
   }
 
   /**
-   * Read a zip file and organize its contents by folder.
-   *
-   * Returns an Array of Arrays, where sub-arrays are lists of files
-   * broken out by folder (top-level of zip is its own folder).
-   *
-   * @param archive is a File object representing a zip file
-   */
+  * Read a zip file and organize its contents by folder.
+  *
+  * Returns an Array of Arrays, where sub-arrays are lists of files
+  * broken out by folder (top-level of zip is its own folder).
+  *
+  * @param archive is a File object representing a zip file
+  */
   static async readZip(archive) {
     const jszip = new JSZip();
     let folders;
     try {
       folders = await jszip.loadAsync(archive).then(
-      (zip) => {
-        const files = [];
-        Object.keys(zip.files).forEach((key) => {
-          const entry = zip.files[key];
-          if (!entry.dir) files.push(entry);
-        });
-        return Explore.readZipFolders(files);
-      }
-    );
+        (zip) => {
+          const files = [];
+          Object.keys(zip.files).forEach((key) => {
+            const entry = zip.files[key];
+            if (!entry.dir) files.push(entry);
+          });
+          return Explore.readZipFolders(files);
+        }
+      );
     } catch (e) {
-      alert("Error opening zip archive.");
+      alert('Error opening zip archive.');
       folders = {};
     }
     const fileSets = [];
@@ -1564,10 +1532,10 @@ export class Explore extends Component {
               blob => new File([blob], filename),
             );
           } catch (e) {
-            alert("Error reading file!");
+            alert('Error reading file!');
           }
         })
-        // filter undefined entries
+      // filter undefined entries
         .filter(prom => prom);
       const files = await Promise.all(fileProms);
       fileSets.push(files);

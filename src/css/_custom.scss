@@ -57,11 +57,28 @@ html, body {
 }
 
 // responive explore buttons
+@media (max-width: 1024px) {
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 28.5% !important;
+    background-color: $btn-color-secondary !important;;
+  }
+}
+
+// responive explore buttons
 @media (max-width: 768px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 29.6% !important;
     background-color: $btn-color-secondary !important;;
+  }
+
+
+  .data-row, .map-list-column, .map-row {
+    padding-top: 15px;
+    height: 750px !important;
+    border-top: 1px solid $body-color;
+    box-shadow: $box-shadow-default;
   }
 }
 
@@ -261,17 +278,12 @@ html, body {
   background-color: $leaflet-draw-tooltip-top-bg;
   color: $body-bg-semiTransparent;
   box-shadow: $box-shadow-default;
-  // padding-left: 15px;
   z-index: 500;
   font-size: 2em !important;;
-  // transform: inherit !important;
   position: absolute !important;
   top: 0px !important;
   left: 0px !important;
   padding: 5px;
-  // span {
-  //   margin-left: ;
-  // }
 }
 
 // responive explore buttons
@@ -320,18 +332,12 @@ html, body {
   box-shadow: $box-shadow-default;
 }
 
-
 .btn-icon:after {
     content:"\000A";
     white-space: pre;
 }
 
-// .explore-btns {
-//     display: inline-block !important;
-// }
-
 .user-shape {
-  // for text to wrap in button
   white-space: pre-wrap;      /* CSS3 */
   white-space: -moz-pre-wrap; /* Firefox */
   white-space: -pre-wrap;     /* Opera <7 */
@@ -350,74 +356,6 @@ html, body {
 .upload-all {
   position: relative;
   top: 5px;
-}
-
-// responive explore buttons
-@media (max-width: 1600px) {
-  .upload-all {
-    position: relative;
-    top: 0px;
-  }
-}
-
-// responive explore buttons
-@media (max-width: 1400px) {
-  .btn-lg-label {
-    display: none !important;
-  }
-  .upload-all {
-    top: 0px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .explore-btns {
-    display: block !important;
-  }
-  .user-shape {
-    width: 100% !important;
-  }
-  .btn-lg-label {
-    display: block !important;
-  }
-  .upload-all {
-    position: relative;
-    top: -12px;
-  }
-}
-
-@media (max-width: 992px) { //768px
-  .user-shape {
-    width: 110px !important;
-    height: 80px !important;
-  }
-  .zonal-label {
-    height: 50px !important;
-  }
-  .zonal-label-remove {
-    height: 50px !important;
-  }
-  .icon-label {
-    margin-top: 0px !important;
-  }
-  .sticky-top {
-    position: inherit;
-  }
-  .upload-all {
-    position: relative;
-    top: 0px;
-  }}
-
-@media (max-width: 590px) {
-  .explore-btns {
-    display: block !important;
-  }
-  .user-shape {
-    width: 100% !important;
-  }
-  .btn-lg-label {
-    display: block !important;
-  }
 }
 
 .exposure-equals {
@@ -487,12 +425,6 @@ html, body {
   color: $body-bg;
   border-width: 0px;
   padding: 0px;
-  // border-top-left-radius: 4px;
-  // border-bottom-left-radius: 4px;
-  // border-top-right-radius: 0px !important;
-  // border-bottom-right-radius: 0px !important;
-  // -webkit-border-radius: 4px;
-  // -moz-border-radius: 4px;
   vertical-align: middle !important;
   align-items: center !important;
 }
