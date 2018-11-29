@@ -101,6 +101,8 @@ export class Explore extends Component {
     this.HubIntersectionApi = new HubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
     this.DefaultExploreText = 'Start Exploring the Assessment';
+    this.exlporeAssmentMessage = 'To start examining the assessment click the draw area button and then sketch an area on the map. If you have a shapefile of the region, use the upload shapefile button.';
+    this.exlporeHubMessage = 'To start searching for a place to do a resilience project click the draw area button and then sketch an area on the map. If you have a shapefile of the area, use the upload shapefile button.';
 
     // draw the user area on the map
     if (!this.hasShareURL) {
@@ -111,13 +113,16 @@ export class Explore extends Component {
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+          Explore.updateExploreDirections(this.exlporeHubMessage);
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+          Explore.updateExploreDirections(this.exlporeAssmentMessage);
         }
       } else {
         this.drawUserAreaFromUsereas();
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+        Explore.updateExploreDirections(this.exlporeAssmentMessage);
       }
     }
 
@@ -156,13 +161,16 @@ export class Explore extends Component {
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+          Explore.updateExploreDirections(this.exlporeHubMessage);
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+          Explore.updateExploreDirections(this.exlporeAssmentMessage);
         }
       } else {
         this.drawUserAreaFromUsereas();
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+        Explore.updateExploreDirections(this.exlporeAssmentMessage);
       }
     });
 
@@ -181,6 +189,13 @@ export class Explore extends Component {
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  static updateExploreDirections(elemText) {
+    const directionElem = document.getElementById('exlpore-directions');
+    if (directionElem) {
+      directionElem.innerHTML = elemText;
+    }
   }
 
   static updateExploreText(elem, elemText) {
