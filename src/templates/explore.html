@@ -2,18 +2,18 @@
   <div class="row d-flex w-100">
     <div class="sticky-top sideheading w-100">
       <h3 id="explore-title" >Start Exploring the Assessment</h3>
-      <span id="exlpore directions" class="exlpore-directions" >To get started click draw area and then sketch an area on the map, or upload a shapefile for an area you want to investigate.</span>
+      <span id="exlpore directions" class="exlpore-directions" >To start examining the assessment click the draw area button and then sketch an area on the map. If you have a shapefile of the region, use the upload shapefile button.</span>
       <div id="user-shape" class="row d-flex w-100 explore-btns">
           <!--   -->
-          <span id="primary-shape-holder" class="row w-50">
-          <button id="draw-area-btn" title="Draw Area on Map" aria-label="Draw Area on Map" type="button" class="btn btn-light btn-box user-shape btn-draw-area"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-med-label">Draw area</span><span class="btn-lg-label"> on map</span></button>
-          <label id="upload-shapefile-btn" class="btn btn-light btn-box user-shape btn-file-label"  for="upload-shape-btn"><span class="upload-all"><span class="btn-icon"><i class="fas fa-upload icon-label"></i></span><span class="btn-med-label">Upload</span><span class="btn-lg-label"> Shapefile</span></span></label>
-          <input type="file" multiple=true accept=".zip, .shp, .dbf, .prj, .geojson, .json" id="upload-shape-btn" class="btn btn-light btn-box btn-upload-shape btn-file"></input>
+        <span id="primary-shape-holder" class="row w-100">
+          <button id="draw-area-btn" title="Draw Area on Map" aria-label="Draw Area on Map" type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-med-label">Draw area</span><span class="btn-lg-label"> on map</span></button>
+          <label id="upload-shapefile-btn" class="btn btn-light btn-box user-shape btn-file-label bnt-primary"  for="upload-shape-btn"><span class="upload-all"><span class="btn-icon"><i class="fas fa-upload icon-label"></i></span><span class="btn-med-label">Upload</span><span class="btn-lg-label"> Shapefile</span></span></label>
+          <input type="file" multiple=true accept=".zip, .shp, .dbf, .prj, .geojson, .json" id="upload-shape-btn" class="btn btn-light btn-box btn-upload-shape btn-file bnt-primary"></input>
         </span>
-          <span id="has-shape-holder" class="row w-50 d-none">
-            <button id="btn-clear-area" title="Clear Areas on Map" aria-label="Clear Areas on Map" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="far fa-trash-alt"></i></span><span class="btn-med-label">Clear areas</span><span class="btn-lg-label"> on map</span></button>
-            <button id="btn-reset" title="Reset to default" aria-label="Reset to default" type="button" class="btn btn-light btn-box btn-secondary user-shape btn-reset"><span class="btn-icon"><i class="fas fa-cog"></i></span><span class="btn-med-label">Clear all</span><span class="btn-lg-label"></span></button>
-            <button id="btn-update-zonal-stats" title="Update Statistics" aria-label="Update Statistics" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="fas fa-sync-alt"></i></span><span class="btn-med-label">Update</span><span class="btn-lg-label"> statistics</span></button>
+          <span id="has-shape-holder" class="row w-100 d-none">
+            <button id="btn-clear-area" title="Clear Areas on Map" aria-label="Clear Areas on Map" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="far fa-trash-alt"></i></span><span class="btn-med-label">Clear map</span><span class="btn-lg-label"></span></button>
+            <button id="btn-reset" title="Reset to default" aria-label="Reset to default" type="button" class="btn btn-light btn-box btn-secondary user-shape btn-reset"><span class="btn-icon"><i class="fas fa-cog"></i></span><span class="btn-med-label">Reset map</span><span class="btn-lg-label"></span></button>
+            <button id="btn-update-zonal-stats" title="Update Statistics" aria-label="Update Statistics" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="fas fa-sync-alt"></i></span><span class="btn-med-label">Refresh</span><span class="btn-lg-label"> statistics</span></button>
             <!-- <button id="btn-share_url" title="Update Statistics" aria-label="Update Statistics" type="button" class="btn btn-light btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="fas fa-sync-alt"></i></span><span class="btn-med-label">test</span><span class="btn-lg-label"> Share URL</span></button> -->
           </span>
       </div>

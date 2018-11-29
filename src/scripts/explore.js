@@ -1137,6 +1137,11 @@ export class Explore extends Component {
       const tooltipContainer = document.querySelector('.leaflet-draw-tooltip');
       const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
 
+      if (tooltipContainerSpan){
+        tooltipContainerSpan.classList.add('d-flex');
+        tooltipContainerSpan.classList.add('justify-content-center');
+      }
+      
       const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
       if (tooltipContainerDelete) {
         tooltipContainerDelete.parentNode.removeChild(tooltipContainerDelete);
@@ -1144,7 +1149,7 @@ export class Explore extends Component {
 
       const tooltipContainerNew = tooltipContainer.cloneNode(true);
       // tooltipContainer.parentNode.removeChild(tooltipContainer);
-      tooltipContainerNew.style.width = `${Twidth}px`;
+      tooltipContainerNew.style.width = `100%`;
       tooltipContainerNew.style.left = `${TLpos}px`;;
       tooltipContainerNew.style.top = `${TLpos.y+50}px`;
       tooltipContainerNew.style.height = `50px`;
@@ -1154,12 +1159,14 @@ export class Explore extends Component {
       tooltipContainerNew.classList.add('leaflet-draw-tooltip-top')
       tooltipContainerNew.classList.add('leaflet-draw-tooltip-single-top')
 
+
+
       mapComponent.map.addEventListener('mousemove', (e) => {
         const tooltipContainerNewSpan = document.querySelector('.leaflet-draw-tooltip-top span');
         const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
 
         if (tooltipContainerSpan) {
-            tooltipContainerNewSpan.innerHTML = tooltipContainerSpan.innerHTML;
+          tooltipContainerNewSpan.innerHTML = tooltipContainerSpan.innerHTML;
         }
 
       });

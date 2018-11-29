@@ -5,6 +5,12 @@
 // Your variable overrides
 $body-bg:    $gray-800;
 $body-color: $gray-200;
+
+$btn-color-prinary: $gray-100;
+$btn-color-secondary: $gray-400;
+
+$box-shadow-default: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
 $body-color-visited: $gray-400;
 $body-color-medium: $gray-600;
 $margin: 10px;
@@ -20,10 +26,6 @@ html, body {
     margin: $margin;
 }
 
-.layer-legend {
-    margin: 10px;
-}
-
 #primary-shape-holder {
   margin-left: 0px !important;
 }
@@ -33,27 +35,40 @@ html, body {
 }
 
 #has-shape-holder {
-  margin-left: 25px !important;
+  margin-left: 0px !important;
 }
 
 #upload-shapefile-btn, #draw-area-btn {
   width: 45% !important;
 }
 
+#nav-holder {
+  box-shadow: $box-shadow-default;
+  min-width: 50px;
+}
+
 #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
-  width: 20% !important;
+  margin-top: $margin;
+  width: 29% !important;
+  background-color: $btn-color-secondary !important;;
 }
 
-
-
-.btn-secondary {
-  width: 50px !important;
+// responive explore buttons
+@media (max-width: 768px) {
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 29.6% !important;
+    background-color: $btn-color-secondary !important;;
+  }
 }
 
-.exlpore-directions {
-  padding-top: $margin;
-  padding-bottom: $margin;
-  display: flex;
+// responive explore buttons
+@media (max-width: 640px) {
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 29% !important;
+    background-color: $btn-color-secondary !important;;
+  }
 }
 
 #second-tab-content {
@@ -63,6 +78,22 @@ html, body {
 #glossary-holder, #exposure-holder ,#aboutgen-holder {
   margin-top: $margin;
   margin-bottom: $margin*2;
+}
+
+.btn-secondary {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: $btn-color-secondary !important;
+}
+
+.bnt-primary {
+  background-color: $btn-color-prinary !important;
+}
+
+.exlpore-directions {
+  padding-top: $margin;
+  padding-bottom: $margin;
+  display: flex;
 }
 
 .definition-text {
@@ -220,24 +251,40 @@ html, body {
 }
 
 .leaflet-draw-tooltip-top {
-  // display:inline-block;
+  width: 100% !important;;
   visibility: inherit !important;
   white-space: nowrap;
   width: min-content;
   background-color: $body-color;
   color: $body-bg-semiTransparent;
+  box-shadow: $box-shadow-default;
   // padding-left: 15px;
   z-index: 500;
-  font-size: 1.25em;
+  font-size: 2em !important;;
   // transform: inherit !important;
   position: absolute !important;
   top: 0px !important;
   left: 0px !important;
   padding: 5px;
-  span {
-    margin-left: 50px;
+  // span {
+  //   margin-left: ;
+  // }
+}
+
+// responive explore buttons
+@media (max-width: 768px) {
+  .leaflet-draw-tooltip-top {
+      font-size: 1.5em !important;;
   }
 }
+
+// responive explore buttons
+@media (max-width: 375px) {
+  .leaflet-draw-tooltip-top {
+      font-size: 1.25em !important;;
+  }
+}
+
 
 .leaflet-draw-tooltip span {
   display:inline-block;
@@ -266,7 +313,8 @@ html, body {
   background-color:  $body-color;
   color: $body-bg;
   padding: 4px 4px;
-  box-shadow: 0 0 1.5px 1.5px rgba(150, 150, 150, .9);
+  border-width: 0px;
+  box-shadow: $box-shadow-default;
 }
 
 
@@ -299,6 +347,14 @@ html, body {
 .upload-all {
   position: relative;
   top: 5px;
+}
+
+// responive explore buttons
+@media (max-width: 1600px) {
+  .upload-all {
+    position: relative;
+    top: 0px;
+  }
 }
 
 // responive explore buttons
