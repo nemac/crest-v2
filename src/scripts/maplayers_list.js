@@ -116,9 +116,17 @@ export class MapLayersList extends Component {
       store.setStoreItem('maplayerlist', 'open');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
+      const layerListHolder = document.getElementById('maplayers_list-holder');
+      const layerList = document.querySelector('.maplayers_list');
 
       layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
       layerListOpened.className = layerListOpened.className.replace(' d-none', '');
+      layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
+      layerList.className = layerList.className.replace(' list-closed', '');
+      layerListHolder.className = `${layerListHolder.className} h-100`;
+      layerList.className = `${layerList.className} h-100`;
+
+
     });
   }
 
@@ -133,10 +141,19 @@ export class MapLayersList extends Component {
       store.setStoreItem('maplayerlist', 'close');
       const layerListOpened = document.getElementById('maplayers_list_opened');
       const layerListCollapsed = document.getElementById('map_info_list_collapse');
+      const layerListHolder = document.getElementById('maplayers_list-holder');
+      const layerList = document.querySelector('.maplayers_list');
 
       // layerListOpened.className = layerListOpened.className.replace(' d-none','');
       layerListOpened.className = `${layerListOpened.className} d-none`;
       layerListCollapsed.className = layerListCollapsed.className.replace(' d-none', '');
+      layerListHolder.className = `${layerListHolder.className} list-closed`;
+      layerList.className = `${layerList.className} list-closed`;
+      layerListHolder.className = layerListHolder.className.replace('h-100', '');
+      layerList.className = layerList.className.replace('h-100', '');
+
+
+
     });
   }
 

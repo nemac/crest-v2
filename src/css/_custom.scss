@@ -13,6 +13,9 @@ $box-shadow-default: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 
 $body-color-visited: $gray-400;
 $body-color-medium: $gray-600;
+
+$leaflet-draw-tooltip-top-bg:    $gray-100;
+
 $margin: 10px;
 $padding: 10px;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
@@ -49,7 +52,7 @@ html, body {
 
 #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
   margin-top: $margin;
-  width: 29% !important;
+  width: 29.6% !important;
   background-color: $btn-color-secondary !important;;
 }
 
@@ -255,7 +258,7 @@ html, body {
   visibility: inherit !important;
   white-space: nowrap;
   width: min-content;
-  background-color: $body-color;
+  background-color: $leaflet-draw-tooltip-top-bg;
   color: $body-bg-semiTransparent;
   box-shadow: $box-shadow-default;
   // padding-left: 15px;
