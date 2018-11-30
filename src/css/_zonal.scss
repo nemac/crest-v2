@@ -1,3 +1,46 @@
+$exposure-none: #E9ECEF;
+$exposure-1: #3d8282;
+$exposure-2: #7dad9c;
+$exposure-3: #d4e5ba;
+$exposure-4: #b7d4b2;
+$exposure-5: #e9f2bb;
+$exposure-6: #f5e9a9;
+$exposure-7: #dbba7a;
+$exposure-8: #b08042;
+$exposure-9: #9b5526;
+$exposure-10: #633319;
+$asset-bar: #94571c;
+$threat-bar: #d4182b;
+$exposure-bar: #0f0;
+
+$threat-none: #E9ECEF;
+$threat-1: #ffebd6;
+$threat-2: #f7d7bc;
+$threat-3: #f0c0a1;
+$threat-4: #eba988;
+$threat-5: #e3906f;
+$threat-6: #de775b;
+$threat-7: #d65d45;
+$threat-8: #d14030;
+$threat-9: #c9251c;
+$threat-10: #c40a0a;
+$theatbarsep: #68ace7;
+
+$asset-none: #E9ECEF;
+$asset-1: #b6edf0;
+$asset-2: #98d2ed;
+$asset-3: #7cbbeb;
+$asset-4: #5ca3e6;
+$asset-5: #368de3;
+$asset-6: #2176d9;
+$asset-7: #2259c7;
+$asset-8: #1d3eb5;
+$asset-9: #1727a3;
+$asset-10: #090991;
+$assetbarsep: #d4182b;
+
+
+
 $fish-none: #E9ECEF;
 $fish-1: #cce2e8;
 $fish-2: #8fc8d6;
@@ -24,73 +67,7 @@ $hub-6: #277450;
 $hub-7: #005a32;
 $hub-bar: #0ff;
 
-$asset-none: #E9ECEF;
-$asset-0: #b6edf0;
-$asset-1: #a1daed;
-$asset-2: #8ecaed;
-$asset-3: #7abaeb;
-$asset-4: #64aae8;
-$asset-5: #4c99e6;
-$asset-6: #328ae3;
-$asset-7: #217bdb;
-$asset-8: #2166cf;
-$asset-9: #2154c2;
-$asset-10: #1d40b5;
-$asset-11: #192fa8;
-$asset-12: #131f9e;
-$asset-13: #080a90;
-$assetbarsep: #d4182b;
 
-$threat-none: #E9ECEF;
-$threat-0: #ffebd6;
-$threat-1: #fce5cf;
-$threat-2: #fadec5;
-$threat-3: #f7d7bc;
-$threat-4: #f5d1b5;
-$threat-5: #f5cbae;
-$threat-6: #f2c4a5;
-$threat-7: #f0bc9c;
-$threat-8: #edb695;
-$threat-9: #ebae8d;
-$threat-10: #eba786;
-$threat-11: #e8a180;
-$threat-12: #e69877;
-$threat-13: #e3906f;
-$threat-14: #e08867;
-$threat-15: #e08063;
-$threat-16: #de775b;
-$threat-17: #db6f53;
-$threat-18: #d9664c;
-$threat-19: #d65f47;
-$threat-20: #d65740;
-$threat-21: #d44e39;
-$threat-22: #d14734;
-$threat-23: #cf3e2d;
-$threat-24: #cc3527;
-$threat-25: #cc2c21;
-$threat-26: #c9251c;
-$threat-27: #c71c16;
-$threat-28: #c41310;
-$threat-29: #af0e08;
-$threat-30: #ba0808;
-$threat-31: #b00808;
-$threat-32: #a60808;
-$threat-33: #9c0808;
-$theatbarsep: #68ace7;
-
-$exposure-none: #E9ECEF;
-$exposure-1: #568b93;
-$exposure-2: #7db0a3;
-$exposure-3: #d4e5ba;
-$exposure-4: #ecd79c;
-$exposure-5: #ecd79c;
-$exposure-6: #c38e59;
-$exposure-7: #c38e59;
-$exposure-8: #9b5526;
-$exposure-9: #9b5526;
-$asset-bar: #68ace7;
-$threat-bar: #d4182b;
-$exposure-bar: #0f0;
 
 $asset-driver-0: #f7fbff;
 $asset-driver-1: #d1e3f3;
@@ -575,34 +552,34 @@ div.zonal-asset {
   line-height: $box-dimensions;
   vertical-align: top;
 }
-
-.zonal-long-table-item.zonal-long-table-item-threat {
-  font-size: 8px;
-}
-
-@media (max-width: 1400px) {
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 6px;
-  }
-}
-
-@media (max-width: 1075px) {
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 0px;
-  }
-}
-
-@media (max-width: 992px) { //768px
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 8px;
-  }
-}
-
-@media (max-width: 400px) {
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 0px;
-  }
-}
+//
+// .zonal-long-table-item.zonal-long-table-item-threat {
+//   font-size: 8px;
+// }
+//
+// @media (max-width: 1400px) {
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 6px;
+//   }
+// }
+//
+// @media (max-width: 1075px) {
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 0px;
+//   }
+// }
+//
+// @media (max-width: 992px) { //768px
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 8px;
+//   }
+// }
+//
+// @media (max-width: 400px) {
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 0px;
+//   }
+// }
 .zonal-long-table-asset .zonal-long-table-header-simple-low {
     position: absolute;
     top: -20px
@@ -672,6 +649,8 @@ div.zonal-asset {
 }
 
 .zonal-long-table-cell {
+  color: #000;
+
   &-none {
     background-color: $exposure-none;
     color: #000;
@@ -697,10 +676,12 @@ div.zonal-asset {
 
   &-high {
     background-color: $exposure-6;
+    color: #000;
   }
 
   &-highest {
     background-color: $exposure-9;
+    color: #000;
   }
 
   &-exposure-box {
@@ -710,10 +691,12 @@ div.zonal-asset {
     }
     &-one {
       background-color: $exposure-1;
+      color: #000;
     }
 
     &-two {
       background-color: $exposure-2;
+      color: #000;
     }
 
     &-three {
@@ -733,18 +716,26 @@ div.zonal-asset {
 
     &-six {
       background-color: $exposure-6;
+      color: #000;
     }
 
     &-seven {
       background-color: $exposure-7;
+      color: #000;
     }
 
     &-eight {
       background-color: $exposure-8;
+      color: #000;
     }
 
     &-nine {
       background-color: $exposure-9;
+      color: #000;
+    }
+    &-ten {
+      background-color: $exposure-10;
+      color: #000;
     }
   }
 
@@ -850,11 +841,6 @@ div.zonal-asset {
       color: #000;
     }
 
-    &-zero {
-      background-color: $asset-0;
-      color: #000;
-    }
-
     &-one {
       background-color: $asset-1;
       color: #000;
@@ -887,41 +873,29 @@ div.zonal-asset {
 
     &-seven {
       background-color: $asset-7;
+      color: #000;
     }
 
     &-eight {
       background-color: $asset-8;
+      color: #000;
     }
 
     &-nine {
       background-color: $asset-9;
+      color: #000;
     }
 
     &-ten {
       background-color: $asset-10;
+      color: #000;
     }
 
-    &-eleven {
-      background-color: $asset-11;
-    }
-
-    &-twelve {
-      background-color: $asset-12;
-    }
-
-    &-thirteen {
-      background-color: $asset-13;
-    }
   }
 
   &-threat {
     &-none {
       background-color: $threat-none;
-      color: #000;
-    }
-
-    &-zero {
-      background-color: $threat-0;
       color: #000;
     }
 
@@ -973,107 +947,6 @@ div.zonal-asset {
     &-ten {
       background-color: $threat-10;
       color: #000;
-    }
-
-    &-eleven {
-      background-color: $threat-11;
-      color: #000;
-    }
-
-    &-twelve {
-      background-color: $threat-12;
-      color: #000;
-    }
-
-    &-thirteen {
-      background-color: $threat-13;
-      color: #000;
-    }
-
-    &-fourteen {
-      background-color: $threat-14;
-      color: #000;
-    }
-
-    &-fifteen {
-      background-color: $threat-15;
-      color: #000;
-    }
-
-    &-sixteen {
-      background-color: $threat-16;
-      color: #000;
-    }
-
-    &-seventeen {
-      background-color: $threat-17;
-      color: #000;
-    }
-
-    &-eightteen {
-      background-color: $threat-18;
-      color: #000;
-    }
-
-    &-nineteen {
-      background-color: $threat-19;
-      color: #000;
-    }
-
-    &-twenty {
-      background-color: $threat-20;
-    }
-
-    &-twentyone {
-      background-color: $threat-21;
-    }
-
-    &-twentytwo {
-      background-color: $threat-22;
-    }
-
-    &-twentythree {
-      background-color: $threat-23;
-    }
-
-    &-twentyfour {
-      background-color: $threat-24;
-    }
-
-    &-twentyfive {
-      background-color: $threat-25;
-    }
-
-    &-twentysix {
-      background-color: $threat-26;
-    }
-
-    &-twentyseven {
-      background-color: $threat-27;
-    }
-
-    &-twentyeight{
-      background-color: $threat-28;
-    }
-
-    &-twentynine {
-      background-color: $threat-29;
-    }
-
-    &-thirty {
-      background-color: $threat-30;
-    }
-
-    &-thirtyone {
-      background-color: $threat-31;
-    }
-
-    &-thirtytwo {
-      background-color: $threat-32;
-    }
-
-    &-thirtythree {
-      background-color: $threat-33;
     }
   }
 }
