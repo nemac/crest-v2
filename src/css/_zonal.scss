@@ -39,22 +39,22 @@ $asset-9: #1727a3;
 $asset-10: #090991;
 $assetbarsep: #d4182b;
 
-
-
 $fish-none: #E9ECEF;
-$fish-1: #cce2e8;
-$fish-2: #8fc8d6;
-$fish-3: #5ea4ba;
-$fish-4: #047e91;
-$fish-5: #095a62;
+$fish-0: #E9ECEF;
+$fish-1: #cde1e8;
+$fish-2: #82bcd1;
+$fish-3: #5ea5bb;
+$fish-4: #007e91;
+$fish-5: #005a62;
 $fish-bar: #f00;
 
 $wildlife-none: #E9ECEF;
+$wildlife-0: #E9ECEF;
 $wildlife-1: #ffe9c4;
-$wildlife-2: #e0c879;
-$wildlife-3: #76974e;
-$wildlife-4: #385b24;
-$wildlife-5: #004908;
+$wildlife-2: #dfc878;
+$wildlife-3: #79684e;
+$wildlife-4: #385b23;
+$wildlife-5: #004900;
 $wildlife-bar: #0f0;
 
 $hub-none: #E9ECEF;
@@ -745,6 +745,11 @@ div.zonal-asset {
       color: #000;
     }
 
+    &-zero {
+      background-color: $fish-0;
+      color: #000;
+    }
+
     &-one {
       background-color: $fish-1;
       color: #000;
@@ -757,20 +762,28 @@ div.zonal-asset {
 
     &-three {
       background-color: $fish-3;
+      color: #000;
     }
 
     &-four {
       background-color: $fish-4;
+      color: #000;
     }
 
     &-five {
       background-color: $fish-5;
+      color: #000;
     }
   }
 
   &-wildlife {
     &-none {
       background-color: $wildlife-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $wildlife-0;
       color: #000;
     }
 
@@ -786,14 +799,17 @@ div.zonal-asset {
 
     &-three {
       background-color: $wildlife-3;
+      color: #000;
     }
 
     &-four {
       background-color: $wildlife-4;
+      color: #000;
     }
 
     &-five {
       background-color: $wildlife-5;
+      color: #000;
     }
   }
 
