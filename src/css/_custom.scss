@@ -25,12 +25,15 @@ html, body {
     height: 100%;
 }
 
-#main-content, .nfwf-header {
+#main-content,{
   padding: $padding15;
 }
 
+
 .nfwf-header {
   box-shadow: $box-shadow-default;
+  padding-left: $padding15;
+  padding-right: $padding15;
 }
 
 .nfwf-title {
@@ -40,7 +43,7 @@ html, body {
 }
 
 #main-content {
-  margin-top: 10px !important;
+  // margin-top: 10px !important;
 }
 
 .about-main-text, .about-tool-text {
