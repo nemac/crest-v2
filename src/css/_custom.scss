@@ -29,7 +29,6 @@ html, body {
   padding: $padding15;
 }
 
-
 .nfwf-header {
   box-shadow: $box-shadow-default;
   padding-left: $padding15;
@@ -84,6 +83,9 @@ html, body {
   // margin-right: -15px !important;
 }
 
+.data-row, .explore-row-container {
+  padding-right: 0px !important;
+}
 // responive explore buttons
 @media (max-width: 1024px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
