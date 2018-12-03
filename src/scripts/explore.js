@@ -104,6 +104,10 @@ export class Explore extends Component {
     this.exlporeAssmentMessage = 'To start examining the assessment click the draw area button and then sketch an area on the map. If you have a shapefile of the region, use the upload shapefile button.';
     this.exlporeHubMessage = 'To start searching for a place to do a resilience project click the draw area button and then sketch an area on the map. If you have a shapefile of the area, use the upload shapefile button.';
 
+    const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
+    const checkUserareas = store.getStateItem('userareas');
+
+
     // draw the user area on the map
     if (!this.hasShareURL) {
       const activeNav = store.getStateItem('activeNav');
@@ -114,15 +118,24 @@ export class Explore extends Component {
           this.drawHubs();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
           Explore.updateExploreDirections(this.exlporeHubMessage);
+          if (checkValidObject(checkHubIntersectionJson)) {
+            Explore.dismissExploreDirections();
+          }
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
+          if (checkValidObject(checkUserareas)) {
+            Explore.dismissExploreDirections();
+          }
         }
       } else {
         this.drawUserAreaFromUsereas();
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
+        if (checkValidObject(checkUserareas)) {
+          Explore.dismissExploreDirections();
+        }
       }
     }
 
@@ -154,23 +167,44 @@ export class Explore extends Component {
 
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
+      const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
+      const checkUserareas = store.getStateItem('userareas');
 
       Explore.disableShapeExistsButtons();
+      Explore.dismissExploreDirections();
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
           Explore.updateExploreDirections(this.exlporeHubMessage);
+
+          if (!checkValidObject(checkHubIntersectionJson)) {
+            Explore.updateExploreDirections(this.exlporeHubMessage);
+          } else {
+            Explore.dismissExploreDirections();
+          }
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
+
+          if (!checkValidObject(checkUserareas)) {
+            Explore.updateExploreDirections(this.exlporeAssmentMessage);
+          } else {
+            Explore.dismissExploreDirections();
+          }
         }
       } else {
         this.drawUserAreaFromUsereas();
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
+
+        if (!checkValidObject(checkUserareas)) {
+          Explore.updateExploreDirections(this.exlporeAssmentMessage);
+        } else {
+          Explore.dismissExploreDirections();
+        }
       }
     });
 
@@ -184,11 +218,15 @@ export class Explore extends Component {
       location.reload();
     });
 
-
     Explore.windowListnersToStopRoqueSpinner();
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  static dismissExploreDirections() {
+    const directionElem = document.getElementById('exlpore-directions');
+    directionElem.classList.add('d-none');
   }
 
   static updateExploreDirections(elemText) {
@@ -196,6 +234,7 @@ export class Explore extends Component {
     if (directionElem) {
       directionElem.innerHTML = elemText;
     }
+    directionElem.classList.remove('d-none');
   }
 
   static updateExploreText(elem, elemText) {
@@ -490,6 +529,7 @@ export class Explore extends Component {
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
     Explore.enableShapeExistsButtons();
+    Explore.dismissExploreDirections();
     return HubIntersectionJson;
   }
 
@@ -572,10 +612,12 @@ export class Explore extends Component {
         }
 
         Explore.enableShapeExistsButtons();
-
+        Explore.dismissExploreDirections();
         return resilienceHubLayer;
       }
 
+      store.setStoreItem('working_drawlayers', false);
+      spinnerOff();
       return null;
     });
 
@@ -629,6 +671,7 @@ export class Explore extends Component {
     spinnerOff('getZonal done');
 
     Explore.enableShapeExistsButtons();
+    Explore.dismissExploreDirections();
     return ZonalStatsJson;
   }
 
@@ -953,7 +996,7 @@ export class Explore extends Component {
         }
 
         Explore.enableShapeExistsButtons();
-
+        Explore.dismissExploreDirections();
         return layer;
       }
 
@@ -1048,13 +1091,16 @@ export class Explore extends Component {
 
     if (activeNav === 'main-nav-map-searchhubs') {
       Explore.removeExistingHubs();
+      Explore.dismissExploreDirections();
     }
 
     if (activeNav === 'main-nav-map') {
       Explore.removeExistingExlpore();
       Explore.removeUserAreas();
+      Explore.dismissExploreDirections();
     }
 
+    Explore.dismissExploreDirections();
     Explore.clearDetailsHolder();
     Explore.disableShapeExistsButtons();
   }
@@ -1069,6 +1115,32 @@ export class Explore extends Component {
       // this temp remove of stats while we work on multiple shapes.
       Explore.clearDetails();
       Explore.disableShapeExistsButtons();
+
+      const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
+      const checkUserareas = store.getStateItem('userareas');
+      const activeNav = store.getStateItem('activeNav');
+
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
+          if (checkValidObject(checkHubIntersectionJson)) {
+            Explore.dismissExploreDirections();
+          } else {
+            Explore.updateExploreDirections(this.exlporeHubMessage);
+          }
+        } else {
+          if (checkValidObject(checkUserareas)) {
+            Explore.dismissExploreDirections();
+          } else {
+            Explore.updateExploreDirections(this.exlporeHubMessage);
+          }
+        }
+      } else {
+        if (checkValidObject(checkUserareas)) {
+          Explore.dismissExploreDirections();
+        } else {
+          Explore.updateExploreDirections(this.exlporeHubMessage);
+        }
+      }
     });
   }
 
