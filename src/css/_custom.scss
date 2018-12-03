@@ -363,7 +363,7 @@ html, body {
 }
 
 
-@media (max-height: 800px) {
+@media (min-height: 800px) {
   .user-shape {
     height: 60px !important;
   }
@@ -404,7 +404,7 @@ html, body {
 
 .upload-all {
   position: relative;
-  top: 5px;
+  top: -5px;
 }
 
 .exposure-equals {
