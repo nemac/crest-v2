@@ -1381,7 +1381,7 @@ function restoreGraphState() {
 function drawZonalStatsFromAPI(data, name, mapComponent) {
   const HTMLName = makeHTMLName(name);
 
-  if (!document.getElementById('zonal-header-f')) {
+  if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
   const wrapper = makeDiv();
