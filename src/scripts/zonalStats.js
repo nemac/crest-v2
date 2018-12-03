@@ -698,9 +698,68 @@ function getAssetHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+function getTwoHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 5;
+  const SCALE = 0;
+  const SCALE_GROUPS = 2;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getThreeHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 3;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getFourHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 4;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
 function getFiveHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 5;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getSixHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 6;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getTenHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 10;
   const SCALE = 0;
   const SCALE_GROUPS = 1;
 
@@ -1034,8 +1093,9 @@ function drawDriver(graph, name, type, driver) {
   let cssKey = driver.key;
   let csstype = type;
 
+
   if (driver.key === 'hubs') {
-    height = getSevenHeight(driver.value);
+    height = getTenHeight(driver.value);
     cssKey = 'hub';
   }
 
@@ -1050,23 +1110,73 @@ function drawDriver(graph, name, type, driver) {
   }
 
   if (driver.key === 'exposure') {
-    height = getNineHeight(driver.value);
+    height = getTenHeight(driver.value);
     cssKey = 'exposure-box';
   }
 
   if (driver.key === 'threat') {
-    height = getThreatHeight(driver.value);
+    height = getTenHeight(driver.value);
     cssKey = 'threat';
   }
 
   if (driver.key === 'asset') {
-    height = getAssetHeight(driver.value);
+    height = getTenHeight(driver.value);
     cssKey = 'asset';
   }
 
+  if (driver.key === 'population-density') {
+    height = getSixHeight(driver.value);
+    csstype = 'popdensity';
+  }
+
   if (driver.key === 'social-vulnerability') {
-    height = getAssetHeight(driver.value);
-    csstype = 'asset';
+    height = getFourHeight(driver.value);
+    csstype = 'socvuln';
+  }
+
+  if (driver.key === 'critical-facilities') {
+    height = getSixHeight(driver.value);
+    csstype = 'critfac';
+  }
+
+  if (driver.key === 'critical-infrastructure') {
+    height = getTwoHeight(driver.value);
+    csstype = 'critinfra';
+  }
+
+  if (driver.key === 'drainage') {
+    height = getSixHeight(driver.value);
+    csstype = 'drainage';
+  }
+
+  if (driver.key === 'erosion') {
+    height = getSixHeight(driver.value);
+    csstype = 'erosion';
+  }
+
+  if (driver.key === 'floodprone-areas') {
+    height = getSixHeight(driver.value);
+    csstype = 'floodprone';
+  }
+
+  if (driver.key === 'sea-level-rise') {
+    height = getSixHeight(driver.value);
+    csstype = 'slr';
+  }
+
+  if (driver.key === 'storm-surge') {
+    height = getSixHeight(driver.value);
+    csstype = 'stormsurge';
+  }
+
+  if (driver.key === 'geostress') {
+    height = getThreeHeight(driver.value);
+    csstype = 'geostress';
+  }
+
+  if (driver.key === 'slope') {
+    height = getSixHeight(driver.value);
+    csstype = 'slope';
   }
 
   const roundedValue = parseInt(driver.value, 10);

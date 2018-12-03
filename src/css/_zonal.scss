@@ -959,6 +959,11 @@ div.zonal-asset {
       color: #000;
     }
 
+    &-one {
+      background-color: $critfac-5;
+      color: #000;
+    }
+
     &-five {
       background-color: $critfac-5;
       color: #000;
@@ -1006,7 +1011,6 @@ div.zonal-asset {
       color: #000;
     }
   }
-
 
   &-socvuln {
     &-none {
@@ -1271,8 +1275,6 @@ div.zonal-asset {
       background-color: $slope-5;
     }
   }
-
-
 
   &-hub {
     &-none {
@@ -1942,68 +1944,436 @@ $graph-tick-height-short: 5px;
 
 
 .driver-chart-backgroundColor {
-    &-threat {
-      &-zero {
-        background-color: $threat-driver-0 !important;
-      }
 
-      &-one {
-        background-color: $threat-driver-1 !important;
-      }
 
-      &-two {
-        background-color: $threat-driver-2 !important;
-      }
-
-      &-three {
-        background-color: $threat-driver-3 !important;
-      }
-
-      &-four {
-        background-color: $threat-driver-4 !important;
-      }
-
-      &-five {
-        background-color: $threat-driver-5 !important;
-      }
+  &-popdensity {
+    &-none {
+      background-color: $popdensity-none;
+      color: #000;
     }
 
-    &-asset {
-      &-zero {
-        background-color: $asset-driver-0 !important;
-      }
-
-      &-one{
-        background-color: $asset-driver-1 !important;
-      }
-
-      &-two {
-        background-color: $asset-driver-2 !important;
-      }
-
-      &-three {
-        background-color: $asset-driver-3 !important;
-      }
-
-      &-four {
-        background-color: $asset-driver-4 !important;
-      }
-
-      &-five {
-        background-color: $asset-driver-5 !important;
-      }
-
+    &-zero {
+      background-color: $popdensity-0;
+      color: #000;
     }
 
-    &-assettwo {
-      &-zero {
-        background-color: $asset-driver-0 !important;
-      }
-
-      &-one {
-        background-color: $asset-driver-5 !important;
-      }
-
+    &-one {
+      background-color: $popdensity-1;
+      color: #000;
     }
+
+    &-two {
+      background-color: $popdensity-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $popdensity-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $popdensity-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $popdensity-5;
+      color: #000;
+    }
+  }
+
+  &-critfac {
+    &-none {
+      background-color: $critfac-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critfac-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critfac-5;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critfac-5;
+      color: #000;
+    }
+  }
+
+  &-critinfra {
+    &-none {
+      background-color: $critinfra-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critinfra-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critinfra-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $critinfra-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critinfra-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $critinfra-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critinfra-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $critinfra-6;
+      color: #000;
+    }
+  }
+
+  &-socvuln {
+    &-none {
+      background-color: $socvuln-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $socvuln-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $socvuln-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvuln-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvuln-3;
+    }
+  }
+
+  &-drainage {
+    &-none {
+      background-color: $drainage-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $drainage-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $drainage-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $drainage-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $drainage-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $drainage-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $drainage-5;
+      color: #000;
+    }
+  }
+
+  &-erosion {
+    &-none {
+      background-color: $erosion-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $erosion-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $erosion-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $erosion-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $erosion-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $erosion-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $erosion-5;
+      color: #000;
+    }
+  }
+
+  &-floodprone {
+    &-none {
+      background-color: $floodprone-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $floodprone-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $floodprone-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $floodprone-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $floodprone-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $floodprone-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $floodprone-5;
+    }
+  }
+
+  &-slr {
+    &-none {
+      background-color: $slr-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $slr-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $slr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $slr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $slr-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $slr-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $slr-5;
+    }
+  }
+
+  &-stormsurge {
+    &-none {
+      background-color: $stormsurge-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $stormsurge-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $stormsurge-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $stormsurge-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $stormsurge-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $stormsurge-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $stormsurge-5;
+    }
+  }
+
+  &-geostress{
+    &-none {
+      background-color: $geostress-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $geostress-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $geostress-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $geostress-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $geostress-3;
+    }
+  }
+
+  &-slope {
+    &-none {
+      background-color: $slope-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $slope-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $slope-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $slope-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $slope-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $slope-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $slope-5;
+    }
+  }
+
+
+
+  &-threat {
+    &-zero {
+      background-color: $threat-driver-0 !important;
+    }
+
+    &-one {
+      background-color: $threat-driver-1 !important;
+    }
+
+    &-two {
+      background-color: $threat-driver-2 !important;
+    }
+
+    &-three {
+      background-color: $threat-driver-3 !important;
+    }
+
+    &-four {
+      background-color: $threat-driver-4 !important;
+    }
+
+    &-five {
+      background-color: $threat-driver-5 !important;
+    }
+  }
+
+  &-asset {
+    &-zero {
+      background-color: $asset-driver-0 !important;
+    }
+
+    &-one{
+      background-color: $asset-driver-1 !important;
+    }
+
+    &-two {
+      background-color: $asset-driver-2 !important;
+    }
+
+    &-three {
+      background-color: $asset-driver-3 !important;
+    }
+
+    &-four {
+      background-color: $asset-driver-4 !important;
+    }
+
+    &-five {
+      background-color: $asset-driver-5 !important;
+    }
+
+  }
+
+  &-assettwo {
+    &-zero {
+      background-color: $asset-driver-0 !important;
+    }
+
+    &-one {
+      background-color: $asset-driver-5 !important;
+    }
+
+  }
 
 }
