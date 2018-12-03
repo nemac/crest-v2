@@ -110,7 +110,7 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn-light');
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
-  zonalLabel.classList.add('col-9');
+  zonalLabel.classList.add('col-10');
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
   zonalLabel.setAttribute('title', `View details for ${stripUserArea(name)}`);
   zonalLabel.setAttribute('aria-label', `View details for ${stripUserArea(name)}`);
@@ -1166,6 +1166,7 @@ function drawShortZonalStats(data, name, mapComponent) {
   wrapper.classList.add('zonal-short-wrapper');
   wrapper.classList.add('active');
   wrapper.classList.add('row');
+  wrapper.classList.add('justify-content-center');
 
   const HTMLName = makeHTMLName(name);
   wrapper.setAttribute('id', `short-chart-${HTMLName}`);
@@ -1194,6 +1195,10 @@ function drawShortZonalStats(data, name, mapComponent) {
     wrapper.insertBefore(rem, wrapper.childNodes[0]);
   }
   const ovr = makeOverviewLabel();
+  // const zonalHeader = document.getElementById('zonal-header-text');
+  // if (zonalHeader) {
+  //   zonalHeader.innerHTML = ovr.innerHTML;
+  // }
   wrapper.insertBefore(ovr, wrapper.childNodes[0]);
 
   return wrapper;
@@ -1318,6 +1323,7 @@ function drawLongZonalStats(data, name) {
   wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
   wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
+
   return wrapper;
 }
 
@@ -1375,11 +1381,13 @@ function restoreGraphState() {
 function drawZonalStatsFromAPI(data, name, mapComponent) {
   const HTMLName = makeHTMLName(name);
 
-  if (!document.getElementById('zonal-header')) {
+  if (!document.getElementById('zonal-header-f')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
+  wrapper.classList.add('h-100');
+
   wrapper.setAttribute('id', `zonal-stats-wrapper-${HTMLName}`);
 
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
