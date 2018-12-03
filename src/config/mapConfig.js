@@ -242,7 +242,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "stormsurge",
       description: "Based on storm category, surge is ranked from low to high. A high value indicates a Category 1 storm while a low value indicates a Category 5 storm. This inverse relationship between rank values and surge scenarios is a result of the probability of the category storm happening."
     },
     {
@@ -259,7 +259,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "geostress",
       description: "The geologic conditions of the landscape that can exacerbate the level of threat represented from other inputs. Conditions that are highlighted in this input include both landslide susceptibility and subsidence."
     },
     {
@@ -276,7 +276,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "slope",
       description: "The percent rise of the elevation of the landscape, given values from low to high. High values indicate those areas that are very low lying and more likely to retain water and flood."
     },
     {

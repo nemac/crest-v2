@@ -116,6 +116,27 @@ $slr-3: #4095c3;
 $slr-4: #027976;
 $slr-5: #014636;
 
+$stormsurge-none: #E9ECEF;
+$stormsurge-0: #E9ECEF;
+$stormsurge-1: #d6efb3;
+$stormsurge-2: #73c8bd;
+$stormsurge-3: #2498c1;
+$stormsurge-4: #234da0;
+$stormsurge-5: #081d58;
+
+$geostress-none: #E9ECEF;
+$geostress-0: #E9ECEF;
+$geostress-1: #fbacb9;
+$geostress-2: #cd238f;
+$geostress-3: #49006a;
+
+$slope-none: #E9ECEF;
+$slope-0: #E9ECEF;
+$slope-1: #d3eecd;
+$slope-2: #98d594;
+$slope-3: #4bb062;
+$slope-4: #157f3b;
+$slope-5: #00441b;
 
 $hub-none: #E9ECEF;
 $hub-1: #edf8e9;
@@ -1154,6 +1175,104 @@ div.zonal-asset {
       background-color: $slr-5;
     }
   }
+
+  &-stormsurge {
+    &-none {
+      background-color: $stormsurge-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $stormsurge-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $stormsurge-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $stormsurge-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $stormsurge-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $stormsurge-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $stormsurge-5;
+    }
+  }
+
+  &-geostress{
+    &-none {
+      background-color: $geostress-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $geostress-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $geostress-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $geostress-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $geostress-3;
+    }
+  }
+
+  &-slope {
+    &-none {
+      background-color: $slope-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $slope-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $slope-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $slope-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $slope-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $slope-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $slope-5;
+    }
+  }
+
+
 
   &-hub {
     &-none {

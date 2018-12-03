@@ -22,7 +22,9 @@ import ColorRampDrainage from '../templates/colorramp_drainage.html';
 import ColorRampErosion from '../templates/colorramp_erosion.html';
 import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
 import ColorRampSLR from '../templates/colorramp_slr.html';
-
+import ColorRampStormSurge from '../templates/colorramp_stormsurge.html';
+import ColorRampGeoStress from '../templates/colorramp_geostress.html';
+import ColorRampSlopefrom from '../templates/colorramp_slope.html';
 
 
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
@@ -263,6 +265,13 @@ export class MapLayersList extends Component {
         return ColorRampFloodProne;
       case 'slr':
         return ColorRampSLR;
+      case 'stormsurge':
+        return ColorRampStormSurge;
+      case 'geostress':
+        return ColorRampGeoStress;
+      case 'slope':
+        return ColorRampSlopefrom;
+
 
 
       case 'driver-threat':
