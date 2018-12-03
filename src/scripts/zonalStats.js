@@ -650,50 +650,50 @@ function getDriverHeight(driver) {
 //   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 // }
 
-function getSevenHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 7;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-function getNineHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 9;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
+// function getSevenHeight(driver) {
+//   const LOW_RANGE = 0;
+//   const HIGH_RANGE = 7;
+//   const SCALE = 0;
+//   const SCALE_GROUPS = 1;
+//
+//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+// }
 
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
-function getThreatHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 33;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
+// function getNineHeight(driver) {
+//   const LOW_RANGE = 0;
+//   const HIGH_RANGE = 9;
+//   const SCALE = 0;
+//   const SCALE_GROUPS = 1;
+//
+//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+// }
 
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
-function getAssetHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 13;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
+// function getThreatHeight(driver) {
+//   const LOW_RANGE = 0;
+//   const HIGH_RANGE = 33;
+//   const SCALE = 0;
+//   const SCALE_GROUPS = 1;
+//
+//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+// }
 
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+// function getAssetHeight(driver) {
+//   const LOW_RANGE = 0;
+//   const HIGH_RANGE = 13;
+//   const SCALE = 0;
+//   const SCALE_GROUPS = 1;
+//
+//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+// }
 
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
