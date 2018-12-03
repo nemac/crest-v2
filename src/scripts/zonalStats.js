@@ -110,7 +110,11 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn-light');
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
-  zonalLabel.classList.add('col-10');
+  zonalLabel.classList.add('col-8');
+  zonalLabel.classList.add('col-sm-9');
+  zonalLabel.classList.add('col-md-9');
+  zonalLabel.classList.add('col-lg-9');
+
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
   zonalLabel.setAttribute('title', `View details for ${stripUserArea(name)}`);
   zonalLabel.setAttribute('aria-label', `View details for ${stripUserArea(name)}`);
