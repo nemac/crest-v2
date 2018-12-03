@@ -191,7 +191,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "drainage",
       description: "Used to identify areas of the landscape with poor drainage potential, including both soils and areas with high intensity development that do not readily drain and have runoff potential. A high value indicates areas that have soils with poor drainage potential and an intensity of developed impervious surfaces."
     },
     {
@@ -208,7 +208,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "erosion",
       description: "Those soils identified as having a high probability of erodibility by the USDA Natural Resources Conservation Services. High values suggest that the area contains soils with a high erodibility factor."
     },
     {
@@ -225,7 +225,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "slr",
       description: "NOAA’s sea level rise scenarios are given rank values from low to high; low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
     },
     {
@@ -293,7 +293,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "floodprone",
       description: "Areas of the landscape that are considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. A high value indicates the floodway, while a low value indicates occasionally flooded soils outside of the floodplain."
     },
   ],
