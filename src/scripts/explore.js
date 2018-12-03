@@ -173,8 +173,6 @@ export class Explore extends Component {
       Explore.disableShapeExistsButtons();
       Explore.dismissExploreDirections();
 
-      console.log(activeNav, checkUserareas, checkValidObject(checkUserareas), checkHubIntersectionJson, checkValidObject(checkHubIntersectionJson) )
-
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubs();
@@ -186,7 +184,6 @@ export class Explore extends Component {
           } else {
             Explore.dismissExploreDirections();
           }
-
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -209,7 +206,6 @@ export class Explore extends Component {
           Explore.dismissExploreDirections();
         }
       }
-
     });
 
     window.addEventListener('removeuserareend', (e) => {
@@ -239,7 +235,6 @@ export class Explore extends Component {
       directionElem.innerHTML = elemText;
     }
     directionElem.classList.remove('d-none');
-
   }
 
   static updateExploreText(elem, elemText) {
@@ -1146,7 +1141,6 @@ export class Explore extends Component {
           Explore.updateExploreDirections(this.exlporeHubMessage);
         }
       }
-
     });
   }
 
