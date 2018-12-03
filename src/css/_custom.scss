@@ -29,7 +29,6 @@ html, body {
   padding: $padding15;
 }
 
-
 .nfwf-header {
   box-shadow: $box-shadow-default;
   padding-left: $padding15;
@@ -84,6 +83,9 @@ html, body {
   // margin-right: -15px !important;
 }
 
+.data-row, .explore-row-container {
+  padding-right: 0px !important;
+}
 // responive explore buttons
 @media (max-width: 1024px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
@@ -360,6 +362,17 @@ html, body {
   min-height: 0px;
 }
 
+
+@media (max-height: 800px) {
+  .user-shape {
+    height: 60px !important;
+  }
+
+  .upload-all {
+    top: -5px !important;
+  }
+}
+
 .btn-light {
   background-color:  $body-color;
   color: $body-bg;
@@ -380,7 +393,7 @@ html, body {
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
   width: 90px;
-  height: 90px;
+  height: 60px;
   margin: 5px;
   font-size: .9rem;
 }
@@ -825,6 +838,7 @@ p.not-found {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
 }
+
 
 @media (max-width: 992px) { //768px
   #top-bar{
