@@ -12,12 +12,10 @@ import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
 import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
-
 import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
 import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
 import ColorRampCritFac from '../templates/colorramp_critfac.html';
 import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
-
 import ColorRampDrainage from '../templates/colorramp_drainage.html';
 import ColorRampErosion from '../templates/colorramp_erosion.html';
 import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
@@ -25,8 +23,6 @@ import ColorRampSLR from '../templates/colorramp_slr.html';
 import ColorRampStormSurge from '../templates/colorramp_stormsurge.html';
 import ColorRampGeoStress from '../templates/colorramp_geostress.html';
 import ColorRampSlopefrom from '../templates/colorramp_slope.html';
-
-
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
 import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
 
@@ -255,8 +251,6 @@ export class MapLayersList extends Component {
         return ColorRampCritFac;
       case 'critinfra':
         return ColorRampCritInfra;
-
-
       case 'drainage':
         return ColorRampDrainage;
       case 'erosion':
@@ -271,9 +265,6 @@ export class MapLayersList extends Component {
         return ColorRampGeoStress;
       case 'slope':
         return ColorRampSlopefrom;
-
-
-
       case 'driver-threat':
         return ColorRampDriverThreat;
       default:
