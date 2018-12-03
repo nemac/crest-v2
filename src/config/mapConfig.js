@@ -123,7 +123,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "popdensity",
       description: "A ranking of population density by census blocks based on the 2016 American Community Survey. Areas are ranked from low to high using the ratio of people per square kilometer."
     },
     {
@@ -140,7 +140,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "socvuln",
       description: "Used to identify census blocks that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN data. Census blocks above the 80th percentile are ranked from low to high, which indicates those census blocks that have the highest low income and minority populations."
     },
     {
@@ -157,7 +157,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "critfac",
       description: "Those facilities, such as schools, hospitals, police and fire stations, that are important to a community in recovering from a flood event. Facilities are given a presence or absence score."
     },
     {
@@ -174,7 +174,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "critinfra",
       description: "Infrastructure in and around communities that is integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines. Each type is given a presence or absence score and all infrastructure is added together; highest values indicate areas where infrastructure is nearby or pieces overlap with one another."
     },
     {

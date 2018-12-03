@@ -12,6 +12,13 @@ import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
 import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
+
+import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
+import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
+import ColorRampCritFac from '../templates/colorramp_critfac.html';
+import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
+
+
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
 import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
 
@@ -229,6 +236,14 @@ export class MapLayersList extends Component {
         return ColorRampTerrestrial;
       case 'aquatic':
         return ColorRampAquatic;
+      case 'popdensity':
+        return ColorRampPopDensity;
+      case 'socvuln':
+        return ColorRampSocVuln;
+      case 'critfac':
+        return ColorRampCritFac;
+      case 'critinfra':
+        return ColorRampCritInfra;
       case 'driver-asset':
         return ColorRampDriverAsset;
       case 'driver-threat':
@@ -286,7 +301,7 @@ export class MapLayersList extends Component {
   static addLegendHTML(layerProps) {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
     MapLayersList.getLegendWrapper(layerElem).innerHTML =
-        MapLayersList.getLegendHtml(layerProps.legend);
+    MapLayersList.getLegendHtml(layerProps.legend);
     MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.description);
     MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
   }

@@ -57,6 +57,33 @@ $wildlife-4: #385b23;
 $wildlife-5: #004900;
 $wildlife-bar: #0f0;
 
+$popdensity-none: #E9ECEF;
+$popdensity-0: #E9ECEF;
+$popdensity-1: #efc133;
+$popdensity-2: #dfc878;
+$popdensity-3: #9eac37;
+$popdensity-4: #2c8d7a;
+$popdensity-5: #385a4c;
+
+$socvuln-none: #E9ECEF;
+$socvuln-0: #E9ECEF;
+$socvuln-1: #abd2fa;
+$socvuln-2: #7692ff;
+$socvuln-3: #3a1459;
+
+$critfac-none: #E9ECEF;
+$critfac-0: #E9ECEF;
+$critfac-5: #0084a8;
+
+$critinfra-none: #E9ECEF;
+$critinfra-0: #E9ECEF;
+$critinfra-1: #ccd1d2;
+$critinfra-2: #355c59;
+$critinfra-3: #e8b16d;
+$critinfra-4: #b15a3c;
+$critinfra-5: #ad3541;
+$critinfra-6: #7b1733;
+
 $hub-none: #E9ECEF;
 $hub-1: #edf8e9;
 $hub-2: #c5ddca;
@@ -66,8 +93,6 @@ $hub-5: #4f8e6f;
 $hub-6: #277450;
 $hub-7: #005a32;
 $hub-bar: #0ff;
-
-
 
 $asset-driver-0: #f7fbff;
 $asset-driver-1: #d1e3f3;
@@ -830,6 +855,128 @@ div.zonal-asset {
     &-five {
       background-color: $wildlife-5;
       color: #000;
+    }
+  }
+
+  &-popdensity {
+    &-none {
+      background-color: $popdensity-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $popdensity-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $popdensity-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $popdensity-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $popdensity-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $popdensity-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $popdensity-5;
+      color: #000;
+    }
+  }
+
+  &-critfac {
+    &-none {
+      background-color: $critfac-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critfac-0;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critfac-5;
+      color: #000;
+    }
+  }
+
+  &-critinfra {
+    &-none {
+      background-color: $critinfra-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critinfra-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critinfra-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $critinfra-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critinfra-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $critinfra-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critinfra-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $critinfra-6;
+      color: #000;
+    }
+  }
+
+
+  &-socvuln {
+    &-none {
+      background-color: $socvuln-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $socvuln-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $socvuln-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvuln-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvuln-3;
     }
   }
 
