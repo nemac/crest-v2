@@ -1178,6 +1178,9 @@ function drawShortZonalStats(data, name, mapComponent) {
   wrapper.setAttribute('id', `short-chart-${HTMLName}`);
 
   wrapper.innerHTML = ZonalShort;
+
+  // console.log(zonalStatTable());
+
   const shortChart = wrapper.querySelector('.zonal-short-wrappper');
   addUserAreaIdsToChildren(shortChart.childNodes, HTMLName);
 
@@ -1330,7 +1333,6 @@ function drawLongZonalStats(data, name) {
   wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
-  console.log(zonalStatTable());
   return wrapper;
 }
 
@@ -1443,6 +1445,8 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
 
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
   wrapper.appendChild(drawLongZonalStats(data, name));
+
+  document.getElementById('full-table-holder').appendChild(zonalStatTable());
   document.getElementById('zonal-content').appendChild(wrapper);
 
   // initalize new tooltips
