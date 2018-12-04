@@ -1357,17 +1357,17 @@ function zonalStatTable() {
       datatablerow.querySelector('.zonal-long-raw-value-exposure').innerHTML = checkNoData(data.exposure) ? 0 : Math.round(data.exposure * 100) / 100;
       datatablerow.querySelector('.zonal-long-raw-value-asset').innerHTML = checkNoData(data.asset) ? 0 : Math.round(data.asset * 100) / 100;
       datatablerow.querySelector('.zonal-long-raw-value-threats').innerHTML = checkNoData(data.threats) ? 0 : Math.round(data.threats * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
+      // datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
 
       tablewrapper.querySelector('#table-row-holder').parentNode.appendChild(datatablerow)
 
@@ -1446,7 +1446,9 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
   wrapper.appendChild(drawLongZonalStats(data, name));
 
-  document.getElementById('full-table-holder').appendChild(zonalStatTable());
+  const child = document.getElementById('full-table-holder').childNodes[0];
+
+  document.getElementById('full-table-holder').replaceChild(zonalStatTable(),child);
   document.getElementById('zonal-content').appendChild(wrapper);
 
   // initalize new tooltips
