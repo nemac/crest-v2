@@ -7,6 +7,8 @@ import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
+import ZonalOverViewTable from '../templates/zonal_overview_table.html';
+
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import { checkValidObject } from './utilitys';
@@ -1328,8 +1330,53 @@ function drawLongZonalStats(data, name) {
   wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
+  console.log(zonalStatTable());
   return wrapper;
 }
+
+
+// create function for all zonal stats
+function zonalStatTable() {
+  const userareas = store.getStateItem('userareas');
+  let innerHTML = '';
+  const tablewrapper = makeDiv();
+  tablewrapper.innerHTML = ZonalOverViewTable;
+
+  Object.keys(userareas).map((key) => {
+
+      const name = userareas[key][0].name
+      const data = userareas[key][3].zonalstatsjson.features[0].properties.mean
+      const datatablerow = tablewrapper.querySelector('#table-row-holder').cloneNode(true);
+
+      datatablerow.querySelector('.zonal-long-raw-value-areaid').innerHTML = name;
+      datatablerow.querySelector('.zonal-long-raw-value-hubs').innerHTML = checkNoData(data.hubs) ? 0 : Math.round(data.hubs * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-aquatic').innerHTML = checkNoData(data.aquatic) ? 0 : Math.round(data.aquatic * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-terrestrial').innerHTML = checkNoData(data.terrestrial) ? 0 : Math.round(data.terrestrial * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-exposure').innerHTML = checkNoData(data.exposure) ? 0 : Math.round(data.exposure * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-asset').innerHTML = checkNoData(data.asset) ? 0 : Math.round(data.asset * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-threats').innerHTML = checkNoData(data.threats) ? 0 : Math.round(data.threats * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
+      datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+
+      tablewrapper.querySelector('#table-row-holder').parentNode.appendChild(datatablerow)
+
+  })
+
+  const firstchild = tablewrapper.querySelectorAll("#table-row-holder")[0];
+  firstchild.parentNode.removeChild(firstchild);
+  return tablewrapper;
+}
+
+
 
 // check if graph or table is the active state is so we can disable the
 // mouse off event on the shape.  This prevents the map from removeing the
