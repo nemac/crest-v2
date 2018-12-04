@@ -123,7 +123,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "popdensity",
       description: "A ranking of population density by census blocks based on the 2016 American Community Survey. Areas are ranked from low to high using the ratio of people per square kilometer."
     },
     {
@@ -140,7 +140,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "socvuln",
       description: "Used to identify census blocks that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN data. Census blocks above the 80th percentile are ranked from low to high, which indicates those census blocks that have the highest low income and minority populations."
     },
     {
@@ -157,7 +157,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "critfac",
       description: "Those facilities, such as schools, hospitals, police and fire stations, that are important to a community in recovering from a flood event. Facilities are given a presence or absence score."
     },
     {
@@ -174,7 +174,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-asset",
+      legend: "critinfra",
       description: "Infrastructure in and around communities that is integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines. Each type is given a presence or absence score and all infrastructure is added together; highest values indicate areas where infrastructure is nearby or pieces overlap with one another."
     },
     {
@@ -191,7 +191,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "drainage",
       description: "Used to identify areas of the landscape with poor drainage potential, including both soils and areas with high intensity development that do not readily drain and have runoff potential. A high value indicates areas that have soils with poor drainage potential and an intensity of developed impervious surfaces."
     },
     {
@@ -208,7 +208,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "erosion",
       description: "Those soils identified as having a high probability of erodibility by the USDA Natural Resources Conservation Services. High values suggest that the area contains soils with a high erodibility factor."
     },
     {
@@ -225,7 +225,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "slr",
       description: "NOAA’s sea level rise scenarios are given rank values from low to high; low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
     },
     {
@@ -242,7 +242,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "stormsurge",
       description: "Based on storm category, surge is ranked from low to high. A high value indicates a Category 1 storm while a low value indicates a Category 5 storm. This inverse relationship between rank values and surge scenarios is a result of the probability of the category storm happening."
     },
     {
@@ -259,7 +259,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "geostress",
       description: "The geologic conditions of the landscape that can exacerbate the level of threat represented from other inputs. Conditions that are highlighted in this input include both landslide susceptibility and subsidence."
     },
     {
@@ -276,7 +276,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "slope",
       description: "The percent rise of the elevation of the landscape, given values from low to high. High values indicate those areas that are very low lying and more likely to retain water and flood."
     },
     {
@@ -293,7 +293,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "driver-threat",
+      legend: "floodprone",
       description: "Areas of the landscape that are considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. A high value indicates the floodway, while a low value indicates occasionally flooded soils outside of the floodplain."
     },
   ],
