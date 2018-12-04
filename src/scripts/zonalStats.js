@@ -267,114 +267,12 @@ function getIdentifyValue(type, rank) {
   return item;
 }
 
-// function toolTipForBox(wrapper, value) {
-//   const tooltipValue = checkNoData(value) ? 'None' : Math.round(value * 100) / 100;
-//   wrapper.setAttribute('title', `${tooltipValue}`);
-//   wrapper.setAttribute('aria-label', `${tooltipValue}`);
-//   wrapper.setAttribute('data-toggle', 'tooltip');
-//   wrapper.setAttribute('data-placement', 'top');
-// }
-
-// // Makes short zonal stats item
-// // @param type | String - matches the layer key
-// // @param rank | String || Number - rounded and matches the value key
-// // @return DOM element
-// function makeZonalBox(type, rank, name) {
-//   const HTMLName = makeHTMLName(name);
-//   const zonalBox = makeDiv();
-//   const zonalData = getIdentifyValue(type, rank);
-//   zonalBox.classList.add(`zonal-${type}`);
-//   zonalBox.classList.add('zonal-box');
-//   zonalBox.classList.add('noselect');
-//   zonalBox.setAttribute('data-ranking', rank);
-//   zonalBox.setAttribute('id', `zonal-box-${type}-${HTMLName}`);
-//   zonalBox.style.color = zonalData.color;
-//   zonalBox.style.backgroundColor = zonalData.backgroundColor;
-//   zonalBox.appendChild(makeTextElement(zonalData.label));
-//   toolTipForBox(zonalBox, rank);
-//   return zonalBox;
-// }
-
-// // Makes html for the hub based short zonal stats block
-// // @param rank | String || Number
-// // @return DOM element
-// function makeInHubBox(rank, name) {
-//   return makeZonalBox('hubs', rank, name);
-// }
-//
-// // Makes html for the asset based short zonal stats block
-// // @param rank | String || Number
-// // @return DOM element
-// function makeAssetBox(rank, name) {
-//   return makeZonalBox('asset', rank, name);
-// }
-//
-// // Makes html for the threat based short zonal stats block
-// // @param rank | String || Number
-// // @return DOM element
-// function makeThreatBox(rank, name) {
-//   return makeZonalBox('threat', rank, name);
-// }
-//
-// // Makes html for the terrestrial based short zonal stats block
-// // @param rank | String || Number
-// // @return DOM element
-// function makeTerrestrialBox(rank, name) {
-//   return makeZonalBox('terrestrial', rank, name);
-// }
-//
-// // Makes html for the aquatic based short zonal stats block
-// // @param rank | String || Number
-// // @return DOM element
-// function makeAquaticBox(rank, name) {
-//   return makeZonalBox('aquatic', rank, name);
-// }
-//
-// // Creates wrapper for hub and the content in it
-// // @param hubs | String || Number
-// // @return DOM element
-// function makeHubBox(hubs, name) {
-//   const HTMLName = makeHTMLName(name);
-//   const hubWrapper = makeBoxWrapper();
-//   hubWrapper.classList.add('zonal-item-hub');
-//   hubWrapper.setAttribute('id', `hub-${HTMLName}`);
-//   hubWrapper.appendChild(makeInHubBox(checkNoData(hubs) ? 255 : hubs, name));
-//   return hubWrapper;
-// }
-//
-// // Creates wrapper for the aquatic and terrestrial section and the content in it
-// // @param wildlife | String || Number
-// // @param fish | String || Number
-// // @return DOM element
-// function makeFishWildBox(wildlife, fish, name) {
-//   const fishWildWrapper = makeBoxWrapper();
-//   fishWildWrapper.classList.add('zonal-item-fishwild');
-//   fishWildWrapper.appendChild(makeAquaticBox(fish, name));
-//   fishWildWrapper.appendChild(makeTerrestrialBox(wildlife, name));
-//   return fishWildWrapper;
-// }
-//
-// // Creates wrapper for the exposure section and the content in it
-// // @param asset | String || Number
-// // @param threat | String || Number
-// // @return DOM element
-// function makeExposureBox(asset, threat, name) {
-//   const exposureWrapper = makeBoxWrapper();
-//   exposureWrapper.classList.add('zonal-item-exposure');
-//   exposureWrapper.appendChild(makeAssetBox(asset, name));
-//   exposureWrapper.appendChild(makeThreatBox(threat, name));
-//   return exposureWrapper;
-// }
-
 // Creates all of the interior html for the short zonal stats
 // @param data | Object
 // @return Array
 function makeShortZonalStatsInterior(data, name) {
   return [
     makeLabel(name)
-    // makeHubBox(data.hubs, name),
-    // makeFishWildBox(data.terrestrial, data.aquatic, name),
-    // makeExposureBox(data.asset, data.threat, name)
   ];
 }
 
@@ -594,23 +492,6 @@ function zonalLabelMouseOutHandler(e) {
   }
 }
 
-// // Creates the entire short zonal stats block of html
-// // @param data | Object
-// // @return DOM element
-// function drawShortZonalStats(data, name, mapComponent) {
-//   const wrapper = makeZonalWrapper(name);
-//   makeShortZonalStatsInterior(data, name).forEach((elem) => {
-//     wrapper.classList.add('zonal-summary');
-//     wrapper.appendChild(elem);
-//   });
-//   wrapper.addEventListener('click', shortZonalClickHandler);
-//   wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
-//   wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
-//   const rem = makeRemoveLabel(name, mapComponent);
-//   wrapper.insertBefore(rem, wrapper.childNodes[0]);
-//   return wrapper;
-// }
-
 // This function finds the scaled position of a value from [0,100]
 // It does the addition of scale and division by scaleGroups since the value falls into one of
 // multiple ranges and so it needs to put the scaled value into the correct area.
@@ -642,63 +523,6 @@ function getDriverHeight(driver) {
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
 
-// // Finds the scaled position for the drivers
-// // @param driver | float - value from the api for a driver
-// // @return float - [0,100]
-// function getDriverOneZeroHeight(driver) {
-//   const LOW_RANGE = 0;
-//   const HIGH_RANGE = 1;
-//   const SCALE = 0;
-//   const SCALE_GROUPS = 1;
-//
-//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-// }
-
-// function getSevenHeight(driver) {
-//   const LOW_RANGE = 0;
-//   const HIGH_RANGE = 7;
-//   const SCALE = 0;
-//   const SCALE_GROUPS = 1;
-//
-//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-// }
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// function getNineHeight(driver) {
-//   const LOW_RANGE = 0;
-//   const HIGH_RANGE = 9;
-//   const SCALE = 0;
-//   const SCALE_GROUPS = 1;
-//
-//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-// }
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// function getThreatHeight(driver) {
-//   const LOW_RANGE = 0;
-//   const HIGH_RANGE = 33;
-//   const SCALE = 0;
-//   const SCALE_GROUPS = 1;
-//
-//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-// }
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// function getAssetHeight(driver) {
-//   const LOW_RANGE = 0;
-//   const HIGH_RANGE = 13;
-//   const SCALE = 0;
-//   const SCALE_GROUPS = 1;
-//
-//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-// }
-
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
@@ -726,30 +550,6 @@ function getThreeHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
-function getFourHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 4;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-function getFiveHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 5;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
 function getSixHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 6;
@@ -758,6 +558,7 @@ function getSixHeight(driver) {
 
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
+
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
@@ -800,7 +601,7 @@ function numberToWord(number) {
 
   switch (number) {
     case 0:
-      numberWord = 'zero';
+      numberWord = 'none';
       break;
     case 1:
       numberWord = 'one';
@@ -862,68 +663,10 @@ function numberToWord(number) {
     case 20:
       numberWord = 'twenty';
       break;
-    case 21:
-      numberWord = 'twentyone';
-      break;
-    case 22:
-      numberWord = 'twentytwo';
-      break;
-    case 23:
-      numberWord = 'twentythree';
-      break;
-    case 24:
-      numberWord = 'twentyfour';
-      break;
-    case 25:
-      numberWord = 'twentyfive';
-      break;
-    case 26:
-      numberWord = 'twentysix';
-      break;
-    case 27:
-      numberWord = 'twentyseven';
-      break;
-    case 28:
-      numberWord = 'twentyeight';
-      break;
-    case 29:
-      numberWord = 'twentynine';
-      break;
-    case 30:
-      numberWord = 'thirty';
-      break;
-    case 31:
-      numberWord = 'thirtyone';
-      break;
-    case 32:
-      numberWord = 'thirtytwo';
-      break;
-    case 33:
-      numberWord = 'thirtythree';
-      break;
     default:
   }
   return numberWord;
 }
-
-// // Gets the color to be used for the driver bar
-// // @param driver | float - [0,100]
-// // @return String
-// function getDriverColor(driver) {
-//   if (driver <= 20) {
-//     return 'green';
-//   }
-//   if (driver <= 40) {
-//     return 'blue';
-//   }
-//   if (driver <= 60) {
-//     return 'yellow';
-//   }
-//   if (driver <= 80) {
-//     return 'orange';
-//   }
-//   return 'red';
-// }
 
 function selectChartCell(wrapper, type, value) {
   const roundedValue = parseInt(value, 10);
@@ -933,6 +676,11 @@ function selectChartCell(wrapper, type, value) {
   if (Number.isNaN(tooltipValue)) {
     tooltipValue = 'None';
   }
+
+  if (tooltipValue === 0) {
+    tooltipValue = 'None';
+  }
+
   if (checkValidObject(roundedValue)) {
     const selector = `.zonal-long-table-cell-${type}-${roundedValueWord}`;
     const cell = wrapper.querySelector(selector);
@@ -1104,12 +852,12 @@ function drawDriver(graph, name, type, driver) {
   }
 
   if (driver.key === 'aquatic') {
-    height = getFiveHeight(driver.value);
+    height = getSixHeight(driver.value);
     cssKey = 'fish';
   }
 
   if (driver.key === 'terrestrial') {
-    height = getFiveHeight(driver.value);
+    height = getSixHeight(driver.value);
     cssKey = 'wildlife';
   }
 
@@ -1134,7 +882,7 @@ function drawDriver(graph, name, type, driver) {
   }
 
   if (driver.key === 'social-vulnerability') {
-    height = getFourHeight(driver.value);
+    height = getThreeHeight(driver.value);
     csstype = 'socvuln';
   }
 

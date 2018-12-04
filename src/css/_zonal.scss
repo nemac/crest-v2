@@ -780,7 +780,7 @@ div.zonal-asset {
 
   &-highest {
     background-color: $exposure-9;
-    color: #000;
+    color: #b2afaf;
   }
 
   &-exposure-box {
@@ -834,7 +834,7 @@ div.zonal-asset {
     }
     &-ten {
       background-color: $exposure-10;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -871,7 +871,7 @@ div.zonal-asset {
 
     &-five {
       background-color: $fish-5;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -908,7 +908,7 @@ div.zonal-asset {
 
     &-five {
       background-color: $wildlife-5;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -944,7 +944,7 @@ div.zonal-asset {
     }
     &-five {
       background-color: $popdensity-5;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -966,7 +966,7 @@ div.zonal-asset {
 
     &-five {
       background-color: $critfac-5;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -1003,12 +1003,7 @@ div.zonal-asset {
 
     &-five {
       background-color: $critinfra-5;
-      color: #000;
-    }
-
-    &-six {
-      background-color: $critinfra-6;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -1035,6 +1030,7 @@ div.zonal-asset {
 
     &-three {
       background-color: $socvuln-3;
+      color: #b2afaf;
     }
   }
 
@@ -1070,7 +1066,7 @@ div.zonal-asset {
     }
     &-five {
       background-color: $drainage-5;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -1106,7 +1102,7 @@ div.zonal-asset {
     }
     &-five {
       background-color: $erosion-5;
-      color: #000;
+      color: #b2afaf;
     }
   }
 
@@ -1142,6 +1138,7 @@ div.zonal-asset {
     }
     &-five {
       background-color: $floodprone-5;
+      color: #b2afaf;
     }
   }
 
@@ -1177,6 +1174,7 @@ div.zonal-asset {
     }
     &-five {
       background-color: $slr-5;
+      color: #b2afaf;
     }
   }
 
@@ -1212,6 +1210,7 @@ div.zonal-asset {
     }
     &-five {
       background-color: $stormsurge-5;
+      color: #b2afaf;
     }
   }
 
@@ -1238,6 +1237,7 @@ div.zonal-asset {
 
     &-three {
       background-color: $geostress-3;
+      color: #b2afaf;
     }
   }
 
@@ -1273,6 +1273,7 @@ div.zonal-asset {
     }
     &-five {
       background-color: $slope-5;
+      color: #b2afaf;
     }
   }
 
@@ -1299,18 +1300,22 @@ div.zonal-asset {
 
     &-four {
       background-color: $hub-4;
+      color: #000;
     }
 
     &-five {
       background-color: $hub-5;
+      color: #000;
     }
 
     &-six {
       background-color: $hub-6;
+      color: #000;
     }
 
     &-seven {
       background-color: $hub-7;
+      color: #b2afaf;
     }
   }
 
@@ -1367,7 +1372,7 @@ div.zonal-asset {
 
     &-ten {
       background-color: $asset-10;
-      color: #000;
+      color: #b2afaf;
     }
 
   }
@@ -1425,7 +1430,7 @@ div.zonal-asset {
 
     &-ten {
       background-color: $threat-10;
-      color: #000;
+      color: #b2afaf;
     }
   }
 }
@@ -2069,6 +2074,7 @@ $graph-tick-height-short: 5px;
 
     &-three {
       background-color: $socvuln-3;
+      color: #000;
     }
   }
 
@@ -2176,6 +2182,7 @@ $graph-tick-height-short: 5px;
     }
     &-five {
       background-color: $floodprone-5;
+      color: #000;
     }
   }
 
@@ -2211,6 +2218,8 @@ $graph-tick-height-short: 5px;
     }
     &-five {
       background-color: $slr-5;
+      color: #000;
+
     }
   }
 
@@ -2272,6 +2281,7 @@ $graph-tick-height-short: 5px;
 
     &-three {
       background-color: $geostress-3;
+      color: #000;
     }
   }
 
@@ -2307,6 +2317,7 @@ $graph-tick-height-short: 5px;
     }
     &-five {
       background-color: $slope-5;
+      color: #000;
     }
   }
 
