@@ -12,6 +12,17 @@ import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
 import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
+import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
+import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
+import ColorRampCritFac from '../templates/colorramp_critfac.html';
+import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
+import ColorRampDrainage from '../templates/colorramp_drainage.html';
+import ColorRampErosion from '../templates/colorramp_erosion.html';
+import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
+import ColorRampSLR from '../templates/colorramp_slr.html';
+import ColorRampStormSurge from '../templates/colorramp_stormsurge.html';
+import ColorRampGeoStress from '../templates/colorramp_geostress.html';
+import ColorRampSlopefrom from '../templates/colorramp_slope.html';
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
 import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
 
@@ -229,8 +240,31 @@ export class MapLayersList extends Component {
         return ColorRampTerrestrial;
       case 'aquatic':
         return ColorRampAquatic;
+
       case 'driver-asset':
         return ColorRampDriverAsset;
+      case 'popdensity':
+        return ColorRampPopDensity;
+      case 'socvuln':
+        return ColorRampSocVuln;
+      case 'critfac':
+        return ColorRampCritFac;
+      case 'critinfra':
+        return ColorRampCritInfra;
+      case 'drainage':
+        return ColorRampDrainage;
+      case 'erosion':
+        return ColorRampErosion;
+      case 'floodprone':
+        return ColorRampFloodProne;
+      case 'slr':
+        return ColorRampSLR;
+      case 'stormsurge':
+        return ColorRampStormSurge;
+      case 'geostress':
+        return ColorRampGeoStress;
+      case 'slope':
+        return ColorRampSlopefrom;
       case 'driver-threat':
         return ColorRampDriverThreat;
       default:
@@ -286,7 +320,7 @@ export class MapLayersList extends Component {
   static addLegendHTML(layerProps) {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
     MapLayersList.getLegendWrapper(layerElem).innerHTML =
-        MapLayersList.getLegendHtml(layerProps.legend);
+    MapLayersList.getLegendHtml(layerProps.legend);
     MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.description);
     MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
   }
