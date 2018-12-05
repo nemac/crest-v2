@@ -502,7 +502,12 @@ function zonalLabelMouseOutHandler(e) {
 // @param scale - int. [0,scaleGroups - 1]
 // @param scaleGroups - int. Number of groups the value could be scaled for. [1,]
 function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
-  let position = (val - rangeMin) / (rangeMax - rangeMin); // [0,1]
+  let valOveride = val;
+  // no data overide
+  if (val === '255') {
+    valOveride = 0;
+  }
+  let position = (valOveride - rangeMin) / (rangeMax - rangeMin); // [0,1]
   position += scale; // [0,scaleGroups]
   position = (position / scaleGroups) * 100; // [0, 100]
   if (position === 100) {
@@ -845,7 +850,6 @@ function drawDriver(graph, name, type, driver) {
   let cssKey = driver.key;
   let csstype = type;
 
-
   if (driver.key === 'hubs') {
     height = getTenHeight(driver.value);
     cssKey = 'hub';
@@ -962,6 +966,10 @@ function drawShortChart(wrapper, drivers, name) {
   drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
 }
 
+function drawMapInfoChart(drivers, name, graph) {
+  const mapInfoGraph = graph.querySelector('#mapinfodata .zonal-long-graph');
+  drivers.forEach(drawDriver.bind(null, mapInfoGraph, name, ''));
+}
 // @return Array
 function getShortDataChartData(data) {
   return [
@@ -1012,6 +1020,10 @@ function drawAssetDrivers(wrapper, drivers) {
   drivers.forEach(drawDriver.bind(null, assetGraph, '', 'asset'));
 }
 
+// draw the mapinfo chart. This is the indentify click function
+function drawMapInfoStats(data, doc) {
+  drawMapInfoChart(getShortDataChartData(data), 'mapInfo', doc);
+}
 // function findRawCategory(wrapper, key) {
 //   return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
 // }
@@ -1279,7 +1291,8 @@ export {
   makeHTMLName,
   stripUserArea,
   isGraphActivetate,
-  viewLongZonalStatsFromShape
+  viewLongZonalStatsFromShape,
+  drawMapInfoStats
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
