@@ -95,6 +95,7 @@ export class NavBar extends Component {
     NavBar.deactivateAllNavs();
     const el = document.getElementById(id);
     el.className = `${el.className} active`;
+    store.setStoreItem('activeNav', id);
   }
 
   static deactivateAllNavs() {

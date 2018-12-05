@@ -75,7 +75,6 @@ export class Explore extends Component {
       permanent: true
     };
 
-
     this.defaultAreaName = 'Area ';
 
     // handler for when drawing is completed
@@ -115,7 +114,7 @@ export class Explore extends Component {
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
-          this.drawHubs();
+          this.restoreHubs(); 
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
           Explore.updateExploreDirections(this.exlporeHubMessage);
           if (checkValidObject(checkHubIntersectionJson)) {
@@ -160,11 +159,7 @@ export class Explore extends Component {
     window.addEventListener('aboutNavChange', (e) => {
       this.drawAreaGroup.clearLayers();
 
-      const clearAreaElement = document.getElementById('zonal-area-wrapper');
-      if (clearAreaElement) {
-        clearAreaElement.innerHTML = '';
-      }
-
+      Explore.clearZonalStatsWrapperDiv();
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
       const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
@@ -440,14 +435,12 @@ export class Explore extends Component {
   async getHubsZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
-    store.removeStateItem('HubIntersectionJson');
+    //store.removeStateItem('HubIntersectionJson');
 
     // get geoJSON to send to zonal stats lambda function
     // in this case do not use the buffered shape
     const rawpostdata = store.getStateItem('userarea');
-    let postdata = '';
-
-    Explore.removeExistingHubs();
+    let postdata = ''; 
 
     // some Geojson is not a feature collection lambda function expects a
     // a feature collection
@@ -467,13 +460,6 @@ export class Explore extends Component {
       return {};
     }
 
-    this.drawAreaGroup.clearLayers();
-
-    const clearAreaElement = document.getElementById('zonal-area-wrapper');
-    if (clearAreaElement) {
-      clearAreaElement.innerHTML = '';
-    }
-
     // send request to api
     const HubIntersectionJson = await this.HubIntersectionApi.getIntersectedHubs(rawpostdata);
 
@@ -484,29 +470,32 @@ export class Explore extends Component {
       return {};
     }
 
-    // sort the hubs by hub ranking
-    const HubIntersectionJsonSorted = HubIntersectionJson.sort((a, b) => {
-      if (a.properties.mean.hubs > b.properties.mean.hubs) {
-        return -1;
-      }
-      if (a.properties.mean.hubs < b.properties.mean.hubs) {
-        return 1;
-      }
-      // a must be equal to b
-      return 0;
-    });
+    await this.storeHubsOnS3(HubIntersectionJson);
 
-    store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
+    Explore.appendIntersectedHubsToState(HubIntersectionJson);
+    Explore.sortHubsByHubScore();
 
+
+    // draw the hubs and the zonal stats
+    //this.drawHubs();
+
+    store.setStoreItem('working_zonalstats', false);
+    spinnerOff('getZonal done');
+    Explore.enableShapeExistsButtons();
+    Explore.dismissExploreDirections();
+    return HubIntersectionJson;
+  }
+
+  async storeHubsOnS3(hubs) {
     const checkobj = {}.hasOwnProperty;
     // using for loop because it allows await functionality with
     // async calls to zonal stats api.  this will ensure we wait for the promise to
     // resolve and is added to the store before we progress on. using a check for hasOwnProperty
     // to deal with all the prototpe entries
-    for (const key in HubIntersectionJsonSorted) {
-      if (checkobj.call(HubIntersectionJsonSorted, key)) {
-        const savedhub = await this.StoreShapesAPI.saveShape(HubIntersectionJsonSorted[key]);
-        const fid = HubIntersectionJsonSorted[key].properties.mean.TARGET_FID.toString();
+    for (const key in hubs) {
+      if (checkobj.call(hubs, key)) {
+        const savedhub = await this.StoreShapesAPI.saveShape(hubs[key]);
+        const fid = hubs[key].properties.mean.TARGET_FID.toString();
         const storedhubs = store.getStateItem('savedhubs');
 
         if (checkValidObject(savedhub)) {
@@ -521,16 +510,26 @@ export class Explore extends Component {
         }
       }
     }
+  }
 
-    // draw the hubs and the zonal stats
-    this.drawHubs();
-
-    this.mapComponent.map.fireEvent('zonalstatsend');
-    store.setStoreItem('working_zonalstats', false);
-    spinnerOff('getZonal done');
-    Explore.enableShapeExistsButtons();
-    Explore.dismissExploreDirections();
-    return HubIntersectionJson;
+  static appendIntersectedHubsToState(json) {
+    const existingHubs = store.getStateItem('HubIntersectionJson');
+    if (checkValidObject(existingHubs)) {
+      const newStateItem = existingHubs;
+      const newHubsFiltered = json.filter(newHub => {
+        let alreadyInState = false;
+        existingHubs.forEach(hub => {
+          if (newHub.properties.mean.TARGET_FID === hub.properties.mean.TARGET_FID) {
+            alreadyInState = true;
+          }
+        });
+        return !alreadyInState;
+      });
+      newStateItem.push(...newHubsFiltered);
+      store.setStoreItem('HubIntersectionJson', newStateItem);
+    } else {
+      store.setStoreItem('HubIntersectionJson', json);
+    } 
   }
 
   // renders the shapes from the user areas state object
@@ -603,13 +602,6 @@ export class Explore extends Component {
         // draw Resilience hub
         this.drawAreaGroup.addLayer(resilienceHubLayer);
         this.addUserAreaLabel(resilienceHubLayer, name);
-
-        // draw zonal stats for each shape
-        if (checkValidObject(feature)) {
-          drawZonalStatsFromAPI(feature.properties.mean,
-            name,
-            this.mapComponent.map);
-        }
 
         Explore.enableShapeExistsButtons();
         Explore.dismissExploreDirections();
@@ -702,11 +694,13 @@ export class Explore extends Component {
     }
   }
 
-  restoreHubs() {
+  async restoreHubs() {
     // if their is a query string paramter for shareurl=true restore the shapes.
-    if (this.hasShareURL === 'true') {
-      this.getHubsFromS3();
-    }
+    //if (this.hasShareURL === 'true') {
+    await this.getHubsFromS3();
+    await this.drawZonalStatsForStoredHubs();
+    this.drawHubs();
+    //}
   }
 
   // get geojson from s3
@@ -716,9 +710,10 @@ export class Explore extends Component {
     spinnerOn();
 
     // check shareurl nav
-    if (this.theStartNav === 'main-nav-map-searchhubs') {
+    if (store.getStateItem('activeNav' === 'main-nav-map-searchhubs')) {
       this.restoreHubs();
-    } else {
+    }
+    if (store.getStateItem('activeNav' === 'main-nav-map')) {
       this.restoreExplore();
     }
 
@@ -763,7 +758,10 @@ export class Explore extends Component {
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
+          Explore.removeExistingHubs();
           this.getHubsZonal();
+          this.drawHubs();
+          this.drawZonalStatsForStoredHubs();
         } else {
           this.getZonal();
         }
@@ -793,7 +791,7 @@ export class Explore extends Component {
 
     // remove old shapes so they are not duplicated.  also want to make sure make
     // sure we are replicating the shared map.
-    Explore.removeExistingExlpore();
+    Explore.removeExistingExplore();
     Explore.removeUserAreas();
     Explore.clearDetailsHolder();
 
@@ -908,10 +906,8 @@ export class Explore extends Component {
     }
 
     store.setStoreItem('HubIntersectionJson', newshapes);
-
+    Explore.sortHubsByHubScore();
     // draw the hubs and the zonal stats
-    this.drawHubs();
-
     store.setStoreItem('working_s3retreive', false);
     this.mapComponent.map.fireEvent('retreives3end');
     spinnerOff();
@@ -1057,7 +1053,7 @@ export class Explore extends Component {
     Explore.clearDetails();
   }
 
-  static removeExistingExlpore() {
+  static removeExistingExplore() {
     store.removeStateItem('savedshapes');
     store.removeStateItem('savedshape');
     store.removeStateItem('userareas');
@@ -1095,7 +1091,7 @@ export class Explore extends Component {
     }
 
     if (activeNav === 'main-nav-map') {
-      Explore.removeExistingExlpore();
+      Explore.removeExistingExplore();
       Explore.removeUserAreas();
       Explore.dismissExploreDirections();
     }
@@ -1143,6 +1139,14 @@ export class Explore extends Component {
       }
     });
   }
+
+  static clearZonalStatsWrapperDiv() {
+    const clearAreaElement = document.getElementById('zonal-area-wrapper');
+    if (clearAreaElement) {
+      clearAreaElement.innerHTML = '';
+    }
+  } 
+
 
   static removeDrawShapeToolTip() {
     const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
@@ -1309,7 +1313,7 @@ export class Explore extends Component {
   // @param { Object } mapInfoComponent object
   addDrawVertexCreatedHandler(mapComponent, mapInfoComponent) {
     // Assumming you have a Leaflet map accessible
-    mapComponent.map.on('draw:created', (e) => {
+    mapComponent.map.on('draw:created', async (e) => {
       Explore.removeDrawShapeToolTip();
       const { layer } = e;
       Explore.storeshapescounter();
@@ -1342,7 +1346,12 @@ export class Explore extends Component {
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
-          this.getHubsZonal();
+          Explore.removeExistingHubs();
+          this.drawAreaGroup.clearLayers();
+          Explore.clearZonalStatsWrapperDiv();
+          await this.getHubsZonal();
+          await this.drawZonalStatsForStoredHubs();
+          this.drawHubs();
         } else {
           this.getZonal();
         }
@@ -1449,13 +1458,14 @@ export class Explore extends Component {
     store.setStoreItem('working_zonalstats', true);
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
-    this.processFiles(files);
+    this.processUploadedFiles(files);
   }
 
-  async processFiles(files) {
+  async processUploadedFiles(files) {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
     const fileSets = [];
+    const featuresReady = [];
     // Treat each folder in a zip archive as its own set of files.
     const zips = files.filter(file => Explore.fileExt(file.name) === 'zip');
     for (let i = 0; i < zips.length; i += 1) {
@@ -1474,25 +1484,69 @@ export class Explore extends Component {
     // Non-zip files are all put into one file set.
     const nonZips = files.filter(file => Explore.fileExt(file.name) !== 'zip');
     if (nonZips.length) { fileSets.push(nonZips); }
-
+    Explore.clearZonalStatsWrapperDiv();
     for (let i = 0; i < fileSets.length; i += 1) {
       const fileSet = fileSets[i];
-      await this.processFileSet(fileSet);
+      let features = await this.extractFeaturesFromFileset(fileSet);
+      featuresReady.push(...features);
+    }
+    const activeNav = store.getStateItem('activeNav');
+    if (activeNav === 'main-nav-map-searchhubs') {
+      Explore.removeExistingHubs();
+      this.drawAreaGroup.clearLayers();
+      for (let i=0; i<featuresReady.length; i++) {
+        store.setStoreItem('userarea', featuresReady[i]);
+        await this.getHubsZonal();
+      }
+      Explore.sortHubsByHubScore();
+      // draw zonal stats for each shape
+      this.drawZonalStatsForStoredHubs();      
+      this.mapComponent.map.fireEvent('zonalstatsend');
+    } else {
+      // Assume we're on the default explore tab
+      this.drawAreaGroup.clearLayers(); 
+      for (let i=0; i<featuresReady.length; i++) { 
+        await this.addFeatureAsMapLayer(featuresReady[i]);
+      } 
     }
     try {
       this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
       this.mapComponent.saveZoomAndMapPosition();
-    } catch (e) { console.error(e); }
+    } catch (e) {  }
+
     store.setStoreItem('working_zonalstats', false);
     spinnerOff();
-    return false;
   }
 
-  async processFileSet(files) {
+  drawZonalStatsForStoredHubs() {
+    const hubs = store.getStateItem('HubIntersectionJson');
+    for (let i=0; i<hubs.length; i++) {
+      const name = "" + hubs[i].properties.mean.TARGET_FID;
+      drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
+    }
+  }
+ 
+  static sortHubsByHubScore () {
+    const hubs = store.getStateItem('HubIntersectionJson');
+    const HubIntersectionJsonSorted = hubs.sort((a, b) => {
+      if (a.properties.mean.hubs > b.properties.mean.hubs) {
+        return -1;
+      }
+      if (a.properties.mean.hubs < b.properties.mean.hubs) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    }); 
+    store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
+  }
+
+  async extractFeaturesFromFileset(files) {
     const shpfileFiles = files
       .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
+    const features = [];
 
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
@@ -1506,7 +1560,8 @@ export class Explore extends Component {
         geojsonFromShpfiles = { features: [] };
       }
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
-        await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
+        //await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
+        features.push(geojsonFromShpfiles.features[i]);
       }
     }
 
@@ -1521,13 +1576,16 @@ export class Explore extends Component {
       }
       if (geojsonFromFile.type === 'FeatureCollection') {
         for (let j = 0; j < geojsonFromFile.features.length; j += 1) {
-          await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
+          //await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
+          features.push(geojsonFromFile.features[j]);
         }
       }
       if (geojsonFromFile.type === 'Feature') {
-        await this.addFeatureAsMapLayer(geojsonFromFile);
+        //await this.addFeatureAsMapLayer(geojsonFromFile);
+        features.push(geojsonFromFile);
       }
     }
+    return features;
   }
 
   async addFeatureAsMapLayer(feature) {

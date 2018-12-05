@@ -222,15 +222,20 @@ const router = new Navigo(homeloc, true);
 router.on({
   '/': (params, query) => {
     setNavBars('main-nav-map');
+    //store.setStoreItem('activeNav', 'main-nav-map');
     initMapComponent();
   },
   '/Home': (params, query) => {
     setNavBars('main-nav-map');
+    //store.setStoreItem('activeNav', 'main-nav-map');
     initMapComponent();
   },
   '/SearchHubs': (params, query) => {
-    setNavBars('main-nav-map-searchhubs');
+    //store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
     initMapComponent();
+    setNavBars('main-nav-map-searchhubs');
+    const navChangeEvent = new CustomEvent('aboutNavChange');
+    window.dispatchEvent(navChangeEvent); 
   },
   '/About': (params, query) => {
     setNavBars('main-nav-about');
