@@ -725,21 +725,80 @@ html, body {
  .leaflet-popup-content {
    user-select: none;
    cursor: default;
-   min-width: 205px;
+   min-width: 315px;
  }
 
- .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-   background: $body-bg;
-   background:  $body-bg-semiTransparent9;
-   color: $body-color;
-   border-radius: 0px;
-   -webkit-border-radius: 0px;
-   -moz-border-radius: 0px;
-   min-width: 225px;
- }
+.leaflet-popup-content {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: $body-bg;
+  background:  $body-bg-semiTransparent9;
+  color: $body-color;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  min-width: 300px;
+}
 
 .leaflet-popup-tip-container {
   display: none;
+}
+
+.map_info_list .toggle-list {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
+  h5 {
+    padding-left: 5px !important;
+  }
+  .zonal-long-graph-label-terrestrial .zonal-long-graph-label-text{
+    left: 0% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mapinfodata {
+    // max-height: 250px;
+    overflow: scroll;
+  }
+
+  .map_info_list .toggle-list .zonal-long-graph-label-terrestrial .zonal-long-graph-label-text {
+    left: -10px !important;
+  }
+
+  .map-information-popup  {
+    min-width: 275px !important;
+
+    .leaflet-popup-content {
+      min-width: 275px !important;
+    }
+
+    .leaflet-popup-content-wrapper {
+      min-width: 275px !important;
+    }
+
+  }
+
+  .mapinfodata::-webkit-scrollbar {
+     -webkit-appearance: none;
+     width: 7px;
+   }
+
+   .mapinfodata::-webkit-scrollbar-thumb {
+     border-radius: 4px;
+     -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+     background-color: $body-color
+   }
+
+   .mapinfodata::-webkit-scrollbar-corner{
+     display: none;
+   }
+
 }
 
 body {
@@ -801,9 +860,6 @@ p.not-found {
   background-color:  $body-bg;
 }
 
-
-
-
 #explore-holder::-webkit-scrollbar {
    -webkit-appearance: none;
    width: 7px;
@@ -848,30 +904,6 @@ p.not-found {
   #top-bar{
     padding-bottom: ($padding + 5 ) * 2;
   }
-
-}
-
-@media (max-width: 768px) {
-  .mapinfodata {
-    max-height: 100px;
-    overflow: scroll;
-  }
-
-  .mapinfodata::-webkit-scrollbar {
-     -webkit-appearance: none;
-     width: 7px;
-   }
-
-   .mapinfodata::-webkit-scrollbar-thumb {
-     border-radius: 4px;
-     -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-     background-color: $body-color
-   }
-
-   .mapinfodata::-webkit-scrollbar-corner{
-     display: none;
-   }
 
 }
 

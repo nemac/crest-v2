@@ -12,10 +12,29 @@ import { IdentifyAPI } from './identifyAPI';
 import {
   checkValidObject,
   spinnerOff,
-  spinnerOn,
-  addStyle,
-  replaceMapInfoValue
+  spinnerOn
 } from './utilitys';
+
+import {
+  drawMapInfoStats
+} from './zonalStats';
+
+// required for bootstrap
+window.$ = require('jquery');
+// required for tooltip, popup...
+window.Popper = require('popper.js');
+
+window.jQuery = window.$;
+
+// tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
+// use tooltip and popover components everywhere
+$(() => {
+  $('[data-toggle="tooltip"]').tooltip({
+    trigger: 'hover focus'
+  });
+
+  $('[data-toggle="popover"]').popover();
+});
 
 const store = new Store({});
 
@@ -217,20 +236,15 @@ export class MapInfo extends Component {
   // @param { Object } doc is html document (identify/mapinfo html element)
   //
   static buildMapInfoConent(IdentifyJson, doc) {
-    // template needs responive info box.
-    Object.keys(IdentifyJson).forEach((key) => {
-      const styleItem = IdentifyAPI.getIdentifyItem(key, parseInt(IdentifyJson[key], 10));
+    drawMapInfoStats(IdentifyJson, doc);
+    // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
+    // use tooltip and popover components everywhere
+    $(() => {
+      $('[data-toggle="tooltip"]').tooltip({
+        trigger: 'hover focus'
+      });
 
-      const templateValues = {
-        name: key,
-        backgroundColor: styleItem[0].backgroundColor,
-        color: styleItem[0].color,
-        label: styleItem[0].label
-      };
-
-      // both in utilit.js might not be best place?
-      addStyle(doc, key, templateValues);
-      replaceMapInfoValue(doc, key, templateValues);
+      $('[data-toggle="popover"]').popover();
     });
   }
 
@@ -248,7 +262,7 @@ export class MapInfo extends Component {
         opacity: 0.9,
         autoPan: false,
         className: 'map-information-popup',
-        offset: L.point(-133, 20)
+        offset: L.point(-155, 20)
       }
     ).openPopup();
 
