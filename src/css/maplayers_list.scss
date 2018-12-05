@@ -347,3 +347,176 @@ $map_right_margin: 10px;
         color: #999595;
     }
 }
+
+.layer-legend .zonal-long-table-cell {
+  &-hub{
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-asset {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-threat {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-exposure-box {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-fish {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-wildlife {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-popdensity {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-socvuln {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-critfac {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-critinfra {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-drainage {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-erosion {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-floodprone {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-slr {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-stormsurge {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-geostress {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+  &-slope {
+    &-none {
+     display: none;
+   }
+
+   &-zero {
+     display: none;
+   }
+  }
+
+}

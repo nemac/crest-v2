@@ -1,18 +1,142 @@
+$exposure-none: #E9ECEF;
+$exposure-1: #3d8282;
+$exposure-2: #7dad9c;
+$exposure-3: #d4e5ba;
+$exposure-4: #b7d4b2;
+$exposure-5: #e9f2bb;
+$exposure-6: #f5e9a9;
+$exposure-7: #dbba7a;
+$exposure-8: #b08042;
+$exposure-9: #9b5526;
+$exposure-10: #633319;
+$asset-bar: #94571c;
+$threat-bar: #d4182b;
+$exposure-bar: #0f0;
+
+$threat-none: #E9ECEF;
+$threat-1: #ffebd6;
+$threat-2: #f7d7bc;
+$threat-3: #f0c0a1;
+$threat-4: #eba988;
+$threat-5: #e3906f;
+$threat-6: #de775b;
+$threat-7: #d65d45;
+$threat-8: #d14030;
+$threat-9: #c9251c;
+$threat-10: #c40a0a;
+$theatbarsep: #68ace7;
+
+$asset-none: #E9ECEF;
+$asset-1: #b6edf0;
+$asset-2: #98d2ed;
+$asset-3: #7cbbeb;
+$asset-4: #5ca3e6;
+$asset-5: #368de3;
+$asset-6: #2176d9;
+$asset-7: #2259c7;
+$asset-8: #1d3eb5;
+$asset-9: #1727a3;
+$asset-10: #090991;
+$assetbarsep: #d4182b;
+
 $fish-none: #E9ECEF;
-$fish-1: #cce2e8;
-$fish-2: #8fc8d6;
-$fish-3: #5ea4ba;
-$fish-4: #047e91;
-$fish-5: #095a62;
+$fish-0: #E9ECEF;
+$fish-1: #cde1e8;
+$fish-2: #82bcd1;
+$fish-3: #5ea5bb;
+$fish-4: #007e91;
+$fish-5: #005a62;
 $fish-bar: #f00;
 
 $wildlife-none: #E9ECEF;
+$wildlife-0: #E9ECEF;
 $wildlife-1: #ffe9c4;
-$wildlife-2: #e0c879;
-$wildlife-3: #76974e;
-$wildlife-4: #385b24;
-$wildlife-5: #004908;
+$wildlife-2: #dfc878;
+$wildlife-3: #79684e;
+$wildlife-4: #385b23;
+$wildlife-5: #004900;
 $wildlife-bar: #0f0;
+
+$popdensity-none: #E9ECEF;
+$popdensity-0: #E9ECEF;
+$popdensity-1: #efc133;
+$popdensity-2: #dfc878;
+$popdensity-3: #9eac37;
+$popdensity-4: #2c8d7a;
+$popdensity-5: #385a4c;
+
+$socvuln-none: #E9ECEF;
+$socvuln-0: #E9ECEF;
+$socvuln-1: #abd2fa;
+$socvuln-2: #7692ff;
+$socvuln-3: #3a1459;
+
+$critfac-none: #E9ECEF;
+$critfac-0: #E9ECEF;
+$critfac-5: #0084a8;
+
+$critinfra-none: #E9ECEF;
+$critinfra-0: #E9ECEF;
+$critinfra-1: #ccd1d2;
+$critinfra-2: #355c59;
+$critinfra-3: #e8b16d;
+$critinfra-4: #b15a3c;
+$critinfra-5: #ad3541;
+$critinfra-6: #7b1733;
+
+$drainage-none: #E9ECEF;
+$drainage-0: #E9ECEF;
+$drainage-1: #447604;
+$drainage-2: #77D66F;
+$drainage-3: #dce9f2;
+$drainage-4: #755b69;
+$drainage-5: #553555;
+
+$erosion-none: #E9ECEF;
+$erosion-0: #E9ECEF;
+$erosion-1: #feeba2;
+$erosion-2: #febb47;
+$erosion-3: #f07818;
+$erosion-4: #b84203;
+$erosion-5: #662506;
+
+$floodprone-none: #E9ECEF;
+$floodprone-0: #E9ECEF;
+$floodprone-1: #e2e2ef;
+$floodprone-2: #b6b6d8;
+$floodprone-3: #8683bd;
+$floodprone-4: #61409b;
+$floodprone-5: #3f007d;
+
+$slr-none: #E9ECEF;
+$slr-0: #E9ECEF;
+$slr-1: #dbd8ea;
+$slr-2: #99b9d9;
+$slr-3: #4095c3;
+$slr-4: #027976;
+$slr-5: #014636;
+
+$stormsurge-none: #E9ECEF;
+$stormsurge-0: #E9ECEF;
+$stormsurge-1: #d6efb3;
+$stormsurge-2: #73c8bd;
+$stormsurge-3: #2498c1;
+$stormsurge-4: #234da0;
+$stormsurge-5: #081d58;
+
+$geostress-none: #E9ECEF;
+$geostress-0: #E9ECEF;
+$geostress-1: #fbacb9;
+$geostress-2: #cd238f;
+$geostress-3: #49006a;
+
+$slope-none: #E9ECEF;
+$slope-0: #E9ECEF;
+$slope-1: #d3eecd;
+$slope-2: #98d594;
+$slope-3: #4bb062;
+$slope-4: #157f3b;
+$slope-5: #00441b;
 
 $hub-none: #E9ECEF;
 $hub-1: #edf8e9;
@@ -23,74 +147,6 @@ $hub-5: #4f8e6f;
 $hub-6: #277450;
 $hub-7: #005a32;
 $hub-bar: #0ff;
-
-$asset-none: #E9ECEF;
-$asset-0: #b6edf0;
-$asset-1: #a1daed;
-$asset-2: #8ecaed;
-$asset-3: #7abaeb;
-$asset-4: #64aae8;
-$asset-5: #4c99e6;
-$asset-6: #328ae3;
-$asset-7: #217bdb;
-$asset-8: #2166cf;
-$asset-9: #2154c2;
-$asset-10: #1d40b5;
-$asset-11: #192fa8;
-$asset-12: #131f9e;
-$asset-13: #080a90;
-$assetbarsep: #d4182b;
-
-$threat-none: #E9ECEF;
-$threat-0: #ffebd6;
-$threat-1: #fce5cf;
-$threat-2: #fadec5;
-$threat-3: #f7d7bc;
-$threat-4: #f5d1b5;
-$threat-5: #f5cbae;
-$threat-6: #f2c4a5;
-$threat-7: #f0bc9c;
-$threat-8: #edb695;
-$threat-9: #ebae8d;
-$threat-10: #eba786;
-$threat-11: #e8a180;
-$threat-12: #e69877;
-$threat-13: #e3906f;
-$threat-14: #e08867;
-$threat-15: #e08063;
-$threat-16: #de775b;
-$threat-17: #db6f53;
-$threat-18: #d9664c;
-$threat-19: #d65f47;
-$threat-20: #d65740;
-$threat-21: #d44e39;
-$threat-22: #d14734;
-$threat-23: #cf3e2d;
-$threat-24: #cc3527;
-$threat-25: #cc2c21;
-$threat-26: #c9251c;
-$threat-27: #c71c16;
-$threat-28: #c41310;
-$threat-29: #af0e08;
-$threat-30: #ba0808;
-$threat-31: #b00808;
-$threat-32: #a60808;
-$threat-33: #9c0808;
-$theatbarsep: #68ace7;
-
-$exposure-none: #E9ECEF;
-$exposure-1: #568b93;
-$exposure-2: #7db0a3;
-$exposure-3: #d4e5ba;
-$exposure-4: #ecd79c;
-$exposure-5: #ecd79c;
-$exposure-6: #c38e59;
-$exposure-7: #c38e59;
-$exposure-8: #9b5526;
-$exposure-9: #9b5526;
-$asset-bar: #68ace7;
-$threat-bar: #d4182b;
-$exposure-bar: #0f0;
 
 $asset-driver-0: #f7fbff;
 $asset-driver-1: #d1e3f3;
@@ -152,10 +208,24 @@ $box-shadow-default: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
   position: relative;
 }
 
+.map_info_list .zonal-short-wrappper {
+  width: 100% !important;
+  padding: 5px !important;
+}
+
+.map_info_list .zonal-long-graph-wrapper {
+  // width: 100% !important;
+  padding: 0px !important;
+  margin-bottom: 5px;
+  padding-right: 5px;
+}
+
+
+
 .zonal-short-wrapper {
   // margin: 15px;
   // margin-top: 15px;
-
+  margin-left: -5px;
   cursor: pointer;
 
   > div, > button {
@@ -595,34 +665,34 @@ div.zonal-asset {
   line-height: $box-dimensions;
   vertical-align: top;
 }
-
-.zonal-long-table-item.zonal-long-table-item-threat {
-  font-size: 8px;
-}
-
-@media (max-width: 1400px) {
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 6px;
-  }
-}
-
-@media (max-width: 1075px) {
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 0px;
-  }
-}
-
-@media (max-width: 992px) { //768px
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 8px;
-  }
-}
-
-@media (max-width: 400px) {
-  .zonal-long-table-item.zonal-long-table-item-threat {
-    font-size: 0px;
-  }
-}
+//
+// .zonal-long-table-item.zonal-long-table-item-threat {
+//   font-size: 8px;
+// }
+//
+// @media (max-width: 1400px) {
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 6px;
+//   }
+// }
+//
+// @media (max-width: 1075px) {
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 0px;
+//   }
+// }
+//
+// @media (max-width: 992px) { //768px
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 8px;
+//   }
+// }
+//
+// @media (max-width: 400px) {
+//   .zonal-long-table-item.zonal-long-table-item-threat {
+//     font-size: 0px;
+//   }
+// }
 .zonal-long-table-asset .zonal-long-table-header-simple-low {
     position: absolute;
     top: -20px
@@ -692,6 +762,8 @@ div.zonal-asset {
 }
 
 .zonal-long-table-cell {
+  color: #000;
+
   &-none {
     background-color: $exposure-none;
     color: #000;
@@ -717,10 +789,12 @@ div.zonal-asset {
 
   &-high {
     background-color: $exposure-6;
+    color: #000;
   }
 
   &-highest {
     background-color: $exposure-9;
+    color: #b2afaf;
   }
 
   &-exposure-box {
@@ -730,10 +804,12 @@ div.zonal-asset {
     }
     &-one {
       background-color: $exposure-1;
+      color: #000;
     }
 
     &-two {
       background-color: $exposure-2;
+      color: #000;
     }
 
     &-three {
@@ -753,24 +829,37 @@ div.zonal-asset {
 
     &-six {
       background-color: $exposure-6;
+      color: #000;
     }
 
     &-seven {
       background-color: $exposure-7;
+      color: #000;
     }
 
     &-eight {
       background-color: $exposure-8;
+      color: #000;
     }
 
     &-nine {
       background-color: $exposure-9;
+      color: #000;
+    }
+    &-ten {
+      background-color: $exposure-10;
+      color: #b2afaf;
     }
   }
 
   &-fish {
     &-none {
       background-color: $fish-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $fish-0;
       color: #000;
     }
 
@@ -786,20 +875,28 @@ div.zonal-asset {
 
     &-three {
       background-color: $fish-3;
+      color: #000;
     }
 
     &-four {
       background-color: $fish-4;
+      color: #000;
     }
 
     &-five {
       background-color: $fish-5;
+      color: #b2afaf;
     }
   }
 
   &-wildlife {
     &-none {
       background-color: $wildlife-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $wildlife-0;
       color: #000;
     }
 
@@ -815,14 +912,382 @@ div.zonal-asset {
 
     &-three {
       background-color: $wildlife-3;
+      color: #000;
     }
 
     &-four {
       background-color: $wildlife-4;
+      color: #000;
     }
 
     &-five {
       background-color: $wildlife-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-popdensity {
+    &-none {
+      background-color: $popdensity-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $popdensity-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $popdensity-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $popdensity-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $popdensity-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $popdensity-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $popdensity-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-critfac {
+    &-none {
+      background-color: $critfac-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critfac-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critfac-5;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critfac-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-critinfra {
+    &-none {
+      background-color: $critinfra-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critinfra-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critinfra-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $critinfra-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critinfra-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $critinfra-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critinfra-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-socvuln {
+    &-none {
+      background-color: $socvuln-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $socvuln-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $socvuln-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvuln-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvuln-3;
+      color: #b2afaf;
+    }
+  }
+
+  &-drainage {
+    &-none {
+      background-color: $drainage-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $drainage-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $drainage-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $drainage-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $drainage-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $drainage-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $drainage-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-erosion {
+    &-none {
+      background-color: $erosion-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $erosion-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $erosion-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $erosion-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $erosion-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $erosion-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $erosion-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-floodprone {
+    &-none {
+      background-color: $floodprone-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $floodprone-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $floodprone-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $floodprone-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $floodprone-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $floodprone-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $floodprone-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-slr {
+    &-none {
+      background-color: $slr-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $slr-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $slr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $slr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $slr-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $slr-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $slr-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-stormsurge {
+    &-none {
+      background-color: $stormsurge-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $stormsurge-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $stormsurge-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $stormsurge-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $stormsurge-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $stormsurge-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $stormsurge-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-geostress{
+    &-none {
+      background-color: $geostress-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $geostress-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $geostress-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $geostress-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $geostress-3;
+      color: #b2afaf;
+    }
+  }
+
+  &-slope {
+    &-none {
+      background-color: $slope-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $slope-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $slope-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $slope-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $slope-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $slope-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $slope-5;
+      color: #b2afaf;
     }
   }
 
@@ -849,29 +1314,28 @@ div.zonal-asset {
 
     &-four {
       background-color: $hub-4;
+      color: #000;
     }
 
     &-five {
       background-color: $hub-5;
+      color: #000;
     }
 
     &-six {
       background-color: $hub-6;
+      color: #000;
     }
 
     &-seven {
       background-color: $hub-7;
+      color: #b2afaf;
     }
   }
 
   &-asset {
     &-none {
       background-color: $asset-none;
-      color: #000;
-    }
-
-    &-zero {
-      background-color: $asset-0;
       color: #000;
     }
 
@@ -907,41 +1371,29 @@ div.zonal-asset {
 
     &-seven {
       background-color: $asset-7;
+      color: #000;
     }
 
     &-eight {
       background-color: $asset-8;
+      color: #000;
     }
 
     &-nine {
       background-color: $asset-9;
+      color: #000;
     }
 
     &-ten {
       background-color: $asset-10;
+      color: #b2afaf;
     }
 
-    &-eleven {
-      background-color: $asset-11;
-    }
-
-    &-twelve {
-      background-color: $asset-12;
-    }
-
-    &-thirteen {
-      background-color: $asset-13;
-    }
   }
 
   &-threat {
     &-none {
       background-color: $threat-none;
-      color: #000;
-    }
-
-    &-zero {
-      background-color: $threat-0;
       color: #000;
     }
 
@@ -992,108 +1444,7 @@ div.zonal-asset {
 
     &-ten {
       background-color: $threat-10;
-      color: #000;
-    }
-
-    &-eleven {
-      background-color: $threat-11;
-      color: #000;
-    }
-
-    &-twelve {
-      background-color: $threat-12;
-      color: #000;
-    }
-
-    &-thirteen {
-      background-color: $threat-13;
-      color: #000;
-    }
-
-    &-fourteen {
-      background-color: $threat-14;
-      color: #000;
-    }
-
-    &-fifteen {
-      background-color: $threat-15;
-      color: #000;
-    }
-
-    &-sixteen {
-      background-color: $threat-16;
-      color: #000;
-    }
-
-    &-seventeen {
-      background-color: $threat-17;
-      color: #000;
-    }
-
-    &-eightteen {
-      background-color: $threat-18;
-      color: #000;
-    }
-
-    &-nineteen {
-      background-color: $threat-19;
-      color: #000;
-    }
-
-    &-twenty {
-      background-color: $threat-20;
-    }
-
-    &-twentyone {
-      background-color: $threat-21;
-    }
-
-    &-twentytwo {
-      background-color: $threat-22;
-    }
-
-    &-twentythree {
-      background-color: $threat-23;
-    }
-
-    &-twentyfour {
-      background-color: $threat-24;
-    }
-
-    &-twentyfive {
-      background-color: $threat-25;
-    }
-
-    &-twentysix {
-      background-color: $threat-26;
-    }
-
-    &-twentyseven {
-      background-color: $threat-27;
-    }
-
-    &-twentyeight{
-      background-color: $threat-28;
-    }
-
-    &-twentynine {
-      background-color: $threat-29;
-    }
-
-    &-thirty {
-      background-color: $threat-30;
-    }
-
-    &-thirtyone {
-      background-color: $threat-31;
-    }
-
-    &-thirtytwo {
-      background-color: $threat-32;
-    }
-
-    &-thirtythree {
-      background-color: $threat-33;
+      color: #b2afaf;
     }
   }
 }
@@ -1523,7 +1874,7 @@ div.zonal-asset {
 
 $graph-tick-height-short: 5px;
 .zonal-long-graph-labels {
-  height: 65px;
+  height: 75px;
   font-size: 0px;
   padding-top: $graph-tick-height-short;
 }
@@ -1612,68 +1963,442 @@ $graph-tick-height-short: 5px;
 
 
 .driver-chart-backgroundColor {
-    &-threat {
-      &-zero {
-        background-color: $threat-driver-0 !important;
-      }
 
-      &-one {
-        background-color: $threat-driver-1 !important;
-      }
 
-      &-two {
-        background-color: $threat-driver-2 !important;
-      }
-
-      &-three {
-        background-color: $threat-driver-3 !important;
-      }
-
-      &-four {
-        background-color: $threat-driver-4 !important;
-      }
-
-      &-five {
-        background-color: $threat-driver-5 !important;
-      }
+  &-popdensity {
+    &-none {
+      background-color: $popdensity-none;
+      color: #000;
     }
 
-    &-asset {
-      &-zero {
-        background-color: $asset-driver-0 !important;
-      }
-
-      &-one{
-        background-color: $asset-driver-1 !important;
-      }
-
-      &-two {
-        background-color: $asset-driver-2 !important;
-      }
-
-      &-three {
-        background-color: $asset-driver-3 !important;
-      }
-
-      &-four {
-        background-color: $asset-driver-4 !important;
-      }
-
-      &-five {
-        background-color: $asset-driver-5 !important;
-      }
-
+    &-zero {
+      background-color: $popdensity-0;
+      color: #000;
     }
 
-    &-assettwo {
-      &-zero {
-        background-color: $asset-driver-0 !important;
-      }
+    &-one {
+      background-color: $popdensity-1;
+      color: #000;
+    }
 
-      &-one {
-        background-color: $asset-driver-5 !important;
-      }
+    &-two {
+      background-color: $popdensity-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $popdensity-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $popdensity-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $popdensity-5;
+      color: #000;
+    }
+  }
+
+  &-critfac {
+    &-none {
+      background-color: $critfac-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critfac-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critfac-5;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critfac-5;
+      color: #000;
+    }
+  }
+
+  &-critinfra {
+    &-none {
+      background-color: $critinfra-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $critinfra-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critinfra-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $critinfra-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critinfra-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $critinfra-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critinfra-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $critinfra-6;
+      color: #000;
+    }
+  }
+
+  &-socvuln {
+    &-none {
+      background-color: $socvuln-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $socvuln-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $socvuln-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvuln-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvuln-3;
+      color: #000;
+    }
+  }
+
+  &-drainage {
+    &-none {
+      background-color: $drainage-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $drainage-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $drainage-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $drainage-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $drainage-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $drainage-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $drainage-5;
+      color: #000;
+    }
+  }
+
+  &-erosion {
+    &-none {
+      background-color: $erosion-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $erosion-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $erosion-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $erosion-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $erosion-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $erosion-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $erosion-5;
+      color: #000;
+    }
+  }
+
+  &-floodprone {
+    &-none {
+      background-color: $floodprone-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $floodprone-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $floodprone-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $floodprone-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $floodprone-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $floodprone-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $floodprone-5;
+      color: #000;
+    }
+  }
+
+  &-slr {
+    &-none {
+      background-color: $slr-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $slr-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $slr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $slr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $slr-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $slr-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $slr-5;
+      color: #000;
 
     }
+  }
+
+  &-stormsurge {
+    &-none {
+      background-color: $stormsurge-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $stormsurge-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $stormsurge-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $stormsurge-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $stormsurge-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $stormsurge-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $stormsurge-5;
+    }
+  }
+
+  &-geostress{
+    &-none {
+      background-color: $geostress-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $geostress-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $geostress-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $geostress-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $geostress-3;
+      color: #000;
+    }
+  }
+
+  &-slope {
+    &-none {
+      background-color: $slope-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $slope-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $slope-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $slope-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $slope-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $slope-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $slope-5;
+      color: #000;
+    }
+  }
+
+
+
+  &-threat {
+    &-zero {
+      background-color: $threat-driver-0 !important;
+    }
+
+    &-one {
+      background-color: $threat-driver-1 !important;
+    }
+
+    &-two {
+      background-color: $threat-driver-2 !important;
+    }
+
+    &-three {
+      background-color: $threat-driver-3 !important;
+    }
+
+    &-four {
+      background-color: $threat-driver-4 !important;
+    }
+
+    &-five {
+      background-color: $threat-driver-5 !important;
+    }
+  }
+
+  &-asset {
+    &-zero {
+      background-color: $asset-driver-0 !important;
+    }
+
+    &-one{
+      background-color: $asset-driver-1 !important;
+    }
+
+    &-two {
+      background-color: $asset-driver-2 !important;
+    }
+
+    &-three {
+      background-color: $asset-driver-3 !important;
+    }
+
+    &-four {
+      background-color: $asset-driver-4 !important;
+    }
+
+    &-five {
+      background-color: $asset-driver-5 !important;
+    }
+
+  }
+
+  &-assettwo {
+    &-zero {
+      background-color: $asset-driver-0 !important;
+    }
+
+    &-one {
+      background-color: $asset-driver-5 !important;
+    }
+
+  }
 
 }
