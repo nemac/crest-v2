@@ -139,13 +139,16 @@ $slope-4: #157f3b;
 $slope-5: #00441b;
 
 $hub-none: #E9ECEF;
-$hub-1: #edf8e9;
-$hub-2: #c5ddca;
-$hub-3: #9ec3ac;
-$hub-4: #76a98d;
-$hub-5: #4f8e6f;
-$hub-6: #277450;
-$hub-7: #005a32;
+$hub-1: #ffc500;
+$hub-2: #f9b500;
+$hub-3: #f3a400;
+$hub-4: #ed9400;
+$hub-5: #e78300;
+$hub-6: #e07000;
+$hub-7: #d95e00;
+$hub-8: #d14c00;
+$hub-9: #ca3600;
+$hub-10: #c21500;
 $hub-bar: #0ff;
 
 $asset-driver-0: #f7fbff;
@@ -1315,6 +1318,21 @@ div.zonal-asset {
 
     &-seven {
       background-color: $hub-7;
+      color: #000;
+    }
+
+    &-eight {
+      background-color: $hub-8;
+      color: #000;
+    }
+
+    &-nine {
+      background-color: $hub-9;
+      color: #000;
+    }
+
+    &-ten {
+      background-color: $hub-10;
       color: #b2afaf;
     }
   }
