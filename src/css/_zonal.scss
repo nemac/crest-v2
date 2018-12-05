@@ -211,10 +211,24 @@ $box-shadow-default: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
   position: relative;
 }
 
+.map_info_list .zonal-short-wrappper {
+  width: 100% !important;
+  padding: 5px !important;
+}
+
+.map_info_list .zonal-long-graph-wrapper {
+  // width: 100% !important;
+  padding: 0px !important;
+  margin-bottom: 5px;
+  padding-right: 5px;
+}
+
+
+
 .zonal-short-wrapper {
   // margin: 15px;
   // margin-top: 15px;
-
+  margin-left: -5px;
   cursor: pointer;
 
   > div, > button {
@@ -1878,7 +1892,7 @@ div.zonal-asset {
 
 $graph-tick-height-short: 5px;
 .zonal-long-graph-labels {
-  height: 65px;
+  height: 75px;
   font-size: 0px;
   padding-top: $graph-tick-height-short;
 }
