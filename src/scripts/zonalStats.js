@@ -7,6 +7,7 @@ import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
+import ZonalButtons from '../templates/zonal_buttons.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import { checkValidObject } from './utilitys';
@@ -430,6 +431,7 @@ function viewLongZonalStatsFromShape(name) {
 function shortZonalClickHandler(e) {
   e.preventDefault();
   viewLongZonalStats(this);
+  enableZonalButtons();
 
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
@@ -1087,7 +1089,22 @@ function drawThreatDrivers(wrapper, drivers) {
 }
 
 function getZonalWrapper(elem) {
-  return elem.closest('.zonal-long-wrapper.active');
+  const areanameid = elem.id;
+  const areaname = stripUserArea(areanameid);
+  const selector = `.zonal-long-wrapper.active#name-${areaname}`;
+  const wrapperelem = document.querySelector(selector);
+  return wrapperelem
+  //return elem.closest('.zonal-long-wrapper.active');
+}
+
+// set zonal buttons and header on
+function enableZonalButtons() {
+  document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
+}
+
+// set zonal buttons and header off
+function disableZonalButtons() {
+  document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
 }
 
 // Switches the display to the short zonal stats
@@ -1096,6 +1113,8 @@ function dismissLongZonalStats(wrapper) {
   wrapper.classList.remove('active');
   wrapper.classList.remove('active-table');
   document.getElementById('zonal-header').classList.remove('d-none');
+  disableZonalButtons();
+
   // wrapper.previousSibling.style.height = '100%';
   ZonalWrapperActiveAdd();
 }
@@ -1167,6 +1186,24 @@ function drawName(wrapper, name) {
   wrapper.querySelector('#zonal-long-name').textContent = name;
 }
 
+// creates zonal buttons in sticky header.
+function drawZonalButtons(HTMLName) {
+  const wrapper = makeDiv();
+  wrapper.innerHTML = ZonalButtons;
+
+  // add ids so we can deal with state
+  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name-${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name-${HTMLName}`);
+
+  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
+  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
+  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
+
+  const buttonholder = document.getElementById('zonal-stats-button-holder');
+  buttonholder.innerHTML += wrapper.innerHTML;
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
@@ -1187,6 +1224,8 @@ function drawLongZonalStats(data, name) {
 
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
+
+  drawZonalButtons(HTMLName);
 
   // add ids so we can deal with state
   wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
