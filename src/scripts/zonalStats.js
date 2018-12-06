@@ -1215,7 +1215,8 @@ function drawLongZonalStats(data, name) {
   wrapper.setAttribute('id', `name-${HTMLName}`);
   buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
-
+  drawZonalButtons(HTMLName,name);
+  
   selectChartCell(wrapper, 'hub', data.hubs);
   selectChartCell(wrapper, 'asset', data.asset);
   selectChartCell(wrapper, 'threat', data.threat);
@@ -1225,8 +1226,6 @@ function drawLongZonalStats(data, name) {
 
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
-
-  drawZonalButtons(HTMLName,name);
 
   // add ids so we can deal with state
   wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
