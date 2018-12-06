@@ -316,6 +316,11 @@ function viewLongZonalStats(shortElem) {
   setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
   document.getElementById('zonal-header').classList.add('d-none');
   ZonalWrapperActiveRemove();
+
+  const HTMLName = stripUserArea(shortElem.id);
+  document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+  document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+  document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
 }
 
 // checks if inner HTML of element is Plain old Text
@@ -430,11 +435,13 @@ function viewLongZonalStatsFromShape(name) {
 // Click handler to trigger the load of the long zonal stats
 function shortZonalClickHandler(e) {
   e.preventDefault();
-  viewLongZonalStats(this);
-  enableZonalButtons();
-
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
+
+  viewLongZonalStats(this);
+  enableZonalButtons(HTMLName);
+
+
   if (HTMLName) {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
@@ -1098,13 +1105,28 @@ function getZonalWrapper(elem) {
 }
 
 // set zonal buttons and header on
-function enableZonalButtons() {
+function enableZonalButtons(HTMLName) {
   document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
+  document.querySelector('.zonal-long-button-wrapper').classList.remove('d-none');
+
+  document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
+  document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
+  document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
+
+
+  document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+  document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+  document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+
 }
 
 // set zonal buttons and header off
-function disableZonalButtons() {
+function disableZonalButtons(HTMLName) {
   document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
+  document.querySelector('.zonal-long-button-wrapper').classList.add('d-none');
+  document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
+  document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
+  document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
 }
 
 // Switches the display to the short zonal stats
@@ -1113,7 +1135,10 @@ function dismissLongZonalStats(wrapper) {
   wrapper.classList.remove('active');
   wrapper.classList.remove('active-table');
   document.getElementById('zonal-header').classList.remove('d-none');
-  disableZonalButtons();
+
+  const id = wrapper.getAttribute('id');
+  const HTMLName = stripUserArea(id);
+  disableZonalButtons(HTMLName);
 
   // wrapper.previousSibling.style.height = '100%';
   ZonalWrapperActiveAdd();
@@ -1124,7 +1149,7 @@ function dismissZonalClickHandler(e) {
   e.preventDefault();
   setGraphsState('none', 'none');
   dismissLongZonalStats(getZonalWrapper(this));
-  console.log('dismissZonalClickHandler')
+
   const name = e.target.getAttribute('id');
 
   if (name) {
@@ -1188,21 +1213,18 @@ function drawName(wrapper, name) {
 
 // creates zonal buttons in sticky header.
 function drawZonalButtons(HTMLName, name) {
-  const wrapper = makeDiv();
+  const buttonHolder = document.getElementById('zonal-stats-button-holder');
+  const wrapper = makeDiv()
   wrapper.innerHTML = ZonalButtons;
-
-  // add ids so we can deal with state
-  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
-  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name-${HTMLName}`);
-  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name-${HTMLName}`);
-
-  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
-  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
-  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawName(wrapper, name);
+  wrapper.querySelector('.zonal-long-button-wrapper').setAttribute('id', `button-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-buttons-holder').setAttribute('id', `button-holder-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name--${HTMLName}`);
+  wrapper.querySelector('#zonal-long-name').setAttribute('id',`zonal-long-name--${HTMLName}`);
 
-  const buttonholder = document.getElementById('zonal-stats-button-holder');
-  buttonholder.innerHTML += wrapper.innerHTML;
+  buttonHolder.innerHTML += wrapper.innerHTML;
 }
 
 // Draws and configures the long zonal stats
@@ -1216,7 +1238,7 @@ function drawLongZonalStats(data, name) {
   buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
   drawZonalButtons(HTMLName,name);
-  
+
   selectChartCell(wrapper, 'hub', data.hubs);
   selectChartCell(wrapper, 'asset', data.asset);
   selectChartCell(wrapper, 'threat', data.threat);
