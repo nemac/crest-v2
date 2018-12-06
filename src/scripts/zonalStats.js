@@ -1124,7 +1124,7 @@ function dismissZonalClickHandler(e) {
   e.preventDefault();
   setGraphsState('none', 'none');
   dismissLongZonalStats(getZonalWrapper(this));
-
+  console.log('dismissZonalClickHandler')
   const name = e.target.getAttribute('id');
 
   if (name) {
@@ -1187,7 +1187,7 @@ function drawName(wrapper, name) {
 }
 
 // creates zonal buttons in sticky header.
-function drawZonalButtons(HTMLName) {
+function drawZonalButtons(HTMLName, name) {
   const wrapper = makeDiv();
   wrapper.innerHTML = ZonalButtons;
 
@@ -1199,6 +1199,7 @@ function drawZonalButtons(HTMLName) {
   wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
   wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
   wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
+  drawName(wrapper, name);
 
   const buttonholder = document.getElementById('zonal-stats-button-holder');
   buttonholder.innerHTML += wrapper.innerHTML;
@@ -1225,7 +1226,7 @@ function drawLongZonalStats(data, name) {
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
 
-  drawZonalButtons(HTMLName);
+  drawZonalButtons(HTMLName,name);
 
   // add ids so we can deal with state
   wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
