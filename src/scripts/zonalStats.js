@@ -1186,6 +1186,7 @@ function drawRawValues(wrapper, data) {
 function displayRawValues(wrapper) {
   if (wrapper) {
     wrapper.classList.add('active-table');
+    //get id strip then than add class also.
   }
 }
 
