@@ -1045,7 +1045,6 @@ function drawMapInfoStats(data, doc) {
 function enableOverView() {
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
   buttonHolder.classList.remove('d-none');
-  console.log('enableOverView')
 }
 
 function disableOverView() {

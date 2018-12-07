@@ -1115,7 +1115,6 @@ export class Explore extends Component {
     const clearAreaElement = document.getElementById('btn-clear-area');
     clearAreaElement.addEventListener('click', (ev) => {
       this.removeExistingArea();
-      console.log('addClearAreaClickHandler')
       disableOverView();
       disableZonalButtons();
 
@@ -1314,7 +1313,7 @@ export class Explore extends Component {
     }
 
     // labels nees a sec so it's placed on the correct location
-    setTimeout(() => { layer.bindTooltip(newname, this.labelOptions).openTooltip(); }, 50);
+    setTimeout(() => { layer.bindTooltip(newname, this.labelOptions); }, 50);
   }
 
   // handler for when drawing is complete on the map
