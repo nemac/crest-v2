@@ -177,7 +177,7 @@ function setNavBars(selector) {
     NavBar.tabUpdate(selector);
   }
   const navChangeEvent = new CustomEvent('aboutNavChange');
-  window.dispatchEvent(navChangeEvent);  
+  window.dispatchEvent(navChangeEvent);
 }
 
 
@@ -223,17 +223,17 @@ const router = new Navigo(homeloc, true);
 
 router.on({
   '/': (params, query) => {
-    //store.setStoreItem('activeNav', 'main-nav-map');
+    // store.setStoreItem('activeNav', 'main-nav-map');
     initMapComponent();
     setNavBars('main-nav-map');
   },
   '/Home': (params, query) => {
-    //store.setStoreItem('activeNav', 'main-nav-map');
+    // store.setStoreItem('activeNav', 'main-nav-map');
     initMapComponent();
     setNavBars('main-nav-map');
   },
   '/SearchHubs': (params, query) => {
-    //store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
+    // store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
     initMapComponent();
     setNavBars('main-nav-map-searchhubs');
   },
