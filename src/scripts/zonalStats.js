@@ -1052,7 +1052,6 @@ function disableOverView() {
   buttonHolder.classList.add('d-none');
 }
 
-
 // Creates the entire short zonal stats block of html
 // @param data | Object
 // @return DOM element
@@ -1391,7 +1390,9 @@ export {
   stripUserArea,
   isGraphActivetate,
   viewLongZonalStatsFromShape,
-  drawMapInfoStats
+  drawMapInfoStats,
+  enableOverView,
+  disableOverView
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

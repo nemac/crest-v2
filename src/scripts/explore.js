@@ -30,7 +30,9 @@ import {
   togglePermHighLightsAllOff,
   makeHTMLName,
   isGraphActivetate,
-  viewLongZonalStatsFromShape
+  viewLongZonalStatsFromShape,
+  enableOverView,
+  disableOverView
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -195,6 +197,7 @@ export class Explore extends Component {
 
       Explore.disableShapeExistsButtons();
       Explore.dismissExploreDirections();
+      disableOverView();
 
       if (activeNav) {
         // active nav is search hubs
@@ -204,6 +207,7 @@ export class Explore extends Component {
           // that tells the user what to do
           if (!checkValidObject(checkHubIntersectionJson)) {
             Explore.updateExploreDirections(this.exlporeHubMessage);
+            disableOverView();
           // If there is hub data in store do NOT show text and draw the hubs
           } else {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
@@ -211,6 +215,7 @@ export class Explore extends Component {
             Explore.dismissExploreDirections();
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
+            enableOverView();
           }
         // active nav is NOT search hubs assumes explore assment
         } else {
@@ -219,13 +224,14 @@ export class Explore extends Component {
           // that tells the user what to do
           if (!checkValidObject(checkUserareas)) {
             Explore.updateExploreDirections(this.exlporeAssmentMessage);
-
+            disableOverView();
           // If there is explore assement data in store do NOT show text and draw the shpes
           } else {
             Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
             Explore.updateExploreDirections(this.exlporeAssmentMessage);
             Explore.dismissExploreDirections();
             this.drawUserAreaFromUsereas();
+            enableOverView();
           }
         }
       // active nav is NOT set so we default too explore assment tab
@@ -235,12 +241,14 @@ export class Explore extends Component {
         // that tells the user what to do
         if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
+          disableOverView();
         // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
+          enableOverView();
         }
       }
     });
@@ -1129,6 +1137,7 @@ export class Explore extends Component {
     const clearAreaElement = document.getElementById('btn-clear-area');
     clearAreaElement.addEventListener('click', (ev) => {
       this.removeExistingArea();
+      disableOverView();
 
       // this temp remove of stats while we work on multiple shapes.
       Explore.clearDetails();
@@ -1542,7 +1551,6 @@ export class Explore extends Component {
 
   drawZonalStatsForStoredHubs() {
     const hubs = store.getStateItem('HubIntersectionJson');
-    console.log(hubs)
     for (let i=0; i<hubs.length; i++) {
       const name = "" + hubs[i].properties.mean.TARGET_FID;
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
@@ -1593,7 +1601,6 @@ export class Explore extends Component {
       try {
         geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
       } catch (e) {
-        console.error(e);
         alert('Error reading geojson.');
         geojsonFromFile = {};
       }
