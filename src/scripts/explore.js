@@ -103,12 +103,53 @@ export class Explore extends Component {
     this.exlporeAssmentMessage = 'To start examining the assessment click the draw area button and then sketch an area on the map. If you have a shapefile of the region, use the upload shapefile button.';
     this.exlporeHubMessage = 'To start searching for a place to do a resilience project click the draw area button and then sketch an area on the map. If you have a shapefile of the area, use the upload shapefile button.';
 
+    this.restoreWhenNotShareURL();
+
+    this.addUploadShapeHandler();
+
+    Explore.addListAreasHandler();
+
+    this.addUpdateStatisticsHandler();
+
+    this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
+      Explore.zonalStatsHandler();
+    });
+
+    this.mapComponent.map.addEventListener('retreives3end', (e) => {
+      spinnerOff();
+    });
+
+    this.mapComponent.map.addEventListener('retreives3start', (e) => {
+      spinnerOn();
+    });
+
+    this.navBarChangeListner();
+
+    window.addEventListener('removeuserareend', (e) => {
+      this.clearLayersAndDetails();
+      this.drawUserAreaFromUsereas();
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', (e) => {
+      store.clearState();
+      location.reload();
+    });
+
+    Explore.windowListnersToStopRoqueSpinner();
+    // uncomment this if we want to add the draw area button to leaflet
+    // control
+    // this.addDrawButtons(mapComponent);
+  }
+
+  // restore for when not share URL
+  restoreWhenNotShareURL() {
+    // draw the user area on the map
     const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
     const checkUserareas = store.getStateItem('userareas');
 
 
-    // draw the user area on the map
     if (!this.hasShareURL) {
+      console.log('!this.hasShareURL', store.getStateItem('activeNav'))
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
 
@@ -137,25 +178,14 @@ export class Explore extends Component {
         }
       }
     }
+  }
 
-    this.addUploadShapeHandler();
+  // listens for the when the navbar changes EVENT, when it does
+  // we re-draw the map for either the exlopre the assment or
+  // search by hubs
+  navBarChangeListner() {
 
-    Explore.addListAreasHandler();
-
-    this.addUpdateStatisticsHandler();
-
-    this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
-      Explore.zonalStatsHandler();
-    });
-
-    this.mapComponent.map.addEventListener('retreives3end', (e) => {
-      spinnerOff();
-    });
-
-    this.mapComponent.map.addEventListener('retreives3start', (e) => {
-      spinnerOn();
-    });
-
+    // event listner to handle nav change
     window.addEventListener('aboutNavChange', (e) => {
       this.drawAreaGroup.clearLayers();
 
@@ -169,54 +199,52 @@ export class Explore extends Component {
       Explore.dismissExploreDirections();
 
       if (activeNav) {
+        // active nav is search hubs
         if (activeNav === 'main-nav-map-searchhubs') {
-          this.drawHubs();
-          Explore.updateExploreText(exploreTitle, this.HubsExploreText);
-          Explore.updateExploreDirections(this.exlporeHubMessage);
-
+          // check if there is hub data in the state store
+          // if there is NONE dispolay the text
+          // that tells the user what to do
           if (!checkValidObject(checkHubIntersectionJson)) {
             Explore.updateExploreDirections(this.exlporeHubMessage);
+          // If there is hub data in store do NOT show text and draw the hubs
           } else {
+            Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+            Explore.updateExploreDirections(this.exlporeHubMessage);
             Explore.dismissExploreDirections();
+            this.drawHubs();
           }
+        // active nav is NOT search hubs assumes explore assment
         } else {
-          this.drawUserAreaFromUsereas();
-          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-          Explore.updateExploreDirections(this.exlporeAssmentMessage);
-
+          // check if there is explore assement data in the state store
+          // if there is NONE dispolay the text
+          // that tells the user what to do
           if (!checkValidObject(checkUserareas)) {
             Explore.updateExploreDirections(this.exlporeAssmentMessage);
+
+          // If there is explore assement data in store do NOT show text and draw the shpes
           } else {
+            Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+            Explore.updateExploreDirections(this.exlporeAssmentMessage);
             Explore.dismissExploreDirections();
+            this.drawUserAreaFromUsereas();
           }
         }
+      // active nav is NOT set so we default too explore assment tab
       } else {
-        this.drawUserAreaFromUsereas();
-        Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-        Explore.updateExploreDirections(this.exlporeAssmentMessage);
-
+        // check if there is explore assement data in the state store
+        // if there is NONE dispolay the text
+        // that tells the user what to do
         if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
+        // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
+          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+          Explore.updateExploreDirections(this.exlporeAssmentMessage);
           Explore.dismissExploreDirections();
+          this.drawUserAreaFromUsereas();
         }
       }
     });
-
-    window.addEventListener('removeuserareend', (e) => {
-      this.clearLayersAndDetails();
-      this.drawUserAreaFromUsereas();
-    });
-
-    document.getElementById('btn-reset').addEventListener('click', (e) => {
-      store.clearState();
-      location.reload();
-    });
-
-    Explore.windowListnersToStopRoqueSpinner();
-    // uncomment this if we want to add the draw area button to leaflet
-    // control
-    // this.addDrawButtons(mapComponent);
   }
 
   static dismissExploreDirections() {
@@ -601,7 +629,7 @@ export class Explore extends Component {
 
         // draw Resilience hub
         this.drawAreaGroup.addLayer(resilienceHubLayer);
-        this.addUserAreaLabel(resilienceHubLayer, name);
+        // this.addUserAreaLabel(resilienceHubLayer, name);
 
         Explore.enableShapeExistsButtons();
         Explore.dismissExploreDirections();
