@@ -209,6 +209,7 @@ export class Explore extends Component {
           // if there is NONE dispolay the text
           // that tells the user what to do
           if (!checkValidObject(checkHubIntersectionJson)) {
+            Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
             disableOverView();
           // If there is hub data in store do NOT show text and draw the hubs
@@ -227,6 +228,7 @@ export class Explore extends Component {
           // if there is NONE dispolay the text
           // that tells the user what to do
           if (!checkValidObject(checkUserareas)) {
+            Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
             Explore.updateExploreDirections(this.exlporeAssmentMessage);
             disableOverView();
             disableZonalButtons();
