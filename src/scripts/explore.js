@@ -114,7 +114,7 @@ export class Explore extends Component {
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
-          this.restoreHubs(); 
+          this.restoreHubs();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
           Explore.updateExploreDirections(this.exlporeHubMessage);
           if (checkValidObject(checkHubIntersectionJson)) {
@@ -440,7 +440,7 @@ export class Explore extends Component {
     // get geoJSON to send to zonal stats lambda function
     // in this case do not use the buffered shape
     const rawpostdata = store.getStateItem('userarea');
-    let postdata = ''; 
+    let postdata = '';
 
     // some Geojson is not a feature collection lambda function expects a
     // a feature collection
@@ -529,7 +529,7 @@ export class Explore extends Component {
       store.setStoreItem('HubIntersectionJson', newStateItem);
     } else {
       store.setStoreItem('HubIntersectionJson', json);
-    } 
+    }
   }
 
   // renders the shapes from the user areas state object
@@ -1145,7 +1145,7 @@ export class Explore extends Component {
     if (clearAreaElement) {
       clearAreaElement.innerHTML = '';
     }
-  } 
+  }
 
 
   static removeDrawShapeToolTip() {
@@ -1500,14 +1500,14 @@ export class Explore extends Component {
       }
       Explore.sortHubsByHubScore();
       // draw zonal stats for each shape
-      this.drawZonalStatsForStoredHubs();      
+      this.drawZonalStatsForStoredHubs();
       this.mapComponent.map.fireEvent('zonalstatsend');
     } else {
       // Assume we're on the default explore tab
-      this.drawAreaGroup.clearLayers(); 
-      for (let i=0; i<featuresReady.length; i++) { 
+      this.drawAreaGroup.clearLayers();
+      for (let i=0; i<featuresReady.length; i++) {
         await this.addFeatureAsMapLayer(featuresReady[i]);
-      } 
+      }
     }
     try {
       this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
@@ -1525,7 +1525,7 @@ export class Explore extends Component {
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
     }
   }
- 
+
   static sortHubsByHubScore () {
     const hubs = store.getStateItem('HubIntersectionJson');
     const HubIntersectionJsonSorted = hubs.sort((a, b) => {
@@ -1537,7 +1537,7 @@ export class Explore extends Component {
       }
       // a must be equal to b
       return 0;
-    }); 
+    });
     store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
   }
 
