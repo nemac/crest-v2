@@ -418,6 +418,8 @@ function viewLongZonalStatsFromShape(name) {
 
   document.getElementById('zonal-header').classList.add('d-none');
   ZonalWrapperActiveRemove();
+  disableAllZonalButtons();
+  enableZonalButtons(`-USERAREA-${name}`);
 
   const pathid = `path--USERAREA-${name}`;
   if (pathid) {
@@ -440,7 +442,6 @@ function shortZonalClickHandler(e) {
 
   viewLongZonalStats(this);
   enableZonalButtons(HTMLName);
-
 
   if (HTMLName) {
     if (HTMLName.indexOf('div_class') === -1) {
@@ -1106,9 +1107,10 @@ function getZonalWrapper(elem) {
 
 // set zonal buttons and header on
 function enableZonalButtons(HTMLName) {
+  console.log(HTMLName)
   document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
-  document.querySelector('.zonal-long-button-wrapper').classList.remove('d-none');
 
+  document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
   document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
   document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
   document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
@@ -1120,10 +1122,22 @@ function enableZonalButtons(HTMLName) {
 
 }
 
+function disableAllZonalButtons() {
+  const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
+  buttons.forEach( (button) => {
+    button.classList.add('d-none');
+  })
+}
+
+function disableMainZonalButton() {
+  document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
+}
+
 // set zonal buttons and header off
 function disableZonalButtons(HTMLName) {
-  document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
-  document.querySelector('.zonal-long-button-wrapper').classList.add('d-none');
+  disableMainZonalButton();
+  disableAllZonalButtons()
+  document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
   document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
   document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
   document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
@@ -1186,13 +1200,20 @@ function drawRawValues(wrapper, data) {
 function displayRawValues(wrapper) {
   if (wrapper) {
     wrapper.classList.add('active-table');
-    //get id strip then than add class also.
+    const holderElem = document.getElementById('zonal-stats-button-holder')
+    if (holderElem) {
+      holderElem.classList.add('active-table');
+    }
   }
 }
 
 function displayGraphs(wrapper) {
   if (wrapper) {
     wrapper.classList.remove('active-table');
+  }
+  const holderElem = document.getElementById('zonal-stats-button-holder')
+  if (holderElem) {
+    holderElem.classList.remove('active-table');
   }
 }
 
@@ -1282,6 +1303,7 @@ function restoreGraphState() {
     const activestate = graphstate[1];
     const elem = document.getElementById(elemid);
     const path = document.querySelector(`.path-${elemid.replace('name-', '')}`);
+    const HTMLName = stripUserArea(elemid);
 
     switch (activestate) {
       case 'graph':
@@ -1292,6 +1314,7 @@ function restoreGraphState() {
 
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
+          enableZonalButtons(HTMLName)
         }
 
         break;
@@ -1303,6 +1326,7 @@ function restoreGraphState() {
 
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
+          enableZonalButtons(HTMLName)
         }
         break;
       default:
