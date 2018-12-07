@@ -147,15 +147,13 @@ export class Explore extends Component {
     const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
     const checkUserareas = store.getStateItem('userareas');
 
-
     if (!this.hasShareURL) {
-      console.log('!this.hasShareURL', store.getStateItem('activeNav'))
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
 
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
-          this.restoreHubs();
+          this.drawHubsFromStateObject();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
           Explore.updateExploreDirections(this.exlporeHubMessage);
           if (checkValidObject(checkHubIntersectionJson)) {
@@ -211,7 +209,8 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
             Explore.dismissExploreDirections();
-            this.drawHubs();
+            this.drawHubsFromStateObject();
+            this.drawZonalStatsForStoredHubs();
           }
         // active nav is NOT search hubs assumes explore assment
         } else {
@@ -463,7 +462,6 @@ export class Explore extends Component {
   async getHubsZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
-    //store.removeStateItem('HubIntersectionJson');
 
     // get geoJSON to send to zonal stats lambda function
     // in this case do not use the buffered shape
@@ -503,9 +501,8 @@ export class Explore extends Component {
     Explore.appendIntersectedHubsToState(HubIntersectionJson);
     Explore.sortHubsByHubScore();
 
-
     // draw the hubs and the zonal stats
-    //this.drawHubs();
+    //this.drawHubsFromStateObject();
 
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
@@ -561,7 +558,7 @@ export class Explore extends Component {
   }
 
   // renders the shapes from the user areas state object
-  drawHubs() {
+  drawHubsFromStateObject() {
     store.setStoreItem('working_drawlayers', true);
     spinnerOn();
 
@@ -629,7 +626,7 @@ export class Explore extends Component {
 
         // draw Resilience hub
         this.drawAreaGroup.addLayer(resilienceHubLayer);
-        // this.addUserAreaLabel(resilienceHubLayer, name);
+        this.addUserAreaLabel(resilienceHubLayer, name);
 
         Explore.enableShapeExistsButtons();
         Explore.dismissExploreDirections();
@@ -714,21 +711,19 @@ export class Explore extends Component {
     return geojson;
   }
 
-
-  restoreExplore() {
+  // restore explore for share url from s3
+  restoreExploreForShareURL() {
     // if their is a query string paramter for shareurl=true restore the shapes.
     if (this.hasShareURL === 'true') {
       this.getShapesFromS3();
     }
   }
 
-  async restoreHubs() {
-    // if their is a query string paramter for shareurl=true restore the shapes.
-    //if (this.hasShareURL === 'true') {
-    await this.getHubsFromS3();
-    await this.drawZonalStatsForStoredHubs();
-    this.drawHubs();
-    //}
+  // restore hubs for share url from s3
+  restoreHubsForShareURL() {
+    if (this.hasShareURL === 'true') {
+      this.getHubsFromS3();
+    }
   }
 
   // get geojson from s3
@@ -738,11 +733,10 @@ export class Explore extends Component {
     spinnerOn();
 
     // check shareurl nav
-    if (store.getStateItem('activeNav' === 'main-nav-map-searchhubs')) {
-      this.restoreHubs();
-    }
-    if (store.getStateItem('activeNav' === 'main-nav-map')) {
-      this.restoreExplore();
+    if (this.theStartNav === 'main-nav-map-searchhubs') {
+      this.restoreHubsForShareURL();
+    } else {
+      this.restoreExploreForShareURL();
     }
 
     store.setStoreItem('working_s3retreive', false);
@@ -788,7 +782,7 @@ export class Explore extends Component {
         if (activeNav === 'main-nav-map-searchhubs') {
           Explore.removeExistingHubs();
           this.getHubsZonal();
-          this.drawHubs();
+          this.drawHubsFromStateObject();
           this.drawZonalStatsForStoredHubs();
         } else {
           this.getZonal();
@@ -1377,9 +1371,9 @@ export class Explore extends Component {
           Explore.removeExistingHubs();
           this.drawAreaGroup.clearLayers();
           Explore.clearZonalStatsWrapperDiv();
-          await this.getHubsZonal();
-          await this.drawZonalStatsForStoredHubs();
-          this.drawHubs();
+          this.getHubsZonal();
+          this.drawZonalStatsForStoredHubs();
+          this.drawHubsFromStateObject();
         } else {
           this.getZonal();
         }
@@ -1548,6 +1542,7 @@ export class Explore extends Component {
 
   drawZonalStatsForStoredHubs() {
     const hubs = store.getStateItem('HubIntersectionJson');
+    console.log(hubs)
     for (let i=0; i<hubs.length; i++) {
       const name = "" + hubs[i].properties.mean.TARGET_FID;
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
