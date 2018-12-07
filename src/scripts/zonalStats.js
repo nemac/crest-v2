@@ -1045,6 +1045,7 @@ function drawMapInfoStats(data, doc) {
 function enableOverView() {
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
   buttonHolder.classList.remove('d-none');
+  console.log('enableOverView')
 }
 
 function disableOverView() {
@@ -1115,23 +1116,24 @@ function getZonalWrapper(elem) {
 
 // set zonal buttons and header on
 function enableZonalButtons(HTMLName) {
-  disableOverView();
+  enableOverView();
   document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
 
-  document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
-  document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
-  document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
-  document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
 
 
-  document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
-  document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
-  document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
-
+    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+  }
 }
 
 function disableAllZonalButtons() {
-  enableOverView();
+  disableOverView();
   const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
   buttons.forEach( (button) => {
     button.classList.add('d-none');
@@ -1146,11 +1148,13 @@ function disableMainZonalButton() {
 function disableZonalButtons(HTMLName) {
   disableMainZonalButton();
   disableAllZonalButtons()
-  enableOverView();
-  document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
-  document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
-  document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
-  document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
+  disableOverView();
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
+  }
 }
 
 // Switches the display to the short zonal stats
@@ -1392,7 +1396,9 @@ export {
   viewLongZonalStatsFromShape,
   drawMapInfoStats,
   enableOverView,
-  disableOverView
+  disableOverView,
+  enableZonalButtons,
+  disableZonalButtons
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

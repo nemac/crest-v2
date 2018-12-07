@@ -32,7 +32,9 @@ import {
   isGraphActivetate,
   viewLongZonalStatsFromShape,
   enableOverView,
-  disableOverView
+  disableOverView,
+  enableZonalButtons,
+  disableZonalButtons
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -197,6 +199,7 @@ export class Explore extends Component {
 
       Explore.disableShapeExistsButtons();
       Explore.dismissExploreDirections();
+      disableZonalButtons();
       disableOverView();
 
       if (activeNav) {
@@ -216,6 +219,7 @@ export class Explore extends Component {
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
             enableOverView();
+            enableZonalButtons();
           }
         // active nav is NOT search hubs assumes explore assment
         } else {
@@ -225,6 +229,7 @@ export class Explore extends Component {
           if (!checkValidObject(checkUserareas)) {
             Explore.updateExploreDirections(this.exlporeAssmentMessage);
             disableOverView();
+            disableZonalButtons();
           // If there is explore assement data in store do NOT show text and draw the shpes
           } else {
             Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -232,6 +237,7 @@ export class Explore extends Component {
             Explore.dismissExploreDirections();
             this.drawUserAreaFromUsereas();
             enableOverView();
+            enableZonalButtons();
           }
         }
       // active nav is NOT set so we default too explore assment tab
@@ -242,6 +248,7 @@ export class Explore extends Component {
         if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           disableOverView();
+          disableZonalButtons();
         // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -249,6 +256,7 @@ export class Explore extends Component {
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
           enableOverView();
+          enableZonalButtons();
         }
       }
     });
@@ -588,6 +596,9 @@ export class Explore extends Component {
 
         const resilienceHubLayer = L.geoJson(userarea, this.bufferedoptions);
 
+        // draw Resilience hub
+        this.drawAreaGroup.addLayer(resilienceHubLayer);
+
         // add mouserovers for the shapes.
         resilienceHubLayer.on({
           mouseover: (e) => {
@@ -632,8 +643,6 @@ export class Explore extends Component {
           }
         });
 
-        // draw Resilience hub
-        this.drawAreaGroup.addLayer(resilienceHubLayer);
         this.addUserAreaLabel(resilienceHubLayer, name);
 
         Explore.enableShapeExistsButtons();
@@ -771,38 +780,6 @@ export class Explore extends Component {
     }
     return null;
   }
-
-  // drawUserArea() {
-  //   const userarea = store.getStateItem('userarea');
-  //   if (checkValidObject(userarea)) {
-  //     // convert geoJson to leaflet layer
-  //     const layer = L.geoJson(userarea);
-  //     const bufferedLayer = this.bufferArea(userarea);
-  //
-  //     // add layer to the leaflet map
-  //     this.drawAreaGroup.addLayer(layer);
-  //     this.drawAreaGroup.addLayer(bufferedLayer);
-  //     this.addUserAreaLabel(bufferedLayer);
-  //
-  //     const activeNav = store.getStateItem('activeNav');
-  //
-  //     if (activeNav) {
-  //       if (activeNav === 'main-nav-map-searchhubs') {
-  //         Explore.removeExistingHubs();
-  //         this.getHubsZonal();
-  //         this.drawHubsFromStateObject();
-  //         this.drawZonalStatsForStoredHubs();
-  //       } else {
-  //         this.getZonal();
-  //       }
-  //     } else {
-  //       this.getZonal();
-  //     }
-  //
-  //     return layer;
-  //   }
-  //   return null;
-  // }
 
   // get shapes that we saved on s3.  In order to create a share URL - a web URL
   // we can send to another users we need to be able to pass large geospatial datasets
@@ -1081,6 +1058,7 @@ export class Explore extends Component {
   clearLayersAndDetails() {
     this.drawAreaGroup.clearLayers();
     Explore.clearDetails();
+    disableOverView();
   }
 
   static removeExistingExplore() {
@@ -1137,7 +1115,9 @@ export class Explore extends Component {
     const clearAreaElement = document.getElementById('btn-clear-area');
     clearAreaElement.addEventListener('click', (ev) => {
       this.removeExistingArea();
+      console.log('addClearAreaClickHandler')
       disableOverView();
+      disableZonalButtons();
 
       // this temp remove of stats while we work on multiple shapes.
       Explore.clearDetails();
@@ -1376,7 +1356,6 @@ export class Explore extends Component {
       store.setStoreItem('userarea', geojson);
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
-          console.log('addDrawVertexCreatedHandler', activeNav)
 
           Explore.removeExistingHubs();
           Explore.clearZonalStatsWrapperDiv();
@@ -1528,7 +1507,7 @@ export class Explore extends Component {
     if (activeNav === 'main-nav-map-searchhubs') {
       Explore.removeExistingHubs();
       this.drawAreaGroup.clearLayers();
-      for (let i=0; i<featuresReady.length; i++) {
+      for (let i=0; i<featuresReady.length; i += 1) {
         store.setStoreItem('userarea', featuresReady[i]);
         await this.getHubsZonal();
       }
@@ -1539,7 +1518,7 @@ export class Explore extends Component {
     } else {
       // Assume we're on the default explore tab
       this.drawAreaGroup.clearLayers();
-      for (let i=0; i<featuresReady.length; i++) {
+      for (let i=0; i<featuresReady.length; i += 1) {
         await this.addFeatureAsMapLayer(featuresReady[i]);
       }
     }
@@ -1554,8 +1533,8 @@ export class Explore extends Component {
 
   drawZonalStatsForStoredHubs() {
     const hubs = store.getStateItem('HubIntersectionJson');
-    for (let i=0; i<hubs.length; i++) {
-      const name = "" + hubs[i].properties.mean.TARGET_FID;
+    for (let i=0; i<hubs.length; i += 1) {
+      const name = '' + hubs[i].properties.mean.TARGET_FID;
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
     }
   }
