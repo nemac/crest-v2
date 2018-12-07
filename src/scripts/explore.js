@@ -772,37 +772,37 @@ export class Explore extends Component {
     return null;
   }
 
-  drawUserArea() {
-    const userarea = store.getStateItem('userarea');
-    if (checkValidObject(userarea)) {
-      // convert geoJson to leaflet layer
-      const layer = L.geoJson(userarea);
-      const bufferedLayer = this.bufferArea(userarea);
-
-      // add layer to the leaflet map
-      this.drawAreaGroup.addLayer(layer);
-      this.drawAreaGroup.addLayer(bufferedLayer);
-      this.addUserAreaLabel(bufferedLayer);
-
-      const activeNav = store.getStateItem('activeNav');
-
-      if (activeNav) {
-        if (activeNav === 'main-nav-map-searchhubs') {
-          Explore.removeExistingHubs();
-          this.getHubsZonal();
-          this.drawHubsFromStateObject();
-          this.drawZonalStatsForStoredHubs();
-        } else {
-          this.getZonal();
-        }
-      } else {
-        this.getZonal();
-      }
-
-      return layer;
-    }
-    return null;
-  }
+  // drawUserArea() {
+  //   const userarea = store.getStateItem('userarea');
+  //   if (checkValidObject(userarea)) {
+  //     // convert geoJson to leaflet layer
+  //     const layer = L.geoJson(userarea);
+  //     const bufferedLayer = this.bufferArea(userarea);
+  //
+  //     // add layer to the leaflet map
+  //     this.drawAreaGroup.addLayer(layer);
+  //     this.drawAreaGroup.addLayer(bufferedLayer);
+  //     this.addUserAreaLabel(bufferedLayer);
+  //
+  //     const activeNav = store.getStateItem('activeNav');
+  //
+  //     if (activeNav) {
+  //       if (activeNav === 'main-nav-map-searchhubs') {
+  //         Explore.removeExistingHubs();
+  //         this.getHubsZonal();
+  //         this.drawHubsFromStateObject();
+  //         this.drawZonalStatsForStoredHubs();
+  //       } else {
+  //         this.getZonal();
+  //       }
+  //     } else {
+  //       this.getZonal();
+  //     }
+  //
+  //     return layer;
+  //   }
+  //   return null;
+  // }
 
   // get shapes that we saved on s3.  In order to create a share URL - a web URL
   // we can send to another users we need to be able to pass large geospatial datasets
@@ -1374,15 +1374,18 @@ export class Explore extends Component {
       // update store
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', geojson);
-
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
+          console.log('addDrawVertexCreatedHandler', activeNav)
+
           Explore.removeExistingHubs();
-          this.drawAreaGroup.clearLayers();
           Explore.clearZonalStatsWrapperDiv();
-          this.getHubsZonal();
-          this.drawZonalStatsForStoredHubs();
+
+          this.drawAreaGroup.clearLayers();
+
+          await this.getHubsZonal();
           this.drawHubsFromStateObject();
+          this.drawZonalStatsForStoredHubs();
         } else {
           this.getZonal();
         }
