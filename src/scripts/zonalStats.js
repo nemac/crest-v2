@@ -7,8 +7,8 @@ import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
+import ZonalButtons from '../templates/zonal_buttons.html';
 import ZonalOverViewTable from '../templates/zonal_overview_table.html';
-
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import { checkValidObject } from './utilitys';
@@ -296,6 +296,7 @@ function ZonalWrapperActiveAdd() {
 
 function setGraphsState(name, activetype) {
   let newname = name;
+
   const striptext = ['raw-name', 'graph-name', 'dismiss-name'];
 
   striptext.map((replacetext) => {
@@ -306,8 +307,122 @@ function setGraphsState(name, activetype) {
     return newname;
   });
 
+  newname = newname.replace('name--USERAREA', 'name---USERAREA');
   store.setStoreItem('zonalactive', [newname, activetype]);
   return newname;
+}
+
+function disableMainZonalButton() {
+  document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
+}
+
+function disableOverView() {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.add('d-none');
+}
+
+function disableAllZonalButtons() {
+  disableOverView();
+  const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
+  buttons.forEach((button) => {
+    button.classList.add('d-none');
+  });
+}
+
+// set zonal buttons and header off
+function disableZonalButtons(HTMLName) {
+  disableMainZonalButton();
+  disableAllZonalButtons();
+  disableOverView();
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
+  }
+}
+
+function enableOverView() {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.remove('d-none');
+}
+
+// Switches the display to the short zonal stats
+// @param wrapper | DOM element
+function dismissLongZonalStats(wrapper) {
+  wrapper.classList.remove('active');
+  wrapper.classList.remove('active-table');
+  document.getElementById('zonal-header').classList.remove('d-none');
+
+  const id = wrapper.getAttribute('id');
+  const HTMLName = stripUserArea(id);
+  disableZonalButtons(HTMLName);
+  enableOverView();
+
+  // wrapper.previousSibling.style.height = '100%';
+  ZonalWrapperActiveAdd();
+}
+
+function getZonalWrapper(elem) {
+  const areanameid = elem.id;
+  const areaname = stripUserArea(areanameid);
+  const selector = `.zonal-long-wrapper.active#name-${areaname}`;
+  const wrapperelem = document.querySelector(selector);
+  return wrapperelem;
+}
+
+function togglePermHighLightsOff(elem) {
+  if (elem) {
+    elem.classList.remove('path-highlight-perm');
+    elem.classList.add('path-nohighlight-perm');
+  }
+}
+
+// Click handler to trigger the dismiss of the long zonal stats
+function dismissZonalClickHandler(e) {
+  e.preventDefault();
+  setGraphsState('none', 'none');
+  dismissLongZonalStats(getZonalWrapper(this));
+
+  const name = e.target.getAttribute('id');
+
+  if (name) {
+    const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
+    const path = document.querySelector(`.path-${HTMLName}`);
+    togglePermHighLightsOff(path);
+  }
+}
+
+function displayRawValues(wrapper) {
+  if (wrapper) {
+    wrapper.classList.add('active-table');
+    const holderElem = document.getElementById('zonal-stats-button-holder');
+    if (holderElem) {
+      holderElem.classList.add('active-table');
+    }
+  }
+}
+
+function displayZonalTableHandler(e) {
+  e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'table');
+  displayRawValues(getZonalWrapper(this));
+}
+
+function displayGraphs(wrapper) {
+  if (wrapper) {
+    wrapper.classList.remove('active-table');
+  }
+  const holderElem = document.getElementById('zonal-stats-button-holder');
+  if (holderElem) {
+    holderElem.classList.remove('active-table');
+  }
+}
+
+function displayZonalGraphsHandler(e) {
+  e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'graph');
+  displayGraphs(getZonalWrapper(this));
 }
 
 // Switches the display to the long zonal stats
@@ -317,6 +432,11 @@ function viewLongZonalStats(shortElem) {
   setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
   document.getElementById('zonal-header').classList.add('d-none');
   ZonalWrapperActiveRemove();
+
+  const HTMLName = stripUserArea(shortElem.id);
+  document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+  document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+  document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
 }
 
 // checks if inner HTML of element is Plain old Text
@@ -348,13 +468,6 @@ function togglePermHighLightsAllOff(elem) {
   if (elem) {
     elem.classList.remove('path-highlight-perm');
     elem.classList.remove('path-nohighlight-perm');
-  }
-}
-
-function togglePermHighLightsOff(elem) {
-  if (elem) {
-    elem.classList.remove('path-highlight-perm');
-    elem.classList.add('path-nohighlight-perm');
   }
 }
 
@@ -408,12 +521,32 @@ function hideLastHighlight() {
   }
 }
 
+// set zonal buttons and header on
+function enableZonalButtons(HTMLName) {
+  enableOverView();
+  document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
+
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
+
+
+    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+  }
+}
+
 function viewLongZonalStatsFromShape(name) {
   hideLastLongStats();
   hideLastHighlight();
 
   document.getElementById('zonal-header').classList.add('d-none');
   ZonalWrapperActiveRemove();
+  disableAllZonalButtons();
+  enableZonalButtons(`-USERAREA-${name}`);
 
   const pathid = `path--USERAREA-${name}`;
   if (pathid) {
@@ -431,10 +564,13 @@ function viewLongZonalStatsFromShape(name) {
 // Click handler to trigger the load of the long zonal stats
 function shortZonalClickHandler(e) {
   e.preventDefault();
-  viewLongZonalStats(this);
-
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
+  setGraphsState(this.getAttribute('id'), 'graph');
+  viewLongZonalStats(this);
+  enableZonalButtons(HTMLName);
+  disableOverView();
+
   if (HTMLName) {
     if (HTMLName.indexOf('div_class') === -1) {
       const path = document.querySelector(`.path-${HTMLName}`);
@@ -1074,11 +1210,9 @@ function drawShortZonalStats(data, name, mapComponent) {
     wrapper.insertBefore(rem, wrapper.childNodes[0]);
   }
   const ovr = makeOverviewLabel();
-  // const zonalHeader = document.getElementById('zonal-header-text');
-  // if (zonalHeader) {
-  //   zonalHeader.innerHTML = ovr.innerHTML;
-  // }
-  wrapper.insertBefore(ovr, wrapper.childNodes[0]);
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.innerHTML = ovr.innerHTML;
+  buttonHolder.classList.remove('d-none');
 
   return wrapper;
 }
@@ -1089,35 +1223,6 @@ function drawShortZonalStats(data, name, mapComponent) {
 function drawThreatDrivers(wrapper, drivers) {
   const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
   drivers.forEach(drawDriver.bind(null, threatGraph, '', 'threat'));
-}
-
-function getZonalWrapper(elem) {
-  return elem.closest('.zonal-long-wrapper.active');
-}
-
-// Switches the display to the short zonal stats
-// @param wrapper | DOM element
-function dismissLongZonalStats(wrapper) {
-  wrapper.classList.remove('active');
-  wrapper.classList.remove('active-table');
-  document.getElementById('zonal-header').classList.remove('d-none');
-  // wrapper.previousSibling.style.height = '100%';
-  ZonalWrapperActiveAdd();
-}
-
-// Click handler to trigger the dismiss of the long zonal stats
-function dismissZonalClickHandler(e) {
-  e.preventDefault();
-  setGraphsState('none', 'none');
-  dismissLongZonalStats(getZonalWrapper(this));
-
-  const name = e.target.getAttribute('id');
-
-  if (name) {
-    const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
-    const path = document.querySelector(`.path-${HTMLName}`);
-    togglePermHighLightsOff(path);
-  }
 }
 
 function findRawValue(wrapper, key) {
@@ -1144,32 +1249,24 @@ function drawRawValues(wrapper, data) {
   data.forEach(populateRawTableRow.bind(null, wrapper));
 }
 
-function displayRawValues(wrapper) {
-  if (wrapper) {
-    wrapper.classList.add('active-table');
-  }
-}
-
-function displayGraphs(wrapper) {
-  if (wrapper) {
-    wrapper.classList.remove('active-table');
-  }
-}
-
-function displayZonalTableHandler(e) {
-  e.preventDefault();
-  setGraphsState(this.getAttribute('id'), 'table');
-  displayRawValues(getZonalWrapper(this));
-}
-
-function displayZonalGraphsHandler(e) {
-  e.preventDefault();
-  setGraphsState(this.getAttribute('id'), 'graph');
-  displayGraphs(getZonalWrapper(this));
-}
-
 function drawName(wrapper, name) {
   wrapper.querySelector('#zonal-long-name').textContent = name;
+}
+
+// creates zonal buttons in sticky header.
+function drawZonalButtons(HTMLName, name) {
+  const buttonHolder = document.getElementById('zonal-stats-button-holder');
+  const wrapper = makeDiv();
+  wrapper.innerHTML = ZonalButtons;
+  drawName(wrapper, name);
+  wrapper.querySelector('.zonal-long-button-wrapper').setAttribute('id', `button-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-buttons-holder').setAttribute('id', `button-holder-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name--${HTMLName}`);
+  wrapper.querySelector('#zonal-long-name').setAttribute('id', `zonal-long-name--${HTMLName}`);
+
+  buttonHolder.innerHTML += wrapper.innerHTML;
 }
 
 // Draws and configures the long zonal stats
@@ -1182,6 +1279,7 @@ function drawLongZonalStats(data, name) {
   wrapper.setAttribute('id', `name-${HTMLName}`);
   buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
+  drawZonalButtons(HTMLName, name);
 
   selectChartCell(wrapper, 'hub', data.hubs);
   selectChartCell(wrapper, 'asset', data.asset);
@@ -1267,8 +1365,9 @@ function restoreGraphState() {
   if (checkValidObject(graphstate)) {
     const elemid = graphstate[0];
     const activestate = graphstate[1];
-    const elem = document.getElementById(elemid);
+    const elem = document.getElementById(elemid.replace('name-', 'name'));
     const path = document.querySelector(`.path-${elemid.replace('name-', '')}`);
+    const HTMLName = stripUserArea(elemid);
 
     switch (activestate) {
       case 'graph':
@@ -1279,6 +1378,7 @@ function restoreGraphState() {
 
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
+          enableZonalButtons(HTMLName);
         }
 
         break;
@@ -1288,8 +1388,11 @@ function restoreGraphState() {
           elem.classList.add('active-table');
           document.getElementById('zonal-header').classList.add('d-none');
 
+          displayRawValues(elem);
+
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
+          enableZonalButtons(HTMLName);
         }
         break;
       default:
@@ -1345,7 +1448,11 @@ export {
   stripUserArea,
   isGraphActivetate,
   viewLongZonalStatsFromShape,
-  drawMapInfoStats
+  drawMapInfoStats,
+  enableOverView,
+  disableOverView,
+  enableZonalButtons,
+  disableZonalButtons
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
