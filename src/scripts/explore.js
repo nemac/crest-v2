@@ -186,7 +186,6 @@ export class Explore extends Component {
   // we re-draw the map for either the exlopre the assment or
   // search by hubs
   navBarChangeListner() {
-
     // event listner to handle nav change
     window.addEventListener('aboutNavChange', (e) => {
       this.drawAreaGroup.clearLayers();
@@ -518,9 +517,6 @@ export class Explore extends Component {
 
     Explore.appendIntersectedHubsToState(HubIntersectionJson);
     Explore.sortHubsByHubScore();
-
-    // draw the hubs and the zonal stats
-    //this.drawHubsFromStateObject();
 
     store.setStoreItem('working_zonalstats', false);
     spinnerOff('getZonal done');
@@ -1357,7 +1353,6 @@ export class Explore extends Component {
       store.setStoreItem('userarea', geojson);
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
-
           Explore.removeExistingHubs();
           Explore.clearZonalStatsWrapperDiv();
 
@@ -1501,14 +1496,14 @@ export class Explore extends Component {
     Explore.clearZonalStatsWrapperDiv();
     for (let i = 0; i < fileSets.length; i += 1) {
       const fileSet = fileSets[i];
-      let features = await this.extractFeaturesFromFileset(fileSet);
+      const features = await this.extractFeaturesFromFileset(fileSet);
       featuresReady.push(...features);
     }
     const activeNav = store.getStateItem('activeNav');
     if (activeNav === 'main-nav-map-searchhubs') {
       Explore.removeExistingHubs();
       this.drawAreaGroup.clearLayers();
-      for (let i=0; i<featuresReady.length; i += 1) {
+      for (let i = 0; i < featuresReady.length; i += 1) {
         store.setStoreItem('userarea', featuresReady[i]);
         await this.getHubsZonal();
       }
@@ -1519,14 +1514,14 @@ export class Explore extends Component {
     } else {
       // Assume we're on the default explore tab
       this.drawAreaGroup.clearLayers();
-      for (let i=0; i<featuresReady.length; i += 1) {
+      for (let i = 0; i < featuresReady.length; i += 1) {
         await this.addFeatureAsMapLayer(featuresReady[i]);
       }
     }
     try {
       this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
       this.mapComponent.saveZoomAndMapPosition();
-    } catch (e) {  }
+    } catch (e) { }
 
     store.setStoreItem('working_zonalstats', false);
     spinnerOff();
@@ -1534,13 +1529,13 @@ export class Explore extends Component {
 
   drawZonalStatsForStoredHubs() {
     const hubs = store.getStateItem('HubIntersectionJson');
-    for (let i=0; i<hubs.length; i += 1) {
-      const name = '' + hubs[i].properties.mean.TARGET_FID;
+    for (let i = 0; i < hubs.length; i += 1) {
+      const name = ` ${hubs[i].properties.mean.TARGET_FID}`;
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
     }
   }
 
-  static sortHubsByHubScore () {
+  static sortHubsByHubScore() {
     const hubs = store.getStateItem('HubIntersectionJson');
     const HubIntersectionJsonSorted = hubs.sort((a, b) => {
       if (a.properties.mean.hubs > b.properties.mean.hubs) {
@@ -1574,7 +1569,7 @@ export class Explore extends Component {
         geojsonFromShpfiles = { features: [] };
       }
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
-        //await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
+        // await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
         features.push(geojsonFromShpfiles.features[i]);
       }
     }
@@ -1589,12 +1584,12 @@ export class Explore extends Component {
       }
       if (geojsonFromFile.type === 'FeatureCollection') {
         for (let j = 0; j < geojsonFromFile.features.length; j += 1) {
-          //await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
+          // await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
           features.push(geojsonFromFile.features[j]);
         }
       }
       if (geojsonFromFile.type === 'Feature') {
-        //await this.addFeatureAsMapLayer(geojsonFromFile);
+        // await this.addFeatureAsMapLayer(geojsonFromFile);
         features.push(geojsonFromFile);
       }
     }
@@ -1692,6 +1687,7 @@ export class Explore extends Component {
           } catch (e) {
             alert('Error reading file!');
           }
+          return null;
         })
       // filter undefined entries
         .filter(prom => prom);

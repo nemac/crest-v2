@@ -51,8 +51,8 @@ export class ShareUrl extends Component {
     L.control.watermark({ position: 'bottomleft' }).addTo(leafletmap);
 
     // get btn for share URL add click event
-    const leafletControlElement = document.querySelector('.btn-mapshareurl-holder');
-    leafletControlElement.addEventListener('click', this.mapShareURLClickHandler.bind(this));
+    const leafletControlElement = document.querySelector('.btn-mapshareurl');
+    leafletControlElement.addEventListener('click', ShareUrl.makeShareUrlHandler.bind(this));
   }
 
   // share url (identify) control (button) on add function.
@@ -62,19 +62,31 @@ export class ShareUrl extends Component {
     return null;
   }
 
-  // map shareurl click handler
-  mapShareURLClickHandler(ev) {
-    const sharebutton = document.querySelector('.btn-copy-share');
+  static disableShareUrl() {
+    const shareurl = document.getElementById('shareurl-holder');
+    if (shareurl) {
+      shareurl.classList.add('d-none');
+    }
+  }
 
-    if (sharebutton) {
-      const shareurl = document.getElementById('shareurl-holder');
+  static enableShareUrl() {
+    const shareurl = document.getElementById('shareurl-holder');
+    if (shareurl) {
+      shareurl.classList.remove('d-none');
+    }
+  }
+
+  static makeShareUrlHandler() {
+    const sharebutton = document.querySelector('.btn-copy-share');
+    if (!sharebutton) {
+      this.makeSharedURL();
+    }
+
+    const shareurl = document.getElementById('shareurl-holder');
+    if (shareurl) {
       if (shareurl.classList.contains('d-none')) {
         shareurl.classList.remove('d-none');
-      } else {
-        shareurl.classList.add('d-none');
       }
-    } else {
-      this.makeSharedURL();
     }
   }
 
@@ -134,7 +146,7 @@ export class ShareUrl extends Component {
 
     // make sure the share box dose not already exist
     if (!checkShareBox) {
-      document.body.appendChild(newdiv);
+      document.getElementById('btn-mapshareurl-holder').appendChild(newdiv);
     }
     return newdiv;
   }
@@ -158,10 +170,10 @@ export class ShareUrl extends Component {
     });
 
     const collapse = document.querySelector('.btn-close-share');
-    collapse.addEventListener('click', this.mapShareURLClickHandler.bind(this));
+    collapse.addEventListener('click', ShareUrl.disableShareUrl.bind(this));
+    ShareUrl.enableShareUrl();
 
-
-    createShareURLCopyButton.classList.remove('disabled');
+    // createShareURLCopyButton.classList.remove('disabled');
   }
 
   // save shapes to s3 so we can share user added shapes from a URL

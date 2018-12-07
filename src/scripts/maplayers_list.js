@@ -300,8 +300,10 @@ export class MapLayersList extends Component {
   // @param elem | DOM Element
   static toggleLegendState(elem) {
     const legendId = MapLayersList.getLegendId(elem);
-    store.checkItem(legendId) ? store.removeStateItem(legendId) :
+    const legendstate = store.checkItem(legendId) ? store.removeStateItem(legendId) :
       store.addStateItem(legendId, 'true');
+
+    return legendstate;
   }
 
   // Opens the legend block if the legend id is in the store
