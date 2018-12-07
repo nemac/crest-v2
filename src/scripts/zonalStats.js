@@ -1042,6 +1042,17 @@ function drawMapInfoStats(data, doc) {
 //   findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
 // }
 
+function enableOverView() {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.remove('d-none');
+}
+
+function disableOverView() {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.add('d-none');
+}
+
+
 // Creates the entire short zonal stats block of html
 // @param data | Object
 // @return DOM element
@@ -1079,11 +1090,9 @@ function drawShortZonalStats(data, name, mapComponent) {
     wrapper.insertBefore(rem, wrapper.childNodes[0]);
   }
   const ovr = makeOverviewLabel();
-  // const zonalHeader = document.getElementById('zonal-header-text');
-  // if (zonalHeader) {
-  //   zonalHeader.innerHTML = ovr.innerHTML;
-  // }
-  wrapper.insertBefore(ovr, wrapper.childNodes[0]);
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.innerHTML = ovr.innerHTML;
+  buttonHolder.classList.remove('d-none');
 
   return wrapper;
 }
@@ -1107,7 +1116,7 @@ function getZonalWrapper(elem) {
 
 // set zonal buttons and header on
 function enableZonalButtons(HTMLName) {
-  console.log(HTMLName)
+  disableOverView();
   document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
 
   document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
@@ -1123,6 +1132,7 @@ function enableZonalButtons(HTMLName) {
 }
 
 function disableAllZonalButtons() {
+  enableOverView();
   const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
   buttons.forEach( (button) => {
     button.classList.add('d-none');
@@ -1137,6 +1147,7 @@ function disableMainZonalButton() {
 function disableZonalButtons(HTMLName) {
   disableMainZonalButton();
   disableAllZonalButtons()
+  enableOverView();
   document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
   document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
   document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
@@ -1200,7 +1211,7 @@ function drawRawValues(wrapper, data) {
 function displayRawValues(wrapper) {
   if (wrapper) {
     wrapper.classList.add('active-table');
-    const holderElem = document.getElementById('zonal-stats-button-holder')
+    const holderElem = document.getElementById('zonal-stats-button-holder');
     if (holderElem) {
       holderElem.classList.add('active-table');
     }
@@ -1211,7 +1222,7 @@ function displayGraphs(wrapper) {
   if (wrapper) {
     wrapper.classList.remove('active-table');
   }
-  const holderElem = document.getElementById('zonal-stats-button-holder')
+  const holderElem = document.getElementById('zonal-stats-button-holder');
   if (holderElem) {
     holderElem.classList.remove('active-table');
   }
@@ -1236,7 +1247,7 @@ function drawName(wrapper, name) {
 // creates zonal buttons in sticky header.
 function drawZonalButtons(HTMLName, name) {
   const buttonHolder = document.getElementById('zonal-stats-button-holder');
-  const wrapper = makeDiv()
+  const wrapper = makeDiv();
   wrapper.innerHTML = ZonalButtons;
   drawName(wrapper, name);
   wrapper.querySelector('.zonal-long-button-wrapper').setAttribute('id', `button-name--${HTMLName}`);
