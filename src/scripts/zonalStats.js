@@ -1312,7 +1312,6 @@ function restoreGraphState() {
   if (checkValidObject(graphstate)) {
     const elemid = graphstate[0];
     const activestate = graphstate[1];
-    console.log(activestate,elemid)
     const elem = document.getElementById(elemid.replace('name-', 'name'));
     const path = document.querySelector(`.path-${elemid.replace('name-', '')}`);
     const HTMLName = stripUserArea(elemid);
@@ -1331,13 +1330,10 @@ function restoreGraphState() {
 
         break;
       case 'table':
-        console.log(activestate,elem)
         if (elem) {
           elem.classList.add('active');
           elem.classList.add('active-table');
           document.getElementById('zonal-header').classList.add('d-none');
-
-          console.log(activestate,elem)
 
           displayRawValues(elem);
 
