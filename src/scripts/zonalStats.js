@@ -478,6 +478,21 @@ function togglePermHighLightsAllOff(elem) {
   }
 }
 
+function toggleALLPathsOff(elem) {
+  const pathsHighlight = document.querySelectorAll('.path-highlight');
+  const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
+
+  pathsHighlight.forEach((path) => {
+    path.classList.remove('path-highlight');
+    path.classList.add('path-nohighlight');
+  });
+
+  pathsHighlightPerm.forEach((path) => {
+    path.classList.remove('path-highlight-perm');
+    path.classList.add('path-nohighlight-perm');
+  });
+}
+
 function togglePermHighLightsOn(elem) {
   if (elem) {
     elem.classList.add('path-highlight-perm');
@@ -1412,7 +1427,8 @@ export {
   enableOverView,
   disableOverView,
   enableZonalButtons,
-  disableZonalButtons
+  disableZonalButtons,
+  toggleALLPathsOff
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
