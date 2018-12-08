@@ -523,7 +523,7 @@ function hideLastHighlight() {
 
 // set zonal buttons and header on
 function enableZonalButtons(HTMLName) {
-  enableOverView();
+  disableOverView();
   document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
 
   if (document.querySelector(`#button-name--${HTMLName}`)) {
@@ -547,6 +547,7 @@ function viewLongZonalStatsFromShape(name) {
   ZonalWrapperActiveRemove();
   disableAllZonalButtons();
   enableZonalButtons(`-USERAREA-${name}`);
+  disableOverView();
 
   const pathid = `path--USERAREA-${name}`;
   if (pathid) {
@@ -1369,6 +1370,7 @@ function restoreGraphState() {
     const path = document.querySelector(`.path-${elemid.replace('name-', '')}`);
     const HTMLName = stripUserArea(elemid);
 
+
     switch (activestate) {
       case 'graph':
         displayGraphs(elem);
@@ -1379,6 +1381,7 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          disableOverView();
         }
 
         break;
@@ -1393,6 +1396,7 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          disableOverView();
         }
         break;
       default:
