@@ -479,6 +479,14 @@ function togglePermHighLightsAllOff(elem) {
   }
 }
 
+function toggleAllLongZonalsOff(elem) {
+  const zonalLongWrapper = document.querySelectorAll('.zonal-long-wrapper');
+
+  zonalLongWrapper.forEach((zonal) => {
+    zonal.classList.remove('active');
+  });
+}
+
 function toggleALLPathsOff(elem) {
   const pathsHighlight = document.querySelectorAll('.path-highlight');
   const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
@@ -1480,7 +1488,8 @@ export {
   disableOverView,
   enableZonalButtons,
   disableZonalButtons,
-  toggleALLPathsOff
+  toggleALLPathsOff,
+  toggleAllLongZonalsOff
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
