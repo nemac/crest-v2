@@ -1399,9 +1399,9 @@ function restoreGraphState() {
     const elemid = graphstate[0];
     const activestate = graphstate[1];
     const elem = document.getElementById(elemid.replace('name-', 'name'));
-    const path = document.querySelector(`.path-${elemid.replace('name-', '')}`);
-    const HTMLName = stripUserArea(elemid);
+    const path = document.querySelector(`.path${elemid.replace('name-', '')}`);
 
+    const HTMLName = stripUserArea(elemid);
 
     switch (activestate) {
       case 'graph':
@@ -1409,7 +1409,6 @@ function restoreGraphState() {
         if (elem) {
           elem.classList.add('active');
           document.getElementById('zonal-header').classList.add('d-none');
-
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
