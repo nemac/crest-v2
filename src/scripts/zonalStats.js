@@ -386,6 +386,21 @@ function togglePermHighLightsOff(elem) {
   }
 }
 
+function toggleALLPathsOff(elem) {
+  const pathsHighlight = document.querySelectorAll('.path-highlight');
+  const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
+
+  pathsHighlight.forEach((path) => {
+    path.classList.remove('path-highlight');
+    path.classList.add('path-nohighlight');
+  });
+
+  pathsHighlightPerm.forEach((path) => {
+    path.classList.remove('path-highlight-perm');
+    path.classList.add('path-nohighlight-perm');
+  });
+}
+
 // Click handler to trigger the dismiss of the long zonal stats
 function dismissZonalClickHandler(e) {
   e.preventDefault();
@@ -399,6 +414,7 @@ function dismissZonalClickHandler(e) {
     const path = document.querySelector(`.path-${HTMLName}`);
     togglePermHighLightsOff(path);
   }
+  toggleALLPathsOff();
 }
 
 function displayRawValues(wrapper) {
@@ -484,21 +500,6 @@ function toggleAllLongZonalsOff(elem) {
 
   zonalLongWrapper.forEach((zonal) => {
     zonal.classList.remove('active');
-  });
-}
-
-function toggleALLPathsOff(elem) {
-  const pathsHighlight = document.querySelectorAll('.path-highlight');
-  const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
-
-  pathsHighlight.forEach((path) => {
-    path.classList.remove('path-highlight');
-    path.classList.add('path-nohighlight');
-  });
-
-  pathsHighlightPerm.forEach((path) => {
-    path.classList.remove('path-highlight-perm');
-    path.classList.add('path-nohighlight-perm');
   });
 }
 
