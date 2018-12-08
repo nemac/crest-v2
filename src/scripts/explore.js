@@ -150,6 +150,7 @@ export class Explore extends Component {
     // draw the user area on the map
     const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
     const checkUserareas = store.getStateItem('userareas');
+    disableOverView();
 
     if (!this.hasShareURL) {
       const activeNav = store.getStateItem('activeNav');
@@ -911,6 +912,7 @@ export class Explore extends Component {
     }
 
     store.setStoreItem('HubIntersectionJson', newshapes);
+    this.drawZonalStatsForStoredHubs();
     Explore.sortHubsByHubScore();
     // draw the hubs and the zonal stats
     store.setStoreItem('working_s3retreive', false);
