@@ -912,6 +912,7 @@ export class Explore extends Component {
     }
 
     store.setStoreItem('HubIntersectionJson', newshapes);
+    this.drawHubsFromStateObject();
     this.drawZonalStatsForStoredHubs();
     Explore.sortHubsByHubScore();
     // draw the hubs and the zonal stats
