@@ -34,7 +34,8 @@ import {
   enableOverView,
   disableOverView,
   enableZonalButtons,
-  disableZonalButtons
+  disableZonalButtons,
+  toggleALLPathsOff
 } from './zonalStats';
 
 // Shapefile library must be imported with require.
@@ -304,6 +305,7 @@ export class Explore extends Component {
 
   // user clickss path should navigate into zonal stats details
   static clickShape(e) {
+    toggleALLPathsOff();
     const pathclass = e.target.options.className;
     const name = pathclass.replace('path--USERAREA-', '');
     viewLongZonalStatsFromShape(name);
