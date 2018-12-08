@@ -347,6 +347,13 @@ function enableOverView() {
   buttonHolder.classList.remove('d-none');
 }
 
+function disableAllZonalWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-long-wrapper ');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('active');
+  });
+}
+
 // Switches the display to the short zonal stats
 // @param wrapper | DOM element
 function dismissLongZonalStats(wrapper) {
@@ -357,6 +364,7 @@ function dismissLongZonalStats(wrapper) {
   const id = wrapper.getAttribute('id');
   const HTMLName = stripUserArea(id);
   disableZonalButtons(HTMLName);
+  disableAllZonalWrappers();
   enableOverView();
 
   // wrapper.previousSibling.style.height = '100%';

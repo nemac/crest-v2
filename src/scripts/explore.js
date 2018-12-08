@@ -535,7 +535,7 @@ export class Explore extends Component {
     for (const key in hubs) {
       if (checkobj.call(hubs, key)) {
         const savedhub = await this.StoreShapesAPI.saveShape(hubs[key]);
-        const fid = hubs[key].properties.mean.TARGET_FID.toString();
+        const fid = hubs[key].properties.mean.TARGET_FID.toString().trim();
         const storedhubs = store.getStateItem('savedhubs');
 
         if (checkValidObject(savedhub)) {
@@ -559,7 +559,8 @@ export class Explore extends Component {
       const newHubsFiltered = json.filter(newHub => {
         let alreadyInState = false;
         existingHubs.forEach(hub => {
-          if (newHub.properties.mean.TARGET_FID === hub.properties.mean.TARGET_FID) {
+          if (newHub.properties.mean.TARGET_FID ===
+                hub.properties.mean.TARGET_FID.toString().trim()) {
             alreadyInState = true;
           }
         });
@@ -589,7 +590,7 @@ export class Explore extends Component {
       const userarea = feature;
 
       if (checkValidObject(userarea)) {
-        const name = feature.properties.mean.TARGET_FID.toString();
+        const name = feature.properties.mean.TARGET_FID.toString().trim();
         const HTMLName = makeHTMLName(name);
         this.bufferedoptions.className = `path-${HTMLName}`;
 
@@ -1533,7 +1534,7 @@ export class Explore extends Component {
   drawZonalStatsForStoredHubs() {
     const hubs = store.getStateItem('HubIntersectionJson');
     for (let i = 0; i < hubs.length; i += 1) {
-      const name = ` ${hubs[i].properties.mean.TARGET_FID}`;
+      const name = `${hubs[i].properties.mean.TARGET_FID}`.toString().trim();
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
     }
   }
