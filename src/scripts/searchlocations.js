@@ -357,7 +357,6 @@ export class SearchLocations extends Component {
     this.removeSearchLocations();
     // ga event action, category, label
     googleAnalyticsEvent('click', 'searchbox', 'popup close');
-
   }
 
   // restore the state form map info/identify

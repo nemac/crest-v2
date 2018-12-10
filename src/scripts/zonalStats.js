@@ -1420,7 +1420,6 @@ function restoreGraphState() {
       default:
         return null;
     }
-  } else {
   }
   return null;
 }

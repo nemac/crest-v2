@@ -6,12 +6,12 @@ import { Store } from './store';
 
 import { navConfig } from '../config/navConfig';
 
-const store = new Store({});
-
-
 import {
   googleAnalyticsEvent
 } from './utilitys';
+
+const store = new Store({});
+
 /**
  * NavBar Component
  * Render and control map layer control

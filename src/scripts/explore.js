@@ -957,6 +957,7 @@ export class Explore extends Component {
     }
     return null;
   }
+
   // renders the shapes from the user areas state object
   drawUserAreaFromUsereas() {
     store.setStoreItem('working_drawlayers', true);

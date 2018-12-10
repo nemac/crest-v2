@@ -93,7 +93,6 @@ export class MapLayersList extends Component {
       MapLayersList.updateBaseMapLabel('Dark Gray');
       // ga event action, category, label
       googleAnalyticsEvent('click', 'basemap', 'Dark Gray');
-
     });
 
     document.getElementById('basemap-Imagery').addEventListener('click', (e) => {
@@ -147,7 +146,6 @@ export class MapLayersList extends Component {
     } else {
       baseMapListElem.classList.add('active');
     }
-
   }
 
   static addOpenMapLayerListener() {
