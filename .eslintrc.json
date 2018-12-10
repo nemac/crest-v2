@@ -10,6 +10,7 @@
     "no-unused-vars": ["error", { "args": "none" }],
     "operator-linebreak": ["error", "after"],
     "import/prefer-default-export": 0,
-    "no-await-in-loop": ["off"]
+    "no-await-in-loop": ["off"],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["elem","e","wrapper"] }]
   }
 }
