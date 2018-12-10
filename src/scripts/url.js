@@ -16,7 +16,8 @@ const URL_IGNORE_KEYS = [
   'userareas',
   'savedshapes',
   'savedhubs',
-  'userareacount'
+  'userareacount',
+  'mapinfo'
 ];
 
 const SHARE_URL_IGNORE_KEYS = [

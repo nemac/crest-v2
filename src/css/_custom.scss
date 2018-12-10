@@ -337,8 +337,8 @@ html, body {
   left: 0px !important;
   height: 100% !important;
   width: 100% !important;
-  transform: translate(0, 0);
-  float: left;
+  // transform: translate(0, 0);
+  // float: left;
 }
 
 .leaflet-draw-tooltip {
@@ -800,9 +800,17 @@ html, body {
   }
 }
 
+.map-information-popup  {
+  bottom: 0px !important;
+  left: -315px !important;
+}
+
+.leaflet-popup.map-information-popup {
+  margin-bottom: 0px;
+}
+
 @media (max-width: 768px) {
   .mapinfodata {
-    // max-height: 250px;
     overflow: scroll;
   }
 
@@ -812,6 +820,7 @@ html, body {
 
   .map-information-popup  {
     min-width: 275px !important;
+    left: -300px !important;
 
     .leaflet-popup-content {
       min-width: 275px !important;
