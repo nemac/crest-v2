@@ -138,13 +138,19 @@ export class Explore extends Component {
 
     document.getElementById('btn-reset').addEventListener('click', (e) => {
       store.clearState();
-      location.reload();
+      window.location.reload();
     });
 
     Explore.windowListnersToStopRoqueSpinner();
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
+  }
+
+  // generic do thing functon for empty blocks
+  //  only using this is a place holder
+  static doNothing() {
+    return null;
   }
 
   // restore for when not share URL
@@ -214,54 +220,52 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
             disableOverView();
-          // If there is hub data in store do NOT show text and draw the hubs
+            // If there is hub data in store do NOT show text and draw the hubs
           } else {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
             Explore.dismissExploreDirections();
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
-            enableOverView();
             enableZonalButtons();
+            enableOverView();
           }
-        // active nav is NOT search hubs assumes explore assment
-        } else {
+          // active nav is NOT search hubs assumes explore assment
+
           // check if there is explore assement data in the state store
           // if there is NONE dispolay the text
           // that tells the user what to do
-          if (!checkValidObject(checkUserareas)) {
-            Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-            Explore.updateExploreDirections(this.exlporeAssmentMessage);
-            disableOverView();
-            disableZonalButtons();
-          // If there is explore assement data in store do NOT show text and draw the shpes
-          } else {
-            Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-            Explore.updateExploreDirections(this.exlporeAssmentMessage);
-            Explore.dismissExploreDirections();
-            this.drawUserAreaFromUsereas();
-            enableOverView();
-            enableZonalButtons();
-          }
-        }
-      // active nav is NOT set so we default too explore assment tab
-      } else {
-        // check if there is explore assement data in the state store
-        // if there is NONE dispolay the text
-        // that tells the user what to do
-        if (!checkValidObject(checkUserareas)) {
+        } else if (!checkValidObject(checkUserareas)) {
+          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
-          disableOverView();
           disableZonalButtons();
-        // If there is explore assement data in store do NOT show text and draw the shpes
+          disableOverView();
+          // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
-          enableOverView();
           enableZonalButtons();
+          enableOverView();
         }
+        // active nav is NOT set so we default too explore assment tab
+
+        // check if there is explore assement data in the state store
+        // if there is NONE dispolay the text
+        // that tells the user what to do
+      } else if (!checkValidObject(checkUserareas)) {
+        Explore.updateExploreDirections(this.exlporeAssmentMessage);
+        disableZonalButtons();
+        disableOverView();
+        // If there is explore assement data in store do NOT show text and draw the shpes
+      } else {
+        Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+        Explore.updateExploreDirections(this.exlporeAssmentMessage);
+        Explore.dismissExploreDirections();
+        this.drawUserAreaFromUsereas();
+        enableZonalButtons();
+        enableOverView();
       }
     });
   }
@@ -429,7 +433,7 @@ export class Explore extends Component {
       store.setStoreItem('working_zonalstats', false);
       zonalAreaWrapper.innerHTML = '';
       spinnerOff('getZonal checkValidObject rawpostdata');
-      return {};
+      return JSON.parse('{}');
     }
 
     // using for loop because it allows await functionality with
@@ -439,7 +443,7 @@ export class Explore extends Component {
     for (const key in currentshapes) {
       if (checkobj.call(currentshapes, key)) {
         const rawpostdata = currentshapes[key][2].userarea_buffered;
-        const name = currentshapes[key][0].name;
+        const { name } = currentshapes[key][0];
 
         let postdata = '';
 
@@ -488,24 +492,11 @@ export class Explore extends Component {
     // get geoJSON to send to zonal stats lambda function
     // in this case do not use the buffered shape
     const rawpostdata = store.getStateItem('userarea');
-    let postdata = '';
-
-    // some Geojson is not a feature collection lambda function expects a
-    // a feature collection
-    if (rawpostdata.type === 'Feature') {
-      const FeatureCollectionStart = '{"type": "FeatureCollection","features": [';
-      const FeatureCollectionEnd = ']}';
-      postdata = FeatureCollectionStart + JSON.stringify(rawpostdata) + FeatureCollectionEnd;
-    }
-
-    if (rawpostdata.type === 'FeatureCollection') {
-      postdata = JSON.stringify(rawpostdata);
-    }
 
     if (!checkValidObject(rawpostdata)) {
       store.setStoreItem('working_zonalstats', false);
       spinnerOff('getZonal checkValidObject rawpostdata');
-      return {};
+      return JSON.parse('{}');
     }
 
     // send request to api
@@ -515,7 +506,7 @@ export class Explore extends Component {
     if (!checkValidObject(HubIntersectionJson)) {
       store.setStoreItem('working_zonalstats', false);
       spinnerOff('getZonal checkValidObject HubIntersectionJson');
-      return {};
+      return JSON.parse('{}');
     }
 
     await this.storeHubsOnS3(HubIntersectionJson);
@@ -560,9 +551,9 @@ export class Explore extends Component {
     const existingHubs = store.getStateItem('HubIntersectionJson');
     if (checkValidObject(existingHubs)) {
       const newStateItem = existingHubs;
-      const newHubsFiltered = json.filter(newHub => {
+      const newHubsFiltered = json.filter((newHub) => {
         let alreadyInState = false;
-        existingHubs.forEach(hub => {
+        existingHubs.forEach((hub) => {
           if (newHub.properties.mean.TARGET_FID ===
                 hub.properties.mean.TARGET_FID.toString().trim()) {
             alreadyInState = true;
@@ -688,7 +679,7 @@ export class Explore extends Component {
     if (!checkValidObject(rawpostdata)) {
       store.setStoreItem('working_zonalstats', false);
       spinnerOff('getZonal checkValidObject rawpostdata');
-      return {};
+      return JSON.parse('{}');
     }
 
     // send request to api
@@ -936,8 +927,8 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('userareas');
 
     Object.keys(currentshapes).forEach((key) => {
-      const name = currentshapes[key][0].name;
-      const userarea = currentshapes[key][1].userarea;
+      const { name } = currentshapes[key][0];
+      const { userarea } = currentshapes[key][1];
       const buffered = currentshapes[key][2].userarea_buffered;
       const zonal = currentshapes[key][3].zonalstatsjson;
 
@@ -1006,6 +997,7 @@ export class Explore extends Component {
 
         Explore.enableShapeExistsButtons();
         Explore.dismissExploreDirections();
+        enableOverView();
         return layer;
       }
 
@@ -1139,19 +1131,15 @@ export class Explore extends Component {
           } else {
             Explore.updateExploreDirections(this.exlporeHubMessage);
           }
-        } else {
-          if (checkValidObject(checkUserareas)) {
-            Explore.dismissExploreDirections();
-          } else {
-            Explore.updateExploreDirections(this.exlporeHubMessage);
-          }
-        }
-      } else {
-        if (checkValidObject(checkUserareas)) {
+        } else if (checkValidObject(checkUserareas)) {
           Explore.dismissExploreDirections();
         } else {
           Explore.updateExploreDirections(this.exlporeHubMessage);
         }
+      } else if (checkValidObject(checkUserareas)) {
+        Explore.dismissExploreDirections();
+      } else {
+        Explore.updateExploreDirections(this.exlporeHubMessage);
       }
     });
   }
@@ -1491,7 +1479,7 @@ export class Explore extends Component {
       try {
         zipFileSets = await Explore.readZip(zip);
       } catch (e) {
-        alert('Error opening zip archive.');
+        // alert('Error opening zip archive.');
         zipFileSets = [];
       }
       if (zipFileSets.length) {
@@ -1504,7 +1492,7 @@ export class Explore extends Component {
     Explore.clearZonalStatsWrapperDiv();
     for (let i = 0; i < fileSets.length; i += 1) {
       const fileSet = fileSets[i];
-      const features = await this.extractFeaturesFromFileset(fileSet);
+      const features = await Explore.extractFeaturesFromFileset(fileSet);
       featuresReady.push(...features);
     }
     const activeNav = store.getStateItem('activeNav');
@@ -1529,7 +1517,9 @@ export class Explore extends Component {
     try {
       this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
       this.mapComponent.saveZoomAndMapPosition();
-    } catch (e) { }
+    } catch (e) {
+      Explore.doNothing();
+    }
 
     store.setStoreItem('working_zonalstats', false);
     spinnerOff();
@@ -1558,7 +1548,7 @@ export class Explore extends Component {
     store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
   }
 
-  async extractFeaturesFromFileset(files) {
+  static async extractFeaturesFromFileset(files) {
     const shpfileFiles = files
       .filter(file => ['shp', 'dbf', 'prj'].indexOf(Explore.fileExt(file.name)) > -1);
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
@@ -1572,7 +1562,9 @@ export class Explore extends Component {
         geojsonFromShpfiles = await Explore.convertShpfileBundleToGeojson(bundleToProcess);
       } catch (e) {
         if (e instanceof RangeError) {
-          alert('Error processing shapefile. Please use a shapefile exported from QGIS or ArcGIS.');
+          Explore.doNothing();
+          // alert('Error processing shapefile. Please use a
+          // shapefile exported from QGIS or ArcGIS.');
         }
         geojsonFromShpfiles = { features: [] };
       }
@@ -1587,7 +1579,7 @@ export class Explore extends Component {
       try {
         geojsonFromFile = await Explore.readGeojsonFile(otherFiles[i]);
       } catch (e) {
-        alert('Error reading geojson.');
+        // alert('Error reading geojson.');
         geojsonFromFile = {};
       }
       if (geojsonFromFile.type === 'FeatureCollection') {
@@ -1677,7 +1669,7 @@ export class Explore extends Component {
         }
       );
     } catch (e) {
-      alert('Error opening zip archive.');
+      // alert('Error opening zip archive.');
       folders = {};
     }
     const fileSets = [];
@@ -1693,7 +1685,8 @@ export class Explore extends Component {
               blob => new File([blob], filename),
             );
           } catch (e) {
-            alert('Error reading file!');
+            Explore.doNothing();
+            // alert('Error reading file!');
           }
           return null;
         })
