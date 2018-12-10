@@ -8,6 +8,10 @@ import { navConfig } from '../config/navConfig';
 
 const store = new Store({});
 
+
+import {
+  googleAnalyticsEvent
+} from './utilitys';
 /**
  * NavBar Component
  * Render and control map layer control
@@ -78,6 +82,9 @@ export class NavBar extends Component {
         } else {
           NavBar.toggleTabContent(e.target.id);
         }
+
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'navbar', e.target.id);
 
         // make tab style active
         NavBar.tabUpdate(e.target.id);

@@ -164,6 +164,14 @@ export function flatten(arr) {
   return flat;
 }
 
+export function googleAnalyticsEvent(action = '', category = '', label = '', value = 0) {
+  gtag('event', action, {
+    event_category: category,
+    event_label: label,
+    value: `${value}`
+  });
+}
+
 // set stateitems if they do not exist
 // we will have to any new ones if added.
 // this will help when we adding new statitems "breaks" the webpage

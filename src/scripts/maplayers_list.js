@@ -29,6 +29,10 @@ import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
 // scss
 import '../css/maplayers_list.scss';
 
+import {
+  googleAnalyticsEvent
+} from './utilitys';
+
 const store = new Store({});
 // required for bootstrap
 window.$ = require('jquery');
@@ -87,21 +91,30 @@ export class MapLayersList extends Component {
     document.getElementById('basemap-DarkGray').addEventListener('click', (e) => {
       mapComponent.changeBaseMap('DarkGray');
       MapLayersList.updateBaseMapLabel('Dark Gray');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'basemap', 'Dark Gray');
+
     });
 
     document.getElementById('basemap-Imagery').addEventListener('click', (e) => {
       mapComponent.changeBaseMap('Imagery');
       MapLayersList.updateBaseMapLabel('Imagery');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'basemap', 'Imagery Gray');
     });
 
     document.getElementById('basemap-Topographic').addEventListener('click', (e) => {
       mapComponent.changeBaseMap('Topographic');
       MapLayersList.updateBaseMapLabel('Topographic');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'basemap', 'Topographic');
     });
 
     document.getElementById('basemap-Streets').addEventListener('click', (e) => {
       mapComponent.changeBaseMap('Streets');
       MapLayersList.updateBaseMapLabel('Streets');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'basemap', 'Streets');
     });
 
     const btnBaseMapElem = document.getElementById('btn-basemap');
@@ -124,6 +137,9 @@ export class MapLayersList extends Component {
 
   // toggle basemap list on
   static baseMapListToggle(e) {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'button', 'basemaplist');
+
     const baseMapListElem = document.getElementById('basemaplist');
     const isBaseMapListVissible = baseMapListElem.classList.contains('active');
     if (isBaseMapListVissible) {
@@ -131,6 +147,7 @@ export class MapLayersList extends Component {
     } else {
       baseMapListElem.classList.add('active');
     }
+
   }
 
   static addOpenMapLayerListener() {
@@ -140,6 +157,9 @@ export class MapLayersList extends Component {
 
     // add the listener
     layerListCollapse.addEventListener('click', (ev) => {
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'open');
+
       store.setStoreItem('lastaction', 'maplayerlistopen');
       store.setStoreItem('maplayerlist', 'open');
       const layerListOpened = document.getElementById('maplayers_list_opened');
@@ -163,6 +183,9 @@ export class MapLayersList extends Component {
 
     // add the listener
     layerListClose.addEventListener('click', (ev) => {
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'close');
+
       store.setStoreItem('lastaction', 'maplayerlistclose');
       store.setStoreItem('maplayerlist', 'close');
       const layerListOpened = document.getElementById('maplayers_list_opened');
@@ -378,7 +401,9 @@ export class MapLayersList extends Component {
     if (checkBox !== undefined) {
       if (checkBox != null) {
         // add the listner
-        checkBox.addEventListener('click', (e) => { this.toggleMapLayer(layerId); });
+        checkBox.addEventListener('click', (e) => {
+          this.toggleMapLayer(layerId);
+        });
       }
     }
   }
@@ -387,6 +412,8 @@ export class MapLayersList extends Component {
   toggleMapLayer(layerName) {
     // Trigger layer toggle callback
     this.triggerEvent('layerToggle', layerName);
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'layerToggle', layerName);
   }
 }
 
