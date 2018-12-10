@@ -221,8 +221,8 @@ export class Explore extends Component {
             Explore.dismissExploreDirections();
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
-            enableOverView();
             enableZonalButtons();
+            enableOverView();
           }
         // active nav is NOT search hubs assumes explore assment
         } else {
@@ -232,16 +232,16 @@ export class Explore extends Component {
           if (!checkValidObject(checkUserareas)) {
             Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
             Explore.updateExploreDirections(this.exlporeAssmentMessage);
-            disableOverView();
             disableZonalButtons();
+            disableOverView();
           // If there is explore assement data in store do NOT show text and draw the shpes
           } else {
             Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
             Explore.updateExploreDirections(this.exlporeAssmentMessage);
             Explore.dismissExploreDirections();
             this.drawUserAreaFromUsereas();
-            enableOverView();
             enableZonalButtons();
+            enableOverView();
           }
         }
       // active nav is NOT set so we default too explore assment tab
@@ -251,16 +251,16 @@ export class Explore extends Component {
         // that tells the user what to do
         if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
-          disableOverView();
           disableZonalButtons();
+          disableOverView();
         // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
-          enableOverView();
           enableZonalButtons();
+          enableOverView();
         }
       }
     });
@@ -1006,6 +1006,7 @@ export class Explore extends Component {
 
         Explore.enableShapeExistsButtons();
         Explore.dismissExploreDirections();
+        enableOverView();
         return layer;
       }
 

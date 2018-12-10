@@ -1383,8 +1383,11 @@ function restoreGraphState() {
         }
         break;
       default:
+        enableOverView();
         return null;
     }
+  } else {
+    enableOverView();
   }
   return null;
 }
