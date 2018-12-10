@@ -225,6 +225,11 @@ export function addMissingStateItems() {
     store.setStoreItem('mapZoom', 12);
   }
 
+  // check for activeNav default is	main-nav-map
+  if (!checkValidObject(store.getStateItem('activeNav'))) {
+    store.setStoreItem('activeNav', 'main-nav-map');
+  }
+
   // check for savedshapes default is {} NULL object
   if (!checkValidObject(store.getStateItem('savedshapes'))) {
     store.setStoreItem('savedshapes', {});
