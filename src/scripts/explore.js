@@ -18,7 +18,8 @@ import { HubIntersectionApi } from './HubIntersectionAPI';
 import {
   checkValidObject,
   spinnerOff,
-  spinnerOn
+  spinnerOn,
+  googleAnalyticsEvent
 } from './utilitys';
 
 import {
@@ -139,6 +140,8 @@ export class Explore extends Component {
     document.getElementById('btn-reset').addEventListener('click', (e) => {
       store.clearState();
       window.location.reload();
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'explore', 'reset');
     });
 
     Explore.windowListnersToStopRoqueSpinner();
@@ -219,7 +222,7 @@ export class Explore extends Component {
           if (!checkValidObject(checkHubIntersectionJson)) {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
-            disableOverView();
+            enableOverView();
             // If there is hub data in store do NOT show text and draw the hubs
           } else {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
@@ -228,7 +231,7 @@ export class Explore extends Component {
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
             enableZonalButtons();
-            enableOverView();
+            disableOverView();
           }
           // active nav is NOT search hubs assumes explore assment
 
@@ -239,7 +242,7 @@ export class Explore extends Component {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           disableZonalButtons();
-          disableOverView();
+          enableOverView();
           // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -247,7 +250,7 @@ export class Explore extends Component {
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
           enableZonalButtons();
-          enableOverView();
+          disableOverView();
         }
         // active nav is NOT set so we default too explore assment tab
 
@@ -257,7 +260,7 @@ export class Explore extends Component {
       } else if (!checkValidObject(checkUserareas)) {
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         disableZonalButtons();
-        disableOverView();
+        enableOverView();
         // If there is explore assement data in store do NOT show text and draw the shpes
       } else {
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -265,7 +268,7 @@ export class Explore extends Component {
         Explore.dismissExploreDirections();
         this.drawUserAreaFromUsereas();
         enableZonalButtons();
-        enableOverView();
+        disableOverView();
       }
     });
   }
@@ -416,6 +419,9 @@ export class Explore extends Component {
 
   // update zonal stats for all user ares in the state store
   async updateZonal() {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'explore', 'refresh stats');
+
     store.setStoreItem('working_zonalstats', true);
     spinnerOn();
     // this temp remove of stats so we can recalulate.
@@ -919,6 +925,38 @@ export class Explore extends Component {
     return null;
   }
 
+  // used by search by location
+  drawUserArea() {
+    const userarea = store.getStateItem('userarea');
+    if (checkValidObject(userarea)) {
+      // convert geoJson to leaflet layer
+      const layer = L.geoJson(userarea);
+      const bufferedLayer = this.bufferArea(userarea);
+
+      // add layer to the leaflet map
+      this.drawAreaGroup.addLayer(layer);
+      this.drawAreaGroup.addLayer(bufferedLayer);
+      this.addUserAreaLabel(bufferedLayer);
+
+      const activeNav = store.getStateItem('activeNav');
+
+      if (activeNav) {
+        if (activeNav === 'main-nav-map-searchhubs') {
+          Explore.removeExistingHubs();
+          this.getHubsZonal();
+          this.drawHubs();
+          this.drawZonalStatsForStoredHubs();
+        } else {
+          this.getZonal();
+        }
+      } else {
+        this.getZonal();
+      }
+
+      return layer;
+    }
+    return null;
+  }
   // renders the shapes from the user areas state object
   drawUserAreaFromUsereas() {
     store.setStoreItem('working_drawlayers', true);
@@ -1112,6 +1150,9 @@ export class Explore extends Component {
     // Click handler for you button to start drawing polygons
     const clearAreaElement = document.getElementById('btn-clear-area');
     clearAreaElement.addEventListener('click', (ev) => {
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'explore', 'remove areas');
+
       this.removeExistingArea();
       disableOverView();
       disableZonalButtons();
@@ -1201,6 +1242,9 @@ export class Explore extends Component {
       //  to be indentify if we add other map click events
       //  we will have to add that back.  so this not ideal
       mapComponent.map.off('click');
+
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'explore', 'draw area');
 
       const bounds = mapComponent.map.getBounds();
       const topLeftCorner = bounds.getNorthWest();
@@ -1456,7 +1500,13 @@ export class Explore extends Component {
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
     const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
+    uploadFeaturesBtn.addEventListener('click', e => Explore.clickUploadHandler());
     uploadFeaturesBtn.addEventListener('change', e => this.fileSelectHandler(e));
+  }
+
+  static clickUploadHandler() {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'explore', 'upload shapefile');
   }
 
   fileSelectHandler(event) {

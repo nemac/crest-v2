@@ -264,7 +264,6 @@ export class SearchLocations extends Component {
     store.setStoreItem('userarea', userPolyGeoJSON);
 
     // add the shape to the map
-    // this need fixed! using old explore method
     this.exploreComponent.drawUserArea();
 
     // remove old search locations? do I need this?
@@ -303,7 +302,7 @@ export class SearchLocations extends Component {
 
     if (checkValidObject(popup)) {
       // set popup close handler
-      popup.on('popupclose', this.popupCloseHanlder.bind(this));
+      popup.on('popupclose', this.popupCloseHandler.bind(this));
     }
 
     this.mapComponent.map.invalidateSize();
@@ -354,8 +353,11 @@ export class SearchLocations extends Component {
   }
 
   // handler for closing popup
-  popupCloseHanlder() {
+  popupCloseHandler() {
     this.removeSearchLocations();
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'searchbox', 'popup close');
+
   }
 
   // restore the state form map info/identify
