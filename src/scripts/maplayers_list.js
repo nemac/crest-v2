@@ -59,8 +59,8 @@ export class MapLayersList extends Component {
   constructor(placeholderId, props) {
     super(placeholderId, props, maplayersListTemplate);
 
-    const WMSLayers = mapConfig.TileLayers;
-    const TMSLayers = mapConfig.TMSLayers;
+    const { WMSLayers } = mapConfig;
+    const { TMSLayers } = mapConfig;
 
     MapLayersList.addOpenMapLayerListener();
     MapLayersList.addCloseMapLayerListener();

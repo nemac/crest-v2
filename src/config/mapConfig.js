@@ -300,7 +300,7 @@ export var mapConfig = {
 
 
   //tile layers (WMS)
-  TileLayers:[
+  WMSLayers:[
     // {
     //   id: "SA_ExposureIndex",
     //   layer: "SA_ExposureIndex",
