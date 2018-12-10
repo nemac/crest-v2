@@ -123,7 +123,10 @@ export class MapInfo extends Component {
     // ensure the mapclick state is a valid object
     if (checkValidObject(mapClick)) {
       this.mapComponent.setMapClick(mapClick);
-      this.retreiveMapClick();
+      const IdentifyJsonFromStore = store.getStateItem('mapinfo');
+      // check if mapinfo data is store use
+      // data in store over going to api again
+      this.retreiveMapClick(checkValidObject(IdentifyJsonFromStore));
     }
   }
 
@@ -155,7 +158,7 @@ export class MapInfo extends Component {
       // if there was a point retrieve the information from the
       // lambda api function
       if (ev.containerPoint !== undefined) {
-        this.retreiveMapClick();
+        this.retreiveMapClick(false);
       }
     });
   }
@@ -163,7 +166,7 @@ export class MapInfo extends Component {
   // Load map data from the API
   // todo what else can be seperated out to make functions more
   // testable.
-  async retreiveMapClick() {
+  async retreiveMapClick(restore) {
     // toggle spinner css from utility.js
     spinnerOn();
     store.setStoreItem('working_mapinfo', true);
@@ -195,13 +198,16 @@ export class MapInfo extends Component {
       return false;
     }
 
-    // make call to lambda api.
-    const IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
-
-    // for testing without api
-    // const IdentifyJson = {
-    // "aquatic": 6, "tirrestrial": 2, "asset": "1", "threat": "3", "exposure": "1"
-    // };
+    let IdentifyJson = {};
+    // use store data if exists otherwise use lambda function
+    if (restore) {
+      // store data
+      IdentifyJson = store.getStateItem('mapinfo');
+    } else {
+      // make call to lambda api.
+      IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
+      store.setStoreItem('mapinfo', IdentifyJson);
+    }
 
     // get the custom map marker icon
     const myIcon = MapInfo.createMapInfoIcon();
@@ -215,14 +221,15 @@ export class MapInfo extends Component {
     MapInfo.buildMapInfoConent(IdentifyJson, doc);
 
     // bind the html to the leaflet marker and open as leaflet popup
-    const popup = this.bindPopup(doc);
+    const popup = MapInfo.bindPopup(this.marker, doc);
+
+    // toggle spinner css from utility.js
+    store.setStoreItem('working_mapinfo', false);
 
     // add the a click handler to popup to remove the
     // the point marker from the map and state
     this.addRemoveMarkerOnClick(popup);
 
-    // toggle spinner css from utility.js
-    store.setStoreItem('working_mapinfo', false);
     spinnerOff('retreiveMapClick complete');
     this.mapComponent.mapCursorDefault();
     // must click the i button to do this action we will have to remove this
@@ -250,22 +257,20 @@ export class MapInfo extends Component {
 
   // bind popup to marker
   // @param { Object } doc is html document (identify/mapinfo html element)
-  bindPopup(doc) {
+  static bindPopup(marker, doc) {
     const mapinformationel = doc.getElementById('map_info_list');
     const tooltipContent = L.Util.template(mapinformationel.outerHTML);
 
-    const popup = this.marker.bindPopup(
+    const popup = marker.bindPopup(
       tooltipContent,
       {
         autoClose: false,
         closeOnClick: false,
         opacity: 0.9,
         autoPan: false,
-        className: 'map-information-popup',
-        offset: L.point(-155, 20)
+        className: 'map-information-popup'
       }
-    ).openPopup();
-
+    ).openPopup().setLatLng(marker.getLatLng());
 
     // add labels for assessabbility
     const SearchLocationsCloseButtonElement = document.querySelector('.map-information-popup .leaflet-popup-close-button');
@@ -301,6 +306,7 @@ export class MapInfo extends Component {
 
       // remove from state
       store.removeStateItem('mapClick');
+      store.removeStateItem('mapinfo');
     });
   }
 
