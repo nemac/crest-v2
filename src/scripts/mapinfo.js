@@ -12,7 +12,8 @@ import { IdentifyAPI } from './identifyAPI';
 import {
   checkValidObject,
   spinnerOff,
-  spinnerOn
+  spinnerOn,
+  googleAnalyticsEvent
 } from './utilitys';
 
 import {
@@ -89,6 +90,8 @@ export class MapInfo extends Component {
   // map info click handler
   mapInformationClickHandler(ev) {
     this.addMapClickIdentifyClickHandler();
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'button', 'mapinfo');
 
     // remove previous marker point
     if (this.marker !== undefined) {
@@ -154,6 +157,8 @@ export class MapInfo extends Component {
 
       // save the mapclick location to the state store
       store.setStoreItem('mapClick', ev.latlng);
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'map', 'mapinfo');
 
       // if there was a point retrieve the information from the
       // lambda api function
@@ -203,10 +208,14 @@ export class MapInfo extends Component {
     if (restore) {
       // store data
       IdentifyJson = store.getStateItem('mapinfo');
+      // ga event action, category, label
+      googleAnalyticsEvent('call', 'store', 'IdentifyAPI');
     } else {
       // make call to lambda api.
       IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
       store.setStoreItem('mapinfo', IdentifyJson);
+      // ga event action, category, label
+      googleAnalyticsEvent('call', 'lambda', 'IdentifyAPI');
     }
 
     // get the custom map marker icon

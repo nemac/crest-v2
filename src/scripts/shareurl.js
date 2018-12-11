@@ -8,6 +8,11 @@ import { Store } from './store';
 import shareurlTemplate from '../templates/shareurl.html';
 import { StoreShapesAPI } from './StoreShapesAPI';
 
+
+import {
+  googleAnalyticsEvent
+} from './utilitys';
+
 const store = new Store({});
 
 /**
@@ -63,6 +68,9 @@ export class ShareUrl extends Component {
   }
 
   static disableShareUrl() {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'shareurl', 'collapse');
+
     const shareurl = document.getElementById('shareurl-holder');
     if (shareurl) {
       shareurl.classList.add('d-none');
@@ -77,6 +85,9 @@ export class ShareUrl extends Component {
   }
 
   static makeShareUrlHandler() {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'shareurl', 'open');
+
     const sharebutton = document.querySelector('.btn-copy-share');
     if (!sharebutton) {
       this.makeSharedURL();
@@ -159,6 +170,9 @@ export class ShareUrl extends Component {
     shareUrlBox.addEventListener('click', (e) => {
       const shareurl = document.getElementById('shareurltextarea');
       shareurl.value = this.URL.getShareUrl();
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'shareurl', shareurl.value);
+
       ShareUrl.copyToClipboard(e);
     });
 
@@ -166,6 +180,8 @@ export class ShareUrl extends Component {
     createShareURLCopyButton.addEventListener('click', (e) => {
       const shareurl = document.getElementById('shareurltextarea');
       shareurl.value = this.URL.getShareUrl();
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'shareurl', shareurl.value);
       ShareUrl.copyToClipboard(e);
     });
 
