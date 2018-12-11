@@ -195,16 +195,15 @@ export function addDownloadGoogleEvents() {
     'download-slope'
   ];
 
-  downloadIds.forEach( (id) => {
+  downloadIds.forEach((id) => {
     const elem = document.getElementById(id);
     if (elem) {
       elem.addEventListener('click', (ev) => {
         // ga event action, category, label
         googleAnalyticsEvent('click', 'downloads', id);
-
-      })
+      });
     }
-  })
+  });
 }
 
 // set stateitems if they do not exist

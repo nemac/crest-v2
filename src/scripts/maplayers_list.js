@@ -261,7 +261,6 @@ export class MapLayersList extends Component {
         return ColorRampTerrestrial;
       case 'aquatic':
         return ColorRampAquatic;
-
       case 'driver-asset':
         return ColorRampDriverAsset;
       case 'popdensity':
@@ -307,7 +306,6 @@ export class MapLayersList extends Component {
   static toggleLegendHtml(elem) {
     elem.classList.toggle('closed');
     MapLayersList.getLayerWrapper(elem).querySelector('.layer-legend-wrapper').classList.toggle('closed');
-
   }
 
   // Gets the id of the legend to be used in the store
@@ -324,15 +322,15 @@ export class MapLayersList extends Component {
     const legendId = MapLayersList.getLegendId(elem);
     let legendstate = false;
     if (store.checkItem(legendId)) {
-      store.removeStateItem(legendId)
+      store.removeStateItem(legendId);
       // ga event action, category, label
       googleAnalyticsEvent('click', 'maplayerlist', `close legend ${elem.id}`);
-      let legendstate = false;
+      legendstate = false;
     } else {
       // ga event action, category, label
       googleAnalyticsEvent('click', 'maplayerlist', `open legend ${elem.id}`);
       store.addStateItem(legendId, 'true');
-      let legendstate = true;
+      legendstate = true;
     }
     return legendstate;
   }
