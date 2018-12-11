@@ -138,7 +138,7 @@ export class Explore extends Component {
     });
 
     document.getElementById('btn-reset').addEventListener('click', (e) => {
-      const activeNav = store.getStateItem('activeNav')
+      const activeNav = store.getStateItem('activeNav');
       store.clearState();
       window.location.reload();
       // ga event action, category, label

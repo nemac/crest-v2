@@ -9,7 +9,8 @@ import { Store } from './store';
 import { URL } from './url';
 import {
   checkValidObject,
-  addMissingStateItems
+  addMissingStateItems,
+  addDownloadGoogleEvents
 } from './utilitys';
 
 // import extended components
@@ -245,6 +246,7 @@ router.on({
   '/Download': (params, query) => {
     setNavBars('main-nav-download');
     initStaticPage('download-holder', DownloadDataPage);
+    addDownloadGoogleEvents();
   }
 });
 

@@ -164,12 +164,47 @@ export function flatten(arr) {
   return flat;
 }
 
+// adds a custom google events
 export function googleAnalyticsEvent(action = '', category = '', label = '', value = 0) {
   gtag('event', action, {
     event_category: category,
     event_label: label,
     value: `${value}`
   });
+}
+
+// add google event tags for downloads.
+export function addDownloadGoogleEvents() {
+  const downloadIds = [
+    'download-hubs',
+    'download-exposure',
+    'download-assets',
+    'download-threats',
+    'download-aquatic',
+    'download-terrestrial',
+    'download-populationdensity',
+    'download-socialvulnerability',
+    'download-criticalfacilities',
+    'download-criticalinfrastructure',
+    'download-drainage',
+    'download-erosion',
+    'download-floodproneareas',
+    'download-sealevelrise',
+    'download-stromsurge',
+    'download-geostressor',
+    'download-slope'
+  ];
+
+  downloadIds.forEach( (id) => {
+    const elem = document.getElementById(id);
+    if (elem) {
+      elem.addEventListener('click', (ev) => {
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'downloads', id);
+
+      })
+    }
+  })
 }
 
 // set stateitems if they do not exist
