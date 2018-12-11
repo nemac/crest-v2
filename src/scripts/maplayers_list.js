@@ -307,6 +307,7 @@ export class MapLayersList extends Component {
   static toggleLegendHtml(elem) {
     elem.classList.toggle('closed');
     MapLayersList.getLayerWrapper(elem).querySelector('.layer-legend-wrapper').classList.toggle('closed');
+
   }
 
   // Gets the id of the legend to be used in the store
@@ -320,10 +321,20 @@ export class MapLayersList extends Component {
   //
   // @param elem | DOM Element
   static toggleLegendState(elem) {
+    console.log(elem)
     const legendId = MapLayersList.getLegendId(elem);
-    const legendstate = store.checkItem(legendId) ? store.removeStateItem(legendId) :
+    let legendstate = false;
+    if (store.checkItem(legendId)) {
+      store.removeStateItem(legendId)
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'close legend');
+      let legendstate = false;
+    } else {
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'open legend');
       store.addStateItem(legendId, 'true');
-
+      let legendstate = true;
+    }
     return legendstate;
   }
 
