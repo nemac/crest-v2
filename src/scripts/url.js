@@ -45,7 +45,7 @@ export class URL {
     this.hasShareURL = urlParams.get('shareurl');
 
     this.url = new StorageAPI();
-    const handler = this.setUrl.bind(this);
+    const handler = URL.setUrl.bind(this);
     StorageAPI.listenForStateChange(handler);
 
     // if there was has shareurl=true in the query string
@@ -59,9 +59,9 @@ export class URL {
   }
 
   static updateURL(url) {
-    // if (window.history && window.history.replaceState) {
-    //   window.history.replaceState({}, '', url);
-    // }
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, '', url);
+    }
   }
 
   encodeStateString() {
@@ -89,11 +89,9 @@ export class URL {
     return `${baseurl}/?state=${state}&shareurl=true&fornav=${statesobj.activeNav}`;
   }
 
-  setUrl() {
-    const state = this.encodeStateString();
-    // URL.updateURL(`?state=${state}`);
+  static setUrl() {
     const hash = window.location.hash.substr(1);
-    URL.updateURL(`#${hash}?state=${state}`);
+    URL.updateURL(`#${hash}`);
   }
 
   static getUrl() {
