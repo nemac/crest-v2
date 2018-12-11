@@ -232,7 +232,7 @@ export class Explore extends Component {
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
             enableZonalButtons();
-            enableOverView();
+            Explore.setOverviewText();
           }
           // active nav is NOT search hubs assumes explore assment
 
@@ -251,7 +251,7 @@ export class Explore extends Component {
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
           enableZonalButtons();
-          enableOverView();
+          Explore.setOverviewText();
         }
         // active nav is NOT set so we default too explore assment tab
 
@@ -261,7 +261,7 @@ export class Explore extends Component {
       } else if (!checkValidObject(checkUserareas)) {
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         disableZonalButtons();
-        enableOverView();
+        Explore.setOverviewText();
         // If there is explore assement data in store do NOT show text and draw the shpes
       } else {
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
