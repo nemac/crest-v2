@@ -18,6 +18,17 @@ $map_right_margin: 10px;
     margin: 10px;
 }
 
+.map-information-popup a.leaflet-popup-close-button {
+  top: 15px !important;
+  z-index: 1021;
+}
+
+#map_info_list {
+  h5 {
+    margin-bottom: 5px !important;
+  }
+}
+
 #maplayers_list_opened, #map_info_list_collapse {
   color: $body-color;
   font-size: 14px;
