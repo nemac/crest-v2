@@ -93,9 +93,30 @@ export class NavBar extends Component {
         store.setStoreItem('activeNav', nav.id);
 
         const navChangeEvent = new CustomEvent('aboutNavChange');
+
         window.dispatchEvent(navChangeEvent);
       });
     });
+  }
+
+  // clear the url after a tab nav when not from UI
+  // for example share url or browser refresh
+  static UpdateRouteURL(id) {
+    const fullurl = window.location;
+    const urlParams = window.location.search;
+    const hash = window.location.hash.substr(1);
+    const urlwithoutquery = fullurl.href.replace(urlParams, '');
+
+    // this very hacky need better way to handle
+    if (id === 'main-nav-map-searchhubs') {
+      if (window.history && window.history.replaceState) {
+        if (!hash) {
+          window.history.replaceState({}, '', `${urlwithoutquery}SearchHubs`);
+        }
+      }
+    } else if (!hash) {
+      window.history.replaceState({}, '', `${urlwithoutquery}Home`);
+    }
   }
 
   static tabUpdate(id) {
@@ -103,6 +124,8 @@ export class NavBar extends Component {
     const el = document.getElementById(id);
     el.className = `${el.className} active`;
     store.setStoreItem('activeNav', id);
+
+    NavBar.UpdateRouteURL(id);
   }
 
   static deactivateAllNavs() {
