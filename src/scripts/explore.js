@@ -138,10 +138,11 @@ export class Explore extends Component {
     });
 
     document.getElementById('btn-reset').addEventListener('click', (e) => {
+      const activeNav = store.getStateItem('activeNav')
       store.clearState();
       window.location.reload();
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'explore', 'reset');
+      googleAnalyticsEvent('click', `explore ${activeNav}`, 'reset');
     });
 
     Explore.windowListnersToStopRoqueSpinner();
@@ -420,7 +421,7 @@ export class Explore extends Component {
   // update zonal stats for all user ares in the state store
   async updateZonal() {
     // ga event action, category, label
-    googleAnalyticsEvent('click', 'explore', 'refresh stats');
+    googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'refresh stats');
 
     store.setStoreItem('working_zonalstats', true);
     spinnerOn();
@@ -1152,7 +1153,7 @@ export class Explore extends Component {
     const clearAreaElement = document.getElementById('btn-clear-area');
     clearAreaElement.addEventListener('click', (ev) => {
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'explore', 'remove areas');
+      googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'remove areas');
 
       this.removeExistingArea();
       disableOverView();
@@ -1245,7 +1246,7 @@ export class Explore extends Component {
       mapComponent.map.off('click');
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'explore', 'draw area');
+      googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'draw area');
 
       const bounds = mapComponent.map.getBounds();
       const topLeftCorner = bounds.getNorthWest();
@@ -1507,7 +1508,7 @@ export class Explore extends Component {
 
   static clickUploadHandler() {
     // ga event action, category, label
-    googleAnalyticsEvent('click', 'explore', 'upload shapefile');
+    googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'upload shapefile');
   }
 
   fileSelectHandler(event) {

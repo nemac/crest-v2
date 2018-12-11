@@ -230,10 +230,8 @@ function makeRemoveLabel(name, mapComponent) {
 
   zonalLabel.innerHTML = `<i class="far fa-trash-alt" id="svg-name-remove-${HTMLName}" style="z-index: -99;"></i>`;
   zonalLabel.addEventListener('click', (e) => {
-    const activeNav = store.getStateItem('activeNav');
-
     // ga event action, category, label
-    googleAnalyticsEvent('click', 'zonalstats', `remove area ${activeNav}`);
+    googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'remove area');
 
     e.stopImmediatePropagation();
     e.stopPropagation();
@@ -410,10 +408,8 @@ function toggleALLPathsOff(elem) {
 
 // Click handler to trigger the dismiss of the long zonal stats
 function dismissZonalClickHandler(e) {
-  const activeNav = store.getStateItem('activeNav');
-
   // ga event action, category, label
-  googleAnalyticsEvent('click', 'zonalstats', `dismiss graphs ${activeNav}`);
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'dismiss graphs');
 
   e.preventDefault();
   setGraphsState('none', 'none');
@@ -440,10 +436,8 @@ function displayRawValues(wrapper) {
 }
 
 function displayZonalTableHandler(e) {
-  const activeNav = store.getStateItem('activeNav');
-
   // ga event action, category, label
-  googleAnalyticsEvent('click', 'zonalstats', `display table ${activeNav}`);
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display table');
 
   e.preventDefault();
   setGraphsState(this.getAttribute('id'), 'table');
@@ -461,10 +455,8 @@ function displayGraphs(wrapper) {
 }
 
 function displayZonalGraphsHandler(e) {
-  const activeNav = store.getStateItem('activeNav');
-
   // ga event action, category, label
-  googleAnalyticsEvent('click', 'zonalstats', `display graphs ${activeNav}`, 'from graphs');
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from graphs');
 
   e.preventDefault();
   setGraphsState(this.getAttribute('id'), 'graph');
@@ -594,10 +586,8 @@ function enableZonalButtons(HTMLName) {
 }
 
 function viewLongZonalStatsFromShape(name) {
-  const activeNav = store.getStateItem('activeNav');
-
   // ga event action, category, label
-  googleAnalyticsEvent('click', 'zonalstats', `display graphs ${activeNav}`, 'from shape');
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from shape');
 
   hideLastLongStats();
   hideLastHighlight();
@@ -623,10 +613,8 @@ function viewLongZonalStatsFromShape(name) {
 
 // Click handler to trigger the load of the long zonal stats
 function shortZonalClickHandler(e) {
-  const activeNav = store.getStateItem('activeNav');
-
   // ga event action, category, label
-  googleAnalyticsEvent('click', 'zonalstats', `display graphs ${activeNav}`, 'from details');
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from details');
 
   e.preventDefault();
   const id = e.target.getAttribute('id');

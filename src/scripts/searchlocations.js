@@ -200,14 +200,13 @@ export class SearchLocations extends Component {
         if (ev.target.id === 'e-btn' || ParentContains(ev.target, 'e-btn')) {
           this.addSearchLocationsExploreHandler();
           // ga event action, category, label
-          googleAnalyticsEvent('click', 'searchbox', 'exlpore');
+          googleAnalyticsEvent('click', `searchbox ${store.getStateItem('activeNav')}`, 'exlpore');
         }
-
         // if clicked child or mapinfo buttton
         if (ev.target.id === 'i-btn' || ParentContains(ev.target, 'i-btn')) {
           this.addSearchLocationsMapInfoHandler();
           // ga event action, category, label
-          googleAnalyticsEvent('click', 'searchbox', 'mapinfo');
+          googleAnalyticsEvent('click', `searchbox ${store.getStateItem('activeNav')}`, 'mapinfo');
         }
       });
     }
