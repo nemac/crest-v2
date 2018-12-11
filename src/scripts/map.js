@@ -18,7 +18,8 @@ import { Store } from './store';
 import {
   checkValidObject,
   spinnerOff,
-  spinnerOn
+  spinnerOn,
+  googleAnalyticsEvent
 } from './utilitys';
 
 // Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
@@ -461,12 +462,16 @@ export class Map extends Component {
     const layer = this.overlayMaps[layerName];
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer);
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', `layerToggle off ${layerName}`);
       mapDisplayLayersObj = { [layerName]: false };
     } else {
       store.setStoreItem('working_basemap', true);
       spinnerOn();
       this.map.addLayer(layer);
       mapDisplayLayersObj = { [layerName]: true };
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', `layerToggle on ${layerName}`);
     }
     Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
     store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);

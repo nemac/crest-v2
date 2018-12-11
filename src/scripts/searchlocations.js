@@ -12,7 +12,8 @@ import {
   checkValidObject,
   spinnerOn,
   spinnerOff,
-  ParentContains
+  ParentContains,
+  googleAnalyticsEvent
 } from './utilitys';
 
 const store = new Store({});
@@ -79,6 +80,8 @@ export class SearchLocations extends Component {
   searchBoxExpandClickHandler(ev) {
     this.searchControl.options.collapseAfterResult = false;
     L.DomUtil.removeClass(this.collapseSearch, 'd-none');
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'searchbox', 'expand');
   }
 
   // handle collapse of search box.  removed from displays the collapse button
@@ -86,6 +89,9 @@ export class SearchLocations extends Component {
   searchBoxCollapseClickHandler(ev) {
     // get the search location buttons holder element
     const CollapseElement = document.querySelector('.geocoder-control-expanded');
+
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'searchbox', 'collapse');
 
     // make the element exists in the dom
     if (CollapseElement !== null) {
@@ -146,6 +152,9 @@ export class SearchLocations extends Component {
       this.mapComponent.map.removeLayer(this.marker);
     }
 
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'searchbox', 'close');
+
     // remove the last location
     store.removeStateItem('mapSearchLocations');
   }
@@ -190,11 +199,14 @@ export class SearchLocations extends Component {
         // if clicked child or explore buttton
         if (ev.target.id === 'e-btn' || ParentContains(ev.target, 'e-btn')) {
           this.addSearchLocationsExploreHandler();
+          // ga event action, category, label
+          googleAnalyticsEvent('click', `searchbox ${store.getStateItem('activeNav')}`, 'exlpore');
         }
-
         // if clicked child or mapinfo buttton
         if (ev.target.id === 'i-btn' || ParentContains(ev.target, 'i-btn')) {
           this.addSearchLocationsMapInfoHandler();
+          // ga event action, category, label
+          googleAnalyticsEvent('click', `searchbox ${store.getStateItem('activeNav')}`, 'mapinfo');
         }
       });
     }
@@ -289,7 +301,7 @@ export class SearchLocations extends Component {
 
     if (checkValidObject(popup)) {
       // set popup close handler
-      popup.on('popupclose', this.popupCloseHanlder.bind(this));
+      popup.on('popupclose', this.popupCloseHandler.bind(this));
     }
 
     this.mapComponent.map.invalidateSize();
@@ -340,8 +352,10 @@ export class SearchLocations extends Component {
   }
 
   // handler for closing popup
-  popupCloseHanlder() {
+  popupCloseHandler() {
     this.removeSearchLocations();
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'searchbox', 'popup close');
   }
 
   // restore the state form map info/identify
@@ -359,6 +373,9 @@ export class SearchLocations extends Component {
   addSearchLocationsPopup(location, offsetx) {
     if (checkValidObject(this.marker)) {
       const content = SearchLocations.getSearchLocationsLabel();
+
+      // ga event action, category, label
+      googleAnalyticsEvent('return', 'searchbox', content);
 
       const oldContentElement = document.getElementById('searchlocations_list');
       if (oldContentElement !== null) {

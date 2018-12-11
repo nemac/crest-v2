@@ -6,6 +6,10 @@ import { Store } from './store';
 
 import { navConfig } from '../config/navConfig';
 
+import {
+  googleAnalyticsEvent
+} from './utilitys';
+
 const store = new Store({});
 
 /**
@@ -78,6 +82,9 @@ export class NavBar extends Component {
         } else {
           NavBar.toggleTabContent(e.target.id);
         }
+
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'navbar', e.target.id);
 
         // make tab style active
         NavBar.tabUpdate(e.target.id);
