@@ -321,17 +321,16 @@ export class MapLayersList extends Component {
   //
   // @param elem | DOM Element
   static toggleLegendState(elem) {
-    console.log(elem)
     const legendId = MapLayersList.getLegendId(elem);
     let legendstate = false;
     if (store.checkItem(legendId)) {
       store.removeStateItem(legendId)
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', 'close legend');
+      googleAnalyticsEvent('click', 'maplayerlist', `close legend ${elem.id}`);
       let legendstate = false;
     } else {
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', 'open legend');
+      googleAnalyticsEvent('click', 'maplayerlist', `open legend ${elem.id}`);
       store.addStateItem(legendId, 'true');
       let legendstate = true;
     }
@@ -421,8 +420,6 @@ export class MapLayersList extends Component {
   toggleMapLayer(layerName) {
     // Trigger layer toggle callback
     this.triggerEvent('layerToggle', layerName);
-    // ga event action, category, label
-    googleAnalyticsEvent('click', 'layerToggle', layerName);
   }
 }
 
