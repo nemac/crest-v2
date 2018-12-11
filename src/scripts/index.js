@@ -9,7 +9,8 @@ import { Store } from './store';
 import { URL } from './url';
 import {
   checkValidObject,
-  addMissingStateItems
+  addMissingStateItems,
+  addDownloadGoogleEvents
 } from './utilitys';
 
 // import extended components
@@ -180,7 +181,6 @@ function setNavBars(selector) {
   window.dispatchEvent(navChangeEvent);
 }
 
-
 // Initializes the static pages by inserting the rendered template into the selected DOM element
 //
 // @param selector - string DOM selector
@@ -246,6 +246,7 @@ router.on({
   '/Download': (params, query) => {
     setNavBars('main-nav-download');
     initStaticPage('download-holder', DownloadDataPage);
+    addDownloadGoogleEvents();
   }
 });
 

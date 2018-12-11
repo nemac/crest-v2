@@ -11,7 +11,10 @@ import ZonalButtons from '../templates/zonal_buttons.html';
 import ZonalOverViewTable from '../templates/zonal_overview_table.html';
 import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
-import { checkValidObject } from './utilitys';
+import {
+  checkValidObject,
+  googleAnalyticsEvent
+} from './utilitys';
 // required for bootstrap
 window.$ = require('jquery');
 // required for tooltip, popup...
@@ -228,6 +231,9 @@ function makeRemoveLabel(name, mapComponent) {
 
   zonalLabel.innerHTML = `<i class="far fa-trash-alt" id="svg-name-remove-${HTMLName}" style="z-index: -99;"></i>`;
   zonalLabel.addEventListener('click', (e) => {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'remove area');
+
     e.stopImmediatePropagation();
     e.stopPropagation();
     e.preventDefault();
@@ -403,6 +409,9 @@ function toggleALLPathsOff(elem) {
 
 // Click handler to trigger the dismiss of the long zonal stats
 function dismissZonalClickHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'dismiss graphs');
+
   e.preventDefault();
   setGraphsState('none', 'none');
   dismissLongZonalStats(getZonalWrapper(this));
@@ -428,6 +437,9 @@ function displayRawValues(wrapper) {
 }
 
 function displayZonalTableHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display table');
+
   e.preventDefault();
   setGraphsState(this.getAttribute('id'), 'table');
   displayRawValues(getZonalWrapper(this));
@@ -444,6 +456,9 @@ function displayGraphs(wrapper) {
 }
 
 function displayZonalGraphsHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from graphs');
+
   e.preventDefault();
   setGraphsState(this.getAttribute('id'), 'graph');
   displayGraphs(getZonalWrapper(this));
@@ -572,6 +587,9 @@ function enableZonalButtons(HTMLName) {
 }
 
 function viewLongZonalStatsFromShape(name) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from shape');
+
   hideLastLongStats();
   hideLastHighlight();
 
@@ -596,6 +614,9 @@ function viewLongZonalStatsFromShape(name) {
 
 // Click handler to trigger the load of the long zonal stats
 function shortZonalClickHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from details');
+
   e.preventDefault();
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
@@ -1403,6 +1424,8 @@ function restoreGraphState() {
 
     const HTMLName = stripUserArea(elemid);
 
+    disableOverView();
+
     switch (activestate) {
       case 'graph':
         displayGraphs(elem);
@@ -1431,11 +1454,8 @@ function restoreGraphState() {
         }
         break;
       default:
-        enableOverView();
         return null;
     }
-  } else {
-    enableOverView();
   }
   return null;
 }
