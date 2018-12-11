@@ -321,7 +321,7 @@ function disableMainZonalButton() {
   document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
 }
 
-function disableOverView() {
+function disableOverView(text = 'none') {
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
   buttonHolder.classList.add('d-none');
 }
@@ -347,7 +347,7 @@ function disableZonalButtons(HTMLName) {
   }
 }
 
-function enableOverView() {
+function enableOverView(text = 'none') {
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
   buttonHolder.classList.remove('d-none');
 }
@@ -370,7 +370,7 @@ function dismissLongZonalStats(wrapper) {
   const HTMLName = stripUserArea(id);
   disableZonalButtons(HTMLName);
   disableAllZonalWrappers();
-  enableOverView();
+  enableOverView('dismissLongZonalStats');
 
   // wrapper.previousSibling.style.height = '100%';
   ZonalWrapperActiveAdd();
@@ -1376,8 +1376,6 @@ function restoreGraphState() {
 
     const HTMLName = stripUserArea(elemid);
 
-    disableOverView();
-
     switch (activestate) {
       case 'graph':
         displayGraphs(elem);
@@ -1387,6 +1385,7 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
         }
 
@@ -1396,12 +1395,11 @@ function restoreGraphState() {
           elem.classList.add('active');
           elem.classList.add('active-table');
           document.getElementById('zonal-header').classList.add('d-none');
-
           displayRawValues(elem);
-
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
         }
         break;

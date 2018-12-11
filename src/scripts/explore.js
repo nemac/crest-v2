@@ -162,7 +162,6 @@ export class Explore extends Component {
     // draw the user area on the map
     const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
     const checkUserareas = store.getStateItem('userareas');
-    disableOverView();
 
     if (!this.hasShareURL) {
       const activeNav = store.getStateItem('activeNav');
@@ -223,7 +222,8 @@ export class Explore extends Component {
           if (!checkValidObject(checkHubIntersectionJson)) {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
-            enableOverView();
+            disableZonalButtons();
+            disableOverView();
             // If there is hub data in store do NOT show text and draw the hubs
           } else {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
@@ -232,7 +232,7 @@ export class Explore extends Component {
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
             enableZonalButtons();
-            disableOverView();
+            enableOverView();
           }
           // active nav is NOT search hubs assumes explore assment
 
@@ -243,7 +243,7 @@ export class Explore extends Component {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           disableZonalButtons();
-          enableOverView();
+          disableOverView();
           // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -251,7 +251,7 @@ export class Explore extends Component {
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
           enableZonalButtons();
-          disableOverView();
+          enableOverView();
         }
         // active nav is NOT set so we default too explore assment tab
 
@@ -735,6 +735,7 @@ export class Explore extends Component {
     // if their is a query string paramter for shareurl=true restore the shapes.
     if (this.hasShareURL === 'true') {
       this.getShapesFromS3();
+      Explore.setOverviewText();
     }
   }
 
@@ -742,13 +743,25 @@ export class Explore extends Component {
   restoreHubsForShareURL() {
     if (this.hasShareURL === 'true') {
       this.getHubsFromS3();
+      Explore.setOverviewText();
+    }
+  }
+
+  // clear the url after a share url has been processed so
+  // it does not effect refreshes
+  static clearURL() {
+    const fullurl = window.location;
+    const urlParams = window.location.search;
+    const urlwithoutquery = fullurl.href.replace(urlParams, '');
+
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, '', `${urlwithoutquery}`);
     }
   }
 
   // get geojson from s3
   restoreSavedGeoJson() {
     store.setStoreItem('working_s3retreive', true);
-
     spinnerOn();
 
     // check shareurl nav
@@ -757,6 +770,8 @@ export class Explore extends Component {
     } else {
       this.restoreExploreForShareURL();
     }
+
+    Explore.clearURL();
 
     store.setStoreItem('working_s3retreive', false);
     spinnerOff();
@@ -878,6 +893,22 @@ export class Explore extends Component {
     spinnerOff();
 
     return null;
+  }
+
+  // sets overview text if on graphs or table
+  static setOverviewText() {
+    const graphstate = store.getStateItem('zonalactive');
+    const activestate = graphstate[1];
+
+    if (checkValidObject(activestate)) {
+      if (activestate === 'graph' || activestate === 'table') {
+        disableOverView();
+      } else {
+        enableOverView();
+      }
+    } else {
+      enableOverView();
+    }
   }
 
   // get hubs that we saved on s3.  In order to create a share URL - a web URL
@@ -1037,7 +1068,7 @@ export class Explore extends Component {
 
         Explore.enableShapeExistsButtons();
         Explore.dismissExploreDirections();
-        enableOverView();
+
         return layer;
       }
 
@@ -1096,7 +1127,7 @@ export class Explore extends Component {
   clearLayersAndDetails() {
     this.drawAreaGroup.clearLayers();
     Explore.clearDetails();
-    disableOverView();
+    enableOverView();
   }
 
   static removeExistingExplore() {
@@ -1156,7 +1187,6 @@ export class Explore extends Component {
       googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'remove areas');
 
       this.removeExistingArea();
-      disableOverView();
       disableZonalButtons();
 
       // this temp remove of stats while we work on multiple shapes.
