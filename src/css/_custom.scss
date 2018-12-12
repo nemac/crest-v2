@@ -139,7 +139,6 @@ html, body {
   background: $btn-color-prinary radial-gradient(circle, transparent 1%, $btn-color-prinary 1%) center/15000% !important;
 }
 
-
 .bnt-primary {
   background-color: $btn-color-prinary !important;
   background-position: center !important;
@@ -199,6 +198,22 @@ html, body {
   }
 }
 
+@media (min-width: 993px) {
+  .navbar-brand {
+    display: none;
+  }
+
+  #maintitle {
+    display: inline-block;
+    margin-bottom: 0px !important;
+  }
+
+  .navbar-expand-lg {
+    padding-top: 0px;
+  }
+
+}
+
 // responive explore buttons
 @media (max-width: 992px) {
   .data-row, .map-list-column, .map-row {
@@ -211,6 +226,14 @@ html, body {
   #map-holder {
     margin-bottom: 15px;
   }
+
+  #maintitle {
+    display: none;
+  }
+
+  .navbar-brand {
+    display: inline-block;
+  }
 }
 
 // responive explore buttons
@@ -219,6 +242,10 @@ html, body {
     margin-top: $margin;
     width: 100% !important;
     background-color: $btn-color-secondary !important;;
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
   }
 
   .data-row, .map-list-column, .map-row {
