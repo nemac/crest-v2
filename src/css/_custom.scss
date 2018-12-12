@@ -21,6 +21,7 @@ $padding15: 15px;
 
 $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
 $body-bg-semiTransparent9:    rgba(53, 59, 65, .9); // $gray-800
+$body-bg-FullTransparent:    rgba(53, 59, 65, 0.0); // $gray-800
 
 html, body {
     height: 100%;
@@ -204,6 +205,10 @@ html, body {
 }
 
 @media (min-width: 993px) {
+  .map_responsive {
+    display: none;
+  }
+
   .navbar-brand {
     display: none;
   }
@@ -254,6 +259,68 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 992px) {
+  .list-closed {
+    height: 40% !important;
+    width: 100% !important;
+    position: fixed;
+    top: 100px !important;
+    left: 0px !important;
+    // left: 80% !important;
+    z-index: 5000 !important;
+    background-color: $body-bg-FullTransparent !important;
+  }
+
+  .maplayers_list {
+    height: 40% !important;
+    width: 100% !important;
+    position: fixed;
+    top: 100px !important;
+    left: 0px !important;
+    // left: 80% !important;
+    z-index: 5000 !important;
+    background-color: $body-bg-FullTransparent !important;
+  }
+
+
+  .map_responsive {
+    overflow: scroll !important;
+    background-color: $body-bg-FullTransparent !important;
+    display: flex !important;
+    float: right !important;
+    width: 90% !important;
+    .navbar-brand {
+      // display: none;
+      font-size: 1.5rem !important;
+      color: $body-bg-FullTransparent !important;
+    }
+
+    #mapListToggle {
+      background-color: $body-bg !important;
+    }
+
+    #ToggleLayerList {
+      background-color: $body-bg !important;
+      margin: 15px;
+    }
+
+    .navbar-toggler-icon {
+      background-image: inherit !important;
+    }
+
+    .navbar-toggler {
+      background-color: $body-bg !important;
+    }
+
+    .bg_dark {
+      background-color: $body-bg-FullTransparent !important;
+    }
+
+  }
+
+  .map-noresponsive-one,.map-noresponsive-two {
+    display: none;
+  }
+
   .data-row, .map-list-column, .map-row {
     padding-top: 5px;
     // height: 750px !important;
@@ -373,6 +440,7 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 768px) {
+
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
