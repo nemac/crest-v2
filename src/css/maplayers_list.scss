@@ -194,31 +194,31 @@ $map_right_margin: 10px;
   padding-top: 10px;
 }
 
-.stickcustom {
-  background-color: $body-bg-semiTransparent;
-}
+// .stickcustom {
+//   background-color: $body-bg-semiTransparent;
+// }
+//
+// .toggle-list {
+//   padding: $layer_list_padding;
+// }
 
-.toggle-list {
-  padding: $layer_list_padding;
-}
+// .list-closed {
+//   height: 65px !important;
+//   overflow: inherit;
+//   width: $layer_list_width_closed !important;
+//   left: - ($layer_list_width_closed + (20)) !important;
+// }
 
-.list-closed {
-  height: 65px !important;
-  overflow: inherit;
-  width: $layer_list_width_closed !important;
-  left: - ($layer_list_width_closed + (20)) !important;
-}
-
-#maplayers_list-holder {
-  position: relative;
-  width: $layer_list_width;
-  left: - ($layer_list_width + (20));
-  top: 0px;
-  margin-right: - ($layer_list_width + (15));
-  z-index: 5000;
-  padding-bottom: 25px !important;
-  padding-top: 25px !important;
-}
+// #maplayers_list-holder {
+//   position: relative;
+//   width: $layer_list_width;
+//   left: - ($layer_list_width + (20));
+//   top: 0px;
+//   margin-right: - ($layer_list_width + (15));
+//   z-index: 5000;
+//   padding-bottom: 25px !important;
+//   padding-top: 25px !important;
+// }
 
 .maplayers_list {
   background-color: $body-bg;
@@ -239,9 +239,6 @@ $map_right_margin: 10px;
     left: 0px !important;
     padding-bottom: 0px !important;
     padding-top:0px !important;
-  }
-
-  .maplayers_list {
   }
 
   #maplayers_list_close, #map_info_list_collapse {

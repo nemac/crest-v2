@@ -1,5 +1,6 @@
 // Your variable overrides
 $body-bg:    $gray-800;
+$body-list-border:    $gray-600;
 $body-color: $gray-200;
 
 $btn-color-prinary: $gray-100;
@@ -205,8 +206,45 @@ html, body {
 }
 
 @media (min-width: 993px) {
+
+  .map-list-column {
+    height: 0% !important
+  }
+
+  #maplayers_list-holder {
+    width: 20% !important;
+    position: fixed;
+    top: 130px !important;
+    left: 80% !important;
+    z-index: 5000 !important;
+    background-color: rgba(53, 59, 65, 0) !important;
+    height: 80% !important;
+  }
+
+  .maplayers_list {
+    height: 96% !important;
+  }
+
   .map_responsive {
-    display: none;
+    overflow: scroll !important;
+    background-color: $body-bg-FullTransparent !important;
+    float: right !important;
+    width: 100% !important;
+
+    .navbar-dark {
+      background-color: $body-bg-FullTransparent !important;
+    }
+
+    #mapListToggle {
+      background-color: $body-bg !important;
+      border: 1px solid $body-list-border !important;
+    }
+
+    #ToggleLayerList {
+      background-color: $body-bg !important;
+      margin: 15px;
+    }
+
   }
 
   .navbar-brand {
@@ -259,17 +297,6 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 992px) {
-  .list-closed {
-    height: 40% !important;
-    width: 100% !important;
-    position: fixed;
-    top: 100px !important;
-    left: 0px !important;
-    // left: 80% !important;
-    z-index: 5000 !important;
-    background-color: $body-bg-FullTransparent !important;
-  }
-
   .maplayers_list {
     height: 40% !important;
     width: 100% !important;
@@ -281,13 +308,20 @@ html, body {
     background-color: $body-bg-FullTransparent !important;
   }
 
+  .maplayerlist-sticky {
+    display: none !important;
+  }
 
   .map_responsive {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
-    display: flex !important;
     float: right !important;
-    width: 90% !important;
+    width: 100% !important;
+
+    .navbar-dark {
+      background-color: $body-bg-FullTransparent !important;
+    }
+
     .navbar-brand {
       // display: none;
       font-size: 1.5rem !important;
@@ -296,6 +330,7 @@ html, body {
 
     #mapListToggle {
       background-color: $body-bg !important;
+      border: 1px solid $body-list-border !important;
     }
 
     #ToggleLayerList {

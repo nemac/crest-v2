@@ -80,7 +80,9 @@ export class MapLayersList extends Component {
     if (mapLayerListState === 'close') {
       const element = document.getElementById('maplayers_list_close');
       const event = new Event('click');
-      element.dispatchEvent(event);
+      if (element) {
+        element.dispatchEvent(event);
+      }
     }
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
@@ -153,54 +155,58 @@ export class MapLayersList extends Component {
 
   static addOpenMapLayerListener() {
     const layerListCollapse = document.getElementById('maplayers_list_open');
-    layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
-    layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
+    if (layerListCollapse) {
+      layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
+      layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
 
-    // add the listener
-    layerListCollapse.addEventListener('click', (ev) => {
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', 'open');
+      // add the listener
+      layerListCollapse.addEventListener('click', (ev) => {
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'maplayerlist', 'open');
 
-      store.setStoreItem('lastaction', 'maplayerlistopen');
-      store.setStoreItem('maplayerlist', 'open');
-      const layerListOpened = document.getElementById('maplayers_list_opened');
-      const layerListCollapsed = document.getElementById('map_info_list_collapse');
-      const layerListHolder = document.getElementById('maplayers_list-holder');
-      const layerList = document.querySelector('.maplayers_list');
+        store.setStoreItem('lastaction', 'maplayerlistopen');
+        store.setStoreItem('maplayerlist', 'open');
+        const layerListOpened = document.getElementById('maplayers_list_opened');
+        const layerListCollapsed = document.getElementById('map_info_list_collapse');
+        const layerListHolder = document.getElementById('maplayers_list-holder');
+        const layerList = document.querySelector('.maplayers_list');
 
-      layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
-      layerListOpened.className = layerListOpened.className.replace(' d-none', '');
-      layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
-      layerList.className = layerList.className.replace(' list-closed', '');
-      layerListHolder.className = `${layerListHolder.className} h-100`;
-      layerList.className = `${layerList.className} h-100`;
-    });
+        layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
+        layerListOpened.className = layerListOpened.className.replace(' d-none', '');
+        layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
+        layerList.className = layerList.className.replace(' list-closed', '');
+        layerListHolder.className = `${layerListHolder.className} h-100`;
+        layerList.className = `${layerList.className} h-100`;
+      });
+    }
   }
 
   static addCloseMapLayerListener() {
     const layerListClose = document.getElementById('maplayers_list_close');
-    layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
-    layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
+    if (layerListClose) {
+      layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
+      layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
 
-    // add the listener
-    layerListClose.addEventListener('click', (ev) => {
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', 'close');
+      // add the listener
+      layerListClose.addEventListener('click', (ev) => {
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'maplayerlist', 'close');
 
-      store.setStoreItem('lastaction', 'maplayerlistclose');
-      store.setStoreItem('maplayerlist', 'close');
-      const layerListOpened = document.getElementById('maplayers_list_opened');
-      const layerListCollapsed = document.getElementById('map_info_list_collapse');
-      const layerListHolder = document.getElementById('maplayers_list-holder');
-      const layerList = document.querySelector('.maplayers_list');
+        store.setStoreItem('lastaction', 'maplayerlistclose');
+        store.setStoreItem('maplayerlist', 'close');
+        const layerListOpened = document.getElementById('maplayers_list_opened');
+        const layerListCollapsed = document.getElementById('map_info_list_collapse');
+        const layerListHolder = document.getElementById('maplayers_list-holder');
+        const layerList = document.querySelector('.maplayers_list');
 
-      layerListOpened.className = `${layerListOpened.className} d-none`;
-      layerListCollapsed.className = layerListCollapsed.className.replace(' d-none', '');
-      layerListHolder.className = `${layerListHolder.className} list-closed`;
-      layerList.className = `${layerList.className} list-closed`;
-      layerListHolder.className = layerListHolder.className.replace('h-100', '');
-      layerList.className = layerList.className.replace('h-100', '');
-    });
+        layerListOpened.className = `${layerListOpened.className} d-none`;
+        layerListCollapsed.className = layerListCollapsed.className.replace(' d-none', '');
+        layerListHolder.className = `${layerListHolder.className} list-closed`;
+        layerList.className = `${layerList.className} list-closed`;
+        layerListHolder.className = layerListHolder.className.replace('h-100', '');
+        layerList.className = layerList.className.replace('h-100', '');
+      });
+    }
   }
 
   /** Create and append new layer button DIV */
