@@ -243,8 +243,8 @@ html, body {
   }
 
   .btn-icon:after {
-      content:"\000A";
-      white-space: pre;
+    content:"\000A";
+    white-space: pre;
   }
 
   .zonal-long-name {
@@ -360,6 +360,15 @@ html, body {
         content: "  ";
     }
   }
+
+  #zonal-header {
+    margin-bottom: 5px !important;
+  }
+  
+  .navbar-toggler-shape-bnts{
+    background-image: inherit !important;
+    height: 1.25em !important;
+  }
 }
 
 // responive explore buttons
@@ -389,7 +398,7 @@ html, body {
   }
 
   .data-row, .map-list-column, .map-row {
-    padding-top: 15px;
+    padding-top: 5px;
     // height: 750px !important;
     box-shadow: $box-shadow-default;
   }
