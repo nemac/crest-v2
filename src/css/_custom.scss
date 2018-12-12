@@ -284,7 +284,7 @@ html, body {
 
   .navbar-brand {
     display: inline-block;
-    font-size: .85rem !important;
+    font-size: 1rem !important;
   }
 
   #explore-title {
@@ -292,7 +292,7 @@ html, body {
   }
 
   .navbar-brand-exlore-title {
-    font-size: .85rem !important;
+    font-size: 1.25rem !important;
     display: inline-block  !important;
     color: $body-color !important;
   }
@@ -300,7 +300,7 @@ html, body {
   .zonal-stats-short-title-holder {
     display: none;
     h3 {
-      font-size: 1rem !important;
+      font-size: 1.2rem !important;
     }
   }
 
@@ -364,8 +364,8 @@ html, body {
   #zonal-header {
     margin-bottom: 5px !important;
   }
-  
-  .navbar-toggler-shape-bnts{
+
+  .navbar-toggler-shape-bnts {
     background-image: inherit !important;
     height: 1.25em !important;
   }
@@ -379,8 +379,30 @@ html, body {
     background-color: $btn-color-secondary !important;;
   }
 
+  .navbar-brand {
+    display: inline-block;
+    font-size: 1.5rem !important;
+  }
+
+  #explore-title {
+    display: none;
+  }
+
+  .navbar-brand-exlore-title {
+    font-size: 1.5rem !important;
+    display: inline-block  !important;
+    color: $body-color !important;
+  }
+
+  .zonal-stats-short-title-holder {
+    display: none;
+    h3 {
+      font-size: 1.5rem !important;
+    }
+  }
+
   .icon-label {
-    margin-top: 25px !important;
+    margin-top: 8px !important;
   }
 
   .zonal-label-remove {
@@ -393,10 +415,6 @@ html, body {
     font-size: 1.1em !important;
   }
 
-  .navbar-brand {
-    font-size: .85rem !important;
-  }
-
   .data-row, .map-list-column, .map-row {
     padding-top: 5px;
     // height: 750px !important;
@@ -404,19 +422,19 @@ html, body {
   }
 
   .bnt-primary {
-    height: 80px !important;
+    height: 50px !important;
   }
 
 }
 
 // responive explore buttons
-@media (min-width: 568px) {
+@media (max-width: 568px) {
   .navbar-brand-exlore-title {
-    font-size: .75rem !important;
+    font-size: .8rem !important;
   }
 
   .navbar-brand {
-    font-size: .64rem !important;
+    font-size: .8rem !important;
   }
 }
 
