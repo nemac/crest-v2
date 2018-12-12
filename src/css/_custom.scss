@@ -3,7 +3,7 @@ $body-bg:    $gray-800;
 $body-color: $gray-200;
 
 $btn-color-prinary: $gray-100;
-$btn-color-secondary: $gray-400;
+$btn-color-secondary: $gray-300;
 
 $box-shadow-default: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 $box-shadow-small: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
@@ -24,6 +24,12 @@ $body-bg-semiTransparent9:    rgba(53, 59, 65, .9); // $gray-800
 
 html, body {
     height: 100%;
+}
+
+.nfwf-header {
+  h2 {
+    margin-bottom: 5px;
+  }
 }
 
 .download-row {
@@ -101,20 +107,84 @@ html, body {
 
 #nav-holder {
   min-width: 50px;
-  margin-bottom: $margin;
+  margin-bottom: 5px;
   margin-top: $margin;
+  a {
+    padding-top: 5px !important;
+  }
 }
 
 #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
   margin-top: $margin;
   width: 100% !important;
-  background-color: $btn-color-secondary !important;;
+  // background-color: $btn-color-secondary !important;
+}
+
+.btn-secondary {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: $btn-color-secondary !important;
+  background-position: center !important;
+  transition: background 0.8s !important;
+  margin-left: 0px !important;
+}
+
+.btn-secondary:active {
+  background-color: $btn-color-prinary !important;
+  background-size: 100% !important;
+  transition: background 0s !important;
+}
+
+.btn-secondary:hover {
+  background: $btn-color-prinary radial-gradient(circle, transparent 1%, $btn-color-prinary 1%) center/15000% !important;
+}
+
+
+.bnt-primary {
+  background-color: $btn-color-prinary !important;
+  background-position: center !important;
+  transition: background 0.8s !important;
+  margin-left: 0px !important;
+}
+
+.bnt-primary:active {
+  background-color: $btn-color-secondary !important;
+  background-size: 100% !important;;
+  transition: background 0s !important;;
+}
+
+.bnt-primary:hover {
+  background: $btn-color-secondary radial-gradient(circle, transparent 1%, $btn-color-secondary 1%) center/15000% !important;
+}
+
+
+.bnt-primary {
+  background-position: center !important;
+  transition: background 0.8s !important;
+}
+
+.bnt-primary:active {
+  background-color: $btn-color-secondary !important;
+  background-size: 100% !important;
+  transition: background 0s !important;
+}
+
+.bnt-primary:hover {
+  background: $btn-color-secondary radial-gradient(circle, transparent 1%, $btn-color-secondary 1%) center/15000% !important;
 }
 
 .action-bnt-row {
   // padding-left: 0px !important;
-  padding-right: 0px !important;
   // margin-right: -15px !important;
+  padding-right: 0px !important;
+}
+
+.action-bnt-row.button-1 {
+  padding-left: 15px;
+}
+
+.action-bnt-row.button-2 {
+  padding-left: 0px;
 }
 
 .data-row, .explore-row-container {
@@ -178,16 +248,6 @@ html, body {
 #glossary-holder, #exposure-holder ,#aboutgen-holder {
   margin-top: $margin;
   margin-bottom: $margin*2;
-}
-
-.btn-secondary {
-  width: 50px !important;
-  height: 50px !important;
-  background-color: $btn-color-secondary !important;
-}
-
-.bnt-primary {
-  background-color: $btn-color-prinary !important;
 }
 
 .exlpore-directions {
@@ -892,10 +952,6 @@ a.list-group-item.list-group-item-action.not-found{
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   text-decoration: underline;
-}
-
-.list-basemap {
-  margin-top: 35px !important;
 }
 
 h1.not-found {

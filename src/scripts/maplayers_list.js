@@ -140,11 +140,14 @@ export class MapLayersList extends Component {
     googleAnalyticsEvent('click', 'button', 'basemaplist');
 
     const baseMapListElem = document.getElementById('basemaplist');
-    const isBaseMapListVissible = baseMapListElem.classList.contains('active');
+    const isBaseMapListVissible = baseMapListElem.classList.contains('closed');
+
     if (isBaseMapListVissible) {
-      baseMapListElem.classList.remove('active');
+      baseMapListElem.classList.remove('closed');
+      // baseMapListElem.classList.remove('active');
     } else {
-      baseMapListElem.classList.add('active');
+      baseMapListElem.classList.add('closed');
+      // baseMapListElem.classList.add('active');
     }
   }
 
