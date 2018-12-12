@@ -198,9 +198,18 @@ html, body {
   }
 }
 
+.btn-icon:after {
+    content:"\000A";
+    white-space: pre;
+}
+
 @media (min-width: 993px) {
   .navbar-brand {
     display: none;
+  }
+
+  .icon-label {
+    margin-top: 15px !important;
   }
 
   #maintitle {
@@ -212,19 +221,61 @@ html, body {
     padding-top: 0px;
   }
 
+  #map-holder {
+    height: 100% !important;
+  }
+
+  .data-row {
+    height: 100% !important;
+  }
+
+  #explore-title {
+    display: block;
+  }
+
+  .navbar-brand-exlore-title {
+    display: none;
+  }
+
+  .btn-details {
+    height: 30px;
+    margin-top: 15px !important;
+  }
+
+  .btn-icon:after {
+      content:"\000A";
+      white-space: pre;
+  }
+
+  .zonal-long-name {
+    padding: 15px 15px 0px 15px !important;
+  }
 }
 
 // responive explore buttons
 @media (max-width: 992px) {
   .data-row, .map-list-column, .map-row {
-    padding-top: 15px;
-    height: 750px !important;
+    padding-top: 5px;
+    // height: 750px !important;
     box-shadow: $box-shadow-default;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+  }
+
+  .icon-label {
+    margin-top: 15px !important;
   }
 
   #map-holder {
     margin-bottom: 15px;
+    height: 50% !important;
+  }
+
+  .data-row {
+    height: 50% !important;
+  }
+
+  #map {
+    height: 100% !important;
   }
 
   #maintitle {
@@ -233,6 +284,81 @@ html, body {
 
   .navbar-brand {
     display: inline-block;
+    font-size: .85rem !important;
+  }
+
+  #explore-title {
+    display: none;
+  }
+
+  .navbar-brand-exlore-title {
+    font-size: .85rem !important;
+    display: inline-block  !important;
+    color: $body-color !important;
+  }
+
+  .zonal-stats-short-title-holder {
+    display: none;
+    h3 {
+      font-size: 1rem !important;
+    }
+  }
+
+  .explore-row-container {
+    .navbar {
+      padding-bottom: 0rem !important;
+      padding-top: .2rem !important;
+    }
+  }
+
+  hr {
+    margin-top: .5rem !important;
+    margin-bottom: .5rem !important;
+  }
+
+  .zonal-long-name {
+    font-size: 1rem !important;
+    padding: 5px 5px 0px 5px !important;
+  }
+
+  .zonal-long-button {
+    height: 30px !important;
+  }
+
+  .zonal-button-text {
+    display: none;
+  }
+
+  .zonal-stats-button-holder {
+    margin-top: 5px !important;
+  }
+
+  .btn-details {
+    height: 30px !important;
+    margin-top: 5px !important;
+  }
+
+  .zonal-stats-wrapper {
+    padding-top: 5px;
+  }
+
+  .zonal-label-remove {
+    font-size: 0rem !important;
+    .fa-trash-alt{
+      font-size: 1rem !important;
+      margin-top: .2rem !important;
+    }
+  }
+
+  .zonal-label {
+    font-size: 1rem !important;
+
+    .btn-icon {
+      font-size: 1rem !important;
+    }
+    .btn-icon:after {
+        content: "  ";
+    }
   }
 }
 
@@ -244,20 +370,47 @@ html, body {
     background-color: $btn-color-secondary !important;;
   }
 
+  .icon-label {
+    margin-top: 25px !important;
+  }
+
+  .zonal-label-remove {
+    .fa-trash-alt{
+      margin-top: .35rem !important;
+    }
+  }
+
+  .leaflet-draw-tooltip-top {
+    font-size: 1.1em !important;
+  }
+
   .navbar-brand {
-    font-size: 1rem;
+    font-size: .85rem !important;
   }
 
   .data-row, .map-list-column, .map-row {
     padding-top: 15px;
-    height: 750px !important;
+    // height: 750px !important;
     box-shadow: $box-shadow-default;
   }
 
   .bnt-primary {
     height: 80px !important;
   }
+
 }
+
+// responive explore buttons
+@media (min-width: 568px) {
+  .navbar-brand-exlore-title {
+    font-size: .75rem !important;
+  }
+
+  .navbar-brand {
+    font-size: .64rem !important;
+  }
+}
+
 
 // responive explore buttons
 @media (max-width: 640px) {
@@ -506,10 +659,6 @@ html, body {
   box-shadow: $box-shadow-default;
 }
 
-.btn-icon:after {
-    content:"\000A";
-    white-space: pre;
-}
 
 .user-shape {
   white-space: pre-wrap;      /* CSS3 */
@@ -521,10 +670,6 @@ html, body {
   height: 60px;
   margin: 5px;
   font-size: .9rem;
-}
-
-.icon-label {
-  margin-top: 15px !important;
 }
 
 .upload-all {
