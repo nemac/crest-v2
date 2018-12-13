@@ -211,6 +211,23 @@ html, body {
 
 @media (min-width: 993px) {
 
+  .brand-maplist-holder {
+    position: fixed !important;
+    top: 135px !important;
+    width: 13% !important;
+    min-width: 243px;
+    background-color: $body-bg !important;
+    border-top-left-radius:  4px !important;
+    border-top-right-radius: 4px !important;
+    -webkit-border-top-left-radius: 4px !important;
+    -webkit-border-top-right-radius: 4px !important;
+    -webkit-border-bottom-left-radius: 0px !important;
+    -webkit-border-bottom-right-radius: 0px !important;
+    border-color:  $body-list-border !important;
+    border-width:  1px 1px 1px 1px !important;
+    border-style: solid !important;
+  }
+
   .map-list-column {
     height: 0% !important
   }
@@ -222,9 +239,7 @@ html, body {
     left: 80% !important;
     z-index: 4000 !important;
     background-color: rgba(53, 59, 65, 0) !important;
-    // height: 70% !important; //meds mAX-height media
   }
-
 
   .maplayers_list {
     height: 96% !important;
@@ -239,44 +254,33 @@ html, body {
 
     .navbar-brand {
       display: inherit !important;
-      position: fixed;
-      top: 135px !important;
-      width: 13% !important;
-      padding: 10px 10px 5px 10px  !important;
-      background-color: $body-bg !important;
-      border-top-left-radius:  4px !important;
-      border-top-right-radius: 4px !important;
-      -webkit-border-top-left-radius: 4px !important;
-      -webkit-border-top-right-radius: 4px !important;
-      -webkit-border-bottom-left-radius: 0px !important;
-      -webkit-border-bottom-right-radius: 0px !important;
-      border-color:  $body-list-border !important;
-      border-width:  1px 1px 1px 1px !important;
-      border-style: solid !important;
+      width: 50% !important;
+      padding: 10px 0px 10px 10px !important;
+      margin-right: 0px !important;
+      float:left;
     }
 
     .navbar-toggler {
       display: inherit !important;
-      position: fixed;
-      top: 135px !important;
-      left: 95% !important;
-      // padding: 10px 10px 5px 10px  !important;
+      float: right !important;;
       margin-top: 5px !important;
       background-color: $body-bg !important;
+      margin-right: 10px !important;
     }
 
     .navbar-toggler-icon {
       background-image: inherit !important;
       font-size: 1.1rem !important;
+      color: $body-color !important;
     }
   }
-
 
   .map_responsive {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
-    width: 66.5% !important;
+    width: 66.7% !important;
+    min-width: 250px !important;
     margin-right: 20px !important;
 
     .navbar-dark {
@@ -306,7 +310,7 @@ html, body {
   }
 
   .h-0 {
-    .maplayers_list .navbar-brand {
+    .brand-maplist-holder {
       border-bottom-left-radius:  4px !important;
       border-bottom-right-radius: 4px !important;
       -webkit-border-bottom-left-radius: 4px !important;
@@ -364,6 +368,10 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 992px) {
+  .brand-maplist-holder{
+      width: 100% !important; 
+  }
+
   .maplayers_list {
     height: 40% !important;
     width: 100% !important;
@@ -413,10 +421,12 @@ html, body {
 
     .navbar-toggler-icon {
       background-image: inherit !important;
+      color: $body-color !important;
     }
 
     .navbar-toggler {
       background-color: $body-bg !important;
+      float: right !important;
     }
 
     .bg_dark {
