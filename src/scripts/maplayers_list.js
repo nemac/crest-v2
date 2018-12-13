@@ -66,7 +66,7 @@ export class MapLayersList extends Component {
     const { WMSLayers } = mapConfig;
     const { TMSLayers } = mapConfig;
 
-    MapLayersList.addOpenMapLayerListener();
+    // MapLayersList.addOpenMapLayerListener();
     MapLayersList.addCloseMapLayerListener();
 
     // Add a toggle button for each layer
@@ -77,14 +77,9 @@ export class MapLayersList extends Component {
     // check if map layer list is minimized on initialization if so minimize it.
     const mapLayerListState = store.getStateItem('maplayerlist');
 
-
     if (mapLayerListState === 'close') {
-      const element = document.querySelector('.bnt-MapLayersListToggle');
-      console.log(mapLayerListState, element)
-      const event = new Event('click');
-      if (element) {
-        element.dispatchEvent(event);
-      }
+      MapLayersList.ToggleLayerListToggle();
+      MapLayersList.ListHolderToggle();
     }
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
@@ -155,31 +150,62 @@ export class MapLayersList extends Component {
     }
   }
 
-  static addOpenMapLayerListener() {
-    const layerListCollapse = document.getElementById('maplayers_list_open');
-    if (layerListCollapse) {
-      layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
-      layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
+  // static addOpenMapLayerListener() {
+  //   const layerListCollapse = document.getElementById('maplayers_list_open');
+  //   if (layerListCollapse) {
+  //     layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
+  //     layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
+  //
+  //     // add the listener
+  //     layerListCollapse.addEventListener('click', (ev) => {
+  //       // ga event action, category, label
+  //       googleAnalyticsEvent('click', 'maplayerlist', 'open');
+  //
+  //       store.setStoreItem('lastaction', 'maplayerlistopen');
+  //       store.setStoreItem('maplayerlist', 'open');
+  //       const layerListOpened = document.getElementById('maplayers_list_opened');
+  //       const layerListCollapsed = document.getElementById('map_info_list_collapse');
+  //       const layerListHolder = document.getElementById('maplayers_list-holder');
+  //
+  //       layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
+  //       layerListOpened.className = layerListOpened.className.replace(' d-none', '');
+  //       layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
+  //       layerList.className = layerList.className.replace(' list-closed', '');
+  //       layerListHolder.className = `${layerListHolder.className} h-100`;
+  //     });
+  //   }
+  // }
 
-      // add the listener
-      layerListCollapse.addEventListener('click', (ev) => {
+  static ListHolderToggle() {
+    const maplayersHolder = document.getElementById('maplayers_list-holder');
+    if (maplayersHolder) {
+      if (maplayersHolder.classList.contains('h-70')) {
+        maplayersHolder.classList.remove('h-70');
+        maplayersHolder.classList.add('h-0');
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'maplayerlist', 'close');
+
+        store.setStoreItem('lastaction', 'maplayerlistclose');
+        store.setStoreItem('maplayerlist', 'close');
+      } else {
+        maplayersHolder.classList.add('h-70');
+        maplayersHolder.classList.remove('h-0');
         // ga event action, category, label
         googleAnalyticsEvent('click', 'maplayerlist', 'open');
 
         store.setStoreItem('lastaction', 'maplayerlistopen');
         store.setStoreItem('maplayerlist', 'open');
-        const layerListOpened = document.getElementById('maplayers_list_opened');
-        const layerListCollapsed = document.getElementById('map_info_list_collapse');
-        const layerListHolder = document.getElementById('maplayers_list-holder');
-        // const layerList = document.querySelector('.maplayers_list');
-
-        layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
-        layerListOpened.className = layerListOpened.className.replace(' d-none', '');
-        layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
-        layerList.className = layerList.className.replace(' list-closed', '');
-        layerListHolder.className = `${layerListHolder.className} h-100`;
-        // layerList.className = `${layerList.className} h-100`;
-      });
+      }
+    }
+  }
+  static ToggleLayerListToggle() {
+    const layerList = document.getElementById('ToggleLayerList');
+    if (layerList) {
+      if (layerList.classList.contains('d-none')) {
+        layerList.classList.remove('d-none');
+      } else {
+        layerList.classList.add('d-none');
+      }
     }
   }
 
@@ -188,45 +214,10 @@ export class MapLayersList extends Component {
     if (layerListClose) {
       layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
       layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
-      console.log('layerList close')
-
       // add the listener
       layerListClose.addEventListener('click', (ev) => {
-        // ga event action, category, label
-        googleAnalyticsEvent('click', 'maplayerlist', 'close');
-
-        store.setStoreItem('lastaction', 'maplayerlistclose');
-        store.setStoreItem('maplayerlist', 'close');
-        const layerList = document.getElementById('ToggleLayerList');
-
-        if (layerList) {
-          if (layerList.classList.contains('d-none')) {
-            layerList.classList.remove('d-none');
-          } else {
-            layerList.classList.add('d-none');
-          }
-        }
-
-        const maplayersHolder = document.getElementById('maplayers_list-holder');
-        if (maplayersHolder) {
-          if (maplayersHolder.classList.contains('h-70')) {
-            maplayersHolder.classList.remove('h-70');
-            maplayersHolder.classList.add('h-0');
-          } else {
-            maplayersHolder.classList.add('h-70');
-            maplayersHolder.classList.remove('h-0');
-          }
-        }
-
-        // const mapResponsive = document.querySelector('.map_responsive');
-        // if (mapResponsive) {
-        //   if (mapResponsive.classList.contains('sm-d-none')) {
-        //     mapResponsive.classList.remove('sm-d-none');
-        //   } else {
-        //     mapResponsive.classList.add('sm-d-none');
-        //   }
-        // }
-
+        MapLayersList.ToggleLayerListToggle();
+        MapLayersList.ListHolderToggle();
       });
     }
   }
