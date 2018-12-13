@@ -219,6 +219,14 @@ html, body {
   outline: inherit;
 }
 
+.btn-toggle-shapes:focus{
+  outline: inherit;
+}
+
+.navbar-toggler:focus{
+  outline: inherit;
+}
+
 @media (min-width: 993px) {
 
   .brand-maplist-holder {
