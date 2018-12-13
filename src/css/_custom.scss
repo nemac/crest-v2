@@ -205,6 +205,10 @@ html, body {
     white-space: pre;
 }
 
+#mainNavToggle {
+  z-index: 5000 !important;
+}
+
 @media (min-width: 993px) {
 
   .map-list-column {
@@ -216,20 +220,27 @@ html, body {
     position: fixed;
     top: 130px !important;
     left: 80% !important;
-    z-index: 5000 !important;
+    z-index: 4000 !important;
     background-color: rgba(53, 59, 65, 0) !important;
     height: 80% !important;
   }
 
   .maplayers_list {
     height: 96% !important;
+    border-radius: 4px !important;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    .navbar {
+      padding-right: 0px !important;
+    }
   }
 
   .map_responsive {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
-    width: 100% !important;
+    width: 90% !important;
+    margin-right: 15px !important;
 
     .navbar-dark {
       background-color: $body-bg-FullTransparent !important;
@@ -238,6 +249,9 @@ html, body {
     #mapListToggle {
       background-color: $body-bg !important;
       border: 1px solid $body-list-border !important;
+      border-radius: 4px !important;
+      -webkit-border-radius: 4px !important;
+      -moz-border-radius: 4px !important;
     }
 
     #ToggleLayerList {
@@ -304,8 +318,11 @@ html, body {
     top: 100px !important;
     left: 0px !important;
     // left: 80% !important;
-    z-index: 5000 !important;
+    z-index: 4000 !important;
     background-color: $body-bg-FullTransparent !important;
+    .navbar {
+      padding-right: 0px !important;
+    }
   }
 
   .maplayerlist-sticky {
@@ -316,7 +333,7 @@ html, body {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
-    width: 100% !important;
+    width: 95% !important;
 
     .navbar-dark {
       background-color: $body-bg-FullTransparent !important;
@@ -331,6 +348,9 @@ html, body {
     #mapListToggle {
       background-color: $body-bg !important;
       border: 1px solid $body-list-border !important;
+      border-radius: 4px !important;
+      -webkit-border-radius: 4px !important;
+      -moz-border-radius: 4px !important;
     }
 
     #ToggleLayerList {
