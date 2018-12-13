@@ -378,6 +378,13 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 992px) {
+
+  .btn-details {
+      background-color: $body-bg  !important;
+      color: $body-color !important;
+      border: 1px solid $body-color !important;
+  }
+
   #top-bar{
     padding-bottom: ($padding + 5 ) * 2;
   }
