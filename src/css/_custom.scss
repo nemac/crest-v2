@@ -368,6 +368,10 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 992px) {
+  #top-bar{
+    padding-bottom: ($padding + 5 ) * 2;
+  }
+
   .brand-maplist-holder{
       width: 100% !important;
   }
@@ -1424,14 +1428,6 @@ p.not-found {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-}
-
-
-@media (max-width: 992px) { //768px
-  #top-bar{
-    padding-bottom: ($padding + 5 ) * 2;
-  }
-
 }
 
 a.nav-link.active {

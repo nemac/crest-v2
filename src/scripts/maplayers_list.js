@@ -67,7 +67,7 @@ export class MapLayersList extends Component {
     const { TMSLayers } = mapConfig;
 
     // MapLayersList.addOpenMapLayerListener();
-    MapLayersList.addCloseMapLayerListener();
+    MapLayersList.addToggleMapLayerListener();
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
@@ -77,10 +77,9 @@ export class MapLayersList extends Component {
     // check if map layer list is minimized on initialization if so minimize it.
     const mapLayerListState = store.getStateItem('maplayerlist');
 
-    if (mapLayerListState === 'close') {
-      MapLayersList.ToggleLayerListToggle();
-      MapLayersList.ListHolderToggle();
-    }
+    MapLayersList.ListHolderToggle();
+    MapLayersList.ToggleLayerListToggle();
+    MapLayersList.mapListToggleToggle();
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
     MapLayersList.addLegendListeners();
@@ -150,58 +149,57 @@ export class MapLayersList extends Component {
     }
   }
 
-  // static addOpenMapLayerListener() {
-  //   const layerListCollapse = document.getElementById('maplayers_list_open');
-  //   if (layerListCollapse) {
-  //     layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
-  //     layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
-  //
-  //     // add the listener
-  //     layerListCollapse.addEventListener('click', (ev) => {
-  //       // ga event action, category, label
-  //       googleAnalyticsEvent('click', 'maplayerlist', 'open');
-  //
-  //       store.setStoreItem('lastaction', 'maplayerlistopen');
-  //       store.setStoreItem('maplayerlist', 'open');
-  //       const layerListOpened = document.getElementById('maplayers_list_opened');
-  //       const layerListCollapsed = document.getElementById('map_info_list_collapse');
-  //       const layerListHolder = document.getElementById('maplayers_list-holder');
-  //
-  //       layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
-  //       layerListOpened.className = layerListOpened.className.replace(' d-none', '');
-  //       layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
-  //       layerList.className = layerList.className.replace(' list-closed', '');
-  //       layerListHolder.className = `${layerListHolder.className} h-100`;
-  //     });
-  //   }
-  // }
+  static toggleMapLayerListState() {
+    const mapLayerListState = store.getStateItem('maplayerlist');
+    if (mapLayerListState === 'open') {
+      store.setStoreItem('lastaction', 'maplayerlistclose');
+      store.setStoreItem('maplayerlist', 'close');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'close');
+    } else {
+      store.setStoreItem('lastaction', 'maplayerlistopen');
+      store.setStoreItem('maplayerlist', 'open');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'open');
+    }
+
+    MapLayersList.ListHolderToggle();
+    MapLayersList.ToggleLayerListToggle();
+    MapLayersList.mapListToggleToggle();
+  }
 
   static ListHolderToggle() {
     const maplayersHolder = document.getElementById('maplayers_list-holder');
+    const mapLayerListState = store.getStateItem('maplayerlist');
     if (maplayersHolder) {
-      if (maplayersHolder.classList.contains('h-70')) {
-        maplayersHolder.classList.remove('h-70');
-        maplayersHolder.classList.add('h-0');
-        // ga event action, category, label
-        googleAnalyticsEvent('click', 'maplayerlist', 'close');
-
-        store.setStoreItem('lastaction', 'maplayerlistclose');
-        store.setStoreItem('maplayerlist', 'close');
-      } else {
+      if (mapLayerListState === 'open') {
         maplayersHolder.classList.add('h-70');
         maplayersHolder.classList.remove('h-0');
-        // ga event action, category, label
-        googleAnalyticsEvent('click', 'maplayerlist', 'open');
-
-        store.setStoreItem('lastaction', 'maplayerlistopen');
-        store.setStoreItem('maplayerlist', 'open');
+      } else {
+        maplayersHolder.classList.remove('h-70');
+        maplayersHolder.classList.add('h-0');
       }
     }
   }
+
+  static mapListToggleToggle() {
+    const mapListToggle = document.getElementById('mapListToggle');
+    const mapLayerListState = store.getStateItem('maplayerlist');
+    // console.log('mapListToggleToggle', mapListToggle, mapLayerListState)
+    if (mapListToggle) {
+      if (mapLayerListState === 'open') {
+        mapListToggle.classList.add('show');
+      } else {
+        mapListToggle.classList.remove('show');
+      }
+    }
+  }
+
   static ToggleLayerListToggle() {
     const layerList = document.getElementById('ToggleLayerList');
+    const mapLayerListState = store.getStateItem('maplayerlist');
     if (layerList) {
-      if (layerList.classList.contains('d-none')) {
+      if (mapLayerListState === 'open') {
         layerList.classList.remove('d-none');
       } else {
         layerList.classList.add('d-none');
@@ -209,15 +207,22 @@ export class MapLayersList extends Component {
     }
   }
 
-  static addCloseMapLayerListener() {
+  static removeListners() {
     const layerListClose = document.querySelector('.bnt-MapLayersListToggle');
     if (layerListClose) {
-      layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
-      layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
+      const newLayerListClose = layerListClose.cloneNode(true);
+      layerListClose.parentNode.replaceChild(newLayerListClose, layerListClose);
+      return newLayerListClose;
+    }
+    return layerListClose;
+  }
+
+  static addToggleMapLayerListener() {
+    const layerListClose = document.querySelector('.bnt-MapLayersListToggle');
+    if (layerListClose) {
       // add the listener
       layerListClose.addEventListener('click', (ev) => {
-        MapLayersList.ToggleLayerListToggle();
-        MapLayersList.ListHolderToggle();
+        MapLayersList.toggleMapLayerListState();
       });
     }
   }
