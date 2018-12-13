@@ -222,8 +222,9 @@ html, body {
     left: 80% !important;
     z-index: 4000 !important;
     background-color: rgba(53, 59, 65, 0) !important;
-    height: 70% !important; //meds mAX-height media
+    // height: 70% !important; //meds mAX-height media
   }
+
 
   .maplayers_list {
     height: 96% !important;
@@ -240,13 +241,23 @@ html, body {
       display: inherit !important;
       position: fixed;
       top: 135px !important;
-      width: 17.5% !important;
+      width: 13% !important;
       padding: 10px 10px 5px 10px  !important;
       background-color: $body-bg !important;
-      border-radius: 4px !important;
-      -webkit-border-radius: 4px !important;
-      -moz-border-radius: 4px !important;
-      border: 1px solid $body-list-border !important;
+      // border-radius:
+      border-top-left-radius:  4px !important;
+      border-top-right-radius: 4px !important;
+      -webkit-border-top-left-radius: 4px !important;
+      -webkit-border-top-right-radius: 4px !important;
+      -webkit-border-bottom-left-radius: 0px !important;
+      -webkit-border-bottom-right-radius: 0px !important;
+      // -moz-border-radius: 4px !important;
+      // -webkit-border-radius: 4px !important;
+      // -moz-border-radius: 4px !important;
+      // border: 1px 1px 1px 1px solid $body-list-border !important;
+      border-color:  $body-list-border !important;
+      border-width:  1px 1px 1px 1px !important;
+      border-style: solid !important;
     }
 
     .navbar-toggler {
@@ -265,12 +276,13 @@ html, body {
     }
   }
 
+
   .map_responsive {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
-    width: 90% !important;
-    margin-right: 15px !important;
+    width: 66.7% !important;
+    margin-right: 20px !important;
 
     .navbar-dark {
       background-color: $body-bg-FullTransparent !important;
@@ -278,10 +290,14 @@ html, body {
 
     #mapListToggle {
       background-color: $body-bg !important;
-      border: 1px solid $body-list-border !important;
-      border-radius: 4px !important;
-      -webkit-border-radius: 4px !important;
-      -moz-border-radius: 4px !important;
+      // border: 1px solid $body-list-border !important;
+      border-color:  $body-list-border !important;
+      border-width:  1px 1px 0px 1px !important;
+      border-style: solid !important;
+      border-bottom-left-radius:  4px !important;
+      border-bottom-right-radius: 4px !important;
+      -webkit-border-bottom-left-radius: 4px !important;
+      -webkit-border-bottom-right-radius: 4px !important;
     }
 
     #ToggleLayerList {
@@ -289,6 +305,15 @@ html, body {
       margin: 15px;
     }
 
+  }
+
+  .h-0 {
+    .maplayers_list .navbar-brand {
+      border-bottom-left-radius:  4px !important;
+      border-bottom-right-radius: 4px !important;
+      -webkit-border-bottom-left-radius: 4px !important;
+      -webkit-border-bottom-right-radius: 4px !important;
+    }
   }
 
   .navbar-brand {
@@ -521,6 +546,23 @@ html, body {
     background-image: inherit !important;
     height: 1.25em !important;
   }
+
+  .sm-d-none {
+    // height: 60px !important;
+    // top: 100px !important;
+    // left: 73.5% !important;
+    // overflow: hidden !important;
+    //
+    // .navbar {
+    //   padding: 0px !important;
+    //
+    // }
+    // .nav-brand-maplayerlist {
+    //   z-index: 0 !important;
+    //   display: none !important;
+    // }
+  }
+
 }
 
 // responive explore buttons
@@ -1254,13 +1296,12 @@ html, body {
      border-radius: 4px;
      -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
-     background-color: $body-color
+     background-color: $body-color;
    }
 
    .mapinfodata::-webkit-scrollbar-corner{
      display: none;
    }
-
 }
 
 body {

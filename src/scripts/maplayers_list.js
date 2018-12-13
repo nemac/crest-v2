@@ -171,14 +171,14 @@ export class MapLayersList extends Component {
         const layerListOpened = document.getElementById('maplayers_list_opened');
         const layerListCollapsed = document.getElementById('map_info_list_collapse');
         const layerListHolder = document.getElementById('maplayers_list-holder');
-        const layerList = document.querySelector('.maplayers_list');
+        // const layerList = document.querySelector('.maplayers_list');
 
         layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
         layerListOpened.className = layerListOpened.className.replace(' d-none', '');
         layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
         layerList.className = layerList.className.replace(' list-closed', '');
         layerListHolder.className = `${layerListHolder.className} h-100`;
-        layerList.className = `${layerList.className} h-100`;
+        // layerList.className = `${layerList.className} h-100`;
       });
     }
   }
@@ -198,6 +198,7 @@ export class MapLayersList extends Component {
         store.setStoreItem('lastaction', 'maplayerlistclose');
         store.setStoreItem('maplayerlist', 'close');
         const layerList = document.getElementById('ToggleLayerList');
+
         if (layerList) {
           if (layerList.classList.contains('d-none')) {
             layerList.classList.remove('d-none');
@@ -205,18 +206,27 @@ export class MapLayersList extends Component {
             layerList.classList.add('d-none');
           }
         }
-        // console.log('layerList close')
-        // const layerListOpened = document.getElementById('maplayers_list_opened');
-        // const layerListCollapsed = document.getElementById('map_info_list_collapse');
-        // const layerListHolder = document.getElementById('maplayers_list-holder');
-        // const layerList = document.querySelector('.maplayers_list');
-        //
-        // layerListOpened.className = `${layerListOpened.className} d-none`;
-        // layerListCollapsed.className = layerListCollapsed.className.replace(' d-none', '');
-        // layerListHolder.className = `${layerListHolder.className} list-closed`;
-        // layerList.className = `${layerList.className} list-closed`;
-        // layerListHolder.className = layerListHolder.className.replace('h-100', '');
-        // layerList.className = layerList.className.replace('h-100', '');
+
+        const maplayersHolder = document.getElementById('maplayers_list-holder');
+        if (maplayersHolder) {
+          if (maplayersHolder.classList.contains('h-70')) {
+            maplayersHolder.classList.remove('h-70');
+            maplayersHolder.classList.add('h-0');
+          } else {
+            maplayersHolder.classList.add('h-70');
+            maplayersHolder.classList.remove('h-0');
+          }
+        }
+
+        // const mapResponsive = document.querySelector('.map_responsive');
+        // if (mapResponsive) {
+        //   if (mapResponsive.classList.contains('sm-d-none')) {
+        //     mapResponsive.classList.remove('sm-d-none');
+        //   } else {
+        //     mapResponsive.classList.add('sm-d-none');
+        //   }
+        // }
+
       });
     }
   }
