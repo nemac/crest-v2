@@ -209,6 +209,16 @@ html, body {
   z-index: 5000 !important;
 }
 
+.bnt-MapLayersListToggle {
+  border-color:  $body-bg !important;
+  border-width:  1px 1px 1px 1px !important;
+  border-style: solid !important;
+}
+
+.bnt-MapLayersListToggle:focus{
+  outline: inherit;
+}
+
 @media (min-width: 993px) {
 
   .brand-maplist-holder {
