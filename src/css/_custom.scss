@@ -369,7 +369,7 @@ html, body {
 // responive explore buttons
 @media (max-width: 992px) {
   .brand-maplist-holder{
-      width: 100% !important; 
+      width: 100% !important;
   }
 
   .maplayers_list {
@@ -553,6 +553,27 @@ html, body {
   .navbar-toggler-shape-bnts {
     background-image: inherit !important;
     height: 1.25em !important;
+  }
+
+
+  .h-0 {
+    .map_responsive {
+      height: 0px !important;
+      overflow: visible !important;
+      margin-left: -7px !important;
+      width: 95% !important;
+    }
+    .navbar-brand {
+      display: none;
+    }
+    .navbar {
+      height: 0px !important;
+      overflow: visible !important;
+    }
+    .brand-maplist-holder {
+      height: 0px !important;
+      overflow: visible !important;
+    }
   }
 
   .sm-d-none {
