@@ -227,6 +227,13 @@ html, body {
   outline: inherit;
 }
 
+.navbar-toggler{
+  box-shadow: $box-shadow-default;
+}
+
+.openclosetext {
+  font-size: .75rem;
+}
 @media (min-width: 993px) {
 
   .brand-maplist-holder {
@@ -582,6 +589,7 @@ html, body {
   .navbar-toggler-shape-bnts {
     background-image: inherit !important;
     height: 1.25em !important;
+    width: 100%;
   }
 
   .h-0 {
