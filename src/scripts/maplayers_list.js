@@ -66,22 +66,17 @@ export class MapLayersList extends Component {
     const { WMSLayers } = mapConfig;
     const { TMSLayers } = mapConfig;
 
-    MapLayersList.addOpenMapLayerListener();
-    MapLayersList.addCloseMapLayerListener();
+    // MapLayersList.addOpenMapLayerListener();
+    MapLayersList.addToggleMapLayerListener();
 
     // Add a toggle button for each layer
     WMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
     TMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
     TMSLayers.forEach((layerProps) => { MapLayersList.addLegendHTML(layerProps); });
 
-    // check if map layer list is minimized on initialization if so minimize it.
-    const mapLayerListState = store.getStateItem('maplayerlist');
-
-    if (mapLayerListState === 'close') {
-      const element = document.getElementById('maplayers_list_close');
-      const event = new Event('click');
-      element.dispatchEvent(event);
-    }
+    MapLayersList.ListHolderToggle();
+    MapLayersList.ToggleLayerListToggle();
+    MapLayersList.mapListToggleToggle();
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
     MapLayersList.addLegendListeners();
@@ -140,64 +135,93 @@ export class MapLayersList extends Component {
     googleAnalyticsEvent('click', 'button', 'basemaplist');
 
     const baseMapListElem = document.getElementById('basemaplist');
-    const isBaseMapListVissible = baseMapListElem.classList.contains('active');
+    const isBaseMapListVissible = baseMapListElem.classList.contains('closed');
+
     if (isBaseMapListVissible) {
-      baseMapListElem.classList.remove('active');
+      baseMapListElem.classList.remove('closed');
+      // baseMapListElem.classList.remove('active');
     } else {
-      baseMapListElem.classList.add('active');
+      baseMapListElem.classList.add('closed');
+      // baseMapListElem.classList.add('active');
     }
   }
 
-  static addOpenMapLayerListener() {
-    const layerListCollapse = document.getElementById('maplayers_list_open');
-    layerListCollapse.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
-    layerListCollapse.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
-
-    // add the listener
-    layerListCollapse.addEventListener('click', (ev) => {
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', 'open');
-
-      store.setStoreItem('lastaction', 'maplayerlistopen');
-      store.setStoreItem('maplayerlist', 'open');
-      const layerListOpened = document.getElementById('maplayers_list_opened');
-      const layerListCollapsed = document.getElementById('map_info_list_collapse');
-      const layerListHolder = document.getElementById('maplayers_list-holder');
-      const layerList = document.querySelector('.maplayers_list');
-
-      layerListCollapsed.className = `${layerListCollapsed.className} d-none`;
-      layerListOpened.className = layerListOpened.className.replace(' d-none', '');
-      layerListHolder.className = layerListHolder.className.replace(' list-closed', '');
-      layerList.className = layerList.className.replace(' list-closed', '');
-      layerListHolder.className = `${layerListHolder.className} h-100`;
-      layerList.className = `${layerList.className} h-100`;
-    });
-  }
-
-  static addCloseMapLayerListener() {
-    const layerListClose = document.getElementById('maplayers_list_close');
-    layerListClose.addEventListener('mouseover', (e) => { e.target.style.cursor = 'pointer'; });
-    layerListClose.addEventListener('mouseout', (e) => { e.target.style.cursor = 'default'; });
-
-    // add the listener
-    layerListClose.addEventListener('click', (ev) => {
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', 'close');
-
+  static toggleMapLayerListState() {
+    const mapLayerListState = store.getStateItem('maplayerlist');
+    if (mapLayerListState === 'open') {
       store.setStoreItem('lastaction', 'maplayerlistclose');
       store.setStoreItem('maplayerlist', 'close');
-      const layerListOpened = document.getElementById('maplayers_list_opened');
-      const layerListCollapsed = document.getElementById('map_info_list_collapse');
-      const layerListHolder = document.getElementById('maplayers_list-holder');
-      const layerList = document.querySelector('.maplayers_list');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'close');
+    } else {
+      store.setStoreItem('lastaction', 'maplayerlistopen');
+      store.setStoreItem('maplayerlist', 'open');
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'maplayerlist', 'open');
+    }
 
-      layerListOpened.className = `${layerListOpened.className} d-none`;
-      layerListCollapsed.className = layerListCollapsed.className.replace(' d-none', '');
-      layerListHolder.className = `${layerListHolder.className} list-closed`;
-      layerList.className = `${layerList.className} list-closed`;
-      layerListHolder.className = layerListHolder.className.replace('h-100', '');
-      layerList.className = layerList.className.replace('h-100', '');
-    });
+    MapLayersList.ListHolderToggle();
+    MapLayersList.ToggleLayerListToggle();
+    MapLayersList.mapListToggleToggle();
+  }
+
+  static ListHolderToggle() {
+    const maplayersHolder = document.getElementById('maplayers_list-holder');
+    const mapLayerListState = store.getStateItem('maplayerlist');
+    if (maplayersHolder) {
+      if (mapLayerListState === 'open') {
+        maplayersHolder.classList.add('h-70');
+        maplayersHolder.classList.remove('h-0');
+      } else {
+        maplayersHolder.classList.remove('h-70');
+        maplayersHolder.classList.add('h-0');
+      }
+    }
+  }
+
+  static mapListToggleToggle() {
+    const mapListToggle = document.getElementById('mapListToggle');
+    const mapLayerListState = store.getStateItem('maplayerlist');
+    // console.log('mapListToggleToggle', mapListToggle, mapLayerListState)
+    if (mapListToggle) {
+      if (mapLayerListState === 'open') {
+        mapListToggle.classList.add('show');
+      } else {
+        mapListToggle.classList.remove('show');
+      }
+    }
+  }
+
+  static ToggleLayerListToggle() {
+    const layerList = document.getElementById('ToggleLayerList');
+    const mapLayerListState = store.getStateItem('maplayerlist');
+    if (layerList) {
+      if (mapLayerListState === 'open') {
+        layerList.classList.remove('d-none');
+      } else {
+        layerList.classList.add('d-none');
+      }
+    }
+  }
+
+  static removeListners() {
+    const layerListClose = document.querySelector('.bnt-MapLayersListToggle');
+    if (layerListClose) {
+      const newLayerListClose = layerListClose.cloneNode(true);
+      layerListClose.parentNode.replaceChild(newLayerListClose, layerListClose);
+      return newLayerListClose;
+    }
+    return layerListClose;
+  }
+
+  static addToggleMapLayerListener() {
+    const layerListClose = document.querySelector('.bnt-MapLayersListToggle');
+    if (layerListClose) {
+      // add the listener
+      layerListClose.addEventListener('click', (ev) => {
+        MapLayersList.toggleMapLayerListState();
+      });
+    }
   }
 
   /** Create and append new layer button DIV */

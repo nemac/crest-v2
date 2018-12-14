@@ -222,7 +222,7 @@ export function addMissingStateItems() {
 
   // check for mapCenter default is {lat: 32.7765, lng: -79.9311} (charleston for now)
   if (!checkValidObject(store.getStateItem('mapCenter'))) {
-    store.setStoreItem('mapCenter', { lat: 32.7765, lng: -79.9311 });
+    store.setStoreItem('mapCenter', { lat: 36.27970720524017, lng: -95.05371093750001 });
   }
 
   // check for mapLayerDisplayStatus default is listed below
@@ -249,6 +249,11 @@ export function addMissingStateItems() {
     });
   }
 
+  // check for maplayerlist default is open
+  if (!checkValidObject(store.getStateItem('maplayerlist'))) {
+    store.setStoreItem('maplayerlist', 'open');
+  }
+
   // check for userareacount default is 0
   if (!checkValidObject(store.getStateItem('userareacount'))) {
     store.setStoreItem('userareacount', 0);
@@ -256,7 +261,7 @@ export function addMissingStateItems() {
 
   // check for mapCenter default is {lat: 32.7765, lng: -79.9311} (charleston for now)
   if (!checkValidObject(store.getStateItem('mapZoom'))) {
-    store.setStoreItem('mapZoom', 12);
+    store.setStoreItem('mapZoom', 4);
   }
 
   // check for activeNav default is main-nav-map
