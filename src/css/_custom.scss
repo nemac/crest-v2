@@ -404,10 +404,32 @@ html, body {
 // responive explore buttons
 @media (max-width: 992px) {
 
+  $margin: 5px;
+  $padding: 5px;
+
+  #main-content {
+    padding: $padding;
+  }
+
+  .main-navbar-toggle {
+    padding: $padding;
+  }
+
   .btn-details {
       background-color: $body-bg  !important;
       color: $body-color !important;
       border: 1px solid $body-color !important;
+  }
+
+  .btn-toggle-shapes {
+    box-shadow: $box-shadow-default;
+    margin-bottom: $margin !important;
+    border: 1px solid $body-color !important;
+    color: $body-color !important;
+  }
+
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: 1.5rem !important;
   }
 
   #top-bar{
@@ -485,18 +507,26 @@ html, body {
   }
 
   .data-row, .map-list-column, .map-row {
-    padding-top: 5px;
-    // height: 750px !important;
+    padding-top: $padding;
     box-shadow: $box-shadow-default;
-    margin-bottom: 5px;
+    margin-bottom: $margin;
   }
 
   .icon-label {
     margin-top: 15px !important;
   }
 
+  .bnt-main-navbar-toggle {
+    height: 30px !important;
+    font-size: 1rem !important;
+    .navbar-toggler-icon {
+      width: 1.0em;
+      height: 1.0em;
+    }
+  }
+
   #map-holder {
-    margin-bottom: 15px;
+    margin: $margin;
     height: 50% !important;
   }
 
@@ -521,11 +551,11 @@ html, body {
     display: none;
   }
 
-  .navbar-brand-exlore-title {
-    font-size: 1.25rem !important;
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions {
+    font-size: 1rem !important;
     display: inline-block  !important;
     color: $body-color !important;
-    margin-right: 5px;
+    margin-right: $margin;
   }
 
   .zonal-stats-short-title-holder {
@@ -549,7 +579,7 @@ html, body {
 
   .zonal-long-name {
     font-size: 1rem !important;
-    padding: 5px 5px 0px 5px !important;
+    padding: $padding $padding 0px $padding !important;
   }
 
   .zonal-long-button {
@@ -566,11 +596,11 @@ html, body {
 
   .btn-details {
     height: 30px !important;
-    margin-top: 5px !important;
+    margin-top: $margin !important;
   }
 
   .zonal-stats-wrapper {
-    padding-top: 5px;
+    padding-top: $padding !important;
   }
 
   .zonal-label-remove {
@@ -593,7 +623,13 @@ html, body {
   }
 
   #zonal-header {
-    margin-bottom: 5px !important;
+    margin-bottom: 0px !important;
+  }
+
+  .zonal-long-graph-wrapper {
+    margin-top: $margin !important;
+    margin-bottom: $margin !important;
+    padding-right: $padding !important;
   }
 
   .navbar-toggler-shape-bnts {
@@ -609,9 +645,12 @@ html, body {
       margin-left: -7px !important;
       width: 95% !important;
     }
+
     .navbar-brand {
       display: none;
+      font-size: 1.25rem !important;
     }
+
     .navbar {
       height: 0px !important;
       overflow: visible !important;
@@ -621,27 +660,14 @@ html, body {
       overflow: visible !important;
     }
   }
-
-  .sm-d-none {
-    // height: 60px !important;
-    // top: 100px !important;
-    // left: 73.5% !important;
-    // overflow: hidden !important;
-    //
-    // .navbar {
-    //   padding: 0px !important;
-    //
-    // }
-    // .nav-brand-maplayerlist {
-    //   z-index: 0 !important;
-    //   display: none !important;
-    // }
-  }
-
 }
 
 // responive explore buttons
 @media (max-width: 768px) {
+
+  .maplayers_list {
+    top: 80px !important;
+  }
 
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
@@ -651,15 +677,15 @@ html, body {
 
   .navbar-brand {
     display: inline-block;
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
   }
 
   #explore-title {
     display: none;
   }
 
-  .navbar-brand-exlore-title {
-    font-size: 1.5rem !important;
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: 1.25rem !important;
     display: inline-block  !important;
     color: $body-color !important;
   }
@@ -687,7 +713,6 @@ html, body {
 
   .data-row, .map-list-column, .map-row {
     padding-top: 5px;
-    // height: 750px !important;
     box-shadow: $box-shadow-default;
   }
 
@@ -699,13 +724,6 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 568px) {
-  .navbar-brand-exlore-title {
-    font-size: .8rem !important;
-  }
-
-  .navbar-brand {
-    font-size: .8rem !important;
-  }
 }
 
 
@@ -717,6 +735,44 @@ html, body {
     background-color: $btn-color-secondary !important;;
   }
 }
+
+// responive explore buttons
+@media (max-width: 414px) {
+  .maplayers_list {
+    top: 70px !important;
+  }
+
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: .942rem !important;
+  }
+
+  .navbar-brand {
+    font-size: .942rem !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 375px) {
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: .842rem !important;
+  }
+
+  .navbar-brand {
+    font-size: .842rem !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 320px) {
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: .642rem !important;
+  }
+
+  .navbar-brand {
+    font-size: .642rem !important;
+  }
+}
+
 
 #second-tab-content {
   margin-top: 50px;
