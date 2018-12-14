@@ -238,12 +238,13 @@ html, body {
 .openclosetext {
   font-size: .75rem;
 }
+
 @media (min-width: 993px) {
 
   .brand-maplist-holder {
     position: fixed !important;
     top: 135px !important;
-    width: 13% !important;
+    width: 20% !important;
     min-width: 243px;
     background-color: $body-bg !important;
     border-top-left-radius:  4px !important;
@@ -262,10 +263,10 @@ html, body {
   }
 
   #maplayers_list-holder {
-    width: 20% !important;
+    width: 30% !important;
     position: fixed;
     top: 180px !important;
-    left: 80% !important;
+    left: 70% !important;
     z-index: 4000 !important;
     background-color: rgba(53, 59, 65, 0) !important;
   }
@@ -994,15 +995,15 @@ html, body {
 }
 
 
-@media (min-height: 800px) {
-  .user-shape {
-    height: 60px !important;
-  }
-
-  .upload-all {
-    top: -5px !important;
-  }
-}
+// @media (min-height: 800px) {
+//   .user-shape {
+//     height: 60px !important;
+//   }
+//
+//   .upload-all {
+//     top: -5px !important;
+//   }
+// }
 
 .btn-light {
   background-color:  $body-color;

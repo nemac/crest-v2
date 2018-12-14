@@ -16,7 +16,7 @@ $map_right_margin: 10px;
 
 
 .h-70 {
-  height: 70% !important;
+  height: 73% !important;
 }
 
 .h-0 {
@@ -254,22 +254,22 @@ $map_right_margin: 10px;
     display: none;
   }
 }
-
-.maplayers_list::-webkit-scrollbar {
-   -webkit-appearance: none;
-   width: 7px;
- }
-
-.maplayers_list::-webkit-scrollbar-thumb {
-   border-radius: 4px;
-   -webkit-border-radius: 4px;
-   -moz-border-radius: 4px;
-   background-color: $body-color
- }
-
-.maplayers_list::-webkit-scrollbar-corner{
-   display: none;
- }
+// 
+// .maplayers_list::-webkit-scrollbar {
+//    -webkit-appearance: none;
+//    width: 7px;
+//  }
+//
+// .maplayers_list::-webkit-scrollbar-thumb {
+//    border-radius: 4px;
+//    -webkit-border-radius: 4px;
+//    -moz-border-radius: 4px;
+//    background-color: $body-color
+//  }
+//
+// .maplayers_list::-webkit-scrollbar-corner{
+//    display: none;
+//  }
 
 
 .layerList-sub-group {

@@ -532,17 +532,22 @@ div.zonal-asset {
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
   // width: 60px !important;
-  height: 50px;
+  height: 40px;
   margin: 5px;
   font-size: .9rem;
+  vertical-align: middle;
+  .btn-icon:after {
+      content:"  ";
+      // white-space: pre;
+  }
 }
 
 .zonal-label-remove {
   width: 25px !important;
-  height: 50px;
+  height: 40px;
   padding: 0px;
   svg {
-    vertical-align: -1.10em;
+    vertical-align: -.750em;
   }
 }
 
