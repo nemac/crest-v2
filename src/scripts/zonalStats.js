@@ -127,6 +127,11 @@ function makeLabel(name) {
   zonalLabel.innerHTML = '<span class="btn-icon" id="btn-details-icon" ><i class="far fa-chart-bar"></i></span>';
   // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
+
+  if (window.screen.availWidth < 769) {
+    zonalLabel.addEventListener('click', shortZonalClickHandler);
+  }
+
   return zonalLabel;
 }
 
@@ -303,7 +308,7 @@ function ZonalWrapperActiveAdd() {
 function setGraphsState(name, activetype) {
   let newname = name;
 
-  const striptext = ['raw-name', 'graph-name', 'dismiss-name'];
+  const striptext = ['raw-name', 'graph-name', 'dismiss-name', 'label-name'];
 
   striptext.map((replacetext) => {
     if (name.indexOf(replacetext) >= 0) {
@@ -621,7 +626,8 @@ function shortZonalClickHandler(e) {
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
   setGraphsState(this.getAttribute('id'), 'graph');
-  viewLongZonalStats(this);
+  const shortChartElem = document.getElementById(`short-chart-${HTMLName}`);
+  viewLongZonalStats(shortChartElem);
   enableZonalButtons(HTMLName);
   disableOverView();
 
@@ -644,18 +650,6 @@ function zonalLabelMouseOverHandler(e) {
     const path = document.querySelector(`.path-${HTMLName}`);
     togglePermHighLightsAllOff(path);
     toggleMouseHighLightsOn(path);
-
-    // const labelName = `label-name-${HTMLName}`;
-    // const labelElem = document.getElementById(labelName);
-    // toggleLabelHighLightsOn(labelElem);
-
-    // const labelzName = `zonal-wrapper-${HTMLName}`;
-    // const labelzElem = document.getElementById(labelzName);
-    // toggleLabelHighLightsOn(labelzElem);
-
-    // const shotChartsLabels = `short-chart-${HTMLName}`;
-    // const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
-    // toggleLabelHighLightsOn(shotChartsLabelsElem);
   }
 }
 
@@ -1250,7 +1244,10 @@ function drawShortZonalStats(data, name, mapComponent) {
 
   drawShortChart(wrapper, getShortDataChartData(data), HTMLName);
 
-  wrapper.addEventListener('click', shortZonalClickHandler);
+  if (window.screen.availWidth > 769) {
+    wrapper.addEventListener('click', shortZonalClickHandler);
+  }
+
   wrapper.addEventListener('mouseover', zonalLabelMouseOverHandler);
   wrapper.addEventListener('mouseout', zonalLabelMouseOutHandler);
 

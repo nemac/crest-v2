@@ -195,18 +195,6 @@ $box-shadow-default: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
   // overflow: scroll;
 }
 
-.selected-cell {
-  position: relative;
-  border: 5px solid #ffc107;
-  width: 130% !important;
-  height: 100% !important;
-  top: -10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 7px;
-  padding-top: 7px;
-}
-
 #zonal-area-wrapper {
   width: 100%;
   position: relative;
@@ -493,11 +481,6 @@ div.zonal-asset {
   }
 }
 
-.btn-details {
-  height: 30px;
-  margin-top: 15px !important;
-}
-
 #overview-label {
     display: none;
 }
@@ -537,17 +520,22 @@ div.zonal-asset {
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
   // width: 60px !important;
-  height: 50px;
+  height: 40px;
   margin: 5px;
   font-size: .9rem;
+  vertical-align: middle;
+  .btn-icon:after {
+      content:"  ";
+      // white-space: pre;
+  }
 }
 
 .zonal-label-remove {
   width: 25px !important;
-  height: 50px;
+  height: 40px;
   padding: 0px;
   svg {
-    vertical-align: -1.10em;
+    vertical-align: -.50em;
   }
 }
 
@@ -611,10 +599,6 @@ div.zonal-asset {
 
 .zonal-long-raw-values {
   display: none;
-}
-
-.zonal-long-name {
-  padding: 15px 15px 0px 15px !important;
 }
 
 .active-table {

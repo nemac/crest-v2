@@ -166,11 +166,12 @@ export class Explore extends Component {
     if (!this.hasShareURL) {
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
-
+      const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
       if (activeNav) {
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubsFromStateObject();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+          Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
           Explore.updateExploreDirections(this.exlporeHubMessage);
           if (checkValidObject(checkHubIntersectionJson)) {
             Explore.dismissExploreDirections();
@@ -178,6 +179,7 @@ export class Explore extends Component {
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+          Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           if (checkValidObject(checkUserareas)) {
             Explore.dismissExploreDirections();
@@ -186,6 +188,7 @@ export class Explore extends Component {
       } else {
         this.drawUserAreaFromUsereas();
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+        Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         if (checkValidObject(checkUserareas)) {
           Explore.dismissExploreDirections();
@@ -205,6 +208,7 @@ export class Explore extends Component {
       Explore.clearZonalStatsWrapperDiv();
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
+      const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
       const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
       const checkUserareas = store.getStateItem('userareas');
 
@@ -221,12 +225,14 @@ export class Explore extends Component {
           // that tells the user what to do
           if (!checkValidObject(checkHubIntersectionJson)) {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
             disableZonalButtons();
             disableOverView();
             // If there is hub data in store do NOT show text and draw the hubs
           } else {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
             Explore.dismissExploreDirections();
             this.drawHubsFromStateObject();
@@ -241,12 +247,14 @@ export class Explore extends Component {
           // that tells the user what to do
         } else if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+          Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           disableZonalButtons();
           disableOverView();
           // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+          Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
@@ -265,6 +273,7 @@ export class Explore extends Component {
         // If there is explore assement data in store do NOT show text and draw the shpes
       } else {
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+        Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         Explore.dismissExploreDirections();
         this.drawUserAreaFromUsereas();

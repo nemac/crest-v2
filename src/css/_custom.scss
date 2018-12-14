@@ -1,9 +1,10 @@
 // Your variable overrides
 $body-bg:    $gray-800;
+$body-list-border:    $gray-600;
 $body-color: $gray-200;
 
 $btn-color-prinary: $gray-100;
-$btn-color-secondary: $gray-400;
+$btn-color-secondary: $gray-300;
 
 $box-shadow-default: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 $box-shadow-small: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
@@ -21,9 +22,24 @@ $padding15: 15px;
 
 $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
 $body-bg-semiTransparent9:    rgba(53, 59, 65, .9); // $gray-800
+$body-bg-FullTransparent:    rgba(53, 59, 65, 0.0); // $gray-800
 
 html, body {
     height: 100%;
+}
+
+.main-navbar-toggle {
+    z-index: 5000 !important;
+}
+
+.maplayerslisttoggle-collapse {
+  z-index: 4500 !important;
+}
+
+.nfwf-header {
+  h2 {
+    margin-bottom: 5px;
+  }
 }
 
 .download-row {
@@ -56,7 +72,7 @@ html, body {
 }
 
 .mapinfo-header {
-  width: 90%;
+  width: 100%;
 }
 
 #main-content,{
@@ -101,20 +117,83 @@ html, body {
 
 #nav-holder {
   min-width: 50px;
-  margin-bottom: $margin;
+  margin-bottom: 5px;
   margin-top: $margin;
+  a {
+    padding-top: 5px !important;
+  }
 }
 
 #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
   margin-top: $margin;
   width: 100% !important;
-  background-color: $btn-color-secondary !important;;
+  // background-color: $btn-color-secondary !important;
+}
+
+.btn-secondary {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: $btn-color-secondary !important;
+  background-position: center !important;
+  transition: background 0.8s !important;
+  margin-left: 0px !important;
+}
+
+.btn-secondary:active {
+  background-color: $btn-color-prinary !important;
+  background-size: 100% !important;
+  transition: background 0s !important;
+}
+
+.btn-secondary:hover {
+  background: $btn-color-prinary radial-gradient(circle, transparent 1%, $btn-color-prinary 1%) center/15000% !important;
+}
+
+.bnt-primary {
+  background-color: $btn-color-prinary !important;
+  background-position: center !important;
+  transition: background 0.8s !important;
+  margin-left: 0px !important;
+}
+
+.bnt-primary:active {
+  background-color: $btn-color-secondary !important;
+  background-size: 100% !important;;
+  transition: background 0s !important;;
+}
+
+.bnt-primary:hover {
+  background: $btn-color-secondary radial-gradient(circle, transparent 1%, $btn-color-secondary 1%) center/15000% !important;
+}
+
+
+.bnt-primary {
+  background-position: center !important;
+  transition: background 0.8s !important;
+}
+
+.bnt-primary:active {
+  background-color: $btn-color-secondary !important;
+  background-size: 100% !important;
+  transition: background 0s !important;
+}
+
+.bnt-primary:hover {
+  background: $btn-color-secondary radial-gradient(circle, transparent 1%, $btn-color-secondary 1%) center/15000% !important;
 }
 
 .action-bnt-row {
   // padding-left: 0px !important;
-  padding-right: 0px !important;
   // margin-right: -15px !important;
+  padding-right: 0px !important;
+}
+
+.action-bnt-row.button-1 {
+  padding-left: 15px;
+}
+
+.action-bnt-row.button-2 {
+  padding-left: 0px;
 }
 
 .data-row, .explore-row-container {
@@ -129,38 +208,570 @@ html, body {
   }
 }
 
-// responive explore buttons
-@media (max-width: 992px) {
-  .data-row, .map-list-column, .map-row {
-    padding-top: 15px;
-    height: 750px !important;
-    box-shadow: $box-shadow-default;
-    margin-bottom: 15px;
+.btn-icon:after {
+    content:"\000A";
+    white-space: pre;
+}
+
+#mainNavToggle {
+  z-index: 5000 !important;
+}
+
+.bnt-MapLayersListToggle {
+  border-color:  $body-bg !important;
+  border-width:  1px 1px 1px 1px !important;
+  border-style: solid !important;
+}
+
+.bnt-MapLayersListToggle:focus{
+  outline: inherit;
+}
+
+.btn-toggle-shapes:focus{
+  outline: inherit;
+}
+
+.navbar-toggler:focus{
+  outline: inherit;
+}
+
+.openclosetext {
+  font-size: .75rem;
+}
+
+.selected-cell {
+  position: relative;
+  border: 5px solid #ffc107;
+  width: 130% !important;
+  height: 100% !important;
+  top: -10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+}
+
+@media (min-width: 993px) {
+
+  .brand-maplist-holder {
+    position: fixed !important;
+    top: 135px !important;
+    width: 20% !important;
+    min-width: 250px;
+    background-color: $body-bg !important;
+    border-top-left-radius:  4px !important;
+    border-top-right-radius: 4px !important;
+    -webkit-border-top-left-radius: 4px !important;
+    -webkit-border-top-right-radius: 4px !important;
+    -webkit-border-bottom-left-radius: 0px !important;
+    -webkit-border-bottom-right-radius: 0px !important;
+    border-color:  $body-list-border !important;
+    border-width:  1px 1px 1px 1px !important;
+    border-style: solid !important;
+    z-index: 4500 !important;
+  }
+
+  .map-list-column {
+    height: 0% !important
+  }
+
+  #maplayers_list-holder {
+    width: 30% !important;
+    position: fixed;
+    top: 180px !important;
+    left: 70% !important;
+    z-index: 4500 !important;
+    background-color: rgba(53, 59, 65, 0) !important;
+  }
+
+  .maplayers_list {
+    height: 96% !important;
+    border-radius: 4px !important;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+
+    .navbar {
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+    }
+
+    .navbar-brand {
+      display: inherit !important;
+      width: 50% !important;
+      padding: 10px 0px 10px 10px !important;
+      margin-right: 0px !important;
+      float:left;
+    }
+
+    .navbar-toggler {
+      display: inherit !important;
+      float: right !important;;
+      margin-top: 10px !important;
+      background-color: $body-bg !important;
+      margin-right: 10px !important;
+    }
+
+    .navbar-toggler-icon {
+      background-image: inherit !important;
+      font-size: 1.1rem !important;
+      color: $body-color !important;
+    }
+  }
+
+  .map_responsive {
+    overflow: scroll !important;
+    background-color: $body-bg-FullTransparent !important;
+    float: right !important;
+    width: 66.7% !important;
+    min-width: 250px !important;
+    margin-right: 20px !important;
+
+    .navbar-dark {
+      background-color: $body-bg-FullTransparent !important;
+    }
+
+    #mapListToggle {
+      background-color: $body-bg !important;
+      border-color:  $body-list-border !important;
+      border-width:  0px 1px 1px 1px !important;
+      border-style: solid !important;
+      border-top-left-radius:  0px !important;
+      border-top-right-radius: 0px !important;
+      -webkit-border-top-left-radius: 0px !important;
+      -webkit-border-top-right-radius: 0px !important;
+      border-bottom-left-radius:  4px !important;
+      border-bottom-right-radius: 4px !important;
+      -webkit-border-bottom-left-radius: 4px !important;
+      -webkit-border-bottom-right-radius: 4px !important;
+    }
+
+    #ToggleLayerList {
+      background-color: $body-bg !important;
+      margin: 15px;
+    }
+
+  }
+
+  .h-0 {
+    .brand-maplist-holder {
+      border-bottom-left-radius:  4px !important;
+      border-bottom-right-radius: 4px !important;
+      -webkit-border-bottom-left-radius: 4px !important;
+      -webkit-border-bottom-right-radius: 4px !important;
+    }
+  }
+
+  .navbar-brand {
+    display: none;
+  }
+
+  .icon-label {
+    margin-top: 15px !important;
+  }
+
+  #maintitle {
+    display: inline-block;
+    margin-bottom: 0px !important;
+  }
+
+  .navbar-expand-lg {
+    padding-top: 0px;
   }
 
   #map-holder {
-    margin-bottom: 15px;
+    height: 100% !important;
+  }
+
+  .data-row {
+    height: 100% !important;
+  }
+
+  #explore-title {
+    display: block;
+  }
+
+  .navbar-brand-exlore-title {
+    display: none;
+  }
+
+  .btn-details {
+    height: 30px;
+    margin-top: 15px !important;
+    line-height: 30px !important;
+    vertical-align: middle !important;
+  }
+
+  .btn-icon:after {
+    content:"\000A";
+    white-space: pre;
+  }
+
+  .zonal-long-name {
+    padding: 15px 15px 0px 15px !important;
+  }
+}
+
+@media (max-height: 640px) {
+  .maplayers_list {
+    height: 300px !important
+  }
+}
+
+// responive explore buttons
+@media (max-width: 992px) {
+
+  $margin: 5px;
+  $padding: 5px;
+
+  #main-content {
+    padding: $padding;
+  }
+
+  .main-navbar-toggle {
+    padding: $padding;
+  }
+
+  .btn-details {
+      background-color: $body-bg  !important;
+      color: $body-color !important;
+      border: 1px solid $body-color !important;
+  }
+
+  .btn-toggle-shapes {
+    box-shadow: $box-shadow-default;
+    margin-bottom: $margin !important;
+    border: 1px solid $body-color !important;
+    color: $body-color !important;
+  }
+
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: 1.5rem !important;
+  }
+
+  #top-bar{
+    padding-bottom: ($padding + 5 ) * 2;
+  }
+
+  .brand-maplist-holder{
+      width: 100% !important;
+  }
+
+  .maplayers_list {
+    height: 40% !important;
+    width: 100% !important;
+    position: fixed;
+    top: 100px !important;
+    left: 0px !important;
+    z-index: 4000 !important;
+    background-color: $body-bg-FullTransparent !important;
+    .navbar {
+      padding-right: 0px !important;
+    }
+  }
+
+  .maplayerlist-sticky {
+    display: none !important;
+  }
+
+  .map_responsive {
+    overflow: scroll !important;
+    background-color: $body-bg-FullTransparent !important;
+    float: right !important;
+    width: 95% !important;
+    margin-left: -5px !important;
+
+    .navbar-dark {
+      background-color: $body-bg-FullTransparent !important;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem !important;
+      color: $body-bg-FullTransparent !important;
+    }
+
+    #mapListToggle {
+      background-color: $body-bg !important;
+      border: 1px solid $body-list-border !important;
+      border-radius: 4px !important;
+      -webkit-border-radius: 4px !important;
+      -moz-border-radius: 4px !important;
+    }
+
+    #ToggleLayerList {
+      background-color: $body-bg !important;
+      margin: 15px;
+    }
+
+    .navbar-toggler-icon {
+      background-image: inherit !important;
+      color: $body-color !important;
+      margin-top: 10px !important;
+    }
+
+    .navbar-toggler {
+      background-color: $body-bg !important;
+      float: right !important;
+      box-shadow: $box-shadow-default;
+    }
+
+    .bg_dark {
+      background-color: $body-bg-FullTransparent !important;
+    }
+
+  }
+
+  .map-noresponsive-one,.map-noresponsive-two {
+    display: none;
+  }
+
+  .data-row, .map-list-column, .map-row {
+    padding-top: $padding;
+    box-shadow: $box-shadow-default;
+    margin-bottom: $margin;
+  }
+
+  .icon-label {
+    margin-top: 15px !important;
+  }
+
+  .bnt-main-navbar-toggle {
+    height: 30px !important;
+    font-size: 1rem !important;
+    .navbar-toggler-icon {
+      width: 1.0em;
+      height: 1.0em;
+    }
+  }
+
+  #map-holder {
+    margin: $margin;
+    height: 50% !important;
+  }
+
+  .data-row {
+    height: 50% !important;
+  }
+
+  #map {
+    height: 100% !important;
+  }
+
+  #maintitle {
+    display: none;
+  }
+
+  .navbar-brand {
+    display: inline-block;
+    font-size: 1rem !important;
+  }
+
+  #explore-title {
+    display: none;
+  }
+
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions {
+    font-size: 1rem !important;
+    display: inline-block  !important;
+    color: $body-color !important;
+    margin-right: $margin;
+  }
+
+  .zonal-stats-short-title-holder {
+    display: none;
+    h3 {
+      font-size: 1.2rem !important;
+    }
+  }
+
+  .explore-row-container {
+    .navbar {
+      padding-bottom: 0rem !important;
+      padding-top: .2rem !important;
+    }
+  }
+
+  hr {
+    margin-top: .5rem !important;
+    margin-bottom: .5rem !important;
+  }
+
+  .zonal-long-name {
+    font-size: 1rem !important;
+    padding: $padding $padding 0px $padding !important;
+  }
+
+  .zonal-long-button {
+    height: 30px !important;
+  }
+
+  .zonal-button-text {
+    display: none;
+  }
+
+  .zonal-stats-button-holder {
+    margin-top: 5px !important;
+  }
+
+  .btn-details {
+    height: 30px !important;
+    margin-top: $margin !important;
+  }
+
+  .zonal-stats-wrapper {
+    padding-top: $padding !important;
+  }
+
+  .zonal-label-remove {
+    font-size: 0rem !important;
+    .fa-trash-alt{
+      font-size: 1rem !important;
+      margin-top: .2rem !important;
+    }
+  }
+
+  .zonal-label {
+    font-size: 1rem !important;
+
+    .btn-icon {
+      font-size: 1rem !important;
+    }
+    .btn-icon:after {
+        content: "  ";
+    }
+  }
+
+  #zonal-header {
+    margin-bottom: 0px !important;
+  }
+
+  .zonal-long-graph-wrapper {
+    margin-top: $margin !important;
+    margin-bottom: $margin !important;
+    padding-right: $padding !important;
+  }
+
+  .navbar-toggler-shape-bnts {
+    background-image: inherit !important;
+    height: 1.25em !important;
+    width: 100%;
+  }
+
+  .h-0 {
+    .map_responsive {
+      height: 0px !important;
+      overflow: visible !important;
+      width: 95% !important;
+    }
+
+    .navbar-brand {
+      display: none;
+      font-size: 1.25rem !important;
+    }
+
+    .navbar {
+      height: 0px !important;
+      overflow: visible !important;
+    }
+    .brand-maplist-holder {
+      height: 0px !important;
+      overflow: visible !important;
+    }
   }
 }
 
 // responive explore buttons
 @media (max-width: 768px) {
+
+  .maplayers_list {
+    top: 80px !important;
+  }
+
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
     background-color: $btn-color-secondary !important;;
   }
 
+  .navbar-brand {
+    display: inline-block;
+    font-size: 1.25rem !important;
+  }
+
+  #explore-title {
+    display: none;
+  }
+
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: 1.25rem !important;
+    display: inline-block  !important;
+    color: $body-color !important;
+  }
+
+  .zonal-stats-short-title-holder {
+    display: none;
+    h3 {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  .icon-label {
+    margin-top: 8px !important;
+  }
+
+  .zonal-label-remove {
+    .fa-trash-alt{
+      margin-top: .35rem !important;
+    }
+  }
+
+  .leaflet-draw-tooltip-top {
+    font-size: 1.1em !important;
+  }
+
   .data-row, .map-list-column, .map-row {
-    padding-top: 15px;
-    height: 750px !important;
+    padding-top: 5px;
     box-shadow: $box-shadow-default;
   }
 
   .bnt-primary {
-    height: 80px !important;
+    height: 50px !important;
+  }
+
+  .zonal-long-wrapper {
+    h5 {
+      font-size: 1.0em !important;
+      padding-bottom: 3px !important;
+    }
+
+    h6 {
+      font-size: 0.80em !important;
+    }
+
+    .zonal-long-table-header-simple,
+    .zonal-long-table-item,
+    .zonal-long-graph-label-text,
+    .zonal-long-graph-axis-label  {
+      font-size: 0.80em !important;
+    }
+
+    .zonal-long-table-row-header-simple {
+        height: 15px !important;
+    }
+  }
+
+  .zonal-long-table-item {
+    height: 46px !important;
+  }
+
+  .selected-cell {
+    height: 66px !important;
   }
 }
+
+// responive explore buttons
+@media (max-width: 568px) {
+}
+
 
 // responive explore buttons
 @media (max-width: 640px) {
@@ -171,6 +782,44 @@ html, body {
   }
 }
 
+// responive explore buttons
+@media (max-width: 414px) {
+  .maplayers_list {
+    top: 70px !important;
+  }
+
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: .942rem !important;
+  }
+
+  .navbar-brand {
+    font-size: .942rem !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 375px) {
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: .842rem !important;
+  }
+
+  .navbar-brand {
+    font-size: .842rem !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 320px) {
+  .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
+    font-size: .642rem !important;
+  }
+
+  .navbar-brand {
+    font-size: .642rem !important;
+  }
+}
+
+
 #second-tab-content {
   margin-top: 50px;
 }
@@ -178,16 +827,6 @@ html, body {
 #glossary-holder, #exposure-holder ,#aboutgen-holder {
   margin-top: $margin;
   margin-bottom: $margin*2;
-}
-
-.btn-secondary {
-  width: 50px !important;
-  height: 50px !important;
-  background-color: $btn-color-secondary !important;
-}
-
-.bnt-primary {
-  background-color: $btn-color-prinary !important;
 }
 
 .exlpore-directions {
@@ -401,15 +1040,15 @@ html, body {
 }
 
 
-@media (min-height: 800px) {
-  .user-shape {
-    height: 60px !important;
-  }
-
-  .upload-all {
-    top: -5px !important;
-  }
-}
+// @media (min-height: 800px) {
+//   .user-shape {
+//     height: 60px !important;
+//   }
+//
+//   .upload-all {
+//     top: -5px !important;
+//   }
+// }
 
 .btn-light {
   background-color:  $body-color;
@@ -419,10 +1058,6 @@ html, body {
   box-shadow: $box-shadow-default;
 }
 
-.btn-icon:after {
-    content:"\000A";
-    white-space: pre;
-}
 
 .user-shape {
   white-space: pre-wrap;      /* CSS3 */
@@ -434,10 +1069,6 @@ html, body {
   height: 60px;
   margin: 5px;
   font-size: .9rem;
-}
-
-.icon-label {
-  margin-top: 15px !important;
 }
 
 .upload-all {
@@ -842,13 +1473,12 @@ html, body {
      border-radius: 4px;
      -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
-     background-color: $body-color
+     background-color: $body-color;
    }
 
    .mapinfodata::-webkit-scrollbar-corner{
      display: none;
    }
-
 }
 
 body {
@@ -892,10 +1522,6 @@ a.list-group-item.list-group-item-action.not-found{
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   text-decoration: underline;
-}
-
-.list-basemap {
-  margin-top: 35px !important;
 }
 
 h1.not-found {
@@ -947,14 +1573,6 @@ p.not-found {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-}
-
-
-@media (max-width: 992px) { //768px
-  #top-bar{
-    padding-bottom: ($padding + 5 ) * 2;
-  }
-
 }
 
 a.nav-link.active {
