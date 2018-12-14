@@ -222,7 +222,7 @@ export function addMissingStateItems() {
 
   // check for mapCenter default is {lat: 32.7765, lng: -79.9311} (charleston for now)
   if (!checkValidObject(store.getStateItem('mapCenter'))) {
-    store.setStoreItem('mapCenter', { lat: 36.27970720524017, lng: -95.05371093750001});
+    store.setStoreItem('mapCenter', { lat: 36.27970720524017, lng: -95.05371093750001 });
   }
 
   // check for mapLayerDisplayStatus default is listed below
