@@ -245,7 +245,7 @@ html, body {
     position: fixed !important;
     top: 135px !important;
     width: 20% !important;
-    min-width: 243px;
+    min-width: 250px;
     background-color: $body-bg !important;
     border-top-left-radius:  4px !important;
     border-top-right-radius: 4px !important;
@@ -256,6 +256,7 @@ html, body {
     border-color:  $body-list-border !important;
     border-width:  1px 1px 1px 1px !important;
     border-style: solid !important;
+    z-index: 4500 !important;
   }
 
   .map-list-column {
@@ -267,7 +268,7 @@ html, body {
     position: fixed;
     top: 180px !important;
     left: 70% !important;
-    z-index: 4000 !important;
+    z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
   }
 
