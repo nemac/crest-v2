@@ -28,6 +28,14 @@ html, body {
     height: 100%;
 }
 
+.main-navbar-toggle {
+    z-index: 5000 !important;
+}
+
+.maplayerslisttoggle-collapse {
+  z-index: 4500 !important;
+}
+
 .nfwf-header {
   h2 {
     margin-bottom: 5px;
@@ -227,10 +235,6 @@ html, body {
   outline: inherit;
 }
 
-.navbar-toggler{
-  box-shadow: $box-shadow-default;
-}
-
 .openclosetext {
   font-size: .75rem;
 }
@@ -391,6 +395,12 @@ html, body {
   }
 }
 
+@media (max-height: 640px) {
+  .maplayers_list {
+    height: 300px !important
+  }
+}
+
 // responive explore buttons
 @media (max-width: 992px) {
 
@@ -414,7 +424,6 @@ html, body {
     position: fixed;
     top: 100px !important;
     left: 0px !important;
-    // left: 80% !important;
     z-index: 4000 !important;
     background-color: $body-bg-FullTransparent !important;
     .navbar {
@@ -437,7 +446,6 @@ html, body {
     }
 
     .navbar-brand {
-      // display: none;
       font-size: 1.5rem !important;
       color: $body-bg-FullTransparent !important;
     }
@@ -463,6 +471,7 @@ html, body {
     .navbar-toggler {
       background-color: $body-bg !important;
       float: right !important;
+      box-shadow: $box-shadow-default;
     }
 
     .bg_dark {
