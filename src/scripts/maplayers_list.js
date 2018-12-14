@@ -74,9 +74,6 @@ export class MapLayersList extends Component {
     TMSLayers.forEach((layerProps) => { this.updateMapLayer(layerProps); });
     TMSLayers.forEach((layerProps) => { MapLayersList.addLegendHTML(layerProps); });
 
-    // check if map layer list is minimized on initialization if so minimize it.
-    const mapLayerListState = store.getStateItem('maplayerlist');
-
     MapLayersList.ListHolderToggle();
     MapLayersList.ToggleLayerListToggle();
     MapLayersList.mapListToggleToggle();
