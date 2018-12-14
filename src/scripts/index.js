@@ -220,6 +220,7 @@ const router = new Navigo(homeloc, true);
 //   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
 //   console.log()
 // });
+addMissingStateItems();
 
 router.on({
   '/': (params, query) => {
@@ -260,4 +261,3 @@ router.notFound((query) => {
 });
 
 router.resolve();
-addMissingStateItems();

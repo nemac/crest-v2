@@ -2,38 +2,59 @@
   <div class="row d-flex w-100">
     <div class="sticky-top sideheading w-100">
       <h3 id="explore-title" >Start Exploring the Assessment</h3>
+
       <span id="exlpore-directions" class="exlpore-directions" >
         <span title="Close Map Layer List" aria-label="Close Map Layer List" id="maplayers_list_close" class="float-right text-center">
           <i title="Close Map Layer List" aria-label="Close Map Layer List" class="fas fa-times"></i>
         </span>
         To start examining the assessment click the draw area button and then sketch an area on the map. If you have a shapefile of the region, use the upload shapefile button.
       </span>
-      <div id="user-shape" class="row d-flex w-100 explore-btns">
-        <span id="primary-shape-holder" class="row w-100">
-          <div class="row d-flex w-100">
-            <div class="col-6 action-bnt-row d-flex w-100">
-              <button id="draw-area-btn" title="Draw Area on Map" aria-label="Draw Area on Map" type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-med-label">Draw area</span><span class="btn-lg-label"> on map</span></button>
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- <h3 class="navbar-brand-exlore-title" >Start Exploring the Assessment</h3> -->
+
+        <button class="navbar-toggler btn-toggle-shapes w-100" type="button" data-toggle="collapse" data-target="#ShapeButtonsToggle" aria-controls="ShapeButtonsToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-shape-bnts navbar-toggler-icon">
+            <!-- <i class="fa fa-list-alt" aria-hidden="true"></i> -->
+            <span class="navbar-brand-exlore-title" >Start Exploring the Assessment</span>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+            <!-- <i class="fa fa-caret-up" aria-hidden="true"></i> -->
+          </span>
+        </button>
+        <div class="collapse navbar-collapse" id="ShapeButtonsToggle">
+          <nav class="navbar-nav mr-auto mt-2 mt-lg-0 w-100"  id="main-nav" >
+            <div id="user-shape" class="row d-flex w-100 explore-btns">
+              <span id="primary-shape-holder" class="row w-100">
+                <div class="row d-flex w-100">
+                  <div class="col-6 action-bnt-row button-1 d-flex w-100">
+                    <button id="draw-area-btn" title="Draw Area on Map" aria-label="Draw Area on Map" type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-med-label">Draw area</span><span class="btn-lg-label"> on map</span></button>
+                  </div>
+                  <div class="col-6 action-bnt-row button-2 d-flex w-100">
+                    <label id="upload-shapefile-btn" class="btn btn-light btn-box user-shape btn-file-label bnt-primary"  for="upload-shape-btn"><span class="upload-all"><span class="btn-icon"><i class="fas fa-upload icon-label"></i></span><span class="btn-med-label">Upload</span><span class="btn-lg-label"> Shapefile</span></span></label>
+                    <input type="file" multiple=true accept=".zip, .shp, .dbf, .prj, .geojson, .json" id="upload-shape-btn" class="btn btn-light btn-box btn-upload-shape btn-file bnt-primary"></input>
+                  </div>
+                </div>
+              </span>
+              <span id="has-shape-holder" class="row w-100 d-none">
+                <div class="row d-flex w-100">
+                  <div class="col-4 action-bnt-row button-1 d-flex w-100">
+                    <button id="btn-clear-area" title="Clear Areas on Map" aria-label="Clear Areas on Map" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="far fa-trash-alt"></i></span><span class="btn-med-label">Clear map</span><span class="btn-lg-label"></span></button>
+                  </div>
+                  <div class="col-4 action-bnt-row button-2 d-flex w-100">
+                    <button id="btn-reset" title="Reset to default" aria-label="Reset to default" type="button" class="btn btn-light btn-box btn-secondary user-shape btn-reset"><span class="btn-icon"><i class="fas fa-cog"></i></span><span class="btn-med-label">Reset map</span><span class="btn-lg-label"></span></button>
+                  </div>
+                  <div class="col-4 action-bnt-row button-2 d-flex w-100">
+                    <button id="btn-update-zonal-stats" title="Update Statistics" aria-label="Update Statistics" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="fas fa-sync-alt"></i></span><span class="btn-med-label">Refresh data</span><span class="btn-lg-label"> </span></button>
+                  </div>
+                </div>
+              </span>
             </div>
-            <div class="col-6 action-bnt-row  d-flex w-100">
-              <label id="upload-shapefile-btn" class="btn btn-light btn-box user-shape btn-file-label bnt-primary"  for="upload-shape-btn"><span class="upload-all"><span class="btn-icon"><i class="fas fa-upload icon-label"></i></span><span class="btn-med-label">Upload</span><span class="btn-lg-label"> Shapefile</span></span></label>
-              <input type="file" multiple=true accept=".zip, .shp, .dbf, .prj, .geojson, .json" id="upload-shape-btn" class="btn btn-light btn-box btn-upload-shape btn-file bnt-primary"></input>
-            </div>
-          </div>
-        </span>
-        <span id="has-shape-holder" class="row w-100 d-none">
-          <div class="row d-flex w-100">
-            <div class="col-4 action-bnt-row  d-flex w-100">
-              <button id="btn-clear-area" title="Clear Areas on Map" aria-label="Clear Areas on Map" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="far fa-trash-alt"></i></span><span class="btn-med-label">Clear map</span><span class="btn-lg-label"></span></button>
-            </div>
-            <div class="col-4 action-bnt-row  d-flex w-100">
-              <button id="btn-reset" title="Reset to default" aria-label="Reset to default" type="button" class="btn btn-light btn-box btn-secondary user-shape btn-reset"><span class="btn-icon"><i class="fas fa-cog"></i></span><span class="btn-med-label">Reset map</span><span class="btn-lg-label"></span></button>
-            </div>
-            <div class="col-4 action-bnt-row  d-flex w-100">
-              <button id="btn-update-zonal-stats" title="Update Statistics" aria-label="Update Statistics" type="button" class="btn btn-light btn-secondary btn-box user-shape btn-clear-area"><span class="btn-icon"><i class="fas fa-sync-alt"></i></span><span class="btn-med-label">Refresh data</span><span class="btn-lg-label"> </span></button>
-            </div>
-          </div>
-        </span>
-      </div>
+          </nav>
+        </div>
+      </nav>
+
+
+
       <div></div>
       <div id="zonal-stats-button-holder" class="zonal-stats-button-holder d-none"></div>
       <div id="zonal-stats-short-title-holder" class="zonal-stats-short-title-holder d-none"></div>
