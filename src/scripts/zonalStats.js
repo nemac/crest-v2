@@ -305,25 +305,21 @@ function ZonalWrapperActiveAdd() {
 }
 
 function setGraphsState(name, activetype) {
-  if (name) {
-    let newname = name;
+  let newname = name;
 
-    const striptext = ['raw-name', 'graph-name', 'dismiss-name', 'label-name'];
+  const striptext = ['raw-name', 'graph-name', 'dismiss-name', 'label-name'];
 
-    striptext.map((replacetext) => {
-      if (name.indexOf(replacetext) >= 0) {
-        newname = name.replace(replacetext, 'name');
-        return newname;
-      }
+  striptext.map((replacetext) => {
+    if (name.indexOf(replacetext) >= 0) {
+      newname = name.replace(replacetext, 'name');
       return newname;
-    });
-
-    newname = newname.replace('name--USERAREA', 'name---USERAREA');
-    store.setStoreItem('zonalactive', [newname, activetype]);
+    }
     return newname;
-  } else {
-    return name
-  }
+  });
+
+  newname = newname.replace('name--USERAREA', 'name---USERAREA');
+  store.setStoreItem('zonalactive', [newname, activetype]);
+  return newname;
 }
 
 function disableMainZonalButton() {
@@ -629,7 +625,7 @@ function shortZonalClickHandler(e) {
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
   setGraphsState(this.getAttribute('id'), 'graph');
-  const shortChartElem = document.getElementById(`short-chart-${HTMLName}`)
+  const shortChartElem = document.getElementById(`short-chart-${HTMLName}`);
   viewLongZonalStats(shortChartElem);
   enableZonalButtons(HTMLName);
   disableOverView();
