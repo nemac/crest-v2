@@ -239,6 +239,18 @@ html, body {
   font-size: .75rem;
 }
 
+.selected-cell {
+  position: relative;
+  border: 5px solid #ffc107;
+  width: 130% !important;
+  height: 100% !important;
+  top: -10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+}
+
 @media (min-width: 993px) {
 
   .brand-maplist-holder {
@@ -294,7 +306,7 @@ html, body {
     .navbar-toggler {
       display: inherit !important;
       float: right !important;;
-      margin-top: 5px !important;
+      margin-top: 10px !important;
       background-color: $body-bg !important;
       margin-right: 10px !important;
     }
@@ -464,6 +476,7 @@ html, body {
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
     width: 95% !important;
+    margin-left: -5px !important;
 
     .navbar-dark {
       background-color: $body-bg-FullTransparent !important;
@@ -490,6 +503,7 @@ html, body {
     .navbar-toggler-icon {
       background-image: inherit !important;
       color: $body-color !important;
+      margin-top: 10px !important;
     }
 
     .navbar-toggler {
@@ -644,7 +658,6 @@ html, body {
     .map_responsive {
       height: 0px !important;
       overflow: visible !important;
-      margin-left: -7px !important;
       width: 95% !important;
     }
 
@@ -722,6 +735,31 @@ html, body {
     height: 50px !important;
   }
 
+  .zonal-long-wrapper {
+    h5 {
+      font-size: 1.0em !important;
+      padding-bottom: 3px !important;
+    }
+
+    h6 {
+      font-size: 0.80em !important;
+    }
+
+    .zonal-long-table-header-simple,
+    .zonal-long-table-item,
+    .zonal-long-graph-label-text,
+    .zonal-long-graph-axis-label  {
+      font-size: 0.80em !important;
+    }
+  }
+
+  .zonal-long-table-item {
+    height: 46px !important;
+  }
+
+  .selected-cell {
+    height: 66px !important;
+  }
 }
 
 // responive explore buttons

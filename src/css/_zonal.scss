@@ -195,17 +195,6 @@ $box-shadow-default: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
   // overflow: scroll;
 }
 
-.selected-cell {
-  position: relative;
-  border: 5px solid #ffc107;
-  width: 130% !important;
-  height: 100% !important;
-  top: -10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 7px;
-  padding-top: 7px;
-}
 
 #zonal-area-wrapper {
   width: 100%;
