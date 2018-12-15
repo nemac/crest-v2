@@ -204,7 +204,7 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    background-color: $btn-color-secondary !important;;
+    // background-color: $btn-color-secondary !important;;
   }
 }
 
@@ -253,6 +253,12 @@ html, body {
 
 @media (min-width: 993px) {
 
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 100% !important;
+    background-color: $btn-color-secondary !important;;
+  }
+
   .brand-maplist-holder {
     position: fixed !important;
     top: 135px !important;
@@ -276,10 +282,10 @@ html, body {
   }
 
   #maplayers_list-holder {
-    width: 30% !important;
+    width: 19% !important;
     position: fixed;
     top: 180px !important;
-    left: 70% !important;
+    left: 81% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
   }
@@ -322,7 +328,7 @@ html, body {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
-    width: 66.7% !important;
+    width: 105.3% !important;
     min-width: 250px !important;
     margin-right: 20px !important;
 
@@ -411,20 +417,84 @@ html, body {
   }
 }
 
-@media (max-height: 640px) {
-  .maplayers_list {
-    height: 300px !important
+@media (max-height: 900px) {
+  .zonal-long-button  {
+    height: 50px !important;
+  }
+  .zonal-button-text{
+    font-size: 14px !important;
   }
 }
 
+@media (max-height: 800px) {
+  .zonal-long-button  {
+    height: 50px !important;
+  }
+
+  .zonal-button-text{
+    font-size: 14px !important;
+  }
+
+  .zonal-stats-button-holder {
+    margin-top: 5px !important;
+  }
+
+  .zonal-long-name {
+    margin-bottom: 0px !important;
+  }
+}
+
+@media (max-height: 700px) {
+  .maplayers_list, #maplayers_list-holder {
+    max-height: 375px !important
+  }
+}
+
+@media (max-height: 580px) {
+  .maplayers_list, #maplayers_list-holder {
+    max-height: 275px !important
+  }
+}
+
+@media (max-height: 580px) {
+  .maplayers_list, #maplayers_list-holder {
+    max-height: 250px !important
+  }
+}
 // responive explore buttons
 @media (max-width: 992px) {
 
   $margin: 5px;
   $padding: 5px;
 
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 100% !important;
+    border: 1px solid $body-color !important;
+    color: $body-color !important;
+  }
+
   #main-content {
     padding: $padding;
+  }
+
+  .btn-light {
+    background-color: $body-bg  !important;
+    border: 1px solid $body-color !important;
+    color: $body-color !important;
+  }
+
+  .bnt-primary {
+    background-color: $gray-600  !important;
+  }
+
+  .btn-secondary {
+    background-color: $gray-700  !important;
+   }
+
+  .btn-mapinfo {
+    background-color:  $body-color !important;
+    color: $body-bg !important;
   }
 
   .main-navbar-toggle {
@@ -454,6 +524,9 @@ html, body {
 
   .brand-maplist-holder{
       width: 100% !important;
+      position: sticky;
+      top: 0px;
+      z-index: 4500 !important;
   }
 
   .maplayers_list {
@@ -689,7 +762,7 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    background-color: $btn-color-secondary !important;;
+    // background-color: $btn-color-secondary !important;;
   }
 
   .navbar-brand {
@@ -723,6 +796,7 @@ html, body {
       margin-top: .35rem !important;
     }
   }
+
 
   .leaflet-draw-tooltip-top {
     font-size: 1.1em !important;
@@ -769,16 +843,45 @@ html, body {
 }
 
 // responive explore buttons
-@media (max-width: 568px) {
+@media (max-width: 450px) {
+  .zonal-long-graph-bars {
+    height: 90px !important;
+  }
 }
 
+// responive explore buttons
+@media (max-width: 375px) {
+  .zonal-long-graph-bars {
+    height: 80px !important;
+  }
+}
 
+// responive explore buttons
+@media (max-width: 360px) {
+  .zonal-long-graph-bars {
+    height: 75px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 350px) {
+  .zonal-long-graph-bars {
+    height: 75px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 320px) {
+  .zonal-long-graph-bars {
+    height: 45px !important;
+  }
+}
 // responive explore buttons
 @media (max-width: 640px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    background-color: $btn-color-secondary !important;;
+    // background-color: $btn-color-secondary !important;;
   }
 }
 
