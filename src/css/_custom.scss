@@ -204,7 +204,7 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    background-color: $btn-color-secondary !important;;
+    // background-color: $btn-color-secondary !important;;
   }
 }
 
@@ -252,6 +252,12 @@ html, body {
 }
 
 @media (min-width: 993px) {
+
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 100% !important;
+    background-color: $btn-color-secondary !important;;
+  }
 
   .brand-maplist-holder {
     position: fixed !important;
@@ -461,8 +467,34 @@ html, body {
   $margin: 5px;
   $padding: 5px;
 
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 100% !important;
+    border: 1px solid $body-color !important;
+    color: $body-color !important;
+  }
+
   #main-content {
     padding: $padding;
+  }
+
+  .btn-light {
+    background-color: $body-bg  !important;
+    border: 1px solid $body-color !important;
+    color: $body-color !important;
+  }
+
+  .bnt-primary {
+    background-color: $gray-600  !important;
+  }
+
+  .btn-secondary {
+    background-color: $gray-700  !important;
+   }
+
+  .btn-mapinfo {
+    background-color:  $body-color !important;
+    color: $body-bg !important;
   }
 
   .main-navbar-toggle {
@@ -730,7 +762,7 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    background-color: $btn-color-secondary !important;;
+    // background-color: $btn-color-secondary !important;;
   }
 
   .navbar-brand {
@@ -849,7 +881,7 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    background-color: $btn-color-secondary !important;;
+    // background-color: $btn-color-secondary !important;;
   }
 }
 
