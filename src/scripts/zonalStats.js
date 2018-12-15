@@ -195,13 +195,17 @@ async function getExlporeGeoJson(areahml, mapComponent) {
   const shape = Object.keys(currentshapes).filter((value, index, array) => {
     return currentshapes[value][0].name === area;
   })
+
   const val = shape[0];
   const shapeObj = currentshapes[val];
-
   const zoomgeojson = shapeObj[2].userarea_buffered;
   const zoomlayer = L.geoJSON(zoomgeojson);
   const zoomBounds =  zoomlayer.getBounds();
-  mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+  if(mapComponent.map){
+    mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+  } else {
+    mapComponent.flyToBounds(zoomBounds.pad(0.2));
+  }
 }
 
 async function getHubGeoJson(areahml, mapComponent) {
@@ -214,8 +218,12 @@ async function getHubGeoJson(areahml, mapComponent) {
     }
   })
   const zoomlayer = L.geoJSON(shape);
-  const zoombounds = zoomlayer.getBounds();
-  mapComponent.flyToBounds(zoombounds);
+  const zoomBounds = zoomlayer.getBounds();
+  if(mapComponent.map){
+    mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+  } else {
+    mapComponent.flyToBounds(zoomBounds.pad(0.2));
+  }
 }
 
 // Makes main title for an individual short zonal stats item

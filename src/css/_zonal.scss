@@ -540,6 +540,7 @@ div.zonal-asset {
  }
 
   .zonal-label-zoom {
+    color: $body-bg;
     width: 25px !important;
     height: 40px;
     padding: 0px;
@@ -696,22 +697,18 @@ div.zonal-asset {
 // }
 .zonal-long-table-asset .zonal-long-table-header-simple-low {
     position: absolute;
-    top: 20px
 }
 
 .zonal-long-table-asset .zonal-long-table-header-simple-high {
     position: absolute;
-    top: 20px
 }
 
 .zonal-long-table-threat .zonal-long-table-header-simple-low {
     position: absolute;
-    top: 20px
 }
 
 .zonal-long-table-threat .zonal-long-table-header-simple-high {
     position: absolute;
-    top: 20px
 }
 
 .zonal-long-table-header-threat {

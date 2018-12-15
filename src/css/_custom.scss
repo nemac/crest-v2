@@ -420,19 +420,41 @@ html, body {
   }
 }
 
-@media (max-height: 700px) {
-  .maplayers_list {
-    max-height: 350px !important
+@media (max-height: 800px) {
+  .zonal-long-button  {
+    height: 50px !important;
+  }
+
+  .zonal-button-text{
+    font-size: 14px !important;
+  }
+
+  .zonal-stats-button-holder {
+    margin-top: 5px !important;
+  }
+
+  .zonal-long-name {
+    margin-bottom: 0px !important;
   }
 }
 
-@media (max-height: 550px) {
-  .maplayers_list {
+@media (max-height: 700px) {
+  .maplayers_list, #maplayers_list-holder {
+    max-height: 375px !important
+  }
+}
+
+@media (max-height: 580px) {
+  .maplayers_list, #maplayers_list-holder {
+    max-height: 275px !important
+  }
+}
+
+@media (max-height: 580px) {
+  .maplayers_list, #maplayers_list-holder {
     max-height: 250px !important
   }
 }
-
-
 // responive explore buttons
 @media (max-width: 992px) {
 
