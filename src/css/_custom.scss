@@ -492,6 +492,9 @@ html, body {
 
   .brand-maplist-holder{
       width: 100% !important;
+      position: sticky;
+      top: 0px;
+      z-index: 4500 !important;
   }
 
   .maplayers_list {
