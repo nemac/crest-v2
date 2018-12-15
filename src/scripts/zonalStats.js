@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ColorRampHub from '../templates/colorramp_hub.html';
 import ColorRampAquatic from '../templates/colorramp_aquatic.html';
@@ -175,6 +176,15 @@ function returnSimpleButtonElementId(element) {
   return areaname;
 }
 
+function ZoomGeoJSON(zoomlayer, mapComponent) {
+  const zoomBounds = zoomlayer.getBounds();
+  if (mapComponent.map) {
+    mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+  } else {
+    mapComponent.flyToBounds(zoomBounds.pad(0.2));
+  }
+}
+
 // Makes main title for an individual short zonal stats item
 // @return DOM element
 function makeOverviewLabel() {
@@ -192,20 +202,15 @@ function makeOverviewLabel() {
 async function getExlporeGeoJson(areahml, mapComponent) {
   const area = areahml.replace('_', ' ');
   const currentshapes = store.getStateItem('userareas');
-  const shape = Object.keys(currentshapes).filter((value, index, array) => {
+  const shape = Object.keys(currentshapes).filter((value) => {
     return currentshapes[value][0].name === area;
-  })
+  });
 
   const val = shape[0];
   const shapeObj = currentshapes[val];
   const zoomgeojson = shapeObj[2].userarea_buffered;
   const zoomlayer = L.geoJSON(zoomgeojson);
-  const zoomBounds =  zoomlayer.getBounds();
-  if(mapComponent.map){
-    mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
-  } else {
-    mapComponent.flyToBounds(zoomBounds.pad(0.2));
-  }
+  ZoomGeoJSON(zoomlayer, mapComponent);
 }
 
 async function getHubGeoJson(areahml, mapComponent) {
@@ -213,17 +218,13 @@ async function getHubGeoJson(areahml, mapComponent) {
   const HubIntersectionJson = store.getStateItem('HubIntersectionJson');
   let shape = {};
   Object.keys(HubIntersectionJson).forEach((val) => {
-    if ( HubIntersectionJson[val].properties.mean.TARGET_FID.toString().trim() == area) {
-      shape = HubIntersectionJson[val]
+    if (HubIntersectionJson[val].properties.mean.TARGET_FID.toString().trim() === area) {
+      shape = HubIntersectionJson[val];
     }
-  })
+  });
+
   const zoomlayer = L.geoJSON(shape);
-  const zoomBounds = zoomlayer.getBounds();
-  if(mapComponent.map){
-    mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
-  } else {
-    mapComponent.flyToBounds(zoomBounds.pad(0.2));
-  }
+  ZoomGeoJSON(zoomlayer, mapComponent);
 }
 
 // Makes main title for an individual short zonal stats item
@@ -253,9 +254,6 @@ function makeZoom(name, mapComponent) {
 
     const areanameid = returnSimpleButtonElementId(e.target);
     let areaname = stripUserArea(areanameid);
-    const zoomElemName = `zonal-stats-wrapper-${areaname}`;
-    // const zoomElem = document.getElementById(zoomElemName);
-    // zoomElem.parentNode.removeChild(zoomElem);
     areaname = areaname.replace('-USERAREA-', '').replace('_', ' ');
     const activeNav = store.getStateItem('activeNav');
     if (activeNav === 'main-nav-map-searchhubs') {
@@ -263,9 +261,7 @@ function makeZoom(name, mapComponent) {
     } else {
       getExlporeGeoJson(areaname, mapComponent);
     }
-
   });
-
   return Zoom;
 }
 
