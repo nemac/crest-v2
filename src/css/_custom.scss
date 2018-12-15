@@ -769,10 +769,39 @@ html, body {
 }
 
 // responive explore buttons
-@media (max-width: 568px) {
+@media (max-width: 450px) {
+  .zonal-long-graph-bars {
+    height: 90px !important;
+  }
 }
 
+// responive explore buttons
+@media (max-width: 375px) {
+  .zonal-long-graph-bars {
+    height: 80px !important;
+  }
+}
 
+// responive explore buttons
+@media (max-width: 360px) {
+  .zonal-long-graph-bars {
+    height: 75px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 350px) {
+  .zonal-long-graph-bars {
+    height: 75px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 320px) {
+  .zonal-long-graph-bars {
+    height: 45px !important;
+  }
+}
 // responive explore buttons
 @media (max-width: 640px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
