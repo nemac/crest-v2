@@ -200,8 +200,25 @@ async function getExlporeGeoJson(areahml, mapComponent) {
 
   const zoomgeojson = shapeObj[2].userarea_buffered;
   const zoomlayer = L.geoJSON(zoomgeojson);
-  const zoonbounds =  zoomlayer.getBounds();
-  mapComponent.map.flyToBounds(zoonbounds.pad(0.2));
+  const zoomBounds =  zoomlayer.getBounds();
+  mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+}
+
+async function getHubGeoJson(areahml, mapComponent) {
+  const area = areahml.replace('_', ' ');
+  const HubIntersectionJson = store.getStateItem('HubIntersectionJson');
+  let shape = {};
+  Object.keys(HubIntersectionJson).forEach((val) => {
+    if ( HubIntersectionJson[val].properties.mean.TARGET_FID.toString().trim() == area) {
+      shape = HubIntersectionJson[val]
+    }
+  })
+  console.log(shape)
+  const zoomlayer = L.geoJSON(shape);
+  console.log(shape)
+  const zoombounds = zoomlayer.getBounds();
+  console.log(mapComponent)
+  mapComponent.flyToBounds(zoombounds);
 }
 
 // Makes main title for an individual short zonal stats item
@@ -235,7 +252,13 @@ function makeZoom(name, mapComponent) {
     // const zoomElem = document.getElementById(zoomElemName);
     // zoomElem.parentNode.removeChild(zoomElem);
     areaname = areaname.replace('-USERAREA-', '').replace('_', ' ');
-    getExlporeGeoJson(areaname, mapComponent);
+    const activeNav = store.getStateItem('activeNav');
+    if (activeNav === 'main-nav-map-searchhubs') {
+      getHubGeoJson(areaname, mapComponent);
+    } else {
+      getExlporeGeoJson(areaname, mapComponent);
+    }
+
   });
 
   return Zoom;
@@ -1282,8 +1305,12 @@ function drawShortZonalStats(data, name, mapComponent) {
   }
 
   const zoom = makeZoom(name, mapComponent);
-  wrapper.insertBefore(zoom, wrapper.childNodes[2]);
 
+  if (activeNav !== 'main-nav-map-searchhubs') {
+    wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+  } else {
+    wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+  }
 
   const ovr = makeOverviewLabel();
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
