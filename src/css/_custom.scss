@@ -276,10 +276,10 @@ html, body {
   }
 
   #maplayers_list-holder {
-    width: 30% !important;
+    width: 19% !important;
     position: fixed;
     top: 180px !important;
-    left: 70% !important;
+    left: 81% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
   }
@@ -322,7 +322,7 @@ html, body {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
-    width: 66.7% !important;
+    width: 105.3% !important;
     min-width: 250px !important;
     margin-right: 20px !important;
 
@@ -411,11 +411,27 @@ html, body {
   }
 }
 
-@media (max-height: 640px) {
-  // .maplayers_list {
-  //   height: 300px !important
-  // }
+@media (max-height: 900px) {
+  .zonal-long-button  {
+    height: 50px !important;
+  }
+  .zonal-button-text{
+    font-size: 14px !important;
+  }
 }
+
+@media (max-height: 700px) {
+  .maplayers_list {
+    max-height: 350px !important
+  }
+}
+
+@media (max-height: 550px) {
+  .maplayers_list {
+    max-height: 250px !important
+  }
+}
+
 
 // responive explore buttons
 @media (max-width: 992px) {
@@ -628,7 +644,7 @@ html, body {
       margin-top: .2rem !important;
     }
   }
-  
+
   .zonal-label {
     font-size: 1rem !important;
 
@@ -682,9 +698,9 @@ html, body {
 // responive explore buttons
 @media (max-width: 768px) {
 
-  // .maplayers_list {
-  //   top: 80px !important;
-  // }
+  .maplayers_list {
+    top: 80px !important;
+  }
 
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;

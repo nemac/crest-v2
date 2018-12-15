@@ -213,11 +213,8 @@ async function getHubGeoJson(areahml, mapComponent) {
       shape = HubIntersectionJson[val]
     }
   })
-  console.log(shape)
   const zoomlayer = L.geoJSON(shape);
-  console.log(shape)
   const zoombounds = zoomlayer.getBounds();
-  console.log(mapComponent)
   mapComponent.flyToBounds(zoombounds);
 }
 
@@ -518,15 +515,17 @@ function displayZonalGraphsHandler(e) {
 // Switches the display to the long zonal stats
 // @param shortElem | DOM element
 function viewLongZonalStats(shortElem) {
-  shortElem.nextElementSibling.classList.add('active');
-  setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
-  document.getElementById('zonal-header').classList.add('d-none');
-  ZonalWrapperActiveRemove();
+  if (shortElem) {
+    shortElem.nextElementSibling.classList.add('active');
+    setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
+    document.getElementById('zonal-header').classList.add('d-none');
+    ZonalWrapperActiveRemove();
 
-  const HTMLName = stripUserArea(shortElem.id);
-  document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
-  document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
-  document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+    const HTMLName = stripUserArea(shortElem.id);
+    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+  }
 }
 
 // checks if inner HTML of element is Plain old Text
