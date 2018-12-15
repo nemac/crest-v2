@@ -412,9 +412,9 @@ html, body {
 }
 
 @media (max-height: 640px) {
-  .maplayers_list {
-    height: 300px !important
-  }
+  // .maplayers_list {
+  //   height: 300px !important
+  // }
 }
 
 // responive explore buttons
@@ -628,7 +628,7 @@ html, body {
       margin-top: .2rem !important;
     }
   }
-
+  
   .zonal-label {
     font-size: 1rem !important;
 
@@ -682,9 +682,9 @@ html, body {
 // responive explore buttons
 @media (max-width: 768px) {
 
-  .maplayers_list {
-    top: 80px !important;
-  }
+  // .maplayers_list {
+  //   top: 80px !important;
+  // }
 
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
@@ -723,6 +723,7 @@ html, body {
       margin-top: .35rem !important;
     }
   }
+
 
   .leaflet-draw-tooltip-top {
     font-size: 1.1em !important;

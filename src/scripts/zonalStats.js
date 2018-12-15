@@ -51,16 +51,6 @@ function makeTextElement(text) {
   return document.createTextNode(text);
 }
 
-// // Creates a text node which is only seen by screen readers
-// // @param text | string
-// // @return DOM element
-// function makeScreenReaderText(text) {
-//   const elem = document.createElement('span');
-//   elem.classList.add('hidden');
-//   elem.appendChild(makeTextElement(text));
-//   return elem;
-// }
-
 function makeHTMLName(name) {
   return `-USERAREA-${name.replace(' ', '_')}`;
 }
@@ -78,26 +68,6 @@ function stripUserArea(id) {
   return id;
 }
 
-// // Makes wrapper for short zonal stats
-// // @return DOM element
-// function makeZonalWrapper(name) {
-//   const zonalWrap = makeDiv();
-//   zonalWrap.classList.add('zonal-wrapper');
-//   zonalWrap.classList.add('active');
-//   const HTMLName = makeHTMLName(name);
-//   zonalWrap.setAttribute('id', `zonal-wrapper-${HTMLName}`);
-//
-//   return zonalWrap;
-// }
-//
-// // Makes wrapper for individual short zonal item
-// // @return DOM element
-// function makeBoxWrapper() {
-//   const boxWrap = makeDiv();
-//   boxWrap.classList.add('zonal-item');
-//   return boxWrap;
-// }
-
 // Gets text for an individual short zonal stats item title
 // @return String
 function makeLabelText(name) {
@@ -114,10 +84,10 @@ function makeLabel(name) {
   zonalLabel.classList.add('btn-light');
   zonalLabel.classList.add('btn-details');
   zonalLabel.classList.add('user-shape');
-  zonalLabel.classList.add('col-8');
-  zonalLabel.classList.add('col-sm-9');
-  zonalLabel.classList.add('col-md-9');
-  zonalLabel.classList.add('col-lg-9');
+  zonalLabel.classList.add('col-7');
+  zonalLabel.classList.add('col-sm-8');
+  zonalLabel.classList.add('col-md-8');
+  zonalLabel.classList.add('col-lg-8');
 
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
   zonalLabel.setAttribute('title', `View details for ${stripUserArea(name)}`);
@@ -217,6 +187,60 @@ function makeOverviewLabel() {
   Overview.innerHTML = '<h3>Overview</h3>';
   return Overview;
 }
+
+// get geojson for path soo we can zoom to the area
+async function getExlporeGeoJson(areahml, mapComponent) {
+  const area = areahml.replace('_', ' ');
+  const currentshapes = store.getStateItem('userareas');
+  const shape = Object.keys(currentshapes).filter((value, index, array) => {
+    return currentshapes[value][0].name === area;
+  })
+  const val = shape[0];
+  const shapeObj = currentshapes[val];
+
+  const zoomgeojson = shapeObj[2].userarea_buffered;
+  const zoomlayer = L.geoJSON(zoomgeojson);
+  const zoonbounds =  zoomlayer.getBounds();
+  mapComponent.map.flyToBounds(zoonbounds.pad(0.2));
+}
+
+// Makes main title for an individual short zonal stats item
+// @return DOM element
+function makeZoom(name, mapComponent) {
+  const Zoom = makeDiv();
+  const HTMLName = makeHTMLName(name);
+
+  Zoom.classList.add('zonal-label-zoom');
+  Zoom.classList.add('btn');
+  Zoom.classList.add('btn-light');
+  Zoom.classList.add('btn-details');
+  Zoom.classList.add('user-shape');
+  Zoom.classList.add('col-1');
+  Zoom.setAttribute('id', `label-name-zoom-${HTMLName}`);
+  Zoom.setAttribute('title', `Zoom to ${stripUserArea(name)}`);
+  Zoom.setAttribute('aria-label', `Zoom to ${stripUserArea(name)}`);
+
+  Zoom.innerHTML = `<i class="fas fa-search-location" id="svg-name-zoom-${HTMLName}" style="z-index: -99;"></i>`;
+  Zoom.addEventListener('click', (e) => {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'zoom area');
+
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+    e.preventDefault();
+
+    const areanameid = returnSimpleButtonElementId(e.target);
+    let areaname = stripUserArea(areanameid);
+    const zoomElemName = `zonal-stats-wrapper-${areaname}`;
+    // const zoomElem = document.getElementById(zoomElemName);
+    // zoomElem.parentNode.removeChild(zoomElem);
+    areaname = areaname.replace('-USERAREA-', '').replace('_', ' ');
+    getExlporeGeoJson(areaname, mapComponent);
+  });
+
+  return Zoom;
+}
+
 // Makes main title for an individual short zonal stats item
 // @return DOM element
 function makeRemoveLabel(name, mapComponent) {
@@ -1256,6 +1280,11 @@ function drawShortZonalStats(data, name, mapComponent) {
     const rem = makeRemoveLabel(name, mapComponent);
     wrapper.insertBefore(rem, wrapper.childNodes[0]);
   }
+
+  const zoom = makeZoom(name, mapComponent);
+  wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+
+
   const ovr = makeOverviewLabel();
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
   buttonHolder.innerHTML = ovr.innerHTML;

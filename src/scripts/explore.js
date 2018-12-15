@@ -137,11 +137,6 @@ export class Explore extends Component {
       this.drawUserAreaFromUsereas();
     });
 
-
-    document.getElementById('explore-title').addEventListener('click', (e) => {
-      this.getExlporeGeoJson('Area_3', this.mapComponent);
-    })
-
     document.getElementById('btn-reset').addEventListener('click', (e) => {
       const activeNav = store.getStateItem('activeNav');
       store.clearState();
@@ -154,22 +149,6 @@ export class Explore extends Component {
     // uncomment this if we want to add the draw area button to leaflet
     // control
     // this.addDrawButtons(mapComponent);
-  }
-
-  // get geojson for path soo we can zoom to the area
-  async getExlporeGeoJson(areahml, mapComponent) {
-    const area = areahml.replace('_', ' ');
-    const currentshapes = store.getStateItem('userareas');
-    const shape = Object.keys(currentshapes).filter((value, index, array) => {
-      return currentshapes[value][0].name === area;
-    })
-    const val = shape[0];
-    const shapeObj = currentshapes[val];
-    const paddingzoom = 150;
-    const zoomgeojson = shapeObj[2].userarea_buffered;
-    const zoomlayer = L.geoJSON(zoomgeojson);
-    const zoonbounds =  zoomlayer.getBounds();
-    mapComponent.map.flyToBounds(zoonbounds, {padding: [paddingzoom, paddingzoom]});
   }
 
   // generic do thing functon for empty blocks

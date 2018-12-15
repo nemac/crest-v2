@@ -536,8 +536,17 @@ div.zonal-asset {
   padding: 0px;
   svg {
     vertical-align: -.50em;
+   }
+ }
+
+  .zonal-label-zoom {
+    width: 25px !important;
+    height: 40px;
+    padding: 0px;
+    svg {
+      vertical-align: -.50em;
+    }
   }
-}
 
 .zonal-long-wrapper {
   width: 100%;
