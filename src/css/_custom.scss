@@ -1157,38 +1157,22 @@ html, body {
 
 @media (max-width: 500px) {
 
-  .main-navbar-toggle {
-    z-index: 400 !important;
-  }
-
-  .geocoder-control.leaflet-control.geocoder-control-expanded{
-    position: fixed;
-    width: 275px !important;
-    z-index: 5000;
-    top: 0;
-  }
+  // .geocoder-control.leaflet-control.geocoder-control-expanded {
+  //
+  // }
 
   .collapse-focus {
     position: fixed;
-    top: 0;
-    z-index: 4601 !important;
+    width: 275px !important;
+    z-index: 5000;
+    top: 60px;
+
+    .geocoder-control-input.leaflet-bar {
+      width: 275px;
+      z-index: 4610 !important;
+    }
 
     .btn-search-locations-collapse-holder {
-      position: fixed;
-      top: 0;
-      z-index: 4601 !important;
-    }
-
-    .geocoder-control-input.leaflet-bar {
-      position: fixed;
-      top: 0;
-      z-index: 4601 !important;
-    }
-
-    .geocoder-control-input.leaflet-bar {
-      position: fixed;
-      top: 0;
-      width: 275px;
       z-index: 4601 !important;
     }
 
@@ -1197,29 +1181,9 @@ html, body {
     }
 
     .leaflet-touch .geocoder-control-suggestions {
-      position: fixed;
-      z-index: 4601 !important;
       height: 500px !important;
       max-height: 500px !important;
     }
-  }
-
-  .geocoder-control-suggestions {
-    max-height: 500px !important;
-    z-index: 4601 !important;
-  }
-
-  .btn-mapshareurl-holder {
-    z-index: 1000 !important;
-  }
-
-  .leaflet-touch .geocoder-control-suggestions {
-    position: fixed;
-    width: 275px;
-    z-index: 4601 !important;
-    top: 25px !important;
-    height: 500px !important;
-    max-height: 500px !important;
   }
 }
 
