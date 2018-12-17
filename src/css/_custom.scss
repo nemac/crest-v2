@@ -28,6 +28,80 @@ html, body {
     height: 100%;
 }
 
+.making-of-examples {
+  .making-of-math {
+    height: 50px;
+    font-size: 2rem;
+    padding-top: 0px;
+    margin-top: 10%;
+  }
+  .figure-caption {
+    color: $body-color !important;
+  }
+}
+
+.making-of-space-header {
+  margin-top: 30px !important;
+}
+
+#exposure-holder {
+  h5 {
+    margin: 15px !important;
+  }
+}
+
+
+.making-of-row {
+  color: $body-color;
+  margin-top: 15px;
+}
+
+.making-of-box {
+  display: inline-block;
+  height: 200px;
+  padding: $padding15;
+  text-align: center;
+}
+
+.making-of-math {
+  display: inline-block;
+  padding-top: 2%;
+  height: 200px;
+  font-size: 5rem;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+}
+.making-of-main-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.making-of-secondary-text {
+  font-size: 1rem;
+}
+
+.making-of-threat-box {
+  background-color: #cf6d2c;
+}
+
+.making-of-asset-box {
+  background-color: #417da0;
+}
+
+.making-of-community-exposure-box {
+  background-color: #45818e;
+  .making-of-main-text {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    vertical-align: middle;
+  }
+}
+
+
+
+
 .main-navbar-toggle {
     z-index: 5000 !important;
 }
