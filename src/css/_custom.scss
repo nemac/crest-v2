@@ -1157,25 +1157,32 @@ html, body {
 
 @media (max-width: 500px) {
 
+  .geocoder-control.leaflet-control.geocoder-control-expanded{
+    position: absolute;
+    top: 0px;
+    z-index: 4601 !important;
+  }
 
   .collapse-focus {
+    // position: absolute;
+    // top: -115px;
     z-index: 4601 !important;
 
     .btn-search-locations-collapse-holder {
-      position: absolute;
-      top: -115px;
+      // position: absolute;
+      // top: -115px;
       z-index: 4601 !important;
     }
 
     .geocoder-control-input.leaflet-bar {
-      position: absolute;
-      top: -115px;
+      // position: absolute;
+      // top: -115px;
       z-index: 4601 !important;
     }
 
     .geocoder-control-input.leaflet-bar {
-      position: absolute;
-      top: -115px;
+      // position: absolute;
+      // top: -115px;
       z-index: 4601 !important;
     }
 
@@ -1185,7 +1192,7 @@ html, body {
   }
 
   .leaflet-touch .geocoder-control-suggestions {
-    top: -90px !important;
+    top: 25px !important;
   }
 
 
