@@ -118,6 +118,7 @@ function initMapComponent() { // add parameter for type of explore
       hasShareURL,
       theStartNav
     });
+    shareurl = new ShareUrl('', { mapComponent, URLCls });
     // add switch for type of explore
     searchLocationsComponent = new SearchLocations('', {
       mapComponent,
@@ -126,7 +127,6 @@ function initMapComponent() { // add parameter for type of explore
       hasShareURL,
       theStartNav
     });
-    shareurl = new ShareUrl('', { mapComponent, URLCls });
   }
 
   // restore only if first render
