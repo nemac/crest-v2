@@ -158,22 +158,6 @@ html, body {
 
 .bnt-primary:active {
   background-color: $btn-color-secondary !important;
-  background-size: 100% !important;;
-  transition: background 0s !important;;
-}
-
-.bnt-primary:hover {
-  background: $btn-color-secondary radial-gradient(circle, transparent 1%, $btn-color-secondary 1%) center/15000% !important;
-}
-
-
-.bnt-primary {
-  background-position: center !important;
-  transition: background 0.8s !important;
-}
-
-.bnt-primary:active {
-  background-color: $btn-color-secondary !important;
   background-size: 100% !important;
   transition: background 0s !important;
 }
@@ -262,7 +246,7 @@ html, body {
   .brand-maplist-holder {
     position: fixed !important;
     top: 135px !important;
-    width: 20% !important;
+    width: 20.6% !important;
     min-width: 250px;
     background-color: $body-bg !important;
     border-top-left-radius:  4px !important;
@@ -328,7 +312,7 @@ html, body {
     overflow: scroll !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
-    width: 105.3% !important;
+    width: 108.3% !important;
     min-width: 250px !important;
     margin-right: 20px !important;
 
@@ -466,7 +450,28 @@ html, body {
 
   $margin: 5px;
   $padding: 5px;
+  $btn-color-secondary: $gray-800;
+  $btn-color-prinary: $gray-700;
 
+  .btn-secondary:active {
+    background-color: $gray-800 !important;
+    background-size: 100% !important;
+    transition: background 0s !important;
+  }
+
+  .btn-secondary:hover {
+    background: $gray-800 radial-gradient(circle, transparent 1%, $gray-800 1%) center/15000% !important;
+  }
+
+  .bnt-primary:hover {
+    background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
+  }
+
+  .bnt-primary:active {
+    background-color: $gray-700 !important;
+    background-size: 100% !important;
+    transition: background 0s !important;
+  }
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
@@ -1005,19 +1010,6 @@ html, body {
   margin-bottom: 5px !important
 }
 
-.geocoder-control-suggestions .geocoder-control-suggestion {
-  background-color: $body-color;
-  color: $body-bg;
-  border-color: $body-bg;
-}
-
-.geocoder-control-suggestions .geocoder-control-suggestion.geocoder-control-selected,
-.geocoder-control-suggestions .geocoder-control-suggestion:hover {
-  background: $body-bg;
-  color: $body-color;
-  border-color: $body-color;
-}
-
 .btn-search-locations-collapse-holder {
   width: 30px;
   height: 30px;
@@ -1105,11 +1097,89 @@ html, body {
   padding: 5px;
 }
 
+.geocoder-control-overall {
+  height: 30px;
+}
+
+.geocoder-control-input.leaflet-bar {
+  border-width: 0px;
+  height: 30px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+
+.geocoder-control-input {
+  padding-bottom: 0px;
+  padding-left: 0px;
+  color: $body-bg;
+  vertical-align: middle !important;
+  align-items: center !important;
+  height: 30px;
+}
+
+.geocoder-control {
+  width: 30px;
+  height: 30px;
+}
+
+.geocoder-control.leaflet-control.geocoder-control-expanded {
+  width: 275px !important;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  border-left: 0px;
+}
+
+.geocoder-control.leaflet-control {
+  width: 30px !important;
+}
+
+.geocoder-control-suggestions .geocoder-control-suggestion {
+  background-color: $body-color;
+  color: $body-bg;
+  border-color: $body-bg;
+}
+
+.geocoder-control-suggestions .geocoder-control-suggestion.geocoder-control-selected,
+.geocoder-control-suggestions .geocoder-control-suggestion:hover {
+  background: $body-bg;
+  color: $body-color;
+  border-color: $body-color;
+}
+
 // responive explore buttons
 @media (max-width: 768px) {
   .leaflet-draw-tooltip-top {
       font-size: 1.5em !important;;
   }
+}
+
+@media (max-width: 500px) {
+
+
+  .collapse-focus {
+    .btn-search-locations-collapse-holder {
+      position: absolute;
+      top: -115px;
+    }
+
+    .geocoder-control-input.leaflet-bar {
+      position: absolute;
+      top: -115px;
+    }
+
+    .geocoder-control-input.leaflet-bar {
+      position: absolute;
+      top: -115px;
+    }
+  }
+
+  .leaflet-touch .geocoder-control-suggestions {
+    top: -90px !important;
+  }
+
+
 }
 
 // responive explore buttons
@@ -1329,51 +1399,13 @@ html, body {
   align-items: center !important;
 }
 
-.geocoder-control-overall {
-  height: 30px;
-}
-
-.geocoder-control-input.leaflet-bar {
-  border-width: 0px;
-  height: 30px;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-}
-
 .btn-search-locations-collapse-holder.leaflet-bar{
   border-width: 0px;
   height: 30px;
 }
 
-.geocoder-control-input {
-  padding-bottom: 0px;
-  padding-left: 0px;
-  color: $body-bg;
-  vertical-align: middle !important;
-  align-items: center !important;
-  height: 30px;
-}
-
-.geocoder-control {
-  width: 30px;
-  height: 30px;
-}
-
-.geocoder-control.leaflet-control.geocoder-control-expanded {
-  width: 275px !important;
-}
-
-.leaflet-control-zoom.leaflet-bar.leaflet-control {
-  border-left: 0px;
-}
-
 #btn-mapinfo-holder, #btn-mapshareurl-holder {
   border-left: 0px;
-}
-
-.geocoder-control.leaflet-control {
-  width: 30px !important;
 }
 
 .mapinfo-math-icon {
@@ -1533,6 +1565,32 @@ html, body {
     margin-right: 5px;
   }
 }
+
+.search-locations-popup {
+
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
+  h5 {
+    padding-left: 5px !important;
+  }
+
+  .leaflet-popup-content {
+    min-width: 280px !important;
+  }
+
+  .searchlocations_list {
+    min-width: 280px !important;
+  }
+
+  .leaflet-popup-close-button {
+    top: 15px !important;
+    z-index: 4000;
+  }
+}
+
 
 .map-information-popup  {
   bottom: 0px !important;
