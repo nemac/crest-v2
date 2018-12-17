@@ -28,6 +28,11 @@ html, body {
     height: 100%;
 }
 
+#about-nav-holder {
+  padding-top: 15px !important;
+  background-color: $body-bg !important;
+}
+
 .making-of-examples {
   .making-of-math {
     height: 50px;
@@ -37,9 +42,11 @@ html, body {
   }
   .figure-caption {
     color: $body-color !important;
+    margin-left: 15px;
   }
   .tile-caption {
     font-weight: 800;
+    margin-left: 0px !important
   }
 }
 
@@ -1022,11 +1029,15 @@ html, body {
 
 .definition-text {
   font-size: .9em;
+  font-weight: 300;
+  margin-left: 25px;
 }
 
 .term {
+  margin-top: 15px;
+  margin-left: 15px;
   font-size: 1em;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .userarealabel {
