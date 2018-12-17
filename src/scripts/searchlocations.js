@@ -94,6 +94,8 @@ export class SearchLocations extends Component {
     dnoneElem.classList.add('d-none');
     const dnoneBntElem = document.querySelector('.maplayerslisttoggle-collapse');
     dnoneBntElem.classList.add('d-none');
+    const attElem = document.querySelector('.leaflet-control-attribution');
+    attElem.classList.add('d-none');
   }
 
   static searchBoxExpandBlurHandler(ev) {
@@ -103,6 +105,8 @@ export class SearchLocations extends Component {
     dnoneElem.classList.remove('d-none');
     const dnoneBntElem = document.querySelector('.maplayerslisttoggle-collapse');
     dnoneBntElem.classList.remove('d-none');
+    const attElem = document.querySelector('.leaflet-control-attribution');
+    attElem.classList.remove('d-none');
   }
 
   // handle collapse of search box.  removed from displays the collapse button
