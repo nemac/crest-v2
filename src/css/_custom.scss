@@ -1157,41 +1157,50 @@ html, body {
 
 @media (max-width: 500px) {
 
+  .main-navbar-toggle {
+    z-index: 400 !important;
+  }
+
   .geocoder-control.leaflet-control.geocoder-control-expanded{
-    position: absolute;
-    top: 0px;
-    z-index: 4601 !important;
+    position: fixed;
+    width: 275px !important;
+    z-index: 5000;
+    top: 0;
   }
 
   .collapse-focus {
-    // position: absolute;
-    // top: -115px;
+    position: fixed;
+    top: 0;
     z-index: 4601 !important;
 
     .btn-search-locations-collapse-holder {
-      // position: absolute;
-      // top: -115px;
+      position: fixed;
+      top: 0;
       z-index: 4601 !important;
     }
 
     .geocoder-control-input.leaflet-bar {
-      // position: absolute;
-      // top: -115px;
+      position: fixed;
+      top: 0;
       z-index: 4601 !important;
     }
 
     .geocoder-control-input.leaflet-bar {
-      // position: absolute;
-      // top: -115px;
+      position: fixed;
+      top: 0;
+      width: 275px;
       z-index: 4601 !important;
     }
 
     .leaflet-touch .geocoder-control-suggestions {
+      position: fixed;
       z-index: 4601 !important;
     }
   }
 
   .leaflet-touch .geocoder-control-suggestions {
+    position: fixed;
+    width: 90%;
     top: 25px !important;
   }
 
