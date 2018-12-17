@@ -9,7 +9,7 @@ export var navConfig = {
     {
       name: "exposure",
       ref: "about-nav-exposure",
-      text: "Identifying Exposure",
+      text: "Community Exposure Index",
       id: "about-nav-exposure",
       href: "./#About/"
     },
