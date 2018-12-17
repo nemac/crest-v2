@@ -1159,19 +1159,28 @@ html, body {
 
 
   .collapse-focus {
+    z-index: 4601 !important;
+
     .btn-search-locations-collapse-holder {
       position: absolute;
       top: -115px;
+      z-index: 4601 !important;
     }
 
     .geocoder-control-input.leaflet-bar {
       position: absolute;
       top: -115px;
+      z-index: 4601 !important;
     }
 
     .geocoder-control-input.leaflet-bar {
       position: absolute;
       top: -115px;
+      z-index: 4601 !important;
+    }
+
+    .leaflet-touch .geocoder-control-suggestions {
+      z-index: 4601 !important;
     }
   }
 
