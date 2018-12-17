@@ -90,11 +90,19 @@ export class SearchLocations extends Component {
   static searchBoxExpandFocusHandler(ev) {
     const elem = document.querySelector('.geocoder-control');
     elem.classList.add('collapse-focus');
+    const dnoneElem = document.querySelector('.leaflet-bottom.leaflet-left');
+    dnoneElem.classList.add('d-none');
+    const dnoneBntElem = document.querySelector('.maplayerslisttoggle-collapse');
+    dnoneBntElem.classList.add('d-none');
   }
 
   static searchBoxExpandBlurHandler(ev) {
     const elem = document.querySelector('.geocoder-control');
     elem.classList.remove('collapse-focus');
+    const dnoneElem = document.querySelector('.leaflet-bottom.leaflet-left');
+    dnoneElem.classList.remove('d-none');
+    const dnoneBntElem = document.querySelector('.maplayerslisttoggle-collapse');
+    dnoneBntElem.classList.remove('d-none');
   }
 
   // handle collapse of search box.  removed from displays the collapse button
