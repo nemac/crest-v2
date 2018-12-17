@@ -58,6 +58,9 @@ export class SearchLocations extends Component {
     this.searchBoxElement = document.querySelector('.geocoder-control-input.leaflet-bar');
     this.searchBoxElement.addEventListener('mousedown', this.searchBoxExpandClickHandler.bind(this));
     this.searchBoxElement.addEventListener('click', this.searchBoxExpandClickHandler.bind(this));
+    this.searchBoxElement.addEventListener('focus', SearchLocations.searchBoxExpandFocusHandler.bind(this));
+    this.searchBoxElement.addEventListener('focusout', SearchLocations.searchBoxExpandBlurHandler.bind(this));
+    this.searchBoxElement.addEventListener('blur', SearchLocations.searchBoxExpandBlurHandler.bind(this));
 
     // handle collapse of search box.  removed from displays the collapse button
     // from dom
@@ -82,6 +85,16 @@ export class SearchLocations extends Component {
     L.DomUtil.removeClass(this.collapseSearch, 'd-none');
     // ga event action, category, label
     googleAnalyticsEvent('click', 'searchbox', 'expand');
+  }
+
+  static searchBoxExpandFocusHandler(ev) {
+    const elem = document.querySelector('.geocoder-control');
+    elem.classList.add('collapse-focus');
+  }
+
+  static searchBoxExpandBlurHandler(ev) {
+    const elem = document.querySelector('.geocoder-control');
+    elem.classList.remove('collapse-focus');
   }
 
   // handle collapse of search box.  removed from displays the collapse button
