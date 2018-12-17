@@ -1156,11 +1156,6 @@ html, body {
 }
 
 @media (max-width: 500px) {
-
-  // .geocoder-control.leaflet-control.geocoder-control-expanded {
-  //
-  // }
-
   .collapse-focus {
     position: fixed;
     width: 275px !important;
@@ -1180,9 +1175,16 @@ html, body {
       max-height: 500px !important;
     }
 
+    .geocoder-control-suggestion {
+      font-size: 10px !important;
+    }
+
     .leaflet-touch .geocoder-control-suggestions {
+      position: fixed;
       height: 500px !important;
       max-height: 500px !important;
+      z-index: 4601 !important;
+      font-size: 12px !important;
     }
   }
 }
