@@ -43,8 +43,12 @@ html, body {
   .figure-caption {
     color: $body-color !important;
     margin-left: 15px;
+    font-size: .9em;
+    font-weight: 300;
+    margin-left: 25px;
   }
   .tile-caption {
+    font-size: 1em;
     font-weight: 800;
     margin-left: 0px !important
   }
@@ -181,6 +185,13 @@ html, body {
 
 .about-main-text, .about-tool-text {
     margin: $margin;
+    padding: $padding15;
+}
+
+.about-tool-text {
+  ol {
+    margin-top: $margin15;
+  }
 }
 
 #primary-shape-holder {
@@ -1842,7 +1853,7 @@ a.nav-link.active {
 }
 
 a.nav-link {
-  color: $body-color;
+  color: rgba(255, 255, 255, 0.5);
   border-bottom: 1px solid $gray-200;
   margin-bottom: $margin;
   margin-left: $margin;
