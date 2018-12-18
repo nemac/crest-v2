@@ -387,6 +387,12 @@ div.zonal-asset {
   }
 }
 
+@media (min-width: 993px) {
+  .zonal-long-name {
+    padding: 15px 15px 0px 15px !important;
+  }
+}
+
 
 @media (max-width: 993px) { //768px
   .zonal-item-fishwild {
@@ -436,7 +442,33 @@ div.zonal-asset {
   }
 }
 
+@media (max-height: 900px) {
+  .zonal-long-button  {
+    height: 50px !important;
+  }
+  .zonal-button-text{
+    font-size: 14px !important;
+  }
+}
 
+
+@media (max-height: 800px) {
+  .zonal-long-button  {
+    height: 50px !important;
+  }
+
+  .zonal-button-text{
+    font-size: 14px !important;
+  }
+
+  .zonal-stats-button-holder {
+    margin-top: 5px !important;
+  }
+
+  .zonal-long-name {
+    margin-bottom: 0px !important;
+  }
+}
 
 @media (max-width: 535px){
   .zonal-item-fishwild {
@@ -671,34 +703,7 @@ div.zonal-asset {
   line-height: $box-dimensions;
   vertical-align: top;
 }
-//
-// .zonal-long-table-item.zonal-long-table-item-threat {
-//   font-size: 8px;
-// }
-//
-// @media (max-width: 1400px) {
-//   .zonal-long-table-item.zonal-long-table-item-threat {
-//     font-size: 6px;
-//   }
-// }
-//
-// @media (max-width: 1075px) {
-//   .zonal-long-table-item.zonal-long-table-item-threat {
-//     font-size: 0px;
-//   }
-// }
-//
-// @media (max-width: 992px) { //768px
-//   .zonal-long-table-item.zonal-long-table-item-threat {
-//     font-size: 8px;
-//   }
-// }
-//
-// @media (max-width: 400px) {
-//   .zonal-long-table-item.zonal-long-table-item-threat {
-//     font-size: 0px;
-//   }
-// }
+
 .zonal-long-table-asset .zonal-long-table-header-simple-low {
     position: absolute;
 }
@@ -1699,6 +1704,72 @@ div.zonal-asset {
 }
 
 @media (max-width: 992px) { //768px
+
+  $margin: 5px;
+  $padding: 5px;
+  $btn-color-secondary: $gray-800;
+  $btn-color-prinary: $gray-700;
+
+
+    .zonal-stats-short-title-holder {
+      display: none;
+      h3 {
+        font-size: 1.2rem !important;
+      }
+    }
+
+    .zonal-long-name {
+      font-size: 1rem !important;
+      padding: $padding $padding 0px $padding !important;
+    }
+
+    .zonal-long-button {
+      height: 30px !important;
+    }
+
+    .zonal-button-text {
+      display: none;
+    }
+
+    .zonal-stats-button-holder {
+      margin-top: 5px !important;
+    }
+
+
+    .zonal-stats-wrapper {
+      padding-top: $padding !important;
+    }
+
+    .zonal-label-remove {
+      font-size: 0rem !important;
+      .fa-trash-alt{
+        font-size: 1rem !important;
+        margin-top: .2rem !important;
+      }
+    }
+
+    .zonal-label {
+      font-size: 1rem !important;
+
+      .btn-icon {
+        font-size: 1rem !important;
+      }
+      .btn-icon:after {
+          content: "  ";
+      }
+    }
+
+    #zonal-header {
+      margin-bottom: 0px !important;
+    }
+
+    .zonal-long-graph-wrapper {
+      margin-top: $margin !important;
+      margin-bottom: $margin !important;
+      padding-right: $padding !important;
+    }
+
+
   .zonal-long-graph-label{
 
     &-social-vulnerability {
@@ -1735,6 +1806,51 @@ div.zonal-asset {
 
 
 
+@media (max-width: 768px) {
+
+  .zonal-stats-short-title-holder {
+    display: none;
+    h3 {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  .zonal-label-remove {
+    .fa-trash-alt{
+      margin-top: .35rem !important;
+    }
+  }
+
+  .zonal-long-wrapper {
+    h5 {
+      font-size: 1.0em !important;
+      padding-bottom: 3px !important;
+    }
+
+    h6 {
+      font-size: 0.80em !important;
+    }
+
+    .zonal-long-table-header-simple,
+    .zonal-long-table-item,
+    .zonal-long-graph-label-text,
+    .zonal-long-graph-axis-label  {
+      font-size: 0.80em !important;
+    }
+
+    .zonal-long-table-row-header-simple {
+        height: 15px !important;
+    }
+  }
+
+  .zonal-long-table-item {
+    height: 46px !important;
+  }
+
+  .selected-cell {
+    height: 66px !important;
+  }
+}
 
 @media (max-width: 450px) {
   .zonal-long-graph-label{
@@ -1824,6 +1940,41 @@ div.zonal-asset {
         left: -55% !important;
       }
     }
+  }
+}
+
+// responive explore buttons
+@media (max-width: 450px) {
+  .zonal-long-graph-bars {
+    height: 90px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 375px) {
+  .zonal-long-graph-bars {
+    height: 80px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 360px) {
+  .zonal-long-graph-bars {
+    height: 75px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 350px) {
+  .zonal-long-graph-bars {
+    height: 75px !important;
+  }
+}
+
+// responive explore buttons
+@media (max-width: 320px) {
+  .zonal-long-graph-bars {
+    height: 45px !important;
   }
 }
 
