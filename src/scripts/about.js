@@ -3,6 +3,8 @@ import { AboutNavBar } from './aboutNav';
 import { Component } from './components';
 import aboutTemplate from '../templates/about.html';
 
+
+
 export class About extends Component {
   /** Initialize Application */
   constructor(aboutPlaceholderId, props) {
@@ -16,3 +18,8 @@ export class About extends Component {
     this.aboutNavComponent = new AboutNavBar('about-nav-holder');
   }
 }
+
+
+$(() => {
+
+});

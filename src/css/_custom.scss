@@ -39,7 +39,9 @@ html, body {
     font-size: 2rem;
     padding-top: 0px;
     margin-top: 10%;
+    max-width: 138px !important;
   }
+  
   .figure-caption {
     color: $body-color !important;
     margin-left: 15px;
@@ -860,7 +862,7 @@ html, body {
   }
 
   .search-locations-popup .leaflet-popup-content-wrapper {
-    width: 150px !important;    
+    width: 150px !important;
   }
 
   .search-locations-popup {
