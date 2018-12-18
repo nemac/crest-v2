@@ -70,7 +70,6 @@ export class ZonalStatsAPI {
         }
       } catch (err) {
         numAttempts += 1;
-        console.log("numAttempts: ", numAttempts);
       }
     }
     // We've tried three times with no success. Throw an error with a message to the user.
