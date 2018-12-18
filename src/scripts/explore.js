@@ -7,11 +7,18 @@ import buffer from '@turf/buffer';
 
 // default map template
 import exploreTemplate from '../templates/explore.html';
+import caseStudiesTemplate from '../templates/case_studies.html';
 
 import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
+import {
+  ToggleCritInfra,
+  ToggleStormSurge,
+  ToggleExposed,
+  SandyAreaGeoJson
+} from './case_study_helper.js'
 
 import { HubIntersectionApi } from './HubIntersectionAPI';
 
@@ -107,6 +114,7 @@ export class Explore extends Component {
     this.HubIntersectionApi = new HubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
     this.DefaultExploreText = 'Start Exploring the Assessment';
+    this.ExamplesExploreText = 'Case Studies';
     this.exlporeAssmentMessage = 'To start examining the assessment click the draw area button and then sketch an area on the map. If you have a shapefile of the region, use the upload shapefile button.';
     this.exlporeHubMessage = 'To start searching for a place to do a resilience project click the draw area button and then sketch an area on the map. If you have a shapefile of the area, use the upload shapefile button.';
 
@@ -168,6 +176,7 @@ export class Explore extends Component {
       const exploreTitle = document.getElementById('explore-title');
       const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
       if (activeNav) {
+        Explore.enableShapeButtons();
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubsFromStateObject();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
@@ -176,6 +185,15 @@ export class Explore extends Component {
           if (checkValidObject(checkHubIntersectionJson)) {
             Explore.dismissExploreDirections();
           }
+        } else if (activeNav === 'main-nav-map-examples') {
+            Explore.dismissExploreDirections();
+            disableZonalButtons();
+            disableOverView();
+            Explore.dismissShapeButtons();
+            Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+
+            // this.drawHubsFromStateObject();
+
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -216,6 +234,7 @@ export class Explore extends Component {
       Explore.dismissExploreDirections();
       disableZonalButtons();
       disableOverView();
+      Explore.enableShapeButtons();
 
       if (activeNav) {
         // active nav is search hubs
@@ -245,6 +264,38 @@ export class Explore extends Component {
           // check if there is explore assement data in the state store
           // if there is NONE dispolay the text
           // that tells the user what to do
+        } else if (activeNav === 'main-nav-map-examples') {
+            Explore.dismissExploreDirections();
+            disableZonalButtons();
+            disableOverView();
+            Explore.dismissShapeButtons();
+            Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+
+            const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
+            if (zonalAreaWrapper) {
+              zonalAreaWrapper.innerHTML = caseStudiesTemplate;
+            }
+
+            const elemTest = zonalAreaWrapper.querySelector('#sandy-case-study1').addEventListener( 'click', (e) => {
+              ToggleCritInfra(this.componentElem, this.mapComponent);
+            })
+
+            const elemTest2 = zonalAreaWrapper.querySelector('#sandy-case-study2').addEventListener( 'click', (e) => {
+              ToggleStormSurge(this.componentElem, this.mapComponent);
+            })
+
+            const elemTest3 = zonalAreaWrapper.querySelector('#sandy-case-study3').addEventListener( 'click', (e) => {
+              ToggleExposed(this.componentElem, this.mapComponent);
+            })
+
+            zonalAreaWrapper.querySelector('#sandy-case-study-geojson').addEventListener( 'click', (e) => {
+              this.drawCaseStudyArea(SandyAreaGeoJson,'The Pike');
+            })
+
+
+
+            // this.drawHubsFromStateObject();
+
         } else if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
@@ -281,6 +332,16 @@ export class Explore extends Component {
         disableOverView();
       }
     });
+  }
+
+  static dismissShapeButtons() {
+    const directionElem = document.getElementById('primary-shape-holder');
+    directionElem.classList.add('d-none');
+  }
+
+  static enableShapeButtons() {
+    const directionElem = document.getElementById('primary-shape-holder');
+    directionElem.classList.remove('d-none');
   }
 
   static dismissExploreDirections() {
@@ -965,6 +1026,27 @@ export class Explore extends Component {
 
     return null;
   }
+
+  // used by search by location
+  drawCaseStudyArea(GeoJSON, Label) {
+    if (checkValidObject(GeoJSON)) {
+
+      const checklayer = this.drawAreaGroup.getLayers();
+      if (checklayer.length > 0) {
+        this.drawAreaGroup.clearLayers();
+      } else {
+        // convert geoJson to leaflet layer
+        const layer = L.geoJson(GeoJSON);
+
+        layer.id = Label;
+
+        // add layer to the leaflet map
+        this.drawAreaGroup.addLayer(layer);
+        this.addUserAreaLabel(layer, Label);
+      }
+    }
+  }
+
 
   // used by search by location
   drawUserArea() {

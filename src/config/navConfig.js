@@ -14,6 +14,13 @@ export var navConfig = {
     href: "./#SearchHubs"
   },
   {
+    name: "examples",
+    ref: "main-nav-map-examples",
+    text: "Case Studies (examples)",
+    id: "main-nav-map-examples",
+    href: "./#Examples"
+  },
+  {
     name: "download",
     ref: "main-nav-download",
     text: "Download Data",
