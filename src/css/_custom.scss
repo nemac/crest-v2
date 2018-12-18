@@ -285,7 +285,7 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    // background-color: $btn-color-secondary !important;;
+    // background-color: $btn-color-secondary !important;
   }
 }
 
@@ -337,7 +337,7 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    background-color: $btn-color-secondary !important;;
+    background-color: $btn-color-secondary !important;
   }
 
   .brand-maplist-holder {
@@ -360,7 +360,7 @@ html, body {
   }
 
   .map-list-column {
-    height: 0% !important
+    height: 0% !important;
   }
 
   #maplayers_list-holder {
@@ -393,7 +393,7 @@ html, body {
 
     .navbar-toggler {
       display: inherit !important;
-      float: right !important;;
+      float: right !important;
       margin-top: 10px !important;
       background-color: $body-bg !important;
       margin-right: 10px !important;
@@ -529,19 +529,19 @@ html, body {
 
 @media (max-height: 700px) {
   .maplayers_list, #maplayers_list-holder {
-    max-height: 375px !important
+    max-height: 375px !important;
   }
 }
 
 @media (max-height: 580px) {
   .maplayers_list, #maplayers_list-holder {
-    max-height: 275px !important
+    max-height: 275px !important;
   }
 }
 
 @media (max-height: 580px) {
   .maplayers_list, #maplayers_list-holder {
-    max-height: 250px !important
+    max-height: 250px !important;
   }
 }
 // responive explore buttons
@@ -878,7 +878,6 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    // background-color: $btn-color-secondary !important;;
   }
 
   .navbar-brand {
@@ -997,7 +996,6 @@ html, body {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
-    // background-color: $btn-color-secondary !important;;
   }
 }
 
@@ -1197,7 +1195,7 @@ html, body {
 }
 
 .leaflet-draw-tooltip-top {
-  width: 100% !important;;
+  width: 100% !important;
   visibility: inherit !important;
   white-space: nowrap;
   width: min-content;
@@ -1205,7 +1203,7 @@ html, body {
   color: $body-bg-semiTransparent;
   box-shadow: $box-shadow-default;
   z-index: 500;
-  font-size: 2em !important;;
+  font-size: 2em !important;
   position: absolute !important;
   top: 0px !important;
   left: 0px !important;
@@ -1266,7 +1264,7 @@ html, body {
 // responive explore buttons
 @media (max-width: 768px) {
   .leaflet-draw-tooltip-top {
-      font-size: 1.5em !important;;
+      font-size: 1.5em !important;
   }
 }
 
@@ -1308,7 +1306,7 @@ html, body {
 // responive explore buttons
 @media (max-width: 375px) {
   .leaflet-draw-tooltip-top {
-      font-size: 1.25em !important;;
+      font-size: 1.25em !important;
   }
 }
 
@@ -1335,17 +1333,6 @@ html, body {
   min-height: 0px;
 }
 
-
-// @media (min-height: 800px) {
-//   .user-shape {
-//     height: 60px !important;
-//   }
-//
-//   .upload-all {
-//     top: -5px !important;
-//   }
-// }
-
 .btn-light {
   background-color:  $body-color;
   color: $body-bg;
@@ -1353,7 +1340,6 @@ html, body {
   border-width: 0px;
   box-shadow: $box-shadow-default;
 }
-
 
 .user-shape {
   white-space: pre-wrap;      /* CSS3 */
@@ -1455,8 +1441,6 @@ html, body {
 .btn-copy-share {
   cursor: pointer;
   position: relative;
-  // top: -69px;
-  // left: 92px;
   z-index: 999999999;
   height: 50px;
   width: 100px;
