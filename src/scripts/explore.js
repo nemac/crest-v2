@@ -981,19 +981,14 @@ export class Explore extends Component {
 
       const activeNav = store.getStateItem('activeNav');
 
-      if (activeNav) {
-        if (activeNav === 'main-nav-map-searchhubs') {
-          Explore.removeExistingHubs();
-          this.getHubsZonal();
-          this.drawHubs();
-          this.drawZonalStatsForStoredHubs();
-        } else {
-          this.getZonal();
-        }
+      if (activeNav === 'main-nav-map-searchhubs') {
+        Explore.removeExistingHubs();
+        this.getHubsZonal();
+        this.drawHubs();
+        this.drawZonalStatsForStoredHubs();
       } else {
         this.getZonal();
       }
-
       return layer;
     }
     return null;
@@ -1432,23 +1427,19 @@ export class Explore extends Component {
       // update store
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', geojson);
-      if (activeNav) {
-        if (activeNav === 'main-nav-map-searchhubs') {
-          Explore.removeExistingHubs();
-          Explore.clearZonalStatsWrapperDiv();
+      if (activeNav === 'main-nav-map-searchhubs') {
+        Explore.removeExistingHubs();
+        Explore.clearZonalStatsWrapperDiv();
 
-          this.drawAreaGroup.clearLayers();
+        this.drawAreaGroup.clearLayers();
 
-          await this.getHubsZonal();
-          this.drawHubsFromStateObject();
-          this.drawZonalStatsForStoredHubs();
-        } else {
-          this.getZonal();
-        }
+        await this.getHubsZonal();
+        this.drawHubsFromStateObject();
+        this.drawZonalStatsForStoredHubs();
       } else {
         this.getZonal();
       }
-    });
+   });
   }
 
   static resetshapescounter() {
