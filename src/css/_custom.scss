@@ -39,12 +39,18 @@ html, body {
     font-size: 2rem;
     padding-top: 0px;
     margin-top: 10%;
+    max-width: 138px !important;
   }
+  
   .figure-caption {
     color: $body-color !important;
     margin-left: 15px;
+    font-size: .9em;
+    font-weight: 300;
+    margin-left: 25px;
   }
   .tile-caption {
+    font-size: 1em;
     font-weight: 800;
     margin-left: 0px !important
   }
@@ -181,6 +187,13 @@ html, body {
 
 .about-main-text, .about-tool-text {
     margin: $margin;
+    padding: $padding15;
+}
+
+.about-tool-text {
+  ol {
+    margin-top: $margin15;
+  }
 }
 
 #primary-shape-holder {
@@ -843,6 +856,18 @@ html, body {
 
 // responive explore buttons
 @media (max-width: 768px) {
+
+  .search-locations-popup .leaflet-popup-content-wrapper .leaflet-popup-content {
+    width: 150px !important;
+  }
+
+  .search-locations-popup .leaflet-popup-content-wrapper {
+    width: 150px !important;
+  }
+
+  .search-locations-popup {
+    min-width: 150px !important;
+  }
 
   .maplayers_list {
     top: 80px !important;
@@ -1842,7 +1867,7 @@ a.nav-link.active {
 }
 
 a.nav-link {
-  color: $body-color;
+  color: rgba(255, 255, 255, 0.5);
   border-bottom: 1px solid $gray-200;
   margin-bottom: $margin;
   margin-left: $margin;
