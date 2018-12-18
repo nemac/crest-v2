@@ -855,6 +855,18 @@ html, body {
 // responive explore buttons
 @media (max-width: 768px) {
 
+  .search-locations-popup .leaflet-popup-content-wrapper .leaflet-popup-content {
+    width: 150px !important;
+  }
+
+  .search-locations-popup .leaflet-popup-content-wrapper {
+    width: 150px !important;    
+  }
+
+  .search-locations-popup {
+    min-width: 150px !important;
+  }
+
   .maplayers_list {
     top: 80px !important;
   }
