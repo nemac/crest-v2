@@ -33,28 +33,7 @@ export class ZonalStatsAPI {
     };
     
     return axiosConfig
- }
-
-  // async httPut() {
-  //   this.cancelToken.cancel('Cancelled Ongoing Request');
-  //   this.cancelToken = CancelToken.source();
-  //   const axiosConfig = {
-  //     cancelToken: this.cancelToken.token,
-  //     headers: {
-  //       'content-type': 'text/plain'
-  //     }
-  //   };
-  //
-  //   try {
-  //     const response = await puy(this.url, postData, axiosConfig);
-  //     console.log(response.data);
-  //     return response.data.features[0].mean;
-  //   } catch (err) {
-  //     console.log(err)
-  //     return {};
-  //   }
-  // }
-
+  }
 
   async getZonalStatsSummary(postdata) {
     const axiosConfig = this.makeConfigObj(postdata);

@@ -1439,19 +1439,22 @@ export class Explore extends Component {
         try {
           await this.getZonal();
         } catch (e) {
-          // API call failed, roll it back
           // TODO: display message to the user (was the area too big? what happened?)
-          store.removeStateItem('userarea');
-          store.removeStateItem('userarea_buffered');
-          this.drawAreaGroup.removeLayer(layer);
-          this.drawAreaGroup.removeLayer(bufferedLayer);
-          const userareacount = store.getStateItem('userareacount');
-          store.setStoreItem('userareacount', userareacount - 1);
+          this.rollbackUserArea(layer, bufferedLayer); 
           store.setStoreItem('working_zonalstats', false);
           spinnerOff();
         }
       }
    });
+  }
+
+  rollbackUserArea(layer, bufferedLayer) {
+    store.removeStateItem('userarea');
+    store.removeStateItem('userarea_buffered');
+    this.drawAreaGroup.removeLayer(layer);
+    this.drawAreaGroup.removeLayer(bufferedLayer);
+    const userareacount = store.getStateItem('userareacount');
+    store.setStoreItem('userareacount', userareacount - 1);
   }
 
   static resetshapescounter() {
@@ -1705,9 +1708,15 @@ export class Explore extends Component {
     this.addUserAreaLabel(bufferedLayer);
 
     store.saveAction('addsavedgeojson');
-    await this.getZonal();
-    await this.storeShapes();
-    return '';
+    try {
+      await this.getZonal();
+    } catch (e) {
+      // TODO: Display a message to the user 
+      console.log('rollback uploaded feature');
+      this.rollbackUserArea(newLayer, bufferedLayer);
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff();
+    }
   }
 
   static async readGeojsonFile(file) {
