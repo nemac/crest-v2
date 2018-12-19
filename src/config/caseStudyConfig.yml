@@ -5,6 +5,7 @@ caseStudies:
     steps:
       - name: Location
         htmlid: sandy-case-study-step-1
+        nexthtmlid:  sandy-case-study-step-2
         narrative: U.S. Route 30 - White Horse Pike, Atlantic City is one of the main entry points into Atlantic City.
         actions:
           name: View it on the map
@@ -12,6 +13,7 @@ caseStudies:
           geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"mean":{"exposure":8.095615479621243,"asset":2.0521819678880195,"threat":7.358480856319473,"aquatic":5,"terrestrial":2,"hubs":6.156908665105386,"crit_infra":0.2006998764923837,"crit_facilities":0,"pop_density":0.5652531906134212,"social_vuln":0.2862289007822149,"drainage":3.3779333058871965,"erosion":0.540654590366406,"floodprone_areas":1.915500205846027,"geostress":0,"sea_level_rise":3.8905928365582545,"slope":3.3070193495265543,"storm_surge":3.163030053519967}},"geometry":{"type":"Polygon","coordinates":[[[-74.47557058418107,39.41830265237318],[-74.47700058418107,39.39903754258014],[-74.47724908482222,39.39776684356539],[-74.47779644509973,39.39655329621017],[-74.47862390521031,39.395438496721845],[-74.47970310542537,39.39446065846312],[-74.48099705807047,39.3936533014976],[-74.48246141521226,39.39304410288033],[-74.48404598860533,39.39265394721612],[-74.48569646980535,39.39249621014238],[-74.49601446980535,39.39225418607139],[-74.49777776059312,39.39234725278965],[-74.49948334562039,39.392705323138024],[-74.50106520350077,39.39331453267124],[-74.50246210219443,39.394151293345914],[-74.50361996923539,39.39518320753751],[-74.50449398481923,39.39637032326916],[-74.50505031673028,39.397666681886854],[-74.50526742995064,39.399022098091955],[-74.50587542995063,39.41809714483567],[-74.50574994452012,39.41943627406887],[-74.50529300956359,39.420731649089255],[-74.50452172861841,39.42193478644227],[-74.50346497151017,39.423000657347465],[-74.50216229372585,39.42388937230102],[-74.50066245581196,39.42456767312385],[-74.499021598218,39.42501017676316],[-74.49730113990267,39.42520032445151],[-74.4849451399027,39.42563228148638],[-74.48327926530045,39.425570809131806],[-74.48165681132639,39.42527252423086],[-74.48013370084328,39.424747705148846],[-74.47876243253518,39.42401443653142],[-74.47759027137886,39.423097986625656],[-74.47665761951119,39.42202993716735],[-74.47599662364529,39.42084709571155],[-74.47563006703518,39.41959022777433],[-74.47557058418107,39.41830265237318]]]}}]}'
       - name: Critical Infrastructure Assets
         htmlid: sandy-case-study-step-2
+        nexthtmlid:  sandy-case-study-step-3
         narrative: White Horse Pike is shown in the Critical Infrastructure input.
         actions:
           name: Show Critical Infrastructure Asset Input
@@ -19,6 +21,7 @@ caseStudies:
           legendToggle: CriticalInfrastructureTMS
       - name: Strom Surge Threats
         htmlid: sandy-case-study-step-3
+        nexthtmlid:  sandy-case-study-step-4
         narrative: With surge scenarios from only Category 1 storms, White Horse Pike could be inundated.
         actions:
           name: Show Storm Surge Threat Input
@@ -26,6 +29,7 @@ caseStudies:
           legendToggle: StormSurgeTMS
       - name: Community Exposure
         htmlid: sandy-case-study-step-4
+        nexthtmlid:  sandy-case-study-step-5
         narrative: White Horse Pike shows up as highly exposed, suggesting it is impacted by many other inputs in the Threat Index
         actions:
           name: Show Community Exposure
@@ -33,6 +37,7 @@ caseStudies:
           legendToggle: ExposureTMS
       - name: The viewer
         htmlid: sandy-case-study-step-5
+        nexthtmlid:  sandy-case-study-step-5
         narrative: Exlpore White Horse Pike in the vewer!
         actions:
           name: Exlpore in the viewer
@@ -43,6 +48,7 @@ caseStudies:
     steps:
       - name: Location
         htmlid: harvey-case-study-step-1
+        nexthtmlid: harvey-case-study-step-2
         narrative: Buffalo Bayou, Houston
         actions:
           name: View it on the map
@@ -50,6 +56,7 @@ caseStudies:
           geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"mean":{"exposure":8.555031791273844,"asset":3.991229993422495,"threat":3.7430388072791057,"aquatic":1.0210480157860118,"terrestrial":0,"hubs":"NaN","crit_infra":0.20609515457136593,"crit_facilities":0.12113571585178688,"pop_density":2.6639991229993423,"social_vuln":0,"drainage":1.8771102828327122,"erosion":0.07344880508660381,"floodprone_areas":1.3333698750274063,"geostress":1.1959000219250164,"sea_level_rise":0.04691953518965139,"slope":2.007016005262004,"storm_surge":0.33622012716509536}},"geometry":{"type":"Polygon","coordinates":[[[-95.41662656221605,29.76114966514909],[-95.41660656221605,29.761602663798854],[-95.41636680010032,29.763117745116638],[-95.41579102572193,29.764563049601445],[-95.41490138302939,29.76588299584819],[-95.4137320871645,29.767026825370493],[-95.41232810856773,29.767950553846706],[-95.41074344344136,29.76861866171085],[-95.40903903708669,29.769005459224722],[-95.4072804399832,29.769096073682327],[-95.40591968422986,29.769050075706073],[-95.40325125284207,29.769953190372913],[-95.4024208090092,29.770194478405255],[-95.39904680900919,29.771018416664596],[-95.39738841158238,29.771280779460817],[-95.39570274426372,29.771269585104584],[-95.39213274426373,29.770953609574367],[-95.39014873089089,29.77057773676026],[-95.38772550812048,29.76986159123125],[-95.38661792325688,29.769651199877263],[-95.3838018604103,29.769695402994135],[-95.38336922810583,29.769830368410258],[-95.38094916503763,29.770271403089083],[-95.37749216503765,29.77047838701525],[-95.37578209960431,29.770439054628962],[-95.37411163057291,29.77011904916838],[-95.3725413354132,29.76952997262861],[-95.37112815891483,29.768693182629896],[-95.36992334815565,29.767639018557656],[-95.36947534815563,29.767164041978614],[-95.36838147940306,29.765694436379675],[-95.36769261710933,29.764050088226757],[-95.36744344248075,29.762313776810043],[-95.36742344248076,29.76080577816121],[-95.36759028727332,29.75921734412953],[-95.36812592503806,29.757691580527435],[-95.36900794812063,29.756292319796124],[-95.37019945832306,29.755078104480113],[-95.3716506104878,29.754099737116327],[-95.3733006977003,29.753398153732487],[-95.37508069087731,29.753002710120224],[-95.37691612650184,29.75292995277763],[-95.37873022169997,29.753182926102212],[-95.38044708634449,29.75375104491753],[-95.38052165174214,29.75378365169356],[-95.38397782326079,29.753719390092837],[-95.38854509686402,29.753531185065714],[-95.39003615594552,29.753577432988045],[-95.3914978318127,29.753837301563937],[-95.3928898029188,29.754303620483494],[-95.39298726659611,29.754344641559005],[-95.39400844825897,29.75447687400426],[-95.3946962266352,29.754536484182623],[-95.39571650067494,29.75426391411198],[-95.39704334961652,29.754090962339358],[-95.3984694970765,29.753998825217725],[-95.39883387331747,29.75382899330471],[-95.40036296594432,29.75326747595287],[-95.40095396594434,29.753104463863842],[-95.40259771486704,29.7527945323201],[-95.40427919989742,29.752756072849028],[-95.40528334593762,29.75281493849122],[-95.40658227377422,29.752576672847592],[-95.40844705945804,29.75257625003646],[-95.41027176668256,29.75291009628549],[-95.41197776450257,29.753563822149964],[-95.4134915374416,29.75450925114054],[-95.41474785344742,29.755705634920375],[-95.41569257489526,29.757101410537278],[-95.41628499150605,29.758636423748577],[-95.41641799150605,29.75915443251874],[-95.41662656221605,29.76114966514909]]]}}]}'
       - name: Population Density Assets
         htmlid: harvey-case-study-step-2
+        nexthtmlid: harvey-case-study-step-3
         narrative: The Population Density input shows densely populated areas outside of the park.
         actions:
           name: Show Population Density Asset Input
@@ -57,6 +64,7 @@ caseStudies:
           legendToggle: PopDensityTMS
       - name: Social Vulnerability Assets
         htmlid: harvey-case-study-step-3
+        nexthtmlid: harvey-case-study-step-4
         narrative: As well as some areas from the Social Vulnerability input.
         actions:
           name: Show Social Vulnerability Asset Input
@@ -71,6 +79,7 @@ caseStudies:
           legendToggle: FloodProneAreasTMS
       - name: Community Exposure
         htmlid: harvey-case-study-step-5
+        nexthtmlid: harvey-case-study-step-6
         narrative: Buffalo Bayou shows up as highly exposed, suggesting it is impacted by many other inputs in the Threat Index
         actions:
           name: Show Community Exposure
@@ -78,6 +87,7 @@ caseStudies:
           legendToggle: ExposureTMS
       - name: The viewer
         htmlid: harvey-case-study-step-6
+        nexthtmlid: harvey-case-study-step-6
         narrative: Exlpore Buffalo Bayou in the vewer!
         actions:
           name: Exlpore in the viewer
@@ -88,6 +98,8 @@ caseStudies:
     steps:
       - name: Location
         htmlid: florence-case-study-step-1
+        nexthtmlid: florence-case-study-step-2
+        lasthtmlid: florence-case-study-step-2
         narrative: Water Street is Wilmington’s historic riverfront area.
         actions:
           name: View it on the map
@@ -95,6 +107,8 @@ caseStudies:
           geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"mean":{"exposure":8.430505117200395,"asset":2.693298118190822,"threat":5.925387916804226,"aquatic":4,"terrestrial":3.3486299108616704,"hubs":1,"crit_infra":0.2119511389897656,"crit_facilities":0.16011885110597557,"pop_density":1.2677451304060745,"social_vuln":0.05348299768900627,"drainage":3.046880158468141,"erosion":1.3367448002641136,"floodprone_areas":2.086167051832288,"geostress":0,"sea_level_rise":2.3337735226147243,"slope":1.8689336414658304,"storm_surge":1.7959722680752723}},"geometry":{"type":"Polygon","coordinates":[[[-77.94021188650011,34.24096756878416],[-77.9399758865001,34.23937958586665],[-77.93992651881474,34.23800840853208],[-77.94018305935336,34.23665309545862],[-77.94073675478094,34.235359892699115],[-77.94156871263856,34.23417292903386],[-77.94265054596681,34.23313270974793],[-77.94394534188781,34.23227473384791],[-77.94540892109734,34.23162828199646],[-77.94699134529233,34.23121541663126],[-77.94871234529234,34.230907390078],[-77.95038711608697,34.23074159472215],[-77.95206985068849,34.230837566954776],[-77.9537012222808,34.231191922281575],[-77.95522371491201,34.23179216433716],[-77.95658365128791,34.23261712589893],[-77.95773308522902,34.23363771585787],[-77.95863149207035,34.234817945713516],[-77.95924719740681,34.236116199283835],[-77.95955849381215,34.23748670073992],[-77.95975549381217,34.23925971504624],[-77.95974351610148,34.240718597032206],[-77.95938675857394,34.24214736664929],[-77.95869898991745,34.24349088490917],[-77.95770675385215,34.244697305367445],[-77.95644834470305,34.245720074280335],[-77.95497232947005,34.246519726257695],[-77.95333567343494,34.247065406269954],[-77.95160154164509,34.24733605943985],[-77.94991954164509,34.24745904863081],[-77.94819660696687,34.247447910826295],[-77.94650793640945,34.24716507131159],[-77.94491565284653,34.24662093254308],[-77.94347833326373,34.245835507503166],[-77.94224885382606,34.244837684164075],[-77.94127244466773,34.24366416367059],[-77.94058502596434,34.24235811117099],[-77.94021188650011,34.24096756878416]]]}}]}'
       - name: Population Density Assets
         htmlid: florence-case-study-step-2
+        nexthtmlid: florence-case-study-step-3
+        lasthtmlid: florence-case-study-step-1
         narrative: The area is home to restaurants, shops, bed and breakfasts, and is also where some Wilmington residents make their home.
         actions:
           name: Show Population Density Asset Input
@@ -102,6 +116,8 @@ caseStudies:
           legendToggle: PopDensityTMS
       - name: Flood Prone Areas
         htmlid: florence-case-study-step-3
+        nexthtmlid: florence-case-study-step-4
+        lasthtmlid: florence-case-study-step-2
         narrative: Since this area sits on the Cape Fear River, it is not surprising that the area is threatened by many of the hazards identified in our Threat Index. including Flood Prone Areas.
         actions:
           name: Show Critical Flood Prone Areas Threat Input
@@ -109,6 +125,8 @@ caseStudies:
           legendToggle: FloodProneAreasTMS
       - name: Strom Surge Threats
         htmlid: florence-case-study-step-4
+        nexthtmlid: florence-case-study-step-5
+        lasthtmlid: florence-case-study-step-3
         narrative: As well as some areas threatend by strom surge.
         actions:
           name: Show Storm Surge Threat Input
@@ -116,6 +134,8 @@ caseStudies:
           legendToggle: StormSurgeTMS
       - name: Community Exposure
         htmlid: florence-case-study-step-5
+        nexthtmlid: florence-case-study-step-6
+        lasthtmlid: florence-case-study-step-4
         narrative: This particular area of Water Street where the J.W. Brooks building is located, is calculated as having high exposure in this assessment.
         actions:
           name: Show Community Exposure
@@ -123,6 +143,8 @@ caseStudies:
           legendToggle: ExposureTMS
       - name: The viewer
         htmlid: florence-case-study-step-6
+        nexthtmlid: florence-case-study-step-6
+        lasthtmlid: florence-case-study-step-5
         narrative: Exlpore Buffalo Bayou in the vewer!
         actions:
           name: Exlpore in the viewer

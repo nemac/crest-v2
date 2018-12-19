@@ -49,23 +49,29 @@ export class CaseStudies {
         }
 
         if (step.actions.layerToggle) {
-          this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle);
+          this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid);
         }
 
         if (step.actions.legendToggle) {
-          this.updateLegendToggleActionEvent(step.htmlid, step.actions.layerToggle);
+          this.updateLegendToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid);
         }
 
         if (step.actions.geojson) {
-          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson);
+          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson, step.nexthtmlid);
         }
 
         if (step.actions.viewerlink) {
-          this.addViewerLinkEvent(step.htmlid, step.actions.viewerlink);
+          this.addViewerLinkEvent(step.htmlid, step.actions.viewerlink, step.nexthtmlid);
         }
       })
     })
 
+  }
+
+  displayNextStep(htmlid){
+    const selector = `#${htmlid}`;
+    const elem = document.querySelector(selector);
+    this.displayActionButton(elem);
   }
 
   zoomToGeoJson(zoomlayer) {
@@ -99,44 +105,51 @@ export class CaseStudies {
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions); }, 50);
   }
 
-  addViewerLinkEvent(htmlid, href) {
+  addViewerLinkEvent(htmlid, href, nexthtmlid) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     console.log(elem)
     if (elem) {
       elem.href=href;
-      this.displayActionButton(elem);
+      elem.addEventListener( 'click', (e) => {
+        this.displayNextStep(nexthtmlid);
+      })
     }
+    this.displayActionButton(elem);
   }
 
-  updateDrawGeoJSONActionEvent(htmlid, label, geojson) {
+  updateDrawGeoJSONActionEvent(htmlid, label, geojson, nexthtmlid) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
         this.drawCaseStudyArea(JSON.parse(geojson), label);
+        this.displayNextStep(nexthtmlid);
       })
       this.displayActionButton(elem);
     }
   }
 
-  updateLegendToggleActionEvent(htmlid, layer) {
+  updateLegendToggleActionEvent(htmlid, layer, nexthtmlid) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
         this.legendToggle(layer);
+        this.displayNextStep(nexthtmlid);
+
       })
       this.displayActionButton(elem);
     }
   }
 
-  updateLayerToggleActionEvent(htmlid, layer) {
+  updateLayerToggleActionEvent(htmlid, layer, nexthtmlid) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
         this.layerToggle(layer);
+        this.displayNextStep(nexthtmlid);
       })
       this.displayActionButton(elem);
     }
