@@ -28,6 +28,8 @@ html, body {
     height: 100%;
 }
 
+
+
 .case-studies-row-container  {
 
   .figure-caption {
@@ -130,7 +132,20 @@ html, body {
   .tile-caption {
     font-size: 1em;
     font-weight: 800;
-    margin-left: 0px !important
+    // margin-left: 0px !important;
+    border: 1px solid white;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 4px;
+
+    font-size: 1em;
+    font-weight: 800;
+
+    .icon-right {
+      float: right;
+      margin: 5px;
+    }
+    // margin-left: 0px !important
   }
 }
 

@@ -40,6 +40,8 @@ export class CaseStudies {
       this.updateNarrative(study.htmlid, study.narrative);
       this.updateName(study.htmlid, study.name);
 
+      let lastactions;
+
       study.steps.forEach( (step) => {
         this.updateNarrative(step.htmlid, step.narrative);
         this.updateName(step.htmlid, step.name);
@@ -50,19 +52,30 @@ export class CaseStudies {
 
         if (step.actions.layerToggle) {
           this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid);
+          if (lastactions){
+            this.updateLayerToggleActionEvent(step.htmlid, lastactions.layerToggle, step.nexthtmlid);
+          }
         }
 
         if (step.actions.legendToggle) {
           this.updateLegendToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid);
+          if (lastactions){
+            this.updateLegendToggleActionEvent(step.htmlid, lastactions.legendToggle, step.nexthtmlid);
+          }
         }
 
         if (step.actions.geojson) {
           this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson, step.nexthtmlid);
+          if (lastactions){
+            this.updateDrawGeoJSONActionEvent(step.htmlid, lastactions.geojson, step.nexthtmlid);
+          }
         }
 
         if (step.actions.viewerlink) {
           this.addViewerLinkEvent(step.htmlid, step.actions.viewerlink, step.nexthtmlid);
         }
+
+        lastactions = step.actions;
       })
     })
 
@@ -217,61 +230,3 @@ export class CaseStudies {
     }
   }
 }
-
-// export const SandyAreaGeoJson = ;
-//
-// function triggerEvent (element, eventName) {
-//   var event = new Event(eventName);
-//   element.dispatchEvent(event);
-// }
-//
-// export function ToggleCritInfra(element, mapComponent) {
-//
-//   const detail = 'CriticalInfrastructureTMS';
-//   mapComponent.toggleLayer(detail);
-//
-//   const toggle = document.getElementById(`${detail}-layerToggle`);
-//   const toggleBox = document.querySelector(`input#${detail}-toggle`);
-//
-//   toggleBox.checked = !toggleBox.checked;
-//
-//   triggerEvent(toggleBox,'change')
-//
-//   toggle.classList.toggle('closed');
-//   toggle.querySelector('.layer-legend-wrapper').classList.toggle('closed');
-//
-// }
-//
-// export function ToggleStormSurge(element, mapComponent) {
-//
-//   const detail = 'StormSurgeTMS';
-//   mapComponent.toggleLayer(detail);
-//
-//   const toggle = document.getElementById(`${detail}-layerToggle`);
-//   const toggleBox = document.querySelector(`input#${detail}-toggle`);
-//
-//   toggleBox.checked = !toggleBox.checked;
-//
-//   triggerEvent(toggleBox,'change')
-//
-//   toggle.classList.toggle('closed');
-//   toggle.querySelector('.layer-legend-wrapper').classList.toggle('closed');
-//
-// }
-//
-// export function ToggleExposed(element, mapComponent) {
-//
-//   const detail = 'ExposureTMS';
-//   mapComponent.toggleLayer(detail);
-//
-//   const toggle = document.getElementById(`${detail}-layerToggle`);
-//   const toggleBox = document.querySelector(`input#${detail}-toggle`);
-//
-//   toggleBox.checked = !toggleBox.checked;
-//
-//   triggerEvent(toggleBox,'change')
-//
-//   toggle.classList.toggle('closed');
-//   toggle.querySelector('.layer-legend-wrapper').classList.toggle('closed');
-//
-// }
