@@ -13,14 +13,15 @@ import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
-import {
-  ToggleCritInfra,
-  ToggleStormSurge,
-  ToggleExposed,
-  SandyAreaGeoJson
-} from './case_study_helper.js'
+// import {
+//   ToggleCritInfra,
+//   ToggleStormSurge,
+//   ToggleExposed,
+//   SandyAreaGeoJson
+// } from './case_study_helper.js'
 
 import { HubIntersectionApi } from './HubIntersectionAPI';
+import { CaseStudies } from './CaseStudies';
 
 import {
   checkValidObject,
@@ -52,6 +53,7 @@ const shapefile = require('shapefile');
 
 const store = new Store({});
 
+
 /**
  * explore Component
  * Explore handles drawing on map, uploading of shapefile,
@@ -74,6 +76,8 @@ export class Explore extends Component {
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
     this.hasShareURL = hasShareURL;
     this.theStartNav = theStartNav;
+
+    this.caseStudies = new CaseStudies(this.mapComponent);
 
     // defualt buffer style
     this.bufferedoptions = {
@@ -186,13 +190,13 @@ export class Explore extends Component {
             Explore.dismissExploreDirections();
           }
         } else if (activeNav === 'main-nav-map-examples') {
-            Explore.dismissExploreDirections();
-            disableZonalButtons();
-            disableOverView();
-            Explore.dismissShapeButtons();
-            Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+          Explore.dismissExploreDirections();
+          disableZonalButtons();
+          disableOverView();
+          Explore.dismissShapeButtons();
+          Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
 
-            // this.drawHubsFromStateObject();
+          // this.drawHubsFromStateObject();
 
         } else {
           this.drawUserAreaFromUsereas();
@@ -265,36 +269,39 @@ export class Explore extends Component {
           // if there is NONE dispolay the text
           // that tells the user what to do
         } else if (activeNav === 'main-nav-map-examples') {
-            Explore.dismissExploreDirections();
-            disableZonalButtons();
-            disableOverView();
-            Explore.dismissShapeButtons();
-            Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+          Explore.dismissExploreDirections();
+          disableZonalButtons();
+          disableOverView();
+          Explore.dismissShapeButtons();
+          Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
 
-            const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
-            if (zonalAreaWrapper) {
-              zonalAreaWrapper.innerHTML = caseStudiesTemplate;
-            }
+          this.caseStudies.initalize();
 
-            const elemTest = zonalAreaWrapper.querySelector('#sandy-case-study1').addEventListener( 'click', (e) => {
-              ToggleCritInfra(this.componentElem, this.mapComponent);
-            })
+          // const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
+          // if (zonalAreaWrapper) {
+          //   zonalAreaWrapper.innerHTML = caseStudiesTemplate;
+          // }
 
-            const elemTest2 = zonalAreaWrapper.querySelector('#sandy-case-study2').addEventListener( 'click', (e) => {
-              ToggleStormSurge(this.componentElem, this.mapComponent);
-            })
+          //
+          // const elemTest = zonalAreaWrapper.querySelector('#sandy-case-study1').addEventListener( 'click', (e) => {
+          //   ToggleCritInfra(this.componentElem, this.mapComponent);
+          // })
+          //
+          // const elemTest2 = zonalAreaWrapper.querySelector('#sandy-case-study2').addEventListener( 'click', (e) => {
+          //   ToggleStormSurge(this.componentElem, this.mapComponent);
+          // })
+          //
+          // const elemTest3 = zonalAreaWrapper.querySelector('#sandy-case-study3').addEventListener( 'click', (e) => {
+          //   ToggleExposed(this.componentElem, this.mapComponent);
+          // })
+          //
+          // zonalAreaWrapper.querySelector('#sandy-case-study-geojson').addEventListener( 'click', (e) => {
+          //   this.drawCaseStudyArea(SandyAreaGeoJson,'The Pike');
+          // })
 
-            const elemTest3 = zonalAreaWrapper.querySelector('#sandy-case-study3').addEventListener( 'click', (e) => {
-              ToggleExposed(this.componentElem, this.mapComponent);
-            })
-
-            zonalAreaWrapper.querySelector('#sandy-case-study-geojson').addEventListener( 'click', (e) => {
-              this.drawCaseStudyArea(SandyAreaGeoJson,'The Pike');
-            })
 
 
-
-            // this.drawHubsFromStateObject();
+          // this.drawHubsFromStateObject();
 
         } else if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -1026,27 +1033,6 @@ export class Explore extends Component {
 
     return null;
   }
-
-  // used by search by location
-  drawCaseStudyArea(GeoJSON, Label) {
-    if (checkValidObject(GeoJSON)) {
-
-      const checklayer = this.drawAreaGroup.getLayers();
-      if (checklayer.length > 0) {
-        this.drawAreaGroup.clearLayers();
-      } else {
-        // convert geoJson to leaflet layer
-        const layer = L.geoJson(GeoJSON);
-
-        layer.id = Label;
-
-        // add layer to the leaflet map
-        this.drawAreaGroup.addLayer(layer);
-        this.addUserAreaLabel(layer, Label);
-      }
-    }
-  }
-
 
   // used by search by location
   drawUserArea() {
