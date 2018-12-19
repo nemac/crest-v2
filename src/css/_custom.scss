@@ -88,6 +88,16 @@ html, body {
         border-top: 1px solid #e9ecef;
         padding-top: 15px;
         padding-bottom: 15px;
+
+        .icon-right {
+          float: right;
+          color: $body-color !important;
+        }
+
+        .icon-left {
+          float: left;
+          color: $body-color !important;
+        }
       }
 
       #name {

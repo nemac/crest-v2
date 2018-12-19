@@ -46,29 +46,28 @@ export class CaseStudies {
         this.updateNarrative(step.htmlid, step.narrative);
         this.updateName(step.htmlid, step.name);
 
+        if (step.nexthtmlid) {
+          this.addNextEvent(step.htmlid, step.nexthtmlid);
+        }
+
+        if (step.lasthtmlid) {
+          this.addLastEvent(step.htmlid, step.lasthtmlid);
+        }
+
         if (step.actions.name) {
           this.updateActionName(step.htmlid, step.actions.name);
         }
 
         if (step.actions.layerToggle) {
           this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid);
-          if (lastactions){
-            this.updateLayerToggleActionEvent(step.htmlid, lastactions.layerToggle, step.nexthtmlid);
-          }
         }
 
         if (step.actions.legendToggle) {
-          this.updateLegendToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid);
-          if (lastactions){
-            this.updateLegendToggleActionEvent(step.htmlid, lastactions.legendToggle, step.nexthtmlid);
-          }
+          this.updateLegendToggleActionEvent(step.htmlid, step.actions.legendToggle, step.nexthtmlid);
         }
 
         if (step.actions.geojson) {
           this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson, step.nexthtmlid);
-          if (lastactions){
-            this.updateDrawGeoJSONActionEvent(step.htmlid, lastactions.geojson, step.nexthtmlid);
-          }
         }
 
         if (step.actions.viewerlink) {
@@ -81,10 +80,39 @@ export class CaseStudies {
 
   }
 
-  displayNextStep(htmlid){
+
+  addNextEvent(htmlid, nexthtmlid) {
+    const selector = `#${htmlid} #action-next`;
+    const elem = document.querySelector(selector);
+    if (elem) {
+      elem.addEventListener( 'click', (e) => {
+        this.displayOffStep(htmlid);
+        this.displayOnStep(nexthtmlid);
+      })
+    }
+  }
+
+  addLastEvent(htmlid, lasthtmlid) {
+    const selector = `#${htmlid} #action-last`;
+    const elem = document.querySelector(selector);
+    if (elem) {
+      elem.addEventListener( 'click', (e) => {
+        this.displayOffStep(htmlid);
+        this.displayOnStep(lasthtmlid);
+      })
+    }
+  }
+
+  displayOnStep(htmlid){
     const selector = `#${htmlid}`;
     const elem = document.querySelector(selector);
     this.displayActionButton(elem);
+  }
+
+  displayOffStep(htmlid){
+    const selector = `#${htmlid}`;
+    const elem = document.querySelector(selector);
+    this.displayOff(elem);
   }
 
   zoomToGeoJson(zoomlayer) {
@@ -118,54 +146,58 @@ export class CaseStudies {
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions); }, 50);
   }
 
-  addViewerLinkEvent(htmlid, href, nexthtmlid) {
+  addViewerLinkEvent(htmlid, href) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
-    console.log(elem)
     if (elem) {
       elem.href=href;
       elem.addEventListener( 'click', (e) => {
-        this.displayNextStep(nexthtmlid);
       })
     }
     this.displayActionButton(elem);
   }
 
-  updateDrawGeoJSONActionEvent(htmlid, label, geojson, nexthtmlid) {
+  updateDrawGeoJSONActionEvent(htmlid, label, geojson) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
         this.drawCaseStudyArea(JSON.parse(geojson), label);
-        this.displayNextStep(nexthtmlid);
       })
       this.displayActionButton(elem);
     }
   }
 
-  updateLegendToggleActionEvent(htmlid, layer, nexthtmlid) {
+  updateLegendToggleActionEvent(htmlid, layer) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
         this.legendToggle(layer);
-        this.displayNextStep(nexthtmlid);
-
       })
       this.displayActionButton(elem);
     }
   }
 
-  updateLayerToggleActionEvent(htmlid, layer, nexthtmlid) {
+  updateLayerToggleActionEvent(htmlid, layer) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
         this.layerToggle(layer);
-        this.displayNextStep(nexthtmlid);
       })
       this.displayActionButton(elem);
     }
+
+    // const selectornext = `#${htmlid} #action-next`;
+    // const elemnext = document.querySelector(selectornext)
+    // if (elemnext) {
+    //   elemnext.addEventListener( 'click', (e) => {
+    //     this.layerToggle(layer);
+    //     this.displayNextStep(nexthtmlid);
+    //   })
+    //   this.displayActionButton(elemnext);
+    // }
   }
 
   updateActionName(htmlid, narrative) {
