@@ -40,6 +40,10 @@ html, body {
     -moz-border-radius: 4px !important;
     z-index: 1000;
 
+    &.tile-caption {
+      background-color: $gray-600;
+    }
+
     .icon-right {
       color: #e9ecef;
       float: right;
@@ -71,12 +75,6 @@ html, body {
         background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
       }
 
-      // .btn-casestudies-action:active {
-      //   background-color: $gray-700 !important;
-      //   background-size: 100% !important;
-      //   transition: background 0s !important;
-      // }
-
       .btn-casestudies-action {
         background-color: $body-bg  !important;
         border: 1px solid $body-color !important;
@@ -91,7 +89,7 @@ html, body {
       }
 
       #name {
-        font-size: .9rem;
+        font-size: 1.1rem;
         font-weight: 800;
       }
 
