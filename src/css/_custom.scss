@@ -28,6 +28,86 @@ html, body {
     height: 100%;
 }
 
+.case-studies-row-container  {
+
+  .figure-caption {
+    background-color: $body-bg;
+    color: #e9ecef;
+    padding: 15px;
+    border: 1px solid #e9ecef;
+    border-radius: 4px !important;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    z-index: 1000;
+
+    .icon-right {
+      color: #e9ecef;
+      float: right;
+      font-size: 2rem;
+      vertical-align: middle;
+    }
+
+    #name {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    #narrative {
+      font-size: .9rem;
+      padding: 15px;
+      width: 100% !important;
+    }
+
+    .case-study-steps {
+      padding: 15px;
+      width: 100%;
+      overflow: scroll;
+
+      .btn-light {
+
+      }
+
+      .btn-casestudies-action:hover {
+        background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
+      }
+
+      // .btn-casestudies-action:active {
+      //   background-color: $gray-700 !important;
+      //   background-size: 100% !important;
+      //   transition: background 0s !important;
+      // }
+
+      .btn-casestudies-action {
+        background-color: $body-bg  !important;
+        border: 1px solid $body-color !important;
+        color: $body-color !important;
+        white-space: normal !important;
+      }
+
+      .case-study-step {
+        border-top: 1px solid #e9ecef;
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+
+      #name {
+        font-size: .9rem;
+        font-weight: 800;
+      }
+
+      #narrative {
+        font-size: .9rem;
+        padding: 15px;
+        width: 100% !important;
+      }
+    }
+
+    #action {
+      // width: 50% !important;
+    }
+  }
+}
+
 #about-nav-holder {
   padding-top: 15px !important;
   background-color: $body-bg !important;
@@ -541,6 +621,7 @@ html, body {
     background-size: 100% !important;
     transition: background 0s !important;
   }
+
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;

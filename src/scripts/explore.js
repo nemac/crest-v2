@@ -77,7 +77,7 @@ export class Explore extends Component {
     this.hasShareURL = hasShareURL;
     this.theStartNav = theStartNav;
 
-    this.caseStudies = new CaseStudies(this.mapComponent);
+    this.caseStudies = new CaseStudies(this.mapComponent, this);
 
     // defualt buffer style
     this.bufferedoptions = {
@@ -195,8 +195,7 @@ export class Explore extends Component {
           disableOverView();
           Explore.dismissShapeButtons();
           Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
-
-          // this.drawHubsFromStateObject();
+          this.caseStudies.initalize();
 
         } else {
           this.drawUserAreaFromUsereas();
@@ -233,6 +232,7 @@ export class Explore extends Component {
       const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
       const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
       const checkUserareas = store.getStateItem('userareas');
+      document.querySelector('.explore-row-container .sticky-top.sideheading').classList.remove('d-none');
 
       Explore.disableShapeExistsButtons();
       Explore.dismissExploreDirections();
@@ -274,34 +274,7 @@ export class Explore extends Component {
           disableOverView();
           Explore.dismissShapeButtons();
           Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
-
           this.caseStudies.initalize();
-
-          // const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
-          // if (zonalAreaWrapper) {
-          //   zonalAreaWrapper.innerHTML = caseStudiesTemplate;
-          // }
-
-          //
-          // const elemTest = zonalAreaWrapper.querySelector('#sandy-case-study1').addEventListener( 'click', (e) => {
-          //   ToggleCritInfra(this.componentElem, this.mapComponent);
-          // })
-          //
-          // const elemTest2 = zonalAreaWrapper.querySelector('#sandy-case-study2').addEventListener( 'click', (e) => {
-          //   ToggleStormSurge(this.componentElem, this.mapComponent);
-          // })
-          //
-          // const elemTest3 = zonalAreaWrapper.querySelector('#sandy-case-study3').addEventListener( 'click', (e) => {
-          //   ToggleExposed(this.componentElem, this.mapComponent);
-          // })
-          //
-          // zonalAreaWrapper.querySelector('#sandy-case-study-geojson').addEventListener( 'click', (e) => {
-          //   this.drawCaseStudyArea(SandyAreaGeoJson,'The Pike');
-          // })
-
-
-
-          // this.drawHubsFromStateObject();
 
         } else if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);

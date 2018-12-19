@@ -2,21 +2,37 @@ import { yaml} from 'js-yaml';
 
 import caseStudiesTemplate from '../templates/case_studies.html';
 import caseStudyConfig from 'js-yaml-loader!../config/caseStudyConfig.yml';
+import {
+  checkValidObject,
+  googleAnalyticsEvent
+} from './utilitys';
 
 export class CaseStudies {
-  constructor(mapComponent) {
+  constructor(mapComponent, exlore) {
     this.mapComponent = mapComponent;
-    this.drawAreaGroup = mapComponent.drawAreaGroup;
-    this.addUserAreaLabel = mapComponent.addUserAreaLabel;
+    this.drawAreaGroup = exlore.drawAreaGroup;
     this.caseStudyConfig = caseStudyConfig;
-    this.caseStudies = caseStudyConfig.caseStudies
+    this.caseStudies = caseStudyConfig.caseStudies;
+    this.labelOptions = {
+      className: 'userarealabel',
+      direction: 'center',
+      noHide: false,
+      clickable: false,
+      permanent: true
+    };
+
+
   }
 
   initalize () {
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
       zonalAreaWrapper.innerHTML = caseStudiesTemplate;
+
+      const heading = document.querySelector('.explore-row-container .sticky-top.sideheading');
+      this.displayOff(heading);
     }
+
 
     this.caseStudies.forEach((study) => {
 
@@ -25,7 +41,6 @@ export class CaseStudies {
       this.updateName(study.htmlid, study.name);
 
       study.steps.forEach( (step) => {
-        console.log(step.name, step.narrative, step.actions)
         this.updateNarrative(step.htmlid, step.narrative);
         this.updateName(step.htmlid, step.name);
 
@@ -40,14 +55,68 @@ export class CaseStudies {
         if (step.actions.legendToggle) {
           this.updateLegendToggleActionEvent(step.htmlid, step.actions.layerToggle);
         }
+
+        if (step.actions.geojson) {
+          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson);
+        }
+
+        if (step.actions.viewerlink) {
+          this.addViewerLinkEvent(step.htmlid, step.actions.viewerlink);
+        }
       })
     })
 
   }
 
+  zoomToGeoJson(zoomlayer) {
+    const zoomBounds = zoomlayer.getBounds();
+    this.mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+  }
+
+
   displayActionButton(elem) {
     if (elem) {
       elem.classList.remove('d-none');
+    }
+  }
+
+  displayOff(elem) {
+    if (elem) {
+      elem.classList.add('d-none');
+    }
+  }
+
+  // add label to layer.
+  // label option defined in Explore class
+  addUserAreaLabel(layer, name) {
+    // if name not passed create the default area name
+    // this happens when the user is drawing a new area
+    let newname = name;
+    if (!checkValidObject(name)) {
+      newname = `${this.defaultAreaName}${shapecount}`;
+    }
+    // labels needs a sec so it's placed on the correct location
+    setTimeout(() => { layer.bindTooltip(newname, this.labelOptions); }, 50);
+  }
+
+  addViewerLinkEvent(htmlid, href) {
+    const selector = `#${htmlid} #action`;
+    const elem = document.querySelector(selector);
+    console.log(elem)
+    if (elem) {
+      elem.href=href;
+      this.displayActionButton(elem);
+    }
+  }
+
+  updateDrawGeoJSONActionEvent(htmlid, label, geojson) {
+    const selector = `#${htmlid} #action`;
+    const elem = document.querySelector(selector);
+    if (elem) {
+      elem.addEventListener( 'click', (e) => {
+        this.drawCaseStudyArea(JSON.parse(geojson), label);
+      })
+      this.displayActionButton(elem);
     }
   }
 
@@ -127,11 +196,10 @@ export class CaseStudies {
         // convert geoJson to leaflet layer
         const layer = L.geoJson(GeoJSON);
 
-        layer.id = Label;
-
         // add layer to the leaflet map
         this.drawAreaGroup.addLayer(layer);
         this.addUserAreaLabel(layer, Label);
+        this.zoomToGeoJson(layer);
       }
     }
   }
