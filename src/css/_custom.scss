@@ -28,6 +28,116 @@ html, body {
     height: 100%;
 }
 
+.case-studies-row-container  {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+
+  #positions {
+    height: 35px;
+    margin-left: 0px;
+    margin-bottom: 15px;
+
+    .position {
+      border: .5px solid $gray-700 !important;
+      height: 30px;
+      width: 20px;
+      margin: 5px;
+
+      &.active {
+        background-color: $gray-700;
+      }
+    }
+
+  }
+
+  .figure-caption {
+    background-color: $body-bg;
+    color: #e9ecef;
+    padding: 15px;
+    border: 1px solid #e9ecef;
+    border-radius: 4px !important;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    z-index: 1000;
+
+    &.tile-caption {
+      background-color: $gray-600;
+    }
+
+    .icon-right {
+      color: #e9ecef;
+      float: right;
+      font-size: 2rem;
+      vertical-align: middle;
+    }
+
+    #name {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    #narrative {
+      font-size: .9rem;
+      padding: 15px;
+      width: 100% !important;
+    }
+
+    .case-study-steps {
+      // padding: 15px;
+      width: 100%;
+      overflow: scroll;
+      border-top: 1px solid #e9ecef;
+      border-bottom: 1px solid $gray-700;
+      border-right: 1px solid $gray-700;
+      border-left: 1px solid $gray-700;
+      padding: 15px;
+
+      .row {
+        margin-left: -10px;
+        margin-right: -10px;
+      }
+
+      .btn-light {
+
+      }
+
+      .btn-casestudies-action:hover {
+        background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
+      }
+
+      .btn-casestudies-action {
+        background-color: $body-bg  !important;
+        border: 1px solid $body-color !important;
+        color: $body-color !important;
+        white-space: normal !important;
+      }
+
+      .btn-casestudies-action-arrow {
+        background-color: $body-bg  !important;
+        color: $body-color !important;
+        white-space: normal !important;
+        // box-shadow: inherit !important;
+        font-size: 5rem;
+      }
+
+      .btn-casestudies-action-arrow:hover {
+        background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
+      }
+
+      #name {
+        font-size: 1.1rem;
+        font-weight: 800;
+      }
+
+      #narrative {
+        font-size: .9rem;
+        padding: 15px;
+        width: 100% !important;
+      }
+    }
+  }
+}
+
 #about-nav-holder {
   padding-top: 15px !important;
   background-color: $body-bg !important;
@@ -49,10 +159,27 @@ html, body {
     font-weight: 300;
     margin-left: 25px;
   }
+
   .tile-caption {
     font-size: 1em;
     font-weight: 800;
-    margin-left: 0px !important
+    border: 1px solid $gray-700;
+    box-shadow: $box-shadow-default;
+    padding: 10px;
+    margin: 0px 5px 10px 0px;
+
+    border-radius: 4px;
+
+    font-size: 1em;
+    font-weight: 800;
+
+    .icon-right {
+      float: right;
+      margin: 5px;
+      font-size: 1.5rem;
+      vertical-align: middle;
+    }
+    // margin-left: 0px !important
   }
 }
 
@@ -541,6 +668,7 @@ html, body {
     background-size: 100% !important;
     transition: background 0s !important;
   }
+
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;

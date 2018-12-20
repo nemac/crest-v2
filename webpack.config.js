@@ -43,6 +43,10 @@ module.exports = {
     module: {
       rules: [
         {
+         test: /\.yaml$/,
+         use: 'js-yaml-loader',
+        },
+        {
           test: /.js$/,
           loader: "babel-loader",
           // addresses issue of typeof not found https://github.com/mapbox/mapbox-gl-js/issues/3422
