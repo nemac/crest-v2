@@ -7,7 +7,6 @@ import buffer from '@turf/buffer';
 
 // default map template
 import exploreTemplate from '../templates/explore.html';
-import caseStudiesTemplate from '../templates/case_studies.html';
 
 import { Component } from './components';
 import { Store } from './store';
@@ -196,7 +195,6 @@ export class Explore extends Component {
           Explore.dismissShapeButtons();
           Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
           this.caseStudies.initalize();
-
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -275,7 +273,6 @@ export class Explore extends Component {
           Explore.dismissShapeButtons();
           Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
           this.caseStudies.initalize();
-
         } else if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
@@ -1479,14 +1476,14 @@ export class Explore extends Component {
       } else {
         try {
           await this.getZonal();
-        } catch (e) {
+        } catch (ev) {
           // TODO: display message to the user (was the area too big? what happened?)
           this.rollbackUserArea(layer, bufferedLayer);
           store.setStoreItem('working_zonalstats', false);
           spinnerOff();
         }
       }
-   });
+    });
   }
 
   rollbackUserArea(layer, bufferedLayer) {
@@ -1753,11 +1750,12 @@ export class Explore extends Component {
       await this.getZonal();
     } catch (e) {
       // TODO: Display a message to the user
-      console.log('rollback uploaded feature');
+      // console.log('rollback uploaded feature');
       this.rollbackUserArea(newLayer, bufferedLayer);
       store.setStoreItem('working_zonalstats', false);
       spinnerOff();
     }
+    return true;
   }
 
   static async readGeojsonFile(file) {

@@ -1,8 +1,11 @@
-import { yaml} from 'js-yaml';
-import { Store } from './store';
+import { yaml } from 'js-yaml';
+import L from 'leaflet';
 
 import caseStudiesTemplate from '../templates/case_studies.html';
 import caseStudyConfig from 'js-yaml-loader!../config/caseStudyConfig.yml';
+
+import { Store } from './store';
+
 import {
   checkValidObject,
   googleAnalyticsEvent
@@ -23,89 +26,111 @@ export class CaseStudies {
       clickable: false,
       permanent: true
     };
-
-
   }
 
-  initalize () {
+  initalize() {
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
       zonalAreaWrapper.innerHTML = caseStudiesTemplate;
 
       const heading = document.querySelector('.explore-row-container .sticky-top.sideheading');
-      this.displayOff(heading);
+      CaseStudies.displayOff(heading);
     }
 
     this.addClearEvent();
 
     this.caseStudies.forEach((study) => {
-
       // update main study narrative
-      this.updateNarrative(study.htmlid, study.narrative);
-      this.updateName(study.htmlid, study.name);
+      CaseStudies.updateNarrative(study.htmlid,
+        study.narrative);
+      CaseStudies.updateName(study.htmlid,
+        study.name);
 
-      study.steps.forEach( (step) => {
-
-        this.updateNarrative(step.htmlid, step.narrative);
-        this.updateName(step.htmlid, step.name);
+      study.steps.forEach((step) => {
+        CaseStudies.updateNarrative(step.htmlid,
+          step.narrative);
+        CaseStudies.updateName(step.htmlid,
+          step.name);
 
         if (step.nexthtmlid) {
-          this.addNextEvent(step.htmlid, step.nexthtmlid, study.htmlid, step.position);
+          CaseStudies.addNextEvent(step.htmlid,
+            step.nexthtmlid,
+            study.htmlid,
+            step.position);
         }
 
         if (step.lasthtmlid) {
-          const lastposition = this.getLastPosition(step.position);
-          this.addLastEvent(step.htmlid, step.lasthtmlid, study.htmlid, lastposition);
+          const lastposition = CaseStudies.getLastPosition(step.position);
+          this.addLastEvent(step.htmlid,
+            step.lasthtmlid,
+            study.htmlid,
+            lastposition);
         }
 
         if (step.actions.layerToggle) {
-          this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, false);
+          this.updateLayerToggleActionEvent(step.htmlid,
+            step.actions.layerToggle,
+            false);
         }
 
         if (step.lastactions.layerToggle) {
-          this.updateLayerToggleActionEvent(step.htmlid, step.lastactions.layerToggle, true);
+          this.updateLayerToggleActionEvent(step.htmlid,
+            step.lastactions.layerToggle,
+            true);
         }
 
         if (step.actions.legendToggle) {
-          this.updateLegendToggleActionEvent(step.htmlid, step.actions.legendToggle, false);
+          CaseStudies.updateLegendToggleActionEvent(step.htmlid,
+            step.actions.legendToggle,
+            false);
         }
 
         if (step.lastactions.layerToggle) {
-          this.updateLegendToggleActionEvent(step.htmlid, step.lastactions.layerToggle, true);
+          CaseStudies.updateLegendToggleActionEvent(step.htmlid,
+            step.lastactions.layerToggle,
+            true);
         }
 
         if (step.actions.geojson) {
-          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson, false);
+          this.updateDrawGeoJSONActionEvent(step.htmlid,
+            step.actions.geojsonlabel,
+            step.actions.geojson,
+            false);
         }
 
         if (step.lastactions.geojsonlabel) {
-          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, lastactions.geojsonlabel, false);
+          this.updateDrawGeoJSONActionEvent(step.htmlid,
+            step.actions.geojsonlabel,
+            step.lastactions.geojsonlabel,
+            false);
         }
 
         if (step.actions.viewerlink) {
-          this.addViewerLinkEvent(step.htmlid, step.actions.viewerlink, step.nexthtmlid);
+          CaseStudies.addViewerLinkEvent(step.htmlid, step.actions.viewerlink, step.nexthtmlid);
           if (step.actions.name) {
-            this.updateActionName(step.htmlid, step.actions.name);
+            CaseStudies.updateActionName(step.htmlid, step.actions.name);
           }
         }
-
-      })
-    })
-
+      });
+    });
   }
 
   addClearEvent() {
     const selector = '.figure-caption.tile-caption.sticky-top';
     const elems = document.querySelectorAll(selector);
-    elems.forEach( (elem) => {
+    elems.forEach((elem) => {
       if (elem) {
-        elem.addEventListener( 'click', (e) => {
+        elem.addEventListener('click', (e) => {
           this.unCheckLayers();
-          this.collapseLayerLegends();
+          CaseStudies.collapseLayerLegends();
           this.drawAreaGroup.clearLayers();
-        })
+          CaseStudies.clearPosition();
+          CaseStudies.setFirstPositionActive();
+          // ga event action, category, label
+          googleAnalyticsEvent('click', 'example', elem.getAttribute('data-target'));
+        });
       }
-    })
+    });
   }
 
   unCheckLayers() {
@@ -114,51 +139,58 @@ export class CaseStudies {
       if (layers[layer]) {
         this.layerToggle(layer);
       }
-    })
+    });
   }
 
-  collapseLayerLegends() {
+  static collapseLayerLegends() {
     const layers = store.getStateItem('mapLayerDisplayStatus');
     Object.keys(layers).forEach((layer) => {
-      this.legendToggleOff(layer);
-    })
+      CaseStudies.legendToggleOff(layer);
+    });
   }
 
-  getLastPosition(position) {
+  static getLastPosition(position) {
     let lastposition = position - 2;
     if (lastposition < -1) {
       lastposition = 0;
     }
-    return lastposition
+    return lastposition;
   }
 
-  clearPosition() {
-    const selector = `.position`;
+  static clearPosition() {
+    const selector = '.position';
     const elems = document.querySelectorAll(selector);
-    elems.forEach( (elem) => {
+    elems.forEach((elem) => {
       elem.classList.remove('active');
-    })
+    });
   }
 
-  addPosition(studyhtmlid, position) {
-    const selector = `#${studyhtmlid}  #positions .position-${position+1}`;
-    console.log('addPosition', selector)
+  static setFirstPositionActive() {
+    const selector = '.position-0';
+    const elems = document.querySelectorAll(selector);
+    elems.forEach((elem) => {
+      elem.classList.add('active');
+    });
+  }
+
+  static addPosition(studyhtmlid, position) {
+    const selector = `#${studyhtmlid}  #positions .position-${position + 1}`;
     const elem = document.querySelector(selector);
     if (elem) {
-      this.clearPosition();
+      CaseStudies.clearPosition();
       elem.classList.add('active');
     }
   }
 
-  addNextEvent(htmlid, nexthtmlid, studyhtmlid, position) {
+  static addNextEvent(htmlid, nexthtmlid, studyhtmlid, position) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
-      elem.addEventListener( 'click', (e) => {
-        this.addPosition(studyhtmlid, position)
-        this.displayOffStep(htmlid);
-        this.displayOnStep(nexthtmlid);
-      })
+      elem.addEventListener('click', (e) => {
+        CaseStudies.addPosition(studyhtmlid, position);
+        CaseStudies.displayOffStep(htmlid);
+        CaseStudies.displayOnStep(nexthtmlid);
+      });
     }
   }
 
@@ -166,29 +198,29 @@ export class CaseStudies {
     const selector = `#${htmlid} #action-last`;
     const elem = document.querySelector(selector);
     if (elem) {
-      elem.addEventListener( 'click', (e) => {
+      elem.addEventListener('click', (e) => {
         if (position < 0) {
           this.unCheckLayers();
-          this.collapseLayerLegends();
+          CaseStudies.collapseLayerLegends();
           this.drawAreaGroup.clearLayers();
         }
-        this.addPosition(studyhtmlid, position)
-        this.displayOffStep(htmlid);
-        this.displayOnStep(lasthtmlid);
-      })
+        CaseStudies.addPosition(studyhtmlid, position);
+        CaseStudies.displayOffStep(htmlid);
+        CaseStudies.displayOnStep(lasthtmlid);
+      });
     }
   }
 
-  displayOnStep(htmlid){
+  static displayOnStep(htmlid) {
     const selector = `#${htmlid}`;
     const elem = document.querySelector(selector);
-    this.displayActionButton(elem);
+    CaseStudies.displayActionButton(elem);
   }
 
-  displayOffStep(htmlid){
+  static displayOffStep(htmlid) {
     const selector = `#${htmlid}`;
     const elem = document.querySelector(selector);
-    this.displayOff(elem);
+    CaseStudies.displayOff(elem);
   }
 
   zoomToGeoJson(zoomlayer) {
@@ -197,13 +229,13 @@ export class CaseStudies {
   }
 
 
-  displayActionButton(elem) {
+  static displayActionButton(elem) {
     if (elem) {
       elem.classList.remove('d-none');
     }
   }
 
-  displayOff(elem) {
+  static displayOff(elem) {
     if (elem) {
       elem.classList.add('d-none');
     }
@@ -216,24 +248,26 @@ export class CaseStudies {
     // this happens when the user is drawing a new area
     let newname = name;
     if (!checkValidObject(name)) {
-      newname = `${this.defaultAreaName}${shapecount}`;
+      newname = 'Case Study Area';
     }
     // labels needs a sec so it's placed on the correct location
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions); }, 50);
   }
 
-  addViewerLinkEvent(htmlid, href) {
+  static addViewerLinkEvent(htmlid, href) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
-      elem.href=href;
-      elem.addEventListener( 'click', (e) => {
-      })
+      elem.href = href;
+      elem.addEventListener('click', (e) => {
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'example', 'viewerlink');
+      });
     }
-    this.displayActionButton(elem);
+    CaseStudies.displayActionButton(elem);
   }
 
-  actionSelector(lastaction) {
+  static actionSelector(lastaction) {
     if (lastaction) {
       return '#action-last';
     }
@@ -241,40 +275,39 @@ export class CaseStudies {
   }
 
   updateDrawGeoJSONActionEvent(htmlid, label, geojson, lastaction = false) {
-
-    const selector = `#${htmlid} ${this.actionSelector(lastaction)}`;
+    const selector = `#${htmlid} ${CaseStudies.actionSelector(lastaction)}`;
     const elem = document.querySelector(selector);
     if (elem) {
-      elem.addEventListener( 'click', (e) => {
+      elem.addEventListener('click', (e) => {
         this.drawCaseStudyArea(JSON.parse(geojson), label);
-      })
-      this.displayActionButton(elem);
+      });
+      CaseStudies.displayActionButton(elem);
     }
   }
 
-  updateLegendToggleActionEvent(htmlid, layer, lastaction = false) {
-    const selector = `#${htmlid} ${this.actionSelector(lastaction)}`;
+  static updateLegendToggleActionEvent(htmlid, layer, lastaction = false) {
+    const selector = `#${htmlid} ${CaseStudies.actionSelector(lastaction)}`;
     const elem = document.querySelector(selector);
     if (elem) {
-      elem.addEventListener( 'click', (e) => {
-        this.legendToggle(layer);
-      })
-      this.displayActionButton(elem);
+      elem.addEventListener('click', (e) => {
+        CaseStudies.legendToggle(layer);
+      });
+      CaseStudies.displayActionButton(elem);
     }
   }
 
   updateLayerToggleActionEvent(htmlid, layer, lastaction = false) {
-    const selector = `#${htmlid} ${this.actionSelector(lastaction)}`;
+    const selector = `#${htmlid} ${CaseStudies.actionSelector(lastaction)}`;
     const elem = document.querySelector(selector);
     if (elem) {
-      elem.addEventListener( 'click', (e) => {
+      elem.addEventListener('click', (e) => {
         this.layerToggle(layer);
-      })
-      this.displayActionButton(elem);
+      });
+      CaseStudies.displayActionButton(elem);
     }
   }
 
-  updateActionName(htmlid, narrative) {
+  static updateActionName(htmlid, narrative) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
@@ -282,7 +315,7 @@ export class CaseStudies {
     }
   }
 
-  updateNarrative(htmlid, narrative) {
+  static updateNarrative(htmlid, narrative) {
     const selector = `#${htmlid} #narrative`;
     const elem = document.querySelector(selector);
     if (elem) {
@@ -290,7 +323,7 @@ export class CaseStudies {
     }
   }
 
-  updateName(htmlid, narrative) {
+  static updateName(htmlid, narrative) {
     const selector = `#${htmlid} #name`;
     const elem = document.querySelector(selector);
     if (elem) {
@@ -298,8 +331,8 @@ export class CaseStudies {
     }
   }
 
-  triggerEvent (element, eventName) {
-    var event = new Event(eventName);
+  static triggerEvent(element, eventName) {
+    const event = new Event(eventName);
     if (element) {
       element.dispatchEvent(event);
     }
@@ -307,35 +340,41 @@ export class CaseStudies {
 
   layerToggle(layer) {
     const toggleBox = document.querySelector(`input#${layer}-toggle`);
-    this.triggerEvent(toggleBox,'change')
+    CaseStudies.triggerEvent(toggleBox, 'change');
     toggleBox.checked = !toggleBox.checked;
     this.mapComponent.toggleLayer(layer);
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'example', `layer toggle ${layer}`);
   }
 
 
-  legendToggle(layer) {
+  static legendToggle(layer) {
     const toggle = document.getElementById(`${layer}-layerToggle`);
     toggle.classList.toggle('closed');
     toggle.querySelector('.layer-legend-wrapper').classList.toggle('closed');
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'example', `legend toggle ${layer}`);
   }
 
-  legendToggleOff(layer) {
+  static legendToggleOff(layer) {
     const toggle = document.getElementById(`${layer}-layerToggle`);
     toggle.classList.add('closed');
     toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'example', `legend off ${layer}`);
   }
 
   // used by search by location
   drawCaseStudyArea(GeoJSON, Label) {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'example', `draw area ${Label}`);
     if (checkValidObject(GeoJSON)) {
-
       const checklayer = this.drawAreaGroup.getLayers();
       if (checklayer.length > 0) {
         this.drawAreaGroup.clearLayers();
       } else {
         // convert geoJson to leaflet layer
         const layer = L.geoJson(GeoJSON);
-
         // add layer to the leaflet map
         this.drawAreaGroup.addLayer(layer);
         this.addUserAreaLabel(layer, Label);
