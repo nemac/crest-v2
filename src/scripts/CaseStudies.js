@@ -1,4 +1,5 @@
 import { yaml} from 'js-yaml';
+import { Store } from './store';
 
 import caseStudiesTemplate from '../templates/case_studies.html';
 import caseStudyConfig from 'js-yaml-loader!../config/caseStudyConfig.yml';
@@ -6,6 +7,8 @@ import {
   checkValidObject,
   googleAnalyticsEvent
 } from './utilitys';
+
+const store = new Store({});
 
 export class CaseStudies {
   constructor(mapComponent, exlore) {
@@ -33,6 +36,7 @@ export class CaseStudies {
       this.displayOff(heading);
     }
 
+    this.addClearEvent();
 
     this.caseStudies.forEach((study) => {
 
@@ -41,33 +45,39 @@ export class CaseStudies {
       this.updateName(study.htmlid, study.name);
 
       let lastactions;
-      let lastposition = 0;
 
       study.steps.forEach( (step) => {
         this.updateNarrative(step.htmlid, step.narrative);
         this.updateName(step.htmlid, step.name);
 
         if (step.nexthtmlid) {
-          console.log(step.htmlid, step.nexthtmlid, step.position)
           this.addNextEvent(step.htmlid, step.nexthtmlid, study.htmlid, step.position);
         }
 
         if (step.lasthtmlid) {
-          lastposition = step.position - 2;
-          if (lastposition < -1) {
-            lastposition = 0;
-          }
-
+          const lastposition = this.getLastPosition(step.position);
           this.addLastEvent(step.htmlid, step.lasthtmlid, study.htmlid, lastposition);
         }
 
         if (step.actions.layerToggle) {
-          this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid);
+          this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, step.nexthtmlid, lastactions);
         }
 
         if (step.actions.legendToggle) {
-          this.updateLegendToggleActionEvent(step.htmlid, step.actions.legendToggle, step.nexthtmlid);
+          this.updateLegendToggleActionEvent(step.htmlid, step.actions.legendToggle, step.nexthtmlid, lastactions);
         }
+
+        // console.log(lastactions)
+        // if (lastactions) {
+        //   if (lastactions.legendToggle) {
+        //     this.updateLegendToggleActionEvent(step.lasthtmlid, step.actions.legendToggle, step.htmlid);
+        //   }
+        //
+        //   if (lastactions.layerToggle) {
+        //     this.updateLayerToggleActionEvent(step.lasthtmlid, step.actions.layerToggle, step.htmlid);
+        //   }
+        // }
+
 
         if (step.actions.geojson) {
           this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson, step.nexthtmlid);
@@ -80,12 +90,49 @@ export class CaseStudies {
           }
         }
 
-        lastactions = step.actions;
-
-
+      lastactions = step.actions;
       })
     })
 
+  }
+
+  addClearEvent() {
+
+    const selector = '.figure-caption.tile-caption.sticky-top';
+    const elems = document.querySelectorAll(selector);
+    elems.forEach( (elem) => {
+      if (elem) {
+        elem.addEventListener( 'click', (e) => {
+          this.unCheckLayers();
+          this.collapseLayerLegends();
+          this.drawAreaGroup.clearLayers();
+        })
+      }
+    })
+  }
+
+  unCheckLayers() {
+    const layers = store.getStateItem('mapLayerDisplayStatus');
+    Object.keys(layers).forEach((layer) => {
+      if (layers[layer]) {
+        this.layerToggle(layer);
+      }
+    })
+  }
+
+  collapseLayerLegends() {
+    const layers = store.getStateItem('mapLayerDisplayStatus');
+    Object.keys(layers).forEach((layer) => {
+      this.legendToggleOff(layer);
+    })
+  }
+
+  getLastPosition(position) {
+    let lastposition = position - 2;
+    if (lastposition < -1) {
+      lastposition = 0;
+    }
+    return lastposition
   }
 
   clearPosition() {
@@ -205,7 +252,7 @@ export class CaseStudies {
     }
   }
 
-  updateLayerToggleActionEvent(htmlid, layer) {
+  updateLayerToggleActionEvent(htmlid, layer, lasthtmlid, lastactions) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
@@ -215,6 +262,15 @@ export class CaseStudies {
       this.displayActionButton(elem);
     }
 
+    const selectorLast= `#${htmlid} #action-last`;
+    const elemLast = document.querySelector(selectorLast);
+    if (elemLast) {
+      elemLast.addEventListener( 'click', (e) => {
+        if (lastactions.layerToggle) {
+          this.layerToggle(lastactions.layerToggle);
+        }        
+      })
+    }
     // const selectornext = `#${htmlid} #action-next`;
     // const elemnext = document.querySelector(selectornext)
     // if (elemnext) {
@@ -267,6 +323,12 @@ export class CaseStudies {
     const toggle = document.getElementById(`${layer}-layerToggle`);
     toggle.classList.toggle('closed');
     toggle.querySelector('.layer-legend-wrapper').classList.toggle('closed');
+  }
+
+  legendToggleOff(layer) {
+    const toggle = document.getElementById(`${layer}-layerToggle`);
+    toggle.classList.add('closed');
+    toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
   }
 
   // used by search by location
