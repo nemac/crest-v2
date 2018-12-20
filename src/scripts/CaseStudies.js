@@ -258,7 +258,13 @@ export class CaseStudies {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
-      elem.href = href;
+      let homeloc = window.location.origin;
+      // handle gh pages dist folder.
+      if (homeloc === 'https://nemac.github.io') {
+        homeloc += '/NFWF_tool/dist';
+      }
+
+      elem.href = `${homeloc}${href}`;
       elem.addEventListener('click', (e) => {
         // ga event action, category, label
         googleAnalyticsEvent('click', 'example', 'viewerlink');
