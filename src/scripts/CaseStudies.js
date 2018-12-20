@@ -41,21 +41,24 @@ export class CaseStudies {
       this.updateName(study.htmlid, study.name);
 
       let lastactions;
+      let lastposition = 0;
 
       study.steps.forEach( (step) => {
         this.updateNarrative(step.htmlid, step.narrative);
         this.updateName(step.htmlid, step.name);
 
         if (step.nexthtmlid) {
-          this.addNextEvent(step.htmlid, step.nexthtmlid);
+          console.log(step.htmlid, step.nexthtmlid, step.position)
+          this.addNextEvent(step.htmlid, step.nexthtmlid, study.htmlid, step.position);
         }
 
         if (step.lasthtmlid) {
-          this.addLastEvent(step.htmlid, step.lasthtmlid);
-        }
+          lastposition = step.position - 2;
+          if (lastposition < -1) {
+            lastposition = 0;
+          }
 
-        if (step.actions.name) {
-          this.updateActionName(step.htmlid, step.actions.name);
+          this.addLastEvent(step.htmlid, step.lasthtmlid, study.htmlid, lastposition);
         }
 
         if (step.actions.layerToggle) {
@@ -72,31 +75,54 @@ export class CaseStudies {
 
         if (step.actions.viewerlink) {
           this.addViewerLinkEvent(step.htmlid, step.actions.viewerlink, step.nexthtmlid);
+          if (step.actions.name) {
+            this.updateActionName(step.htmlid, step.actions.name);
+          }
         }
 
         lastactions = step.actions;
+
+
       })
     })
 
   }
 
+  clearPosition() {
+    const selector = `.position`;
+    const elems = document.querySelectorAll(selector);
+    elems.forEach( (elem) => {
+      elem.classList.remove('active');
+    })
+  }
 
-  addNextEvent(htmlid, nexthtmlid) {
-    const selector = `#${htmlid} #action-next`;
+  addPosition(studyhtmlid, position) {
+    const selector = `#${studyhtmlid} #positions .position-${position+1}`;
+    const elem = document.querySelector(selector);
+    if (elem) {
+      this.clearPosition();
+      elem.classList.add('active');
+    }
+  }
+
+  addNextEvent(htmlid, nexthtmlid, studyhtmlid, position) {
+    const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
+        this.addPosition(studyhtmlid, position)
         this.displayOffStep(htmlid);
         this.displayOnStep(nexthtmlid);
       })
     }
   }
 
-  addLastEvent(htmlid, lasthtmlid) {
+  addLastEvent(htmlid, lasthtmlid, studyhtmlid, position) {
     const selector = `#${htmlid} #action-last`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
+        this.addPosition(studyhtmlid, position)
         this.displayOffStep(htmlid);
         this.displayOnStep(lasthtmlid);
       })
