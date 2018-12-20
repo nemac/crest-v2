@@ -1253,12 +1253,12 @@ export class Explore extends Component {
         } else if (checkValidObject(checkUserareas)) {
           Explore.dismissExploreDirections();
         } else {
-          Explore.updateExploreDirections(this.exlporeHubMessage);
+          Explore.updateExploreDirections(this.exlporeAssmentMessage);
         }
       } else if (checkValidObject(checkUserareas)) {
         Explore.dismissExploreDirections();
       } else {
-        Explore.updateExploreDirections(this.exlporeHubMessage);
+        Explore.updateExploreDirections(this.exlporeAssmentMessage);
       }
     });
   }
@@ -1481,7 +1481,7 @@ export class Explore extends Component {
           await this.getZonal();
         } catch (e) {
           // TODO: display message to the user (was the area too big? what happened?)
-          this.rollbackUserArea(layer, bufferedLayer); 
+          this.rollbackUserArea(layer, bufferedLayer);
           store.setStoreItem('working_zonalstats', false);
           spinnerOff();
         }
@@ -1752,7 +1752,7 @@ export class Explore extends Component {
     try {
       await this.getZonal();
     } catch (e) {
-      // TODO: Display a message to the user 
+      // TODO: Display a message to the user
       console.log('rollback uploaded feature');
       this.rollbackUserArea(newLayer, bufferedLayer);
       store.setStoreItem('working_zonalstats', false);
