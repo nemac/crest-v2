@@ -85,10 +85,11 @@ caseStudies:
     totalsteps: 7
     steps:
       - name: Start
+        position: 0
         htmlid: harvey-case-study-step-0
         lasthtmlid: harvey-case-study-step-0
         nexthtmlid: harvey-case-study-step-1
-        narrative: Start explorong the Hurricane harvey Harvey study
+        narrative: Start explorong the Hurricane Harvey study
         actions:
           name: View it on the map
           geojsonlabel: Buffalo Bayou
@@ -96,6 +97,7 @@ caseStudies:
         lastactions:
           name: none
       - name: Location
+        position: 1
         lasthtmlid: harvey-case-study-step-0
         htmlid: harvey-case-study-step-1
         nexthtmlid: harvey-case-study-step-2
@@ -107,6 +109,7 @@ caseStudies:
         lastactions:
           name: none;
       - name: Population Density Assets
+        position: 2
         lasthtmlid: harvey-case-study-step-1
         htmlid: harvey-case-study-step-2
         nexthtmlid: harvey-case-study-step-3
@@ -120,6 +123,7 @@ caseStudies:
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
       - name: Social Vulnerability Assets
+        position: 3
         lasthtmlid: harvey-case-study-step-2
         htmlid: harvey-case-study-step-3
         nexthtmlid: harvey-case-study-step-4
@@ -133,6 +137,7 @@ caseStudies:
           layerToggle: SocVulnTMS
           legendToggle: SocVulnTMS
       - name: Flood Prone Areas
+        position: 4
         lasthtmlid: harvey-case-study-step-3
         htmlid: harvey-case-study-step-4
         nexthtmlid: harvey-case-study-step-5
@@ -146,6 +151,7 @@ caseStudies:
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
       - name: Community Exposure
+        position: 5
         lasthtmlid: harvey-case-study-step-4
         htmlid: harvey-case-study-step-5
         nexthtmlid: harvey-case-study-step-6
@@ -157,6 +163,7 @@ caseStudies:
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
       - name: The viewer
+        position: 6
         lasthtmlid: harvey-case-study-step-5
         htmlid: harvey-case-study-step-6
         nexthtmlid: harvey-case-study-step-6
@@ -166,61 +173,97 @@ caseStudies:
           viewerlink: https://localhost:8080/?state=%7B%22basemap%22%3A%22Topographic%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A29.76194363083346%2C%22lng%22%3A-95.39199214428663%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22close%22%2C%22mapZoom%22%3A14%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22savedshapes%22%3A%7B%22savedshape2%22%3A%5B%7B%22name%22%3A%22Area%202%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe7ccd1a124f53e1af52adf9b6965b4cf%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F5f36058d49a08e7621a41e4573cc8487%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2Fab9cd43a431d4d90794ff88dec741037%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%2C%22userareacount%22%3A2%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: none
-  # - name: Hurricane Florence
-  #   htmlid: florence-case-study-main
-  #   narrative: Wilmington, NC.
-  #   totalsteps: 6
-  #   steps:
-  #     - name: Location
-  #       htmlid: florence-case-study-step-1
-  #       nexthtmlid: florence-case-study-step-2
-  #       lasthtmlid: florence-case-study-step-0
-  #       narrative: Water Street is Wilmington’s historic riverfront area.
-  #       actions:
-  #         name: View it on the map
-  #         geojsonlabel: Water Street
-  #         geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"mean":{"exposure":8.430505117200395,"asset":2.693298118190822,"threat":5.925387916804226,"aquatic":4,"terrestrial":3.3486299108616704,"hubs":1,"crit_infra":0.2119511389897656,"crit_facilities":0.16011885110597557,"pop_density":1.2677451304060745,"social_vuln":0.05348299768900627,"drainage":3.046880158468141,"erosion":1.3367448002641136,"floodprone_areas":2.086167051832288,"geostress":0,"sea_level_rise":2.3337735226147243,"slope":1.8689336414658304,"storm_surge":1.7959722680752723}},"geometry":{"type":"Polygon","coordinates":[[[-77.94021188650011,34.24096756878416],[-77.9399758865001,34.23937958586665],[-77.93992651881474,34.23800840853208],[-77.94018305935336,34.23665309545862],[-77.94073675478094,34.235359892699115],[-77.94156871263856,34.23417292903386],[-77.94265054596681,34.23313270974793],[-77.94394534188781,34.23227473384791],[-77.94540892109734,34.23162828199646],[-77.94699134529233,34.23121541663126],[-77.94871234529234,34.230907390078],[-77.95038711608697,34.23074159472215],[-77.95206985068849,34.230837566954776],[-77.9537012222808,34.231191922281575],[-77.95522371491201,34.23179216433716],[-77.95658365128791,34.23261712589893],[-77.95773308522902,34.23363771585787],[-77.95863149207035,34.234817945713516],[-77.95924719740681,34.236116199283835],[-77.95955849381215,34.23748670073992],[-77.95975549381217,34.23925971504624],[-77.95974351610148,34.240718597032206],[-77.95938675857394,34.24214736664929],[-77.95869898991745,34.24349088490917],[-77.95770675385215,34.244697305367445],[-77.95644834470305,34.245720074280335],[-77.95497232947005,34.246519726257695],[-77.95333567343494,34.247065406269954],[-77.95160154164509,34.24733605943985],[-77.94991954164509,34.24745904863081],[-77.94819660696687,34.247447910826295],[-77.94650793640945,34.24716507131159],[-77.94491565284653,34.24662093254308],[-77.94347833326373,34.245835507503166],[-77.94224885382606,34.244837684164075],[-77.94127244466773,34.24366416367059],[-77.94058502596434,34.24235811117099],[-77.94021188650011,34.24096756878416]]]}}]}'
-  #     - name: Population Density Assets
-  #       htmlid: florence-case-study-step-2
-  #       nexthtmlid: florence-case-study-step-3
-  #       lasthtmlid: florence-case-study-step-1
-  #       narrative: The area is home to restaurants, shops, bed and breakfasts, and is also where some Wilmington residents make their home.
-  #       actions:
-  #         name: Show Population Density Asset Input
-  #         layerToggle: PopDensityTMS
-  #         legendToggle: PopDensityTMS
-  #     - name: Flood Prone Areas
-  #       htmlid: florence-case-study-step-3
-  #       nexthtmlid: florence-case-study-step-4
-  #       lasthtmlid: florence-case-study-step-2
-  #       narrative: Since this area sits on the Cape Fear River, it is not surprising that the area is threatened by many of the hazards identified in our Threat Index. including Flood Prone Areas.
-  #       actions:
-  #         name: Show Critical Flood Prone Areas Threat Input
-  #         layerToggle: FloodProneAreasTMS
-  #         legendToggle: FloodProneAreasTMS
-  #     - name: Strom Surge Threats
-  #       htmlid: florence-case-study-step-4
-  #       nexthtmlid: florence-case-study-step-5
-  #       lasthtmlid: florence-case-study-step-3
-  #       narrative: As well as some areas threatend by strom surge.
-  #       actions:
-  #         name: Show Storm Surge Threat Input
-  #         layerToggle: StormSurgeTMS
-  #         legendToggle: StormSurgeTMS
-  #     - name: Community Exposure
-  #       htmlid: florence-case-study-step-5
-  #       nexthtmlid: florence-case-study-step-6
-  #       lasthtmlid: florence-case-study-step-4
-  #       narrative: This particular area of Water Street where the J.W. Brooks building is located, is calculated as having high exposure in this assessment.
-  #       actions:
-  #         name: Show Community Exposure
-  #         layerToggle: ExposureTMS
-  #         legendToggle: ExposureTMS
-  #     - name: The viewer
-  #       htmlid: florence-case-study-step-6
-  #       nexthtmlid: florence-case-study-step-6
-  #       lasthtmlid: florence-case-study-step-5
-  #       narrative: Exlpore Buffalo Bayou in the vewer!
-  #       actions:
-  #         name: Exlpore in the viewer
-  #         viewerlink: https://localhost:8080/?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
+  - name: Hurricane florence
+    htmlid: florence-case-study-main
+    narrative: Water Street Wilmington, North Carolina.
+    totalsteps: 7
+    steps:
+      - name: Start
+        position: 0
+        htmlid: florence-case-study-step-0
+        lasthtmlid: florence-case-study-step-0
+        nexthtmlid: florence-case-study-step-1
+        narrative: Start explorong the Hurricane Florence study
+        actions:
+          name: View it on the map
+          geojsonlabel: Water Street
+          geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"mean":{"exposure":8.430505117200395,"asset":2.693298118190822,"threat":5.925387916804226,"aquatic":4,"terrestrial":3.3486299108616704,"hubs":1,"crit_infra":0.2119511389897656,"crit_facilities":0.16011885110597557,"pop_density":1.2677451304060745,"social_vuln":0.05348299768900627,"drainage":3.046880158468141,"erosion":1.3367448002641136,"floodprone_areas":2.086167051832288,"geostress":0,"sea_level_rise":2.3337735226147243,"slope":1.8689336414658304,"storm_surge":1.7959722680752723}},"geometry":{"type":"Polygon","coordinates":[[[-77.94021188650011,34.24096756878416],[-77.9399758865001,34.23937958586665],[-77.93992651881474,34.23800840853208],[-77.94018305935336,34.23665309545862],[-77.94073675478094,34.235359892699115],[-77.94156871263856,34.23417292903386],[-77.94265054596681,34.23313270974793],[-77.94394534188781,34.23227473384791],[-77.94540892109734,34.23162828199646],[-77.94699134529233,34.23121541663126],[-77.94871234529234,34.230907390078],[-77.95038711608697,34.23074159472215],[-77.95206985068849,34.230837566954776],[-77.9537012222808,34.231191922281575],[-77.95522371491201,34.23179216433716],[-77.95658365128791,34.23261712589893],[-77.95773308522902,34.23363771585787],[-77.95863149207035,34.234817945713516],[-77.95924719740681,34.236116199283835],[-77.95955849381215,34.23748670073992],[-77.95975549381217,34.23925971504624],[-77.95974351610148,34.240718597032206],[-77.95938675857394,34.24214736664929],[-77.95869898991745,34.24349088490917],[-77.95770675385215,34.244697305367445],[-77.95644834470305,34.245720074280335],[-77.95497232947005,34.246519726257695],[-77.95333567343494,34.247065406269954],[-77.95160154164509,34.24733605943985],[-77.94991954164509,34.24745904863081],[-77.94819660696687,34.247447910826295],[-77.94650793640945,34.24716507131159],[-77.94491565284653,34.24662093254308],[-77.94347833326373,34.245835507503166],[-77.94224885382606,34.244837684164075],[-77.94127244466773,34.24366416367059],[-77.94058502596434,34.24235811117099],[-77.94021188650011,34.24096756878416]]]}}]}'
+        lastactions:
+          name: none
+      - name: Location
+        position: 1
+        lasthtmlid: florence-case-study-step-0
+        htmlid: florence-case-study-step-1
+        nexthtmlid: florence-case-study-step-2
+        narrative: Water Street is Wilmington’s historic riverfront area.
+        actions:
+          name: Show Population Density Asset Input
+          layerToggle: PopDensityTMS
+          legendToggle: PopDensityTMS
+        lastactions:
+          name: none;
+      - name: Population Density Assets
+        position: 2
+        lasthtmlid: florence-case-study-step-1
+        htmlid: florence-case-study-step-2
+        nexthtmlid: florence-case-study-step-3
+        narrative: The area is home to restaurants, shops, bed and breakfasts, and is also where some Wilmington residents make their home.
+        actions:
+          name: Show Social Vulnerability Asset Input
+          layerToggle: FloodProneAreasTMS
+          legendToggle: FloodProneAreasTMS
+        lastactions:
+          name: Show Population Density Asset Input
+          layerToggle: PopDensityTMS
+          legendToggle: PopDensityTMS
+      - name: Social Vulnerability Assets
+        position: 3
+        lasthtmlid: florence-case-study-step-2
+        htmlid: florence-case-study-step-3
+        nexthtmlid: florence-case-study-step-4
+        narrative: Since this area sits on the Cape Fear River, it is not surprising that the area is threatened by many of the hazards identified in our Threat Index. including Flood Prone Areas.
+        actions:
+          name: Show Critical Flood Prone Areas Threat Input
+          layerToggle: StormSurgeTMS
+          legendToggle: StormSurgeTMS
+        lastactions:
+          name: Show Social Vulnerability Asset Input
+          layerToggle: FloodProneAreasTMS
+          legendToggle: FloodProneAreasTMS
+      - name: Flood Prone Areas
+        position: 4
+        lasthtmlid: florence-case-study-step-3
+        htmlid: florence-case-study-step-4
+        nexthtmlid: florence-case-study-step-5
+        narrative: As well as some areas threatend by strom surge.
+        actions:
+          name: Show Community Exposure
+          layerToggle: ExposureTMS
+          legendToggle: ExposureTMS
+        lastactions:
+          name: Show Critical Flood Prone Areas Threat Input
+          layerToggle: StormSurgeTMS
+          legendToggle: StormSurgeTMS
+      - name: Community Exposure
+        position: 5
+        lasthtmlid: florence-case-study-step-4
+        htmlid: florence-case-study-step-5
+        nexthtmlid: florence-case-study-step-6
+        narrative: This particular area of Water Street where the J.W. Brooks building is located, is calculated as having high exposure in this assessment.
+        actions:
+          name: none
+        lastactions:
+          name: Show Community Exposure
+          layerToggle: ExposureTMS
+          legendToggle: ExposureTMS
+      - name: The viewer
+        position: 6
+        lasthtmlid: florence-case-study-step-5
+        htmlid: florence-case-study-step-6
+        nexthtmlid: florence-case-study-step-6
+        narrative: Exlpore Wilmington, N.C. in the vewer!
+        actions:
+          name: Exlpore in the viewer
+          viewerlink: https://localhost:8080/?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
+        lastactions:
+          name: none

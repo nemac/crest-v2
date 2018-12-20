@@ -141,7 +141,8 @@ export class CaseStudies {
   }
 
   addPosition(studyhtmlid, position) {
-    const selector = `#${studyhtmlid} #positions .position-${position+1}`;
+    const selector = `#${studyhtmlid}  #positions .position-${position+1}`;
+    console.log('addPosition', selector)
     const elem = document.querySelector(selector);
     if (elem) {
       this.clearPosition();
