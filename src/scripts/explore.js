@@ -739,9 +739,10 @@ export class Explore extends Component {
       return JSON.parse('{}');
     }
 
-    // send request to api
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+    // If the API fails 3 times, error is thrown and no code below this point is run
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
+
     const name = this.storeShapes();
     this.saveUserShapesToS3();
 
@@ -1022,19 +1023,14 @@ export class Explore extends Component {
 
       const activeNav = store.getStateItem('activeNav');
 
-      if (activeNav) {
-        if (activeNav === 'main-nav-map-searchhubs') {
-          Explore.removeExistingHubs();
-          this.getHubsZonal();
-          this.drawHubs();
-          this.drawZonalStatsForStoredHubs();
-        } else {
-          this.getZonal();
-        }
+      if (activeNav === 'main-nav-map-searchhubs') {
+        Explore.removeExistingHubs();
+        this.getHubsZonal();
+        this.drawHubs();
+        this.drawZonalStatsForStoredHubs();
       } else {
         this.getZonal();
       }
-
       return layer;
     }
     return null;
@@ -1441,7 +1437,7 @@ export class Explore extends Component {
   // would be better to handle this as a traditional callback
   // @param { Object } mapComponent object
   // @param { Object } mapInfoComponent object
-  addDrawVertexCreatedHandler(mapComponent, mapInfoComponent) {
+  async addDrawVertexCreatedHandler(mapComponent, mapInfoComponent) {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', async (e) => {
       Explore.removeDrawShapeToolTip();
@@ -1450,16 +1446,14 @@ export class Explore extends Component {
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
       const activeNav = store.getStateItem('activeNav');
 
-      if (activeNav) {
-        if (activeNav !== 'main-nav-map-searchhubs') {
-          // add layer to the leaflet map
-          this.drawAreaGroup.addLayer(layer);
-          this.drawAreaGroup.addLayer(bufferedLayer);
+      if (activeNav !== 'main-nav-map-searchhubs') {
+        // add layer to the leaflet map
+        this.drawAreaGroup.addLayer(layer);
+        this.drawAreaGroup.addLayer(bufferedLayer);
 
-          // start adding the user draw shape to the map
-          layer.addTo(mapComponent.map);
-          this.addUserAreaLabel(bufferedLayer);
-        }
+        // start adding the user draw shape to the map
+        layer.addTo(mapComponent.map);
+        this.addUserAreaLabel(bufferedLayer);
       }
 
       // must click the i button to do this action we will have to remove this
@@ -1473,23 +1467,35 @@ export class Explore extends Component {
       // update store
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', geojson);
-      if (activeNav) {
-        if (activeNav === 'main-nav-map-searchhubs') {
-          Explore.removeExistingHubs();
-          Explore.clearZonalStatsWrapperDiv();
+      if (activeNav === 'main-nav-map-searchhubs') {
+        Explore.removeExistingHubs();
+        Explore.clearZonalStatsWrapperDiv();
 
-          this.drawAreaGroup.clearLayers();
+        this.drawAreaGroup.clearLayers();
 
-          await this.getHubsZonal();
-          this.drawHubsFromStateObject();
-          this.drawZonalStatsForStoredHubs();
-        } else {
-          this.getZonal();
-        }
+        await this.getHubsZonal();
+        this.drawHubsFromStateObject();
+        this.drawZonalStatsForStoredHubs();
       } else {
-        this.getZonal();
+        try {
+          await this.getZonal();
+        } catch (e) {
+          // TODO: display message to the user (was the area too big? what happened?)
+          this.rollbackUserArea(layer, bufferedLayer); 
+          store.setStoreItem('working_zonalstats', false);
+          spinnerOff();
+        }
       }
-    });
+   });
+  }
+
+  rollbackUserArea(layer, bufferedLayer) {
+    store.removeStateItem('userarea');
+    store.removeStateItem('userarea_buffered');
+    this.drawAreaGroup.removeLayer(layer);
+    this.drawAreaGroup.removeLayer(bufferedLayer);
+    const userareacount = store.getStateItem('userareacount');
+    store.setStoreItem('userareacount', userareacount - 1);
   }
 
   static resetshapescounter() {
@@ -1701,7 +1707,6 @@ export class Explore extends Component {
         geojsonFromShpfiles = { features: [] };
       }
       for (let i = 0; i < geojsonFromShpfiles.features.length; i += 1) {
-        // await this.addFeatureAsMapLayer(geojsonFromShpfiles.features[i]);
         features.push(geojsonFromShpfiles.features[i]);
       }
     }
@@ -1716,12 +1721,10 @@ export class Explore extends Component {
       }
       if (geojsonFromFile.type === 'FeatureCollection') {
         for (let j = 0; j < geojsonFromFile.features.length; j += 1) {
-          // await this.addFeatureAsMapLayer(geojsonFromFile.features[j]);
           features.push(geojsonFromFile.features[j]);
         }
       }
       if (geojsonFromFile.type === 'Feature') {
-        // await this.addFeatureAsMapLayer(geojsonFromFile);
         features.push(geojsonFromFile);
       }
     }
@@ -1746,9 +1749,15 @@ export class Explore extends Component {
     this.addUserAreaLabel(bufferedLayer);
 
     store.saveAction('addsavedgeojson');
-    await this.getZonal();
-    await this.storeShapes();
-    return '';
+    try {
+      await this.getZonal();
+    } catch (e) {
+      // TODO: Display a message to the user 
+      console.log('rollback uploaded feature');
+      this.rollbackUserArea(newLayer, bufferedLayer);
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff();
+    }
   }
 
   static async readGeojsonFile(file) {
