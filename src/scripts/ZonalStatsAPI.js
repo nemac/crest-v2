@@ -31,19 +31,18 @@ export class ZonalStatsAPI {
         'content-type': 'text/plain'
       }
     };
-    
-    return axiosConfig
+    return axiosConfig;
   }
 
   async getZonalStatsSummary(postdata) {
     const axiosConfig = this.makeConfigObj(postdata);
-    const success = false;
+    // const success = false;
     let numAttempts = 0;
     while (numAttempts < maxAttempts) {
       try {
         const response = await post(this.url, postdata, axiosConfig);
         if (response.status === 200 && response.data) {
-          return response.data; // features[0].mean;
+          return response.data;
         } else {
           throw new Error();
         }
@@ -52,7 +51,6 @@ export class ZonalStatsAPI {
       }
     }
     // We've tried three times with no success. Throw an error with a message to the user.
-    throw new Error("Something went wrong. Please try again."); 
+    throw new Error('Something went wrong. Please try again.');
   }
 }
-

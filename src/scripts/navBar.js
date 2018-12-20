@@ -77,7 +77,7 @@ export class NavBar extends Component {
         NavBar.deactivateAllNavs();
 
         // this very hacky need better way to handle
-        if (nav.id === 'main-nav-map-searchhubs') {
+        if (nav.id === 'main-nav-map-searchhubs' || nav.id === 'main-nav-map-examples') {
           NavBar.toggleTabContent('main-nav-map');
         } else {
           NavBar.toggleTabContent(e.target.id);
