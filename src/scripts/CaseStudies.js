@@ -44,8 +44,6 @@ export class CaseStudies {
       this.updateNarrative(study.htmlid, study.narrative);
       this.updateName(study.htmlid, study.name);
 
-      // let lastactions;
-
       study.steps.forEach( (step) => {
 
         this.updateNarrative(step.htmlid, step.narrative);
@@ -61,27 +59,27 @@ export class CaseStudies {
         }
 
         if (step.actions.layerToggle) {
-          this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, step.lastactions);
+          this.updateLayerToggleActionEvent(step.htmlid, step.actions.layerToggle, false);
+        }
+
+        if (step.lastactions.layerToggle) {
+          this.updateLayerToggleActionEvent(step.htmlid, step.lastactions.layerToggle, true);
         }
 
         if (step.actions.legendToggle) {
-          this.updateLegendToggleActionEvent(step.htmlid, step.actions.legendToggle, step.lastactions);
+          this.updateLegendToggleActionEvent(step.htmlid, step.actions.legendToggle, false);
         }
 
-        // console.log(lastactions)
-        // if (lastactions) {
-        //   if (lastactions.legendToggle) {
-        //     this.updateLegendToggleActionEvent(step.lasthtmlid, step.actions.legendToggle, step.htmlid);
-        //   }
-        //
-        //   if (lastactions.layerToggle) {
-        //     this.updateLayerToggleActionEvent(step.lasthtmlid, step.actions.layerToggle, step.htmlid);
-        //   }
-        // }
-
+        if (step.lastactions.layerToggle) {
+          this.updateLegendToggleActionEvent(step.htmlid, step.lastactions.layerToggle, true);
+        }
 
         if (step.actions.geojson) {
-          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson, step.lastactions);
+          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, step.actions.geojson, false);
+        }
+
+        if (step.lastactions.geojsonlabel) {
+          this.updateDrawGeoJSONActionEvent(step.htmlid, step.actions.geojsonlabel, lastactions.geojsonlabel, false);
         }
 
         if (step.actions.viewerlink) {
@@ -91,14 +89,12 @@ export class CaseStudies {
           }
         }
 
-      // lastactions = step.actions;
       })
     })
 
   }
 
   addClearEvent() {
-
     const selector = '.figure-caption.tile-caption.sticky-top';
     const elems = document.querySelectorAll(selector);
     elems.forEach( (elem) => {
@@ -170,7 +166,6 @@ export class CaseStudies {
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
-        console.log('addLastEvent',position)
         if (position < 0) {
           this.unCheckLayers();
           this.collapseLayerLegends();
@@ -237,8 +232,16 @@ export class CaseStudies {
     this.displayActionButton(elem);
   }
 
-  updateDrawGeoJSONActionEvent(htmlid, label, geojson, lastactions) {
-    const selector = `#${htmlid} #action`;
+  actionSelector(lastaction) {
+    if (lastaction) {
+      return '#action-last';
+    }
+    return '#action';
+  }
+
+  updateDrawGeoJSONActionEvent(htmlid, label, geojson, lastaction = false) {
+
+    const selector = `#${htmlid} ${this.actionSelector(lastaction)}`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
@@ -246,60 +249,29 @@ export class CaseStudies {
       })
       this.displayActionButton(elem);
     }
-
-    const selectorLast= `#${htmlid} #action-last`;
-    const elemLast = document.querySelector(selectorLast);
-    console.log(selectorLast)
-
-    if (elemLast) {
-      elemLast.addEventListener( 'click', (e) => {
-        console.log(lastactions)
-        if (lastactions.geojson) {
-          this.drawCaseStudyArea(JSON.parse(lastactions.geojson), label);
-        }
-      })
-    }
   }
 
-  updateLegendToggleActionEvent(htmlid, layer, lastactions) {
-    const selector = `#${htmlid} #action`;
+  updateLegendToggleActionEvent(htmlid, layer, lastaction = false) {
+    const selector = `#${htmlid} ${this.actionSelector(lastaction)}`;
+    console.log('updateLegendToggleActionEvent', selector)
     const elem = document.querySelector(selector);
     if (elem) {
+      console.log('updateLegendToggleActionEvent', selector)
       elem.addEventListener( 'click', (e) => {
         this.legendToggle(layer);
       })
       this.displayActionButton(elem);
     }
-
-    const selectorLast= `#${htmlid} #action-last`;
-    const elemLast = document.querySelector(selectorLast);
-    if (elemLast) {
-      elemLast.addEventListener( 'click', (e) => {
-        if (lastactions.legendToggle) {
-          this.legendToggle(lastactions.layerToggle);
-        }
-      })
-    }
   }
 
-  updateLayerToggleActionEvent(htmlid, layer, lastactions) {
-    const selector = `#${htmlid} #action`;
+  updateLayerToggleActionEvent(htmlid, layer, lastaction = false) {
+    const selector = `#${htmlid} ${this.actionSelector(lastaction)}`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener( 'click', (e) => {
         this.layerToggle(layer);
       })
       this.displayActionButton(elem);
-    }
-
-    const selectorLast= `#${htmlid} #action-last`;
-    const elemLast = document.querySelector(selectorLast);
-    if (elemLast) {
-      elemLast.addEventListener( 'click', (e) => {
-        if (lastactions.layerToggle) {
-          this.layerToggle(lastactions.layerToggle);
-        }
-      })
     }
   }
 
@@ -329,10 +301,13 @@ export class CaseStudies {
 
   triggerEvent (element, eventName) {
     var event = new Event(eventName);
-    element.dispatchEvent(event);
+    if (element) {
+      element.dispatchEvent(event);
+    }
   }
 
   layerToggle(layer) {
+    console.log('layerToggle', layer)
     const toggleBox = document.querySelector(`input#${layer}-toggle`);
     this.triggerEvent(toggleBox,'change')
     toggleBox.checked = !toggleBox.checked;
