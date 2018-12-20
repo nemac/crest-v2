@@ -12,8 +12,15 @@ import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
+// import {
+//   ToggleCritInfra,
+//   ToggleStormSurge,
+//   ToggleExposed,
+//   SandyAreaGeoJson
+// } from './case_study_helper.js'
 
 import { HubIntersectionApi } from './HubIntersectionAPI';
+import { CaseStudies } from './CaseStudies';
 
 import {
   checkValidObject,
@@ -45,6 +52,7 @@ const shapefile = require('shapefile');
 
 const store = new Store({});
 
+
 /**
  * explore Component
  * Explore handles drawing on map, uploading of shapefile,
@@ -67,6 +75,8 @@ export class Explore extends Component {
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
     this.hasShareURL = hasShareURL;
     this.theStartNav = theStartNav;
+
+    this.caseStudies = new CaseStudies(this.mapComponent, this);
 
     // defualt buffer style
     this.bufferedoptions = {
@@ -107,6 +117,7 @@ export class Explore extends Component {
     this.HubIntersectionApi = new HubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
     this.DefaultExploreText = 'Start Exploring the Assessment';
+    this.ExamplesExploreText = 'Case Studies';
     this.exlporeAssmentMessage = 'To start examining the assessment click the draw area button and then sketch an area on the map. If you have a shapefile of the region, use the upload shapefile button.';
     this.exlporeHubMessage = 'To start searching for a place to do a resilience project click the draw area button and then sketch an area on the map. If you have a shapefile of the area, use the upload shapefile button.';
 
@@ -168,6 +179,7 @@ export class Explore extends Component {
       const exploreTitle = document.getElementById('explore-title');
       const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
       if (activeNav) {
+        Explore.enableShapeButtons();
         if (activeNav === 'main-nav-map-searchhubs') {
           this.drawHubsFromStateObject();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
@@ -176,6 +188,13 @@ export class Explore extends Component {
           if (checkValidObject(checkHubIntersectionJson)) {
             Explore.dismissExploreDirections();
           }
+        } else if (activeNav === 'main-nav-map-examples') {
+          Explore.dismissExploreDirections();
+          disableZonalButtons();
+          disableOverView();
+          Explore.dismissShapeButtons();
+          Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+          this.caseStudies.initalize();
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -211,11 +230,13 @@ export class Explore extends Component {
       const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
       const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
       const checkUserareas = store.getStateItem('userareas');
+      document.querySelector('.explore-row-container .sticky-top.sideheading').classList.remove('d-none');
 
       Explore.disableShapeExistsButtons();
       Explore.dismissExploreDirections();
       disableZonalButtons();
       disableOverView();
+      Explore.enableShapeButtons();
 
       if (activeNav) {
         // active nav is search hubs
@@ -245,6 +266,13 @@ export class Explore extends Component {
           // check if there is explore assement data in the state store
           // if there is NONE dispolay the text
           // that tells the user what to do
+        } else if (activeNav === 'main-nav-map-examples') {
+          Explore.dismissExploreDirections();
+          disableZonalButtons();
+          disableOverView();
+          Explore.dismissShapeButtons();
+          Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+          this.caseStudies.initalize();
         } else if (!checkValidObject(checkUserareas)) {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
@@ -281,6 +309,16 @@ export class Explore extends Component {
         disableOverView();
       }
     });
+  }
+
+  static dismissShapeButtons() {
+    const directionElem = document.getElementById('primary-shape-holder');
+    directionElem.classList.add('d-none');
+  }
+
+  static enableShapeButtons() {
+    const directionElem = document.getElementById('primary-shape-holder');
+    directionElem.classList.remove('d-none');
   }
 
   static dismissExploreDirections() {
@@ -1212,12 +1250,12 @@ export class Explore extends Component {
         } else if (checkValidObject(checkUserareas)) {
           Explore.dismissExploreDirections();
         } else {
-          Explore.updateExploreDirections(this.exlporeHubMessage);
+          Explore.updateExploreDirections(this.exlporeAssmentMessage);
         }
       } else if (checkValidObject(checkUserareas)) {
         Explore.dismissExploreDirections();
       } else {
-        Explore.updateExploreDirections(this.exlporeHubMessage);
+        Explore.updateExploreDirections(this.exlporeAssmentMessage);
       }
     });
   }
@@ -1438,14 +1476,14 @@ export class Explore extends Component {
       } else {
         try {
           await this.getZonal();
-        } catch (e) {
+        } catch (ev) {
           // TODO: display message to the user (was the area too big? what happened?)
-          this.rollbackUserArea(layer, bufferedLayer); 
+          this.rollbackUserArea(layer, bufferedLayer);
           store.setStoreItem('working_zonalstats', false);
           spinnerOff();
         }
       }
-   });
+    });
   }
 
   rollbackUserArea(layer, bufferedLayer) {
@@ -1711,12 +1749,13 @@ export class Explore extends Component {
     try {
       await this.getZonal();
     } catch (e) {
-      // TODO: Display a message to the user 
-      console.log('rollback uploaded feature');
+      // TODO: Display a message to the user
+      // console.log('rollback uploaded feature');
       this.rollbackUserArea(newLayer, bufferedLayer);
       store.setStoreItem('working_zonalstats', false);
       spinnerOff();
     }
+    return true;
   }
 
   static async readGeojsonFile(file) {
