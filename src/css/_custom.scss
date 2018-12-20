@@ -138,18 +138,34 @@ html, body {
   }
 }
 
+
 #about-nav-holder {
   padding-top: 15px !important;
   background-color: $body-bg !important;
 }
 
+@media (min-width: 993px) {
+  .making-of-examples {
+    .row {
+      min-width: 1140px;
+    }
+  }
+}
+@media (max-width: 992px) {
+  .making-of-examples {
+    .row {
+      min-width: 768px;
+    }
+  }
+}
+
 .making-of-examples {
   .making-of-math {
-    height: 50px;
-    font-size: 2rem;
+    // height: 50px;
+    font-size: 1.2rem;
     padding-top: 0px;
-    margin-top: 10%;
-    max-width: 105px !important;
+    // margin-top: 10%;
+    // max-width: 105px !important;
   }
 
   .figure-caption {
@@ -161,6 +177,7 @@ html, body {
   }
 
   .tile-caption {
+    max-width: 725px !important;
     font-size: 1em;
     font-weight: 800;
     border: 1px solid $gray-700;
@@ -208,13 +225,10 @@ html, body {
 
 .making-of-math {
   display: inline-block;
-  padding-top: 2%;
-  height: 200px;
-  font-size: 5rem;
-  margin-left: 15px;
-  margin-right: 15px;
-  text-align: center;
+  font-size: 1rem;
+  margin: 15px;
 }
+
 .making-of-main-text {
   font-size: 1.25rem;
   font-weight: 800;
@@ -241,9 +255,6 @@ html, body {
     vertical-align: middle;
   }
 }
-
-
-
 
 .main-navbar-toggle {
     z-index: 5000 !important;
