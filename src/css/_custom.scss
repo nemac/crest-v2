@@ -28,8 +28,6 @@ html, body {
     height: 100%;
 }
 
-
-
 .case-studies-row-container  {
   padding-left: 5px !important;
   padding-right: 5px !important;
@@ -126,22 +124,6 @@ html, body {
         background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
       }
 
-      .case-study-step {
-
-
-        // .icon-right {
-        //   float: right;
-        //   color: $body-color !important;
-        //   font-size: 10px;
-        // }
-        //
-        // .icon-left {
-        //   float: left;
-        //   color: $body-color !important;
-        //   font-size: 10px;
-        // }
-      }
-
       #name {
         font-size: 1.1rem;
         font-weight: 800;
@@ -152,10 +134,6 @@ html, body {
         padding: 15px;
         width: 100% !important;
       }
-    }
-
-    #action {
-      // width: 50% !important;
     }
   }
 }
