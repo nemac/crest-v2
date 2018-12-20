@@ -253,10 +253,8 @@ export class CaseStudies {
 
   updateLegendToggleActionEvent(htmlid, layer, lastaction = false) {
     const selector = `#${htmlid} ${this.actionSelector(lastaction)}`;
-    console.log('updateLegendToggleActionEvent', selector)
     const elem = document.querySelector(selector);
     if (elem) {
-      console.log('updateLegendToggleActionEvent', selector)
       elem.addEventListener( 'click', (e) => {
         this.legendToggle(layer);
       })
@@ -307,7 +305,6 @@ export class CaseStudies {
   }
 
   layerToggle(layer) {
-    console.log('layerToggle', layer)
     const toggleBox = document.querySelector(`input#${layer}-toggle`);
     this.triggerEvent(toggleBox,'change')
     toggleBox.checked = !toggleBox.checked;

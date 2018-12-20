@@ -79,57 +79,93 @@ caseStudies:
           viewerlink: https://localhost:8080/?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A39.40138214739658%2C%22lng%22%3A-74.44979667663576%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A13%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe1a77010acfb0f5f879a092fddc10e31%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2Fa8d31a25a5044c8436e63d9cf6fd3bc7%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F6a201e1507b7e6d2108ceb57cf97dcc6%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: none
-  # - name: Hurricane Harvey
-  #   htmlid: harvey-case-study-main
-  #   narrative: Buffalo Bayou, Houston.
-  #   totalsteps: 6
-  #   steps:
-  #     - name: Location
-  #       htmlid: harvey-case-study-step-1
-  #       nexthtmlid: harvey-case-study-step-2
-  #       narrative: Buffalo Bayou, Houston
-  #       actions:
-  #         name: View it on the map
-  #         geojsonlabel: Buffalo Bayou
-  #         geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"mean":{"exposure":8.555031791273844,"asset":3.991229993422495,"threat":3.7430388072791057,"aquatic":1.0210480157860118,"terrestrial":0,"hubs":"NaN","crit_infra":0.20609515457136593,"crit_facilities":0.12113571585178688,"pop_density":2.6639991229993423,"social_vuln":0,"drainage":1.8771102828327122,"erosion":0.07344880508660381,"floodprone_areas":1.3333698750274063,"geostress":1.1959000219250164,"sea_level_rise":0.04691953518965139,"slope":2.007016005262004,"storm_surge":0.33622012716509536}},"geometry":{"type":"Polygon","coordinates":[[[-95.41662656221605,29.76114966514909],[-95.41660656221605,29.761602663798854],[-95.41636680010032,29.763117745116638],[-95.41579102572193,29.764563049601445],[-95.41490138302939,29.76588299584819],[-95.4137320871645,29.767026825370493],[-95.41232810856773,29.767950553846706],[-95.41074344344136,29.76861866171085],[-95.40903903708669,29.769005459224722],[-95.4072804399832,29.769096073682327],[-95.40591968422986,29.769050075706073],[-95.40325125284207,29.769953190372913],[-95.4024208090092,29.770194478405255],[-95.39904680900919,29.771018416664596],[-95.39738841158238,29.771280779460817],[-95.39570274426372,29.771269585104584],[-95.39213274426373,29.770953609574367],[-95.39014873089089,29.77057773676026],[-95.38772550812048,29.76986159123125],[-95.38661792325688,29.769651199877263],[-95.3838018604103,29.769695402994135],[-95.38336922810583,29.769830368410258],[-95.38094916503763,29.770271403089083],[-95.37749216503765,29.77047838701525],[-95.37578209960431,29.770439054628962],[-95.37411163057291,29.77011904916838],[-95.3725413354132,29.76952997262861],[-95.37112815891483,29.768693182629896],[-95.36992334815565,29.767639018557656],[-95.36947534815563,29.767164041978614],[-95.36838147940306,29.765694436379675],[-95.36769261710933,29.764050088226757],[-95.36744344248075,29.762313776810043],[-95.36742344248076,29.76080577816121],[-95.36759028727332,29.75921734412953],[-95.36812592503806,29.757691580527435],[-95.36900794812063,29.756292319796124],[-95.37019945832306,29.755078104480113],[-95.3716506104878,29.754099737116327],[-95.3733006977003,29.753398153732487],[-95.37508069087731,29.753002710120224],[-95.37691612650184,29.75292995277763],[-95.37873022169997,29.753182926102212],[-95.38044708634449,29.75375104491753],[-95.38052165174214,29.75378365169356],[-95.38397782326079,29.753719390092837],[-95.38854509686402,29.753531185065714],[-95.39003615594552,29.753577432988045],[-95.3914978318127,29.753837301563937],[-95.3928898029188,29.754303620483494],[-95.39298726659611,29.754344641559005],[-95.39400844825897,29.75447687400426],[-95.3946962266352,29.754536484182623],[-95.39571650067494,29.75426391411198],[-95.39704334961652,29.754090962339358],[-95.3984694970765,29.753998825217725],[-95.39883387331747,29.75382899330471],[-95.40036296594432,29.75326747595287],[-95.40095396594434,29.753104463863842],[-95.40259771486704,29.7527945323201],[-95.40427919989742,29.752756072849028],[-95.40528334593762,29.75281493849122],[-95.40658227377422,29.752576672847592],[-95.40844705945804,29.75257625003646],[-95.41027176668256,29.75291009628549],[-95.41197776450257,29.753563822149964],[-95.4134915374416,29.75450925114054],[-95.41474785344742,29.755705634920375],[-95.41569257489526,29.757101410537278],[-95.41628499150605,29.758636423748577],[-95.41641799150605,29.75915443251874],[-95.41662656221605,29.76114966514909]]]}}]}'
-  #     - name: Population Density Assets
-  #       htmlid: harvey-case-study-step-2
-  #       nexthtmlid: harvey-case-study-step-3
-  #       narrative: The Population Density input shows densely populated areas outside of the park.
-  #       actions:
-  #         name: Show Population Density Asset Input
-  #         layerToggle: PopDensityTMS
-  #         legendToggle: PopDensityTMS
-  #     - name: Social Vulnerability Assets
-  #       htmlid: harvey-case-study-step-3
-  #       nexthtmlid: harvey-case-study-step-4
-  #       narrative: As well as some areas from the Social Vulnerability input.
-  #       actions:
-  #         name: Show Social Vulnerability Asset Input
-  #         layerToggle: SocVulnTMS
-  #         legendToggle: SocVulnTMS
-  #     - name: Flood Prone Areas
-  #       htmlid: harvey-case-study-step-4
-  #       narrative: The Flood-prone Areas input correctly suggests that the Bayou and surrounding area are at risk to flooding.
-  #       actions:
-  #         name: Show Critical Flood Prone Areas Threat Input
-  #         layerToggle: FloodProneAreasTMS
-  #         legendToggle: FloodProneAreasTMS
-  #     - name: Community Exposure
-  #       htmlid: harvey-case-study-step-5
-  #       nexthtmlid: harvey-case-study-step-6
-  #       narrative: Buffalo Bayou shows up as highly exposed, suggesting it is impacted by many other inputs in the Threat Index
-  #       actions:
-  #         name: Show Community Exposure
-  #         layerToggle: ExposureTMS
-  #         legendToggle: ExposureTMS
-  #     - name: The viewer
-  #       htmlid: harvey-case-study-step-6
-  #       nexthtmlid: harvey-case-study-step-6
-  #       narrative: Exlpore Buffalo Bayou in the vewer!
-  #       actions:
-  #         name: Exlpore in the viewer
-  #         viewerlink: https://localhost:8080/?state=%7B%22basemap%22%3A%22Topographic%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A29.76194363083346%2C%22lng%22%3A-95.39199214428663%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22close%22%2C%22mapZoom%22%3A14%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22savedshapes%22%3A%7B%22savedshape2%22%3A%5B%7B%22name%22%3A%22Area%202%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe7ccd1a124f53e1af52adf9b6965b4cf%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F5f36058d49a08e7621a41e4573cc8487%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2Fab9cd43a431d4d90794ff88dec741037%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%2C%22userareacount%22%3A2%7D&shareurl=true&fornav=main-nav-map
+  - name: Hurricane Harvey
+    htmlid: harvey-case-study-main
+    narrative: Buffalo Bayou, Houston.
+    totalsteps: 7
+    steps:
+      - name: Start
+        htmlid: harvey-case-study-step-0
+        lasthtmlid: harvey-case-study-step-0
+        nexthtmlid: harvey-case-study-step-1
+        narrative: Start explorong the Hurricane harvey Harvey study
+        actions:
+          name: View it on the map
+          geojsonlabel: Buffalo Bayou
+          geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"mean":{"exposure":8.555031791273844,"asset":3.991229993422495,"threat":3.7430388072791057,"aquatic":1.0210480157860118,"terrestrial":0,"hubs":"NaN","crit_infra":0.20609515457136593,"crit_facilities":0.12113571585178688,"pop_density":2.6639991229993423,"social_vuln":0,"drainage":1.8771102828327122,"erosion":0.07344880508660381,"floodprone_areas":1.3333698750274063,"geostress":1.1959000219250164,"sea_level_rise":0.04691953518965139,"slope":2.007016005262004,"storm_surge":0.33622012716509536}},"geometry":{"type":"Polygon","coordinates":[[[-95.41662656221605,29.76114966514909],[-95.41660656221605,29.761602663798854],[-95.41636680010032,29.763117745116638],[-95.41579102572193,29.764563049601445],[-95.41490138302939,29.76588299584819],[-95.4137320871645,29.767026825370493],[-95.41232810856773,29.767950553846706],[-95.41074344344136,29.76861866171085],[-95.40903903708669,29.769005459224722],[-95.4072804399832,29.769096073682327],[-95.40591968422986,29.769050075706073],[-95.40325125284207,29.769953190372913],[-95.4024208090092,29.770194478405255],[-95.39904680900919,29.771018416664596],[-95.39738841158238,29.771280779460817],[-95.39570274426372,29.771269585104584],[-95.39213274426373,29.770953609574367],[-95.39014873089089,29.77057773676026],[-95.38772550812048,29.76986159123125],[-95.38661792325688,29.769651199877263],[-95.3838018604103,29.769695402994135],[-95.38336922810583,29.769830368410258],[-95.38094916503763,29.770271403089083],[-95.37749216503765,29.77047838701525],[-95.37578209960431,29.770439054628962],[-95.37411163057291,29.77011904916838],[-95.3725413354132,29.76952997262861],[-95.37112815891483,29.768693182629896],[-95.36992334815565,29.767639018557656],[-95.36947534815563,29.767164041978614],[-95.36838147940306,29.765694436379675],[-95.36769261710933,29.764050088226757],[-95.36744344248075,29.762313776810043],[-95.36742344248076,29.76080577816121],[-95.36759028727332,29.75921734412953],[-95.36812592503806,29.757691580527435],[-95.36900794812063,29.756292319796124],[-95.37019945832306,29.755078104480113],[-95.3716506104878,29.754099737116327],[-95.3733006977003,29.753398153732487],[-95.37508069087731,29.753002710120224],[-95.37691612650184,29.75292995277763],[-95.37873022169997,29.753182926102212],[-95.38044708634449,29.75375104491753],[-95.38052165174214,29.75378365169356],[-95.38397782326079,29.753719390092837],[-95.38854509686402,29.753531185065714],[-95.39003615594552,29.753577432988045],[-95.3914978318127,29.753837301563937],[-95.3928898029188,29.754303620483494],[-95.39298726659611,29.754344641559005],[-95.39400844825897,29.75447687400426],[-95.3946962266352,29.754536484182623],[-95.39571650067494,29.75426391411198],[-95.39704334961652,29.754090962339358],[-95.3984694970765,29.753998825217725],[-95.39883387331747,29.75382899330471],[-95.40036296594432,29.75326747595287],[-95.40095396594434,29.753104463863842],[-95.40259771486704,29.7527945323201],[-95.40427919989742,29.752756072849028],[-95.40528334593762,29.75281493849122],[-95.40658227377422,29.752576672847592],[-95.40844705945804,29.75257625003646],[-95.41027176668256,29.75291009628549],[-95.41197776450257,29.753563822149964],[-95.4134915374416,29.75450925114054],[-95.41474785344742,29.755705634920375],[-95.41569257489526,29.757101410537278],[-95.41628499150605,29.758636423748577],[-95.41641799150605,29.75915443251874],[-95.41662656221605,29.76114966514909]]]}}]}'
+        lastactions:
+          name: none
+      - name: Location
+        lasthtmlid: harvey-case-study-step-0
+        htmlid: harvey-case-study-step-1
+        nexthtmlid: harvey-case-study-step-2
+        narrative: Buffalo Bayou, Houston
+        actions:
+          name: Show Population Density Asset Input
+          layerToggle: PopDensityTMS
+          legendToggle: PopDensityTMS
+        lastactions:
+          name: none;
+      - name: Population Density Assets
+        lasthtmlid: harvey-case-study-step-1
+        htmlid: harvey-case-study-step-2
+        nexthtmlid: harvey-case-study-step-3
+        narrative: The Population Density input shows densely populated areas outside of the park.
+        actions:
+          name: Show Social Vulnerability Asset Input
+          layerToggle: SocVulnTMS
+          legendToggle: SocVulnTMS
+        lastactions:
+          name: Show Population Density Asset Input
+          layerToggle: PopDensityTMS
+          legendToggle: PopDensityTMS
+      - name: Social Vulnerability Assets
+        lasthtmlid: harvey-case-study-step-2
+        htmlid: harvey-case-study-step-3
+        nexthtmlid: harvey-case-study-step-4
+        narrative: As well as some areas from the Social Vulnerability input.
+        actions:
+          name: Show Critical Flood Prone Areas Threat Input
+          layerToggle: FloodProneAreasTMS
+          legendToggle: FloodProneAreasTMS
+        lastactions:
+          name: Show Social Vulnerability Asset Input
+          layerToggle: SocVulnTMS
+          legendToggle: SocVulnTMS
+      - name: Flood Prone Areas
+        lasthtmlid: harvey-case-study-step-3
+        htmlid: harvey-case-study-step-4
+        nexthtmlid: harvey-case-study-step-5
+        narrative: The Flood-prone Areas input correctly suggests that the Bayou and surrounding area are at risk to flooding.
+        actions:
+          name: Show Community Exposure
+          layerToggle: ExposureTMS
+          legendToggle: ExposureTMS
+        lastactions:
+          name: Show Critical Flood Prone Areas Threat Input
+          layerToggle: FloodProneAreasTMS
+          legendToggle: FloodProneAreasTMS
+      - name: Community Exposure
+        lasthtmlid: harvey-case-study-step-4
+        htmlid: harvey-case-study-step-5
+        nexthtmlid: harvey-case-study-step-6
+        narrative: Buffalo Bayou shows up as highly exposed, suggesting it is impacted by many other inputs in the Threat Index
+        actions:
+          name: none
+        lastactions:
+          name: Show Community Exposure
+          layerToggle: ExposureTMS
+          legendToggle: ExposureTMS
+      - name: The viewer
+        lasthtmlid: harvey-case-study-step-5
+        htmlid: harvey-case-study-step-6
+        nexthtmlid: harvey-case-study-step-6
+        narrative: Exlpore Buffalo Bayou in the vewer!
+        actions:
+          name: Exlpore in the viewer
+          viewerlink: https://localhost:8080/?state=%7B%22basemap%22%3A%22Topographic%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A29.76194363083346%2C%22lng%22%3A-95.39199214428663%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22close%22%2C%22mapZoom%22%3A14%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22savedshapes%22%3A%7B%22savedshape2%22%3A%5B%7B%22name%22%3A%22Area%202%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe7ccd1a124f53e1af52adf9b6965b4cf%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F5f36058d49a08e7621a41e4573cc8487%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2Fab9cd43a431d4d90794ff88dec741037%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%2C%22userareacount%22%3A2%7D&shareurl=true&fornav=main-nav-map
+        lastactions:
+          name: none
   # - name: Hurricane Florence
   #   htmlid: florence-case-study-main
   #   narrative: Wilmington, NC.
