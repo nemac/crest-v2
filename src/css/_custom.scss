@@ -28,6 +28,42 @@ html, body {
     height: 100%;
 }
 
+.layer-legend-toggler.closed {
+  svg.fa-angle-down {
+    display: inherit !important;
+  }
+  svg.fa-angle-up {
+    display: none !important;
+  }
+}
+
+.layer-legend-toggler.open {
+  svg.fa-angle-down {
+    display: none !important;
+  }
+  svg.fa-angle-up {
+    display: inherit !important;
+  }
+}
+
+[aria-expanded="true"] {
+  svg.fa-caret-down {
+    display: none !important;
+  }
+  svg.fa-caret-up {
+    display: inherit !important;
+  }
+}
+
+[aria-expanded="false"] {
+  svg.fa-caret-down {
+    display: inherit !important;
+  }
+  svg.fa-caret-up {
+    display: none !important;
+  }
+}
+
 .case-studies-row-container  {
   padding-left: 5px !important;
   padding-right: 5px !important;
@@ -137,7 +173,6 @@ html, body {
     }
   }
 }
-
 
 #about-nav-holder {
   padding-top: 15px !important;
