@@ -222,6 +222,9 @@ const router = new Navigo(homeloc, true);
 //   console.log()
 // });
 addMissingStateItems();
+if (window.screen.availWidth < 769) {
+  store.setStoreItem('maplayerlist', 'close');
+}
 
 router.on({
   '/': (params, query) => {
