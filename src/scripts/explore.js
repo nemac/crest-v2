@@ -159,7 +159,8 @@ export class Explore extends Component {
     Explore.windowListnersToStopRoqueSpinner();
     // uncomment this if we want to add the draw area button to leaflet
     // control
-    // this.addDrawButtons(mapComponent);
+    this.addDrawButtons(mapComponent);
+    //
   }
 
   // generic do thing functon for empty blocks
@@ -1134,6 +1135,7 @@ export class Explore extends Component {
     mapComponent.map.on('draw:drawstop', () => {
       // this.removeExistingArea();
       Explore.removeDrawShapeToolTip();
+      document.querySelector('.leaflet-draw').classList.remove('active');
       // must click the i button to do this action we will have to remove this
       // if we want users to always be able to click the map and do mapinfo
       // if (checkValidObject(mapInfoComponent)) {
@@ -1325,7 +1327,10 @@ export class Explore extends Component {
       const topLeftCorner = bounds.getNorthWest();
       const TLpos = mapComponent.map.latLngToLayerPoint(topLeftCorner);
 
-      polygonDrawer.enable();
+      // polygonDrawer.enable();
+      // force click of draw polygon so we get cancel button;
+      document.querySelector('.leaflet-draw-draw-polygon').click();
+      document.querySelector('.leaflet-draw').classList.toggle('active');
 
       const tooltipContainer = document.querySelector('.leaflet-draw-tooltip');
       const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
@@ -1399,10 +1404,9 @@ export class Explore extends Component {
   // @param { Object } mapInfoComponent object
   addDrawStartedHandler(mapComponent) {
     // Assumming you have a Leaflet map accessible
-    mapComponent.map.on('draw:drawstart', (e) => {
+    mapComponent.map.on('drawstart', (e) => {
       // remove existing Area
       this.removeExistingArea();
-
       // turn off other map click events expecting this
       //  to be indentify if we add other map click events
       //  we will have to add that back.  so this not ideal
@@ -1437,6 +1441,7 @@ export class Explore extends Component {
   async addDrawVertexCreatedHandler(mapComponent, mapInfoComponent) {
     // Assumming you have a Leaflet map accessible
     mapComponent.map.on('draw:created', async (e) => {
+      document.querySelector('.leaflet-draw').classList.remove('active');
       Explore.removeDrawShapeToolTip();
       const { layer } = e;
       Explore.storeshapescounter();

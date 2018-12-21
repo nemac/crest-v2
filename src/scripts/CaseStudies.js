@@ -79,15 +79,27 @@ export class CaseStudies {
             true);
         }
 
+        if (step.actions.legendScroll) {
+          CaseStudies.legendScroll(step.htmlid,
+            step.actions.legendScroll,
+            false);
+        }
+
+        if (step.lastactions.legendScroll) {
+          CaseStudies.legendScroll(step.htmlid,
+            step.lastactions.legendScroll,
+            true);
+        }
+
         if (step.actions.legendToggle) {
           CaseStudies.updateLegendToggleActionEvent(step.htmlid,
             step.actions.legendToggle,
             false);
         }
 
-        if (step.lastactions.layerToggle) {
+        if (step.lastactions.legendToggle) {
           CaseStudies.updateLegendToggleActionEvent(step.htmlid,
-            step.lastactions.layerToggle,
+            step.lastactions.legendToggle,
             true);
         }
 
@@ -299,6 +311,17 @@ export class CaseStudies {
         CaseStudies.legendToggle(layer);
       });
       CaseStudies.displayActionButton(elem);
+    }
+  }
+
+  static legendScroll(htmlid, top, lastaction = false) {
+    const selector = `#${htmlid} ${CaseStudies.actionSelector(lastaction)}`;
+    const elem = document.querySelector(selector);
+    if (elem) {
+      elem.addEventListener('click', (e) => {
+        const maplayerlist = document.querySelector('.map_responsive');
+        maplayerlist.scrollTop = top;
+      });
     }
   }
 

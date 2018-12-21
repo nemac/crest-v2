@@ -26,6 +26,7 @@ caseStudies:
           name: Show Critical Infrastructure Asset Input
           layerToggle: CriticalInfrastructureTMS
           legendToggle: CriticalInfrastructureTMS
+          legendScroll: 300
         lastactions:
           name: none;
       - name: Critical Infrastructure Assets
@@ -38,10 +39,12 @@ caseStudies:
           name: Show Storm Surge Threat Input
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
+          legendScroll: 900
         lastactions:
           name: Show Critical Infrastructure Asset Input
           layerToggle: CriticalInfrastructureTMS
           legendToggle: CriticalInfrastructureTMS
+          legendScroll: 300
       - name: Strom Surge Threats
         htmlid: sandy-case-study-step-3
         lasthtmlid: sandy-case-study-step-2
@@ -52,10 +55,12 @@ caseStudies:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
+          legendScroll: 220
         lastactions:
           name: Show Storm Surge Threat Input
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
+          legendScroll: 900
       - name: Community Exposure
         htmlid: sandy-case-study-step-4
         lasthtmlid: sandy-case-study-step-3
@@ -68,6 +73,7 @@ caseStudies:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
+          legendScroll: 220
       - name: Explore
         htmlid: sandy-case-study-step-5
         lasthtmlid: sandy-case-study-step-4
@@ -106,6 +112,7 @@ caseStudies:
           name: Show Population Density Asset Input
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
+          legendScroll: 300
         lastactions:
           name: none;
       - name: Population Density Assets
@@ -118,10 +125,12 @@ caseStudies:
           name: Show Social Vulnerability Asset Input
           layerToggle: SocVulnTMS
           legendToggle: SocVulnTMS
+          legendScroll: 300
         lastactions:
           name: Show Population Density Asset Input
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
+          legendScroll: 300
       - name: Social Vulnerability Assets
         position: 3
         lasthtmlid: harvey-case-study-step-2
@@ -132,10 +141,12 @@ caseStudies:
           name: Show Critical Flood Prone Areas Threat Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
+          legendScroll: 750
         lastactions:
           name: Show Social Vulnerability Asset Input
           layerToggle: SocVulnTMS
           legendToggle: SocVulnTMS
+          legendScroll: 300
       - name: Flood Prone Areas
         position: 4
         lasthtmlid: harvey-case-study-step-3
@@ -146,10 +157,12 @@ caseStudies:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
+          legendScroll: 220
         lastactions:
           name: Show Critical Flood Prone Areas Threat Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
+          legendScroll: 750
       - name: Community Exposure
         position: 5
         lasthtmlid: harvey-case-study-step-4
@@ -162,6 +175,7 @@ caseStudies:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
+          legendScroll: 220
       - name: The viewer
         position: 6
         lasthtmlid: harvey-case-study-step-5
@@ -200,6 +214,7 @@ caseStudies:
           name: Show Population Density Asset Input
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
+          legendScroll: 300
         lastactions:
           name: none;
       - name: Population Density Assets
@@ -212,10 +227,12 @@ caseStudies:
           name: Show Social Vulnerability Asset Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
+          legendScroll: 750
         lastactions:
           name: Show Population Density Asset Input
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
+          legendScroll: 300
       - name: Social Vulnerability Assets
         position: 3
         lasthtmlid: florence-case-study-step-2
@@ -226,10 +243,12 @@ caseStudies:
           name: Show Critical Flood Prone Areas Threat Input
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
+          legendScroll: 900
         lastactions:
           name: Show Social Vulnerability Asset Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
+          legendScroll: 750
       - name: Flood Prone Areas
         position: 4
         lasthtmlid: florence-case-study-step-3
@@ -240,10 +259,12 @@ caseStudies:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
+          legendScroll: 220
         lastactions:
           name: Show Critical Flood Prone Areas Threat Input
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
+          legendScroll: 900
       - name: Community Exposure
         position: 5
         lasthtmlid: florence-case-study-step-4
@@ -256,6 +277,7 @@ caseStudies:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
+          legendScroll: 220
       - name: The viewer
         position: 6
         lasthtmlid: florence-case-study-step-5
