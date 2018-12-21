@@ -251,7 +251,11 @@ export function addMissingStateItems() {
 
   // check for maplayerlist default is open
   if (!checkValidObject(store.getStateItem('maplayerlist'))) {
-    store.setStoreItem('maplayerlist', 'open');
+    if (window.screen.availWidth < 769) {
+      store.setStoreItem('maplayerlist', 'close');
+    } else {
+      store.setStoreItem('maplayerlist', 'open');
+    }
   }
 
   // check for userareacount default is 0

@@ -329,7 +329,9 @@ export class MapLayersList extends Component {
   // @param elem | DOM Element
   static toggleLegendHtml(elem) {
     elem.classList.toggle('closed');
+    elem.classList.toggle('open');
     MapLayersList.getLayerWrapper(elem).querySelector('.layer-legend-wrapper').classList.toggle('closed');
+    MapLayersList.getLayerWrapper(elem).querySelector('.layer-legend-wrapper').classList.toggle('open');
   }
 
   // Gets the id of the legend to be used in the store

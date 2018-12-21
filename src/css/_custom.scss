@@ -28,20 +28,83 @@ html, body {
     height: 100%;
 }
 
+a:hover {
+  text-decoration: none !important;
+}
+
+.leaflet-draw {
+  display: none !important;
+  &.active {
+    display: inherit !important;
+  }
+}
+
+.layer-legend-toggler.closed {
+  svg.fa-angle-down {
+    display: inherit !important;
+  }
+  svg.fa-angle-up {
+    display: none !important;
+  }
+}
+
+.layer-legend-toggler.open {
+  svg.fa-angle-down {
+    display: none !important;
+  }
+  svg.fa-angle-up {
+    display: inherit !important;
+  }
+}
+
+[aria-expanded="true"] {
+  svg.fa-caret-down {
+    display: none !important;
+  }
+  svg.fa-caret-up {
+    display: inherit !important;
+  }
+}
+
+[aria-expanded="false"] {
+  svg.fa-caret-down {
+    display: inherit !important;
+  }
+  svg.fa-caret-up {
+    display: none !important;
+  }
+}
+
 .case-studies-row-container  {
   padding-left: 5px !important;
   padding-right: 5px !important;
+
+  .figure {
+
+    @media (max-width: 768px) {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+  }
 
   #positions {
     height: 35px;
     margin-left: 0px;
     margin-bottom: 15px;
 
+    @media (max-width: 768px) {
+      margin-bottom: 5px;
+    }
     .position {
       border: .5px solid $gray-700 !important;
       height: 30px;
       width: 20px;
       margin: 5px;
+
+      @media (max-width: 768px) {
+        height: 24px;
+        width: 12px;
+      }
 
       &.active {
         background-color: $gray-700;
@@ -59,6 +122,10 @@ html, body {
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
     z-index: 1000;
+
+    @media (max-width: 768px) {
+      padding: 5px;
+    }
 
     &.tile-caption {
       background-color: $gray-600;
@@ -92,13 +159,28 @@ html, body {
       border-left: 1px solid $gray-700;
       padding: 15px;
 
+      @media (max-width: 768px) {
+        padding: 10px;
+      }
+
       .row {
         margin-left: -10px;
         margin-right: -10px;
       }
 
-      .btn-light {
+      .case-study-step {
+        .col {
+          @media (max-width: 768px) {
+            padding-right: 5px;
+            padding-left: 5px;
+          }
+        }
 
+        #narrative {
+          @media (max-width: 768px) {
+            padding: 5px !important;
+          }
+        }
       }
 
       .btn-casestudies-action:hover {
@@ -110,6 +192,10 @@ html, body {
         border: 1px solid $body-color !important;
         color: $body-color !important;
         white-space: normal !important;
+
+        @media (max-width: 768px) {
+          border: 1px solid $gray-700 !important;
+        }
       }
 
       .btn-casestudies-action-arrow {
@@ -118,7 +204,12 @@ html, body {
         white-space: normal !important;
         // box-shadow: inherit !important;
         font-size: 5rem;
+
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
+        }
       }
+
 
       .btn-casestudies-action-arrow:hover {
         background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
@@ -133,11 +224,15 @@ html, body {
         font-size: .9rem;
         padding: 15px;
         width: 100% !important;
+
+        @media (max-width: 768px) {
+          padding: 10px;
+        }
+
       }
     }
   }
 }
-
 
 #about-nav-holder {
   padding-top: 15px !important;
@@ -161,11 +256,8 @@ html, body {
 
 .making-of-examples {
   .making-of-math {
-    // height: 50px;
     font-size: 1.2rem;
     padding-top: 0px;
-    // margin-top: 10%;
-    // max-width: 105px !important;
   }
 
   .figure-caption {
@@ -1224,6 +1316,27 @@ html, body {
 
 .geocoder-control.leaflet-control {
   width: 30px !important;
+}
+
+.leaflet-draw-actions a {
+  color: $body-bg !important;
+  background-color: $gray-300 !important;
+  // height: 30px !important;
+}
+
+.leaflet-draw-actions a:hover {
+  color: $body-color;
+  background-color: $gray-400 !important;
+  text-decoration: none !important;
+}
+
+.leaflet-draw.leaflet-control {
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 8px !important;
+  .leaflet-draw-actions {
+    top: 2px !important;
+  }
 }
 
 .geocoder-control-suggestions .geocoder-control-suggestion {
