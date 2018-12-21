@@ -28,6 +28,17 @@ html, body {
     height: 100%;
 }
 
+a:hover {
+  text-decoration: none !important;
+}
+
+.leaflet-draw {
+  display: none !important;
+  &.active {
+    display: inherit !important;
+  }
+}
+
 .layer-legend-toggler.closed {
   svg.fa-angle-down {
     display: inherit !important;
@@ -1305,6 +1316,27 @@ html, body {
 
 .geocoder-control.leaflet-control {
   width: 30px !important;
+}
+
+.leaflet-draw-actions a {
+  color: $body-bg !important;
+  background-color: $gray-300 !important;
+  // height: 30px !important;
+}
+
+.leaflet-draw-actions a:hover {
+  color: $body-color;
+  background-color: $gray-400 !important;
+  text-decoration: none !important;
+}
+
+.leaflet-draw.leaflet-control {
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 8px !important;
+  .leaflet-draw-actions {
+    top: 2px !important;
+  }
 }
 
 .geocoder-control-suggestions .geocoder-control-suggestion {
