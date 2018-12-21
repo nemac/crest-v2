@@ -68,16 +68,32 @@ html, body {
   padding-left: 5px !important;
   padding-right: 5px !important;
 
+  .figure {
+
+    @media (max-width: 768px) {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+  }
+
   #positions {
     height: 35px;
     margin-left: 0px;
     margin-bottom: 15px;
 
+    @media (max-width: 768px) {
+      margin-bottom: 5px;
+    }
     .position {
       border: .5px solid $gray-700 !important;
       height: 30px;
       width: 20px;
       margin: 5px;
+
+      @media (max-width: 768px) {
+        height: 24px;
+        width: 12px;
+      }
 
       &.active {
         background-color: $gray-700;
@@ -95,6 +111,10 @@ html, body {
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
     z-index: 1000;
+
+    @media (max-width: 768px) {
+      padding: 5px;
+    }
 
     &.tile-caption {
       background-color: $gray-600;
@@ -128,13 +148,28 @@ html, body {
       border-left: 1px solid $gray-700;
       padding: 15px;
 
+      @media (max-width: 768px) {
+        padding: 10px;
+      }
+
       .row {
         margin-left: -10px;
         margin-right: -10px;
       }
 
-      .btn-light {
+      .case-study-step {
+        .col {
+          @media (max-width: 768px) {
+            padding-right: 5px;
+            padding-left: 5px;
+          }
+        }
 
+        #narrative {
+          @media (max-width: 768px) {
+            padding: 5px !important;
+          }
+        }
       }
 
       .btn-casestudies-action:hover {
@@ -146,6 +181,10 @@ html, body {
         border: 1px solid $body-color !important;
         color: $body-color !important;
         white-space: normal !important;
+
+        @media (max-width: 768px) {
+          border: 1px solid $gray-700 !important;
+        }
       }
 
       .btn-casestudies-action-arrow {
@@ -154,7 +193,12 @@ html, body {
         white-space: normal !important;
         // box-shadow: inherit !important;
         font-size: 5rem;
+
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
+        }
       }
+
 
       .btn-casestudies-action-arrow:hover {
         background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
@@ -169,6 +213,11 @@ html, body {
         font-size: .9rem;
         padding: 15px;
         width: 100% !important;
+
+        @media (max-width: 768px) {
+          padding: 10px;
+        }
+
       }
     }
   }
