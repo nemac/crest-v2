@@ -133,6 +133,7 @@ export class CaseStudies {
     elems.forEach((elem) => {
       if (elem) {
         elem.addEventListener('click', (e) => {
+          CaseStudies.descriptionOn();
           this.unCheckLayers();
           CaseStudies.collapseLayerLegends();
           this.drawAreaGroup.clearLayers();
@@ -194,11 +195,30 @@ export class CaseStudies {
     }
   }
 
+  static descriptionOff() {
+    const elems = document.querySelectorAll('.narrative-main');
+    elems.forEach((elem) => {
+      if (elem) {
+        elem.classList.add('steps-active');
+      }
+    });
+  }
+
+  static descriptionOn() {
+    const elems = document.querySelectorAll('.narrative-main');
+    elems.forEach((elem) => {
+      if (elem) {
+        elem.classList.remove('steps-active');
+      }
+    });
+  }
+
   static addNextEvent(htmlid, nexthtmlid, studyhtmlid, position) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener('click', (e) => {
+        CaseStudies.descriptionOff();
         CaseStudies.addPosition(studyhtmlid, position);
         CaseStudies.displayOffStep(htmlid);
         CaseStudies.displayOnStep(nexthtmlid);

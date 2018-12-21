@@ -149,6 +149,12 @@ a:hover {
       width: 100% !important;
     }
 
+    @media (max-width: 768px) {
+      .narrative-main.steps-active {
+        display: none;
+      }
+    }
+
     .case-study-steps {
       // padding: 15px;
       width: 100%;
