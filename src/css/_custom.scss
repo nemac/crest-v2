@@ -1999,7 +1999,29 @@ a.nav-link {
 .tooltip {
     z-index: 10000;
 
+    @media (min-width: 993px) {
+      width: 700px !important;
+    }
+    @media (max-width: 992px) {
+      width: 600px !important;
+    }
+    @media (max-width: 768px) {
+      width: 300px !important;
+    }
+
+    overflow: hidden;
+
     .tooltip-inner {
+        @media (min-width: 993px) {
+          max-width: 700px !important;
+        }
+        @media (max-width: 992px) {
+          max-width: 600px !important;
+        }
+        @media (max-width: 768px) {
+          max-width: 320px;
+          font-size: .68rem;
+        }
         background-color: $body-color;
         color: $body-bg;
         text-align: left!important;
