@@ -1649,6 +1649,12 @@ div.zonal-asset {
       left: 15% !important;
     }
   }
+  &-exposure {
+    .zonal-long-graph-label-text {
+      left: -35% !important;
+      white-space: nowrap;
+    }
+  }
 }
 
 
@@ -1710,7 +1716,12 @@ div.zonal-asset {
         left: -55% !important;
       }
     }
-
+    &-exposure {
+      .zonal-long-graph-label-text {
+        left: -55% !important;
+        white-space: nowrap;
+      }
+    }
   }
 }
 
@@ -1780,7 +1791,6 @@ div.zonal-asset {
       padding-right: $padding !important;
     }
 
-
   .zonal-long-graph-label{
 
     &-social-vulnerability {
@@ -1809,6 +1819,12 @@ div.zonal-asset {
 
     &-drainage {
       .zonal-long-graph-label-text{
+        left: 0% !important;
+      }
+    }
+
+    &-exposure {
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
