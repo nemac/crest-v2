@@ -280,7 +280,7 @@ div.zonal-asset {
 }
 
 #zonal-header {
-  margin-bottom: 15px;
+  margin-bottom: 0px;
   display: flex;
 }
 
@@ -1652,6 +1652,7 @@ div.zonal-asset {
   &-exposure {
     .zonal-long-graph-label-text {
       left: -35% !important;
+      top: 20px;
       white-space: nowrap;
     }
   }
