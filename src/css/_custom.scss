@@ -28,6 +28,13 @@ html, body {
     height: 100%;
 }
 
+.explore-row-container {
+  hr {
+    margin-top: .25rem !important;
+    margin-bottom: .25rem !important;
+  }
+}
+
 a:hover {
   text-decoration: none !important;
 }
@@ -129,6 +136,10 @@ a:hover {
 
     &.tile-caption {
       background-color: $gray-600;
+    }
+
+    &.tile-caption:hover {
+      background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
     }
 
     .icon-right {
@@ -1401,6 +1412,13 @@ a:hover {
 }
 
 @media (max-width: 500px) {
+  .leaflet-draw.active {
+    position: fixed;
+    z-index: 5000;
+    top: 110px;
+    left: 50px;
+  }
+
   .collapse-focus {
     position: fixed;
     width: 275px !important;
