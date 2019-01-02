@@ -164,12 +164,17 @@ export function flatten(arr) {
   return flat;
 }
 
+export function uuid() {
+  return crypto.getRandomValues(new Uint32Array(4)).join('-');
+}
+
 // adds a custom google events
 export function googleAnalyticsEvent(action = '', category = '', label = '', value = 0) {
   gtag('event', action, {
     event_category: category,
     event_label: label,
-    value: `${value}`
+    value: `${value}`,
+    uuid: store.getStateItem('uuid')
   });
 }
 
@@ -206,6 +211,7 @@ export function addDownloadGoogleEvents() {
   });
 }
 
+
 // set stateitems if they do not exist
 // we will have to any new ones if added.
 // this will help when we adding new statitems "breaks" the webpage
@@ -214,6 +220,11 @@ export function addMissingStateItems() {
   if (!checkValidObject(store.getStateItem('basemap'))) {
     store.setStoreItem('basemap', 'DarkGray');
   }
+
+  if (!checkValidObject(store.getStateItem('uuid'))) {
+    store.setStoreItem('uuid', uuid());
+  }
+
 
   // check for lastaction default is moveend
   if (!checkValidObject(store.getStateItem('lastaction'))) {
