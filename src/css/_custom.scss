@@ -1384,6 +1384,9 @@ a:hover {
 .leaflet-draw-actions a {
   color: $body-bg !important;
   background-color: $gray-300 !important;
+  @media (max-width: 420px) {
+    background-color:  $yellow !important;
+  }
   // height: 30px !important;
 }
 
@@ -1419,6 +1422,15 @@ a:hover {
 @media (max-width: 768px) {
   .leaflet-draw-tooltip-top {
       font-size: 1.5em !important;
+  }
+  .leaflet-draw-actions a {
+    background-color:  $yellow !important;
+  }
+  .leaflet-draw.active {
+    position: fixed;
+    z-index: 5000;
+    top: 120px;
+    left: 50px;
   }
 }
 
