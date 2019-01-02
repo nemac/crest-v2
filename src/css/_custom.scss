@@ -308,6 +308,10 @@ a:hover {
   .making-of-math {
     font-size: 1.2rem;
     padding-top: 0px;
+    margin-left: -275px;
+    @media (max-width: 992px) {
+      margin-left: 0px;
+    }
   }
 
   .figure-caption {
