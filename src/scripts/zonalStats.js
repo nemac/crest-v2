@@ -34,6 +34,19 @@ $(() => {
 
 const store = new Store({});
 
+function shapeNavOff() {
+  const elem = document.querySelector('.navbar-explore-shapes');
+  if (elem) {
+    elem.classList.add('long-graphs-active');
+  }
+}
+
+function shapeNavOn() {
+  const elem = document.querySelector('.navbar-explore-shapes');
+  if (elem) {
+    elem.classList.remove('long-graphs-active');
+  }
+}
 // Checks if a value falls in the range of accepted values
 // @param val | string || integer || float
 // @return boolean
@@ -463,6 +476,7 @@ function toggleALLPathsOff(elem) {
 function dismissZonalClickHandler(e) {
   // ga event action, category, label
   googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'dismiss graphs');
+  shapeNavOn();
 
   e.preventDefault();
   setGraphsState('none', 'none');
@@ -523,6 +537,7 @@ function viewLongZonalStats(shortElem) {
     shortElem.nextElementSibling.classList.add('active');
     setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
     document.getElementById('zonal-header').classList.add('d-none');
+    shapeNavOff();
     ZonalWrapperActiveRemove();
 
     const HTMLName = stripUserArea(shortElem.id);
@@ -1436,6 +1451,7 @@ function restoreGraphState() {
       case 'graph':
         displayGraphs(elem);
         if (elem) {
+          shapeNavOff();
           elem.classList.add('active');
           document.getElementById('zonal-header').classList.add('d-none');
           togglePermHighLightsOn(path);
@@ -1448,6 +1464,7 @@ function restoreGraphState() {
         break;
       case 'table':
         if (elem) {
+          shapeNavOff();
           elem.classList.add('active');
           elem.classList.add('active-table');
           document.getElementById('zonal-header').classList.add('d-none');
