@@ -17,7 +17,8 @@ const URL_IGNORE_KEYS = [
   'savedshapes',
   'savedhubs',
   'userareacount',
-  'mapinfo'
+  'mapinfo',
+  'uuid'
 ];
 
 const SHARE_URL_IGNORE_KEYS = [
@@ -32,7 +33,8 @@ const SHARE_URL_IGNORE_KEYS = [
   'working_search',
   'working_s3save',
   'working_drawlayers',
-  'userareas'
+  'userareas',
+  'uuid'
 ];
 
 /**
