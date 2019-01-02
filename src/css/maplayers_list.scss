@@ -14,7 +14,6 @@ $layer_list_padding: 10px;
 $map_top_margin: 5px;
 $map_right_margin: 10px;
 
-
 .h-70 {
   height: 63% !important;
 }
@@ -101,17 +100,22 @@ $map_right_margin: 10px;
 }
 
 .list-basemap.closed  {
-  display: none !important;
-  max-height: 0px !important;
-  width: 95% !important;
+  overflow: hidden;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  transition: all 0.75s ease;
+  will-change: transform;
 }
 
 .list-basemap {
   width: 90% !important;
-	max-height: 1000px !important; /* approximate max height */
-  transition-property: all !important;
-	transition-duration: .5s !important;
-	transition-timing-function: cubic-bezier(0, 1, 0.5, 1) !important;
+  max-height: 1000px;
+  overflow: hidden;
+  transition: all 0.75s ease;
+  will-change: transform;
 }
 
 .choose-base-map {
@@ -203,31 +207,6 @@ $map_right_margin: 10px;
   padding-top: 10px;
 }
 
-// .stickcustom {
-//   background-color: $body-bg-semiTransparent;
-// }
-//
-// .toggle-list {
-//   padding: $layer_list_padding;
-// }
-
-// .list-closed {
-//   height: 65px !important;
-//   overflow: inherit;
-//   width: $layer_list_width_closed !important;
-//   left: - ($layer_list_width_closed + (20)) !important;
-// }
-
-// #maplayers_list-holder {
-//   position: relative;
-//   width: $layer_list_width;
-//   left: - ($layer_list_width + (20));
-//   top: 0px;
-//   margin-right: - ($layer_list_width + (15));
-//   z-index: 5000;
-//   padding-bottom: 25px !important;
-//   padding-top: 25px !important;
-// }
 
 .maplayers_list {
   background-color: $body-bg;
@@ -254,23 +233,6 @@ $map_right_margin: 10px;
     display: none;
   }
 }
-//
-// .maplayers_list::-webkit-scrollbar {
-//    -webkit-appearance: none;
-//    width: 7px;
-//  }
-//
-// .maplayers_list::-webkit-scrollbar-thumb {
-//    border-radius: 4px;
-//    -webkit-border-radius: 4px;
-//    -moz-border-radius: 4px;
-//    background-color: $body-color
-//  }
-//
-// .maplayers_list::-webkit-scrollbar-corner{
-//    display: none;
-//  }
-
 
 .layerList-sub-group {
   padding-top: 5px;
@@ -324,16 +286,21 @@ $map_right_margin: 10px;
     margin-left: -1.5rem; /* Negative of the left padding on the .custom-control which is declared.... somewhere.... */
     overflow: hidden;
     max-height: 500px;
-    transition-property: all;
-    transition-duration: .5s;
-    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+    // animation: scale-display .3s;
+    transition: all 0.75s ease;
+    will-change: transform;
 
     &.closed {
+        animation: scale-display--reversed .3s;
+        // animation-fill-mode:forwards;
+        overflow: hidden;
         max-height: 0;
         padding-top: 0;
         padding-bottom: 0;
         border-bottom: 0;
         margin-bottom: 0;
+        transition: all 0.4s ease;
+        will-change: transform;
     }
 }
 
