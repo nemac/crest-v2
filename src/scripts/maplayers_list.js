@@ -197,9 +197,9 @@ export class MapLayersList extends Component {
     const mapLayerListState = store.getStateItem('maplayerlist');
     if (layerList) {
       if (mapLayerListState === 'open') {
-        layerList.classList.remove('d-none');
+        layerList.classList.remove('closed');
       } else {
-        layerList.classList.add('d-none');
+        layerList.classList.add('closed');
       }
     }
   }

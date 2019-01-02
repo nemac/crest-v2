@@ -242,6 +242,8 @@ $box-shadow-default: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
   top: -100000px;
   position: relative;
   height: 0px;
+  transition: left .5s ease-in-out;
+  will-change: transform;
 
   &.active {
     margin-bottom: 10px;
@@ -250,6 +252,8 @@ $box-shadow-default: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
     left: 0px;
     top: 0px;
     position: relative;
+    transition: left .5s ease-in-out;
+    will-change: transform;
   }
 }
 
@@ -486,7 +490,7 @@ div.zonal-asset {
   .long-graphs-active {
     display: none !important;
   }
-  
+
   .zonal-item-exposure {
     margin-top: 0px !important;
   }
@@ -607,14 +611,17 @@ div.zonal-asset {
   background-color: #343a40;
   overflow: hidden;
   padding-bottom: 0px;
+  transition: all 0.4s ease;
+  will-change: transform;
 
   &.active {
-    left: 0;
     position: relative;
     left: 0px;
     // this is a hacky way of dealing with height.
      height: 100%;
      padding-bottom: 30px;
+     transition: all 0.4s ease;
+     will-change: transform;
   }
 }
 
