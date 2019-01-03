@@ -737,7 +737,7 @@ a:hover {
   }
 
   .map_responsive {
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
     overflow-x: hidden !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;
