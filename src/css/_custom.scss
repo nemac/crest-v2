@@ -1819,6 +1819,15 @@ a:hover {
 
 .mapinfodata {
   font-size: .85rem;
+  .zonal-long-graph-label{
+    &-exposure {
+      .zonal-long-graph-label-text {
+        left: -65% !important;
+        top: 25px;
+        white-space: nowrap;
+      }
+    }
+  }
 }
 
 .searchlocationsdata {
