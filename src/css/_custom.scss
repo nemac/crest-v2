@@ -28,6 +28,12 @@ html, body {
     height: 100%;
 }
 
+.about-details {
+  font-size: 1rem;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
 .explore-row-container {
   hr {
     margin-top: .4rem !important;
@@ -71,6 +77,13 @@ a:hover {
   svg.fa-caret-up {
     display: inherit !important;
   }
+
+  .about-details.less {
+    display: inherit !important;
+  }
+  .about-details.more {
+    display: none !important;
+  }
 }
 
 [aria-expanded="false"] {
@@ -79,6 +92,12 @@ a:hover {
   }
   svg.fa-caret-up {
     display: none !important;
+  }
+  .about-details.less {
+    display: none !important;
+  }
+  .about-details.more {
+    display: inherit !important;
   }
 }
 
@@ -841,21 +860,21 @@ a:hover {
 
 @media (max-height: 700px) {
   .maplayers_list, #maplayers_list-holder {
-    max-height: 375px !important;
+    // margin-bottom: -500px;
   }
 }
-
-@media (max-height: 580px) {
-  .maplayers_list, #maplayers_list-holder {
-    max-height: 275px !important;
-  }
-}
-
-@media (max-height: 580px) {
-  .maplayers_list, #maplayers_list-holder {
-    max-height: 250px !important;
-  }
-}
+//
+// @media (max-height: 580px) {
+//   .maplayers_list, #maplayers_list-holder {
+//     max-height: 275px !important;
+//   }
+// }
+//
+// @media (max-height: 580px) {
+//   .maplayers_list, #maplayers_list-holder {
+//     max-height: 250px !important;
+//   }
+// }
 // responive explore buttons
 @media (max-width: 992px) {
 

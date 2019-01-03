@@ -41,16 +41,6 @@ window.Popper = require('popper.js');
 
 window.jQuery = window.$;
 
-// tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
-// use tooltip and popover components everywhere
-$(() => {
-  $('[data-toggle="tooltip"]').tooltip({
-    trigger: 'hover click focus'
-  });
-
-  $('[data-toggle="popover"]').popover();
-});
-
 
 // templates
 // import layer_checkboxTemplate from '../templates/layer_checkbox.html'
@@ -80,6 +70,31 @@ export class MapLayersList extends Component {
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
     MapLayersList.addLegendListeners();
+
+    // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
+    // use tooltip and popover components everywhere
+    // initalize new tooltips
+    $(() => {
+      $('#maplayers_list [data-toggle="tooltip"]').tooltip({ trigger: 'click' });
+    });
+
+    MapLayersList.resizeMapList();
+    window.addEventListener('resize', MapLayersList.resizeMapList);
+  }
+
+  static resizeMapList() {
+    if (window.innerHeight < 1024) {
+      const offset = 250;
+      document.querySelector('#maplayers_list-holder').style.maxHeight = `${window.innerHeight - offset}px`;
+      document.querySelector('#maplayers_list-holder').style.height = `${window.innerHeight - offset}px`;
+      document.querySelector('#maplayers_list').style.maxHeight = `${window.innerHeight - offset}px`;
+      document.querySelector('#maplayers_list').style.height = `${window.innerHeight - offset}px`;
+    } else {
+      document.querySelector('#maplayers_list-holder').style.maxHeight = 'none';
+      document.querySelector('#maplayers_list-holder').style.height = 'none';
+      document.querySelector('#maplayers_list').style.maxHeight = 'none';
+      document.querySelector('#maplayers_list').style.height = 'none';
+    }
   }
 
   static addBaseMapListeners(mapComponent) {
