@@ -173,6 +173,12 @@ $map_right_margin: 10px;
 .list-group-item:hover {
   background-color: $gray-600 !important;
   color: $body-color !important;
+  cursor: pointer;
+}
+
+.list-group-item:focus {
+  border-color: $gray-600  !important;
+  outline: $gray-600  !important;
 }
 
 .list-group-dark, .list-group-item {
@@ -190,12 +196,6 @@ $map_right_margin: 10px;
 .basemap_list_close {
     font-size: 10px;
     margin: 5px;
-}
-
-.list-group-item:hover {
-  background-color: $gray-600 !important;
-  color: $body-color !important;
-  cursor: pointer;
 }
 
 .list-group-dark {
