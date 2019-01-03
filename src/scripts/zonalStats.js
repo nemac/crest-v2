@@ -23,15 +23,15 @@ window.Popper = require('popper.js');
 
 window.jQuery = window.$;
 
-// tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
-// use tooltip and popover components everywhere
-$(() => {
-  $('[data-toggle="tooltip"]').tooltip({
-    trigger: 'hover focus'
-  });
-
-  $('[data-toggle="popover"]').popover();
-});
+// // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
+// // use tooltip and popover components everywhere
+// $(() => {
+//   $('[data-toggle="tooltip"]').tooltip({
+//     trigger: 'hover focus'
+//   });
+//
+//   $('[data-toggle="popover"]').popover();
+// });
 
 const store = new Store({});
 
@@ -1555,7 +1555,7 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
 
   // initalize new tooltips
   $(() => {
-    $("[data-toggle='tooltip']").tooltip();
+    $('#zonal-content [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
   });
 
   const iconelem = document.getElementById('btn-details-icon');
