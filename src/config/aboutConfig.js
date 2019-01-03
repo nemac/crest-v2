@@ -9,8 +9,22 @@ export var navConfig = {
     {
       name: "exposure",
       ref: "about-nav-exposure",
-      text: "Community Exposure Index",
+      text: "Making of the Community Exposure Index",
       id: "about-nav-exposure",
+      href: "./#About/"
+    },
+    {
+      name: "assets",
+      ref: "about-nav-assets",
+      text: "Making of the Community Asset Index",
+      id: "about-nav-assets",
+      href: "./#About/"
+    },
+    {
+      name: "threats",
+      ref: "about-nav-threats",
+      text: "Making of the Threat Index",
+      id: "about-nav-threats",
       href: "./#About/"
     },
     {
