@@ -77,6 +77,24 @@ export class MapLayersList extends Component {
     $(() => {
       $('#maplayers_list [data-toggle="tooltip"]').tooltip({ trigger: 'click' });
     });
+
+    MapLayersList.resizeMapList();
+    window.addEventListener('resize', MapLayersList.resizeMapList);
+  }
+
+  static resizeMapList() {
+    if (window.innerHeight < 1024) {
+      const offset = 250;
+      document.querySelector('#maplayers_list-holder').style.maxHeight = `${window.innerHeight - offset}px`;
+      document.querySelector('#maplayers_list-holder').style.height = `${window.innerHeight - offset}px`;
+      document.querySelector('#maplayers_list').style.maxHeight = `${window.innerHeight - offset}px`;
+      document.querySelector('#maplayers_list').style.height = `${window.innerHeight - offset}px`;
+    } else {
+      document.querySelector('#maplayers_list-holder').style.maxHeight = 'none';
+      document.querySelector('#maplayers_list-holder').style.height = 'none';
+      document.querySelector('#maplayers_list').style.maxHeight = 'none';
+      document.querySelector('#maplayers_list').style.height = 'none';
+    }
   }
 
   static addBaseMapListeners(mapComponent) {
