@@ -638,6 +638,9 @@ a:hover {
     border-radius: 4px;
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
+    &:vertical {
+      height: 10px;
+    }
   }
 
   &::-webkit-scrollbar-track {
@@ -657,10 +660,7 @@ a:hover {
   &::-webkit-scrollbar-corner {
     display: none;
   }
-
 }
-
-
 
 @media (min-width: 993px) {
 
@@ -737,7 +737,7 @@ a:hover {
   }
 
   .map_responsive {
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
     overflow-x: hidden !important;
     background-color: $body-bg-FullTransparent !important;
     float: right !important;

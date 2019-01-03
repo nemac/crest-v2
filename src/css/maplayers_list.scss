@@ -14,8 +14,13 @@ $layer_list_padding: 10px;
 $map_top_margin: 5px;
 $map_right_margin: 10px;
 
+
+
 .h-70 {
-  height: 59% !important;
+  height: auto !important;
+  @media (max-height: 1024px) {
+    height: 70% !important;
+  }
 }
 
 .h-0 {
