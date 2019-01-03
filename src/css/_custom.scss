@@ -638,6 +638,9 @@ a:hover {
     border-radius: 4px;
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
+    &:vertical {
+      height: 10px;
+    }
   }
 
   &::-webkit-scrollbar-track {
@@ -657,10 +660,7 @@ a:hover {
   &::-webkit-scrollbar-corner {
     display: none;
   }
-
 }
-
-
 
 @media (min-width: 993px) {
 
