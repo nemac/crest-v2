@@ -39,7 +39,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "exposure",
-      description: "The product of the Asset and Threat Indices. Shows a range of areas on the landscape, from low to high, where community assets are exposed to flood threats."
+      description: "This is the product of the Asset and Threat Indices that suggests areas on the landscape where community assets are potentially exposed to flood-related threats."
     },
     {
       id: "AssetsTMS",
@@ -56,12 +56,12 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "asset",
-      description: "Index describing community assets such as infrastructure critical to the recovery of an area and human population. A high value represents those areas with high levels of community assets on the landscape, usually more urban areas."
+      description: "Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape."
     },
     {
       id: "ThreatsTMS",
       layer: "Threats TMS",
-      label: "Threats Index",
+      label: "Threat Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/ThreatsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -141,7 +141,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "socvuln",
-      description: "Used to identify census blocks that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN data. Census blocks above the 80th percentile are ranked from low to high, which indicates those census blocks that have the highest low income and minority populations."
+      description: "Communities that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN dataset. Census blocks above the 80th-percentile are ranked from low to high, depicting areas of lower median incomes and minority populations."
     },
     {
       id: "CriticalFacilitiesTMS",
@@ -158,7 +158,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "critfac",
-      description: "Those facilities, such as schools, hospitals, police and fire stations, that are important to a community in recovering from a flood event. Facilities are given a presence or absence score."
+      description: "Facilities such as schools, hospitals, and police and fire stations that are important to recovery efforts when a community is faced with a flood-related event. All facilities are given the same presence rank."
     },
     {
       id: "CriticalInfrastructureTMS",
@@ -175,12 +175,12 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "critinfra",
-      description: "Infrastructure in and around communities that is integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines. Each type is given a presence or absence score and all infrastructure is added together; highest values indicate areas where infrastructure is nearby or pieces overlap with one another."
+      description: "Infrastructure in and around communities that are integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines, among others. High values suggest areas where multiple infrastructure overlap."
     },
     {
       id: "DrainageTMS",
       layer: "Drainage TMS",
-      label: "Drainage",
+      label: "Impermeable Soils",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/DraingeIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -192,12 +192,12 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "drainage",
-      description: "Used to identify areas of the landscape with poor drainage potential, including both soils and areas with high intensity development that do not readily drain and have runoff potential. A high value indicates areas that have soils with poor drainage potential and an intensity of developed impervious surfaces."
+      description: "Those areas with poor water drainage potential, including both less-porous soils and areas with high intensity development. High values suggest areas contains soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation-events."
     },
     {
       id: "ErosionTMS",
       layer: "Erosion TMS",
-      label: "Erosion",
+      label: "Soil Erodibility",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/ErosionIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -209,7 +209,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "erosion",
-      description: "Those soils identified as having a high probability of erodibility by the USDA Natural Resources Conservation Services. High values suggest that the area contains soils with a high erodibility factor."
+      description: "Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest areas carry an increased potential for erosion due to flooding or heavy precipitation-events."
     },
     {
       id: "SLRTMS",
@@ -226,7 +226,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "slr",
-      description: "NOAA’s sea level rise scenarios are given rank values from low to high; low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
+      description: "NOAA’s sea level rise scenarios ranked from low to high; low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
     },
     {
       id: "StormSurgeTMS",
@@ -243,12 +243,12 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "stormsurge",
-      description: "Based on storm category, surge is ranked from low to high. A high value indicates a Category 1 storm while a low value indicates a Category 5 storm. This inverse relationship between rank values and surge scenarios is a result of the probability of the category storm happening."
+      description: "Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high; low being a 5-foot surge and low being a 1-foot surge. Being that a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values."
     },
     {
       id: "GeoStressTMS",
       layer: "Geo Stressors TMS",
-      label: "Geo Stressors",
+      label: "Geological Stressors",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/GeoStressIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -294,7 +294,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "floodprone",
-      description: "Areas of the landscape that are considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. A high value indicates the floodway, while a low value indicates occasionally flooded soils outside of the floodplain."
+      description: "Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally-flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally-flooded soils outside of the floodplain."
     },
   ],
 
