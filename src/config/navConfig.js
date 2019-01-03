@@ -2,7 +2,7 @@ export var navConfig = {
   navs:[{
     name: "home",
     ref: "main-nav-map",
-    text: "Exlpore the Assessment",
+    text: "Explore the Assessment",
     id: "main-nav-map",
     href: "./#Home"
   },
