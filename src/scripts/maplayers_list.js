@@ -114,8 +114,8 @@ export class MapLayersList extends Component {
   }
 
   static resizeMapList() {
+    const offset = 250;
     if (window.innerHeight < 1024) {
-      const offset = 250;
       document.querySelector('#maplayers_list-holder').style.maxHeight = `${window.innerHeight - offset}px`;
       document.querySelector('#maplayers_list-holder').style.height = `${window.innerHeight - offset}px`;
       document.querySelector('#maplayers_list').style.maxHeight = `${window.innerHeight - offset}px`;
@@ -126,6 +126,9 @@ export class MapLayersList extends Component {
       document.querySelector('#maplayers_list').style.maxHeight = 'none';
       document.querySelector('#maplayers_list').style.height = 'none';
     }
+
+    document.querySelector('#maplayers_list-holder').style.maxHeight = `${window.innerHeight - offset}px`;
+    document.querySelector('#maplayers_list').style.maxHeight = `${window.innerHeight - offset}px`;
   }
 
   static addBaseMapListeners(mapComponent) {
