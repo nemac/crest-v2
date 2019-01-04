@@ -811,7 +811,7 @@ a:hover {
     .navbar-toggler {
       display: inherit !important;
       float: right !important;
-      margin-top: 10px !important;
+      margin-top: 5px !important;
       background-color: $body-bg !important;
       margin-right: 10px !important;
     }
@@ -820,6 +820,20 @@ a:hover {
       background-image: inherit !important;
       font-size: 1.1rem !important;
       color: $body-color !important;
+      padding: 7px;
+      width: 35px;
+      height: 35px;
+      border: 1px solid  $gray-600 !important;
+      border-radius: 4px;
+      -webkit-border-radius: 4px !important;
+      -moz-border-radius: 4px !important;
+      box-shadow: $box-shadow-small;
+      // margin-top: 5px;
+
+      &:hover {
+        background-color: $gray-600;
+      }
+
     }
   }
 
