@@ -27,6 +27,14 @@
             <div id="user-shape" class="row d-flex w-100 explore-btns">
               <span id="primary-shape-holder" class="row w-100">
                 <div class="row d-flex w-100">
+                  <div class="col-12 action-bnt-row button-0 d-flex w-100">
+                    <div ref="BufferInput" id="buffer-layer-toggle" class="custom-control custom-checkbox" >
+                        <div class="layer-toggle-wrapper">
+                          <input title="Toggle Asset Layer" aria-label="Toggle Asset Layer" ref="buffer-toggle" type="checkbox" class="custom-control-input" id="buffer-toggle" value="checked" >
+                          <label title="Toggle Asset Layer" aria-label="Toggle Asset Layer" ref="buffer-toggle-label" class="custom-control-label" for="buffer-toggle" id="buffer-toggle-label">DO NOT include a buffer</label>
+                        </div>
+                    </div>
+                  </div>
                   <div class="col-6 action-bnt-row button-1 d-flex w-100">
                     <button id="draw-area-btn" title="Draw Area on Map" aria-label="Draw Area on Map" type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-med-label">Draw area</span><span class="btn-lg-label"> on map</span></button>
                   </div>
