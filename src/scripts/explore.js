@@ -163,6 +163,11 @@ export class Explore extends Component {
     // control
     this.addDrawButtons(mapComponent);
 
+    const btnBufferElem = document.getElementById('buffer-toggle');
+    if (btnBufferElem) {
+      btnBufferElem.click();
+    }
+    
     this.addBufferListner();
   }
 
@@ -173,6 +178,18 @@ export class Explore extends Component {
   }
 
   addBufferListner() {
+
+    const sliderBufferElem = document.getElementById('buffer-range-slider');
+    if (sliderBufferElem) {
+      sliderBufferElem.value = this.bufferSize;
+      sliderBufferElem.addEventListener('change', (e) => {
+        const sliderBufferDistanceElem = document.getElementById('buffer-range-slider-distance');
+        sliderBufferDistanceElem.innerHTML = `${e.target.value} KM`;
+        this.bufferSize = e.target.value;
+      });
+
+    }
+
     const btnBufferElem = document.getElementById('buffer-toggle');
     if (btnBufferElem) {
       btnBufferElem.addEventListener('click', (e) => {
