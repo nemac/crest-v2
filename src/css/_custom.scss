@@ -28,6 +28,42 @@ html, body {
     height: 100%;
 }
 
+
+.layer-legend-toggler {
+  cursor: pointer;
+  padding-left: 4px;
+  padding-top: 4px;
+  margin-right: 2px;
+  height: 25px !important;
+  border: 1px solid $body-list-border !important;
+  border-radius: 4px;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  box-shadow: $box-shadow-small;
+
+  &:hover {
+    background-color: $gray-600;
+  }
+}
+
+.layer-description-text {
+  height: 25px !important;
+  border: 1px solid $body-list-border !important;
+  color: $body-color !important;
+  padding: 1px;
+  padding-left: 3px;
+  margin-right: 5px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  cursor: pointer;
+  box-shadow: $box-shadow-small;
+
+  &:hover {
+    background-color: $gray-600;
+  }
+}
+
 .about-details {
   font-size: 1rem;
   margin-right: 5px;
