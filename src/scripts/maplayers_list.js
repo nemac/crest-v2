@@ -71,15 +71,46 @@ export class MapLayersList extends Component {
     MapLayersList.addBaseMapListeners(props.mapComponent);
     MapLayersList.addLegendListeners();
 
-    // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
-    // use tooltip and popover components everywhere
-    // initalize new tooltips
-    $(() => {
-      $('#maplayers_list [data-toggle="tooltip"]').tooltip({ trigger: 'click' });
-    });
+    this.LayerDescriptionTemplate = '<div class="tooltip layerlist" role="tooltip">' +
+              '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
+              '  <div class="close-layerlist"><i class="fa fa-times" aria-hidden="true"></i></div>' +
+              '</div>';
 
+    this.addToolTipListners();
     MapLayersList.resizeMapList();
     window.addEventListener('resize', MapLayersList.resizeMapList);
+  }
+
+  // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
+  // use tooltip and popover components everywhere
+  // initalize new tooltips
+  addToolTipListners() {
+    $(() => {
+      $('#maplayers_list [data-toggle="tooltip"]').tooltip({
+        trigger: 'hover click focus',
+        template: this.LayerDescriptionTemplate
+      });
+
+      $('#maplayers_list [data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
+        const elems = document.querySelectorAll('.tooltip.layerlist .close-layerlist');
+        elems.forEach((elem) => {
+          if (elem) {
+            elem.addEventListener('click', (e) => {
+              const toolTipElem = MapLayersList.ParentTooltip(e.target, 'tooltip');
+              $(toolTipElem).tooltip('hide');
+            });
+          }
+        });
+      });
+    });
+  }
+
+  // if parent is tooltip get id so we can hide it.
+  static ParentTooltip(target, id) {
+    for (let p = target && target.parentElement; p; p = p.parentElement) {
+      if (p.id.substring(0, 7) === id) { return p; }
+    }
+    return null;
   }
 
   static resizeMapList() {
