@@ -1366,7 +1366,8 @@ export class Explore extends Component {
 
       if (tooltipContainerSpan) {
         tooltipContainerSpan.classList.add('d-flex');
-        tooltipContainerSpan.classList.add('justify-content-center');
+        tooltipContainerSpan.classList.add('justify-content-right');
+        tooltipContainerSpan.classList.add('draw-tip');
       }
 
       const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
