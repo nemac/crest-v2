@@ -1,4 +1,5 @@
 // Your variable overrides
+$body-main-bar-bg-color: #2A2E33;
 $body-bg:    $gray-800;
 $body-list-border:    $gray-600;
 $body-color: $gray-200;
@@ -6,8 +7,8 @@ $body-color: $gray-200;
 $btn-color-prinary: $gray-100;
 $btn-color-secondary: $gray-300;
 
-$box-shadow-default: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-$box-shadow-small: 0 5px 10px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+$box-shadow-default: 0 2.5px 5px rgba(0,0,0,0.19), 0 1.5px 1.5px rgba(0,0,0,0.23);
+$box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
 
 $body-color-visited: $gray-400;
 $body-color-medium: $gray-600;
@@ -584,12 +585,6 @@ a:hover {
   z-index: 4500 !important;
 }
 
-.nfwf-header {
-  h2 {
-    margin-bottom: 5px;
-  }
-}
-
 .download-row {
   padding-top: 10px;
 }
@@ -631,6 +626,11 @@ a:hover {
   box-shadow: $box-shadow-default;
   padding-left: $padding15;
   padding-right: $padding15;
+  background-color: $body-main-bar-bg-color !important;
+
+  h2 {
+    margin-bottom: 5px;
+  }
 }
 
 .nfwf-title {
@@ -1401,7 +1401,7 @@ a:hover {
 
 
 #second-tab-content {
-  margin-top: 50px;
+  // margin-top: 50px;
 }
 
 #glossary-holder, #exposure-holder, #assets-holder, #threats-holder ,#aboutgen-holder {
