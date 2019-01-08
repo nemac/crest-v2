@@ -31,6 +31,81 @@ html, body {
 .draw-tip {
   margin-left: 40px;
 }
+  
+.bufferslider {
+  width: 400px;
+  margin-bottom: 10px;
+}
+
+.buffer-label, .buffer-distance {
+    padding: 5px;
+    @media (max-width: 400px) {
+      padding: 4px;
+    }
+}
+
+.slider {
+  $h: 1rem;
+  -webkit-appearance: none;
+  max-width: 200px;
+  min-width: 200px;
+  height: 5px;
+  border-radius: 5px;
+  background: $body-color-medium;
+  outline: none;
+  padding: 0px;
+  // opacity: 0.7;
+  -webkit-transition: .2s;
+  // transition: opacity .2s;
+
+  &:after {
+    content: "";
+    position: absolute;
+    background: $body-color-medium;
+    width: 10px;
+    height: 10px;
+    left: 7px;
+    border-radius: 50%;
+    top: -2px;
+    z-index: 1;
+    box-shadow: 0px 0 0 $body-color-medium
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    box-shadow: 22.5px 0 0 $body-color-medium,
+                45px 0 0 $body-color-medium,
+                67.5px 0 0 $body-color-medium,
+                89px 0 0 $body-color-medium,
+                110.5px 0 0 $body-color-medium,
+                133px 0 0 $body-color-medium,
+                154.5px 0 0 $body-color-medium,
+                176px 0 0 $body-color-medium;
+  }
+
+
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0px;
+  margin: 0px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: $body-color;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: $body-color;
+  cursor: pointer;
+}
 
 .layer-legend-toggler {
   cursor: pointer;
