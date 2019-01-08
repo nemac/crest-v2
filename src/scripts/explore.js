@@ -78,6 +78,8 @@ export class Explore extends Component {
 
     this.caseStudies = new CaseStudies(this.mapComponent, this);
 
+    this.bufferSize = 1;
+
     // defualt buffer style
     this.bufferedoptions = {
       fillColor: '#99c3ff',
@@ -160,13 +162,40 @@ export class Explore extends Component {
     // uncomment this if we want to add the draw area button to leaflet
     // control
     this.addDrawButtons(mapComponent);
-    //
+
+    const btnBufferElem = document.getElementById('buffer-toggle');
+    if (btnBufferElem) {
+      btnBufferElem.click();
+    }
+    this.addBufferListner();
   }
 
   // generic do thing functon for empty blocks
   //  only using this is a place holder
   static doNothing() {
     return null;
+  }
+
+  addBufferListner() {
+    const sliderBufferElem = document.getElementById('buffer-range-slider');
+    if (sliderBufferElem) {
+      sliderBufferElem.value = this.bufferSize;
+      sliderBufferElem.addEventListener('change', (e) => {
+        const sliderBufferDistanceElem = document.getElementById('buffer-range-slider-distance');
+        sliderBufferDistanceElem.innerHTML = `${e.target.value} KM`;
+        this.bufferSize = e.target.value;
+      });
+    }
+    const btnBufferElem = document.getElementById('buffer-toggle');
+    if (btnBufferElem) {
+      btnBufferElem.addEventListener('click', (e) => {
+        if (this.bufferSize === 1) {
+          this.bufferSize = 0;
+        } else {
+          this.bufferSize = 1;
+        }
+      });
+    }
   }
 
   // restore for when not share URL
@@ -371,7 +400,7 @@ export class Explore extends Component {
 
   bufferArea(unbufferedGeoJSON) {
     // buffer the geoJSON by 1 kilometer
-    const bufferedGeoJSON = buffer(unbufferedGeoJSON, 1, { units: 'kilometers' });
+    const bufferedGeoJSON = buffer(unbufferedGeoJSON, this.bufferSize, { units: 'kilometers' });
 
     let name = '';
     const shapecount = store.getStateItem('userareacount');
