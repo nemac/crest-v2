@@ -1,7 +1,6 @@
 
-const GDB_NAME = 'hubs_with_stats_gdb';
+const GDB_NAME = 'NFWF_HUBS_WITH_STATS_CONUS_01072019_gdb';
 const QUERY_REQUEST_URL = `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/${GDB_NAME}/FeatureServer/0/query`;
-
 const config = {
   fieldMaps: {
     terrestri: 'terrestrial',
