@@ -18,21 +18,12 @@
 //  - The geojson feature is malformed.
 //  - The Feature Server returns a bad request status code (400).
 //  In these cases an Error object is returned.
-
+import simplify from '@turf/simplify';
 import config from '../config/hubIntersectionConfig';
 
 const Terraformer = require('terraformer');
 Terraformer.ArcGIS = require('terraformer-arcgis-parser');
 const axios = require('axios');
-import simplify from '@turf/simplify';
-
-// import { CancelToken, get } from 'axios';
-// import L from 'leaflet';
-// import * as EL from 'esri-leaflet';
-//
-// // import * as Terraformer from "terraformer";
-// // //
-// // import * as Terraformer from 'terraformer-arcgis-parser';
 
 function transformAgolAttrs(attrs) {
   const props = { mean: {} };
@@ -66,16 +57,13 @@ export class HubIntersectionApi {
   }
 
   static simplifyGeoJson(geojsonFeatures) {
-    const newgeojson = geojsonFeatures.map((feature) => {
-      const options = {tolerance: 0.0009, highQuality: false};
+    return geojsonFeatures.map((feature) => {
+      const options = { tolerance: 0.0009, highQuality: false };
       const simplified = simplify(feature, options);
-      feature = simplified;
-      return feature;
+      return simplified;
     });
-
-    return newgeojson;
   }
-  
+
   async getIntersectedHubs(feature) {
     try {
       const esriGeom = Terraformer.ArcGIS.convert(feature.geometry);
