@@ -2059,7 +2059,7 @@ div.zonal-asset {
 
     &-erosion {
       .zonal-long-graph-label-text{
-        left: -15% !important;
+        left: -35% !important;
       }
     }
 
@@ -2089,8 +2089,8 @@ div.zonal-asset {
 
     &-geostress {
       .zonal-long-graph-label-text{
-        left: -15% !important;
-        top: 25px !important;
+        left: -38% !important;
+        top: 30px !important;
       }
     }
 
@@ -2141,6 +2141,26 @@ div.zonal-asset {
     height: 75px !important;
   }
 
+  .zonal-long-graph-label{
+    &-geostress {
+      .zonal-long-graph-label-text{
+        left: -45% !important;
+        top: 30px !important;
+      }
+    }
+
+    &-drainage {
+      .zonal-long-graph-label-text{
+        left: -20px !important;
+      }
+    }
+
+    &-erosion {
+      .zonal-long-graph-label-text{
+        left: -15px !important;
+      }
+    }
+  }
 }
 
 // responive explore buttons
@@ -2159,6 +2179,10 @@ div.zonal-asset {
 }
 
 @media (max-width: 320px) {
+  .zonal-label {
+    font-size: .8rem;
+  }
+  
   .zonal-long-graph-label{
 
     &-hubs {
@@ -2200,7 +2224,8 @@ div.zonal-asset {
 
     &-erosion {
       .zonal-long-graph-label-text{
-        left: -15% !important;
+        left: -65% !important;
+        top: 25px !important;
       }
     }
 
@@ -2230,8 +2255,8 @@ div.zonal-asset {
 
     &-geostress {
       .zonal-long-graph-label-text{
-        left: -15% !important;
-        top: 25px !important;
+        left: -35% !important;
+        top: 40px !important;
       }
     }
 
@@ -2244,7 +2269,7 @@ div.zonal-asset {
 
     &-drainage {
       .zonal-long-graph-label-text{
-        left: -25% !important;
+        left: -85% !important;
       }
     }
   }

@@ -415,6 +415,7 @@ $aboutbackground: #3B3E42; //2F3235
 
 .about-content  {
   background-color: $aboutbackground;
+  max-width: 1160px;
 }
 
 .about-nav {
@@ -440,6 +441,7 @@ a.about-nav.active::before {
 #about-nav-holder {
   padding-top: 15px !important;
   background-color: $body-bg !important;
+  margin-top: 5px !important;
 }
 
 @media (min-width: 993px) {
@@ -611,6 +613,11 @@ a.about-nav.active::before {
 
 .maplayerslisttoggle-collapse {
   z-index: 4500 !important;
+}
+
+#tab-main-nav-download, #tab-main-nav-about {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 .download-row {
@@ -2314,8 +2321,8 @@ a.nav-link {
 
 
 #explore-holder {
-  overflow: hidden scroll;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .tooltip {
