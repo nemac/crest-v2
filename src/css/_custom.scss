@@ -150,6 +150,8 @@ html, body {
 }
 
 .explore-row-container {
+  padding-left: 0px !important;
+  padding-right: 5px !important;
   hr {
     margin-top: .4rem !important;
     margin-bottom: .4rem !important;
@@ -409,6 +411,32 @@ a:hover {
   }
 }
 
+$aboutbackground: #3B3E42; //2F3235
+
+.about-content  {
+  background-color: $aboutbackground;
+}
+
+.about-nav {
+  font-size: .9rem !important;
+  &.active {
+    background-color: $aboutbackground;
+  }
+}
+
+a.about-nav {
+  margin-bottom: 0px !important;
+}
+
+a.about-nav.active::after {
+  background-color: $aboutbackground;
+  margin-bottom: 10px;
+}
+
+a.about-nav.active::before {
+  background-color: $aboutbackground
+}
+
 #about-nav-holder {
   padding-top: 15px !important;
   background-color: $body-bg !important;
@@ -631,7 +659,7 @@ a:hover {
   #mainNavToggle {
     background-color: $body-main-bar-bg-color !important;
   }
-  
+
   h2 {
     margin-bottom: 5px;
   }
@@ -739,8 +767,12 @@ a:hover {
   padding-left: 0px;
 }
 
-.data-row, .explore-row-container {
-  padding-right: 0px !important;
+
+.explore-row {
+  padding-left: 0px !important;
+  padding-right: 5px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 // responive explore buttons
 @media (max-width: 1024px) {
@@ -998,9 +1030,12 @@ a:hover {
 
   #map-holder {
     height: 100% !important;
+    padding-right: 5px !important;
   }
 
   .data-row {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
     height: 100% !important;
   }
 
@@ -1028,22 +1063,9 @@ a:hover {
 
 @media (max-height: 700px) {
   .maplayers_list, #maplayers_list-holder {
-    // margin-bottom: -500px;
   }
 }
-//
-// @media (max-height: 580px) {
-//   .maplayers_list, #maplayers_list-holder {
-//     max-height: 275px !important;
-//   }
-// }
-//
-// @media (max-height: 580px) {
-//   .maplayers_list, #maplayers_list-holder {
-//     max-height: 250px !important;
-//   }
-// }
-// responive explore buttons
+
 @media (max-width: 992px) {
 
   $margin: 5px;
@@ -1079,7 +1101,7 @@ a:hover {
   }
 
   #main-content {
-    padding: $padding;
+    padding: 0px !important;
   }
 
   .btn-light {
@@ -1206,6 +1228,13 @@ a:hover {
     padding-top: $padding;
     box-shadow: $box-shadow-default;
     margin-bottom: $margin;
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+  }
+
+  .map-list-column {
+   position: relative;
+   top: -5000px;
   }
 
   .icon-label {
@@ -1224,6 +1253,8 @@ a:hover {
   #map-holder {
     margin: $margin;
     height: 50% !important;
+    padding-right: 5px !important;
+    padding-left: 5px !important;
   }
 
   .data-row {
@@ -1255,6 +1286,8 @@ a:hover {
   }
 
   .explore-row-container {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
     .navbar {
       padding-bottom: 0rem !important;
       padding-top: .2rem !important;
@@ -2176,6 +2209,8 @@ body {
 
 .map-row {
     padding-bottom: $padding;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }
 
 hr {
@@ -2300,8 +2335,13 @@ a.nav-link {
           font-size: .68rem;
         }
 
-        @media (max-width: 325px) {
+        @media (max-width: 400px) {
           max-width: 300px !important;
+          font-size: .68rem;
+        }
+
+        @media (max-width: 325px) {
+          max-width: 265px !important;
           font-size: .58rem;
         }
 

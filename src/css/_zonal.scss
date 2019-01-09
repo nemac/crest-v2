@@ -213,6 +213,7 @@ $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
 }
 
 #explore-holder .zonal-short-wrappper.active {
+  padding-right: 5px !important;
   @media (max-width: 768px) {
     padding: 5px 5px 5px 15px !important;
   }
@@ -297,7 +298,7 @@ div.zonal-asset {
 
 .zonal-stats-wrapper {
   width: 100%;
-  // margin: 5px;
+  margin-bottom: 5px !important;
   box-shadow: $box-shadow-default;
 }
 
@@ -1594,7 +1595,7 @@ div.zonal-asset {
   width: 320px;
   margin-top: 15px;
   margin-bottom: 15px;
-  padding-right: 15px;
+  padding-right: 5px;
 
   h6 {
     text-align: center;
@@ -1794,7 +1795,7 @@ div.zonal-asset {
     }
 
     .zonal-label {
-      font-size: 1rem !important;
+      font-size: .9rem;
 
       .btn-icon {
         font-size: 1rem !important;
@@ -2032,7 +2033,7 @@ div.zonal-asset {
 
     &-exposure {
       .zonal-long-graph-label-text{
-        left: -45% !important;
+        left: -65% !important;
         top: 20px;
         white-space: nowrap;
       }
@@ -2103,6 +2104,18 @@ div.zonal-asset {
     &-drainage {
       .zonal-long-graph-label-text{
         left: -25% !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .zonal-long-graph-label {
+    &-exposure {
+      .zonal-long-graph-label-text{
+        left: -75% !important;
+        top: 20px;
+        white-space: nowrap;
       }
     }
   }
