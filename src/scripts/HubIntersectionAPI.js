@@ -24,6 +24,7 @@ import config from '../config/hubIntersectionConfig';
 const Terraformer = require('terraformer');
 Terraformer.ArcGIS = require('terraformer-arcgis-parser');
 const axios = require('axios');
+import simplify from '@turf/simplify';
 
 // import { CancelToken, get } from 'axios';
 // import L from 'leaflet';
@@ -88,7 +89,15 @@ export class HubIntersectionApi {
       const esriFeatures = response.data.features;
       const geojsonFeatures = esriFeatures.map(f => convertAgolHubsFeature(f));
 
-      return geojsonFeatures;
+
+      const newgeojson = geojsonFeatures.map((feature) => {
+        const options = {tolerance: 0.0009, highQuality: false};
+        const simplified = simplify(feature, options);
+        feature = simplified;
+        return feature
+      });
+
+      return newgeojson;
     } catch (err) {
       return new Error(err);
     }

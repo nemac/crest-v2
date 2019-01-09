@@ -613,7 +613,7 @@ export class Explore extends Component {
       return JSON.parse('{}');
     }
 
-    await this.storeHubsOnS3(HubIntersectionJson);
+    // await this.storeHubsOnS3(HubIntersectionJson);
 
     Explore.appendIntersectedHubsToState(HubIntersectionJson);
     Explore.sortHubsByHubScore();
