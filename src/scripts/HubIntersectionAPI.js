@@ -65,6 +65,17 @@ export class HubIntersectionApi {
     this.agolOutFields = config.agolOutFields;
   }
 
+  static simplifyGeoJson(geojsonFeatures) {
+    const newgeojson = geojsonFeatures.map((feature) => {
+      const options = {tolerance: 0.0009, highQuality: false};
+      const simplified = simplify(feature, options);
+      feature = simplified;
+      return feature;
+    });
+
+    return newgeojson;
+  }
+  
   async getIntersectedHubs(feature) {
     try {
       const esriGeom = Terraformer.ArcGIS.convert(feature.geometry);
@@ -89,13 +100,7 @@ export class HubIntersectionApi {
       const esriFeatures = response.data.features;
       const geojsonFeatures = esriFeatures.map(f => convertAgolHubsFeature(f));
 
-
-      const newgeojson = geojsonFeatures.map((feature) => {
-        const options = {tolerance: 0.0009, highQuality: false};
-        const simplified = simplify(feature, options);
-        feature = simplified;
-        return feature
-      });
+      const newgeojson = HubIntersectionApi.simplifyGeoJson(geojsonFeatures);
 
       return newgeojson;
     } catch (err) {
