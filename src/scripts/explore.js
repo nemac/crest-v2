@@ -215,6 +215,7 @@ export class Explore extends Component {
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
           Explore.updateExploreDirections(this.exlporeHubMessage);
+          Explore.dismissBufferCheckBox();
           if (checkValidObject(checkHubIntersectionJson)) {
             Explore.dismissExploreDirections();
           }
@@ -224,12 +225,14 @@ export class Explore extends Component {
           disableOverView();
           Explore.dismissShapeButtons();
           Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+          Explore.dismissBufferCheckBox();
           this.caseStudies.initalize();
         } else {
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
+          Explore.enableBufferCheckBox();
           if (checkValidObject(checkUserareas)) {
             Explore.dismissExploreDirections();
           }
@@ -238,6 +241,7 @@ export class Explore extends Component {
         this.drawUserAreaFromUsereas();
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+        Explore.enableBufferCheckBox();
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         if (checkValidObject(checkUserareas)) {
           Explore.dismissExploreDirections();
@@ -278,6 +282,7 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
+            Explore.dismissBufferCheckBox();
             disableZonalButtons();
             disableOverView();
             // If there is hub data in store do NOT show text and draw the hubs
@@ -285,6 +290,7 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
             Explore.updateExploreDirections(this.exlporeHubMessage);
+            Explore.dismissBufferCheckBox();
             Explore.dismissExploreDirections();
             this.drawHubsFromStateObject();
             this.drawZonalStatsForStoredHubs();
@@ -307,6 +313,7 @@ export class Explore extends Component {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
+          Explore.enableBufferCheckBox();
           disableZonalButtons();
           disableOverView();
           // If there is explore assement data in store do NOT show text and draw the shpes
@@ -314,6 +321,7 @@ export class Explore extends Component {
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
+          Explore.enableBufferCheckBox();
           Explore.dismissExploreDirections();
           this.drawUserAreaFromUsereas();
           enableZonalButtons();
@@ -327,11 +335,13 @@ export class Explore extends Component {
       } else if (!checkValidObject(checkUserareas)) {
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         disableZonalButtons();
+        Explore.enableBufferCheckBox();
         Explore.setOverviewText();
         // If there is explore assement data in store do NOT show text and draw the shpes
       } else {
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+        Explore.enableBufferCheckBox();
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         Explore.dismissExploreDirections();
         this.drawUserAreaFromUsereas();
@@ -348,6 +358,16 @@ export class Explore extends Component {
 
   static enableShapeButtons() {
     const directionElem = document.getElementById('primary-shape-holder');
+    directionElem.classList.remove('d-none');
+  }
+
+  static dismissBufferCheckBox() {
+    const directionElem = document.getElementById('buffer-layer-toggle');
+    directionElem.classList.add('d-none');
+  }
+
+  static enableBufferCheckBox() {
+    const directionElem = document.getElementById('buffer-layer-toggle');
     directionElem.classList.remove('d-none');
   }
 
