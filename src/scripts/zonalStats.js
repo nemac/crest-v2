@@ -418,6 +418,27 @@ function enableOverView(text = 'none') {
   buttonHolder.classList.remove('d-none');
 }
 
+function enableAllZonalStatsWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('d-none');
+  });
+}
+
+function dissmissAllZonalStatsWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('active');
+    zonalwrapper.classList.add('d-none');
+  });
+}
+
+function zonalStatsWrappersActive(name) {
+  const zonalWrapper = document.getElementById(`zonal-stats-wrapper-${name}`);
+  zonalWrapper.classList.remove('d-none');
+  zonalWrapper.classList.add('active');
+}
+
 function disableAllZonalWrappers() {
   const zonalWrappers = document.querySelectorAll('.zonal-long-wrapper ');
   zonalWrappers.forEach((zonalwrapper) => {
@@ -481,7 +502,7 @@ function dismissZonalClickHandler(e) {
   e.preventDefault();
   setGraphsState('none', 'none');
   dismissLongZonalStats(getZonalWrapper(this));
-
+  enableAllZonalStatsWrappers();
   const name = e.target.getAttribute('id');
 
   if (name) {
@@ -539,8 +560,9 @@ function viewLongZonalStats(shortElem) {
     document.getElementById('zonal-header').classList.add('d-none');
     shapeNavOff();
     ZonalWrapperActiveRemove();
-
     const HTMLName = stripUserArea(shortElem.id);
+    dissmissAllZonalStatsWrappers();
+    zonalStatsWrappersActive(HTMLName);
     document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
     document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
     document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
@@ -667,6 +689,8 @@ function viewLongZonalStatsFromShape(name) {
   disableAllZonalButtons();
   enableZonalButtons(`-USERAREA-${name}`);
   disableOverView();
+  dissmissAllZonalStatsWrappers();
+  zonalStatsWrappersActive(`-USERAREA-${name}`);
 
   const pathid = `path--USERAREA-${name}`;
   if (pathid) {
@@ -1458,6 +1482,8 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          dissmissAllZonalStatsWrappers();
+          zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
         }
@@ -1473,6 +1499,8 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          dissmissAllZonalStatsWrappers();
+          zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
         }
