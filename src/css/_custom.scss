@@ -1443,7 +1443,6 @@ a.about-nav.active::before {
   }
 }
 
-
 #second-tab-content {
   // margin-top: 50px;
 }
@@ -1463,6 +1462,7 @@ a.about-nav.active::before {
   font-size: .9em;
   font-weight: 300;
   margin-left: 25px;
+  width: inherit !important;
 }
 
 .term {
@@ -1470,6 +1470,7 @@ a.about-nav.active::before {
   margin-left: 15px;
   font-size: 1em;
   font-weight: 900;
+  width: inherit !important;
 }
 
 .userarealabel {
