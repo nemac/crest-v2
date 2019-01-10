@@ -511,11 +511,14 @@ a.about-nav.active::before {
     // margin-left: 15px;
     font-size: .9em;
     font-weight: 300;
+    max-width: 725px !important;
     // margin-left: 25px;
     p {
       max-width: 725px !important;
     }
-
+    li {
+      max-width: 725px !important;
+    }
     @media (max-width: 768px) {
       padding-left: 5px;
       padding-right: 5px;
@@ -645,6 +648,7 @@ a.about-nav.active::before {
 .download-group {
   box-shadow: $box-shadow-small;
   padding: 15px;
+  margin-bottom: 15px;
 }
 
 .btn-download {
@@ -684,6 +688,10 @@ a.about-nav.active::before {
 
 #main-content {
   // margin-top: 10px !important;
+}
+
+#about-main {
+  margin-left: 15px;
 }
 
 .about-main-text, .about-tool-text {
@@ -1452,7 +1460,7 @@ a.about-nav.active::before {
 }
 
 #glossary-holder, #exposure-holder, #assets-holder, #threats-holder ,#aboutgen-holder {
-  margin-top: $margin;
+  // margin-top: $margin;
   margin-bottom: $margin*2;
 }
 
