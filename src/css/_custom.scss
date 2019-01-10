@@ -29,6 +29,10 @@ html, body {
     height: 100%;
 }
 
+.leaflet-tile  {
+  mix-blend-mode: difference;
+}
+
 .draw-tip {
   margin-left: 40px;
 }
