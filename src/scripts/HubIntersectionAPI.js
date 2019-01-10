@@ -56,6 +56,12 @@ export class HubIntersectionApi {
     this.agolOutFields = config.agolOutFields;
   }
 
+  static simplifyshape(feature) {
+    const options = { tolerance: 0.0009, highQuality: false };
+    const simplified = simplify(feature, options);
+    return simplified;
+  }
+
   static simplifyGeoJson(geojsonFeatures) {
     return geojsonFeatures.map((feature) => {
       const options = { tolerance: 0.0009, highQuality: false };
