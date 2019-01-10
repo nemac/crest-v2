@@ -12,13 +12,6 @@ import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
-// import {
-//   ToggleCritInfra,
-//   ToggleStormSurge,
-//   ToggleExposed,
-//   SandyAreaGeoJson
-// } from './case_study_helper.js'
-
 import { HubIntersectionApi } from './HubIntersectionAPI';
 import { CaseStudies } from './CaseStudies';
 
@@ -613,7 +606,7 @@ export class Explore extends Component {
       return JSON.parse('{}');
     }
 
-    await this.storeHubsOnS3(HubIntersectionJson);
+    await Explore.storeHubsOnS3(HubIntersectionJson);
 
     Explore.appendIntersectedHubsToState(HubIntersectionJson);
     Explore.sortHubsByHubScore();
@@ -625,16 +618,19 @@ export class Explore extends Component {
     return HubIntersectionJson;
   }
 
-  async storeHubsOnS3(hubs) {
+  static async storeHubsOnS3(hubs) {
     const checkobj = {}.hasOwnProperty;
+    const hubBucketfolders = 'prod/hubs/';
+    const hubBucket = 'nfwf-tool-user-shapes';
+
     // using for loop because it allows await functionality with
     // async calls to zonal stats api.  this will ensure we wait for the promise to
     // resolve and is added to the store before we progress on. using a check for hasOwnProperty
     // to deal with all the prototpe entries
     for (const key in hubs) {
       if (checkobj.call(hubs, key)) {
-        const savedhub = await this.StoreShapesAPI.saveShape(hubs[key]);
         const fid = hubs[key].properties.mean.TARGET_FID.toString().trim();
+        const savedhub = { key: `${hubBucketfolders}${fid}.geojson`, bucket: hubBucket };
         const storedhubs = store.getStateItem('savedhubs');
 
         if (checkValidObject(savedhub)) {
@@ -1033,13 +1029,19 @@ export class Explore extends Component {
     for (const key in savedhubs) {
       if (checkobj.call(savedhubs, key)) {
         let hubsZonalshape = {};
+        let simplifiedHubsZonalshape = {};
         const hubobj = savedhubs[key][1].hub;
         if (checkValidObject(savedhubs)) {
           hubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(hubobj.bucket,
             hubobj.key);
+
+          // adds TARGET_FID to mean array
+          hubsZonalshape.properties.mean.TARGET_FID = hubsZonalshape.properties.OBJECTID;
+          // simplifies shape geometry
+          simplifiedHubsZonalshape = HubIntersectionApi.simplifyshape(hubsZonalshape);
         }
-        // add hub geojson to arrauy
-        newshapes.push(hubsZonalshape);
+        // add hub geojson to array
+        newshapes.push(simplifiedHubsZonalshape);
       }
     }
 
