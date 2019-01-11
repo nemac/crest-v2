@@ -500,7 +500,7 @@ a.about-nav.active::before {
   .making-of-math {
     font-size: 1.2rem;
     padding-top: 0px;
-    margin-left: -275px;
+    margin-left: -15px;
     @media (max-width: 992px) {
       margin-left: 0px;
     }
@@ -508,16 +508,14 @@ a.about-nav.active::before {
 
   .figure-caption {
     color: $body-color !important;
-    // margin-left: 15px;
     font-size: .9em;
     font-weight: 300;
-    max-width: 725px !important;
-    // margin-left: 25px;
+    max-width: 1024px !important;
     p {
-      max-width: 725px !important;
+      max-width: 1024px !important;
     }
     li {
-      max-width: 725px !important;
+      max-width: 1024px !important;
     }
     @media (max-width: 768px) {
       padding-left: 5px;
@@ -527,7 +525,7 @@ a.about-nav.active::before {
 
   .tile-caption {
     cursor: pointer;
-    max-width: 725px !important;
+    max-width: 1024px !important;
     font-size: 1em;
     font-weight: 800;
     border: 1px solid $gray-100;
