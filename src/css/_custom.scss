@@ -284,9 +284,6 @@ a:hover {
 
   }
 
-
-
-
   .figure-caption {
     background-color: $body-bg;
     color: #e9ecef;
@@ -316,7 +313,7 @@ a:hover {
       -moz-border-radius-bottomleft: 4px !important;
       -moz-border-radius-bottomright: 4px !important;
     }
-    
+
     &.title-caption:hover {
       background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
     }
