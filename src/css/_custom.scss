@@ -2373,6 +2373,10 @@ a.nav-link {
 #explore-holder {
   overflow-x: hidden;
   overflow-y: scroll;
+  @media print {
+    overflow-y: visible;
+  }
+
 }
 
 .tooltip {
