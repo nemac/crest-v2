@@ -128,7 +128,7 @@ export class CaseStudies {
   }
 
   addClearEvent() {
-    const selector = '.figure-caption.tile-caption.sticky-top';
+    const selector = '.figure-caption.title-caption.sticky-top';
     const elems = document.querySelectorAll(selector);
     elems.forEach((elem) => {
       if (elem) {
