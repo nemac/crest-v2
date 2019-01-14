@@ -698,7 +698,7 @@ function viewLongZonalStatsFromShape(name) {
 
   const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
   hasShapeButtonElem.classList.add('d-none');
-  
+
   const pathid = `path--USERAREA-${name}`;
   if (pathid) {
     const pathelem = document.querySelector(`.${pathid}`);

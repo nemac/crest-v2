@@ -74,7 +74,7 @@ export class Explore extends Component {
 
     const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
     if (hasShapeButtonElem) {
-        hasShapeButtonElem.innerHTML = Shapebuttons;
+      hasShapeButtonElem.innerHTML = Shapebuttons;
     }
 
     this.bufferSize = 1;
@@ -161,38 +161,32 @@ export class Explore extends Component {
     }
     this.addBufferListner();
 
-    this.addResetControl(this.mapComponent.map)
-
+    Explore.addResetControl(this.mapComponent.map);
   }
 
   static ResetControlHandler() {
     const sharebtn = L.DomUtil.create('div', 'btn-mapreset-holder');
     sharebtn.setAttribute('id', 'btn-mapreset-holder');
     sharebtn.innerHTML = '<a class="btn btn-light btn-mapreset"  href="#" title="Reset site to default settings" ' +
-                    'role="button" aria-label="Reset site to default settings"> ' +
-                    '<i class="fas fa-cog icon-reset"></i>' +
-                    '<div class="btn-med-mapreset-label" >Reset site to default settings</div></a>';
+                          'role="button" aria-label="Reset site to default settings"> ' +
+                          '<i class="fas fa-cog icon-reset"></i>' +
+                          '<div class="btn-med-mapreset-label" >Reset site to default settings</div></a>';
 
     L.DomEvent.disableClickPropagation(sharebtn);
     return sharebtn;
   }
 
   // add Identify control to leaflet map
-  addResetControl(leafletmap) {
+  static addResetControl(leafletmap) {
     L.Control.Watermark = L.Control.extend({
-      onAdd: Explore.ResetControlHandler,
-
-      // Nothing to do here
-      onRemove: () => {console.log('removed')}
+      onAdd: Explore.ResetControlHandler
     });
-
-    // L.control.watermark = opts => new L.Control.Watermark(opts);
 
     L.control.watermark({ position: 'bottomright' }).addTo(leafletmap);
 
     // get btn for mapinfo add click event
     const leafletControlElement = document.querySelector('.btn-mapreset');
-    leafletControlElement.addEventListener('click',(e) => {
+    leafletControlElement.addEventListener('click', (e) => {
       const activeNav = store.getStateItem('activeNav');
       store.clearState();
       window.location.reload();
