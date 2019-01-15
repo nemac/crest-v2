@@ -944,7 +944,7 @@ a.about-nav.active::before {
 }
 
 .btn-mapreset-holder {
-  width: 200px;
+  width: 125px;
   height: 30px;
   line-height: 10px;
   color: $body-bg !important;
@@ -1002,7 +1002,7 @@ a.about-nav.active::before {
 
   .brand-maplist-holder {
     position: fixed !important;
-    top: 135px !important;
+    top: 175px !important;
     width: 20.6% !important;
     min-width: 290px;
     max-width: 375px !important;
@@ -1026,7 +1026,7 @@ a.about-nav.active::before {
   #maplayers_list-holder {
     width: 19% !important;
     position: fixed;
-    top: 180px !important;
+    top: 225px !important;
     left: 80.5% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
@@ -1173,7 +1173,7 @@ a.about-nav.active::before {
   }
 
   .btn-details {
-    height: 30px;
+    max-height: 40px;
     margin-top: 15px !important;
     line-height: 30px !important;
     vertical-align: middle !important;
@@ -1277,7 +1277,7 @@ a.about-nav.active::before {
   .brand-maplist-holder{
       width: 100% !important;
       position: sticky;
-      top: 0px;
+      top: 45px;
       z-index: 4500 !important;
   }
 
@@ -1321,6 +1321,7 @@ a.about-nav.active::before {
       border-radius: 4px !important;
       -webkit-border-radius: 4px !important;
       -moz-border-radius: 4px !important;
+      z-index: 4000 !important;
     }
 
     #ToggleLayerList {
@@ -1453,7 +1454,14 @@ a.about-nav.active::before {
       height: 0px !important;
       overflow: visible !important;
     }
+
+    .maplayers_list {
+      top: 110px !important;
+      left: -7px !important;
+    }
+
     .brand-maplist-holder {
+      top: 45px;
       height: 0px !important;
       overflow: visible !important;
     }
@@ -1518,7 +1526,7 @@ a.about-nav.active::before {
 }
 
 #btn-clear-area, #btn-update-zonal-stats {
-  max-height: 50px;
+  max-height: 40px;
 }
 // responive explore buttons
 @media (max-width: 640px) {

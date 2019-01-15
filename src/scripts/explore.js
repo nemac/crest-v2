@@ -167,10 +167,10 @@ export class Explore extends Component {
   static ResetControlHandler() {
     const sharebtn = L.DomUtil.create('div', 'btn-mapreset-holder');
     sharebtn.setAttribute('id', 'btn-mapreset-holder');
-    sharebtn.innerHTML = '<a class="btn btn-mapreset"  href="#" title="Restore to initial configuration" ' +
-                          'role="button" aria-label="Restore to initial configuration"> ' +
-                          '<i class="fas fa-cog icon-reset"></i>' +
-                          '<div class="btn-med-mapreset-label" >Restore to initial configuration</div></a>';
+    sharebtn.innerHTML = '<a class="btn btn-mapreset"  href="#" title="Start over" ' +
+                          'role="button" aria-label="Start over"> ' +
+                          '<i class="fas fa-undo icon-reset"></i>' +
+                          '<div class="btn-med-mapreset-label" >Start over</div></a>';
 
     L.DomEvent.disableClickPropagation(sharebtn);
     return sharebtn;
@@ -182,7 +182,7 @@ export class Explore extends Component {
       onAdd: Explore.ResetControlHandler
     });
 
-    L.control.watermark({ position: 'bottomright' }).addTo(leafletmap);
+    L.control.watermark({ position: 'topright' }).addTo(leafletmap);
 
     // get btn for mapinfo add click event
     const leafletControlElement = document.querySelector('.btn-mapreset');
