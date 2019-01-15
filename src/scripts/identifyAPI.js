@@ -22,9 +22,6 @@ export class IdentifyAPI {
     this.cancelToken = CancelToken.source();
     const axiosConfig = {
       cancelToken: this.cancelToken.token
-      // headers: {
-      //   'Access-Control-Allow-Origin': '*'
-      // },
     };
 
     try {
