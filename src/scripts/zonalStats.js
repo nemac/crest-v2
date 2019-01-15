@@ -22,6 +22,9 @@ window.Popper = require('popper.js');
 
 window.jQuery = window.$;
 
+// Required for downloading the data as a CSV
+var FileSaver = require('file-saver');
+
 // // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
 // // use tooltip and popover components everywhere
 // $(() => {
@@ -1426,6 +1429,7 @@ function drawZonalButtons(HTMLName, name) {
   wrapper.querySelector('.zonal-long-button-wrapper').setAttribute('id', `button-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-buttons-holder').setAttribute('id', `button-holder-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-download').setAttribute('id', `download-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name--${HTMLName}`);
   wrapper.querySelector('#zonal-long-name').setAttribute('id', `zonal-long-name--${HTMLName}`);
@@ -1466,6 +1470,35 @@ function drawLongZonalStats(data, name) {
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
   return wrapper;
+}
+
+function makeExportData(data) {
+  return ['hi,hello\r\nheya,howdy'];
+}
+
+function makeFileName(name) {
+  const datestring = new Date().toISOString().replace('T', '--').replace('Z', '');
+  return `${name.replace(' ', '-')}--NFWF--${datestring}.csv`;
+}
+
+function saveFile(content, filename) {
+  var blob = new Blob(content, {type: "text/csv;charset=utf-8"});
+  FileSaver.saveAs(blob, filename);
+}
+
+function csvExportHandler(data, name) {
+  const exportData = makeExportData(data);
+  saveFile(exportData, makeFileName(name));
+}
+
+function bindCsvExportHandler(data, name) {
+  const button = document.querySelector(`#download-name--${makeHTMLName(name)}`);
+//    console.log(button)
+  button.addEventListener('click', csvExportHandler.bind(null, data, name));
+  console.log(button);
+  console.log(data)
+  console.log(name)
+//  document.querySelector(`#download-name--${makeHTMLName(name)}`).addEventListener('click', function () {console.log('howdy');});
 }
 
 // check if graph or table is the active state is so we can disable the
@@ -1563,6 +1596,10 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
   iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
   disableMainZonalButton();
+
+  // add handler to dl button
+  bindCsvExportHandler(data, name);
+
   restoreGraphState();
 }
 
