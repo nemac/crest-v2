@@ -924,13 +924,16 @@ a.about-nav.active::before {
   color: $body-bg !important;
   background-color: $body-color !important;
   text-align: left;
+  padding: 4px 4px;
+  border-width: 0px;
+  box-shadow: $box-shadow-default;
 
   .btn-med-mapreset-label {
     font-size: 12px;
     line-height: 12px !important;
     height: 12px;
     position: relative;
-    top: -18px;
+    top: -19px;
     left: 25px;
     white-space: pre;
   }
@@ -940,19 +943,18 @@ a.about-nav.active::before {
   }
 }
 
-.icon-reset-all {
-  display: none;
-  font-size: 12px;
-  position: relative;
-  top: -25px;
-}
-
 .btn-mapreset-holder {
   width: 200px;
   height: 30px;
   line-height: 10px;
   color: $body-bg !important;
-  // background-color: $body-color !important;
+
+  .icon-reset-all {
+    display: none;
+    font-size: 12px;
+    position: relative;
+    top: -25px;
+  }
 }
 
 .btn-mapreset-holder a, .btn-mapreset-holder a:hover{
@@ -984,6 +986,19 @@ a.about-nav.active::before {
     }
   }
 
+  #btn-clear-area {
+    background-color: $body-bg  !important;
+    border: 1px solid $gray-600 !important;
+
+    &:hover {
+      background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none;
+    }
+  }
 
   .brand-maplist-holder {
     position: fixed !important;

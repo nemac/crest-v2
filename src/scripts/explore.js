@@ -167,10 +167,10 @@ export class Explore extends Component {
   static ResetControlHandler() {
     const sharebtn = L.DomUtil.create('div', 'btn-mapreset-holder');
     sharebtn.setAttribute('id', 'btn-mapreset-holder');
-    sharebtn.innerHTML = '<a class="btn btn-light btn-mapreset"  href="#" title="Reset site to default settings" ' +
-                          'role="button" aria-label="Reset site to default settings"> ' +
+    sharebtn.innerHTML = '<a class="btn btn-mapreset"  href="#" title="Restore to initial configuration" ' +
+                          'role="button" aria-label="Restore to initial configuration"> ' +
                           '<i class="fas fa-cog icon-reset"></i>' +
-                          '<div class="btn-med-mapreset-label" >Reset site to default settings</div></a>';
+                          '<div class="btn-med-mapreset-label" >Restore to initial configuration</div></a>';
 
     L.DomEvent.disableClickPropagation(sharebtn);
     return sharebtn;
