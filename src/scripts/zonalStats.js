@@ -1003,31 +1003,31 @@ function getIndexes(data) {
       label: 'Resilience Hubs',
       key: 'hubs',
       value: data.hubs,
-      range: '1 - 10'
+      range: '1 to 10'
     },
     {
       label: 'Aquatic Index',
       key: 'aquatic',
       value: data.aquatic,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Terrestrial Index',
       key: 'terrestrial',
       value: data.terrestrial,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Community Asset Index',
       key: 'asset',
       value: data.asset,
-      range: '1 - 10'
+      range: '1 to 10'
     },
     {
       label: 'Threat Index',
       key: 'threats',
       value: data.asset,
-      range: '1 - 10'
+      range: '1 to 10'
     }
   ];
 }
@@ -1041,13 +1041,13 @@ function getAssetDrivers(data) {
       label: 'Population Density',
       key: 'population-density',
       value: data.pop_density,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Social Vulnerability',
       key: 'social-vulnerability',
       value: data.social_vuln,
-      range: '0 - 3'
+      range: '0 to 3'
     },
     {
       label: 'Critical Facilities',
@@ -1059,7 +1059,7 @@ function getAssetDrivers(data) {
       label: 'Critical Infrastructure',
       key: 'critical-infrastructure',
       value: data.crit_infra,
-      range: '0 - 6'
+      range: '0 to 6'
     }
   ];
 }
@@ -1073,43 +1073,43 @@ function getThreatDrivers(data) {
       label: 'Impermeable Soils',
       key: 'drainage',
       value: data.drainage,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Soil Erodibility',
       key: 'erosion',
       value: data.erosion,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Flood Prone Areas',
       key: 'floodprone-areas',
       value: data.floodprone_areas,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Sea Level Rise',
       key: 'sea-level-rise',
       value: data.sea_level_rise,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Storm Surge',
       key: 'storm-surge',
       value: data.storm_surge,
-      range: '0 - 5'
+      range: '0 to 5'
     },
     {
       label: 'Geological Stressors',
       key: 'geostress',
       value: data.geostress,
-      range: '0 - 3'
+      range: '0 to 3'
     },
     {
       label: 'Areas of Low Slope',
       key: 'slope',
       value: data.slope,
-      range: '0 - 5'
+      range: '0 to 5'
     }
   ];
 }
@@ -1472,9 +1472,20 @@ function makeExportData(data) {
   return [`Index,Value,Range(s)\r\n${csvString}`];
 }
 
+function padDate(val) {
+  return val < 10 ? `0${val}` : val;
+}
+
+function makeTimestamp() {
+  const now = new Date();
+  const date = `${now.getFullYear()}-${padDate(now.getMonth() + 1)}-${padDate(now.getDate())}`;
+  const time = `${padDate((now.getHours() + 1) % 12)}-${padDate(now.getMinutes() + 1)}-${padDate(now.getSeconds() + 1)}`;
+  const meridiem = now.getHours() >= 12 ? 'PM' : 'AM';
+  return `${date}--at--${time}--${meridiem}`;
+}
+
 function makeFileName(name) {
-  const datestring = new Date().toISOString().replace('T', '--').replace('Z', '');
-  return `${name.replace(' ', '-')}--NFWF--${datestring}.csv`;
+  return `${name.replace(' ', '-')}--NFWF--${makeTimestamp()}.csv`;
 }
 
 function saveFile(content, filename) {
