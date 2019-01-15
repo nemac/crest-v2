@@ -284,6 +284,11 @@ export function addMissingStateItems() {
     store.setStoreItem('activeNav', 'main-nav-map');
   }
 
+  // check for aboutNav default is about-nav-aboutgen
+  if (!checkValidObject(store.getStateItem('aboutNav'))) {
+    store.setStoreItem('aboutNav', 'about-nav-aboutgen');
+  }
+
   // check for savedshapes default is {} NULL object
   if (!checkValidObject(store.getStateItem('savedshapes'))) {
     store.setStoreItem('savedshapes', {});
