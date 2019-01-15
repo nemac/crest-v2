@@ -1299,10 +1299,17 @@ export class Explore extends Component {
     }
   }
 
+  static clearZonalHolderButtons() {
+    const zonstatsholder = document.getElementById('zonal-stats-button-holder');
+    if (zonstatsholder) {
+      zonstatsholder.innerHTML = '';
+    }
+  }
+
   // remove the existing area
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
-
+    Explore.clearZonalHolderButtons();
     const activeNav = store.getStateItem('activeNav');
 
     if (activeNav === 'main-nav-map-searchhubs') {
