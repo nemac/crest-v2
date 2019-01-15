@@ -1000,29 +1000,34 @@ function selectChartCell(wrapper, type, value) {
 function getIndexes(data) {
   return [
     {
-      label: 'Hubs',
+      label: 'Resilience Hubs',
       key: 'hubs',
-      value: data.hubs
+      value: data.hubs,
+      range: '1 - 10'
     },
     {
-      label: 'Assets',
-      key: 'asset',
-      value: data.asset
-    },
-    {
-      label: 'Threats',
-      key: 'threats',
-      value: data.asset
-    },
-    {
-      label: 'Aquatic',
+      label: 'Aquatic Index',
       key: 'aquatic',
-      value: data.aquatic
+      value: data.aquatic,
+      range: '0 - 5'
     },
     {
-      label: 'Terrestrial',
+      label: 'Terrestrial Index',
       key: 'terrestrial',
-      value: data.terrestrial
+      value: data.terrestrial,
+      range: '0 - 5'
+    },
+    {
+      label: 'Community Asset Index',
+      key: 'asset',
+      value: data.asset,
+      range: '1 - 10'
+    },
+    {
+      label: 'Threat Index',
+      key: 'threats',
+      value: data.asset,
+      range: '1 - 10'
     }
   ];
 }
@@ -1035,22 +1040,26 @@ function getAssetDrivers(data) {
     {
       label: 'Population Density',
       key: 'population-density',
-      value: data.pop_density
+      value: data.pop_density,
+      range: '0 - 5'
     },
     {
       label: 'Social Vulnerability',
       key: 'social-vulnerability',
-      value: data.social_vuln
+      value: data.social_vuln,
+      range: '0 - 3'
     },
     {
       label: 'Critical Facilities',
       key: 'critical-facilities',
-      value: data.crit_facilities
+      value: data.crit_facilities,
+      range: '0 or 5'
     },
     {
       label: 'Critical Infrastructure',
       key: 'critical-infrastructure',
-      value: data.crit_infra
+      value: data.crit_infra,
+      range: '0 - 6'
     }
   ];
 }
@@ -1061,39 +1070,46 @@ function getAssetDrivers(data) {
 function getThreatDrivers(data) {
   return [
     {
-      label: 'Drainage',
+      label: 'Impermeable Soils',
       key: 'drainage',
-      value: data.drainage
+      value: data.drainage,
+      range: '0 - 5'
     },
     {
-      label: 'Erosion',
+      label: 'Soil Erodibility',
       key: 'erosion',
-      value: data.erosion
+      value: data.erosion,
+      range: '0 - 5'
     },
     {
-      label: 'Flood Prone',
+      label: 'Flood Prone Areas',
       key: 'floodprone-areas',
-      value: data.floodprone_areas
+      value: data.floodprone_areas,
+      range: '0 - 5'
     },
     {
       label: 'Sea Level Rise',
       key: 'sea-level-rise',
-      value: data.sea_level_rise
+      value: data.sea_level_rise,
+      range: '0 - 5'
     },
     {
       label: 'Storm Surge',
       key: 'storm-surge',
-      value: data.storm_surge
+      value: data.storm_surge,
+      range: '0 - 5'
     },
     {
-      label: 'Subsidence Shift',
+      label: 'Geological Stressors',
       key: 'geostress',
-      value: data.geostress
+      value: data.geostress,
+      range: '0 - 3'
     },
     {
-      label: 'Slope',
+      label: 'Areas of Low Slope',
       key: 'slope',
-      value: data.slope
+      value: data.slope,
+      range: '0 - 5'
     }
   ];
 }
@@ -1439,8 +1455,21 @@ function drawLongZonalStats(data, name) {
   return wrapper;
 }
 
+function getExportData(data) {
+  return getIndexes(data).concat(getAssetDrivers(data)).concat(getThreatDrivers(data));
+}
+
+function exportDataToString(item) {
+  return `${item.label},${item.value},${item.range}`;
+}
+
+function formatExportData(exportData) {
+  return `${exportData.map(exportDataToString).join('\r\n')}\r\n`;
+}
+
 function makeExportData(data) {
-  return ['hi,hello\r\nheya,howdy'];
+  const csvString = formatExportData(getExportData(data));
+  return [`Index,Value,Range(s)\r\n${csvString}`];
 }
 
 function makeFileName(name) {
@@ -1449,7 +1478,7 @@ function makeFileName(name) {
 }
 
 function saveFile(content, filename) {
-  var blob = new Blob(content, {type: "text/csv;charset=utf-8"});
+  var blob = new Blob(content, {type: 'text/csv;charset=utf-8'});
   FileSaver.saveAs(blob, filename);
 }
 
@@ -1463,8 +1492,8 @@ function bindCsvExportHandler(data, name) {
 //    console.log(button)
   button.addEventListener('click', csvExportHandler.bind(null, data, name));
   console.log(button);
-  console.log(data)
-  console.log(name)
+//  console.log(data)
+//  console.log(name)
 //  document.querySelector(`#download-name--${makeHTMLName(name)}`).addEventListener('click', function () {console.log('howdy');});
 }
 
