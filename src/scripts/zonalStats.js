@@ -460,6 +460,8 @@ function dismissLongZonalStats(wrapper) {
   disableAllZonalWrappers();
   enableOverView('dismissLongZonalStats');
 
+  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+  hasShapeButtonElem.classList.remove('d-none');
   // wrapper.previousSibling.style.height = '100%';
   ZonalWrapperActiveAdd();
 }
@@ -564,6 +566,8 @@ function viewLongZonalStats(shortElem) {
     const HTMLName = stripUserArea(shortElem.id);
     dissmissAllZonalStatsWrappers();
     zonalStatsWrappersActive(HTMLName);
+    const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+    hasShapeButtonElem.classList.add('d-none');
     document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
     document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
     document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
@@ -692,6 +696,9 @@ function viewLongZonalStatsFromShape(name) {
   disableOverView();
   dissmissAllZonalStatsWrappers();
   zonalStatsWrappersActive(`-USERAREA-${name}`);
+
+  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+  hasShapeButtonElem.classList.add('d-none');
 
   const pathid = `path--USERAREA-${name}`;
   if (pathid) {
@@ -1534,6 +1541,8 @@ function restoreGraphState() {
           zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
+          const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+          hasShapeButtonElem.classList.add('d-none');
         }
 
         break;
@@ -1551,6 +1560,8 @@ function restoreGraphState() {
           zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
+          const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+          hasShapeButtonElem.classList.add('d-none');
         }
         break;
       default:

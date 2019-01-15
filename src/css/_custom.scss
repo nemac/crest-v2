@@ -427,7 +427,7 @@ a:hover {
   }
 }
 
-$aboutbackground: #3B3E42; //2F3235
+$aboutbackground: #3c4044; //#3B3E42; //2F3235
 
 .about-content  {
   background-color: $aboutbackground;
@@ -738,7 +738,7 @@ a.about-nav.active::before {
 }
 
 #has-shape-holder {
-  margin-left: 0px !important;
+  margin-left: 5px !important;
 }
 
 #upload-shapefile-btn, #draw-area-btn {
@@ -831,6 +831,13 @@ a.about-nav.active::before {
     white-space: pre;
 }
 
+.btn-clear-area {
+  .btn-icon:after {
+      content:" ";
+      white-space: pre;
+  }
+}
+
 #mainNavToggle {
   z-index: 5000 !important;
 }
@@ -910,17 +917,92 @@ a.about-nav.active::before {
   }
 }
 
+.btn-mapreset {
+  width: 100% !important;
+  height: 100% !important;
+  line-height: 25px !important;
+  color: $body-bg !important;
+  background-color: $body-color !important;
+  text-align: left;
+  padding: 4px 4px;
+  border-width: 0px;
+  box-shadow: $box-shadow-default;
+
+  .btn-med-mapreset-label {
+    font-size: 12px;
+    line-height: 12px !important;
+    height: 12px;
+    position: relative;
+    top: -19px;
+    left: 25px;
+    white-space: pre;
+  }
+  &:before {
+    content:" ";
+    white-space: normal;
+  }
+}
+
+.btn-mapreset-holder {
+  width: 125px;
+  height: 30px;
+  line-height: 10px;
+  color: $body-bg !important;
+
+  .icon-reset-all {
+    display: none;
+    font-size: 12px;
+    position: relative;
+    top: -25px;
+  }
+}
+
+.btn-mapreset-holder a, .btn-mapreset-holder a:hover{
+  width: 100% !important;
+  height: 100% !important;
+  line-height: 25px !important;
+  color: $body-bg !important;
+  // background-color: $body-color !important;
+  border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+
+}
+
 @media (min-width: 993px) {
 
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
     background-color: $btn-color-secondary !important;
+
+    &:hover {
+      background-color: $gray-400 !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none;
+    }
+  }
+
+  #btn-clear-area {
+    background-color: $body-bg  !important;
+    border: 1px solid $gray-600 !important;
+
+    &:hover {
+      background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none;
+    }
   }
 
   .brand-maplist-holder {
     position: fixed !important;
-    top: 135px !important;
+    top: 175px !important;
     width: 20.6% !important;
     min-width: 290px;
     max-width: 375px !important;
@@ -944,7 +1026,7 @@ a.about-nav.active::before {
   #maplayers_list-holder {
     width: 19% !important;
     position: fixed;
-    top: 180px !important;
+    top: 225px !important;
     left: 80.5% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
@@ -1091,7 +1173,7 @@ a.about-nav.active::before {
   }
 
   .btn-details {
-    height: 30px;
+    max-height: 40px;
     margin-top: 15px !important;
     line-height: 30px !important;
     vertical-align: middle !important;
@@ -1135,6 +1217,7 @@ a.about-nav.active::before {
     background-size: 100% !important;
     transition: background 0s !important;
   }
+
 
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
@@ -1194,7 +1277,7 @@ a.about-nav.active::before {
   .brand-maplist-holder{
       width: 100% !important;
       position: sticky;
-      top: 0px;
+      top: 45px;
       z-index: 4500 !important;
   }
 
@@ -1238,6 +1321,7 @@ a.about-nav.active::before {
       border-radius: 4px !important;
       -webkit-border-radius: 4px !important;
       -moz-border-radius: 4px !important;
+      z-index: 4000 !important;
     }
 
     #ToggleLayerList {
@@ -1370,7 +1454,14 @@ a.about-nav.active::before {
       height: 0px !important;
       overflow: visible !important;
     }
+
+    .maplayers_list {
+      top: 110px !important;
+      left: -7px !important;
+    }
+
     .brand-maplist-holder {
+      top: 45px;
       height: 0px !important;
       overflow: visible !important;
     }
@@ -1434,11 +1525,15 @@ a.about-nav.active::before {
   }
 }
 
+#btn-clear-area, #btn-update-zonal-stats {
+  max-height: 40px;
+}
 // responive explore buttons
 @media (max-width: 640px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
-    margin-top: $margin;
+    margin-top: 5px;
     width: 100% !important;
+    max-height: 30px;
   }
 }
 
@@ -1756,6 +1851,9 @@ a.about-nav.active::before {
     top: 120px;
     left: 50px;
   }
+  .btn-lg-label {
+    display: none;
+  }
 }
 
 @media (max-width: 500px) {
@@ -1878,6 +1976,7 @@ a.about-nav.active::before {
 }
 
 .i-shareurl {
+  cursor: pointer;
   margin-bottom: 15px;
   margin-left: -1px;
 }
@@ -1887,7 +1986,7 @@ a.about-nav.active::before {
   height: 50px;
   line-height: 10px;
   color: $body-bg !important;
-  background-color: $body-color !important;
+  // background-color: $body-color !important;
 }
 
 .btn-mapshareurl {
@@ -1971,10 +2070,6 @@ a.about-nav.active::before {
   border: 0px;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
-}
-
-.i-shareurl {
-  cursor: pointer;
 }
 
 .i-btn {
