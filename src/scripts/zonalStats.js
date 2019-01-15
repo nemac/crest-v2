@@ -384,7 +384,17 @@ function setGraphsState(name, activetype) {
 }
 
 function disableMainZonalButton() {
-  document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.add('d-none');
+  });
+}
+
+function enableMainZonalButton() {
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.remove('d-none');
+  });
 }
 
 function disableOverView(text = 'none') {
@@ -455,6 +465,7 @@ function dismissLongZonalStats(wrapper) {
 
   const id = wrapper.getAttribute('id');
   const HTMLName = stripUserArea(id);
+  disableMainZonalButton();
   disableZonalButtons(HTMLName);
   disableAllZonalWrappers();
   enableOverView('dismissLongZonalStats');
@@ -557,6 +568,7 @@ function displayZonalGraphsHandler(e) {
 // @param shortElem | DOM element
 function viewLongZonalStats(shortElem) {
   if (shortElem) {
+    enableMainZonalButton();
     shortElem.nextElementSibling.classList.add('active');
     setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
     document.getElementById('zonal-header').classList.add('d-none');
@@ -666,8 +678,6 @@ function hideLastHighlight() {
 // set zonal buttons and header on
 function enableZonalButtons(HTMLName) {
   disableOverView();
-  document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
-
   if (document.querySelector(`#button-name--${HTMLName}`)) {
     document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
     document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
@@ -693,6 +703,7 @@ function viewLongZonalStatsFromShape(name) {
   disableAllZonalButtons();
   enableZonalButtons(`-USERAREA-${name}`);
   disableOverView();
+  enableMainZonalButton();
   dissmissAllZonalStatsWrappers();
   zonalStatsWrappersActive(`-USERAREA-${name}`);
 
@@ -1366,7 +1377,7 @@ function drawShortZonalStats(data, name, mapComponent) {
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
   buttonHolder.innerHTML = ovr.innerHTML;
   buttonHolder.classList.remove('d-none');
-
+  disableMainZonalButton();
   return wrapper;
 }
 
@@ -1489,6 +1500,7 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          enableMainZonalButton();
           dissmissAllZonalStatsWrappers();
           zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
@@ -1508,6 +1520,7 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          enableMainZonalButton();
           dissmissAllZonalStatsWrappers();
           zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
@@ -1549,7 +1562,7 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   const iconelem = document.getElementById('btn-details-icon');
   iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
   iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
-
+  disableMainZonalButton();
   restoreGraphState();
 }
 
