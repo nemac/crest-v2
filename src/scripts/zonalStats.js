@@ -994,10 +994,6 @@ function selectChartCell(wrapper, type, value) {
   }
 }
 
-function getTableCategoryText(type, rank) {
-  return getIdentifyValue(type, rank).label;
-}
-
 // Reformats data for the indexes
 // @param data | Object - all data from the API
 // @return Array
@@ -1006,32 +1002,27 @@ function getIndexes(data) {
     {
       label: 'Hubs',
       key: 'hubs',
-      value: data.hubs,
-      category: getTableCategoryText('hubs', data.hubs)
+      value: data.hubs
     },
     {
       label: 'Assets',
       key: 'asset',
-      value: data.asset,
-      category: getTableCategoryText('asset', data.asset)
+      value: data.asset
     },
     {
       label: 'Threats',
       key: 'threats',
-      value: data.asset,
-      category: getTableCategoryText('threat', data.asset)
+      value: data.asset
     },
     {
       label: 'Aquatic',
       key: 'aquatic',
-      value: data.aquatic,
-      category: getTableCategoryText('aquatic', data.aquatic)
+      value: data.aquatic
     },
     {
       label: 'Terrestrial',
       key: 'terrestrial',
-      value: data.terrestrial,
-      category: getTableCategoryText('terrestrial', data.terrestrial)
+      value: data.terrestrial
     }
   ];
 }
@@ -1044,26 +1035,22 @@ function getAssetDrivers(data) {
     {
       label: 'Population Density',
       key: 'population-density',
-      value: data.pop_density,
-      category: 'TBD'
+      value: data.pop_density
     },
     {
       label: 'Social Vulnerability',
       key: 'social-vulnerability',
-      value: data.social_vuln,
-      category: 'TBD'
+      value: data.social_vuln
     },
     {
       label: 'Critical Facilities',
       key: 'critical-facilities',
-      value: data.crit_facilities,
-      category: 'TBD'
+      value: data.crit_facilities
     },
     {
       label: 'Critical Infrastructure',
       key: 'critical-infrastructure',
-      value: data.crit_infra,
-      category: 'TBD'
+      value: data.crit_infra
     }
   ];
 }
@@ -1076,44 +1063,37 @@ function getThreatDrivers(data) {
     {
       label: 'Drainage',
       key: 'drainage',
-      value: data.drainage,
-      category: 'TBD'
+      value: data.drainage
     },
     {
       label: 'Erosion',
       key: 'erosion',
-      value: data.erosion,
-      category: 'TBD'
+      value: data.erosion
     },
     {
       label: 'Flood Prone',
       key: 'floodprone-areas',
-      value: data.floodprone_areas,
-      category: 'TBD'
+      value: data.floodprone_areas
     },
     {
       label: 'Sea Level Rise',
       key: 'sea-level-rise',
-      value: data.sea_level_rise,
-      category: 'TBD'
+      value: data.sea_level_rise
     },
     {
       label: 'Storm Surge',
       key: 'storm-surge',
-      value: data.storm_surge,
-      category: 'TBD'
+      value: data.storm_surge
     },
     {
       label: 'Subsidence Shift',
       key: 'geostress',
-      value: data.geostress,
-      category: 'TBD'
+      value: data.geostress
     },
     {
       label: 'Slope',
       key: 'slope',
-      value: data.slope,
-      category: 'TBD'
+      value: data.slope
     }
   ];
 }
@@ -1271,38 +1251,32 @@ function getShortDataChartData(data) {
     {
       label: 'hubs',
       key: 'hubs',
-      value: data.hubs,
-      category: 'TBD'
+      value: data.hubs
     },
     {
       label: 'exposure',
       key: 'exposure',
-      value: data.exposure,
-      category: 'TBD'
+      value: data.exposure
     },
     {
       label: 'asset',
       key: 'asset',
-      value: data.asset,
-      category: 'TBD'
+      value: data.asset
     },
     {
       label: 'threat',
       key: 'threat',
-      value: data.threat,
-      category: 'TBD'
+      value: data.threat
     },
     {
       label: 'aquatic',
       key: 'aquatic',
-      value: data.aquatic,
-      category: 'TBD'
+      value: data.aquatic
     },
     {
       label: 'terrestrial',
       key: 'terrestrial',
-      value: data.terrestrial,
-      category: 'TBD'
+      value: data.terrestrial
     }
   ];
 }
@@ -1319,13 +1293,6 @@ function drawAssetDrivers(wrapper, drivers) {
 function drawMapInfoStats(data, doc) {
   drawMapInfoChart(getShortDataChartData(data), 'mapInfo', doc);
 }
-// function findRawCategory(wrapper, key) {
-//   return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
-// }
-
-// function drawRawCategory(wrapper, value) {
-//   findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
-// }
 
 // Creates the entire short zonal stats block of html
 // @param data | Object
