@@ -1580,7 +1580,7 @@ export class Explore extends Component {
         Explore.clearZonalStatsWrapperDiv();
 
         this.drawAreaGroup.clearLayers();
-
+        Explore.clearZonalHolderButtons();
         await this.getHubsZonal();
         this.drawHubsFromStateObject();
         this.drawZonalStatsForStoredHubs();
