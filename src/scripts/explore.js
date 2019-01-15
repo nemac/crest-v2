@@ -288,7 +288,7 @@ export class Explore extends Component {
     // event listner to handle nav change
     window.addEventListener('aboutNavChange', (e) => {
       this.drawAreaGroup.clearLayers();
-
+      Explore.clearZonalHolderButtons();
       Explore.clearZonalStatsWrapperDiv();
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
