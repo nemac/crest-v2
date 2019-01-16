@@ -58,6 +58,4 @@ function saveCsv(content, name) {
   saveFile(content, makeFileName(name, ext), filetype);
 }
 
-export {
-  saveCsv
-};
+export { saveCsv };

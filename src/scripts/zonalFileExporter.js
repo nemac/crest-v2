@@ -1,9 +1,5 @@
 import { saveCsv } from './fileExporter';
-import {
-  getIndexes,
-  getAssetDrivers,
-  getThreatDrivers
-} from './zonalStats';
+import { getIndexes, getAssetDrivers, getThreatDrivers } from './zonalStats';
 import { Store } from './store';
 const store = new Store({});
 
@@ -50,11 +46,10 @@ function makeExportFileContent(data) {
 
 // Triggers the save to CSV.
 //
-// @param content | Array - Contents of the file
+// @param fileContent | Array - Contents of the file
 // @param name | String - Some sort of human readable identifier. Ex: Area-2 || Hub-13723
-function csvExportHandler(data, name) {
-  const exportData = makeExportFileContent(data);
-  saveCsv(exportData, name);
+function triggerCsvExport(fileContent, name) {
+  saveCsv(fileContent, name);
 }
 
 // The available name has extra text added for a unique id. This trims the name to the neccesary
@@ -111,18 +106,22 @@ function makeHubNameFromKey(key) {
 // Handles the export of zonal / hub data to a csv file.
 //
 // @param name | String - result of makeHTMLName from zonalStats.js
-function getDataFromName(name) {
+function handleZonalCsvExport(name) {
   const key = getZonalKeyFromName(name);
   const [data, label] = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
     [getHubDataFromState(key), makeHubNameFromKey(key)] :
     [getZonalDataFromState(key), makeZonalNameFromKey(key)];
-  csvExportHandler(data, label);
+  const fileContent = makeExportFileContent(data);
+
+  triggerCsvExport(fileContent, label);
 }
 
 // Binds the export handler to the download button
+//
+// @param name | String - result of makeHTMLName from zonalStats.js
 function bindZonalExportHandler(name) {
   const button = document.querySelector(`#download-name--${name}`);
-  button.addEventListener('click', getDataFromName.bind(null, name));
+  button.addEventListener('click', handleZonalCsvExport.bind(null, name));
 }
 
 export { bindZonalExportHandler };
