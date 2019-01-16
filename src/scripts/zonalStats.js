@@ -1527,18 +1527,16 @@ function makeHubNameFromKey(key) {
 }
 
 function getDataFromName(name) {
-  return function() {
-    const key = getZonalKeyFromName(name);
-    const [data, label] = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
-      [getHubDataFromState(key), makeHubNameFromKey(key)] :
-      [getZonalDataFromState(key), makeZonalNameFromKey(key)];
-    csvExportHandler(data, label);
-  }
+  const key = getZonalKeyFromName(name);
+  const [data, label] = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
+    [getHubDataFromState(key), makeHubNameFromKey(key)] :
+    [getZonalDataFromState(key), makeZonalNameFromKey(key)];
+  csvExportHandler(data, label);
 }
 
 function bindCsvExportHandler2(name) {
   const button = document.querySelector(`#download-name--${name}`);
-  button.addEventListener('click', getDataFromName(name));
+  button.addEventListener('click', getDataFromName.bind(null, name));
 }
 
 // check if graph or table is the active state is so we can disable the
