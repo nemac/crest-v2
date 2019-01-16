@@ -691,6 +691,7 @@ function enableZonalButtons(HTMLName) {
     document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
     document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
     document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+    bindCsvExportHandler2(HTMLName);
   }
 }
 
@@ -1443,13 +1444,16 @@ function drawLongZonalStats(data, name) {
   drawThreatDrivers(wrapper, getThreatDrivers(data));
 
   // add ids so we can deal with state
-  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
-  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name-${HTMLName}`);
-  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name-${HTMLName}`);
+//  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
+//  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name-${HTMLName}`);
+//  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name-${HTMLName}`);
+//    console.log(wrapper)
+//  wrapper.querySelector('.zonal-long-button-download').setAttribute('id', `download-name--${HTMLName}`);
 
-  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
-  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
-  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
+//  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
+//  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
+//  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
+//  bindCsvExportHandler(data, name, wrapper);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
   return wrapper;
@@ -1498,14 +1502,59 @@ function csvExportHandler(data, name) {
   saveFile(exportData, makeFileName(name));
 }
 
-function bindCsvExportHandler(data, name) {
-  const button = document.querySelector(`#download-name--${makeHTMLName(name)}`);
+function bindCsvExportHandler(data, name, wrapper) {
+  const button = wrapper.querySelector(`#download-name--${makeHTMLName(name)}`);
 //    console.log(button)
   button.addEventListener('click', csvExportHandler.bind(null, data, name));
-  console.log(button);
+//  console.log(button);
 //  console.log(data)
 //  console.log(name)
 //  document.querySelector(`#download-name--${makeHTMLName(name)}`).addEventListener('click', function () {console.log('howdy');});
+}
+
+function getZonalKeyFromName(name) {
+  return name.replace('-USERAREA-', '').replace('Area_', '');
+}
+
+function getZonalDataFromState(key) {
+  return store.getStateItem('userareas')[`userarea${key}`][3]
+    .zonalstatsjson.features[0].properties.mean;
+}
+
+function getHubDataFromState(key) {
+  const hubData = store.getStateItem('HubIntersectionJson');
+  let i, l, data;
+  for (i = 0, l = hubData.length; i < l; i += 1) {
+    data = hubData[i].properties.mean;
+    if (data.TARGET_FID === key) {
+      break;
+    }
+  }
+
+  return data;
+}
+
+function makeZonalNameFromKey(key) {
+  return `Area-${key}`;
+}
+
+function makeHubNameFromKey(key) {
+  return `Hub-${key}`;
+}
+
+function getDataFromName(name) {
+  return function() {
+    const key = getZonalKeyFromName(name);
+    const [data, label] = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
+      [getHubDataFromState(key), makeHubNameFromKey(key)] :
+      [getZonalDataFromState(key), makeZonalNameFromKey(key)];
+    csvExportHandler(data, label);
+  }
+}
+
+function bindCsvExportHandler2(name) {
+  const button = document.querySelector(`#download-name--${name}`);
+  button.addEventListener('click', getDataFromName(name));
 }
 
 // check if graph or table is the active state is so we can disable the
@@ -1605,7 +1654,7 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   disableMainZonalButton();
 
   // add handler to dl button
-  bindCsvExportHandler(data, name);
+//  bindCsvExportHandler(data, name);
 
   restoreGraphState();
 }
