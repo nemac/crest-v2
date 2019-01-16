@@ -691,7 +691,7 @@ function enableZonalButtons(HTMLName) {
     document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
     document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
     document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
-    bindCsvExportHandler2(HTMLName);
+    bindCsvExportHandler(HTMLName);
   }
 }
 
@@ -1491,11 +1491,6 @@ function csvExportHandler(data, name) {
   saveFile(exportData, makeFileName(name));
 }
 
-function bindCsvExportHandler(data, name, wrapper) {
-  const button = wrapper.querySelector(`#download-name--${makeHTMLName(name)}`);
-  button.addEventListener('click', csvExportHandler.bind(null, data, name));
-}
-
 function getZonalKeyFromName(name) {
   return name.replace('-USERAREA-', '').replace('Area_', '');
 }
@@ -1534,7 +1529,7 @@ function getDataFromName(name) {
   csvExportHandler(data, label);
 }
 
-function bindCsvExportHandler2(name) {
+function bindCsvExportHandler(name) {
   const button = document.querySelector(`#download-name--${name}`);
   button.addEventListener('click', getDataFromName.bind(null, name));
 }
