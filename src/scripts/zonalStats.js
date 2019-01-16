@@ -15,7 +15,7 @@ import {
   checkValidObject,
   googleAnalyticsEvent
 } from './utilitys';
-import { saveCsv } from './fileExporter';
+import { bindZonalExportHandler } from './zonalFileExporter.js';
 // required for bootstrap
 window.$ = require('jquery');
 // required for tooltip, popup...
@@ -690,7 +690,7 @@ function enableZonalButtons(HTMLName) {
     document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
     document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
     document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
-    bindCsvExportHandler(HTMLName);
+    bindZonalExportHandler(HTMLName);
   }
 }
 
@@ -1447,71 +1447,6 @@ function drawLongZonalStats(data, name) {
   return wrapper;
 }
 
-function getExportData(data) {
-  return getIndexes(data).concat(getAssetDrivers(data)).concat(getThreatDrivers(data));
-}
-
-function exportDataToString(item) {
-  return `${item.label},${item.value},${item.range}`;
-}
-
-function formatExportData(exportData) {
-  return `${exportData.map(exportDataToString).join('\r\n')}\r\n`;
-}
-
-function makeExportData(data) {
-  const csvString = formatExportData(getExportData(data));
-  return [`Index,Value,Range(s)\r\n${csvString}`];
-}
-
-function csvExportHandler(data, name) {
-  const exportData = makeExportData(data);
-  saveCsv(exportData, name);
-}
-
-function getZonalKeyFromName(name) {
-  return name.replace('-USERAREA-', '').replace('Area_', '');
-}
-
-function getZonalDataFromState(key) {
-  return store.getStateItem('userareas')[`userarea${key}`][3]
-    .zonalstatsjson.features[0].properties.mean;
-}
-
-function getHubDataFromState(key) {
-  const hubData = store.getStateItem('HubIntersectionJson');
-  let i, l, data;
-  for (i = 0, l = hubData.length; i < l; i += 1) {
-    data = hubData[i].properties.mean;
-    if (data.TARGET_FID === key) {
-      break;
-    }
-  }
-
-  return data;
-}
-
-function makeZonalNameFromKey(key) {
-  return `Area-${key}`;
-}
-
-function makeHubNameFromKey(key) {
-  return `Hub-${key}`;
-}
-
-function getDataFromName(name) {
-  const key = getZonalKeyFromName(name);
-  const [data, label] = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
-    [getHubDataFromState(key), makeHubNameFromKey(key)] :
-    [getZonalDataFromState(key), makeZonalNameFromKey(key)];
-  csvExportHandler(data, label);
-}
-
-function bindCsvExportHandler(name) {
-  const button = document.querySelector(`#download-name--${name}`);
-  button.addEventListener('click', getDataFromName.bind(null, name));
-}
-
 // check if graph or table is the active state is so we can disable the
 // mouse off event on the shape.  This prevents the map from removeing the
 // highlighted shape.
@@ -1632,7 +1567,10 @@ export {
   enableZonalButtons,
   disableZonalButtons,
   toggleALLPathsOff,
-  toggleAllLongZonalsOff
+  toggleAllLongZonalsOff,
+  getIndexes,
+  getAssetDrivers,
+  getThreatDrivers
 };
 
 // Polyfill for Element.closest for IE9+ and Safari
