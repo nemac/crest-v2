@@ -1443,17 +1443,6 @@ function drawLongZonalStats(data, name) {
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
 
-  // add ids so we can deal with state
-//  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
-//  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name-${HTMLName}`);
-//  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name-${HTMLName}`);
-//    console.log(wrapper)
-//  wrapper.querySelector('.zonal-long-button-download').setAttribute('id', `download-name--${HTMLName}`);
-
-//  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
-//  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
-//  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
-//  bindCsvExportHandler(data, name, wrapper);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
   return wrapper;
@@ -1504,12 +1493,7 @@ function csvExportHandler(data, name) {
 
 function bindCsvExportHandler(data, name, wrapper) {
   const button = wrapper.querySelector(`#download-name--${makeHTMLName(name)}`);
-//    console.log(button)
   button.addEventListener('click', csvExportHandler.bind(null, data, name));
-//  console.log(button);
-//  console.log(data)
-//  console.log(name)
-//  document.querySelector(`#download-name--${makeHTMLName(name)}`).addEventListener('click', function () {console.log('howdy');});
 }
 
 function getZonalKeyFromName(name) {
