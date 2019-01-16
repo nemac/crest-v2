@@ -1,5 +1,5 @@
 // Required for downloading the data as a CSV
-var FileSaver = require('file-saver');
+const FileSaver = require('file-saver');
 
 /**
  * The code in this file provides general code to export preformatted data using the npm package
@@ -44,7 +44,7 @@ function makeFileName(name, ext) {
 // @param filename | String
 // @param filetype | String - Metadata about the file.
 function saveFile(content, filename, filetype) {
-  var blob = new Blob(content, {type: filetype});
+  const blob = new Blob(content, { type: filetype });
   FileSaver.saveAs(blob, filename);
 }
 

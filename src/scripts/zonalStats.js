@@ -15,7 +15,7 @@ import {
   checkValidObject,
   googleAnalyticsEvent
 } from './utilitys';
-import { bindZonalExportHandler } from './zonalFileExporter.js';
+import { bindZonalExportHandler } from './zonalFileExporter';
 // required for bootstrap
 window.$ = require('jquery');
 // required for tooltip, popup...
@@ -1542,9 +1542,6 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
   iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
   disableMainZonalButton();
-
-  // add handler to dl button
-//  bindCsvExportHandler(data, name);
 
   restoreGraphState();
 }

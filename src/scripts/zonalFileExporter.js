@@ -1,6 +1,7 @@
 import { saveCsv } from './fileExporter';
 import { getIndexes, getAssetDrivers, getThreatDrivers } from './zonalStats';
 import { Store } from './store';
+
 const store = new Store({});
 
 /**
@@ -9,6 +10,8 @@ const store = new Store({});
  */
 
 // Takes the flat data results as given by the API and reformats it as an array with metadata
+// NOTE/TODO: This function is the reason why there is a 'Dependency cycle', but it is invoked by an
+//   async function so it should be fine.
 //
 // @param data | Object
 // @return Array
@@ -76,7 +79,9 @@ function getZonalDataFromState(key) {
 // @return Object
 function getHubDataFromState(key) {
   const hubData = store.getStateItem('HubIntersectionJson');
-  let i, l, data;
+  let i;
+  let l;
+  let data;
   for (i = 0, l = hubData.length; i < l; i += 1) {
     data = hubData[i].properties.mean;
     if (data.TARGET_FID === key) {
