@@ -893,6 +893,14 @@ a.about-nav.active::before {
   border-left: 0px;
 }
 
+.btn-light {
+  background-color:  $body-color;
+  color: $body-bg;
+  padding: 4px 4px;
+  border-width: 0px;
+  box-shadow: $box-shadow-default;
+}
+
 
 // explore styles
 
@@ -2115,14 +2123,6 @@ p.not-found {
 
 #tab-main-nav-map {
   min-height: 0px;
-}
-
-.btn-light {
-  background-color:  $body-color;
-  color: $body-bg;
-  padding: 4px 4px;
-  border-width: 0px;
-  box-shadow: $box-shadow-default;
 }
 
 .user-shape {
