@@ -15,6 +15,7 @@ import {
   checkValidObject,
   googleAnalyticsEvent
 } from './utilitys';
+import { saveCsv } from './fileExporter';
 // required for bootstrap
 window.$ = require('jquery');
 // required for tooltip, popup...
@@ -22,8 +23,6 @@ window.Popper = require('popper.js');
 
 window.jQuery = window.$;
 
-// Required for downloading the data as a CSV
-var FileSaver = require('file-saver');
 
 // // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
 // // use tooltip and popover components everywhere
@@ -1465,30 +1464,9 @@ function makeExportData(data) {
   return [`Index,Value,Range(s)\r\n${csvString}`];
 }
 
-function padDate(val) {
-  return val < 10 ? `0${val}` : val;
-}
-
-function makeTimestamp() {
-  const now = new Date();
-  const date = `${now.getFullYear()}-${padDate(now.getMonth() + 1)}-${padDate(now.getDate())}`;
-  const time = `${padDate((now.getHours() + 1) % 12)}-${padDate(now.getMinutes() + 1)}-${padDate(now.getSeconds() + 1)}`;
-  const meridiem = now.getHours() >= 12 ? 'PM' : 'AM';
-  return `${date}--at--${time}--${meridiem}`;
-}
-
-function makeFileName(name) {
-  return `${name.replace(' ', '-')}--NFWF--${makeTimestamp()}.csv`;
-}
-
-function saveFile(content, filename) {
-  var blob = new Blob(content, {type: 'text/csv;charset=utf-8'});
-  FileSaver.saveAs(blob, filename);
-}
-
 function csvExportHandler(data, name) {
   const exportData = makeExportData(data);
-  saveFile(exportData, makeFileName(name));
+  saveCsv(exportData, name);
 }
 
 function getZonalKeyFromName(name) {
