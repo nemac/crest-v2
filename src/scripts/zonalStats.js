@@ -15,12 +15,14 @@ import {
   checkValidObject,
   googleAnalyticsEvent
 } from './utilitys';
+import { bindZonalExportHandler } from './zonalFileExporter';
 // required for bootstrap
 window.$ = require('jquery');
 // required for tooltip, popup...
 window.Popper = require('popper.js');
 
 window.jQuery = window.$;
+
 
 // // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
 // // use tooltip and popover components everywhere
@@ -384,7 +386,17 @@ function setGraphsState(name, activetype) {
 }
 
 function disableMainZonalButton() {
-  document.querySelector('.zonal-stats-button-holder').classList.add('d-none');
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.add('d-none');
+  });
+}
+
+function enableMainZonalButton() {
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.remove('d-none');
+  });
 }
 
 function disableOverView(text = 'none') {
@@ -455,10 +467,13 @@ function dismissLongZonalStats(wrapper) {
 
   const id = wrapper.getAttribute('id');
   const HTMLName = stripUserArea(id);
+  disableMainZonalButton();
   disableZonalButtons(HTMLName);
   disableAllZonalWrappers();
   enableOverView('dismissLongZonalStats');
 
+  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+  hasShapeButtonElem.classList.remove('d-none');
   // wrapper.previousSibling.style.height = '100%';
   ZonalWrapperActiveAdd();
 }
@@ -555,6 +570,7 @@ function displayZonalGraphsHandler(e) {
 // @param shortElem | DOM element
 function viewLongZonalStats(shortElem) {
   if (shortElem) {
+    enableMainZonalButton();
     shortElem.nextElementSibling.classList.add('active');
     setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
     document.getElementById('zonal-header').classList.add('d-none');
@@ -563,6 +579,8 @@ function viewLongZonalStats(shortElem) {
     const HTMLName = stripUserArea(shortElem.id);
     dissmissAllZonalStatsWrappers();
     zonalStatsWrappersActive(HTMLName);
+    const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+    hasShapeButtonElem.classList.add('d-none');
     document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
     document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
     document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
@@ -662,8 +680,6 @@ function hideLastHighlight() {
 // set zonal buttons and header on
 function enableZonalButtons(HTMLName) {
   disableOverView();
-  document.querySelector('.zonal-stats-button-holder').classList.remove('d-none');
-
   if (document.querySelector(`#button-name--${HTMLName}`)) {
     document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
     document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
@@ -674,6 +690,7 @@ function enableZonalButtons(HTMLName) {
     document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
     document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
     document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+    bindZonalExportHandler(HTMLName);
   }
 }
 
@@ -689,8 +706,12 @@ function viewLongZonalStatsFromShape(name) {
   disableAllZonalButtons();
   enableZonalButtons(`-USERAREA-${name}`);
   disableOverView();
+  enableMainZonalButton();
   dissmissAllZonalStatsWrappers();
   zonalStatsWrappersActive(`-USERAREA-${name}`);
+
+  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+  hasShapeButtonElem.classList.add('d-none');
 
   const pathid = `path--USERAREA-${name}`;
   if (pathid) {
@@ -973,44 +994,40 @@ function selectChartCell(wrapper, type, value) {
   }
 }
 
-function getTableCategoryText(type, rank) {
-  return getIdentifyValue(type, rank).label;
-}
-
 // Reformats data for the indexes
 // @param data | Object - all data from the API
 // @return Array
 function getIndexes(data) {
   return [
     {
-      label: 'Hubs',
+      label: 'Resilience Hubs',
       key: 'hubs',
       value: data.hubs,
-      category: getTableCategoryText('hubs', data.hubs)
+      range: '1 to 10'
     },
     {
-      label: 'Assets',
-      key: 'asset',
-      value: data.asset,
-      category: getTableCategoryText('asset', data.asset)
-    },
-    {
-      label: 'Threats',
-      key: 'threats',
-      value: data.asset,
-      category: getTableCategoryText('threat', data.asset)
-    },
-    {
-      label: 'Aquatic',
+      label: 'Aquatic Index',
       key: 'aquatic',
       value: data.aquatic,
-      category: getTableCategoryText('aquatic', data.aquatic)
+      range: '0 to 5'
     },
     {
-      label: 'Terrestrial',
+      label: 'Terrestrial Index',
       key: 'terrestrial',
       value: data.terrestrial,
-      category: getTableCategoryText('terrestrial', data.terrestrial)
+      range: '0 to 5'
+    },
+    {
+      label: 'Community Asset Index',
+      key: 'asset',
+      value: data.asset,
+      range: '1 to 10'
+    },
+    {
+      label: 'Threat Index',
+      key: 'threats',
+      value: data.asset,
+      range: '1 to 10'
     }
   ];
 }
@@ -1024,25 +1041,25 @@ function getAssetDrivers(data) {
       label: 'Population Density',
       key: 'population-density',
       value: data.pop_density,
-      category: 'TBD'
+      range: '0 to 5'
     },
     {
       label: 'Social Vulnerability',
       key: 'social-vulnerability',
       value: data.social_vuln,
-      category: 'TBD'
+      range: '0 to 3'
     },
     {
       label: 'Critical Facilities',
       key: 'critical-facilities',
       value: data.crit_facilities,
-      category: 'TBD'
+      range: '0 or 5'
     },
     {
       label: 'Critical Infrastructure',
       key: 'critical-infrastructure',
       value: data.crit_infra,
-      category: 'TBD'
+      range: '0 to 6'
     }
   ];
 }
@@ -1053,46 +1070,46 @@ function getAssetDrivers(data) {
 function getThreatDrivers(data) {
   return [
     {
-      label: 'Drainage',
+      label: 'Impermeable Soils',
       key: 'drainage',
       value: data.drainage,
-      category: 'TBD'
+      range: '0 to 5'
     },
     {
-      label: 'Erosion',
+      label: 'Soil Erodibility',
       key: 'erosion',
       value: data.erosion,
-      category: 'TBD'
+      range: '0 to 5'
     },
     {
-      label: 'Flood Prone',
+      label: 'Flood Prone Areas',
       key: 'floodprone-areas',
       value: data.floodprone_areas,
-      category: 'TBD'
+      range: '0 to 5'
     },
     {
       label: 'Sea Level Rise',
       key: 'sea-level-rise',
       value: data.sea_level_rise,
-      category: 'TBD'
+      range: '0 to 5'
     },
     {
       label: 'Storm Surge',
       key: 'storm-surge',
       value: data.storm_surge,
-      category: 'TBD'
+      range: '0 to 5'
     },
     {
-      label: 'Subsidence Shift',
+      label: 'Geological Stressors',
       key: 'geostress',
       value: data.geostress,
-      category: 'TBD'
+      range: '0 to 3'
     },
     {
-      label: 'Slope',
+      label: 'Areas of Low Slope',
       key: 'slope',
       value: data.slope,
-      category: 'TBD'
+      range: '0 to 5'
     }
   ];
 }
@@ -1250,38 +1267,32 @@ function getShortDataChartData(data) {
     {
       label: 'hubs',
       key: 'hubs',
-      value: data.hubs,
-      category: 'TBD'
+      value: data.hubs
     },
     {
       label: 'exposure',
       key: 'exposure',
-      value: data.exposure,
-      category: 'TBD'
+      value: data.exposure
     },
     {
       label: 'asset',
       key: 'asset',
-      value: data.asset,
-      category: 'TBD'
+      value: data.asset
     },
     {
       label: 'threat',
       key: 'threat',
-      value: data.threat,
-      category: 'TBD'
+      value: data.threat
     },
     {
       label: 'aquatic',
       key: 'aquatic',
-      value: data.aquatic,
-      category: 'TBD'
+      value: data.aquatic
     },
     {
       label: 'terrestrial',
       key: 'terrestrial',
-      value: data.terrestrial,
-      category: 'TBD'
+      value: data.terrestrial
     }
   ];
 }
@@ -1298,13 +1309,6 @@ function drawAssetDrivers(wrapper, drivers) {
 function drawMapInfoStats(data, doc) {
   drawMapInfoChart(getShortDataChartData(data), 'mapInfo', doc);
 }
-// function findRawCategory(wrapper, key) {
-//   return wrapper.querySelector(`.zonal-long-raw-category-${key}`);
-// }
-
-// function drawRawCategory(wrapper, value) {
-//   findRawCategory(wrapper, value.key).appendChild(makeTextElement(value.category));
-// }
 
 // Creates the entire short zonal stats block of html
 // @param data | Object
@@ -1359,7 +1363,7 @@ function drawShortZonalStats(data, name, mapComponent) {
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
   buttonHolder.innerHTML = ovr.innerHTML;
   buttonHolder.classList.remove('d-none');
-
+  disableMainZonalButton();
   return wrapper;
 }
 
@@ -1408,6 +1412,7 @@ function drawZonalButtons(HTMLName, name) {
   wrapper.querySelector('.zonal-long-button-wrapper').setAttribute('id', `button-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-buttons-holder').setAttribute('id', `button-holder-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name--${HTMLName}`);
+  wrapper.querySelector('.zonal-long-button-download').setAttribute('id', `download-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name--${HTMLName}`);
   wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name--${HTMLName}`);
   wrapper.querySelector('#zonal-long-name').setAttribute('id', `zonal-long-name--${HTMLName}`);
@@ -1437,14 +1442,6 @@ function drawLongZonalStats(data, name) {
   drawAssetDrivers(wrapper, getAssetDrivers(data));
   drawThreatDrivers(wrapper, getThreatDrivers(data));
 
-  // add ids so we can deal with state
-  wrapper.querySelector('.zonal-long-button-graphs').setAttribute('id', `graph-name-${HTMLName}`);
-  wrapper.querySelector('.zonal-long-button-raw').setAttribute('id', `raw-name-${HTMLName}`);
-  wrapper.querySelector('.zonal-long-button-dismiss').setAttribute('id', `dismiss-name-${HTMLName}`);
-
-  wrapper.querySelector('.zonal-long-button-dismiss').addEventListener('click', dismissZonalClickHandler);
-  wrapper.querySelector('.zonal-long-button-raw').addEventListener('click', displayZonalTableHandler);
-  wrapper.querySelector('.zonal-long-button-graphs').addEventListener('click', displayZonalGraphsHandler);
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
   return wrapper;
@@ -1482,10 +1479,13 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          enableMainZonalButton();
           dissmissAllZonalStatsWrappers();
           zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
+          const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+          hasShapeButtonElem.classList.add('d-none');
         }
 
         break;
@@ -1499,10 +1499,13 @@ function restoreGraphState() {
           togglePermHighLightsOn(path);
           ZonalWrapperActiveRemove();
           enableZonalButtons(HTMLName);
+          enableMainZonalButton();
           dissmissAllZonalStatsWrappers();
           zonalStatsWrappersActive(HTMLName);
           store.setStoreItem('zonalactive', [elemid, activestate]);
           disableOverView();
+          const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+          hasShapeButtonElem.classList.add('d-none');
         }
         break;
       default:
@@ -1538,6 +1541,7 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   const iconelem = document.getElementById('btn-details-icon');
   iconelem.addEventListener('mouseover', zonalLabelMouseOverHandler);
   iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
+  disableMainZonalButton();
 
   restoreGraphState();
 }
@@ -1560,7 +1564,10 @@ export {
   enableZonalButtons,
   disableZonalButtons,
   toggleALLPathsOff,
-  toggleAllLongZonalsOff
+  toggleAllLongZonalsOff,
+  getIndexes,
+  getAssetDrivers,
+  getThreatDrivers
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

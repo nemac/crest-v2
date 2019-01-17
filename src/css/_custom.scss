@@ -453,8 +453,14 @@ a.nav-link {
   height: 30px !important;
 }
 
+.mapinfodata::-webkit-scrollbar-corner{
+  display: none;
+}
+
 
 // about styles
+
+$aboutbackground: #3c4044; //#3B3E42; //2F3235
 
 .about-content  {
   background-color: $aboutbackground;
@@ -661,6 +667,75 @@ a.about-nav.active::before {
   margin-bottom: 15px;
 }
 
+.btn-download {
+  width: 100%;
+  height: 30px;
+  background-color: $gray-300 !important;
+}
+
+.mapinfo-header {
+  width: 100%;
+}
+
+#main-content,{
+  padding: $padding15;
+}
+
+.nfwf-header {
+  box-shadow: $box-shadow-default;
+  padding-left: $padding15;
+  padding-right: $padding15;
+  background-color: $body-main-bar-bg-color !important;
+
+  #mainNavToggle {
+    background-color: $body-main-bar-bg-color !important;
+  }
+
+  h2 {
+    margin-bottom: 5px;
+  }
+}
+
+.nfwf-title {
+  margin-left: 30px;
+  margin-top: $margin15;
+  margin-bottom: $margin15;
+}
+
+#main-content {
+  // margin-top: 10px !important;
+}
+
+#about-main {
+  margin-left: 15px;
+}
+
+.about-main-text, .about-tool-text {
+    margin: $margin;
+    padding: $padding15;
+}
+
+.about-tool-text {
+  ol {
+    margin-top: $margin15;
+  }
+}
+
+#primary-shape-holder {
+  margin-left: 0px !important;
+}
+
+#user-shape {
+  margin-left: 0px !important;
+}
+
+#has-shape-holder {
+  margin-left: 5px !important;
+}
+
+#upload-shapefile-btn, #draw-area-btn {
+  width: 100% !important;
+}
 
 // button styles
 
@@ -729,6 +804,17 @@ a.about-nav.active::before {
 .btn-icon:after {
     content:"\000A";
     white-space: pre;
+}
+
+.btn-clear-area {
+  .btn-icon:after {
+      content:" ";
+      white-space: pre;
+  }
+}
+
+#mainNavToggle {
+  z-index: 5000 !important;
 }
 
 .bnt-MapLayersListToggle {
@@ -901,6 +987,58 @@ a.about-nav.active::before {
   box-shadow: $box-shadow-default;
 }
 
+.btn-mapreset {
+  width: 100% !important;
+  height: 100% !important;
+  line-height: 25px !important;
+  color: $body-bg !important;
+  background-color: $body-color !important;
+  text-align: left;
+  padding: 4px 4px;
+  border-width: 0px;
+  box-shadow: $box-shadow-default;
+
+  .btn-med-mapreset-label {
+    font-size: 12px;
+    line-height: 12px !important;
+    height: 12px;
+    position: relative;
+    top: -19px;
+    left: 25px;
+    white-space: pre;
+  }
+  &:before {
+    content:" ";
+    white-space: normal;
+  }
+}
+
+.btn-mapreset-holder {
+  width: 125px;
+  height: 30px;
+  line-height: 10px;
+  color: $body-bg !important;
+
+  .icon-reset-all {
+    display: none;
+    font-size: 12px;
+    position: relative;
+    top: -25px;
+  }
+}
+
+.btn-mapreset-holder a, .btn-mapreset-holder a:hover{
+  width: 100% !important;
+  height: 100% !important;
+  line-height: 25px !important;
+  color: $body-bg !important;
+  // background-color: $body-color !important;
+  border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+
+}
+
 
 // explore styles
 
@@ -1027,11 +1165,41 @@ p.not-found {
     margin-top: $margin;
     width: 100% !important;
     background-color: $btn-color-secondary !important;
+
+    &:hover {
+      background-color: $gray-400 !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none;
+    }
   }
+
+  #btn-clear-area {
+    background-color: $body-bg  !important;
+    border: 1px solid $gray-600 !important;
+
+    &:hover {
+      background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none;
+    }
+@media (min-width: 993px) {
+
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 100% !important;
+    background-color: $btn-color-secondary !important;
+  }
+
 
   .brand-maplist-holder {
     position: fixed !important;
-    top: 135px !important;
+    top: 175px !important;
     width: 20.6% !important;
     min-width: 290px;
     max-width: 375px !important;
@@ -1055,7 +1223,7 @@ p.not-found {
   #maplayers_list-holder {
     width: 19% !important;
     position: fixed;
-    top: 180px !important;
+    top: 225px !important;
     left: 80.5% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
@@ -1202,7 +1370,7 @@ p.not-found {
   }
 
   .btn-details {
-    height: 30px;
+    max-height: 40px;
     margin-top: 15px !important;
     line-height: 30px !important;
     vertical-align: middle !important;
@@ -1239,6 +1407,7 @@ p.not-found {
     background-size: 100% !important;
     transition: background 0s !important;
   }
+
 
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
@@ -1298,7 +1467,7 @@ p.not-found {
   .brand-maplist-holder{
       width: 100% !important;
       position: sticky;
-      top: 0px;
+      top: 45px;
       z-index: 4500 !important;
   }
 
@@ -1342,6 +1511,7 @@ p.not-found {
       border-radius: 4px !important;
       -webkit-border-radius: 4px !important;
       -moz-border-radius: 4px !important;
+      z-index: 4000 !important;
     }
 
     #ToggleLayerList {
@@ -1474,7 +1644,14 @@ p.not-found {
       height: 0px !important;
       overflow: visible !important;
     }
+
+    .maplayers_list {
+      top: 110px !important;
+      left: -7px !important;
+    }
+
     .brand-maplist-holder {
+      top: 45px;
       height: 0px !important;
       overflow: visible !important;
     }
@@ -1540,9 +1717,17 @@ p.not-found {
      background-color: $body-color;
    }
 
-   .mapinfodata::-webkit-scrollbar-corner{
-     display: none;
-   }
+#btn-clear-area, #btn-update-zonal-stats {
+  max-height: 40px;
+}
+// responive explore buttons
+@media (max-width: 640px) {
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: 5px;
+    width: 100% !important;
+    max-height: 30px;
+  }
+}
 
      .search-locations-popup .leaflet-popup-content-wrapper .leaflet-popup-content {
        width: 150px !important;
@@ -1989,6 +2174,25 @@ p.not-found {
   transform: scale(1.75);
 }
 
+// responive explore buttons
+@media (max-width: 768px) {
+  .leaflet-draw-tooltip-top {
+      font-size: 1.5em !important;
+  }
+  .leaflet-draw-actions a {
+    background-color:  $yellow !important;
+  }
+  .leaflet-draw.active {
+    position: fixed;
+    z-index: 5000;
+    top: 120px;
+    left: 50px;
+  }
+  .btn-lg-label {
+    display: none;
+  }
+}
+
 .custom-control-input:active ~ .custom-control-label::before {
   background-color: $body-color;
   background:  $body-bg-semiTransparent;
@@ -2160,8 +2364,113 @@ p.not-found {
 }
 
 .i-shareurl {
+  cursor: pointer;
   margin-bottom: 15px;
   margin-left: -1px;
+}
+
+.btn-mapshareurl-holder {
+  width: 60px;
+  height: 50px;
+  line-height: 10px;
+  color: $body-bg !important;
+  // background-color: $body-color !important;
+}
+
+.btn-mapshareurl {
+    .btn-med-share-label {
+      font-size: 10px;
+      line-height: 10px !important;
+      height: 10px;
+      position: relative;
+      top: -25px;
+      white-space: pre;
+    }
+}
+
+.btn-mapshareurl-holder a, .btn-mapshareurl-holder a:hover{
+  width: 100% !important;
+  height: 100% !important;
+  line-height: 50px !important;
+  color: $body-bg !important;
+  background-color: $body-color !important;
+}
+
+#shareurltextarea {
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  z-index: 0;
+  height: 1px;
+  width: 1px;
+  font-size: 10px;
+  background-color: $body-color;
+  color: $body-bg;
+  border-width: 0px;
+  padding: 0px;
+  vertical-align: middle !important;
+  align-items: center !important;
+}
+
+#shareurl-holder {
+  cursor: pointer;
+  position: relative;
+  top: -50px;
+  left: 61px;
+  z-index: 999999999;
+  height: 50px;
+  width: 40px;
+}
+
+.btn-copy-share {
+  cursor: pointer;
+  position: relative;
+  z-index: 999999999;
+  height: 50px;
+  width: 100px;
+  font-size: 15px;
+  background-color: $body-color;
+  color: $body-bg;
+  border: 0px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  span {
+    font-size: 10px;
+  }
+}
+
+.btn-copy-share-text:before {
+  content:"\000A";
+  white-space: pre;
+}
+
+.btn-close-share {
+  cursor: pointer;
+  position: relative;
+  top: -50px;
+  left: 101px;
+  z-index: 999999999;
+  height: 50px;
+  width: 40px;
+  font-size: 15px;
+  background-color: $body-color;
+  color: $body-bg;
+  border: 0px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.i-btn {
+  background-color: $body-color;
+  color: $body-bg;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  vertical-align: middle !important;
+  align-items: center !important;
 }
 
 #shareurltextarea {

@@ -7,6 +7,7 @@ import buffer from '@turf/buffer';
 
 // default map template
 import exploreTemplate from '../templates/explore.html';
+import Shapebuttons from '../templates/shapebuttons.html';
 
 import { Component } from './components';
 import { Store } from './store';
@@ -70,6 +71,11 @@ export class Explore extends Component {
     this.theStartNav = theStartNav;
 
     this.caseStudies = new CaseStudies(this.mapComponent, this);
+
+    const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+    if (hasShapeButtonElem) {
+      hasShapeButtonElem.innerHTML = Shapebuttons;
+    }
 
     this.bufferSize = 1;
 
@@ -143,13 +149,6 @@ export class Explore extends Component {
       this.drawUserAreaFromUsereas();
     });
 
-    document.getElementById('btn-reset').addEventListener('click', (e) => {
-      const activeNav = store.getStateItem('activeNav');
-      store.clearState();
-      window.location.reload();
-      // ga event action, category, label
-      googleAnalyticsEvent('click', `explore ${activeNav}`, 'reset');
-    });
 
     Explore.windowListnersToStopRoqueSpinner();
     // uncomment this if we want to add the draw area button to leaflet
@@ -161,7 +160,41 @@ export class Explore extends Component {
       btnBufferElem.click();
     }
     this.addBufferListner();
+
+    Explore.addResetControl(this.mapComponent.map);
   }
+
+  static ResetControlHandler() {
+    const sharebtn = L.DomUtil.create('div', 'btn-mapreset-holder');
+    sharebtn.setAttribute('id', 'btn-mapreset-holder');
+    sharebtn.innerHTML = '<a class="btn btn-mapreset"  href="#" title="Start over" ' +
+                          'role="button" aria-label="Start over"> ' +
+                          '<i class="fas fa-undo icon-reset"></i>' +
+                          '<div class="btn-med-mapreset-label" >Start over</div></a>';
+
+    L.DomEvent.disableClickPropagation(sharebtn);
+    return sharebtn;
+  }
+
+  // add Identify control to leaflet map
+  static addResetControl(leafletmap) {
+    L.Control.Watermark = L.Control.extend({
+      onAdd: Explore.ResetControlHandler
+    });
+
+    L.control.watermark({ position: 'topright' }).addTo(leafletmap);
+
+    // get btn for mapinfo add click event
+    const leafletControlElement = document.querySelector('.btn-mapreset');
+    leafletControlElement.addEventListener('click', (e) => {
+      const activeNav = store.getStateItem('activeNav');
+      store.clearState();
+      window.location.reload();
+      // ga event action, category, label
+      googleAnalyticsEvent('click', `explore ${activeNav}`, 'reset');
+    });
+  }
+
 
   // generic do thing functon for empty blocks
   //  only using this is a place holder
@@ -201,9 +234,12 @@ export class Explore extends Component {
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
       const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
+      const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
+
       if (activeNav) {
         Explore.enableShapeButtons();
         if (activeNav === 'main-nav-map-searchhubs') {
+          UpdateZonalStatsBtn.classList.add('d-none');
           this.drawHubsFromStateObject();
           Explore.updateExploreText(exploreTitle, this.HubsExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
@@ -221,6 +257,7 @@ export class Explore extends Component {
           Explore.dismissBufferCheckBox();
           this.caseStudies.initalize();
         } else {
+          UpdateZonalStatsBtn.classList.remove('d-none');
           this.drawUserAreaFromUsereas();
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
@@ -231,6 +268,7 @@ export class Explore extends Component {
           }
         }
       } else {
+        UpdateZonalStatsBtn.classList.remove('d-none');
         this.drawUserAreaFromUsereas();
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
@@ -250,7 +288,7 @@ export class Explore extends Component {
     // event listner to handle nav change
     window.addEventListener('aboutNavChange', (e) => {
       this.drawAreaGroup.clearLayers();
-
+      Explore.clearZonalHolderButtons();
       Explore.clearZonalStatsWrapperDiv();
       const activeNav = store.getStateItem('activeNav');
       const exploreTitle = document.getElementById('explore-title');
@@ -258,6 +296,7 @@ export class Explore extends Component {
       const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
       const checkUserareas = store.getStateItem('userareas');
       document.querySelector('.explore-row-container .sticky-top.sideheading').classList.remove('d-none');
+      const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
 
       Explore.disableShapeExistsButtons();
       Explore.dismissExploreDirections();
@@ -271,6 +310,7 @@ export class Explore extends Component {
           // check if there is hub data in the state store
           // if there is NONE dispolay the text
           // that tells the user what to do
+          UpdateZonalStatsBtn.classList.add('d-none');
           if (!checkValidObject(checkHubIntersectionJson)) {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
             Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
@@ -278,6 +318,8 @@ export class Explore extends Component {
             Explore.dismissBufferCheckBox();
             disableZonalButtons();
             disableOverView();
+            UpdateZonalStatsBtn.classList.add('d-none');
+
             // If there is hub data in store do NOT show text and draw the hubs
           } else {
             Explore.updateExploreText(exploreTitle, this.HubsExploreText);
@@ -296,6 +338,7 @@ export class Explore extends Component {
           // if there is NONE dispolay the text
           // that tells the user what to do
         } else if (activeNav === 'main-nav-map-examples') {
+          UpdateZonalStatsBtn.classList.add('d-none');
           Explore.dismissExploreDirections();
           disableZonalButtons();
           disableOverView();
@@ -303,6 +346,7 @@ export class Explore extends Component {
           Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
           this.caseStudies.initalize();
         } else if (!checkValidObject(checkUserareas)) {
+          UpdateZonalStatsBtn.classList.remove('d-none');
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
@@ -311,6 +355,7 @@ export class Explore extends Component {
           disableOverView();
           // If there is explore assement data in store do NOT show text and draw the shpes
         } else {
+          UpdateZonalStatsBtn.classList.remove('d-none');
           Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
           Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
           Explore.updateExploreDirections(this.exlporeAssmentMessage);
@@ -326,12 +371,14 @@ export class Explore extends Component {
         // if there is NONE dispolay the text
         // that tells the user what to do
       } else if (!checkValidObject(checkUserareas)) {
+        UpdateZonalStatsBtn.classList.remove('d-none');
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
         disableZonalButtons();
         Explore.enableBufferCheckBox();
         Explore.setOverviewText();
         // If there is explore assement data in store do NOT show text and draw the shpes
       } else {
+        UpdateZonalStatsBtn.classList.remove('d-none');
         Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
         Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
         Explore.enableBufferCheckBox();
@@ -1252,10 +1299,17 @@ export class Explore extends Component {
     }
   }
 
+  static clearZonalHolderButtons() {
+    const zonstatsholder = document.getElementById('zonal-stats-button-holder');
+    if (zonstatsholder) {
+      zonstatsholder.innerHTML = '';
+    }
+  }
+
   // remove the existing area
   removeExistingArea() {
     this.drawAreaGroup.clearLayers();
-
+    Explore.clearZonalHolderButtons();
     const activeNav = store.getStateItem('activeNav');
 
     if (activeNav === 'main-nav-map-searchhubs') {
@@ -1526,7 +1580,7 @@ export class Explore extends Component {
         Explore.clearZonalStatsWrapperDiv();
 
         this.drawAreaGroup.clearLayers();
-
+        Explore.clearZonalHolderButtons();
         await this.getHubsZonal();
         this.drawHubsFromStateObject();
         this.drawZonalStatsForStoredHubs();

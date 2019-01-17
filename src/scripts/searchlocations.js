@@ -90,12 +90,16 @@ export class SearchLocations extends Component {
   static searchBoxExpandFocusHandler(ev) {
     const elem = document.querySelector('.geocoder-control');
     elem.classList.add('collapse-focus');
-    const dnoneElem = document.querySelector('.leaflet-bottom.leaflet-left');
-    dnoneElem.classList.add('d-none');
-    const dnoneBntElem = document.querySelector('.maplayerslisttoggle-collapse');
-    dnoneBntElem.classList.add('d-none');
-    const attElem = document.querySelector('.leaflet-control-attribution');
-    attElem.classList.add('d-none');
+    if (window.screen.availWidth < 769) {
+      const dnoneElem = document.querySelector('.leaflet-bottom.leaflet-left');
+      dnoneElem.classList.add('d-none');
+      const dnoneRightElem = document.querySelector('.leaflet-top.leaflet-right');
+      dnoneRightElem.classList.add('d-none');
+      const dnoneBntElem = document.querySelector('.maplayerslisttoggle-collapse');
+      dnoneBntElem.classList.add('d-none');
+      const attElem = document.querySelector('.leaflet-control-attribution');
+      attElem.classList.add('d-none');
+    }
   }
 
   static searchBoxExpandBlurHandler(ev) {
@@ -103,6 +107,8 @@ export class SearchLocations extends Component {
     elem.classList.remove('collapse-focus');
     const dnoneElem = document.querySelector('.leaflet-bottom.leaflet-left');
     dnoneElem.classList.remove('d-none');
+    const dnoneRightElem = document.querySelector('.leaflet-top.leaflet-right');
+    dnoneRightElem.classList.remove('d-none');
     const dnoneBntElem = document.querySelector('.maplayerslisttoggle-collapse');
     dnoneBntElem.classList.remove('d-none');
     const attElem = document.querySelector('.leaflet-control-attribution');
