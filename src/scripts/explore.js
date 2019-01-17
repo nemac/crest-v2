@@ -183,7 +183,7 @@ export class Explore extends Component {
     });
 
     if (window.innerWidth < 800) {
-       L.control.watermark({ position: 'topright' }).addTo(leafletmap);
+      L.control.watermark({ position: 'topright' }).addTo(leafletmap);
     } else {
       L.control.watermark({ position: 'bottomleft' }).addTo(leafletmap);
     }
