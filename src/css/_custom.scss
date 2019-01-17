@@ -131,7 +131,9 @@ a.nav-link {
   margin-left: -15px;
 }
 
-
+.w-33 {
+  width: 33% !important;
+}
 // map styles
 
 #exposure-holder {
@@ -1161,9 +1163,10 @@ p.not-found {
 }
 @media (min-width: 993px) {
 
-  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+  #btn-clear-area, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
+    height: 35px !important;
     background-color: $btn-color-secondary !important;
 
     &:hover {
@@ -1180,20 +1183,6 @@ p.not-found {
     margin-top: $margin;
     width: 100% !important;
     background-color: $btn-color-secondary !important;
-  }
-
-  #btn-clear-area {
-    background-color: $body-bg  !important;
-    border: 1px solid $gray-600 !important;
-
-    &:hover {
-      background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
-    }
-
-    &:focus {
-      outline: none !important;
-      box-shadow: none;
-    }
   }
 
   .brand-maplist-holder {
@@ -1722,18 +1711,21 @@ p.not-found {
    }
 
     #btn-clear-area, #btn-update-zonal-stats {
-      max-height: 40px;
+      height: 35px;
     }
 }
 
 // responive explore buttons
 @media (max-width: 640px) {
+      .user-shape {
+        font-size: .8rem !important;
+      }
+
       #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
         margin-top: 5px;
         width: 100% !important;
         max-height: 30px;
       }
-    // }
 
      .search-locations-popup .leaflet-popup-content-wrapper .leaflet-popup-content {
        width: 150px !important;
@@ -2328,7 +2320,7 @@ p.not-found {
 }
 
 .label-name-nohighlight {
-  color: $body-color;
+  // color: $body-color;
   font-weight: normal;
 }
 
