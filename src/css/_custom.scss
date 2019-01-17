@@ -1188,14 +1188,12 @@ p.not-found {
       outline: none !important;
       box-shadow: none;
     }
-@media (min-width: 993px) {
 
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
     background-color: $btn-color-secondary !important;
   }
-
 
   .brand-maplist-holder {
     position: fixed !important;
@@ -1381,6 +1379,7 @@ p.not-found {
     white-space: pre;
   }
 }
+///
 @media (max-width: 992px) {
 
   $margin: 5px;
@@ -1663,13 +1662,16 @@ p.not-found {
     }
   }
 }
+
 @media (max-width: 768px) {
   .leaflet-draw-tooltip-top {
       font-size: 1.5em !important;
   }
+
   .leaflet-draw-actions a {
     background-color:  $yellow !important;
   }
+
   .leaflet-draw.active {
     position: fixed;
     z-index: 5000;
@@ -1681,6 +1683,7 @@ p.not-found {
     .row {
       min-width: 500px;
     }
+  }
 
   .mapinfodata {
     overflow: scroll;
@@ -1717,17 +1720,21 @@ p.not-found {
      background-color: $body-color;
    }
 
-#btn-clear-area, #btn-update-zonal-stats {
-  max-height: 40px;
+    #btn-clear-area, #btn-update-zonal-stats {
+      max-height: 40px;
+    }
 }
+
+
+//
 // responive explore buttons
 @media (max-width: 640px) {
-  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
-    margin-top: 5px;
-    width: 100% !important;
-    max-height: 30px;
-  }
-}
+      #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+        margin-top: 5px;
+        width: 100% !important;
+        max-height: 30px;
+      }
+    // }
 
      .search-locations-popup .leaflet-popup-content-wrapper .leaflet-popup-content {
        width: 150px !important;
@@ -1782,6 +1789,7 @@ p.not-found {
        height: 50px !important;
      }
 }
+
 @media (max-width: 640px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
     margin-top: $margin;
