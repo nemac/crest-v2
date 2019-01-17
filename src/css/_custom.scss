@@ -1176,6 +1176,12 @@ p.not-found {
     }
   }
 
+  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
+    margin-top: $margin;
+    width: 100% !important;
+    background-color: $btn-color-secondary !important;
+  }
+
   #btn-clear-area {
     background-color: $body-bg  !important;
     border: 1px solid $gray-600 !important;
@@ -1188,11 +1194,6 @@ p.not-found {
       outline: none !important;
       box-shadow: none;
     }
-
-  #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
-    margin-top: $margin;
-    width: 100% !important;
-    background-color: $btn-color-secondary !important;
   }
 
   .brand-maplist-holder {
@@ -1725,8 +1726,6 @@ p.not-found {
     }
 }
 
-
-//
 // responive explore buttons
 @media (max-width: 640px) {
       #btn-clear-area, #btn-reset, #btn-update-zonal-stats {
