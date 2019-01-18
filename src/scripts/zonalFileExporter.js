@@ -81,10 +81,10 @@ function getHubDataFromState(key) {
   const hubData = store.getStateItem('HubIntersectionJson');
   let i;
   let l;
-  let data;
+  let data = {};
   for (i = 0, l = hubData.length; i < l; i += 1) {
-    data = hubData[i].properties.mean;
-    if (data.TARGET_FID === key) {
+    if (hubData[i].properties.mean.TARGET_FID.toString() === key) {
+      data = hubData[i].properties.mean;
       break;
     }
   }
