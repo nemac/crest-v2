@@ -119,8 +119,8 @@ export class Explore extends Component {
     this.HubsExploreText = 'Where should I do a resilience project?';
     this.DefaultExploreText = 'Start Exploring the Assessment';
     this.ExamplesExploreText = 'Case Studies';
-    this.exlporeAssmentMessage = 'To start examining the Assessment, click the draw area button and then sketch an area on the map. If you have a shapefile of an area, use the “Upload Shapefile” button.';
-    this.exlporeHubMessage = 'To start searching for an area to implement a potential resilience project, click the draw area button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
+    this.exlporeAssmentMessage = 'To examine the Assessment, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of an area, use the “Upload Shapefile” button.';
+    this.exlporeHubMessage = 'To search for an area on which to implement a potential resilience project, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
 
     this.restoreWhenNotShareURL();
 
@@ -167,10 +167,10 @@ export class Explore extends Component {
   static ResetControlHandler() {
     const sharebtn = L.DomUtil.create('div', 'btn-mapreset-holder');
     sharebtn.setAttribute('id', 'btn-mapreset-holder');
-    sharebtn.innerHTML = '<a class="btn btn-light btn-mapreset"  href="#" title="Start over" ' +
-                          'role="button" aria-label="Start over"> ' +
+    sharebtn.innerHTML = '<a class="btn btn-light btn-mapreset"  href="#" title="Start Over" ' +
+                          'role="button" aria-label="Start Over"> ' +
                           '<i class="fas fa-undo icon-reset"></i>' +
-                          '<div class="btn-med-mapreset-label" >Start over</div></a>';
+                          '<div class="btn-med-mapreset-label" >Start Over</div></a>';
 
     L.DomEvent.disableClickPropagation(sharebtn);
     return sharebtn;

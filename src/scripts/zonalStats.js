@@ -76,7 +76,7 @@ function stripUserArea(id) {
 // Gets text for an individual short zonal stats item title
 // @return String
 function makeLabelText(name) {
-  return `Get details for ${name}`;
+  return `Get Details for ${name}`;
 }
 
 // Makes main title for an individual short zonal stats item
@@ -95,8 +95,8 @@ function makeLabel(name) {
   zonalLabel.classList.add('col-lg-8');
 
   zonalLabel.setAttribute('id', `label-name-${HTMLName}`);
-  zonalLabel.setAttribute('title', `View details for ${stripUserArea(name)}`);
-  zonalLabel.setAttribute('aria-label', `View details for ${stripUserArea(name)}`);
+  zonalLabel.setAttribute('title', `Get Details for ${stripUserArea(name)}`);
+  zonalLabel.setAttribute('aria-label', `Get Details for ${stripUserArea(name)}`);
 
   zonalLabel.innerHTML = '<span class="btn-icon" id="btn-details-icon" ><i class="far fa-chart-bar"></i></span>';
   // zonalLabel.setAttribute('id', 'zonal-label');
@@ -1071,7 +1071,7 @@ function getThreatDrivers(data) {
       range: '0 to 5'
     },
     {
-      label: 'Flood Prone Areas',
+      label: 'Flood-Prone Areas',
       key: 'floodprone-areas',
       value: data.floodprone_areas,
       range: '0 to 5'

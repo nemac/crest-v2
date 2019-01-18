@@ -9,7 +9,7 @@ export var navConfig = {
   {
     name: "searchHubs",
     ref: "main-nav-map-searchhubs",
-    text: "Where should I do a resilience project?",
+    text: "Where Should I Do A Resilience Project?",
     id: "main-nav-map-searchhubs",
     href: "./#SearchHubs"
   },
