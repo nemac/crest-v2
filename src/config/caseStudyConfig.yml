@@ -8,7 +8,7 @@ caseStudies:
         htmlid: sandy-case-study-step-0
         lasthtmlid: sandy-case-study-step-0
         nexthtmlid:  sandy-case-study-step-1
-        narrative: Start explorong the Hurricane Sandy case study
+        narrative: "Start: Explore the Hurricane Sandy study."
         position: 0
         actions:
           name: View it on the map
@@ -20,7 +20,7 @@ caseStudies:
         htmlid: sandy-case-study-step-1
         lasthtmlid: sandy-case-study-step-0
         nexthtmlid:  sandy-case-study-step-2
-        narrative: U.S. Route 30 - White Horse Pike, Atlantic City is one of the main entry points into Atlantic City.
+        narrative: U.S. Route 30 (White Horse Pike), Atlantic City One of the main entry points into Atlantic City.
         position: 1
         actions:
           name: Show Critical Infrastructure Asset Input
@@ -49,7 +49,7 @@ caseStudies:
         htmlid: sandy-case-study-step-3
         lasthtmlid: sandy-case-study-step-2
         nexthtmlid:  sandy-case-study-step-4
-        narrative: With surge scenarios from only Category 1 storms, White Horse Pike could be inundated.
+        narrative: "Storm Surge Threats: White Horse Pike could be inundated with storm surge scenarios from conditions as low as Category 1 storms."
         position: 3
         actions:
           name: Show Community Exposure
@@ -66,7 +66,7 @@ caseStudies:
         lasthtmlid: sandy-case-study-step-3
         nexthtmlid:  sandy-case-study-step-5
         position: 4
-        narrative: White Horse Pike shows up as highly exposed, suggesting it is impacted by many other inputs in the Threat Index
+        narrative: "Community Exposure: White Horse Pike is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index."
         actions:
           name: none
         lastactions:
@@ -78,10 +78,10 @@ caseStudies:
         htmlid: sandy-case-study-step-5
         lasthtmlid: sandy-case-study-step-4
         nexthtmlid:  sandy-case-study-step-5
-        narrative: Explore White Horse Pike in the viewer!
+        narrative: Explore White Horse Pike in the viewer.
         position: 5
         actions:
-          name: Exlpore in the viewer
+          name: Explore in the Viewer
           viewerlink: /?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A39.40138214739658%2C%22lng%22%3A-74.44979667663576%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A13%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe1a77010acfb0f5f879a092fddc10e31%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2Fa8d31a25a5044c8436e63d9cf6fd3bc7%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F6a201e1507b7e6d2108ceb57cf97dcc6%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: none
@@ -95,7 +95,7 @@ caseStudies:
         htmlid: harvey-case-study-step-0
         lasthtmlid: harvey-case-study-step-0
         nexthtmlid: harvey-case-study-step-1
-        narrative: Start explorong the Hurricane Harvey study
+        narrative: "Start: Explore the Hurricane Harvey study."
         actions:
           name: View it on the map
           geojsonlabel: Buffalo Bayou
@@ -107,7 +107,7 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-0
         htmlid: harvey-case-study-step-1
         nexthtmlid: harvey-case-study-step-2
-        narrative: Buffalo Bayou, Houston
+        narrative: "Location: Buffalo Bayou, Houston."
         actions:
           name: Show Population Density Asset Input
           layerToggle: PopDensityTMS
@@ -122,7 +122,7 @@ caseStudies:
         nexthtmlid: harvey-case-study-step-3
         narrative: The Population Density input shows densely populated areas outside of the park.
         actions:
-          name: Show Social Vulnerability Asset Input
+          name: Social Vulnerability Assets
           layerToggle: SocVulnTMS
           legendToggle: SocVulnTMS
           legendScroll: 300
@@ -136,9 +136,9 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-2
         htmlid: harvey-case-study-step-3
         nexthtmlid: harvey-case-study-step-4
-        narrative: As well as some areas from the Social Vulnerability input.
+        narrative: "Social Vulnerability Assets: The densely populated areas around the park include socially vulnerable populations, as indicated by the Social Vulnerability input."
         actions:
-          name: Show Critical Flood Prone Areas Threat Input
+          name: Show Critical Flood-Prone Areas Threat Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
           legendScroll: 750
@@ -147,19 +147,19 @@ caseStudies:
           layerToggle: SocVulnTMS
           legendToggle: SocVulnTMS
           legendScroll: 300
-      - name: Flood Prone Areas
+      - name: Flood-Prone Areas
         position: 4
         lasthtmlid: harvey-case-study-step-3
         htmlid: harvey-case-study-step-4
         nexthtmlid: harvey-case-study-step-5
-        narrative: The Flood-prone Areas input correctly suggests that the Bayou and surrounding area are at risk to flooding.
+        narrative: "Flood-Prone Areas: The Flood-Prone Areas input suggests that the Bayou and surrounding area are at risk for flooding."
         actions:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
         lastactions:
-          name: Show Critical Flood Prone Areas Threat Input
+          name: Show Critical Flood-Prone Areas Threat Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
           legendScroll: 750
@@ -168,7 +168,7 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-4
         htmlid: harvey-case-study-step-5
         nexthtmlid: harvey-case-study-step-6
-        narrative: Buffalo Bayou shows up as highly exposed, suggesting it is impacted by many other inputs in the Threat Index
+        narrative: "Community Exposure: Buffalo Bayou is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index."
         actions:
           name: none
         lastactions:
@@ -181,15 +181,15 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-5
         htmlid: harvey-case-study-step-6
         nexthtmlid: harvey-case-study-step-6
-        narrative: Exlpore Buffalo Bayou in the vewer!
+        narrative: Explore Buffalo Bayou in the viewer.
         actions:
-          name: Exlpore in the viewer
+          name: Explore in the Viewer
           viewerlink: ?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A29.76014899029522%2C%22lng%22%3A-95.38349390029909%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fc28319c253fed293bedf0d8cda0c7f23%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F32806e3502be4359e917d6ea1a1e4230%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2Fc8f5c0a4046277da5397b9db9717c1cf%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: none
   - name: Hurricane Florence
     htmlid: florence-case-study-main
-    narrative: Water Street Wilmington, North Carolina.
+    narrative: Water Street, Wilmington, North Carolina.
     totalsteps: 7
     steps:
       - name: Start
@@ -197,7 +197,7 @@ caseStudies:
         htmlid: florence-case-study-step-0
         lasthtmlid: florence-case-study-step-0
         nexthtmlid: florence-case-study-step-1
-        narrative: Start explorong the Hurricane Florence study
+        narrative: "Start: Explore the Hurricane Florence study"
         actions:
           name: View it on the map
           geojsonlabel: Water Street
@@ -209,7 +209,7 @@ caseStudies:
         lasthtmlid: florence-case-study-step-0
         htmlid: florence-case-study-step-1
         nexthtmlid: florence-case-study-step-2
-        narrative: Water Street is Wilmington’s historic riverfront area.
+        narrative: "Location: Water Street is in Wilmington’s historic riverfront area."
         actions:
           name: Show Population Density Asset Input
           layerToggle: PopDensityTMS
@@ -238,9 +238,9 @@ caseStudies:
         lasthtmlid: florence-case-study-step-2
         htmlid: florence-case-study-step-3
         nexthtmlid: florence-case-study-step-4
-        narrative: Since this area sits on the Cape Fear River, it is not surprising that the area is threatened by many of the hazards identified in our Threat Index. including Flood Prone Areas.
+        narrative: "Social Vulnerability Assets: Since this area sits on the Cape Fear River, it is not surprising that it is threatened by many of the hazards identified in the Threat Index. including Flood-Prone Areas."
         actions:
-          name: Show Critical Flood Prone Areas Threat Input
+          name: Show Critical Flood-Prone Areas Threat Input
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
@@ -249,19 +249,19 @@ caseStudies:
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
           legendScroll: 750
-      - name: Flood Prone Areas
+      - name: Flood-Prone Areas
         position: 4
         lasthtmlid: florence-case-study-step-3
         htmlid: florence-case-study-step-4
         nexthtmlid: florence-case-study-step-5
-        narrative: As well as some areas threatend by strom surge.
+        narrative: "Flood-Prone Areas: Some areas are also threatened by storm surge"
         actions:
           name: Show Community Exposure
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
         lastactions:
-          name: Show Critical Flood Prone Areas Threat Input
+          name: Show Critical Flood-Prone Areas Threat Input
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
@@ -270,7 +270,7 @@ caseStudies:
         lasthtmlid: florence-case-study-step-4
         htmlid: florence-case-study-step-5
         nexthtmlid: florence-case-study-step-6
-        narrative: This particular area of Water Street where the J.W. Brooks building is located, is calculated as having high exposure in this assessment.
+        narrative: "Community Exposure: This particular area of Water Street, housing the J.W. Brooks building is calculated as having high exposure in this assessment."
         actions:
           name: none
         lastactions:
@@ -283,9 +283,9 @@ caseStudies:
         lasthtmlid: florence-case-study-step-5
         htmlid: florence-case-study-step-6
         nexthtmlid: florence-case-study-step-6
-        narrative: Exlpore Wilmington, N.C. in the vewer!
+        narrative: Explore Wilmington in the viewer.
         actions:
-          name: Exlpore in the viewer
+          name: Explore in the Viewer
           viewerlink: /?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: none
