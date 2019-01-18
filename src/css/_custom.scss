@@ -1304,9 +1304,9 @@ p.not-found {
   }
 
   .btn-details {
-    max-height: 40px;
+    max-height: 35px;
     margin-top: 15px !important;
-    line-height: 30px !important;
+    line-height: 25px !important;
     vertical-align: middle !important;
   }
 
@@ -1554,6 +1554,7 @@ p.not-found {
   .btn-details {
     height: 30px !important;
     margin-top: $margin !important;
+    line-height: 15px !important;
   }
 
 
@@ -1760,8 +1761,8 @@ p.not-found {
      }
 
      .data-row, .map-list-column, .map-row {
-       padding-top: 5px;
-       box-shadow: $box-shadow-default;
+       padding-top: 2.5px;
+       box-shadow: $box-shadow-small;
      }
 
      .bnt-primary {
@@ -1886,6 +1887,10 @@ p.not-found {
   hr {
     margin-top: .4rem !important;
     margin-bottom: .4rem !important;
+    @media (max-width: 500px) {
+      margin-top: .2rem !important;
+      margin-bottom: .2rem !important;
+    }
   }
 }
 
