@@ -39,7 +39,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "exposure",
-      description: "This is the product of the Asset and Threat Indices that suggests areas on the landscape where community assets are potentially exposed to flood-related threats."
+      description: "The product of the Asset and Threat Indices which suggests areas on the landscape where community assets are potentially exposed to flood-related threats."
     },
     {
       id: "AssetsTMS",
@@ -141,7 +141,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "socvuln",
-      description: "Communities that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN dataset. Census blocks above the 80th-percentile are ranked from low to high, depicting areas of lower median incomes and minority populations."
+      description: "Communities that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN dataset. Census blocks above the 80th percentile are ranked from low to high, depicting areas of lower median incomes and minority populations."
     },
     {
       id: "CriticalFacilitiesTMS",
@@ -192,7 +192,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "drainage",
-      description: "Those areas with poor water drainage potential, including both less-porous soils and areas with high intensity development. High values suggest areas contains soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation-events."
+      description: "Those areas with poor water drainage potential, including both less-porous soils and areas with high-intensity development. High values suggest that areas contain soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation events."
     },
     {
       id: "ErosionTMS",
@@ -209,7 +209,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "erosion",
-      description: "Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest areas carry an increased potential for erosion due to flooding or heavy precipitation-events."
+      description: "Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest that areas carry an increased potential for erosion due to flooding or heavy precipitation events."
     },
     {
       id: "SLRTMS",
@@ -226,7 +226,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "slr",
-      description: "NOAA’s sea level rise scenarios ranked from low to high; low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
+      description: "NOAA’s sea level rise scenarios ranked from low to high low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur."
     },
     {
       id: "StormSurgeTMS",
@@ -243,7 +243,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "stormsurge",
-      description: "Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high; low being a 5-foot surge and low being a 1-foot surge. Being that a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values."
+      description: "Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high with low being a 5-foot surge and high being a 1-foot surge. As a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values."
     },
     {
       id: "GeoStressTMS",
@@ -282,7 +282,7 @@ export var mapConfig = {
     {
       id: "FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
-      label: "Flood Prone Areas",
+      label: "Flood-Prone Areas",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/FloodProneAreasIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -294,7 +294,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "floodprone",
-      description: "Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally-flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally-flooded soils outside of the floodplain."
+      description: "Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain."
     },
   ],
 

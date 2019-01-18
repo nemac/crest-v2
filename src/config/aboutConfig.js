@@ -2,7 +2,7 @@ export var navConfig = {
   navs:[{
       name: "about",
       ref: "about-nav-aboutgen",
-      text: "About NFWF Tool",
+      text: "About the NFWF Tool",
       id: "about-nav-aboutgen",
       href: "./#About/"
     },
