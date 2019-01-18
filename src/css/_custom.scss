@@ -1478,7 +1478,6 @@ p.not-found {
 
   .data-row, .map-list-column, .map-row {
     padding-top: $padding;
-    box-shadow: $box-shadow-default;
     margin-bottom: $margin;
     padding-right: 5px !important;
     padding-left: 5px !important;
@@ -1503,7 +1502,7 @@ p.not-found {
   }
 
   #map-holder {
-    margin: $margin;
+    // margin: $margin;
     height: 50% !important;
     padding-right: 5px !important;
     padding-left: 5px !important;
@@ -1762,7 +1761,6 @@ p.not-found {
 
      .data-row, .map-list-column, .map-row {
        padding-top: 2.5px;
-       box-shadow: $box-shadow-small;
      }
 
      .bnt-primary {
@@ -2098,7 +2096,6 @@ p.not-found {
         background-color: $body-bg  !important;
         color: $body-color !important;
         white-space: normal !important;
-        // box-shadow: inherit !important;
         font-size: 5rem;
 
         @media (max-width: 768px) {
