@@ -1612,6 +1612,10 @@ p.not-found {
     left: 15px;
   }
 
+  .btn-lg-label {
+    display: none;
+  }
+
   #maplayers_list {
     .maplayerslisttoggle-collapse {
       margin-left: 15px !important;
@@ -1623,8 +1627,15 @@ p.not-found {
     top: 225px !important;
   }
 
+  .leaflet-top.leaflet-right {
+    z-index: 900 !important;
+  }
+
   .leaflet-draw-tooltip-top {
       font-size: 1.5em !important;
+      // top: -35px !important;
+      // left: -80px !important;
+      // height: 40px !important;
   }
 
   .leaflet-draw-actions a {
@@ -1634,7 +1645,7 @@ p.not-found {
   .leaflet-draw.active {
     position: fixed;
     z-index: 5000;
-    top: 120px;
+    top: 85px;
     left: 50px;
   }
 
@@ -1684,9 +1695,9 @@ p.not-found {
     }
 
     .btn-mapreset-holder {
-      width: 50px !important;
+      width: 55px !important;
       height: 40px !important;
-      left: -7px !important;
+      left: -5px !important;
       top: -1px !important;
     }
 
@@ -1778,8 +1789,13 @@ p.not-found {
   .leaflet-draw.active {
     position: fixed;
     z-index: 5000;
-    top: 110px;
+    top: 85px;
     left: 50px;
+  }
+
+  .btn-mapreset-holder {
+    left: 0px !important;
+    top: 10px !important;
   }
 
   .bnt-MapLayersListToggle {
@@ -1856,7 +1872,7 @@ p.not-found {
 }
 @media (max-width: 375px) {
   .leaflet-draw-tooltip-top {
-      font-size: 1.25em !important;
+      font-size: 1.1em !important;
   }
 }
 @media (max-width: 320px) {
@@ -2165,21 +2181,7 @@ p.not-found {
 
 // responive explore buttons
 @media (max-width: 768px) {
-  .leaflet-draw-tooltip-top {
-      font-size: 1.5em !important;
-  }
-  .leaflet-draw-actions a {
-    background-color:  $yellow !important;
-  }
-  .leaflet-draw.active {
-    position: fixed;
-    z-index: 5000;
-    top: 120px;
-    left: 50px;
-  }
-  .btn-lg-label {
-    display: none;
-  }
+
 }
 
 .custom-control-input:active ~ .custom-control-label::before {

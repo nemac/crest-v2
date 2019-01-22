@@ -1441,13 +1441,25 @@ export class Explore extends Component {
       document.querySelector('.leaflet-draw-draw-polygon').click();
       document.querySelector('.leaflet-draw').classList.toggle('active');
 
-      const tooltipContainer = document.querySelector('.leaflet-draw-tooltip');
-      const tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
+      let tooltipContainer = document.querySelector('.leaflet-draw-tooltip');
+      if (!tooltipContainer) {
+        tooltipContainer = document.createElement('div');
+        tooltipContainer.classList.add('leaflet-draw-tooltip');
+        tooltipContainer.classList.add('leaflet-draw-tooltip-single');
+      }
 
+      let tooltipContainerSpan = document.querySelector('.leaflet-draw-tooltip span');
       if (tooltipContainerSpan) {
         tooltipContainerSpan.classList.add('d-flex');
         tooltipContainerSpan.classList.add('justify-content-right');
         tooltipContainerSpan.classList.add('draw-tip');
+      } else {
+        tooltipContainerSpan = document.createElement('span');
+        tooltipContainerSpan.classList.add('d-flex');
+        tooltipContainerSpan.classList.add('justify-content-right');
+        tooltipContainerSpan.classList.add('draw-tip');
+        tooltipContainerSpan.classList.add('leaflet-draw-tooltip');
+        tooltipContainer.appendChild(tooltipContainerSpan);
       }
 
       const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
