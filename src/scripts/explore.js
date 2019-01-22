@@ -15,6 +15,8 @@ import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
 import { HubIntersectionApi } from './HubIntersectionAPI';
 import { CaseStudies } from './CaseStudies';
+import { bindZonalAllExportHandler } from './zonalFileExporter';
+
 
 import {
   checkValidObject,
@@ -162,6 +164,7 @@ export class Explore extends Component {
     this.addBufferListner();
 
     Explore.addResetControl(this.mapComponent.map);
+    bindZonalAllExportHandler();
   }
 
   static ResetControlHandler() {

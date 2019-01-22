@@ -984,6 +984,52 @@ function selectChartCell(wrapper, type, value) {
   }
 }
 
+// rename field
+function getCSVName(name) {
+  switch (name) {
+    case 'hubs':
+      return 'Resilience Hubs - data range (1 to 10)';
+    case 'aquatic':
+      return 'Aquatic Index - data range (0 to 5)';
+    case 'terrestrial':
+      return 'Terrestrial Index - data range (0 to 5)';
+    case 'asset':
+      return 'Community Asset Index - data range (1 to 10)';
+    case 'threat':
+      return 'Threat Index - data range (1 to 10)';
+    case 'exposure':
+      return 'Community Exposure Index - data range ( 1 to 10)';
+    case 'pop_density':
+      return 'Population Density - data range ( 0 to 5)';
+    case 'social_vuln':
+      return 'Social Vulnerability - data range ( 0 to 3)';
+    case 'crit_facilities':
+      return 'Critical Facilities - data range ( 0 or 5)';
+    case 'crit_infra':
+      return 'Critical Infrastructure - data range ( 0 to 6)';
+    case 'drainage':
+      return 'Impermeable Soils - data range ( 0 to 5)';
+    case 'erosion':
+      return 'Soil Erodibility - data range ( 0 to 5)';
+    case 'floodprone_areas':
+      return 'Flood-Prone Areas - data range ( 0 to 5)';
+    case 'sea_level_rise':
+      return 'Sea Level Rise - data range ( 0 to 5)';
+    case 'storm_surge':
+      return 'Storm Surge - data range ( 0 to 5)';
+    case 'stormsurge':
+      return 'Storm Surge - data range ( 0 to 5)';
+    case 'geostress':
+      return 'Geological Stressors - data range ( 0 to 3)';
+    case 'slope':
+      return 'Areas of Low Slope - data range ( 0 to 5)';
+    case 'TARGET_FID':
+      return 'name';
+    default:
+      return name;
+  }
+}
+
 // Reformats data for the indexes
 // @param data | Object - all data from the API
 // @return Array
@@ -1016,7 +1062,13 @@ function getIndexes(data) {
     {
       label: 'Threat Index',
       key: 'threats',
-      value: data.asset,
+      value: data.threat,
+      range: '1 to 10'
+    },
+    {
+      label: 'Community Exposure Index',
+      key: 'exposure',
+      value: data.exposure,
       range: '1 to 10'
     }
   ];
@@ -1442,45 +1494,40 @@ function drawLongZonalStats(data, name) {
 // create function for all zonal stats
 function zonalStatTable() {
   const userareas = store.getStateItem('userareas');
-  let innerHTML = '';
   const tablewrapper = makeDiv();
   tablewrapper.innerHTML = ZonalOverViewTable;
 
   Object.keys(userareas).map((key) => {
+    const { name } = userareas[key][0];
+    const data = userareas[key][3].zonalstatsjson.features[0].properties.mean;
+    const datatablerow = tablewrapper.querySelector('#table-row-holder').cloneNode(true);
 
-      const name = userareas[key][0].name
-      const data = userareas[key][3].zonalstatsjson.features[0].properties.mean
-      const datatablerow = tablewrapper.querySelector('#table-row-holder').cloneNode(true);
+    datatablerow.querySelector('.zonal-long-raw-value-areaid').innerHTML = name;
+    datatablerow.querySelector('.zonal-long-raw-value-hubs').innerHTML = checkNoData(data.hubs) ? 0 : Math.round(data.hubs * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-aquatic').innerHTML = checkNoData(data.aquatic) ? 0 : Math.round(data.aquatic * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-terrestrial').innerHTML = checkNoData(data.terrestrial) ? 0 : Math.round(data.terrestrial * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-exposure').innerHTML = checkNoData(data.exposure) ? 0 : Math.round(data.exposure * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-asset').innerHTML = checkNoData(data.asset) ? 0 : Math.round(data.asset * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-threats').innerHTML = checkNoData(data.threats) ? 0 : Math.round(data.threats * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
+    datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+    tablewrapper.querySelector('#table-row-holder').parentNode.appendChild(datatablerow);
+    return null;
+  });
 
-      datatablerow.querySelector('.zonal-long-raw-value-areaid').innerHTML = name;
-      datatablerow.querySelector('.zonal-long-raw-value-hubs').innerHTML = checkNoData(data.hubs) ? 0 : Math.round(data.hubs * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-aquatic').innerHTML = checkNoData(data.aquatic) ? 0 : Math.round(data.aquatic * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-terrestrial').innerHTML = checkNoData(data.terrestrial) ? 0 : Math.round(data.terrestrial * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-exposure').innerHTML = checkNoData(data.exposure) ? 0 : Math.round(data.exposure * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-asset').innerHTML = checkNoData(data.asset) ? 0 : Math.round(data.asset * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-threats').innerHTML = checkNoData(data.threats) ? 0 : Math.round(data.threats * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
-      datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
-
-      tablewrapper.querySelector('#table-row-holder').parentNode.appendChild(datatablerow)
-
-  })
-
-  const firstchild = tablewrapper.querySelectorAll("#table-row-holder")[0];
+  const firstchild = tablewrapper.querySelectorAll('#table-row-holder')[0];
   firstchild.parentNode.removeChild(firstchild);
   return tablewrapper;
 }
-
-
 
 // check if graph or table is the active state is so we can disable the
 // mouse off event on the shape.  This prevents the map from removeing the
@@ -1569,7 +1616,7 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
 
   const child = document.getElementById('full-table-holder').childNodes[0];
 
-  document.getElementById('full-table-holder').replaceChild(zonalStatTable(),child);
+  document.getElementById('full-table-holder').replaceChild(zonalStatTable(), child);
   document.getElementById('zonal-content').appendChild(wrapper);
 
   // initalize new tooltips
@@ -1606,7 +1653,8 @@ export {
   toggleAllLongZonalsOff,
   getIndexes,
   getAssetDrivers,
-  getThreatDrivers
+  getThreatDrivers,
+  getCSVName
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

@@ -1,5 +1,10 @@
 import { saveCsv } from './fileExporter';
-import { getIndexes, getAssetDrivers, getThreatDrivers } from './zonalStats';
+import {
+  getIndexes,
+  getAssetDrivers,
+  getThreatDrivers,
+  getCSVName
+} from './zonalStats';
 import { Store } from './store';
 
 const store = new Store({});
@@ -117,8 +122,60 @@ function handleZonalCsvExport(name) {
     [getHubDataFromState(key), makeHubNameFromKey(key)] :
     [getZonalDataFromState(key), makeZonalNameFromKey(key)];
   const fileContent = makeExportFileContent(data);
-
   triggerCsvExport(fileContent, label);
+}
+
+// converts the the multple record object to csv and renames headers (field names)
+//
+// @param name | String - data object from state that is properties.mean
+function convertDataToCSV(data) {
+  const items = data;
+  const replacer = (key, value) => value === null ? '' : value;
+  const header = Object.keys(items[0]);
+  const downloadHeader = header.map(name => getCSVName(name));
+  let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')).join(','));
+  csv.unshift(downloadHeader.join(','));
+  csv = csv.join('\r\n');
+  return csv;
+}
+
+// Mines the state object for the data about all user defined zonse from the API
+//
+// @param none
+// @return Object
+function getAllZonesFromState() {
+  const zonaldata = [];
+  const userareas = store.getStateItem('userareas');
+  Object.keys(userareas).forEach((key) => {
+    const { name } = userareas[key][0];
+    const data = { name, ...userareas[key][3].zonalstatsjson.features[0].properties.mean };
+    zonaldata.push(data);
+  });
+  return convertDataToCSV(zonaldata);
+}
+
+//  Mines the state object for the data about a hub from the API
+//
+// @param none
+// @return Object
+function getAllHubsFromState() {
+  const hubData = store.getStateItem('HubIntersectionJson');
+  const data = [];
+  hubData.forEach((hub) => {
+    data.push(hub.properties.mean);
+  });
+  return convertDataToCSV(data);
+}
+
+// Handles the export of zonal / hub data to a csv file when user downloads all
+//
+// @param name | String - result of makeHTMLName from zonalStats.js
+function handleZonalAllCsvExport(name) {
+  const fileContent = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
+    [getAllHubsFromState()] :
+    [getAllZonesFromState()];
+
+  triggerCsvExport(fileContent, 'All Data');
 }
 
 // Binds the export handler to the download button
@@ -129,4 +186,13 @@ function bindZonalExportHandler(name) {
   button.addEventListener('click', handleZonalCsvExport.bind(null, name));
 }
 
-export { bindZonalExportHandler };
+// btn-download-all-zonal-stats
+// Binds the export handler to the download button
+//
+// @param name | String - result of makeHTMLName from zonalStats.js
+function bindZonalAllExportHandler() {
+  const button = document.querySelector('#btn-download-all-zonal-stats');
+  button.addEventListener('click', handleZonalAllCsvExport.bind(null));
+}
+
+export { bindZonalExportHandler, bindZonalAllExportHandler };
