@@ -301,10 +301,6 @@ a.nav-link {
   margin-left: 0px !important;
 }
 
-#has-shape-holder {
-  margin-left: 0px !important;
-}
-
 #upload-shapefile-btn, #draw-area-btn {
   width: 100% !important;
 }
@@ -733,6 +729,7 @@ a.about-nav.active::before {
 
 #has-shape-holder {
   margin-left: 5px !important;
+  padding-left: 15px !important;
 }
 
 #upload-shapefile-btn, #draw-area-btn {
@@ -795,7 +792,7 @@ a.about-nav.active::before {
 }
 
 .action-bnt-row.button-1 {
-  padding-left: 15px;
+  padding-left: 0px;
 }
 
 .action-bnt-row.button-2 {
