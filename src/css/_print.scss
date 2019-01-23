@@ -6,65 +6,116 @@ $body-color: #e9ecef;
 @media print {
   @page {
     margin: 1cm !important;
+    width: 8.5in !important;
+  }
 
+  body {
+    display: block !important;
   }
 
   a {
-      break-inside: avoid !important;
-      page-break-inside: avoid  !important;
+    break-inside: avoid-page !important;
+    page-break-inside: avoid  !important;
   }
+
 
   a[href^=http]:after {
         content:" < " attr(href) "> " !important;
   }
 
+
+  .page-break	{
+    display: block !important;
+    page-break-before: always !important;
+    -webkit-region-break-after: always !important;
+  }
+
   #main {
+    display: block !important;
+    float: none !important;
+    width: auto !important;
+    height: auto !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  #main-content, #tab-main-nav-map, .container {
+    display: block !important;
+    float: none !important;
     background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
   }
 
   #map-holder {
-    height: 8in !important;
+    display: block !important;
+    float: none !important;
+    height: 10.5in !important;
+    width: 8.5in !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+    // box-decoration-break: initial;
+    page-break-after: always !important;
+    break-after: always !important;
+    #map {
+      display: block !important;
+      float: none !important;
+      height: 10.5in !important;
+      width: 100% !important;
+      break-inside: avoid-page !important;
+      page-break-inside: avoid  !important;
+      page-break-after: always !important;
+      break-after: always !important;
+    }
   }
 
   .map-list-column {
+    display: block !important;
+    float: none !important;
+    position: unset !important;
     height: auto !important;
     width: 100% !important;
-    background-color: black !important;
-    border: 10px solid black !important;
+    background-color: $body-bg !important;
+    border: 10px solid $body-bg !important;
     -webkit-print-color-adjust: exact !important;
-    position: unset !important;
-    top: 0px !important;
+    page-break-after: always !important;
+    break-after: always !important;
   }
 
   #maplayers_list-holder {
+    display: block !important;
+    float: none !important;
     position: unset !important;
     z-index: unset !important;
-    border: 10px solid red !important;
-    background-color: red !important;
+    border: 10px solid $body-bg !important;
+    background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
     max-height: unset !important;
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
+    page-break-after: always !important;
+    break-after: always !important;
   }
 
   .map_responsive {
+    display: block !important;
+    float: none !important;
     position: unset !important;
     overflow-y: unset !important;
     overflow-x: unset !important;
-    float: unset !important;
     min-width: unset !important;
     max-width: unset !important;
     max-height: unset !important;
     margin-right: unset !important;
     width: 100% !important;
     height: auto !important;
-    border: 10px solid blue !important;
-    background-color: blue !important;
+    border: 10px solid $body-bg !important;
+    background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
   }
 
   .maplayerslisttoggle-collapse {
+    display: block !important;
+    float: none !important;
     position: unset !important;
     overflow-y: unset !important;
     overflow-x: unset !important;
@@ -73,23 +124,27 @@ $body-color: #e9ecef;
     justify-content: unset !important;
     width: 100% !important;
     height: 100% !important;
-    border: 10px solid yellow !important;
-    background-color: yellow !important;
+    // border: 10px solid yellow !important;
+    background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
   }
 
   #mapListToggle {
+    display: block !important;
+    float: none !important;
     position: unset !important;
     width: 100% !important;
     height: auto !important;
-    border: 10px solid aqua !important;
-    background-color: green !important;
+    border: 10px solid $body-bg !important;
+    background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
     #main-nav {
+      display: block !important;
+      float: none !important;
       position: unset !important;
       width: 100% !important;
       height: auto !important;
-      border: 10px solid aqua !important;
+      border: 10px solid $body-bg !important;
       background-color: $body-bg !important;
       -webkit-print-color-adjust: exact !important;
     }
@@ -97,7 +152,8 @@ $body-color: #e9ecef;
 
   #ToggleLayerList, #ToggleLayerList .closed {
     position: unset !important;
-    display: unset !important;
+    display: block !important;
+    float: none !important;
     overflow: unset !important;
     top: 150px !important;
     width: 100% !important;
@@ -108,11 +164,29 @@ $body-color: #e9ecef;
     -webkit-print-color-adjust: exact !important;
   }
 
+  .brand-maplist-holder, .nav-brand-maplayerlist {
+    position: unset !important;
+    float: none !important;
+    display: block !important;
+    overflow: unset !important;
+    top: 150px !important;
+    width: 100% !important;
+  }
+
+  .LayerList-Group {
+    padding-top: 15px !important;
+    break-inside: avoid-page !important;
+    page-break-inside: avoid  !important;
+  }
+
   .collapse:not(.show){
-    display: unset !important;
+    display: block !important;
+    float: none !important;
   }
 
   .h-0 {
+    display: block !important;
+    float: none !important;
     height: 100% !important;
   }
 
@@ -121,17 +195,22 @@ $body-color: #e9ecef;
     .zonal-label-remove, .zonal-label-zoom,
     .zonal-long-button-wrapper.d-none, #btn-basemap,
     #basemaplist, .list-basemap, .layer-description-text,
-    .custom-control-label::after, .custom-control-label::before {
+    .custom-control-label::after, .custom-control-label::before,
+    .bnt-MapLayersListToggle, .list-group-item-action,
+    .zonal-stats-button-holder, .zonal-stats-wrapper.d-none,
+    #zonal-header-f, #zonal-header  {
     display: none !important;
+    float: none !important;
   }
-
 
   .layer-legend-toggler, #legend-assets {
     display: none !important;
+    float: none !important;
     width: 0px !important;
     height: 0px !important;
     svg {
       display: none !important;
+      float: none !important;
       width: 0px !important;
       height: 0px !important;
     }
@@ -144,6 +223,13 @@ $body-color: #e9ecef;
     .leaflet-bottom.leaflet-left {
       display: none !important;
     }
+    .leaflet-top.leaflet-right {
+      display: none !important;
+    }
+  }
+
+  .leaflet-tile  {
+    mix-blend-mode: difference;
   }
 
   .user-shape, .btn-light {
@@ -158,6 +244,8 @@ $body-color: #e9ecef;
   }
 
   .layer-legend-wrapper.open, .layer-legend-wrapper.closed {
+    display: block !important;
+    float: none !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
     border-bottom: 0px solid #ffffff40 !important;
@@ -176,11 +264,24 @@ $body-color: #e9ecef;
    background-color: $body-bg !important;
    -webkit-print-color-adjust: exact !important;
    border: unset !important;
+   float: none !important;
+   break-inside: avoid-page !important;
+   page-break-inside: avoid !important;
  }
 
 
   #has-shape-holder {
     display: none !important;
+  }
+
+
+  .data-row {
+    display: block !important;
+    float: none !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+    page-break-after: always !important;
+    break-after: always !important;
   }
 
   #explore-holder {
@@ -193,40 +294,54 @@ $body-color: #e9ecef;
     -webkit-print-color-adjust: exact !important;
   }
 
-  .explore-row {
+  .explore-row, .explore-row-container {
+    display: block !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .explore-row-container {
+    display: block !important;
     background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
   }
 
   .zonal-stats-wrapper, .zonal-summary-wrapper, .zonal-long-graph-steps,
-    .zonal-long-graph-content, .zonal-long-graph-wrapper-short-chart {
-    break-inside: avoid !important;
+    .zonal-long-graph-content, .zonal-long-graph-wrapper-short-chart,
+    .layer-legend-wrapper {
+    display: block !important;
+    float: none !important;
+    break-inside: avoid-page !important;
     page-break-inside: avoid !important;
   }
 
+
   @for $i from 1 through 12 {
     .col-xl-#{$i} {
+      display: block !important;
       width: 100% !important;
-      float: left !important;
-      position: relative !important;
+      float: none !important;
+      // position: relative !important;
       min-height: 1px !important;
       max-width: 100% !important;
     }
   }
   @for $i from 1 through 12 {
     .col-lg-#{$i} {
+      display: block !important;
       width: 100% !important;
-      float: left;
-      position: relative;
+      float: none !important;
+      // position: relative;
       min-height: 1px;
       max-width: 100%;
     }
   }
   @for $i from 1 through 12 {
     .col-md-#{$i} {
+      display: block !important;
       width: 100% !important;
-      float: left;
-      position: relative;
+      float: none !important;
+      // position: relative;
       min-height: 1px;
       max-width: 100%;
     }
