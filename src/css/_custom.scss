@@ -1092,6 +1092,12 @@ p.not-found {
   }
 }
 
+@media screen and (max-width: 1280px) {
+  .btn-clear-area .btn-lg-label {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats, #btn-download-all-zonal-stats {
     margin-top: $margin;
