@@ -1,8 +1,6 @@
 $body-bg:    #343a40;
 $body-color: #e9ecef;
 
-
-
 @media print {
   @page {
     margin: 1cm !important;
@@ -11,6 +9,10 @@ $body-color: #e9ecef;
 
   body {
     display: block !important;
+    color: $body-color !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   a {
@@ -36,7 +38,9 @@ $body-color: #e9ecef;
     width: auto !important;
     height: auto !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .nfwf-header {
@@ -54,17 +58,20 @@ $body-color: #e9ecef;
     display: block !important;
     float: none !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   #map-holder {
     display: block !important;
     float: none !important;
     height: 10.5in !important;
-    width: 8.5in !important;
+    width: 10.5in !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
-    // box-decoration-break: initial;
+    color-adjust: exact !important;
     page-break-after: always !important;
     break-after: always !important;
     #map {
@@ -72,6 +79,8 @@ $body-color: #e9ecef;
       float: none !important;
       height: 10.5in !important;
       width: 100% !important;
+      background-color: $body-bg !important;
+      color: $body-color !important;
       break-inside: avoid-page !important;
       page-break-inside: avoid  !important;
       page-break-after: always !important;
@@ -86,8 +95,10 @@ $body-color: #e9ecef;
     height: auto !important;
     width: 100% !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     border: 10px solid $body-bg !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
     page-break-after: always !important;
     break-after: always !important;
     break-before: always !important;
@@ -101,7 +112,9 @@ $body-color: #e9ecef;
     z-index: unset !important;
     border: 10px solid $body-bg !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
     max-height: unset !important;
     width: 100% !important;
     height: 100% !important;
@@ -123,7 +136,9 @@ $body-color: #e9ecef;
     height: auto !important;
     border: 10px solid $body-bg !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .maplayerslisttoggle-collapse {
@@ -137,9 +152,10 @@ $body-color: #e9ecef;
     justify-content: unset !important;
     width: 100% !important;
     height: 100% !important;
-    // border: 10px solid yellow !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   #mapListToggle {
@@ -150,7 +166,9 @@ $body-color: #e9ecef;
     height: auto !important;
     border: 10px solid $body-bg !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
     #main-nav {
       display: block !important;
       float: none !important;
@@ -159,7 +177,9 @@ $body-color: #e9ecef;
       height: auto !important;
       border: 10px solid $body-bg !important;
       background-color: $body-bg !important;
+      color: $body-color !important;
       -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
     }
   }
 
@@ -174,7 +194,9 @@ $body-color: #e9ecef;
     margin: 0px !important;
     border: 10px solid $body-bg !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .brand-maplist-holder, .nav-brand-maplayerlist {
@@ -248,6 +270,7 @@ $body-color: #e9ecef;
   .user-shape, .btn-light {
     background-color:  $body-bg !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
     color: $body-color !important;
     border: 0px solid $body-bg !important;
     font-size: 1.5rem !important;
@@ -269,13 +292,17 @@ $body-color: #e9ecef;
     transition: all 0.75s ease !important;
     will-change: transform !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
  }
 
  .layer-legend-wrapper .layer-legend, .zonal-long-table, .zonal-long-table-row, .zonal-long-table-row,
   .custom-control.custom-checkbox, .layer-toggle-wrapper, .LayerInput-header, .LayerList-spacer {
    background-color: $body-bg !important;
+   color: $body-color !important;
    -webkit-print-color-adjust: exact !important;
+   color-adjust: exact !important;
    border: unset !important;
    float: none !important;
    break-inside: avoid-page !important;
@@ -292,7 +319,9 @@ $body-color: #e9ecef;
     display: block !important;
     float: none !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
     page-break-after: always !important;
     break-after: always !important;
   }
@@ -304,19 +333,24 @@ $body-color: #e9ecef;
     height: auto !important;
     overflow: visible !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .explore-row, .explore-row-container {
     display: block !important;
     background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .explore-row-container {
     display: block !important;
     background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .zonal-stats-wrapper, .zonal-summary-wrapper, .zonal-long-graph-steps,
@@ -328,13 +362,15 @@ $body-color: #e9ecef;
     page-break-inside: avoid !important;
   }
 
+  .userarealabel {
+    color: $body-color !important;
+  }
 
   @for $i from 1 through 12 {
     .col-xl-#{$i} {
       display: block !important;
       width: 100% !important;
       float: none !important;
-      // position: relative !important;
       min-height: 1px !important;
       max-width: 100% !important;
     }
@@ -344,7 +380,6 @@ $body-color: #e9ecef;
       display: block !important;
       width: 100% !important;
       float: none !important;
-      // position: relative;
       min-height: 1px;
       max-width: 100%;
     }
@@ -354,7 +389,6 @@ $body-color: #e9ecef;
       display: block !important;
       width: 100% !important;
       float: none !important;
-      // position: relative;
       min-height: 1px;
       max-width: 100%;
     }
