@@ -1105,7 +1105,6 @@ p.not-found {
   }
 }
 @media screen and (min-width: 993px) {
-
   #btn-clear-area, #btn-update-zonal-stats, #btn-download-all-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
@@ -2683,3 +2682,5 @@ p.not-found {
 .leaflet-popup.map-information-popup {
   margin-bottom: 0px;
 }
+
+// test

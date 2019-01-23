@@ -1,19 +1,216 @@
 $body-bg:    #343a40;
 $body-color: #e9ecef;
 
-#main {
-  background-color:  $body-bg;
-  -webkit-print-color-adjust: exact;
-}
+
 
 @media print {
+  @page {
+    margin: 1cm !important;
+
+  }
+
+  a {
+      break-inside: avoid !important;
+      page-break-inside: avoid  !important;
+  }
+
+  a[href^=http]:after {
+        content:" < " attr(href) "> " !important;
+  }
+
+  #main {
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  #map-holder {
+    height: 8in !important;
+  }
+
+  .map-list-column {
+    height: auto !important;
+    width: 100% !important;
+    background-color: black !important;
+    border: 10px solid black !important;
+    -webkit-print-color-adjust: exact !important;
+    position: unset !important;
+    top: 0px !important;
+  }
+
+  #maplayers_list-holder {
+    position: unset !important;
+    z-index: unset !important;
+    border: 10px solid red !important;
+    background-color: red !important;
+    -webkit-print-color-adjust: exact !important;
+    max-height: unset !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .map_responsive {
+    position: unset !important;
+    overflow-y: unset !important;
+    overflow-x: unset !important;
+    float: unset !important;
+    min-width: unset !important;
+    max-width: unset !important;
+    max-height: unset !important;
+    margin-right: unset !important;
+    width: 100% !important;
+    height: auto !important;
+    border: 10px solid blue !important;
+    background-color: blue !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .maplayerslisttoggle-collapse {
+    position: unset !important;
+    overflow-y: unset !important;
+    overflow-x: unset !important;
+    display: unset !important;
+    flex-wrap: unset !important;
+    justify-content: unset !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: 10px solid yellow !important;
+    background-color: yellow !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  #mapListToggle {
+    position: unset !important;
+    width: 100% !important;
+    height: auto !important;
+    border: 10px solid aqua !important;
+    background-color: green !important;
+    -webkit-print-color-adjust: exact !important;
+    #main-nav {
+      position: unset !important;
+      width: 100% !important;
+      height: auto !important;
+      border: 10px solid aqua !important;
+      background-color: $body-bg !important;
+      -webkit-print-color-adjust: exact !important;
+    }
+  }
+
+  #ToggleLayerList, #ToggleLayerList .closed {
+    position: unset !important;
+    display: unset !important;
+    overflow: unset !important;
+    top: 150px !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border: 10px solid $body-bg !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .collapse:not(.show){
+    display: unset !important;
+  }
+
+  .h-0 {
+    height: 100% !important;
+  }
+
+  #explore-title, #exlpore-directions,
+    #navbar-explore-shapes, #zonal-stats-short-title-holder, #hasshape-button-holder,
+    .zonal-label-remove, .zonal-label-zoom,
+    .zonal-long-button-wrapper.d-none, #btn-basemap,
+    #basemaplist, .list-basemap, .layer-description-text,
+    .custom-control-label::after, .custom-control-label::before {
+    display: none !important;
+  }
+
+
+  .layer-legend-toggler, #legend-assets {
+    display: none !important;
+    width: 0px !important;
+    height: 0px !important;
+    svg {
+      display: none !important;
+      width: 0px !important;
+      height: 0px !important;
+    }
+  }
+
+  .leaflet-control-container {
+    .leaflet-top.leaflet-left {
+      display: none !important;
+    }
+    .leaflet-bottom.leaflet-left {
+      display: none !important;
+    }
+  }
+
+  .user-shape, .btn-light {
+    background-color:  $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+    color: $body-color !important;
+    border: 0px solid $body-bg !important;
+    font-size: 1.5rem !important;
+    svg {
+      display: none !important;
+    }
+  }
+
+  .layer-legend-wrapper.open, .layer-legend-wrapper.closed {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    border-bottom: 0px solid #ffffff40 !important;
+    margin-bottom: 5px !important;
+    margin-left: -1.5rem !important;
+    overflow: hidden !important;
+    max-height: 500px !important;
+    transition: all 0.75s ease !important;
+    will-change: transform !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+ }
+
+ .layer-legend-wrapper .layer-legend, .zonal-long-table, .zonal-long-table-row, .zonal-long-table-row,
+  .custom-control.custom-checkbox, .layer-toggle-wrapper, .LayerInput-header, .LayerList-spacer {
+   background-color: $body-bg !important;
+   -webkit-print-color-adjust: exact !important;
+   border: unset !important;
+ }
+
+
+  #has-shape-holder {
+    display: none !important;
+  }
+
+  #explore-holder {
+    position: unset !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .explore-row {
+    background-color: $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .zonal-stats-wrapper, .zonal-summary-wrapper, .zonal-long-graph-steps,
+    .zonal-long-graph-content, .zonal-long-graph-wrapper-short-chart {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
   @for $i from 1 through 12 {
     .col-xl-#{$i} {
       width: 100% !important;
-      float: left;
-      position: relative;
-      min-height: 1px;
-      max-width: 100%;
+      float: left !important;
+      position: relative !important;
+      min-height: 1px !important;
+      max-width: 100% !important;
     }
   }
   @for $i from 1 through 12 {
@@ -46,6 +243,9 @@ $body-color: #e9ecef;
     order: 1;
   }
   .order-sm-2  {
+    order: 3;
+  }
+  .order-sm-3  {
     order: 2;
   }
 
@@ -68,23 +268,5 @@ $body-color: #e9ecef;
   }
   .order-xl-1  {
     order: 2;
-  }
-
-  #has-shape-holder {
-    display: none !important;
-  }
-
-  #explore-holder {
-    display: block;
-    width: auto;
-    height: auto;
-    overflow: visible;
-    background-color:  $body-bg;
-    -webkit-print-color-adjust: exact;
-  }
-
-  .explore-row {
-    background-color:  $body-bg;
-    -webkit-print-color-adjust: exact;
   }
 }
