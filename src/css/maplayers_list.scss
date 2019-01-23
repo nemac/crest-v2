@@ -41,7 +41,7 @@ $map_right_margin: 10px;
 }
 
 .h-70 {
-  @media (min-height: 1024px) {
+  @media screen and (min-height: 1024px) {
     height: auto !important;
   }
 }
@@ -247,7 +247,7 @@ $map_right_margin: 10px;
   overflow: scroll;
 }
 
-@media (max-width: 992px) {
+@media screen and (max-width: 992px) {
   #maplayers_list-holder {
     position: inherit;
     margin-right: 0px;

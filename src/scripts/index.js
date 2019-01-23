@@ -29,6 +29,8 @@ import NotFoundPage from '../templates/notfound.html';
 
 import { restoreGraphState } from './zonalStats';
 
+// scss
+import '../css/_print.scss';
 // initialize navbar
 // const aboutnavBarComponent = new AboutNavBar('about-nav-holder');
 const navBarComponent = new NavBar('nav-holder');
