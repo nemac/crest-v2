@@ -1,5 +1,7 @@
 $body-bg:    #343a40;
 $body-color: #e9ecef;
+$map_layer_list_printheight:  11.5in;
+$map_holder_printheight:  10.5in;
 
 @media print {
   @page {
@@ -68,8 +70,8 @@ $body-color: #e9ecef;
     display: block !important;
     float: none !important;
     padding: 1in !important;
-    height: 13.5in !important;
-    width: 13.5in !important;
+    height: $map_holder_printheight !important;
+    width: $map_holder_printheight !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
@@ -124,7 +126,7 @@ $body-color: #e9ecef;
     color-adjust: exact !important;
     width: 100% !important;
     height: 100% !important;
-    max-height: 13.5in !important;
+    max-height: $map_layer_list_printheight !important;
     page-break-after: always !important;
     break-after: always !important;
   }
@@ -137,7 +139,7 @@ $body-color: #e9ecef;
     overflow-x: unset !important;
     min-width: unset !important;
     max-width: unset !important;
-    max-height: 13.5in !important;
+    max-height: $map_layer_list_printheight !important;
     margin-right: unset !important;
     width: 100% !important;
     height: auto !important;
@@ -165,7 +167,7 @@ $body-color: #e9ecef;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
-    max-height: 13.5in !important;
+    max-height: $map_layer_list_printheight !important;
   }
 
   #mapListToggle {
@@ -209,7 +211,7 @@ $body-color: #e9ecef;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
-    max-height: 13.5in !important;
+    max-height: $map_layer_list_printheight !important;
   }
 
   #mapListToggle .navbar-nav {
@@ -243,8 +245,6 @@ $body-color: #e9ecef;
 
   .LayerList-Group {
     padding-top: 0px !important;
-    // break-inside: avoid-page !important;
-    // page-break-inside: avoid  !important;
   }
 
   .LayerInput-header, .custom-control.custom-checkbox {
@@ -253,7 +253,7 @@ $body-color: #e9ecef;
   }
 
   .custom-control.custom-checkbox {
-    min-height: 60px !important;
+    min-height: 50px !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
   }
@@ -340,7 +340,7 @@ $body-color: #e9ecef;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
-    min-height: 45px !important;
+    min-height: 40px !important;
   }
 
   .layer-legend .zonal-long-table-item {
@@ -434,7 +434,7 @@ $body-color: #e9ecef;
     float: left !important;
     width: 25% !important;
     margin-top: 10px !important;
-    min-height: 45px !important;
+    min-height: 40px !important;
   }
 
   .layer-legend-wrapper, .layer-legend-wrapper.closed {
@@ -444,6 +444,179 @@ $body-color: #e9ecef;
 
   .userarealabel {
     color: $body-color !important;
+  }
+
+
+  .layer-legend .zonal-long-table-cell {
+    &-hub{
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-asset {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-threat {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-exposure-box {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-fish {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-wildlife {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-popdensity {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-socvuln {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-critfac {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-critinfra {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-drainage {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-erosion {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-floodprone {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-slr {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-stormsurge {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-geostress {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
+
+    &-slope {
+      &-none {
+       display: none !important;
+     }
+
+     &-zero {
+       display: none !important;
+     }
+    }
   }
 
   @for $i from 1 through 12 {
