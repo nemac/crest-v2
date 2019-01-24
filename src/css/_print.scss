@@ -3,6 +3,7 @@ $body-color: #e9ecef;
 
 @media print {
   @page {
+    padding: 1in !important;
     margin: 1cm !important;
     width: 8.5in !important;
   }
@@ -22,7 +23,7 @@ $body-color: #e9ecef;
 
 
   a[href^=http]:after {
-        content:" < " attr(href) "> " !important;
+    content:" < " attr(href) "> " !important;
   }
 
 
@@ -66,8 +67,9 @@ $body-color: #e9ecef;
   #map-holder {
     display: block !important;
     float: none !important;
-    height: 10.5in !important;
-    width: 10.5in !important;
+    padding: 1in !important;
+    height: 13.5in !important;
+    width: 13.5in !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
@@ -77,7 +79,7 @@ $body-color: #e9ecef;
     #map {
       display: block !important;
       float: none !important;
-      height: 10.5in !important;
+      height: 100% !important;
       width: 100% !important;
       background-color: $body-bg !important;
       color: $body-color !important;
@@ -91,12 +93,13 @@ $body-color: #e9ecef;
   .map-list-column {
     display: block !important;
     float: none !important;
+    // padding: 1in !important;
     position: unset !important;
     height: auto !important;
     width: 100% !important;
     background-color: $body-bg !important;
     color: $body-color !important;
-    border: 10px solid $body-bg !important;
+    border: unset !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     page-break-after: always !important;
@@ -105,19 +108,23 @@ $body-color: #e9ecef;
     page-break-before: always !important;
   }
 
+  .map-list-column.flex-fill {
+    flex: unset !important;
+  }
+
   #maplayers_list-holder {
     display: block !important;
     float: none !important;
     position: unset !important;
     z-index: unset !important;
-    border: 10px solid $body-bg !important;
+    border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
-    max-height: unset !important;
     width: 100% !important;
     height: 100% !important;
+    max-height: 13.5in !important;
     page-break-after: always !important;
     break-after: always !important;
   }
@@ -130,11 +137,11 @@ $body-color: #e9ecef;
     overflow-x: unset !important;
     min-width: unset !important;
     max-width: unset !important;
-    max-height: unset !important;
+    max-height: 13.5in !important;
     margin-right: unset !important;
     width: 100% !important;
     height: auto !important;
-    border: 10px solid $body-bg !important;
+    border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
@@ -147,7 +154,9 @@ $body-color: #e9ecef;
     position: unset !important;
     overflow-y: unset !important;
     overflow-x: unset !important;
-    display: unset !important;
+    padding: unset !important;
+    padding-left: 100px !important;
+    padding-right: 100px !important;
     flex-wrap: unset !important;
     justify-content: unset !important;
     width: 100% !important;
@@ -156,6 +165,7 @@ $body-color: #e9ecef;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
+    max-height: 13.5in !important;
   }
 
   #mapListToggle {
@@ -164,39 +174,59 @@ $body-color: #e9ecef;
     position: unset !important;
     width: 100% !important;
     height: auto !important;
-    border: 10px solid $body-bg !important;
+    border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
+    flex: unset !important;
+    flex-basis: unset !important;
+    flex-grow: unset !important;
     #main-nav {
       display: block !important;
       float: none !important;
       position: unset !important;
       width: 100% !important;
       height: auto !important;
-      border: 10px solid $body-bg !important;
-      background-color: $body-bg !important;
+      border: unset !important;
       color: $body-color !important;
+      background-color: $body-bg !important;
       -webkit-print-color-adjust: exact !important;
       color-adjust: exact !important;
     }
   }
 
-  #ToggleLayerList, #ToggleLayerList .closed {
+  #ToggleLayerList, #ToggleLayerList.closed {
     position: unset !important;
     display: block !important;
     float: none !important;
     overflow: unset !important;
-    top: 150px !important;
     width: 100% !important;
     height: 100% !important;
     margin: 0px !important;
-    border: 10px solid $body-bg !important;
+    border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
+    max-height: 13.5in !important;
+  }
+
+  #mapListToggle .navbar-nav {
+    flex: unset !important;
+    flex-basis: unset !important;
+    flex-grow: unset !important;
+    flex: unset !important;
+    flex-basis: unset !important;
+    flex-direction: unset !important;
+    #ToggleLayerList, #ToggleLayerList.closed {
+      flex: unset !important;
+      flex-basis: unset !important;
+      flex-grow: unset !important;
+      flex: unset !important;
+      flex-basis: unset !important;
+      flex-direction: unset !important;
+    }
   }
 
   .brand-maplist-holder, .nav-brand-maplayerlist {
@@ -204,14 +234,28 @@ $body-color: #e9ecef;
     float: none !important;
     display: block !important;
     overflow: unset !important;
-    top: 150px !important;
+    top: unset !important;
     width: 100% !important;
+    background-color:  $body-bg !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .LayerList-Group {
-    padding-top: 15px !important;
-    break-inside: avoid-page !important;
-    page-break-inside: avoid  !important;
+    padding-top: 0px !important;
+    // break-inside: avoid-page !important;
+    // page-break-inside: avoid  !important;
+  }
+
+  .LayerInput-header, .custom-control.custom-checkbox {
+    padding: unset !important;
+    margin: unset !important;
+  }
+
+  .custom-control.custom-checkbox {
+    min-height: 60px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
   }
 
   .collapse:not(.show){
@@ -226,14 +270,14 @@ $body-color: #e9ecef;
   }
 
   #explore-title, #exlpore-directions,
-    #navbar-explore-shapes, #zonal-stats-short-title-holder, #hasshape-button-holder,
-    .zonal-label-remove, .zonal-label-zoom,
-    .zonal-long-button-wrapper.d-none, #btn-basemap,
-    #basemaplist, .list-basemap, .layer-description-text,
-    .custom-control-label::after, .custom-control-label::before,
-    .bnt-MapLayersListToggle, .list-group-item-action,
-    .zonal-stats-button-holder, .zonal-stats-wrapper.d-none,
-    #zonal-header-f, #zonal-header  {
+  #navbar-explore-shapes, #zonal-stats-short-title-holder, #hasshape-button-holder,
+  .zonal-label-remove, .zonal-label-zoom,
+  .zonal-long-button-wrapper.d-none, #btn-basemap,
+  #basemaplist, .list-basemap, .layer-description-text,
+  .custom-control-label::after, .custom-control-label::before,
+  .bnt-MapLayersListToggle, .list-group-item-action,
+  .zonal-stats-button-holder, .zonal-stats-wrapper.d-none,
+  #zonal-header-f, #zonal-header  {
     display: none !important;
     float: none !important;
   }
@@ -272,48 +316,69 @@ $body-color: #e9ecef;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     color: $body-color !important;
-    border: 0px solid $body-bg !important;
+    border: unset !important;
     font-size: 1.5rem !important;
     svg {
       display: none !important;
     }
   }
 
+  .layer-legend {
+    margin: unset !important;
+  }
+
   .layer-legend-wrapper.open, .layer-legend-wrapper.closed {
     display: block !important;
     float: none !important;
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-    border-bottom: 0px solid #ffffff40 !important;
-    margin-bottom: 5px !important;
-    margin-left: -1.5rem !important;
+    padding: unset !important;
+    margin: unset !important;
+    border: unset !important;
     overflow: hidden !important;
-    max-height: 500px !important;
-    transition: all 0.75s ease !important;
-    will-change: transform !important;
+    transition: unset!important;
+    will-change: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
- }
+    min-height: 45px !important;
+  }
 
- .layer-legend-wrapper .layer-legend, .zonal-long-table, .zonal-long-table-row, .zonal-long-table-row,
+  .layer-legend .zonal-long-table-item {
+    display: inline-block !important;
+    width: 8in !important;
+    height: 15px !important;
+    line-height: 15px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  .layer-legend .zonal-long-table-row-header-simple {
+    position: relative !important;
+    height: 20px !important;
+  }
+
+  .layer-legend, .zonal-long-table, .zonal-long-table-row,
   .custom-control.custom-checkbox, .layer-toggle-wrapper, .LayerInput-header, .LayerList-spacer {
-   background-color: $body-bg !important;
-   color: $body-color !important;
-   -webkit-print-color-adjust: exact !important;
-   color-adjust: exact !important;
-   border: unset !important;
-   float: none !important;
-   break-inside: avoid-page !important;
-   page-break-inside: avoid !important;
- }
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    border: unset !important;
+    float: none !important;
+    break-inside: avoid-page !important;
+    page-break-inside: avoid !important;
+  }
 
+  .LayerList-spacer {
+    padding-top: unset !important;
+    height: 5px !important;
+    line-height: 5px !important;
+    min-height: 5px !important;
+  }
 
   #has-shape-holder {
     display: none !important;
   }
-
 
   .data-row {
     display: block !important;
@@ -353,13 +418,28 @@ $body-color: #e9ecef;
     color-adjust: exact !important;
   }
 
+  .explore-row-container hr {
+    display: none !important;
+  }
+
   .zonal-stats-wrapper, .zonal-summary-wrapper, .zonal-long-graph-steps,
-    .zonal-long-graph-content, .zonal-long-graph-wrapper-short-chart,
-    .layer-legend-wrapper {
+  .zonal-long-graph-content, .zonal-long-graph-wrapper-short-chart {
     display: block !important;
     float: none !important;
     break-inside: avoid-page !important;
     page-break-inside: avoid !important;
+  }
+
+  .layer-toggle-wrapper {
+    float: left !important;
+    width: 25% !important;
+    margin-top: 10px !important;
+    min-height: 45px !important;
+  }
+
+  .layer-legend-wrapper, .layer-legend-wrapper.closed {
+    float: left !important;
+    width: 75% !important;
   }
 
   .userarealabel {
