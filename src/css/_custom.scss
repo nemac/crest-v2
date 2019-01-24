@@ -26,7 +26,6 @@ $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
 $body-bg-semiTransparent9:    rgba(53, 59, 65, .9); // $gray-800
 $body-bg-FullTransparent:    rgba(53, 59, 65, 0.0); // $gray-800
 
-
 // general page styles
 
 html, body {
@@ -157,7 +156,7 @@ a.nav-link {
 
 .buffer-label, .buffer-distance {
     padding: 5px;
-    @media (max-width: 400px) {
+    @media screen and (max-width: 400px) {
       padding: 4px;
     }
 }
@@ -401,7 +400,7 @@ a.nav-link {
 .leaflet-draw-actions a {
   color: $body-bg !important;
   background-color: $gray-300 !important;
-  @media (max-width: 420px) {
+  @media screen and (max-width: 420px) {
     background-color:  $yellow !important;
   }
   // height: 30px !important;
@@ -534,7 +533,7 @@ a.about-nav.active::before {
     font-size: 1.2rem;
     padding-top: 0px;
     margin-left: -15px;
-    @media (max-width: 992px) {
+    @media screen and (max-width: 992px) {
       margin-left: 0px;
     }
   }
@@ -550,7 +549,7 @@ a.about-nav.active::before {
     li {
       max-width: 1024px !important;
     }
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       padding-left: 5px;
       padding-right: 5px;
     }
@@ -570,7 +569,7 @@ a.about-nav.active::before {
     border-radius: 4px;
 
     font-size: 1em;
-    @media (max-width: 400px) {
+    @media screen and (max-width: 400px) {
       font-size: .8rem !important;
     }
     font-weight: 800;
@@ -585,7 +584,6 @@ a.about-nav.active::before {
       font-size: 1.5rem;
       vertical-align: middle;
     }
-    // margin-left: 0px !important
   }
 }
 
@@ -1005,10 +1003,8 @@ a.about-nav.active::before {
  #explore-holder {
    overflow-x: hidden;
    overflow-y: scroll;
-   @media print {
-     overflow-y: visible;
-   }
-
+   background-color:  $body-bg;
+   -webkit-print-color-adjust: exact;
  }
 
  .explore-row {
@@ -1096,21 +1092,19 @@ p.not-found {
   }
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1427px) {
   .btn-clear-area .btn-lg-label {
     display: none;
   }
 }
 
-@media (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats, #btn-download-all-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
   }
 }
-
-@media (min-width: 993px) {
-
+@media screen and (min-width: 993px) {
   #btn-clear-area, #btn-update-zonal-stats, #btn-download-all-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
@@ -1318,7 +1312,7 @@ p.not-found {
   }
 }
 ///
-@media (max-width: 992px) {
+@media screen and (max-width: 992px) {
 
   $margin: 5px;
   $padding: 5px;
@@ -1601,7 +1595,7 @@ p.not-found {
   }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
 
   .brand-maplist-holder {
     margin-top: 15px !important;
@@ -1714,7 +1708,7 @@ p.not-found {
 }
 
 // responive explore buttons
-@media (max-width: 640px) {
+@media screen and (max-width: 640px) {
       .user-shape {
         font-size: .8rem !important;
       }
@@ -1778,13 +1772,13 @@ p.not-found {
      }
 }
 
-@media (max-width: 640px) {
+@media screen and (max-width: 640px) {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats, #btn-download-all-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
   }
 }
-@media (max-width: 500px) {
+@media screen and (max-width: 500px) {
   .leaflet-draw.active {
     position: fixed;
     z-index: 5000;
@@ -1840,7 +1834,7 @@ p.not-found {
     }
   }
 }
-@media (max-width: 414px) {
+@media screen and (max-width: 414px) {
   .maplayers_list {
     top: 70px !important;
   }
@@ -1853,14 +1847,14 @@ p.not-found {
     font-size: 1rem !important;
   }
 }
-@media (max-width: 400px) {
+@media screen and (max-width: 400px) {
   .making-of-examples {
     .row {
       min-width: 350px;
     }
   }
 }
-@media (max-width: 375px) {
+@media screen and (max-width: 375px) {
   .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
     font-size: .842rem !important;
   }
@@ -1869,12 +1863,12 @@ p.not-found {
     font-size: .942rem !important;
   }
 }
-@media (max-width: 375px) {
+@media screen and (max-width: 375px) {
   .leaflet-draw-tooltip-top {
       font-size: 1.1em !important;
   }
 }
-@media (max-width: 320px) {
+@media screen and (max-width: 320px) {
   .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
     font-size: .642rem !important;
   }
@@ -1883,7 +1877,7 @@ p.not-found {
     font-size: .785rem !important;
   }
 }
-@media (max-width: 324px) {
+@media screen and (max-width: 324px) {
   .making-of-examples {
     .row {
       min-width: 300px;
@@ -1900,7 +1894,7 @@ p.not-found {
   hr {
     margin-top: .4rem !important;
     margin-bottom: .4rem !important;
-    @media (max-width: 500px) {
+    @media screen and (max-width: 500px) {
       margin-top: .2rem !important;
       margin-bottom: .2rem !important;
     }
@@ -1918,7 +1912,7 @@ p.not-found {
   .about-details.less {
     color: #fff;
     font-size: 1.1rem;
-    @media (max-width: 400px) {
+    @media screen and (max-width: 400px) {
       font-size: .9rem !important;
     }
     font-weight: 500;
@@ -1927,7 +1921,7 @@ p.not-found {
   .about-details.more {
     color: #fff;
     font-size: 1.1rem;
-    @media (max-width: 400px) {
+    @media screen and (max-width: 400px) {
       font-size: .9rem !important;
     }
     font-weight: 500;
@@ -1945,7 +1939,7 @@ p.not-found {
   .about-details.less {
     color: #fff;
     font-size: 1.1rem;
-    @media (max-width: 400px) {
+    @media screen and (max-width: 400px) {
       font-size: .9rem !important;
     }
     font-weight: 500;
@@ -1954,7 +1948,7 @@ p.not-found {
   .about-details.more {
     color: #fff;
     font-size: 1.1rem;
-    @media (max-width: 400px) {
+    @media screen and (max-width: 400px) {
       font-size: .9rem !important;
     }
     font-weight: 500;
@@ -1968,7 +1962,7 @@ p.not-found {
 
   .figure {
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       padding-left: 0px !important;
       padding-right: 0px !important;
     }
@@ -1979,7 +1973,7 @@ p.not-found {
     margin-left: 0px;
     margin-bottom: 15px;
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       margin-bottom: 5px;
     }
     .position {
@@ -1988,7 +1982,7 @@ p.not-found {
       width: 20px;
       margin: 5px;
 
-      @media (max-width: 768px) {
+      @media screen and (max-width: 768px) {
         height: 24px;
         width: 12px;
       }
@@ -2007,7 +2001,7 @@ p.not-found {
     border: 1px solid #e9ecef;
     z-index: 1000;
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       padding: 5px;
     }
 
@@ -2052,7 +2046,7 @@ p.not-found {
       width: 100% !important;
     }
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       .narrative-main.steps-active {
         display: none;
       }
@@ -2068,7 +2062,7 @@ p.not-found {
       border-left: 1px solid $gray-700;
       padding: 15px;
 
-      @media (max-width: 768px) {
+      @media screen and (max-width: 768px) {
         padding: 10px;
       }
 
@@ -2079,14 +2073,14 @@ p.not-found {
 
       .case-study-step {
         .col {
-          @media (max-width: 768px) {
+          @media screen and (max-width: 768px) {
             padding-right: 5px;
             padding-left: 5px;
           }
         }
 
         #narrative {
-          @media (max-width: 768px) {
+          @media screen and (max-width: 768px) {
             padding: 5px !important;
           }
         }
@@ -2102,7 +2096,7 @@ p.not-found {
         color: $body-color !important;
         white-space: normal !important;
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
           border: 1px solid $gray-700 !important;
         }
       }
@@ -2113,7 +2107,7 @@ p.not-found {
         white-space: normal !important;
         font-size: 5rem;
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
           font-size: 2.5rem;
         }
       }
@@ -2133,7 +2127,7 @@ p.not-found {
         padding: 15px;
         width: 100% !important;
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
           padding: 10px;
         }
 
@@ -2179,7 +2173,7 @@ p.not-found {
 }
 
 // responive explore buttons
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
 
 }
 
@@ -2197,24 +2191,24 @@ p.not-found {
     overflow: hidden;
 
     .tooltip-inner {
-        @media (min-width: 993px) {
+        @media screen and (min-width: 993px) {
           max-width: 700px !important;
         }
-        @media (max-width: 992px) {
+        @media screen and (max-width: 992px) {
           max-width: 600px !important;
         }
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
           max-width: 320px !important;
           font-size: .68rem;
         }
 
-        @media (max-width: 400px) {
+        @media screen and (max-width: 400px) {
           max-width: 300px !important;
           font-size: .68rem;
         }
 
-        @media (max-width: 325px) {
+        @media screen and (max-width: 325px) {
           max-width: 265px !important;
           font-size: .58rem;
         }
@@ -2688,3 +2682,5 @@ p.not-found {
 .leaflet-popup.map-information-popup {
   margin-bottom: 0px;
 }
+
+// test

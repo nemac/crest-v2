@@ -193,13 +193,10 @@ $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
     background-color: $body-bg;
     margin-bottom: 0px !important;
     margin-left: 5px !important;
-    // position: fixed;
 }
 
 .zonal-long-graphs {
-  // margin-top: 15px;
   margin: 15px;
-  // overflow: scroll;
 }
 
 #zonal-area-wrapper {
@@ -214,23 +211,18 @@ $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
 
 #explore-holder .zonal-short-wrappper.active {
   padding-right: 5px !important;
-  @media (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     padding: 5px 5px 5px 15px !important;
   }
 }
 
 .map_info_list .zonal-long-graph-wrapper {
-  // width: 100% !important;
   padding: 0px !important;
   margin-bottom: 5px;
   padding-right: 5px;
 }
 
-
-
 .zonal-short-wrapper {
-  // margin: 15px;
-  // margin-top: 15px;
   margin-left: -5px;
   cursor: pointer;
 
@@ -351,7 +343,7 @@ div.zonal-asset {
   display: inline-block;
 }
 
-@media (min-width: 1590px){
+@media screen and (min-width: 1590px){
   .zonal-header-exposure .zonal-header-item-label {
     &:first-child {
       margin-right: 10px;
@@ -373,7 +365,7 @@ div.zonal-asset {
     }
 }
 
-@media (max-width: 1589px){
+@media screen and (max-width: 1589px){
   .zonal-item-fishwild {
     margin-top: 0px !important;
   }
@@ -401,14 +393,14 @@ div.zonal-asset {
   }
 }
 
-@media (min-width: 993px) {
+@media screen and (min-width: 993px) {
   .zonal-long-name {
     padding: 15px 15px 0px 15px !important;
   }
 }
 
 
-@media (max-width: 993px) { //768px
+@media screen and (max-width: 993px) { //768px
   .zonal-item-fishwild {
     margin-top: 15px !important;
   }
@@ -456,7 +448,7 @@ div.zonal-asset {
   }
 }
 
-@media (max-height: 900px) {
+@media screen and (max-height: 900px) {
   .zonal-long-button  {
     height: 50px !important;
   }
@@ -466,7 +458,7 @@ div.zonal-asset {
 }
 
 
-@media (max-height: 800px) {
+@media screen and (max-height: 800px) {
   .zonal-long-button  {
     height: 50px !important;
   }
@@ -484,7 +476,7 @@ div.zonal-asset {
   }
 }
 
-@media (max-width: 535px){
+@media screen and (max-width: 535px){
   .zonal-item-fishwild {
     margin-top: 0px !important;
   }
@@ -1674,7 +1666,7 @@ div.zonal-asset {
 }
 
 
-@media (min-width: 1800px) {
+@media screen and (min-width: 1800px) {
   .zonal-long-graph-label{
     &-asset {
       .zonal-long-graph-label-text{
@@ -1700,7 +1692,7 @@ div.zonal-asset {
 }
 
 
-@media (max-width: 1286px) {
+@media screen and (max-width: 1286px) {
   .zonal-long-graph-label{
 
 
@@ -1749,7 +1741,7 @@ div.zonal-asset {
   }
 }
 
-@media (max-width: 992px) { //768px
+@media screen and (max-width: 992px) { //768px
 
   $margin: 5px;
   $padding: 5px;
@@ -1858,7 +1850,7 @@ div.zonal-asset {
 
 
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
 
   .zonal-stats-short-title-holder {
     display: none;
@@ -2016,7 +2008,7 @@ div.zonal-asset {
   }
 }
 
-@media (max-width: 450px) {
+@media screen and (max-width: 450px) {
   .zonal-long-graph-label{
 
     &-hubs {
@@ -2109,7 +2101,7 @@ div.zonal-asset {
   }
 }
 
-@media (max-width: 450px) {
+@media screen and (max-width: 450px) {
   .zonal-long-graph-label {
     &-exposure {
       .zonal-long-graph-label-text{
@@ -2122,21 +2114,21 @@ div.zonal-asset {
 }
 
 // responive explore buttons
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .zonal-long-graph-bars {
     height: 80px !important;
   }
 }
 
 // responive explore buttons
-@media (max-width: 450px) {
+@media screen and (max-width: 450px) {
   .zonal-long-graph-bars {
     height: 80px !important;
   }
 }
 
 // responive explore buttons
-@media (max-width: 375px) {
+@media screen and (max-width: 375px) {
   .zonal-long-graph-bars {
     height: 75px !important;
   }
@@ -2164,7 +2156,7 @@ div.zonal-asset {
 }
 
 // responive explore buttons
-@media (max-width: 360px) {
+@media screen and (max-width: 360px) {
   .zonal-long-graph-bars {
     height: 65px !important;
   }
@@ -2172,13 +2164,13 @@ div.zonal-asset {
 
 
 // responive explore buttons
-@media (max-width: 320px) {
+@media screen and (max-width: 320px) {
   .zonal-long-graph-bars {
     height: 45px !important;
   }
 }
 
-@media (max-width: 320px) {
+@media screen and (max-width: 320px) {
   .zonal-label {
     font-size: .8rem;
   }
@@ -2363,7 +2355,7 @@ $graph-tick-height-short: 5px;
   &:nth-child(2n) {
     $graph-tick-height-long: 35px;
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       $graph-tick-height-long: 15px;
     }
 
