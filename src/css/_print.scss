@@ -1,6 +1,6 @@
 $body-bg:    #343a40;
 $body-color: #e9ecef;
-$map_layer_list_printheight:  11.5in;
+$map_layer_list_printheight:  11in;
 $map_holder_printheight:  10.5in;
 
 @media print {
@@ -12,6 +12,8 @@ $map_holder_printheight:  10.5in;
 
   body {
     display: block !important;
+    height: auto !important;
+    overflow: visible !important;
     color: $body-color !important;
     background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
@@ -78,6 +80,8 @@ $map_holder_printheight:  10.5in;
     color-adjust: exact !important;
     page-break-after: always !important;
     break-after: always !important;
+    page-break-before: always !important;
+    break-before: always !important;
     #map {
       display: block !important;
       float: none !important;
@@ -89,6 +93,8 @@ $map_holder_printheight:  10.5in;
       page-break-inside: avoid  !important;
       page-break-after: always !important;
       break-after: always !important;
+      page-break-before: always !important;
+      break-before: always !important;
     }
   }
 
@@ -276,10 +282,18 @@ $map_holder_printheight:  10.5in;
   #basemaplist, .list-basemap, .layer-description-text,
   .custom-control-label::after, .custom-control-label::before,
   .bnt-MapLayersListToggle, .list-group-item-action,
-  .zonal-stats-button-holder, .zonal-stats-wrapper.d-none,
+  .zonal-long-button-wrapper.d-none, .zonal-stats-wrapper.d-none, .zonal-long-button,
   #zonal-header-f, #zonal-header  {
     display: none !important;
     float: none !important;
+  }
+
+  .zonal-long-button-wrapper {
+    .d-flex.col-xl-6.col-lg-6.col-med-6.col-sm-6.col-6 {
+      float: none !important;
+      width: 100% !important;
+      flex: unset !important;
+    }
   }
 
   .layer-legend-toggler, #legend-assets {
@@ -352,13 +366,68 @@ $map_holder_printheight:  10.5in;
     vertical-align: middle !important;
   }
 
+  #explore-holder .zonal-long-table-item {
+    display: inline-block !important;
+    width: 8in !important;
+    height: 18px !important;
+    line-height: 18px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  .zonal-long-raw-values {
+    margin-top: 80px !important;
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    .table {
+      background-color: $body-bg !important;
+
+      color: $body-color !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    .table-responsive,
+      .table-responsive tr,
+      .table-responsive th,
+      .table-responsive td, {
+      background-color: $body-bg !important;
+      color: $body-color !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+  }
+  #explore-holder .selected-cell {
+    position: relative !important;
+    border: 2.5px solid #ffc107 !important;
+    width: 100% !important;
+    height: 100% !important;
+    top: -5px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+  }
+
+  .zonal-long-fish-wildlife-wrapper,
+  .zonal-long-exposure-wrapper {
+    margin-top: 10px !important;
+  }
+
+  .zonal-long-hub-wrapper {
+    margin-top: 50px !important;
+  }
+
   .layer-legend .zonal-long-table-row-header-simple {
     position: relative !important;
     height: 20px !important;
   }
 
   .layer-legend, .zonal-long-table, .zonal-long-table-row,
-  .custom-control.custom-checkbox, .layer-toggle-wrapper, .LayerInput-header, .LayerList-spacer {
+  .custom-control.custom-checkbox, .layer-toggle-wrapper,
+  .LayerInput-header, .LayerList-spacer,
+  .zonal-long-asset-threat {
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
@@ -367,6 +436,49 @@ $map_holder_printheight:  10.5in;
     float: none !important;
     break-inside: avoid-page !important;
     page-break-inside: avoid !important;
+  }
+
+  #explore-holder {
+    .zonal-long-graph-wrapper, .zonal-long-table-wrapper {
+      margin-top: 2.5px !important;
+      margin-bottom: 2.5px !important;
+    }
+    .zonal-long-graph-bars {
+      max-height: 75px !important;
+    }
+    .zonal-long-table-row {
+      min-height: 30px !important;
+      max-height: 30px !important;
+      margin-top: 0px !important;
+    }
+    .zonal-long-graph-label-text {
+      position: relative !important;
+      top: 0px !important;
+      left: 0px !important;
+    }
+    .zonal-long-table-row-header-simple {
+      position: relative !important;
+      min-height: 20px !important;
+      max-height: 20px !important;
+    }
+    .zonal-long-asset-threat,
+    .zonal-long-exposure-box,
+    .zonal-long-asset-threat {
+      margin-top: 5px !important;
+    }
+    h5 {
+      font-size: 1rem !important;
+    }
+    .zonal-long-graph-labels {
+      max-height: 40px !important;
+    }
+    .sticky-top {
+      position: absolute !important;
+    }
+    .flex-column {
+      display: block !important;
+      flex-direction: unset !important;
+    }
   }
 
   .LayerList-spacer {
@@ -383,6 +495,30 @@ $map_holder_printheight:  10.5in;
   .data-row {
     display: block !important;
     float: none !important;
+    overflow: visible !important;
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    page-break-after: always !important;
+    break-after: always !important;
+    #zonal-area-wrapper {
+      display: block !important;
+      overflow: visible !important;
+    }
+    #zonal-content{
+      display: block !important;
+      overflow: visible !important;
+    }
+  }
+
+  #explore-holder {
+    position: unset !important;
+    display: block !important;
+    width: auto !important;
+    height: 100% !important;
+    overflow: visible !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
@@ -391,20 +527,10 @@ $map_holder_printheight:  10.5in;
     break-after: always !important;
   }
 
-  #explore-holder {
-    position: unset !important;
-    display: block !important;
-    width: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    background-color: $body-bg !important;
-    color: $body-color !important;
-    -webkit-print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-
   .explore-row, .explore-row-container {
     display: block !important;
+    height: 100% !important;
+    overflow: visible !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
@@ -430,6 +556,10 @@ $map_holder_printheight:  10.5in;
     page-break-inside: avoid !important;
   }
 
+  .zonal-stats-button-holder {
+    margin-top: 5px !important;
+  }
+
   .layer-toggle-wrapper {
     float: left !important;
     width: 25% !important;
@@ -440,6 +570,27 @@ $map_holder_printheight:  10.5in;
   .layer-legend-wrapper, .layer-legend-wrapper.closed {
     float: left !important;
     width: 75% !important;
+  }
+
+  .zonal-long-table-index {
+    margin-top: 5px !important;
+    display: block !important;
+    min-height: 80px !important;
+    h6 {
+      float: left !important;
+      width: 20% !important;
+      margin-top: 25px !important;
+      max-height: 20px !important;
+      height: 20px !important;
+      text-align: left !important;
+      padding-left: 0px !important;
+      font-size: .9rem !important;
+    }
+  }
+
+  .zonal-long-table-wrapper {
+    float: left !important;
+    width: 80% !important;
   }
 
   .userarealabel {
