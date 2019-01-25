@@ -1,5 +1,5 @@
-$body-bg:    #343a40;
-$body-color: #e9ecef;
+$body-bg:    white;
+$body-color: black;
 $map_layer_list_printheight:  11in;
 $map_holder_printheight:  10.5in;
 
@@ -15,6 +15,9 @@ $map_holder_printheight:  10.5in;
     height: auto !important;
     overflow: visible !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
@@ -44,6 +47,54 @@ $map_holder_printheight:  10.5in;
     height: auto !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  .bg-dark {
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
+  }
+
+  #main > span {
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  #exlpore-directions {
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    .bg-dark {
+      background-color: $body-bg !important;
+      color: $body-color !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    .navbar-explore-shapes {
+      &.bg-dark {
+        background-color: $body-bg !important;
+        color: $body-color !important;
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+    }
+  }
+
+  .sticky-top.sideheading {
+    background-color: $body-bg !important;
+    color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
@@ -52,10 +103,24 @@ $map_holder_printheight:  10.5in;
     display: block !important;
     float: none !important;
     padding: 15px !important;
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     h2 {
       display: block !important;
       float: none !important;
       padding: 15px !important;
+      background-color: $body-bg !important;
+      color: $body-color !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
     }
   }
 
@@ -64,6 +129,9 @@ $map_holder_printheight:  10.5in;
     float: none !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
@@ -76,12 +144,17 @@ $map_holder_printheight:  10.5in;
     width: $map_holder_printheight !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     page-break-after: always !important;
     break-after: always !important;
     page-break-before: always !important;
     break-before: always !important;
+    break-inside: avoid-page !important;
+    page-break-inside: avoid  !important;
     #map {
       display: block !important;
       float: none !important;
@@ -89,6 +162,9 @@ $map_holder_printheight:  10.5in;
       width: 100% !important;
       background-color: $body-bg !important;
       color: $body-color !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
       break-inside: avoid-page !important;
       page-break-inside: avoid  !important;
       page-break-after: always !important;
@@ -107,6 +183,9 @@ $map_holder_printheight:  10.5in;
     width: 100% !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     border: unset !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
@@ -128,6 +207,9 @@ $map_holder_printheight:  10.5in;
     border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     width: 100% !important;
@@ -152,6 +234,9 @@ $map_holder_printheight:  10.5in;
     border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
@@ -171,9 +256,21 @@ $map_holder_printheight:  10.5in;
     height: 100% !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     max-height: $map_layer_list_printheight !important;
+    &.bg-dark {
+      background-color: $body-bg !important;
+      color: $body-color !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
+    }
   }
 
   #mapListToggle {
@@ -185,6 +282,9 @@ $map_holder_printheight:  10.5in;
     border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     flex: unset !important;
@@ -198,6 +298,9 @@ $map_holder_printheight:  10.5in;
       height: auto !important;
       border: unset !important;
       color: $body-color !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
       background-color: $body-bg !important;
       -webkit-print-color-adjust: exact !important;
       color-adjust: exact !important;
@@ -215,6 +318,9 @@ $map_holder_printheight:  10.5in;
     border: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     max-height: $map_layer_list_printheight !important;
@@ -247,6 +353,9 @@ $map_holder_printheight:  10.5in;
     background-color:  $body-bg !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
   }
 
   .LayerList-Group {
@@ -254,6 +363,9 @@ $map_holder_printheight:  10.5in;
   }
 
   .LayerInput-header, .custom-control.custom-checkbox {
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     padding: unset !important;
     margin: unset !important;
   }
@@ -309,6 +421,22 @@ $map_holder_printheight:  10.5in;
     }
   }
 
+  .zonal-long-name {
+    color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
+  }
+
+  .zonal-long-graphs {
+    h5, h6, .zonal-long-table-header-simple {
+      color: $body-color !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
+    }
+  }
+
   .leaflet-control-container {
     .leaflet-top.leaflet-left {
       display: none !important;
@@ -321,6 +449,12 @@ $map_holder_printheight:  10.5in;
     }
   }
 
+  .leaflet-control-attribution {
+    color: #333 !important;
+    text-shadow: none !important;
+    -webkit-text-stroke: 0px #333 !important;
+  }
+
   .leaflet-tile  {
     mix-blend-mode: difference;
   }
@@ -330,6 +464,9 @@ $map_holder_printheight:  10.5in;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     border: unset !important;
     font-size: 1.5rem !important;
     svg {
@@ -352,13 +489,16 @@ $map_holder_printheight:  10.5in;
     will-change: unset !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     min-height: 40px !important;
   }
 
   .layer-legend .zonal-long-table-item {
-    display: inline-block !important;
+    display: inline !important;
     width: 8in !important;
     height: 15px !important;
     line-height: 15px !important;
@@ -367,7 +507,7 @@ $map_holder_printheight:  10.5in;
   }
 
   #explore-holder .zonal-long-table-item {
-    display: inline-block !important;
+    display: inline !important;
     width: 8in !important;
     height: 18px !important;
     line-height: 18px !important;
@@ -375,25 +515,41 @@ $map_holder_printheight:  10.5in;
     vertical-align: middle !important;
   }
 
+  .zonal-long-table-item {
+    // color: #000 !important;
+    -webkit-text-stroke: #000 !important;
+    text-shadow: 0 0 0 #000 !important;
+    // -webkit-text-stroke: 1px $body-bg !important;
+    // text-shadow: 0 0 0 $body-bg !important;
+  }
+
   .zonal-long-raw-values {
     margin-top: 80px !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     .table {
       background-color: $body-bg !important;
-
       color: $body-color !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
       -webkit-print-color-adjust: exact !important;
       color-adjust: exact !important;
     }
     .table-responsive,
-      .table-responsive tr,
-      .table-responsive th,
-      .table-responsive td, {
+    .table-responsive tr,
+    .table-responsive th,
+    .table-responsive td, {
       background-color: $body-bg !important;
       color: $body-color !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
       -webkit-print-color-adjust: exact !important;
       color-adjust: exact !important;
     }
@@ -430,6 +586,9 @@ $map_holder_printheight:  10.5in;
   .zonal-long-asset-threat {
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     border: unset !important;
@@ -438,7 +597,25 @@ $map_holder_printheight:  10.5in;
     page-break-inside: avoid !important;
   }
 
+  .zonal-long-wrapper {
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
+  }
   #explore-holder {
+    &.zonal-long-wrapper {
+      background-color: $body-bg !important;
+      color: $body-color !important;
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
+    }
     .zonal-long-graph-wrapper, .zonal-long-table-wrapper {
       margin-top: 2.5px !important;
       margin-bottom: 2.5px !important;
@@ -449,9 +626,13 @@ $map_holder_printheight:  10.5in;
     .zonal-long-table-row {
       min-height: 30px !important;
       max-height: 30px !important;
-      margin-top: 0px !important;
+      margin-top: 5px !important;
     }
     .zonal-long-graph-label-text {
+      color: $body-color !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
       position: relative !important;
       top: 0px !important;
       left: 0px !important;
@@ -470,13 +651,17 @@ $map_holder_printheight:  10.5in;
       font-size: 1rem !important;
     }
     .zonal-long-graph-labels {
+      color: $body-color !important;
+      // color: rgba(0, 0, 0, 0) !important;
+      // -webkit-text-stroke: 1px $body-color !important;
+      // text-shadow: 0 0 0 $body-color !important;
       max-height: 40px !important;
     }
     .sticky-top {
       position: absolute !important;
     }
     .flex-column {
-      display: block !important;
+      display: inline !important;
       flex-direction: unset !important;
     }
   }
@@ -498,6 +683,9 @@ $map_holder_printheight:  10.5in;
     overflow: visible !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     height: auto !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
@@ -510,35 +698,66 @@ $map_holder_printheight:  10.5in;
     #zonal-content{
       display: block !important;
       overflow: visible !important;
+      &.zonal-long-wrapper {
+        background-color: $body-bg !important;
+        color: $body-color !important;
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        // color: rgba(0, 0, 0, 0) !important;
+        // -webkit-text-stroke: 1px $body-color !important;
+        // text-shadow: 0 0 0 $body-color !important;
+      }
+    }
+    &.flex-fill {
+      flex-grow: unset !important;
+      flex-shrink: unset !important;
+      flex-basis: unset !important;
     }
   }
 
   #explore-holder {
     position: unset !important;
-    display: block !important;
+    display: inline !important;
     width: auto !important;
     height: 100% !important;
     overflow: visible !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     page-break-after: always !important;
     break-after: always !important;
+    &.flex-fill {
+      flex-grow: unset !important;
+      flex-shrink: unset !important;
+      flex-basis: unset !important;
+    }
   }
 
   .explore-row, .explore-row-container {
-    display: block !important;
+    display: inline !important;
     height: 100% !important;
     overflow: visible !important;
     background-color: $body-bg !important;
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
+    &.d-flex {
+      display: inline !important;
+    }
+    &.row {
+      flex-wrap: unset !important;
+    }
   }
 
   .explore-row-container {
-    display: block !important;
+    display: inline !important;
     background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
@@ -556,8 +775,13 @@ $map_holder_printheight:  10.5in;
     page-break-inside: avoid !important;
   }
 
-  .zonal-stats-button-holder {
+  #zonal-stats-button-holder, .zonal-stats-button-holder,
+  .zonal-long-button-wrapper, .bg-dark {
     margin-top: 5px !important;
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .layer-toggle-wrapper {
@@ -579,7 +803,7 @@ $map_holder_printheight:  10.5in;
     h6 {
       float: left !important;
       width: 20% !important;
-      margin-top: 25px !important;
+      margin-top: 30px !important;
       max-height: 20px !important;
       height: 20px !important;
       text-align: left !important;
@@ -595,178 +819,180 @@ $map_holder_printheight:  10.5in;
 
   .userarealabel {
     color: $body-color !important;
+    // color: rgba(0, 0, 0, 0) !important;
+    // -webkit-text-stroke: 1px $body-color !important;
+    // text-shadow: 0 0 0 $body-color !important;
   }
-
 
   .layer-legend .zonal-long-table-cell {
     &-hub{
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-asset {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-threat {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-exposure-box {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-fish {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-wildlife {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-popdensity {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-socvuln {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-critfac {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-critinfra {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-drainage {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-erosion {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-floodprone {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-slr {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-stormsurge {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-geostress {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
 
     &-slope {
       &-none {
-       display: none !important;
-     }
+        display: none !important;
+      }
 
-     &-zero {
-       display: none !important;
-     }
+      &-zero {
+        display: none !important;
+      }
     }
   }
 
