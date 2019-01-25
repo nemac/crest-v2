@@ -82,6 +82,8 @@ $map_holder_printheight:  10.5in;
     break-after: always !important;
     page-break-before: always !important;
     break-before: always !important;
+    break-inside: avoid-page !important;
+    page-break-inside: avoid  !important;
     #map {
       display: block !important;
       float: none !important;
@@ -358,7 +360,7 @@ $map_holder_printheight:  10.5in;
   }
 
   .layer-legend .zonal-long-table-item {
-    display: inline-block !important;
+    display: inline !important;
     width: 8in !important;
     height: 15px !important;
     line-height: 15px !important;
@@ -367,7 +369,7 @@ $map_holder_printheight:  10.5in;
   }
 
   #explore-holder .zonal-long-table-item {
-    display: inline-block !important;
+    display: inline !important;
     width: 8in !important;
     height: 18px !important;
     line-height: 18px !important;
@@ -476,7 +478,7 @@ $map_holder_printheight:  10.5in;
       position: absolute !important;
     }
     .flex-column {
-      display: block !important;
+      display: inline !important;
       flex-direction: unset !important;
     }
   }
@@ -511,11 +513,16 @@ $map_holder_printheight:  10.5in;
       display: block !important;
       overflow: visible !important;
     }
+    &.flex-fill {
+      flex-grow: unset !important;
+      flex-shrink: unset !important;
+      flex-basis: unset !important;
+    }
   }
 
   #explore-holder {
     position: unset !important;
-    display: block !important;
+    display: inline !important;
     width: auto !important;
     height: 100% !important;
     overflow: visible !important;
@@ -525,20 +532,31 @@ $map_holder_printheight:  10.5in;
     color-adjust: exact !important;
     page-break-after: always !important;
     break-after: always !important;
+    &.flex-fill {
+      flex-grow: unset !important;
+      flex-shrink: unset !important;
+      flex-basis: unset !important;
+    }
   }
 
   .explore-row, .explore-row-container {
-    display: block !important;
+    display: inline !important;
     height: 100% !important;
     overflow: visible !important;
     background-color: $body-bg !important;
     color: $body-color !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
+    &.d-flex {
+      display: inline !important;
+    }
+    &.row {
+      flex-wrap: unset !important;
+    }
   }
 
   .explore-row-container {
-    display: block !important;
+    display: inline !important;
     background-color: $body-bg !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
