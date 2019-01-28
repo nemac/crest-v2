@@ -53,7 +53,7 @@ export class CaseStudies {
           step.name);
 
         if (step.nexthtmlid) {
-          CaseStudies.addNextEvent(step.htmlid,
+          this.addNextEvent(step.htmlid,
             step.nexthtmlid,
             study.htmlid,
             step.position);
@@ -213,11 +213,14 @@ export class CaseStudies {
     });
   }
 
-  static addNextEvent(htmlid, nexthtmlid, studyhtmlid, position) {
+  addNextEvent(htmlid, nexthtmlid, studyhtmlid, position) {
     const selector = `#${htmlid} #action`;
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener('click', (e) => {
+        this.unCheckLayers();
+        CaseStudies.collapseLayerLegends();
+
         CaseStudies.descriptionOff();
         CaseStudies.addPosition(studyhtmlid, position);
         CaseStudies.displayOffStep(htmlid);
@@ -236,6 +239,9 @@ export class CaseStudies {
           CaseStudies.collapseLayerLegends();
           this.drawAreaGroup.clearLayers();
         }
+        this.unCheckLayers();
+        CaseStudies.collapseLayerLegends();
+
         CaseStudies.addPosition(studyhtmlid, position);
         CaseStudies.displayOffStep(htmlid);
         CaseStudies.displayOnStep(lasthtmlid);
@@ -317,6 +323,8 @@ export class CaseStudies {
     const elem = document.querySelector(selector);
     if (elem) {
       elem.addEventListener('click', (e) => {
+        this.unCheckLayers();
+        CaseStudies.collapseLayerLegends();
         this.drawCaseStudyArea(JSON.parse(geojson), label);
       });
       CaseStudies.displayActionButton(elem);
