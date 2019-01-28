@@ -74,10 +74,10 @@ caseStudies:
           legendToggle: AquaticTMS
           legendScroll: 250
         lastactions:
-          name: Critical Infrastructure
-          layerToggle: CriticalInfrastructureTMS
-          legendToggle: CriticalInfrastructureTMS
-          legendScroll: 300
+          name: Storm Surge
+          layerToggle: StormSurgeTMS
+          legendToggle: StormSurgeTMS
+          legendScroll: 900
 
       - name: Aquatic Index
         htmlid: sandy-case-study-step-5
