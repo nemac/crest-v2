@@ -2,7 +2,7 @@ caseStudies:
   - name: Hurricane Sandy
     htmlid: sandy-case-study-main
     narrative: Because of its size and strength, this devastating storm informed specific datasets to include in the regional coastal assessment. Of particular importance was the transportation infrastructure used in the Critical Infrastructure input.
-    totalsteps: 6
+    totalsteps: 7
     steps:
       - name: Start
         htmlid: sandy-case-study-step-0
@@ -52,7 +52,7 @@ caseStudies:
         narrative: "White Horse Pike could be inundated with storm surge scenarios from conditions as low as Category 1 storms."
         position: 3
         actions:
-          name: Show Community Exposure
+          name: Community Exposure Index
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
@@ -69,33 +69,67 @@ caseStudies:
         position: 4
         narrative: "White Horse Pike is highly exposed, suggesting that it is impacted by several inputs in the Threat Index."
         actions:
-          name: none
+          name: Aquatic Index
+          layerToggle: AquaticTMS
+          legendToggle: AquaticTMS
+          legendScroll: 250
         lastactions:
-          name: Storm Surge
-          layerToggle: StormSurgeTMS
-          legendToggle: StormSurgeTMS
-          legendScroll: 900
+          name: Critical Infrastructure
+          layerToggle: CriticalInfrastructureTMS
+          legendToggle: CriticalInfrastructureTMS
+          legendScroll: 300
 
-      - name: Explore
+      - name: Aquatic Index
         htmlid: sandy-case-study-step-5
         lasthtmlid: sandy-case-study-step-4
-        nexthtmlid:  sandy-case-study-step-5
-        narrative: Explore White Horse Pike in the viewer.
+        nexthtmlid:  sandy-case-study-step-6
         position: 5
+        narrative: "This area has a very high value in the Aquatic Index. Altogether, this area scores very high in wildlife habitat suitability and species presence."
         actions:
-          name: Explore in the Viewer
-          viewerlink: /?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A39.40138214739658%2C%22lng%22%3A-74.44979667663576%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A13%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe1a77010acfb0f5f879a092fddc10e31%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2Fa8d31a25a5044c8436e63d9cf6fd3bc7%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F6a201e1507b7e6d2108ceb57cf97dcc6%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
+          name: Resilience Hubs
+          layerToggle: HubsTMS
+          legendToggle: HubsTMS
+          legendScroll: 10
         lastactions:
           name: Community Exposure Index
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
 
+      - name: Resilience Hubs
+        htmlid: sandy-case-study-step-6
+        lasthtmlid: sandy-case-study-step-5
+        nexthtmlid:  sandy-case-study-step-7
+        position: 6
+        narrative: "Within the area around the Pike, there are three areas that are highly ranked as hubs. Higher rank values help place projects where there are greater dual benefits for both human and wildlife communities."
+        actions:
+          name: none
+        lastactions:
+          name: Aquatic Index
+          layerToggle: AquaticTMS
+          legendToggle: AquaticTMS
+          legendScroll: 250
+
+      - name: Explore
+        htmlid: sandy-case-study-step-7
+        lasthtmlid: sandy-case-study-step-6
+        nexthtmlid:  sandy-case-study-step-7
+        narrative: Explore White Horse Pike in the viewer.
+        position: 7
+        actions:
+          name: Explore in the Viewer
+          viewerlink: /?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A39.40138214739658%2C%22lng%22%3A-74.44979667663576%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A13%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe1a77010acfb0f5f879a092fddc10e31%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2Fa8d31a25a5044c8436e63d9cf6fd3bc7%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F6a201e1507b7e6d2108ceb57cf97dcc6%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
+        lastactions:
+          name: Resilience Hubs
+          layerToggle: HubsTMS
+          legendToggle: HubsTMS
+          legendScroll: 10
+
 
   - name: Hurricane Harvey
     htmlid: harvey-case-study-main
     narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area. This assessment incorporates many inputs that would help planners prepare plans to improve community resilience around urban waterways.
-    totalsteps: 7
+    totalsteps: 8
     steps:
       - name: Start
         position: 0
@@ -179,32 +213,66 @@ caseStudies:
         nexthtmlid: harvey-case-study-step-6
         narrative: "Buffalo Bayou is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index. "
         actions:
-          name: none
+          name: Aquatic Index
+          layerToggle: AquaticTMS
+          legendToggle: AquaticTMS
+          legendScroll: 250
         lastactions:
           name: Show Flood-Prone Areas Threat Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
           legendScroll: 750
 
-      - name: The viewer
-        position: 6
+      - name: Aquatic Index
         lasthtmlid: harvey-case-study-step-5
         htmlid: harvey-case-study-step-6
-        nexthtmlid: harvey-case-study-step-6
+        nexthtmlid: harvey-case-study-step-7
+        position: 6
+        narrative: "The area surrounding Buffalo Bayou Park is low in the Aquatic Index, suggesting that this area is not a very suitable habitat for at-risk species but a few species may be found here."
+        actions:
+          name: Resilience Hubs
+          layerToggle: HubsTMS
+          legendToggle: HubsTMS
+          legendScroll: 10
+        lastactions:
+          name: Community Exposure Index
+          layerToggle: ExposureTMS
+          legendToggle: ExposureTMS
+          legendScroll: 220
+
+      - name: Resilience Hubs
+        lasthtmlid: harvey-case-study-step-6
+        htmlid: harvey-case-study-step-7
+        nexthtmlid: harvey-case-study-step-8
+        position: 7
+        narrative: "Within the area around the Pike, there are three areas that are highly ranked as hubs. Higher rank values help place projects where there are greater dual benefits for both human and wildlife communities."
+        actions:
+          name: none
+        lastactions:
+          name: Aquatic Index
+          layerToggle: AquaticTMS
+          legendToggle: AquaticTMS
+          legendScroll: 250
+
+      - name: The viewer
+        position: 8
+        lasthtmlid: harvey-case-study-step-7
+        htmlid: harvey-case-study-step-8
+        nexthtmlid: harvey-case-study-step-8
         narrative: Explore Buffalo Bayou in the viewer.
         actions:
           name: Explore in the Viewer
           viewerlink: ?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A29.76014899029522%2C%22lng%22%3A-95.38349390029909%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fc28319c253fed293bedf0d8cda0c7f23%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F32806e3502be4359e917d6ea1a1e4230%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2Fc8f5c0a4046277da5397b9db9717c1cf%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
-          name: Show Community Exposure
-          layerToggle: ExposureTMS
-          legendToggle: ExposureTMS
-          legendScroll: 220
+          name: Resilience Hubs
+          layerToggle: HubsTMS
+          legendToggle: HubsTMS
+          legendScroll: 10
 
   - name: Hurricane Florence
     htmlid: florence-case-study-main
     narrative: "Hurricane Florence was a slow-moving storm that produced extensive flooding throughout coastal North Carolina. Most notably, the town of Wilmington was essentially cut-off from the rest of the state for a time as a result of flooding from the storm."
-    totalsteps: 7
+    totalsteps: 8
     steps:
       - name: Start
         position: 0
@@ -264,7 +332,7 @@ caseStudies:
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
           legendScroll: 300
-          
+
       - name: Storm Surge
         position: 4
         lasthtmlid: florence-case-study-step-3
@@ -290,24 +358,58 @@ caseStudies:
         nexthtmlid: florence-case-study-step-6
         narrative: "As a result of the combination of assets and threats, this particular area of Water Street, housing the iconic J.W. Brooks building, is calculated as having high exposure in this assessment."
         actions:
-          name: none
+          name: Terrestrial Index
+          layerToggle: TerrestrialTMS
+          legendToggle: TerrestrialTMS
+          legendScroll: 250
         lastactions:
           name: Storm Surge
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
 
-      - name: The viewer
-        position: 6
+      - name: Terrestrial Index
         lasthtmlid: florence-case-study-step-5
         htmlid: florence-case-study-step-6
-        nexthtmlid: florence-case-study-step-6
-        narrative: Explore Wilmington, N.C. in the viewer.
+        nexthtmlid: florence-case-study-step-7
+        position: 6
+        narrative: "This area of Water Street has a high value in the Terrestrial Index. Altogether, this area scores very high in habitat suitability and species presence."
         actions:
-          name: Explore in the Viewer
-          viewerlink: /?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
+          name: Resilience Hubs
+          layerToggle: HubsTMS
+          legendToggle: HubsTMS
+          legendScroll: 10
         lastactions:
           name: Community Exposure Index
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
+
+      - name: Resilience Hubs
+        lasthtmlid: florence-case-study-step-6
+        htmlid: florence-case-study-step-7
+        nexthtmlid: florence-case-study-step-8
+        position: 7
+        narrative: "There are no Hubs found inside the area drawn on the map. However, some exist closeby. The lack of Hubs is likely a result of the open space selection process that determines suitability. It is not common for Hubs to be located in urban areas because of the size threshold applied during this process."
+        actions:
+          name: none
+        lastactions:
+          name: Terrestrial Index
+          layerToggle: TerrestrialTMS
+          legendToggle: TerrestrialTMS
+          legendScroll: 250
+
+      - name: The viewer
+        position: 8
+        lasthtmlid: florence-case-study-step-7
+        htmlid: florence-case-study-step-8
+        nexthtmlid: florence-case-study-step-8
+        narrative: Explore Wilmington, N.C. in the viewer.
+        actions:
+          name: Explore in the Viewer
+          viewerlink: /?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
+        lastactions:
+          name: Resilience Hubs
+          layerToggle: HubsTMS
+          legendToggle: HubsTMS
+          legendScroll: 10
