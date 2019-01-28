@@ -1,7 +1,7 @@
 caseStudies:
   - name: Hurricane Sandy
     htmlid: sandy-case-study-main
-    narrative: Because of its size and strength, this devastating storm allowed a better understanding of specific datasets to include in the regional coastal assessment. Of particular importance was transportation infrastructure used in the Critical Infrastructure input.
+    narrative: Because of its size and strength, this devastating storm informed specific datasets to include in the regional coastal assessment. Of particular importance was the transportation infrastructure used in the Critical Infrastructure input.
     totalsteps: 6
     steps:
       - name: Start
@@ -21,7 +21,7 @@ caseStudies:
         htmlid: sandy-case-study-step-1
         lasthtmlid: sandy-case-study-step-0
         nexthtmlid:  sandy-case-study-step-2
-        narrative: U.S. Route 30 (White Horse Pike), Atlantic City One of the main entry points into Atlantic City.
+        narrative: "U.S. Route 30 (White Horse Pike) is one of the main entry points into Atlantic City, NJ."
         position: 1
         actions:
           name: Show Critical Infrastructure Asset Input
@@ -31,25 +31,25 @@ caseStudies:
         lastactions:
           name: none
 
-      - name: Critical Infrastructure Assets
+      - name: Critical Infrastructure
         htmlid: sandy-case-study-step-2
         lasthtmlid: sandy-case-study-step-1
         nexthtmlid:  sandy-case-study-step-3
-        narrative: White Horse Pike is shown in the Critical Infrastructure input.
+        narrative: "White Horse Pike is in the Critical Infrastructure input as both a major road and an evacuation route, giving it a value of 2."
         position: 2
         actions:
-          name: Show Storm Surge Threat Input
+          name: Storm Surge
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
         lastactions:
           name: none
 
-      - name: Strom Surge Threats
+      - name: Storm Surge
         htmlid: sandy-case-study-step-3
         lasthtmlid: sandy-case-study-step-2
         nexthtmlid:  sandy-case-study-step-4
-        narrative: "Storm Surge Threats: White Horse Pike could be inundated with storm surge scenarios from conditions as low as Category 1 storms."
+        narrative: "White Horse Pike could be inundated with storm surge scenarios from conditions as low as Category 1 storms."
         position: 3
         actions:
           name: Show Community Exposure
@@ -57,21 +57,21 @@ caseStudies:
           legendToggle: ExposureTMS
           legendScroll: 220
         lastactions:
-          name: Show Critical Infrastructure Asset Input
+          name: Critical Infrastructure
           layerToggle: CriticalInfrastructureTMS
           legendToggle: CriticalInfrastructureTMS
           legendScroll: 300
 
-      - name: Community Exposure
+      - name: Community Exposure Index
         htmlid: sandy-case-study-step-4
         lasthtmlid: sandy-case-study-step-3
         nexthtmlid:  sandy-case-study-step-5
         position: 4
-        narrative: "Community Exposure: White Horse Pike is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index."
+        narrative: "White Horse Pike is highly exposed, suggesting that it is impacted by several inputs in the Threat Index."
         actions:
           name: none
         lastactions:
-          name: Show Storm Surge Threat Input
+          name: Storm Surge
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
@@ -86,17 +86,15 @@ caseStudies:
           name: Explore in the Viewer
           viewerlink: /?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A39.40138214739658%2C%22lng%22%3A-74.44979667663576%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A13%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe1a77010acfb0f5f879a092fddc10e31%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2Fa8d31a25a5044c8436e63d9cf6fd3bc7%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F6a201e1507b7e6d2108ceb57cf97dcc6%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
-          name: Show Community Exposure
+          name: Community Exposure Index
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
 
 
-
-
   - name: Hurricane Harvey
     htmlid: harvey-case-study-main
-    narrative: Buffalo Bayou, Houston.
+    narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area. This assessment incorporates many inputs that would help planners prepare plans to improve community resilience around urban waterways.
     totalsteps: 7
     steps:
       - name: Start
@@ -104,7 +102,7 @@ caseStudies:
         htmlid: harvey-case-study-step-0
         lasthtmlid: harvey-case-study-step-0
         nexthtmlid: harvey-case-study-step-1
-        narrative: "Start: Explore the Hurricane Harvey study."
+        narrative: "Explore the Hurricane Harvey study."
         actions:
           name: View it on the map
           geojsonlabel: Buffalo Bayou
@@ -117,21 +115,21 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-0
         htmlid: harvey-case-study-step-1
         nexthtmlid: harvey-case-study-step-2
-        narrative: "Location: Buffalo Bayou, Houston."
+        narrative: "Buffalo Bayou, which flows through Houston, TX, is surrounded by parks and established neighborhoods. The Buffalo Bayou Park is outlined here."
         actions:
-          name: Show Population Density Asset Input
+          name: Population Density
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
           legendScroll: 300
         lastactions:
           name: none;
 
-      - name: Population Density Assets
+      - name: Population Density
         position: 2
         lasthtmlid: harvey-case-study-step-1
         htmlid: harvey-case-study-step-2
         nexthtmlid: harvey-case-study-step-3
-        narrative: The Population Density input shows densely populated areas outside of the park.
+        narrative: "The Population Density input helps identify the most densely populated census blocks in the neighborhoods around the Park."
         actions:
           name: Social Vulnerability Assets
           layerToggle: SocVulnTMS
@@ -140,19 +138,19 @@ caseStudies:
         lastactions:
           name: none;
 
-      - name: Social Vulnerability Assets
+      - name: Social Vulnerability
         position: 3
         lasthtmlid: harvey-case-study-step-2
         htmlid: harvey-case-study-step-3
         nexthtmlid: harvey-case-study-step-4
-        narrative: "Social Vulnerability Assets: The densely populated areas around the park include socially vulnerable populations, as indicated by the Social Vulnerability input."
+        narrative: "The densely populated areas around the park include socially vulnerable populations, as indicated by the Social Vulnerability Input."
         actions:
-          name: Show Critical Flood-Prone Areas Threat Input
+          name: Flood-Prone Areas
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
           legendScroll: 750
         lastactions:
-          name: Show Population Density Asset Input
+          name: Population Density
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
           legendScroll: 300
@@ -162,28 +160,28 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-3
         htmlid: harvey-case-study-step-4
         nexthtmlid: harvey-case-study-step-5
-        narrative: "Flood-Prone Areas: The Flood-Prone Areas input suggests that the Bayou and surrounding area are at risk for flooding."
+        narrative: "This input shows flood-zone areas identified by FEMA and soils outside of those zones with the potential for flooding. The majority of the area identified here is part of the Park."
         actions:
-          name: Show Community Exposure
+          name: Show Community Exposure Index
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
         lastactions:
-          name: Show Social Vulnerability Asset Input
+          name: Social Vulnerability
           layerToggle: SocVulnTMS
           legendToggle: SocVulnTMS
           legendScroll: 300
 
-      - name: Community Exposure
+      - name: Community Exposure Index
         position: 5
         lasthtmlid: harvey-case-study-step-4
         htmlid: harvey-case-study-step-5
         nexthtmlid: harvey-case-study-step-6
-        narrative: "Community Exposure: Buffalo Bayou is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index."
+        narrative: "Buffalo Bayou is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index. "
         actions:
           name: none
         lastactions:
-          name: Show Critical Flood-Prone Areas Threat Input
+          name: Show Flood-Prone Areas Threat Input
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
           legendScroll: 750
@@ -205,7 +203,7 @@ caseStudies:
 
   - name: Hurricane Florence
     htmlid: florence-case-study-main
-    narrative: Water Street, Wilmington, North Carolina.
+    narrative: "Hurricane Florence was a slow-moving storm that produced extensive flooding throughout coastal North Carolina. Most notably, the town of Wilmington was essentially cut-off from the rest of the state for a time as a result of flooding from the storm."
     totalsteps: 7
     steps:
       - name: Start
@@ -213,7 +211,7 @@ caseStudies:
         htmlid: florence-case-study-step-0
         lasthtmlid: florence-case-study-step-0
         nexthtmlid: florence-case-study-step-1
-        narrative: "Start: Explore the Hurricane Florence study"
+        narrative: "Explore the Hurricane Florence study."
         actions:
           name: View it on the map
           geojsonlabel: Water Street
@@ -226,74 +224,75 @@ caseStudies:
         lasthtmlid: florence-case-study-step-0
         htmlid: florence-case-study-step-1
         nexthtmlid: florence-case-study-step-2
-        narrative: "Location: Water Street is in Wilmington’s historic riverfront area."
+        narrative: "Water Street is in Wilmington’s historic riverfront area, located on the Cape Fear River."
         actions:
-          name: Show Population Density Asset Input
+          name: Population Density
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
           legendScroll: 300
         lastactions:
           name: none;
 
-      - name: Population Density Assets
+      - name: Population Density
         position: 2
         lasthtmlid: florence-case-study-step-1
         htmlid: florence-case-study-step-2
         nexthtmlid: florence-case-study-step-3
-        narrative: The area is home to restaurants, shops, bed and breakfasts, and is also where some Wilmington residents make their home.
+        narrative: "In addition to restaurants, shops, and bed and breakfasts, this area is home to many full-time residents. This input suggests the majority of the area is low density with a few neighboring areas of moderate density."
         actions:
-          name: Show Social Vulnerability Asset Input
+          name: Flood-Prone Areas
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
-          legendScroll: 750
+          legendScroll: 300
         lastactions:
-          name: none;
+              name: none;
 
-      - name: Social Vulnerability Assets
+
+      - name: Flood-Prone Areas
         position: 3
         lasthtmlid: florence-case-study-step-2
         htmlid: florence-case-study-step-3
         nexthtmlid: florence-case-study-step-4
-        narrative: "Social Vulnerability Assets: Since this area sits on the Cape Fear River, it is not surprising that it is threatened by many of the hazards identified in the Threat Index. including Flood-Prone Areas."
+        narrative: "Since this area sits on the Cape Fear River, it is not surprising that it is threatened by many of the hazards identified in the Threat Index, including Flood-Prone Areas"
         actions:
-          name: Show Critical Flood-Prone Areas Threat Input
+          name: Storm Surge
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
         lastactions:
-          name: Show Population Density Asset Input
+          name: Population Density
           layerToggle: PopDensityTMS
           legendToggle: PopDensityTMS
           legendScroll: 300
-
-      - name: Flood-Prone Areas
+          
+      - name: Storm Surge
         position: 4
         lasthtmlid: florence-case-study-step-3
         htmlid: florence-case-study-step-4
         nexthtmlid: florence-case-study-step-5
-        narrative: "Flood-Prone Areas: Some areas are also threatened by storm surge"
+        narrative: "“Storm Surge” Data from the National Hurricane Center suggests that this area of Water Street could be inundated by storm Categories 1-5. It is important to visualize this threat in low-lying coastal areas."
         actions:
-          name: Show Community Exposure
+          name: Community Exposure Index
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
         lastactions:
-          name: Show Social Vulnerability Asset Input
+          name: Flood-Prone Areas
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
-          legendScroll: 750
+          legendScroll: 300
 
 
-      - name: Community Exposure
+      - name: Community Exposure Index
         position: 5
         lasthtmlid: florence-case-study-step-4
         htmlid: florence-case-study-step-5
         nexthtmlid: florence-case-study-step-6
-        narrative: "Community Exposure: This particular area of Water Street, housing the J.W. Brooks building is calculated as having high exposure in this assessment."
+        narrative: "As a result of the combination of assets and threats, this particular area of Water Street, housing the iconic J.W. Brooks building, is calculated as having high exposure in this assessment."
         actions:
           name: none
         lastactions:
-          name: Show Critical Flood-Prone Areas Threat Input
+          name: Storm Surge
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
@@ -303,12 +302,12 @@ caseStudies:
         lasthtmlid: florence-case-study-step-5
         htmlid: florence-case-study-step-6
         nexthtmlid: florence-case-study-step-6
-        narrative: Explore Wilmington in the viewer.
+        narrative: Explore Wilmington, N.C. in the viewer.
         actions:
           name: Explore in the Viewer
           viewerlink: /?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
-          name: Show Community Exposure
+          name: Community Exposure Index
           layerToggle: ExposureTMS
           legendToggle: ExposureTMS
           legendScroll: 220
