@@ -129,7 +129,7 @@ caseStudies:
   - name: Hurricane Harvey
     htmlid: harvey-case-study-main
     narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area. This assessment incorporates many inputs that would help planners prepare plans to improve community resilience around urban waterways.
-    totalsteps: 8
+    totalsteps: 7
     steps:
       - name: Start
         position: 0
@@ -165,35 +165,18 @@ caseStudies:
         nexthtmlid: harvey-case-study-step-3
         narrative: "The Population Density input helps identify the most densely populated census blocks in the neighborhoods around the Park."
         actions:
-          name: Social Vulnerability Assets
-          layerToggle: SocVulnTMS
-          legendToggle: SocVulnTMS
-          legendScroll: 300
-        lastactions:
-          name: none;
-
-      - name: Social Vulnerability
-        position: 3
-        lasthtmlid: harvey-case-study-step-2
-        htmlid: harvey-case-study-step-3
-        nexthtmlid: harvey-case-study-step-4
-        narrative: "The densely populated areas around the park include socially vulnerable populations, as indicated by the Social Vulnerability Input."
-        actions:
           name: Flood-Prone Areas
           layerToggle: FloodProneAreasTMS
           legendToggle: FloodProneAreasTMS
           legendScroll: 750
         lastactions:
-          name: Population Density
-          layerToggle: PopDensityTMS
-          legendToggle: PopDensityTMS
-          legendScroll: 300
+          name: none;
 
       - name: Flood-Prone Areas
-        position: 4
-        lasthtmlid: harvey-case-study-step-3
-        htmlid: harvey-case-study-step-4
-        nexthtmlid: harvey-case-study-step-5
+        position: 3
+        lasthtmlid: harvey-case-study-step-2
+        htmlid: harvey-case-study-step-3
+        nexthtmlid: harvey-case-study-step-4
         narrative: "This input shows flood-zone areas identified by FEMA and soils outside of those zones with the potential for flooding. The majority of the area identified here is part of the Park."
         actions:
           name: Show Community Exposure Index
@@ -201,16 +184,16 @@ caseStudies:
           legendToggle: ExposureTMS
           legendScroll: 220
         lastactions:
-          name: Social Vulnerability
-          layerToggle: SocVulnTMS
-          legendToggle: SocVulnTMS
+          name: Population Density
+          layerToggle: PopDensityTMS
+          legendToggle: PopDensityTMS
           legendScroll: 300
 
       - name: Community Exposure Index
-        position: 5
-        lasthtmlid: harvey-case-study-step-4
-        htmlid: harvey-case-study-step-5
-        nexthtmlid: harvey-case-study-step-6
+        position: 4
+        lasthtmlid: harvey-case-study-step-3
+        htmlid: harvey-case-study-step-4
+        nexthtmlid: harvey-case-study-step-5
         narrative: "Buffalo Bayou is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index. "
         actions:
           name: Aquatic Index
@@ -224,10 +207,10 @@ caseStudies:
           legendScroll: 750
 
       - name: Aquatic Index
-        lasthtmlid: harvey-case-study-step-5
-        htmlid: harvey-case-study-step-6
-        nexthtmlid: harvey-case-study-step-7
-        position: 6
+        lasthtmlid: harvey-case-study-step-4
+        htmlid: harvey-case-study-step-5
+        nexthtmlid: harvey-case-study-step-6
+        position: 5
         narrative: "The area surrounding Buffalo Bayou Park is low in the Aquatic Index, suggesting that this area is not a very suitable habitat for at-risk species but a few species may be found here."
         actions:
           name: Resilience Hubs
@@ -241,10 +224,10 @@ caseStudies:
           legendScroll: 220
 
       - name: Resilience Hubs
-        lasthtmlid: harvey-case-study-step-6
-        htmlid: harvey-case-study-step-7
-        nexthtmlid: harvey-case-study-step-8
-        position: 7
+        lasthtmlid: harvey-case-study-step-5
+        htmlid: harvey-case-study-step-6
+        nexthtmlid: harvey-case-study-step-7
+        position: 6
         narrative: "Within the area around the Pike, there are three areas that are highly ranked as hubs. Higher rank values help place projects where there are greater dual benefits for both human and wildlife communities."
         actions:
           name: none
@@ -255,10 +238,10 @@ caseStudies:
           legendScroll: 250
 
       - name: The viewer
-        position: 8
-        lasthtmlid: harvey-case-study-step-7
-        htmlid: harvey-case-study-step-8
-        nexthtmlid: harvey-case-study-step-8
+        position: 7
+        lasthtmlid: harvey-case-study-step-6
+        htmlid: harvey-case-study-step-7
+        nexthtmlid: harvey-case-study-step-7
         narrative: Explore Buffalo Bayou in the viewer.
         actions:
           name: Explore in the Viewer
@@ -272,7 +255,7 @@ caseStudies:
   - name: Hurricane Florence
     htmlid: florence-case-study-main
     narrative: "Hurricane Florence was a slow-moving storm that produced extensive flooding throughout coastal North Carolina. Most notably, the town of Wilmington was essentially cut-off from the rest of the state for a time as a result of flooding from the storm."
-    totalsteps: 8
+    totalsteps: 7
     steps:
       - name: Start
         position: 0
@@ -308,36 +291,35 @@ caseStudies:
         nexthtmlid: florence-case-study-step-3
         narrative: "In addition to restaurants, shops, and bed and breakfasts, this area is home to many full-time residents. This input suggests the majority of the area is low density with a few neighboring areas of moderate density."
         actions:
-          name: Flood-Prone Areas
-          layerToggle: FloodProneAreasTMS
-          legendToggle: FloodProneAreasTMS
-          legendScroll: 300
-        lastactions:
-              name: none;
-
-
-      - name: Flood-Prone Areas
-        position: 3
-        lasthtmlid: florence-case-study-step-2
-        htmlid: florence-case-study-step-3
-        nexthtmlid: florence-case-study-step-4
-        narrative: "Since this area sits on the Cape Fear River, it is not surprising that it is threatened by many of the hazards identified in the Threat Index, including Flood-Prone Areas"
-        actions:
           name: Storm Surge
           layerToggle: StormSurgeTMS
           legendToggle: StormSurgeTMS
           legendScroll: 900
         lastactions:
-          name: Population Density
-          layerToggle: PopDensityTMS
-          legendToggle: PopDensityTMS
-          legendScroll: 300
+              name: none;
+
+      # - name: Flood-Prone Areas
+      #   position: 3
+      #   lasthtmlid: florence-case-study-step-2
+      #   htmlid: florence-case-study-step-3
+      #   nexthtmlid: florence-case-study-step-4
+      #   narrative: "Since this area sits on the Cape Fear River, it is not surprising that it is threatened by many of the hazards identified in the Threat Index, including Flood-Prone Areas"
+      #   actions:
+      #     name: Storm Surge
+      #     layerToggle: StormSurgeTMS
+      #     legendToggle: StormSurgeTMS
+      #     legendScroll: 900
+      #   lastactions:
+      #     name: Population Density
+      #     layerToggle: PopDensityTMS
+      #     legendToggle: PopDensityTMS
+      #     legendScroll: 300
 
       - name: Storm Surge
         position: 4
-        lasthtmlid: florence-case-study-step-3
-        htmlid: florence-case-study-step-4
-        nexthtmlid: florence-case-study-step-5
+        lasthtmlid: florence-case-study-step-2
+        htmlid: florence-case-study-step-3
+        nexthtmlid: florence-case-study-step-4
         narrative: "“Storm Surge” Data from the National Hurricane Center suggests that this area of Water Street could be inundated by storm Categories 1-5. It is important to visualize this threat in low-lying coastal areas."
         actions:
           name: Community Exposure Index
@@ -345,17 +327,17 @@ caseStudies:
           legendToggle: ExposureTMS
           legendScroll: 220
         lastactions:
-          name: Flood-Prone Areas
-          layerToggle: FloodProneAreasTMS
-          legendToggle: FloodProneAreasTMS
+          name: Population Density
+          layerToggle: PopDensityTMS
+          legendToggle: PopDensityTMS
           legendScroll: 300
 
 
       - name: Community Exposure Index
         position: 5
-        lasthtmlid: florence-case-study-step-4
-        htmlid: florence-case-study-step-5
-        nexthtmlid: florence-case-study-step-6
+        lasthtmlid: florence-case-study-step-3
+        htmlid: florence-case-study-step-4
+        nexthtmlid: florence-case-study-step-5
         narrative: "As a result of the combination of assets and threats, this particular area of Water Street, housing the iconic J.W. Brooks building, is calculated as having high exposure in this assessment."
         actions:
           name: Terrestrial Index
@@ -369,9 +351,9 @@ caseStudies:
           legendScroll: 900
 
       - name: Terrestrial Index
-        lasthtmlid: florence-case-study-step-5
-        htmlid: florence-case-study-step-6
-        nexthtmlid: florence-case-study-step-7
+        lasthtmlid: florence-case-study-step-4
+        htmlid: florence-case-study-step-5
+        nexthtmlid: florence-case-study-step-6
         position: 6
         narrative: "This area of Water Street has a high value in the Terrestrial Index. Altogether, this area scores very high in habitat suitability and species presence."
         actions:
@@ -386,9 +368,9 @@ caseStudies:
           legendScroll: 220
 
       - name: Resilience Hubs
-        lasthtmlid: florence-case-study-step-6
-        htmlid: florence-case-study-step-7
-        nexthtmlid: florence-case-study-step-8
+        lasthtmlid: florence-case-study-step-5
+        htmlid: florence-case-study-step-6
+        nexthtmlid: florence-case-study-step-7
         position: 7
         narrative: "There are no Hubs found inside the area drawn on the map. However, some exist closeby. The lack of Hubs is likely a result of the open space selection process that determines suitability. It is not common for Hubs to be located in urban areas because of the size threshold applied during this process."
         actions:
@@ -401,9 +383,9 @@ caseStudies:
 
       - name: The viewer
         position: 8
-        lasthtmlid: florence-case-study-step-7
-        htmlid: florence-case-study-step-8
-        nexthtmlid: florence-case-study-step-8
+        lasthtmlid: florence-case-study-step-6
+        htmlid: florence-case-study-step-7
+        nexthtmlid: florence-case-study-step-7
         narrative: Explore Wilmington, N.C. in the viewer.
         actions:
           name: Explore in the Viewer
