@@ -74,6 +74,13 @@ a.nav-link {
   padding-bottom: 5px;
 }
 
+.about-footer {
+  padding: 30px;
+  img {
+    height: 75px;
+  }
+}
+
 #tab-main-nav-download, #tab-main-nav-about {
   margin-left: 0px !important;
   margin-right: 0px !important;
@@ -98,6 +105,11 @@ a.nav-link {
   margin-left: 30px;
   margin-top: $margin15;
   margin-bottom: $margin15;
+}
+
+#NFWF-Logo-Title {
+  width: 75px;
+  height: 75px;
 }
 
 #nav-holder {
@@ -1129,7 +1141,7 @@ p.not-found {
 
   .brand-maplist-holder {
     position: fixed !important;
-    top: 135px !important;
+    top: 170px !important;
     width: 20.6% !important;
     min-width: 290px;
     max-width: 375px !important;
@@ -1153,7 +1165,7 @@ p.not-found {
   #maplayers_list-holder {
     width: 19% !important;
     position: fixed;
-    top: 185px !important;
+    top: 220px !important;
     left: 80.5% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
@@ -1271,9 +1283,14 @@ p.not-found {
     margin-top: 15px !important;
   }
 
+  .main-title-area {
+    margin-top: 5px !important;
+  }
+
   #maintitle {
     display: inline-block;
     margin-bottom: 0px !important;
+    margin-top: 20px !important;
   }
 
   .navbar-expand-lg {
@@ -1295,7 +1312,7 @@ p.not-found {
     display: block;
   }
 
-  .navbar-brand-exlore-title {
+  .navbar-brand-exlore-title, #NFWF-Logo-Title-brand {
     display: none;
   }
 
@@ -1389,6 +1406,12 @@ p.not-found {
 
   .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
     font-size: 1.5rem !important;
+  }
+
+  #NFWF-Logo-Title-brand {
+    width: 50px !important;
+    height: 50px !important;
+    margin-right: 5px !important;
   }
 
   #top-bar{
@@ -1512,7 +1535,7 @@ p.not-found {
     height: 100% !important;
   }
 
-  #maintitle {
+  #maintitle, #NFWF-Logo-Title {
     display: none;
   }
 
@@ -1596,6 +1619,10 @@ p.not-found {
 }
 
 @media screen and (max-width: 768px) {
+  #NFWF-Logo-Title {
+    width: 50px;
+    height: 50px;
+  }
 
   .brand-maplist-holder {
     margin-top: 15px !important;
@@ -1828,6 +1855,12 @@ p.not-found {
     }
   }
 
+  #NFWF-Logo-Title-brand {
+    width: 30px !important;
+    height: 30px !important;
+    margin-right: 5px !important;
+  }
+
   .making-of-examples {
     .row {
       min-width:400px;
@@ -1860,7 +1893,8 @@ p.not-found {
   }
 
   .navbar-brand {
-    font-size: .942rem !important;
+    font-size: .842rem !important;
+    margin-right: 5px !important;
   }
 }
 @media screen and (max-width: 375px) {
@@ -1874,7 +1908,8 @@ p.not-found {
   }
 
   .navbar-brand {
-    font-size: .785rem !important;
+    font-size: .685rem !important;
+    margin-right: 5px !important;
   }
 }
 @media screen and (max-width: 324px) {
@@ -2253,6 +2288,7 @@ p.not-found {
 .glossary-container {
   margin-right: 0px !important;
   margin-left: 0px !important;
+  padding-bottom: 15px !important;
 }
 
 .term {
