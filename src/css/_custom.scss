@@ -2002,6 +2002,8 @@ p.not-found {
   padding-right: 5px !important;
 
   .figure {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
 
     @media screen and (max-width: 768px) {
       padding-left: 0px !important;
@@ -2096,7 +2098,7 @@ p.not-found {
     .case-study-steps {
       // padding: 15px;
       width: 100%;
-      overflow: scroll;
+      overflow: hidden !important;
       border-top: 1px solid #e9ecef;
       border-bottom: 1px solid $gray-700;
       border-right: 1px solid $gray-700;
@@ -2120,9 +2122,25 @@ p.not-found {
           }
         }
 
+        &.last-step {
+          #narrative {
+            min-height: 80px !important;
+            @media screen and (max-width: 768px) {
+              font-size: .8rem !important;
+              min-height: 30px !important;
+            }
+          }
+        }
+
         #narrative {
+          padding-left: 0px !important;
+          padding-right: 0px !important;
+          min-height: 130px !important;
+
           @media screen and (max-width: 768px) {
-            padding: 5px !important;
+            font-size: .7rem !important;
+            min-height: 80px !important;
+            padding: 0px !important;
           }
         }
       }
@@ -2146,13 +2164,24 @@ p.not-found {
         background-color: $body-bg  !important;
         color: $body-color !important;
         white-space: normal !important;
-        font-size: 5rem;
+        font-size: 2rem;
+        border: 1px solid #6c757d !important;
+        margin-left: 5px !important;
+        margin-right: 5px !important;
+
+        &.col-6 {
+          flex: 0 0 45%;
+          max-width: 45%;
+        }
 
         @media screen and (max-width: 768px) {
-          font-size: 2.5rem;
+          font-size: 2rem;
         }
       }
 
+      .case-study-spacer {
+        min-height: 15px !important;
+      }
 
       .btn-casestudies-action-arrow:hover {
         background: $gray-700 radial-gradient(circle, transparent 1%, $gray-700 1%) center/15000% !important;
@@ -2161,6 +2190,9 @@ p.not-found {
       #name {
         font-size: 1.1rem;
         font-weight: 800;
+        @media screen and (max-width: 768px) {
+          font-size: 1rem;
+        }
       }
 
       #narrative {
@@ -2211,11 +2243,6 @@ p.not-found {
   -moz-border-radius: 0.25rem;
   border: 1px solid $gray-700;
   transform: scale(1.75);
-}
-
-// responive explore buttons
-@media screen and (max-width: 768px) {
-
 }
 
 .custom-control-input:active ~ .custom-control-label::before {
