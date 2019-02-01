@@ -414,9 +414,11 @@ export class CaseStudies {
   }
 
   static legendToggleOff(layer) {
-    const toggle = document.getElementById(`${layer}-layerToggle`);
-    toggle.classList.add('closed');
-    toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
+    setTimeout(() => {
+      const toggle = document.getElementById(`${layer}-layerToggle`);
+      toggle.classList.add('closed');
+      toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
+    }, 50);
     // ga event action, category, label
     googleAnalyticsEvent('click', 'example', `legend off ${layer}`);
   }
