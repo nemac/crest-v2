@@ -396,19 +396,23 @@ export class CaseStudies {
   }
 
   layerToggle(layer) {
-    const toggleBox = document.querySelector(`input#${layer}-toggle`);
-    CaseStudies.triggerEvent(toggleBox, 'change');
-    toggleBox.checked = !toggleBox.checked;
-    this.mapComponent.toggleLayer(layer);
+    setTimeout(() => {
+      const toggleBox = document.querySelector(`input#${layer}-toggle`);
+      CaseStudies.triggerEvent(toggleBox, 'change');
+      toggleBox.checked = !toggleBox.checked;
+      this.mapComponent.toggleLayer(layer);
+    }, 1);
     // ga event action, category, label
     googleAnalyticsEvent('click', 'example', `layer toggle ${layer}`);
   }
 
 
   static legendToggle(layer) {
-    const toggle = document.getElementById(`${layer}-layerToggle`);
-    toggle.classList.toggle('closed');
-    toggle.querySelector('.layer-legend-wrapper').classList.toggle('closed');
+    setTimeout(() => {
+      const toggle = document.getElementById(`${layer}-layerToggle`);
+      toggle.classList.toggle('closed');
+      toggle.querySelector('.layer-legend-wrapper').classList.toggle('closed');
+    }, 1);
     // ga event action, category, label
     googleAnalyticsEvent('click', 'example', `legend toggle ${layer}`);
   }
@@ -418,7 +422,7 @@ export class CaseStudies {
       const toggle = document.getElementById(`${layer}-layerToggle`);
       toggle.classList.add('closed');
       toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
-    }, 50);
+    }, 1);
     // ga event action, category, label
     googleAnalyticsEvent('click', 'example', `legend off ${layer}`);
   }
@@ -428,17 +432,19 @@ export class CaseStudies {
     // ga event action, category, label
     googleAnalyticsEvent('click', 'example', `draw area ${Label}`);
     if (checkValidObject(GeoJSON)) {
-      const checklayer = this.drawAreaGroup.getLayers();
-      if (checklayer.length > 0) {
-        this.drawAreaGroup.clearLayers();
-      } else {
-        // convert geoJson to leaflet layer
-        const layer = L.geoJson(GeoJSON);
-        // add layer to the leaflet map
-        this.drawAreaGroup.addLayer(layer);
-        this.addUserAreaLabel(layer, Label);
-        this.zoomToGeoJson(layer);
-      }
+      setTimeout(() => {
+        const checklayer = this.drawAreaGroup.getLayers();
+        if (checklayer.length > 0) {
+          this.drawAreaGroup.clearLayers();
+        } else {
+          // convert geoJson to leaflet layer
+          const layer = L.geoJson(GeoJSON);
+          // add layer to the leaflet map
+          this.drawAreaGroup.addLayer(layer);
+          this.addUserAreaLabel(layer, Label);
+          this.zoomToGeoJson(layer);
+        }
+      }, 1);
     }
   }
 }
