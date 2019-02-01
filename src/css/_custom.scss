@@ -173,6 +173,12 @@ a.nav-link {
     }
 }
 
+#buffer-layer-toggle {
+  #buffer-toggle-label {
+    padding-left: 5px !important
+  }
+}
+
 .slider {
   $h: 1rem;
   -webkit-appearance: none;
