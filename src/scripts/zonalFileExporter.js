@@ -7,6 +7,10 @@ import {
 } from './zonalStats';
 import { Store } from './store';
 
+import {
+  googleAnalyticsEvent
+} from './utilitys';
+
 const store = new Store({});
 
 /**
@@ -122,6 +126,9 @@ function handleZonalCsvExport(name) {
     [getHubDataFromState(key), makeHubNameFromKey(key)] :
     [getZonalDataFromState(key), makeZonalNameFromKey(key)];
   const fileContent = makeExportFileContent(data);
+  // ga event action, category, label
+  googleAnalyticsEvent('click', 'download', `${name}`);
+
   triggerCsvExport(fileContent, label);
 }
 
@@ -174,7 +181,8 @@ function handleZonalAllCsvExport(name) {
   const fileContent = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
     [getAllHubsFromState()] :
     [getAllZonesFromState()];
-
+  // ga event action, category, label
+  googleAnalyticsEvent('click', 'download', 'all');
   triggerCsvExport(fileContent, 'All Data');
 }
 
