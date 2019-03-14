@@ -14,6 +14,13 @@ export var navConfig = {
     href: "./#SearchHubs"
   },
   {
+    name: "searchNSHubs",
+    ref: "main-nav-map-searchNShubs",
+    text: "Where Should I Do A Resilience Project NS?",
+    id: "main-nav-map-searchNShubs",
+    href: "./#SearchNSHubs"
+  },
+  {
     name: "examples",
     ref: "main-nav-map-examples",
     text: "Case Studies",

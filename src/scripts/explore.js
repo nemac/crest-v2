@@ -119,10 +119,12 @@ export class Explore extends Component {
 
     this.HubIntersectionApi = new HubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
+    this.HubsNSExploreText = 'Where should I do a NS resilience project?';
     this.DefaultExploreText = 'Start Exploring the Assessment';
     this.ExamplesExploreText = 'Case Studies';
     this.exlporeAssmentMessage = 'To examine the Assessment, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of an area, use the “Upload Shapefile” button.';
     this.exlporeHubMessage = 'To search for an area on which to implement a potential resilience project, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
+    this.exlporeNSHubMessage = 'To search for an area on which to implement a potential resilience project in a targeted watershed data, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
 
     this.restoreWhenNotShareURL();
 
@@ -245,46 +247,47 @@ export class Explore extends Component {
 
       if (activeNav) {
         Explore.enableShapeButtons();
-        if (activeNav === 'main-nav-map-searchhubs') {
-          UpdateZonalStatsBtn.classList.add('d-none');
-          this.drawHubsFromStateObject();
-          Explore.updateExploreText(exploreTitle, this.HubsExploreText);
-          Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
-          Explore.updateExploreDirections(this.exlporeHubMessage);
-          Explore.dismissBufferCheckBox();
-          if (checkValidObject(checkHubIntersectionJson)) {
+        switch (activeNav) {
+          case 'main-nav-map-searchhubs':
+            UpdateZonalStatsBtn.classList.add('d-none');
+            this.drawHubsFromStateObject();
+            Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
+            Explore.updateExploreDirections(this.exlporeHubMessage);
+            Explore.dismissBufferCheckBox();
+            if (checkValidObject(checkHubIntersectionJson)) {
+              Explore.dismissExploreDirections();
+            }
+            return null;
+          case 'main-nav-map-examples':
             Explore.dismissExploreDirections();
-          }
-        } else if (activeNav === 'main-nav-map-examples') {
-          Explore.dismissExploreDirections();
-          disableZonalButtons();
-          disableOverView();
-          Explore.dismissShapeButtons();
-          Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
-          Explore.dismissBufferCheckBox();
-          this.caseStudies.initalize();
-        } else {
-          UpdateZonalStatsBtn.classList.remove('d-none');
-          this.drawUserAreaFromUsereas();
-          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-          Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
-          Explore.updateExploreDirections(this.exlporeAssmentMessage);
-          Explore.enableBufferCheckBox();
-          if (checkValidObject(checkUserareas)) {
-            Explore.dismissExploreDirections();
-          }
-        }
-      } else {
-        UpdateZonalStatsBtn.classList.remove('d-none');
-        this.drawUserAreaFromUsereas();
-        Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-        Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
-        Explore.enableBufferCheckBox();
-        Explore.updateExploreDirections(this.exlporeAssmentMessage);
-        if (checkValidObject(checkUserareas)) {
-          Explore.dismissExploreDirections();
+            disableZonalButtons();
+            disableOverView();
+            Explore.dismissShapeButtons();
+            Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+            Explore.dismissBufferCheckBox();
+            this.caseStudies.initalize();
+            return null;
+          case 'main-nav-map-searchNShubs':
+            Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
+            Explore.updateExploreDirections(this.exlporeNSHubMessage);
+            Explore.dismissBufferCheckBox();
+            return null;
+          default:
+            UpdateZonalStatsBtn.classList.remove('d-none');
+            this.drawUserAreaFromUsereas();
+            Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+            Explore.updateExploreDirections(this.exlporeAssmentMessage);
+            Explore.enableBufferCheckBox();
+            if (checkValidObject(checkUserareas)) {
+              Explore.dismissExploreDirections();
+            }
+           return null;
         }
       }
+
     }
   }
 
@@ -312,71 +315,74 @@ export class Explore extends Component {
       Explore.enableShapeButtons();
 
       if (activeNav) {
-        // active nav is search hubs
-        if (activeNav === 'main-nav-map-searchhubs') {
-          // check if there is hub data in the state store
-          // if there is NONE dispolay the text
-          // that tells the user what to do
-          UpdateZonalStatsBtn.classList.add('d-none');
-          if (!checkValidObject(checkHubIntersectionJson)) {
-            Explore.updateExploreText(exploreTitle, this.HubsExploreText);
-            Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
-            Explore.updateExploreDirections(this.exlporeHubMessage);
-            Explore.dismissBufferCheckBox();
-            disableZonalButtons();
-            disableOverView();
+        Explore.enableShapeButtons();
+        switch (activeNav) {
+          case 'main-nav-map-searchhubs':
+            console.log('case', activeNav)
+            // check if there is hub data in the state store
+            // if there is NONE dispolay the text
+            // that tells the user what to do
             UpdateZonalStatsBtn.classList.add('d-none');
+            if (!checkValidObject(checkHubIntersectionJson)) {
+              Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
+              Explore.updateExploreDirections(this.exlporeHubMessage);
+              Explore.dismissBufferCheckBox();
+              disableZonalButtons();
+              disableOverView();
+              UpdateZonalStatsBtn.classList.add('d-none');
 
-            // If there is hub data in store do NOT show text and draw the hubs
-          } else {
-            Explore.updateExploreText(exploreTitle, this.HubsExploreText);
-            Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
-            Explore.updateExploreDirections(this.exlporeHubMessage);
+              // If there is hub data in store do NOT show text and draw the hubs
+            } else {
+              Explore.updateExploreText(exploreTitle, this.HubsExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
+              Explore.updateExploreDirections(this.exlporeHubMessage);
+              Explore.dismissBufferCheckBox();
+              Explore.dismissExploreDirections();
+              this.drawHubsFromStateObject();
+              this.drawZonalStatsForStoredHubs();
+              enableZonalButtons();
+              Explore.setOverviewText();
+            }
+            return null;
+            case 'main-nav-map-examples':
+              UpdateZonalStatsBtn.classList.add('d-none');
+              Explore.dismissExploreDirections();
+              disableZonalButtons();
+              disableOverView();
+              Explore.dismissShapeButtons();
+              Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+              this.caseStudies.initalize();
+            return null;
+          case 'main-nav-map-searchNShubs':
+            Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
+            Explore.updateExploreDirections(this.exlporeNSHubMessage);
             Explore.dismissBufferCheckBox();
-            Explore.dismissExploreDirections();
-            this.drawHubsFromStateObject();
-            this.drawZonalStatsForStoredHubs();
-            enableZonalButtons();
-            Explore.setOverviewText();
-          }
-          // active nav is NOT search hubs assumes explore assment
-
-          // check if there is explore assement data in the state store
-          // if there is NONE dispolay the text
-          // that tells the user what to do
-        } else if (activeNav === 'main-nav-map-examples') {
-          UpdateZonalStatsBtn.classList.add('d-none');
-          Explore.dismissExploreDirections();
-          disableZonalButtons();
-          disableOverView();
-          Explore.dismissShapeButtons();
-          Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
-          this.caseStudies.initalize();
-        } else if (!checkValidObject(checkUserareas)) {
-          UpdateZonalStatsBtn.classList.remove('d-none');
-          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-          Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
-          Explore.updateExploreDirections(this.exlporeAssmentMessage);
-          Explore.enableBufferCheckBox();
-          disableZonalButtons();
-          disableOverView();
-          // If there is explore assement data in store do NOT show text and draw the shpes
-        } else {
-          UpdateZonalStatsBtn.classList.remove('d-none');
-          Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-          Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
-          Explore.updateExploreDirections(this.exlporeAssmentMessage);
-          Explore.enableBufferCheckBox();
-          Explore.dismissExploreDirections();
-          this.drawUserAreaFromUsereas();
-          enableZonalButtons();
-          Explore.setOverviewText();
+            return null;
+          default:
+            if (!checkValidObject(checkUserareas)) {
+              UpdateZonalStatsBtn.classList.remove('d-none');
+              Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+              Explore.updateExploreDirections(this.exlporeAssmentMessage);
+              Explore.enableBufferCheckBox();
+              disableZonalButtons();
+              disableOverView();
+              // If there is explore assement data in store do NOT show text and draw the shpes
+            } else {
+              UpdateZonalStatsBtn.classList.remove('d-none');
+              Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+              Explore.updateExploreDirections(this.exlporeAssmentMessage);
+              Explore.enableBufferCheckBox();
+              Explore.dismissExploreDirections();
+              this.drawUserAreaFromUsereas();
+              enableZonalButtons();
+              Explore.setOverviewText();
+            }
+            return null;
         }
-        // active nav is NOT set so we default too explore assment tab
-
-        // check if there is explore assement data in the state store
-        // if there is NONE dispolay the text
-        // that tells the user what to do
       } else if (!checkValidObject(checkUserareas)) {
         UpdateZonalStatsBtn.classList.remove('d-none');
         Explore.updateExploreDirections(this.exlporeAssmentMessage);
