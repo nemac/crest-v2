@@ -261,10 +261,20 @@ function makeZoom(name, mapComponent) {
     let areaname = stripUserArea(areanameid);
     areaname = areaname.replace('-USERAREA-', '').replace('_', ' ');
     const activeNav = store.getStateItem('activeNav');
-    if (activeNav === 'main-nav-map-searchhubs') {
-      getHubGeoJson(areaname, mapComponent);
-    } else {
-      getExlporeGeoJson(areaname, mapComponent);
+
+    if (activeNav) {
+      switch (activeNav) {
+        case 'main-nav-map-searchhubs':
+          getHubGeoJson(areaname, mapComponent);
+          break;
+        case 'main-nav-map-examples':
+          break;
+        case 'main-nav-map-searchNShubs':
+          break;
+        default:
+          getExlporeGeoJson(areaname, mapComponent);
+          break;
+      }
     }
   });
   return Zoom;
@@ -1389,17 +1399,33 @@ function drawShortZonalStats(data, name, mapComponent) {
 
   const activeNav = store.getStateItem('activeNav');
 
-  if (activeNav !== 'main-nav-map-searchhubs') {
-    const rem = makeRemoveLabel(name, mapComponent);
-    wrapper.insertBefore(rem, wrapper.childNodes[0]);
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      break;
+    case 'main-nav-map-examples':
+      break;
+    case 'main-nav-map-searchNShubs':
+      break;
+    default: {
+      const rem = makeRemoveLabel(name, mapComponent);
+      wrapper.insertBefore(rem, wrapper.childNodes[0]);
+      break;
+    }
   }
 
   const zoom = makeZoom(name, mapComponent);
 
-  if (activeNav !== 'main-nav-map-searchhubs') {
-    wrapper.insertBefore(zoom, wrapper.childNodes[2]);
-  } else {
-    wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+      break;
+    case 'main-nav-map-examples':
+      break;
+    case 'main-nav-map-searchNShubs':
+      break;
+    default:
+      wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+      break;
   }
 
   const ovr = makeOverviewLabel();

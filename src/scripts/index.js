@@ -164,7 +164,7 @@ function setNavBars(selector) {
   const activeNav = store.getStateItem('activeNav');
 
   // this very hacky need better way to handle
-  if (selector === 'main-nav-map-searchhubs' || selector === 'main-nav-map-searchNShubs' ||  selector === 'main-nav-map-examples') {
+  if (selector === 'main-nav-map-searchhubs' || selector === 'main-nav-map-searchNShubs' || selector === 'main-nav-map-examples') {
     NavBar.toggleTabContent('main-nav-map');
   } else {
     NavBar.toggleTabContent(selector);
@@ -172,7 +172,7 @@ function setNavBars(selector) {
 
 
   if (activeNav) {
-    if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-searchNShubs'  || activeNav === 'main-nav-map-examples') {
+    if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-searchNShubs' || activeNav === 'main-nav-map-examples') {
       NavBar.tabUpdate(activeNav);
     } else {
       NavBar.tabUpdate(selector);

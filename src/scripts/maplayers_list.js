@@ -426,7 +426,8 @@ export class MapLayersList extends Component {
   static addLegendHTML(layerProps) {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
     if (layerElem) {
-      MapLayersList.getLegendWrapper(layerElem).innerHTML = MapLayersList.getLegendHtml(layerProps.legend);
+      MapLayersList.getLegendWrapper(layerElem).innerHTML =
+          MapLayersList.getLegendHtml(layerProps.legend);
       MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.description);
       MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
     }

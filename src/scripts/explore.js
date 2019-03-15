@@ -49,6 +49,17 @@ const shapefile = require('shapefile');
 const store = new Store({});
 
 
+// switch (activeNav) {
+//   case 'main-nav-map-searchhubs':
+//     break;
+//   case 'main-nav-map-examples':
+//     break;
+//   case 'main-nav-map-searchNShubs':
+//     break;
+//   default:
+//     break;
+// }
+
 /**
  * explore Component
  * Explore handles drawing on map, uploading of shapefile,
@@ -284,10 +295,9 @@ export class Explore extends Component {
             if (checkValidObject(checkUserareas)) {
               Explore.dismissExploreDirections();
             }
-           return null;
+            return null;
         }
       }
-
     }
   }
 
@@ -318,7 +328,6 @@ export class Explore extends Component {
         Explore.enableShapeButtons();
         switch (activeNav) {
           case 'main-nav-map-searchhubs':
-            console.log('case', activeNav)
             // check if there is hub data in the state store
             // if there is NONE dispolay the text
             // that tells the user what to do
@@ -345,14 +354,14 @@ export class Explore extends Component {
               Explore.setOverviewText();
             }
             return null;
-            case 'main-nav-map-examples':
-              UpdateZonalStatsBtn.classList.add('d-none');
-              Explore.dismissExploreDirections();
-              disableZonalButtons();
-              disableOverView();
-              Explore.dismissShapeButtons();
-              Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
-              this.caseStudies.initalize();
+          case 'main-nav-map-examples':
+            UpdateZonalStatsBtn.classList.add('d-none');
+            Explore.dismissExploreDirections();
+            disableZonalButtons();
+            disableOverView();
+            Explore.dismissShapeButtons();
+            Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
+            this.caseStudies.initalize();
             return null;
           case 'main-nav-map-searchNShubs':
             Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
@@ -401,6 +410,7 @@ export class Explore extends Component {
         enableZonalButtons();
         disableOverView();
       }
+      return null;
     });
   }
 
@@ -1132,13 +1142,20 @@ export class Explore extends Component {
 
       const activeNav = store.getStateItem('activeNav');
 
-      if (activeNav === 'main-nav-map-searchhubs') {
-        Explore.removeExistingHubs();
-        this.getHubsZonal();
-        this.drawHubs();
-        this.drawZonalStatsForStoredHubs();
-      } else {
-        this.getZonal();
+      switch (activeNav) {
+        case 'main-nav-map-searchhubs':
+          Explore.removeExistingHubs();
+          this.getHubsZonal();
+          this.drawHubs();
+          this.drawZonalStatsForStoredHubs();
+          break;
+        case 'main-nav-map-examples':
+          break;
+        case 'main-nav-map-searchNShubs':
+          break;
+        default:
+          this.getZonal();
+          break;
       }
       return layer;
     }
@@ -1325,20 +1342,21 @@ export class Explore extends Component {
     Explore.clearZonalHolderButtons();
     const activeNav = store.getStateItem('activeNav');
 
-    if (activeNav === 'main-nav-map-searchhubs') {
-      Explore.removeExistingHubs();
-      Explore.dismissExploreDirections();
+    switch (activeNav) {
+      case 'main-nav-map-searchhubs':
+        Explore.removeExistingHubs();
+        Explore.dismissExploreDirections();
+        break;
+      case 'main-nav-map-examples':
+        break;
+      case 'main-nav-map-searchNShubs':
+        break;
+      default:
+        Explore.removeExistingExplore();
+        Explore.removeUserAreas();
+        Explore.dismissExploreDirections();
+        break;
     }
-
-    if (activeNav === 'main-nav-map') {
-      Explore.removeExistingExplore();
-      Explore.removeUserAreas();
-      Explore.dismissExploreDirections();
-    }
-
-    Explore.dismissExploreDirections();
-    Explore.clearDetailsHolder();
-    Explore.disableShapeExistsButtons();
   }
 
   // handler for click the button tp clear all drawings
@@ -1361,21 +1379,26 @@ export class Explore extends Component {
       const activeNav = store.getStateItem('activeNav');
 
       if (activeNav) {
-        if (activeNav === 'main-nav-map-searchhubs') {
-          if (checkValidObject(checkHubIntersectionJson)) {
-            Explore.dismissExploreDirections();
-          } else {
-            Explore.updateExploreDirections(this.exlporeHubMessage);
-          }
-        } else if (checkValidObject(checkUserareas)) {
-          Explore.dismissExploreDirections();
-        } else {
-          Explore.updateExploreDirections(this.exlporeAssmentMessage);
+        switch (activeNav) {
+          case 'main-nav-map-searchhubs':
+            if (checkValidObject(checkHubIntersectionJson)) {
+              Explore.dismissExploreDirections();
+            } else {
+              Explore.updateExploreDirections(this.exlporeHubMessage);
+            }
+            break;
+          case 'main-nav-map-examples':
+            break;
+          case 'main-nav-map-searchNShubs':
+            break;
+          default:
+            if (checkValidObject(checkUserareas)) {
+              Explore.dismissExploreDirections();
+            } else {
+              Explore.updateExploreDirections(this.exlporeAssmentMessage);
+            }
+            break;
         }
-      } else if (checkValidObject(checkUserareas)) {
-        Explore.dismissExploreDirections();
-      } else {
-        Explore.updateExploreDirections(this.exlporeAssmentMessage);
       }
     });
   }
@@ -1579,14 +1602,22 @@ export class Explore extends Component {
       const bufferedLayer = this.bufferArea(layer.toGeoJSON());
       const activeNav = store.getStateItem('activeNav');
 
-      if (activeNav !== 'main-nav-map-searchhubs') {
-        // add layer to the leaflet map
-        this.drawAreaGroup.addLayer(layer);
-        this.drawAreaGroup.addLayer(bufferedLayer);
+      switch (activeNav) {
+        case 'main-nav-map-searchhubs':
+          break;
+        case 'main-nav-map-examples':
+          break;
+        case 'main-nav-map-searchNShubs':
+          break;
+        default:
+          // add layer to the leaflet map
+          this.drawAreaGroup.addLayer(layer);
+          this.drawAreaGroup.addLayer(bufferedLayer);
 
-        // start adding the user draw shape to the map
-        layer.addTo(mapComponent.map);
-        this.addUserAreaLabel(bufferedLayer);
+          // start adding the user draw shape to the map
+          layer.addTo(mapComponent.map);
+          this.addUserAreaLabel(bufferedLayer);
+          break;
       }
 
       // must click the i button to do this action we will have to remove this
@@ -1600,24 +1631,36 @@ export class Explore extends Component {
       // update store
       store.setStoreItem('lastaction', 'draw area');
       store.setStoreItem('userarea', geojson);
-      if (activeNav === 'main-nav-map-searchhubs') {
-        Explore.removeExistingHubs();
-        Explore.clearZonalStatsWrapperDiv();
 
-        this.drawAreaGroup.clearLayers();
-        Explore.clearZonalHolderButtons();
-        await this.getHubsZonal();
-        this.drawHubsFromStateObject();
-        this.drawZonalStatsForStoredHubs();
-      } else {
-        try {
-          await this.getZonal();
-        } catch (ev) {
-          // TODO: display message to the user (was the area too big? what happened?)
-          this.rollbackUserArea(layer, bufferedLayer);
-          store.setStoreItem('working_zonalstats', false);
-          spinnerOff();
-        }
+      switch (activeNav) {
+        case 'main-nav-map-searchhubs':
+          Explore.removeExistingHubs();
+          Explore.clearZonalStatsWrapperDiv();
+
+          this.drawAreaGroup.clearLayers();
+          Explore.clearZonalHolderButtons();
+          await this.getHubsZonal();
+          this.drawHubsFromStateObject();
+          this.drawZonalStatsForStoredHubs();
+          break;
+        case 'main-nav-map-examples':
+          break;
+        case 'main-nav-map-searchNShubs':
+          Explore.removeExistingHubs();
+          Explore.clearZonalStatsWrapperDiv();
+
+          this.drawAreaGroup.clearLayers();
+          break;
+        default:
+          try {
+            await this.getZonal();
+          } catch (ev) {
+            // TODO: display message to the user (was the area too big? what happened?)
+            this.rollbackUserArea(layer, bufferedLayer);
+            store.setStoreItem('working_zonalstats', false);
+            spinnerOff();
+          }
+          break;
       }
     });
   }
@@ -1767,24 +1810,34 @@ export class Explore extends Component {
       featuresReady.push(...features);
     }
     const activeNav = store.getStateItem('activeNav');
-    if (activeNav === 'main-nav-map-searchhubs') {
-      Explore.removeExistingHubs();
-      this.drawAreaGroup.clearLayers();
-      for (let i = 0; i < featuresReady.length; i += 1) {
-        store.setStoreItem('userarea', featuresReady[i]);
-        await this.getHubsZonal();
-      }
-      Explore.sortHubsByHubScore();
-      // draw zonal stats for each shape
-      this.drawZonalStatsForStoredHubs();
-      this.mapComponent.map.fireEvent('zonalstatsend');
-    } else {
-      // Assume we're on the default explore tab
-      this.drawAreaGroup.clearLayers();
-      for (let i = 0; i < featuresReady.length; i += 1) {
-        await this.addFeatureAsMapLayer(featuresReady[i]);
+    if (activeNav) {
+      switch (activeNav) {
+        case 'main-nav-map-searchhubs':
+          Explore.removeExistingHubs();
+          this.drawAreaGroup.clearLayers();
+          for (let i = 0; i < featuresReady.length; i += 1) {
+            store.setStoreItem('userarea', featuresReady[i]);
+            await this.getHubsZonal();
+          }
+          Explore.sortHubsByHubScore();
+          // draw zonal stats for each shape
+          this.drawZonalStatsForStoredHubs();
+          this.mapComponent.map.fireEvent('zonalstatsend');
+          break;
+        case 'main-nav-map-examples':
+          break;
+        case 'main-nav-map-searchNShubs':
+          break;
+        default:
+          // Assume we're on the default explore tab
+          this.drawAreaGroup.clearLayers();
+          for (let i = 0; i < featuresReady.length; i += 1) {
+            await this.addFeatureAsMapLayer(featuresReady[i]);
+          }
+          break;
       }
     }
+
     try {
       this.mapComponent.map.fitBounds(this.drawAreaGroup.getBounds());
       this.mapComponent.saveZoomAndMapPosition();
