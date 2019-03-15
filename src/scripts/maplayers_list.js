@@ -56,11 +56,6 @@ export class MapLayersList extends Component {
     const { WMSLayers } = mapConfig;
     const { TMSLayers } = mapConfig;
 
-    const TMSLayersFiltered = TMSLayers.filter((layerlist) => {
-      return layerlist.addto === 'NS';
-    });
-    console.log(TMSLayers);
-
     // MapLayersList.addOpenMapLayerListener();
     MapLayersList.addToggleMapLayerListener();
 
@@ -87,8 +82,6 @@ export class MapLayersList extends Component {
 
     window.addEventListener('aboutNavChange', (e) => {
       const activeNav = store.getStateItem('activeNav');
-      console.log('maplayerlist', activeNav)
-
       const defaultLayerList = document.getElementById('defaultLayerList');
       const nsLayerList = document.getElementById('NSLayerList');
 
@@ -99,7 +92,6 @@ export class MapLayersList extends Component {
         defaultLayerList.classList.remove('d-none');
         nsLayerList.classList.add('d-none');
       }
-
     });
   }
 
@@ -253,7 +245,6 @@ export class MapLayersList extends Component {
   static mapListToggleToggle() {
     const mapListToggle = document.getElementById('mapListToggle');
     const mapLayerListState = store.getStateItem('maplayerlist');
-    // console.log('mapListToggleToggle', mapListToggle, mapLayerListState)
     if (mapListToggle) {
       if (mapLayerListState === 'open') {
         mapListToggle.classList.add('show');
@@ -297,7 +288,6 @@ export class MapLayersList extends Component {
 
   /** Create and append new layer button DIV */
   updateMapLayer(layerProps) {
-
     // add listener
     this.addLayerListListener(layerProps.id);
 
@@ -502,7 +492,6 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
-    console.log(checkBox, `${layerId}-toggle`)
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {
