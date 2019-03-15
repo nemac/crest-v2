@@ -56,6 +56,11 @@ export class MapLayersList extends Component {
     const { WMSLayers } = mapConfig;
     const { TMSLayers } = mapConfig;
 
+    const TMSLayersFiltered = TMSLayers.filter((layerlist) => {
+      return layerlist.addto === 'NS';
+    });
+    console.log(TMSLayers);
+
     // MapLayersList.addOpenMapLayerListener();
     MapLayersList.addToggleMapLayerListener();
 
@@ -79,6 +84,23 @@ export class MapLayersList extends Component {
     this.addToolTipListners();
     MapLayersList.resizeMapList();
     window.addEventListener('resize', MapLayersList.resizeMapList);
+
+    window.addEventListener('aboutNavChange', (e) => {
+      const activeNav = store.getStateItem('activeNav');
+      console.log('maplayerlist', activeNav)
+
+      const defaultLayerList = document.getElementById('defaultLayerList');
+      const nsLayerList = document.getElementById('NSLayerList');
+
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        defaultLayerList.classList.add('d-none');
+        nsLayerList.classList.remove('d-none');
+      } else {
+        defaultLayerList.classList.remove('d-none');
+        nsLayerList.classList.add('d-none');
+      }
+
+    });
   }
 
   // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
@@ -275,6 +297,7 @@ export class MapLayersList extends Component {
 
   /** Create and append new layer button DIV */
   updateMapLayer(layerProps) {
+
     // add listener
     this.addLayerListListener(layerProps.id);
 
@@ -479,7 +502,7 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
-
+    console.log(checkBox, `${layerId}-toggle`)
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {

@@ -318,8 +318,8 @@ export var mapConfig = {
 
     {
       id: "NSHubsTMS",
-      layer: "NS Hubs TMS",
-      label: "NS  Hubs",
+      layer: "Targeted Hubs TMS",
+      label: "Targeted Hubs",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/HubsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -336,8 +336,8 @@ export var mapConfig = {
     },
     {
       id: "NSExposureTMS",
-      layer: "NS Exposure TMS",
-      label: "NS Exposure Index",
+      layer: "Targeted Exposure TMS",
+      label: "Targeted Exposure Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/ExposureIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -354,8 +354,8 @@ export var mapConfig = {
     },
     {
       id: "NSAssetsTMS",
-      layer: "NS Assets TMS",
-      label: "NS Asset Index",
+      layer: "Targeted Assets TMS",
+      label: "Targeted Asset Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/AssetsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -372,8 +372,8 @@ export var mapConfig = {
     },
     {
       id: "NSThreatsTMS",
-      layer: "NS Threats TMS",
-      label: "NS Index",
+      layer: "Targeted Threats TMS",
+      label: "Targeted Threat Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/ThreatsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -389,9 +389,9 @@ export var mapConfig = {
       addto: 'NS'
     },
     {
-      id: "NSAquaticTMS",
-      layer: "NS Aquatic TMS",
-      label: "NS Index",
+      id: "NSFishAndWildlife",
+      layer: "Targeted Fish and Wildlife TMS",
+      label: "Targeted Fish and Wildlife Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/AquaticIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
