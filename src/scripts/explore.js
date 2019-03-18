@@ -273,6 +273,17 @@ export class Explore extends Component {
               Explore.dismissExploreDirections();
             }
             return null;
+          case 'main-nav-map-searchNShubs':
+            UpdateZonalStatsBtn.classList.add('d-none');
+            this.drawNatureServeHubsFromStateObject();
+            Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
+            Explore.updateExploreDirections(this.exlporeNSHubMessage);
+            Explore.dismissBufferCheckBox();
+            if (checkValidObject(checkNatureServeHubIntersectionJson)) {
+              Explore.dismissExploreDirections();
+            }
+            return null;
           case 'main-nav-map-examples':
             Explore.dismissExploreDirections();
             disableZonalButtons();
@@ -281,15 +292,6 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitle, this.ExamplesExploreText);
             Explore.dismissBufferCheckBox();
             this.caseStudies.initalize();
-            return null;
-          case 'main-nav-map-searchNShubs':
-            Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
-            Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
-            Explore.updateExploreDirections(this.exlporeNSHubMessage);
-            Explore.dismissBufferCheckBox();
-            if (checkValidObject(checkNatureServeHubIntersectionJson)) {
-              Explore.dismissExploreDirections();
-            }
             return null;
           default:
             UpdateZonalStatsBtn.classList.remove('d-none');
@@ -372,6 +374,7 @@ export class Explore extends Component {
             this.caseStudies.initalize();
             return null;
           case 'main-nav-map-searchNShubs':
+            UpdateZonalStatsBtn.classList.add('d-none');
             if (!checkValidObject(checkNatureServeHubIntersectionJson)) {
               Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
               Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
