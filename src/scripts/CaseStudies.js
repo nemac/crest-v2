@@ -263,7 +263,7 @@ export class CaseStudies {
 
   zoomToGeoJson(zoomlayer) {
     const zoomBounds = zoomlayer.getBounds();
-    this.mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+    this.mapComponent.map.flyToBounds(zoomBounds.pad(4));
   }
 
 
