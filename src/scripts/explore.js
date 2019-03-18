@@ -702,7 +702,7 @@ export class Explore extends Component {
       return JSON.parse('{}');
     }
 
-    // await Explore.storeHubsOnS3(NatureServeHubIntersectionJson);
+    await Explore.storeNatureServeHubsOnS3(NatureServeHubIntersectionJson);
 
     Explore.appendIntersectedNatureServeHubsToState(NatureServeHubIntersectionJson);
     Explore.sortNatureServeHubsByHubScore();
@@ -749,6 +749,36 @@ export class Explore extends Component {
     Explore.dismissExploreDirections();
     return HubIntersectionJson;
   }
+
+  static async storeNatureServeHubsOnS3(hubs) {
+    const checkobj = {}.hasOwnProperty;
+    const hubBucketfolders = 'prod/hubs/';
+    const hubBucket = 'nfwf-tool-user-shapes';
+
+    // using for loop because it allows await functionality with
+    // async calls to zonal stats api.  this will ensure we wait for the promise to
+    // resolve and is added to the store before we progress on. using a check for hasOwnProperty
+    // to deal with all the prototpe entries
+    for (const key in hubs) {
+      if (checkobj.call(hubs, key)) {
+        const fid = hubs[key].properties.mean.TARGET_FID.toString().trim();
+        const savedhub = { key: `${hubBucketfolders}${fid}.geojson`, bucket: hubBucket };
+        const storedhubs = store.getStateItem('savedNatureServeHubs');
+
+        if (checkValidObject(savedhub)) {
+          const newhub = {
+            [`savedhub${fid}`]: [
+              { name: fid },
+              { hub: savedhub }
+            ]
+          };
+          const newsavedhubs = { ...storedhubs, ...newhub };
+          store.setStoreItem('savedNatureServeHubs', newsavedhubs);
+        }
+      }
+    }
+  }
+
 
   static async storeHubsOnS3(hubs) {
     const checkobj = {}.hasOwnProperty;
@@ -1081,6 +1111,14 @@ export class Explore extends Component {
     }
   }
 
+  // restore hubs for share url from s3
+  restoreNatureServeHubsForShareURL() {
+    if (this.hasShareURL === 'true') {
+      this.getNatureServeHubsFromS3();
+      Explore.setOverviewText();
+    }
+  }
+
   // clear the url after a share url has been processed so
   // it does not effect refreshes
   static clearURL() {
@@ -1106,6 +1144,7 @@ export class Explore extends Component {
       case 'main-nav-map-examples':
         break;
       case 'main-nav-map-searchNShubs':
+        this.restoreNatureServeHubsForShareURL();
         break;
       default:
         this.restoreExploreForShareURL();
@@ -1304,6 +1343,61 @@ export class Explore extends Component {
     return null;
   }
 
+  // get hubs that we saved on s3.  In order to create a share URL - a web URL
+  // we can send to another users we need to be able to pass large geospatial datasets
+  // we are using a lambda function/api to store the the files on s3 this will retreive this.
+  //  the only thing in the url is the s3 bucket and file name
+  async getNatureServeHubsFromS3() {
+    // start the working function so we have spinner active - informs
+    // users the website is doing something
+    store.setStoreItem('working_s3retreive', true);
+    this.mapComponent.map.fireEvent('retreives3start');
+
+    spinnerOn();
+    // get the saved shapes state item - holds the s3 bucket and file name
+    const savedhubs = store.getStateItem('savedNatureServeHubs');
+
+    const newshapes = [];
+    const checkobj = {}.hasOwnProperty;
+
+    // using for loop because it allows await functionality with
+    // async calls to zonal stats api.  this will ensure we wait for the promise to
+    // resolve and is added to the store before we progress on. using a check for hasOwnProperty
+    // to deal with all the prototpe entries
+    for (const key in savedhubs) {
+      if (checkobj.call(savedhubs, key)) {
+        let NatureServeHubsZonalshape = {};
+        let simplifiedNatureServeHubsZonalshape = {};
+        const hubobj = savedhubs[key][1].hub;
+        if (checkValidObject(savedhubs)) {
+          NatureServeHubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(hubobj.bucket,
+            hubobj.key);
+
+          // adds TARGET_FID to mean array
+          NatureServeHubsZonalshape.properties.mean.TARGET_FID =
+            NatureServeHubsZonalshape.properties.OBJECTID;
+
+          // simplifies shape geometry
+          simplifiedNatureServeHubsZonalshape =
+            NatureServeHubIntersectionApi.simplifyshape(NatureServeHubsZonalshape);
+        }
+        // add hub geojson to array
+        newshapes.push(simplifiedNatureServeHubsZonalshape);
+      }
+    }
+
+    store.setStoreItem('NatureServeHubIntersectionJson', newshapes);
+    this.drawNatureServeHubsFromStateObject();
+    this.drawZonalStatsForStoredNatureServeHubs();
+    Explore.sortNatureServeHubsByHubScore();
+    // draw the hubs and the zonal stats
+    store.setStoreItem('working_s3retreive', false);
+    this.mapComponent.map.fireEvent('retreives3end');
+    spinnerOff();
+
+    return null;
+  }
+
   // used by search by location
   drawUserArea() {
     const userarea = store.getStateItem('userarea');
@@ -1323,12 +1417,16 @@ export class Explore extends Component {
         case 'main-nav-map-searchhubs':
           Explore.removeExistingHubs();
           this.getHubsZonal();
-          this.drawHubs();
+          this.drawHubsFromStateObject();
           this.drawZonalStatsForStoredHubs();
           break;
         case 'main-nav-map-examples':
           break;
         case 'main-nav-map-searchNShubs':
+          Explore.removeExistingNatureServeHubs();
+          this.getNatureServeHubsZonal();
+          this.drawNatureServeHubsFromStateObject();
+          this.drawZonalStatsForStoredNatureServeHubs();
           break;
         default:
           this.getZonal();
