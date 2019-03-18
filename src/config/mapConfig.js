@@ -319,7 +319,7 @@ export var mapConfig = {
     {
       id: "NSHubsTMS",
       layer: "Targeted Hubs TMS",
-      label: "Targeted Hubs",
+      label: "Hubs",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/HubsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -337,7 +337,7 @@ export var mapConfig = {
     {
       id: "NSExposureTMS",
       layer: "Targeted Exposure TMS",
-      label: "Targeted Exposure Index",
+      label: "Exposure Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/ExposureIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -355,7 +355,7 @@ export var mapConfig = {
     {
       id: "NSAssetsTMS",
       layer: "Targeted Assets TMS",
-      label: "Targeted Asset Index",
+      label: "Asset Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/AssetsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -373,7 +373,7 @@ export var mapConfig = {
     {
       id: "NSThreatsTMS",
       layer: "Targeted Threats TMS",
-      label: "Targeted Threat Index",
+      label: "Threat Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/ThreatsIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -391,7 +391,7 @@ export var mapConfig = {
     {
       id: "NSFishAndWildlife",
       layer: "Targeted Fish and Wildlife TMS",
-      label: "Targeted Fish and Wildlife Index",
+      label: "Fish and Wildlife Index",
       url: "http://nfwf-tiles.s3-website-us-east-1.amazonaws.com/AquaticIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
