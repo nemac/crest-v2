@@ -299,6 +299,7 @@ export class Explore extends Component {
         }
       }
     }
+    return null;
   }
 
   // listens for the when the navbar changes EVENT, when it does
@@ -928,11 +929,18 @@ export class Explore extends Component {
     store.setStoreItem('working_s3retreive', true);
     spinnerOn();
 
-    // check shareurl nav
-    if (this.theStartNav === 'main-nav-map-searchhubs') {
-      this.restoreHubsForShareURL();
-    } else {
-      this.restoreExploreForShareURL();
+
+    switch (this.theStartNav) {
+      case 'main-nav-map-searchhubs':
+        this.restoreHubsForShareURL();
+        break;
+      case 'main-nav-map-examples':
+        break;
+      case 'main-nav-map-searchNShubs':
+        break;
+      default:
+        this.restoreExploreForShareURL();
+        break;
     }
 
     Explore.clearURL();

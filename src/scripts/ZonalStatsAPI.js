@@ -43,8 +43,6 @@ export class ZonalStatsAPI {
         const response = await post(this.url, postdata, axiosConfig);
         if (response.status === 200 && response.data) {
           return response.data;
-        } else {
-          throw new Error();
         }
       } catch (err) {
         numAttempts += 1;

@@ -122,14 +122,33 @@ function makeHubNameFromKey(key) {
 // @param name | String - result of makeHTMLName from zonalStats.js
 function handleZonalCsvExport(name) {
   const key = getZonalKeyFromName(name);
-  const [data, label] = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
-    [getHubDataFromState(key), makeHubNameFromKey(key)] :
-    [getZonalDataFromState(key), makeZonalNameFromKey(key)];
-  const fileContent = makeExportFileContent(data);
+  const activeNav = store.getStateItem('activeNav');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs': {
+      const data = getHubDataFromState(key);
+      const label = makeHubNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
+      break;
+    }
+    case 'main-nav-map-examples': {
+      break;
+    }
+    case 'main-nav-map-searchNShubs': {
+      break;
+    }
+    default: {
+      const data = getZonalDataFromState(key);
+      const label = makeZonalNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
+      break;
+    }
+  }
+
   // ga event action, category, label
   googleAnalyticsEvent('click', 'download', `${name}`);
-
-  triggerCsvExport(fileContent, label);
 }
 
 // converts the the multple record object to csv and renames headers (field names)
@@ -137,7 +156,7 @@ function handleZonalCsvExport(name) {
 // @param name | String - data object from state that is properties.mean
 function convertDataToCSV(data) {
   const items = data;
-  const replacer = (key, value) => value === null ? '' : value;
+  const replacer = (key, value) => (value === null ? '' : value);
   const header = Object.keys(items[0]);
   const downloadHeader = header.map(name => getCSVName(name));
   let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')).join(','));
@@ -178,12 +197,30 @@ function getAllHubsFromState() {
 //
 // @param name | String - result of makeHTMLName from zonalStats.js
 function handleZonalAllCsvExport(name) {
-  const fileContent = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
-    [getAllHubsFromState()] :
-    [getAllZonesFromState()];
+  const activeNav = store.getStateItem('activeNav');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs': {
+      const fileContent = getAllHubsFromState();
+      triggerCsvExport(fileContent, 'All Data');
+      break;
+    }
+    case 'main-nav-map-examples': {
+      break;
+    }
+    case 'main-nav-map-searchNShubs': {
+      break;
+    }
+    default: {
+      const fileContent = getAllZonesFromState();
+      triggerCsvExport(fileContent, 'All Data');
+
+      break;
+    }
+  }
+
   // ga event action, category, label
   googleAnalyticsEvent('click', 'download', 'all');
-  triggerCsvExport(fileContent, 'All Data');
 }
 
 // Binds the export handler to the download button

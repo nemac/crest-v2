@@ -80,6 +80,291 @@ function makeLabelText(name) {
   return `Get Details for ${name}`;
 }
 
+
+function setGraphsState(name, activetype) {
+  let newname = name;
+
+  const striptext = ['raw-name', 'graph-name', 'dismiss-name', 'label-name'];
+
+  striptext.map((replacetext) => {
+    if (name.indexOf(replacetext) >= 0) {
+      newname = name.replace(replacetext, 'name');
+      return newname;
+    }
+    return newname;
+  });
+
+  newname = newname.replace('name--USERAREA', 'name---USERAREA');
+  store.setStoreItem('zonalactive', [newname, activetype]);
+  return newname;
+}
+
+function enableMainZonalButton() {
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.remove('d-none');
+  });
+}
+
+function ZonalWrapperActiveRemove() {
+  const x = document.querySelectorAll('.zonal-short-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.remove('active');
+  }
+}
+
+function dissmissAllZonalStatsWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('active');
+    zonalwrapper.classList.add('d-none');
+  });
+}
+
+function zonalStatsWrappersActive(name) {
+  const zonalWrapper = document.getElementById(`zonal-stats-wrapper-${name}`);
+  zonalWrapper.classList.remove('d-none');
+  zonalWrapper.classList.add('active');
+}
+
+function disableMainZonalButton() {
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.add('d-none');
+  });
+}
+
+function disableOverView(text = 'none') {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.add('d-none');
+}
+
+function disableAllZonalButtons() {
+  disableOverView();
+  const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
+  buttons.forEach((button) => {
+    button.classList.add('d-none');
+  });
+}
+
+// set zonal buttons and header off
+function disableZonalButtons(HTMLName) {
+  disableMainZonalButton();
+  disableAllZonalButtons();
+  disableOverView();
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
+  }
+}
+
+
+function disableAllZonalWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-long-wrapper ');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('active');
+  });
+}
+
+function enableOverView(text = 'none') {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.remove('d-none');
+}
+
+function ZonalWrapperActiveAdd() {
+  const x = document.querySelectorAll('.zonal-short-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.add('active');
+  }
+}
+
+// Switches the display to the short zonal stats
+// @param wrapper | DOM element
+function dismissLongZonalStats(wrapper) {
+  wrapper.classList.remove('active');
+  wrapper.classList.remove('active-table');
+  document.getElementById('zonal-header').classList.remove('d-none');
+
+  const id = wrapper.getAttribute('id');
+  const HTMLName = stripUserArea(id);
+  disableMainZonalButton();
+  disableZonalButtons(HTMLName);
+  disableAllZonalWrappers();
+  enableOverView('dismissLongZonalStats');
+
+  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+  hasShapeButtonElem.classList.remove('d-none');
+  // wrapper.previousSibling.style.height = '100%';
+  ZonalWrapperActiveAdd();
+}
+
+function enableAllZonalStatsWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('d-none');
+  });
+}
+
+function togglePermHighLightsOff(elem) {
+  if (elem) {
+    elem.classList.remove('path-highlight-perm');
+    elem.classList.add('path-nohighlight-perm');
+  }
+}
+
+function toggleALLPathsOff(elem) {
+  const pathsHighlight = document.querySelectorAll('.path-highlight');
+  const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
+
+  pathsHighlight.forEach((path) => {
+    path.classList.remove('path-highlight');
+    path.classList.add('path-nohighlight');
+  });
+
+  pathsHighlightPerm.forEach((path) => {
+    path.classList.remove('path-highlight-perm');
+    path.classList.add('path-nohighlight-perm');
+  });
+}
+
+function getZonalWrapper(elem) {
+  const areanameid = elem.id;
+  const areaname = stripUserArea(areanameid);
+  const selector = `.zonal-long-wrapper.active#name-${areaname}`;
+  const wrapperelem = document.querySelector(selector);
+  return wrapperelem;
+}
+// Click handler to trigger the dismiss of the long zonal stats
+function dismissZonalClickHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'dismiss graphs');
+  shapeNavOn();
+
+  e.preventDefault();
+  setGraphsState('none', 'none');
+  dismissLongZonalStats(getZonalWrapper(this));
+  enableAllZonalStatsWrappers();
+  const name = e.target.getAttribute('id');
+
+  if (name) {
+    const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
+    const path = document.querySelector(`.path-${HTMLName}`);
+    togglePermHighLightsOff(path);
+  }
+  toggleALLPathsOff();
+}
+
+function displayRawValues(wrapper) {
+  if (wrapper) {
+    wrapper.classList.add('active-table');
+    const holderElem = document.getElementById('zonal-stats-button-holder');
+    if (holderElem) {
+      holderElem.classList.add('active-table');
+    }
+  }
+}
+
+function displayGraphs(wrapper) {
+  if (wrapper) {
+    wrapper.classList.remove('active-table');
+  }
+  const holderElem = document.getElementById('zonal-stats-button-holder');
+  if (holderElem) {
+    holderElem.classList.remove('active-table');
+  }
+}
+
+function displayZonalTableHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display table');
+
+  e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'table');
+  displayRawValues(getZonalWrapper(this));
+}
+
+
+function displayZonalGraphsHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from graphs');
+
+  e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'graph');
+  displayGraphs(getZonalWrapper(this));
+}
+
+
+// Switches the display to the long zonal stats
+// @param shortElem | DOM element
+function viewLongZonalStats(shortElem) {
+  if (shortElem) {
+    enableMainZonalButton();
+    shortElem.nextElementSibling.classList.add('active');
+    setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
+    document.getElementById('zonal-header').classList.add('d-none');
+    shapeNavOff();
+    ZonalWrapperActiveRemove();
+    const HTMLName = stripUserArea(shortElem.id);
+    dissmissAllZonalStatsWrappers();
+    zonalStatsWrappersActive(HTMLName);
+    const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+    hasShapeButtonElem.classList.add('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+  }
+}
+
+// set zonal buttons and header on
+function enableZonalButtons(HTMLName) {
+  disableOverView();
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
+
+
+    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+    bindZonalExportHandler(HTMLName);
+  }
+}
+
+function togglePermHighLightsOn(elem) {
+  if (elem) {
+    elem.classList.add('path-highlight-perm');
+    elem.classList.remove('path-nohighlight-perm');
+  }
+}
+
+// Click handler to trigger the load of the long zonal stats
+function shortZonalClickHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from details');
+
+  e.preventDefault();
+  const id = e.target.getAttribute('id');
+  const HTMLName = stripUserArea(id);
+  setGraphsState(this.getAttribute('id'), 'graph');
+  const shortChartElem = document.getElementById(`short-chart-${HTMLName}`);
+  viewLongZonalStats(shortChartElem);
+  enableZonalButtons(HTMLName);
+  disableOverView();
+
+  if (HTMLName) {
+    if (HTMLName.indexOf('div_class') === -1) {
+      const path = document.querySelector(`.path-${HTMLName}`);
+      togglePermHighLightsOn(path);
+    }
+  }
+}
+
 // Makes main title for an individual short zonal stats item
 // @return DOM element
 function makeLabel(name) {
@@ -351,241 +636,6 @@ function makeShortZonalStatsInterior(data, name) {
   ];
 }
 
-function ZonalWrapperActiveRemove() {
-  const x = document.querySelectorAll('.zonal-short-wrapper');
-  let i;
-  for (i = 0; i < x.length; i += 1) {
-    x[i].classList.remove('active');
-  }
-}
-
-function ZonalWrapperActiveAdd() {
-  const x = document.querySelectorAll('.zonal-short-wrapper');
-  let i;
-  for (i = 0; i < x.length; i += 1) {
-    x[i].classList.add('active');
-  }
-}
-
-function setGraphsState(name, activetype) {
-  let newname = name;
-
-  const striptext = ['raw-name', 'graph-name', 'dismiss-name', 'label-name'];
-
-  striptext.map((replacetext) => {
-    if (name.indexOf(replacetext) >= 0) {
-      newname = name.replace(replacetext, 'name');
-      return newname;
-    }
-    return newname;
-  });
-
-  newname = newname.replace('name--USERAREA', 'name---USERAREA');
-  store.setStoreItem('zonalactive', [newname, activetype]);
-  return newname;
-}
-
-function disableMainZonalButton() {
-  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
-  zonalHolders.forEach((zonalHolder) => {
-    zonalHolder.classList.add('d-none');
-  });
-}
-
-function enableMainZonalButton() {
-  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
-  zonalHolders.forEach((zonalHolder) => {
-    zonalHolder.classList.remove('d-none');
-  });
-}
-
-function disableOverView(text = 'none') {
-  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
-  buttonHolder.classList.add('d-none');
-}
-
-function disableAllZonalButtons() {
-  disableOverView();
-  const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
-  buttons.forEach((button) => {
-    button.classList.add('d-none');
-  });
-}
-
-// set zonal buttons and header off
-function disableZonalButtons(HTMLName) {
-  disableMainZonalButton();
-  disableAllZonalButtons();
-  disableOverView();
-  if (document.querySelector(`#button-name--${HTMLName}`)) {
-    document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
-    document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
-    document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
-    document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
-  }
-}
-
-function enableOverView(text = 'none') {
-  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
-  buttonHolder.classList.remove('d-none');
-}
-
-function enableAllZonalStatsWrappers() {
-  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
-  zonalWrappers.forEach((zonalwrapper) => {
-    zonalwrapper.classList.remove('d-none');
-  });
-}
-
-function dissmissAllZonalStatsWrappers() {
-  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
-  zonalWrappers.forEach((zonalwrapper) => {
-    zonalwrapper.classList.remove('active');
-    zonalwrapper.classList.add('d-none');
-  });
-}
-
-function zonalStatsWrappersActive(name) {
-  const zonalWrapper = document.getElementById(`zonal-stats-wrapper-${name}`);
-  zonalWrapper.classList.remove('d-none');
-  zonalWrapper.classList.add('active');
-}
-
-function disableAllZonalWrappers() {
-  const zonalWrappers = document.querySelectorAll('.zonal-long-wrapper ');
-  zonalWrappers.forEach((zonalwrapper) => {
-    zonalwrapper.classList.remove('active');
-  });
-}
-
-// Switches the display to the short zonal stats
-// @param wrapper | DOM element
-function dismissLongZonalStats(wrapper) {
-  wrapper.classList.remove('active');
-  wrapper.classList.remove('active-table');
-  document.getElementById('zonal-header').classList.remove('d-none');
-
-  const id = wrapper.getAttribute('id');
-  const HTMLName = stripUserArea(id);
-  disableMainZonalButton();
-  disableZonalButtons(HTMLName);
-  disableAllZonalWrappers();
-  enableOverView('dismissLongZonalStats');
-
-  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
-  hasShapeButtonElem.classList.remove('d-none');
-  // wrapper.previousSibling.style.height = '100%';
-  ZonalWrapperActiveAdd();
-}
-
-function getZonalWrapper(elem) {
-  const areanameid = elem.id;
-  const areaname = stripUserArea(areanameid);
-  const selector = `.zonal-long-wrapper.active#name-${areaname}`;
-  const wrapperelem = document.querySelector(selector);
-  return wrapperelem;
-}
-
-function togglePermHighLightsOff(elem) {
-  if (elem) {
-    elem.classList.remove('path-highlight-perm');
-    elem.classList.add('path-nohighlight-perm');
-  }
-}
-
-function toggleALLPathsOff(elem) {
-  const pathsHighlight = document.querySelectorAll('.path-highlight');
-  const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
-
-  pathsHighlight.forEach((path) => {
-    path.classList.remove('path-highlight');
-    path.classList.add('path-nohighlight');
-  });
-
-  pathsHighlightPerm.forEach((path) => {
-    path.classList.remove('path-highlight-perm');
-    path.classList.add('path-nohighlight-perm');
-  });
-}
-
-// Click handler to trigger the dismiss of the long zonal stats
-function dismissZonalClickHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'dismiss graphs');
-  shapeNavOn();
-
-  e.preventDefault();
-  setGraphsState('none', 'none');
-  dismissLongZonalStats(getZonalWrapper(this));
-  enableAllZonalStatsWrappers();
-  const name = e.target.getAttribute('id');
-
-  if (name) {
-    const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
-    const path = document.querySelector(`.path-${HTMLName}`);
-    togglePermHighLightsOff(path);
-  }
-  toggleALLPathsOff();
-}
-
-function displayRawValues(wrapper) {
-  if (wrapper) {
-    wrapper.classList.add('active-table');
-    const holderElem = document.getElementById('zonal-stats-button-holder');
-    if (holderElem) {
-      holderElem.classList.add('active-table');
-    }
-  }
-}
-
-function displayZonalTableHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display table');
-
-  e.preventDefault();
-  setGraphsState(this.getAttribute('id'), 'table');
-  displayRawValues(getZonalWrapper(this));
-}
-
-function displayGraphs(wrapper) {
-  if (wrapper) {
-    wrapper.classList.remove('active-table');
-  }
-  const holderElem = document.getElementById('zonal-stats-button-holder');
-  if (holderElem) {
-    holderElem.classList.remove('active-table');
-  }
-}
-
-function displayZonalGraphsHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from graphs');
-
-  e.preventDefault();
-  setGraphsState(this.getAttribute('id'), 'graph');
-  displayGraphs(getZonalWrapper(this));
-}
-
-// Switches the display to the long zonal stats
-// @param shortElem | DOM element
-function viewLongZonalStats(shortElem) {
-  if (shortElem) {
-    enableMainZonalButton();
-    shortElem.nextElementSibling.classList.add('active');
-    setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
-    document.getElementById('zonal-header').classList.add('d-none');
-    shapeNavOff();
-    ZonalWrapperActiveRemove();
-    const HTMLName = stripUserArea(shortElem.id);
-    dissmissAllZonalStatsWrappers();
-    zonalStatsWrappersActive(HTMLName);
-    const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
-    hasShapeButtonElem.classList.add('d-none');
-    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
-    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
-    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
-  }
-}
 
 // checks if inner HTML of element is Plain old Text
 // instead of another HTML element
@@ -625,13 +675,6 @@ function toggleAllLongZonalsOff(elem) {
   zonalLongWrapper.forEach((zonal) => {
     zonal.classList.remove('active');
   });
-}
-
-function togglePermHighLightsOn(elem) {
-  if (elem) {
-    elem.classList.add('path-highlight-perm');
-    elem.classList.remove('path-nohighlight-perm');
-  }
 }
 
 function toggleLabelHighLightsOff(elem) {
@@ -677,23 +720,6 @@ function hideLastHighlight() {
   }
 }
 
-// set zonal buttons and header on
-function enableZonalButtons(HTMLName) {
-  disableOverView();
-  if (document.querySelector(`#button-name--${HTMLName}`)) {
-    document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
-    document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
-    document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
-    document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
-
-
-    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
-    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
-    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
-    bindZonalExportHandler(HTMLName);
-  }
-}
-
 function viewLongZonalStatsFromShape(name) {
   // ga event action, category, label
   googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from shape');
@@ -723,28 +749,6 @@ function viewLongZonalStatsFromShape(name) {
   if (idname) {
     document.getElementById(idname).classList.add('active');
     setGraphsState(idname, 'graph');
-  }
-}
-
-// Click handler to trigger the load of the long zonal stats
-function shortZonalClickHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from details');
-
-  e.preventDefault();
-  const id = e.target.getAttribute('id');
-  const HTMLName = stripUserArea(id);
-  setGraphsState(this.getAttribute('id'), 'graph');
-  const shortChartElem = document.getElementById(`short-chart-${HTMLName}`);
-  viewLongZonalStats(shortChartElem);
-  enableZonalButtons(HTMLName);
-  disableOverView();
-
-  if (HTMLName) {
-    if (HTMLName.indexOf('div_class') === -1) {
-      const path = document.querySelector(`.path-${HTMLName}`);
-      togglePermHighLightsOn(path);
-    }
   }
 }
 
