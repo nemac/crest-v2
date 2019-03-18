@@ -3,7 +3,8 @@
 //
 // Normal Flow:
 //  Using a supplied geojson feature, convert the geometry to Esri json and
-//  send a request for an intersection query to the NatureServe hubs Feature Server hosted on ArcGIS Online.
+//  send a request for an intersection query to the
+//  NatureServe hubs Feature Server hosted on ArcGIS Online.
 //  The response contains a list of Esri feature objects that intersect the supplied feature.
 //
 //  Each feature object is then transformed back into a geojson feature to match the structure

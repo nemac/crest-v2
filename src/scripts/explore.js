@@ -372,7 +372,7 @@ export class Explore extends Component {
             this.caseStudies.initalize();
             return null;
           case 'main-nav-map-searchNShubs':
-            if (!checkValidObject(checkHubIntersectionJson)) {
+            if (!checkValidObject(checkNatureServeHubIntersectionJson)) {
               Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
               Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
               Explore.updateExploreDirections(this.exlporeNSHubMessage);
@@ -674,7 +674,6 @@ export class Explore extends Component {
     return null;
   }
 
-
   async getNatureServeHubsZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
@@ -690,7 +689,8 @@ export class Explore extends Component {
     }
 
     // send request to api
-    const NatureServeHubIntersectionJson = await this.NatureServeHubIntersectionApi.getIntersectedNatureServeHubs(rawpostdata);
+    const NatureServeHubIntersectionJson =
+      await this.NatureServeHubIntersectionApi.getIntersectedNatureServeHubs(rawpostdata);
 
     // make sure there is valid data back as  a response
     if (!checkValidObject(NatureServeHubIntersectionJson)) {
@@ -797,93 +797,92 @@ export class Explore extends Component {
     }
   }
 
+  // renders the shapes from the user areas state object
+  drawNatureServeHubsFromStateObject() {
+    store.setStoreItem('working_drawlayers', true);
+    spinnerOn();
 
-    // renders the shapes from the user areas state object
-    drawNatureServeHubsFromStateObject() {
-      store.setStoreItem('working_drawlayers', true);
-      spinnerOn();
+    const currentshapes = store.getStateItem('NatureServeHubIntersectionJson');
 
-      const currentshapes = store.getStateItem('NatureServeHubIntersectionJson');
-
-      if (!checkValidObject(currentshapes)) {
-        store.setStoreItem('working_drawlayers', false);
-        spinnerOff();
-        return null;
-      }
-
-      currentshapes.forEach((feature) => {
-        const userarea = feature;
-
-        if (checkValidObject(userarea)) {
-          const name = feature.properties.mean.TARGET_FID.toString().trim();
-          const HTMLName = makeHTMLName(name);
-          this.bufferedoptions.className = `path-${HTMLName}`;
-
-          const NatureServeHubLayer = L.geoJson(userarea, this.bufferedoptions);
-
-          // draw Resilience hub
-          this.drawAreaGroup.addLayer(NatureServeHubLayer);
-
-          // add mouserovers for the shapes.
-          NatureServeHubLayer.on({
-            mouseover: (e) => {
-              if (!isGraphActivetate()) {
-                const path = e.target;
-                const labelname = path.options.className.replace('path-', 'label-name-');
-                const labelElem = document.getElementById(labelname);
-                toggleLabelHighLightsOn(labelElem);
-                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
-                const labelzElem = document.getElementById(labelzname);
-                toggleLabelHighLightsOn(labelzElem);
-
-                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
-                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
-                toggleLabelHighLightsOn(shotChartsLabelsElem);
-
-                const pathelem = document.querySelector(`.${path.options.className}`);
-                togglePermHighLightsAllOff(pathelem);
-                toggleMouseHighLightsOn(pathelem);
-              }
-            },
-            mouseout: (e) => {
-              if (!isGraphActivetate()) {
-                const path = e.target;
-                const labelname = path.options.className.replace('path-', 'label-name-');
-                const labelElem = document.getElementById(labelname);
-                toggleLabelHighLightsOff(labelElem);
-                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
-                const labelzElem = document.getElementById(labelzname);
-                toggleLabelHighLightsOff(labelzElem);
-
-                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
-                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
-                toggleLabelHighLightsOff(shotChartsLabelsElem);
-
-                const pathelem = document.querySelector(`.${path.options.className}`);
-                toggleMouseHighLightsOff(pathelem);
-              }
-            },
-            click: (e) => {
-              Explore.clickShape(e);
-            }
-          });
-
-          this.addUserAreaLabel(NatureServeHubLayer, name);
-
-          Explore.enableShapeExistsButtons();
-          Explore.dismissExploreDirections();
-          return NatureServeHubLayer;
-        }
-
-        store.setStoreItem('working_drawlayers', false);
-        spinnerOff();
-        return null;
-      });
-
+    if (!checkValidObject(currentshapes)) {
       store.setStoreItem('working_drawlayers', false);
       spinnerOff();
       return null;
     }
+
+    currentshapes.forEach((feature) => {
+      const userarea = feature;
+
+      if (checkValidObject(userarea)) {
+        const name = feature.properties.mean.TARGET_FID.toString().trim();
+        const HTMLName = makeHTMLName(name);
+        this.bufferedoptions.className = `path-${HTMLName}`;
+
+        const NatureServeHubLayer = L.geoJson(userarea, this.bufferedoptions);
+
+        // draw Resilience hub
+        this.drawAreaGroup.addLayer(NatureServeHubLayer);
+
+        // add mouserovers for the shapes.
+        NatureServeHubLayer.on({
+          mouseover: (e) => {
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOn(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOn(labelzElem);
+
+              const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+              const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+              toggleLabelHighLightsOn(shotChartsLabelsElem);
+
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              togglePermHighLightsAllOff(pathelem);
+              toggleMouseHighLightsOn(pathelem);
+            }
+          },
+          mouseout: (e) => {
+            if (!isGraphActivetate()) {
+              const path = e.target;
+              const labelname = path.options.className.replace('path-', 'label-name-');
+              const labelElem = document.getElementById(labelname);
+              toggleLabelHighLightsOff(labelElem);
+              const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+              const labelzElem = document.getElementById(labelzname);
+              toggleLabelHighLightsOff(labelzElem);
+
+              const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+              const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+              toggleLabelHighLightsOff(shotChartsLabelsElem);
+
+              const pathelem = document.querySelector(`.${path.options.className}`);
+              toggleMouseHighLightsOff(pathelem);
+            }
+          },
+          click: (e) => {
+            Explore.clickShape(e);
+          }
+        });
+
+        this.addUserAreaLabel(NatureServeHubLayer, name);
+
+        Explore.enableShapeExistsButtons();
+        Explore.dismissExploreDirections();
+        return NatureServeHubLayer;
+      }
+
+      store.setStoreItem('working_drawlayers', false);
+      spinnerOff();
+      return null;
+    });
+
+    store.setStoreItem('working_drawlayers', false);
+    spinnerOff();
+    return null;
+  }
 
   static appendIntersectedHubsToState(json) {
     const existingHubs = store.getStateItem('HubIntersectionJson');
