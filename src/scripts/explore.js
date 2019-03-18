@@ -14,6 +14,7 @@ import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
 import { ZonalStatsAPI } from './ZonalStatsAPI';
 import { HubIntersectionApi } from './HubIntersectionAPI';
+import { NatureServeHubIntersectionApi } from './NatureServeHubIntersectionAPI';
 import { CaseStudies } from './CaseStudies';
 import { bindZonalAllExportHandler } from './zonalFileExporter';
 
@@ -129,6 +130,7 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
     this.HubIntersectionApi = new HubIntersectionApi();
+    this.NatureServeHubIntersectionApi = new NatureServeHubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
     this.HubsNSExploreText = 'Where should I do a NS resilience project?';
     this.DefaultExploreText = 'Start Exploring the Assessment';
@@ -248,6 +250,7 @@ export class Explore extends Component {
   restoreWhenNotShareURL() {
     // draw the user area on the map
     const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
+    const checkNatureServeHubIntersectionJson = store.getStateItem('NatureServeHubIntersectionJson');
     const checkUserareas = store.getStateItem('userareas');
 
     if (!this.hasShareURL) {
@@ -284,6 +287,9 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
             Explore.updateExploreDirections(this.exlporeNSHubMessage);
             Explore.dismissBufferCheckBox();
+            if (checkValidObject(checkNatureServeHubIntersectionJson)) {
+              Explore.dismissExploreDirections();
+            }
             return null;
           default:
             UpdateZonalStatsBtn.classList.remove('d-none');
@@ -315,6 +321,7 @@ export class Explore extends Component {
       const exploreTitle = document.getElementById('explore-title');
       const exploreTitleResponsive = document.querySelector('.navbar-brand-exlore-title');
       const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
+      const checkNatureServeHubIntersectionJson = store.getStateItem('NatureServeHubIntersectionJson');
       const checkUserareas = store.getStateItem('userareas');
       document.querySelector('.explore-row-container .sticky-top.sideheading').classList.remove('d-none');
       const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
@@ -365,10 +372,24 @@ export class Explore extends Component {
             this.caseStudies.initalize();
             return null;
           case 'main-nav-map-searchNShubs':
-            Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
-            Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
-            Explore.updateExploreDirections(this.exlporeNSHubMessage);
-            Explore.dismissBufferCheckBox();
+            if (!checkValidObject(checkHubIntersectionJson)) {
+              Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
+              Explore.updateExploreDirections(this.exlporeNSHubMessage);
+              Explore.dismissBufferCheckBox();
+              disableZonalButtons();
+              disableOverView();
+              UpdateZonalStatsBtn.classList.add('d-none');
+            } else {
+              Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
+              Explore.updateExploreDirections(this.exlporeNSHubMessage);
+              Explore.dismissBufferCheckBox();
+              this.drawNatureServeHubsFromStateObject();
+              this.drawZonalStatsForStoredNatureServeHubs();
+              enableZonalButtons();
+              Explore.setOverviewText();
+            }
             return null;
           default:
             if (!checkValidObject(checkUserareas)) {
@@ -653,6 +674,43 @@ export class Explore extends Component {
     return null;
   }
 
+
+  async getNatureServeHubsZonal() {
+    spinnerOn();
+    store.setStoreItem('working_zonalstats', true);
+
+    // get geoJSON to send to zonal stats lambda function
+    // in this case do not use the buffered shape
+    const rawpostdata = store.getStateItem('userarea');
+
+    if (!checkValidObject(rawpostdata)) {
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff('getZonal checkValidObject rawpostdata');
+      return JSON.parse('{}');
+    }
+
+    // send request to api
+    const NatureServeHubIntersectionJson = await this.NatureServeHubIntersectionApi.getIntersectedNatureServeHubs(rawpostdata);
+
+    // make sure there is valid data back as  a response
+    if (!checkValidObject(NatureServeHubIntersectionJson)) {
+      store.setStoreItem('working_zonalstats', false);
+      spinnerOff('getZonal checkValidObject NatureServeHubIntersectionJson');
+      return JSON.parse('{}');
+    }
+
+    // await Explore.storeHubsOnS3(NatureServeHubIntersectionJson);
+
+    Explore.appendIntersectedNatureServeHubsToState(NatureServeHubIntersectionJson);
+    Explore.sortNatureServeHubsByHubScore();
+
+    store.setStoreItem('working_zonalstats', false);
+    spinnerOff('getZonal done');
+    Explore.enableShapeExistsButtons();
+    Explore.dismissExploreDirections();
+    return NatureServeHubIntersectionJson;
+  }
+
   async getHubsZonal() {
     spinnerOn();
     store.setStoreItem('working_zonalstats', true);
@@ -717,6 +775,115 @@ export class Explore extends Component {
       }
     }
   }
+
+  static appendIntersectedNatureServeHubsToState(json) {
+    const existingNatureServeHubs = store.getStateItem('NatureServeHubIntersectionJson');
+    if (checkValidObject(existingNatureServeHubs)) {
+      const newStateItem = existingNatureServeHubs;
+      const newNatureServeHubsFiltered = json.filter((newNatureServeHub) => {
+        let alreadyInState = false;
+        existingNatureServeHubs.forEach((NatureServeHub) => {
+          if (newNatureServeHub.properties.mean.TARGET_FID ===
+                NatureServeHub.properties.mean.TARGET_FID.toString().trim()) {
+            alreadyInState = true;
+          }
+        });
+        return !alreadyInState;
+      });
+      newStateItem.push(...newNatureServeHubsFiltered);
+      store.setStoreItem('NatureServeHubIntersectionJson', newStateItem);
+    } else {
+      store.setStoreItem('NatureServeHubIntersectionJson', json);
+    }
+  }
+
+
+    // renders the shapes from the user areas state object
+    drawNatureServeHubsFromStateObject() {
+      store.setStoreItem('working_drawlayers', true);
+      spinnerOn();
+
+      const currentshapes = store.getStateItem('NatureServeHubIntersectionJson');
+
+      if (!checkValidObject(currentshapes)) {
+        store.setStoreItem('working_drawlayers', false);
+        spinnerOff();
+        return null;
+      }
+
+      currentshapes.forEach((feature) => {
+        const userarea = feature;
+
+        if (checkValidObject(userarea)) {
+          const name = feature.properties.mean.TARGET_FID.toString().trim();
+          const HTMLName = makeHTMLName(name);
+          this.bufferedoptions.className = `path-${HTMLName}`;
+
+          const NatureServeHubLayer = L.geoJson(userarea, this.bufferedoptions);
+
+          // draw Resilience hub
+          this.drawAreaGroup.addLayer(NatureServeHubLayer);
+
+          // add mouserovers for the shapes.
+          NatureServeHubLayer.on({
+            mouseover: (e) => {
+              if (!isGraphActivetate()) {
+                const path = e.target;
+                const labelname = path.options.className.replace('path-', 'label-name-');
+                const labelElem = document.getElementById(labelname);
+                toggleLabelHighLightsOn(labelElem);
+                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+                const labelzElem = document.getElementById(labelzname);
+                toggleLabelHighLightsOn(labelzElem);
+
+                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+                toggleLabelHighLightsOn(shotChartsLabelsElem);
+
+                const pathelem = document.querySelector(`.${path.options.className}`);
+                togglePermHighLightsAllOff(pathelem);
+                toggleMouseHighLightsOn(pathelem);
+              }
+            },
+            mouseout: (e) => {
+              if (!isGraphActivetate()) {
+                const path = e.target;
+                const labelname = path.options.className.replace('path-', 'label-name-');
+                const labelElem = document.getElementById(labelname);
+                toggleLabelHighLightsOff(labelElem);
+                const labelzname = path.options.className.replace('path-', 'zonal-wrapper-');
+                const labelzElem = document.getElementById(labelzname);
+                toggleLabelHighLightsOff(labelzElem);
+
+                const shotChartsLabels = path.options.className.replace('path-', 'short-chart-');
+                const shotChartsLabelsElem = document.getElementById(shotChartsLabels);
+                toggleLabelHighLightsOff(shotChartsLabelsElem);
+
+                const pathelem = document.querySelector(`.${path.options.className}`);
+                toggleMouseHighLightsOff(pathelem);
+              }
+            },
+            click: (e) => {
+              Explore.clickShape(e);
+            }
+          });
+
+          this.addUserAreaLabel(NatureServeHubLayer, name);
+
+          Explore.enableShapeExistsButtons();
+          Explore.dismissExploreDirections();
+          return NatureServeHubLayer;
+        }
+
+        store.setStoreItem('working_drawlayers', false);
+        spinnerOff();
+        return null;
+      });
+
+      store.setStoreItem('working_drawlayers', false);
+      spinnerOff();
+      return null;
+    }
 
   static appendIntersectedHubsToState(json) {
     const existingHubs = store.getStateItem('HubIntersectionJson');
@@ -1330,6 +1497,11 @@ export class Explore extends Component {
     store.removeStateItem('savedhubs');
   }
 
+  static removeExistingNatureServeHubs() {
+    store.removeStateItem('NatureServeHubIntersectionJson');
+    store.removeStateItem('savedNatureServehubs');
+  }
+
   static clearDetailsHolder() {
     const clearAreaElement = document.getElementById('details-holder');
     if (clearAreaElement) {
@@ -1358,6 +1530,8 @@ export class Explore extends Component {
       case 'main-nav-map-examples':
         break;
       case 'main-nav-map-searchNShubs':
+        Explore.removeExistingNatureServeHubs();
+        Explore.dismissExploreDirections();
         break;
       default:
         Explore.removeExistingExplore();
@@ -1383,6 +1557,7 @@ export class Explore extends Component {
       Explore.disableShapeExistsButtons();
 
       const checkHubIntersectionJson = store.getStateItem('HubIntersectionJson');
+      const checkNatureServeHubIntersectionJson = store.getStateItem('NatureServeHubIntersectionJson');
       const checkUserareas = store.getStateItem('userareas');
       const activeNav = store.getStateItem('activeNav');
 
@@ -1398,6 +1573,11 @@ export class Explore extends Component {
           case 'main-nav-map-examples':
             break;
           case 'main-nav-map-searchNShubs':
+            if (checkValidObject(checkNatureServeHubIntersectionJson)) {
+              Explore.dismissExploreDirections();
+            } else {
+              Explore.updateExploreDirections(this.exlporeNSHubMessage);
+            }
             break;
           default:
             if (checkValidObject(checkUserareas)) {
@@ -1417,7 +1597,6 @@ export class Explore extends Component {
       clearAreaElement.innerHTML = '';
     }
   }
-
 
   static removeDrawShapeToolTip() {
     const tooltipContainerDelete = document.querySelector('.leaflet-draw-tooltip-top');
@@ -1644,7 +1823,6 @@ export class Explore extends Component {
         case 'main-nav-map-searchhubs':
           Explore.removeExistingHubs();
           Explore.clearZonalStatsWrapperDiv();
-
           this.drawAreaGroup.clearLayers();
           Explore.clearZonalHolderButtons();
           await this.getHubsZonal();
@@ -1654,10 +1832,13 @@ export class Explore extends Component {
         case 'main-nav-map-examples':
           break;
         case 'main-nav-map-searchNShubs':
-          Explore.removeExistingHubs();
+          Explore.removeExistingNatureServeHubs();
           Explore.clearZonalStatsWrapperDiv();
-
           this.drawAreaGroup.clearLayers();
+          Explore.clearZonalHolderButtons();
+          await this.getNatureServeHubsZonal();
+          this.drawNatureServeHubsFromStateObject();
+          this.drawZonalStatsForStoredNatureServeHubs();
           break;
         default:
           try {
@@ -1857,12 +2038,36 @@ export class Explore extends Component {
     spinnerOff();
   }
 
+  drawZonalStatsForStoredNatureServeHubs() {
+    const NatureServeHubs = store.getStateItem('NatureServeHubIntersectionJson');
+    for (let i = 0; i < NatureServeHubs.length; i += 1) {
+      const name = `${NatureServeHubs[i].properties.mean.TARGET_FID}`.toString().trim();
+      drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map);
+    }
+  }
+
   drawZonalStatsForStoredHubs() {
     const hubs = store.getStateItem('HubIntersectionJson');
     for (let i = 0; i < hubs.length; i += 1) {
       const name = `${hubs[i].properties.mean.TARGET_FID}`.toString().trim();
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
     }
+  }
+
+
+  static sortNatureServeHubsByHubScore() {
+    const NatureServehubsHubs = store.getStateItem('NatureServeHubIntersectionJson');
+    const NatureServeHubIntersectionJsonSorted = NatureServehubsHubs.sort((a, b) => {
+      if (a.properties.mean.hubs > b.properties.mean.hubs) {
+        return -1;
+      }
+      if (a.properties.mean.hubs < b.properties.mean.hubs) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+    store.setStoreItem('NatureServeHubIntersectionJson', NatureServeHubIntersectionJsonSorted);
   }
 
   static sortHubsByHubScore() {
