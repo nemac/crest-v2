@@ -86,6 +86,25 @@ function getZonalDataFromState(key) {
 //
 // @param key | String - Will likely be a 5 digit integer
 // @return Object
+function getNatureServeHubDataFromState(key) {
+  const NatureServehubData = store.getStateItem('NatureServeHubIntersectionJson');
+  let i;
+  let l;
+  let data = {};
+  for (i = 0, l = NatureServehubData.length; i < l; i += 1) {
+    if (NatureServehubData[i].properties.mean.TARGET_FID.toString() === key) {
+      data = NatureServehubData[i].properties.mean;
+      break;
+    }
+  }
+
+  return data;
+}
+
+// Mines the state object for the data about a hub from the API
+//
+// @param key | String - Will likely be a 5 digit integer
+// @return Object
 function getHubDataFromState(key) {
   const hubData = store.getStateItem('HubIntersectionJson');
   let i;
@@ -184,6 +203,19 @@ function getAllZonesFromState() {
 //
 // @param none
 // @return Object
+function getAllNatureServeHubsFromState() {
+  const NatureServeHubData = store.getStateItem('NatureServeHubIntersectionJson');
+  const data = [];
+  NatureServeHubData.forEach((NatureServeHub) => {
+    data.push(NatureServeHub.properties.mean);
+  });
+  return convertDataToCSV(data);
+}
+
+//  Mines the state object for the data about a hub from the API
+//
+// @param none
+// @return Object
 function getAllHubsFromState() {
   const hubData = store.getStateItem('HubIntersectionJson');
   const data = [];
@@ -209,12 +241,13 @@ function handleZonalAllCsvExport(name) {
       break;
     }
     case 'main-nav-map-searchNShubs': {
+      const fileContent = getAllNatureServeHubsFromState();
+      triggerCsvExport(fileContent, 'All Data');
       break;
     }
     default: {
       const fileContent = getAllZonesFromState();
       triggerCsvExport(fileContent, 'All Data');
-
       break;
     }
   }
