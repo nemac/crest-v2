@@ -132,6 +132,14 @@ function makeZonalNameFromKey(key) {
 //
 // @param key | String
 // @return String
+function makeNatureServeHubNameFromKey(key) {
+  return `NatureServeHub-${key}`;
+}
+
+// Formats the key information about a hub into the format needed for the filename
+//
+// @param key | String
+// @return String
 function makeHubNameFromKey(key) {
   return `Hub-${key}`;
 }
@@ -155,6 +163,10 @@ function handleZonalCsvExport(name) {
       break;
     }
     case 'main-nav-map-searchNShubs': {
+      const data = getNatureServeHubDataFromState(key);
+      const label = makeNatureServeHubNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
       break;
     }
     default: {
@@ -233,7 +245,7 @@ function handleZonalAllCsvExport(name) {
 
   switch (activeNav) {
     case 'main-nav-map-searchhubs': {
-      const fileContent = getAllHubsFromState();
+      const fileContent = [getAllHubsFromState()];
       triggerCsvExport(fileContent, 'All Data');
       break;
     }
@@ -241,12 +253,12 @@ function handleZonalAllCsvExport(name) {
       break;
     }
     case 'main-nav-map-searchNShubs': {
-      const fileContent = getAllNatureServeHubsFromState();
+      const fileContent = [getAllNatureServeHubsFromState()];
       triggerCsvExport(fileContent, 'All Data');
       break;
     }
     default: {
-      const fileContent = getAllZonesFromState();
+      const fileContent = [getAllZonesFromState()];
       triggerCsvExport(fileContent, 'All Data');
       break;
     }
