@@ -2018,6 +2018,16 @@ export class Explore extends Component {
         case 'main-nav-map-examples':
           break;
         case 'main-nav-map-searchNShubs':
+          Explore.removeExistingNatureServeHubs();
+          this.drawAreaGroup.clearLayers();
+          for (let i = 0; i < featuresReady.length; i += 1) {
+            store.setStoreItem('userarea', featuresReady[i]);
+            await this.getNatureServeHubsZonal();
+          }
+          Explore.sortNatureServeHubsByHubScore();
+          // draw zonal stats for each shape
+          this.drawZonalStatsForStoredNatureServeHubs();
+          this.mapComponent.map.fireEvent('zonalstatsend');
           break;
         default:
           // Assume we're on the default explore tab

@@ -517,6 +517,20 @@ async function getHubGeoJson(areahml, mapComponent) {
   ZoomGeoJSON(zoomlayer, mapComponent);
 }
 
+async function getNatureServeHubGeoJson(areahml, mapComponent) {
+  const area = areahml.replace('_', ' ');
+  const NatureServeHubIntersectionJson = store.getStateItem('NatureServeHubIntersectionJson');
+  let shape = {};
+  Object.keys(NatureServeHubIntersectionJson).forEach((val) => {
+    if (NatureServeHubIntersectionJson[val].properties.mean.TARGET_FID.toString().trim() === area) {
+      shape = NatureServeHubIntersectionJson[val];
+    }
+  });
+
+  const zoomlayer = L.geoJSON(shape);
+  ZoomGeoJSON(zoomlayer, mapComponent);
+}
+
 // Makes main title for an individual short zonal stats item
 // @return DOM element
 function makeZoom(name, mapComponent) {
@@ -555,6 +569,7 @@ function makeZoom(name, mapComponent) {
         case 'main-nav-map-examples':
           break;
         case 'main-nav-map-searchNShubs':
+          getNatureServeHubGeoJson(areaname, mapComponent);
           break;
         default:
           getExlporeGeoJson(areaname, mapComponent);
@@ -1426,6 +1441,7 @@ function drawShortZonalStats(data, name, mapComponent) {
     case 'main-nav-map-examples':
       break;
     case 'main-nav-map-searchNShubs':
+      wrapper.insertBefore(zoom, wrapper.childNodes[1]);
       break;
     default:
       wrapper.insertBefore(zoom, wrapper.childNodes[2]);
