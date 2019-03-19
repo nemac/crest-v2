@@ -169,6 +169,13 @@ function handleZonalCsvExport(name) {
       triggerCsvExport(fileContent, label);
       break;
     }
+    case 'main-nav-map': {
+      const data = getZonalDataFromState(key);
+      const label = makeZonalNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
+      break;
+    }
     default: {
       const data = getZonalDataFromState(key);
       const label = makeZonalNameFromKey(key);
@@ -254,6 +261,11 @@ function handleZonalAllCsvExport(name) {
     }
     case 'main-nav-map-searchNShubs': {
       const fileContent = [getAllNatureServeHubsFromState()];
+      triggerCsvExport(fileContent, 'All Data');
+      break;
+    }
+    case 'main-nav-map': {
+      const fileContent = [getAllZonesFromState()];
       triggerCsvExport(fileContent, 'All Data');
       break;
     }

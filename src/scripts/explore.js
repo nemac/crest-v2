@@ -293,6 +293,17 @@ export class Explore extends Component {
             Explore.dismissBufferCheckBox();
             this.caseStudies.initalize();
             return null;
+          case 'main-nav-map':
+            UpdateZonalStatsBtn.classList.remove('d-none');
+            this.drawUserAreaFromUsereas();
+            Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+            Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+            Explore.updateExploreDirections(this.exlporeAssmentMessage);
+            Explore.enableBufferCheckBox();
+            if (checkValidObject(checkUserareas)) {
+              Explore.dismissExploreDirections();
+            }
+            return null;
           default:
             UpdateZonalStatsBtn.classList.remove('d-none');
             this.drawUserAreaFromUsereas();
@@ -390,6 +401,28 @@ export class Explore extends Component {
               Explore.dismissBufferCheckBox();
               this.drawNatureServeHubsFromStateObject();
               this.drawZonalStatsForStoredNatureServeHubs();
+              enableZonalButtons();
+              Explore.setOverviewText();
+            }
+            return null;
+          case 'main-nav-map':
+            if (!checkValidObject(checkUserareas)) {
+              UpdateZonalStatsBtn.classList.remove('d-none');
+              Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+              Explore.updateExploreDirections(this.exlporeAssmentMessage);
+              Explore.enableBufferCheckBox();
+              disableZonalButtons();
+              disableOverView();
+              // If there is explore assement data in store do NOT show text and draw the shpes
+            } else {
+              UpdateZonalStatsBtn.classList.remove('d-none');
+              Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+              Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+              Explore.updateExploreDirections(this.exlporeAssmentMessage);
+              Explore.enableBufferCheckBox();
+              Explore.dismissExploreDirections();
+              this.drawUserAreaFromUsereas();
               enableZonalButtons();
               Explore.setOverviewText();
             }
@@ -1146,6 +1179,9 @@ export class Explore extends Component {
       case 'main-nav-map-searchNShubs':
         this.restoreNatureServeHubsForShareURL();
         break;
+      case 'main-nav-map':
+        this.restoreExploreForShareURL();
+        break;
       default:
         this.restoreExploreForShareURL();
         break;
@@ -1428,6 +1464,9 @@ export class Explore extends Component {
           this.drawNatureServeHubsFromStateObject();
           this.drawZonalStatsForStoredNatureServeHubs();
           break;
+        case 'main-nav-map':
+          this.getZonal();
+          break;
         default:
           this.getZonal();
           break;
@@ -1633,6 +1672,11 @@ export class Explore extends Component {
         Explore.removeExistingNatureServeHubs();
         Explore.dismissExploreDirections();
         break;
+      case 'main-nav-map':
+        Explore.removeExistingExplore();
+        Explore.removeUserAreas();
+        Explore.dismissExploreDirections();
+        break;
       default:
         Explore.removeExistingExplore();
         Explore.removeUserAreas();
@@ -1677,6 +1721,13 @@ export class Explore extends Component {
               Explore.dismissExploreDirections();
             } else {
               Explore.updateExploreDirections(this.exlporeNSHubMessage);
+            }
+            break;
+          case 'main-nav-map':
+            if (checkValidObject(checkUserareas)) {
+              Explore.dismissExploreDirections();
+            } else {
+              Explore.updateExploreDirections(this.exlporeAssmentMessage);
             }
             break;
           default:
@@ -1896,6 +1947,15 @@ export class Explore extends Component {
           break;
         case 'main-nav-map-searchNShubs':
           break;
+        case 'main-nav-map':
+          // add layer to the leaflet map
+          this.drawAreaGroup.addLayer(layer);
+          this.drawAreaGroup.addLayer(bufferedLayer);
+
+          // start adding the user draw shape to the map
+          layer.addTo(mapComponent.map);
+          this.addUserAreaLabel(bufferedLayer);
+          break;
         default:
           // add layer to the leaflet map
           this.drawAreaGroup.addLayer(layer);
@@ -1939,6 +1999,16 @@ export class Explore extends Component {
           await this.getNatureServeHubsZonal();
           this.drawNatureServeHubsFromStateObject();
           this.drawZonalStatsForStoredNatureServeHubs();
+          break;
+        case 'main-nav-map':
+          try {
+            await this.getZonal();
+          } catch (ev) {
+            // TODO: display message to the user (was the area too big? what happened?)
+            this.rollbackUserArea(layer, bufferedLayer);
+            store.setStoreItem('working_zonalstats', false);
+            spinnerOff();
+          }
           break;
         default:
           try {
@@ -2126,6 +2196,13 @@ export class Explore extends Component {
           // draw zonal stats for each shape
           this.drawZonalStatsForStoredNatureServeHubs();
           this.mapComponent.map.fireEvent('zonalstatsend');
+          break;
+        case 'main-nav-map':
+          // Assume we're on the default explore tab
+          this.drawAreaGroup.clearLayers();
+          for (let i = 0; i < featuresReady.length; i += 1) {
+            await this.addFeatureAsMapLayer(featuresReady[i]);
+          }
           break;
         default:
           // Assume we're on the default explore tab

@@ -571,6 +571,9 @@ function makeZoom(name, mapComponent) {
         case 'main-nav-map-searchNShubs':
           getNatureServeHubGeoJson(areaname, mapComponent);
           break;
+        case 'main-nav-map':
+          getExlporeGeoJson(areaname, mapComponent);
+          break;
         default:
           getExlporeGeoJson(areaname, mapComponent);
           break;
@@ -1425,6 +1428,11 @@ function drawShortZonalStats(data, name, mapComponent) {
       break;
     case 'main-nav-map-searchNShubs':
       break;
+    case 'main-nav-map': {
+      const rem = makeRemoveLabel(name, mapComponent);
+      wrapper.insertBefore(rem, wrapper.childNodes[0]);
+      break;
+    }
     default: {
       const rem = makeRemoveLabel(name, mapComponent);
       wrapper.insertBefore(rem, wrapper.childNodes[0]);
@@ -1442,6 +1450,9 @@ function drawShortZonalStats(data, name, mapComponent) {
       break;
     case 'main-nav-map-searchNShubs':
       wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+      break;
+    case 'main-nav-map':
+      wrapper.insertBefore(zoom, wrapper.childNodes[2]);
       break;
     default:
       wrapper.insertBefore(zoom, wrapper.childNodes[2]);
