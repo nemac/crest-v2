@@ -14,7 +14,10 @@ import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import {
   checkValidObject,
-  googleAnalyticsEvent
+  googleAnalyticsEvent,
+  getIndexes,
+  getAssetDrivers,
+  getThreatDrivers
 } from './utilitys';
 import { bindZonalExportHandler } from './zonalFileExporter';
 // required for bootstrap
@@ -1016,197 +1019,6 @@ function selectChartCell(wrapper, type, value) {
   }
 }
 
-// rename field
-function getCSVName(name) {
-  switch (name) {
-    case 'hubs':
-      return 'Resilience Hubs - data range (1 to 10)';
-    case 'aquatic':
-      return 'Aquatic Index - data range (0 to 5)';
-    case 'terrestrial':
-      return 'Terrestrial Index - data range (0 to 5)';
-    case 'asset':
-      return 'Community Asset Index - data range (1 to 10)';
-    case 'threat':
-      return 'Threat Index - data range (1 to 10)';
-    case 'exposure':
-      return 'Community Exposure Index - data range ( 1 to 10)';
-    case 'pop_density':
-      return 'Population Density - data range ( 0 to 5)';
-    case 'social_vuln':
-      return 'Social Vulnerability - data range ( 0 to 3)';
-    case 'crit_facilities':
-      return 'Critical Facilities - data range ( 0 or 5)';
-    case 'crit_infra':
-      return 'Critical Infrastructure - data range ( 0 to 6)';
-    case 'drainage':
-      return 'Impermeable Soils - data range ( 0 to 5)';
-    case 'erosion':
-      return 'Soil Erodibility - data range ( 0 to 5)';
-    case 'floodprone_areas':
-      return 'Flood-Prone Areas - data range ( 0 to 5)';
-    case 'sea_level_rise':
-      return 'Sea Level Rise - data range ( 0 to 5)';
-    case 'storm_surge':
-      return 'Storm Surge - data range ( 0 to 5)';
-    case 'stormsurge':
-      return 'Storm Surge - data range ( 0 to 5)';
-    case 'geostress':
-      return 'Geological Stressors - data range ( 0 to 3)';
-    case 'slope':
-      return 'Areas of Low Slope - data range ( 0 to 5)';
-    case 'TARGET_FID':
-      return 'name';
-    default:
-      return name;
-  }
-}
-
-// Reformats data for the indexes
-// @param data | Object - all data from the API
-// @return Array
-function getIndexes(data) {
-  return [
-    {
-      label: 'Resilience Hubs',
-      key: 'hubs',
-      value: data.hubs,
-      range: '1 to 10'
-    },
-    {
-      label: 'Aquatic Index',
-      key: 'aquatic',
-      value: data.aquatic,
-      range: '0 to 5'
-    },
-    {
-      label: 'Terrestrial Index',
-      key: 'terrestrial',
-      value: data.terrestrial,
-      range: '0 to 5'
-    },
-    {
-      label: 'Community Asset Index',
-      key: 'asset',
-      value: data.asset,
-      range: '1 to 10'
-    },
-    {
-      label: 'Threat Index',
-      key: 'threats',
-      value: data.threat,
-      range: '1 to 10'
-    },
-    {
-      label: 'Community Exposure Index',
-      key: 'exposure',
-      value: data.exposure,
-      range: '1 to 10'
-    }
-  ];
-}
-
-// Reformats data for the asset drivers
-// @param data | Object - all data from the API
-// @return Array
-function getAssetDrivers(data) {
-  return [
-    {
-      label: 'Population Density',
-      key: 'population-density',
-      value: data.pop_density,
-      range: '0 to 5'
-    },
-    {
-      label: 'Social Vulnerability',
-      key: 'social-vulnerability',
-      value: data.social_vuln,
-      range: '0 to 3'
-    },
-    {
-      label: 'Critical Facilities',
-      key: 'critical-facilities',
-      value: data.crit_facilities,
-      range: '0 or 5'
-    },
-    {
-      label: 'Critical Infrastructure',
-      key: 'critical-infrastructure',
-      value: data.crit_infra,
-      range: '0 to 6'
-    }
-  ];
-}
-
-// Reformats data for the threat drivers
-// @param data | Object - all data from the API
-// @return Array
-function getThreatDrivers(data) {
-  return [
-    {
-      label: 'Impermeable Soils',
-      key: 'drainage',
-      value: data.drainage,
-      range: '0 to 5'
-    },
-    {
-      label: 'Soil Erodibility',
-      key: 'erosion',
-      value: data.erosion,
-      range: '0 to 5'
-    },
-    {
-      label: 'Flood-Prone Areas',
-      key: 'floodprone-areas',
-      value: data.floodprone_areas,
-      range: '0 to 5'
-    },
-    {
-      label: 'Sea Level Rise',
-      key: 'sea-level-rise',
-      value: data.sea_level_rise,
-      range: '0 to 5'
-    },
-    {
-      label: 'Storm Surge',
-      key: 'storm-surge',
-      value: data.storm_surge,
-      range: '0 to 5'
-    },
-    {
-      label: 'Geological Stressors',
-      key: 'geostress',
-      value: data.geostress,
-      range: '0 to 3'
-    },
-    {
-      label: 'Areas of Low Slope',
-      key: 'slope',
-      value: data.slope,
-      range: '0 to 5'
-    }
-  ];
-}
-
-// // Gets the color to be used for the driver bar
-// // @param driver | float - [0,100]
-// // @return String
-// function getDriverColor(driver) {
-//   if (driver <= 20) {
-//     return 'green';
-//   }
-//   if (driver <= 40) {
-//     return 'blue';
-//   }
-//   if (driver <= 60) {
-//     return 'yellow';
-//   }
-//   if (driver <= 80) {
-//     return 'orange';
-//   }
-//   return 'red';
-// }
-
 // Configures each driver bar
 // @param graph | DOM element
 // @param driver | Object
@@ -1710,8 +1522,7 @@ export {
   toggleAllLongZonalsOff,
   getIndexes,
   getAssetDrivers,
-  getThreatDrivers,
-  getCSVName
+  getThreatDrivers
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

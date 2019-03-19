@@ -1,17 +1,60 @@
 import { saveCsv } from './fileExporter';
+import { Store } from './store';
 import {
+  googleAnalyticsEvent,
   getIndexes,
   getAssetDrivers,
-  getThreatDrivers,
-  getCSVName
-} from './zonalStats';
-import { Store } from './store';
-
-import {
-  googleAnalyticsEvent
+  getThreatDrivers
 } from './utilitys';
 
 const store = new Store({});
+
+
+// rename field
+function getCSVName(name) {
+  switch (name) {
+    case 'hubs':
+      return 'Resilience Hubs - data range (1 to 10)';
+    case 'aquatic':
+      return 'Aquatic Index - data range (0 to 5)';
+    case 'terrestrial':
+      return 'Terrestrial Index - data range (0 to 5)';
+    case 'asset':
+      return 'Community Asset Index - data range (1 to 10)';
+    case 'threat':
+      return 'Threat Index - data range (1 to 10)';
+    case 'exposure':
+      return 'Community Exposure Index - data range ( 1 to 10)';
+    case 'pop_density':
+      return 'Population Density - data range ( 0 to 5)';
+    case 'social_vuln':
+      return 'Social Vulnerability - data range ( 0 to 3)';
+    case 'crit_facilities':
+      return 'Critical Facilities - data range ( 0 or 5)';
+    case 'crit_infra':
+      return 'Critical Infrastructure - data range ( 0 to 6)';
+    case 'drainage':
+      return 'Impermeable Soils - data range ( 0 to 5)';
+    case 'erosion':
+      return 'Soil Erodibility - data range ( 0 to 5)';
+    case 'floodprone_areas':
+      return 'Flood-Prone Areas - data range ( 0 to 5)';
+    case 'sea_level_rise':
+      return 'Sea Level Rise - data range ( 0 to 5)';
+    case 'storm_surge':
+      return 'Storm Surge - data range ( 0 to 5)';
+    case 'stormsurge':
+      return 'Storm Surge - data range ( 0 to 5)';
+    case 'geostress':
+      return 'Geological Stressors - data range ( 0 to 3)';
+    case 'slope':
+      return 'Areas of Low Slope - data range ( 0 to 5)';
+    case 'TARGET_FID':
+      return 'name';
+    default:
+      return name;
+  }
+}
 
 /**
  * The code in this file provides the specific implementation of retrieving, formatting and
