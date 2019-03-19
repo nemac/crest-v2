@@ -427,7 +427,7 @@ export class CaseStudies {
       const toggle = document.getElementById(`${layer}-layerToggle`);
       if (toggle) {
         toggle.classList.add('closed');
-        toggle.querySelector('.layer-legend-wrapper').classList.add('closed');        
+        toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
       }
     }, 1);
     // ga event action, category, label
