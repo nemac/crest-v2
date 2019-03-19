@@ -37,6 +37,7 @@ export class ShareUrl extends Component {
     this.shareurlTemplate = shareurlTemplate;
 
     this.addShareUrlControl(this.map);
+    store.setStoreItem('nothing', 'nothing');
 
     // initalize s3 stored shapes API
     this.StoreShapesAPI = new StoreShapesAPI();

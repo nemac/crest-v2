@@ -10,7 +10,6 @@ import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import ZonalButtons from '../templates/zonal_buttons.html';
 import ZonalOverViewTable from '../templates/zonal_overview_table.html';
-import { identifyConfig } from '../config/identifyConfig';
 import { Store } from './store';
 import {
   checkValidObject,
@@ -496,7 +495,8 @@ async function getExlporeGeoJson(areahml, mapComponent) {
   const area = areahml.replace('_', ' ');
   const currentshapes = store.getStateItem('userareas');
   const shape = Object.keys(currentshapes).filter((value) => {
-    return currentshapes[value][0].name === area;
+    const val = currentshapes[value][0].name === area;
+    return val;
   });
 
   const val = shape[0];
@@ -625,27 +625,6 @@ function makeRemoveLabel(name, mapComponent) {
   });
 
   return zonalLabel;
-}
-
-// Parses the configuration of identify values and gets the requested configuration object
-// @param type | String - matches the layer key
-// @param rank | String || Number - rounded and matches the value key
-// @return Object
-function getIdentifyValue(type, rank) {
-  const identifyData = identifyConfig.colorLookup;
-  const trueRank = Math.round(typeof rank !== 'number' ? parseFloat(rank) : rank);
-  let item;
-  let i;
-  let l;
-
-  for (i = 0, l = identifyData.length; i < l; i += 1) {
-    item = identifyData[i];
-    if (item.layer === type && item.value === trueRank) {
-      break;
-    }
-  }
-
-  return item;
 }
 
 // Creates all of the interior html for the short zonal stats

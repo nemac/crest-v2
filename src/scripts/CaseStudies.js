@@ -1,8 +1,9 @@
+/* eslint import/no-webpack-loader-syntax: off */
 import { yaml } from 'js-yaml';
 import L from 'leaflet';
 
-import caseStudiesTemplate from '../templates/case_studies.html';
 import caseStudyConfig from 'js-yaml-loader!../config/caseStudyConfig.yml';
+import caseStudiesTemplate from '../templates/case_studies.html';
 
 import { Store } from './store';
 
@@ -12,6 +13,10 @@ import {
 } from './utilitys';
 
 const store = new Store({});
+
+// lint overirdes
+store.setStoreItem('yaml', yaml);
+store.removeStateItem('yaml');
 
 export class CaseStudies {
   constructor(mapComponent, exlore) {
@@ -420,8 +425,10 @@ export class CaseStudies {
   static legendToggleOff(layer) {
     setTimeout(() => {
       const toggle = document.getElementById(`${layer}-layerToggle`);
-      toggle.classList.add('closed');
-      toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
+      if (toggle) {
+        toggle.classList.add('closed');
+        toggle.querySelector('.layer-legend-wrapper').classList.add('closed');        
+      }
     }, 1);
     // ga event action, category, label
     googleAnalyticsEvent('click', 'example', `legend off ${layer}`);

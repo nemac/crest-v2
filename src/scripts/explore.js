@@ -18,7 +18,6 @@ import { NatureServeHubIntersectionApi } from './NatureServeHubIntersectionAPI';
 import { CaseStudies } from './CaseStudies';
 import { bindZonalAllExportHandler } from './zonalFileExporter';
 
-
 import {
   checkValidObject,
   spinnerOff,
@@ -60,6 +59,11 @@ const store = new Store({});
 //   default:
 //     break;
 // }
+
+store.setStoreItem('Draw', Draw);
+store.removeStateItem('Draw');
+store.setStoreItem('drawLocal', drawLocal);
+store.removeStateItem('drawLocal');
 
 /**
  * explore Component
@@ -1786,6 +1790,9 @@ export class Explore extends Component {
 
     // draw polygon handler
     const polygonDrawer = new L.Draw.Polygon(mapComponent.map, options);
+    store.setStoreItem('polygonDrawer', String(polygonDrawer));
+    store.removeStateItem('polygonDrawer');
+
     L.drawLocal.draw.handlers.polygon.tooltip.cont = 'Click on the map to continue drawing the shape.';
     L.drawLocal.draw.handlers.polygon.tooltip.start = 'Click on the map to start drawing a shape';
 

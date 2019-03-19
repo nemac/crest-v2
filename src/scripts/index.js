@@ -43,6 +43,7 @@ const URLCls = new URL();
 
 library.add(fas, far);
 
+
 // Kicks off the process of finding <i> tags and replacing with <svg>
 dom.watch();
 
@@ -55,6 +56,17 @@ let aboutComponent;
 let shareurl;
 
 const store = new Store({});
+
+// lint overirdes
+store.setStoreItem('navBarComponent', navBarComponent);
+store.removeStateItem('navBarComponent');
+store.setStoreItem('maplayersComponent', maplayersComponent);
+store.removeStateItem('maplayersComponent');
+store.setStoreItem('aboutComponent', aboutComponent);
+store.removeStateItem('aboutComponent');
+store.setStoreItem('shareurl', shareurl);
+store.removeStateItem('shareurl');
+
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.

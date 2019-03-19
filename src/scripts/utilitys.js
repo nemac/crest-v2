@@ -1,6 +1,29 @@
 import { Store } from './store';
+import { identifyConfig } from '../config/identifyConfig';
 
 const store = new Store({});
+
+// Parses the configuration of identify values and gets the requested configuration object
+// @param type | String - matches the layer key
+// @param rank | String || Number - rounded and matches the value key
+// @return Object
+export function getIdentifyValue(type, rank) {
+  const identifyData = identifyConfig.colorLookup;
+  const trueRank = Math.round(typeof rank !== 'number' ? parseFloat(rank) : rank);
+  let item;
+  let i;
+  let l;
+
+  for (i = 0, l = identifyData.length; i < l; i += 1) {
+    item = identifyData[i];
+    if (item.layer === type && item.value === trueRank) {
+      break;
+    }
+  }
+
+  return item;
+}
+
 /**
  * update the display of element
  *  @param { Object } element - Element object from click event, used to toggle
