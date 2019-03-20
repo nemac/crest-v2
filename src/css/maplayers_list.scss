@@ -5,6 +5,7 @@
 $body-bg:    $gray-800;
 $body-color: $gray-200;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .9); // $gray-800
+$dark-bg: #2A2E33;
 
 $box-shadow-default: 0 2.5px 5px rgba(0,0,0,0.19), 0 1.5px 1.5px rgba(0,0,0,0.23);
 $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
@@ -152,7 +153,7 @@ $map_right_margin: 10px;
   margin: 5px;
 }
 
-.btn-basemap {
+.btn-basemap, .inputs-collapser {
   cursor: pointer;
   background-color: $body-bg !important;
   border-width: 1px !important;;
@@ -167,6 +168,34 @@ $map_right_margin: 10px;
   -webkit-background-clip: padding-box;
   -moz-background-clip:    padding;
   background-clip:         padding-box;
+  border-color: #f8f9fa;
+  border-style: solid;
+
+  .icon-right {
+    float: right;
+  }
+
+  .inputs-layer-list {
+    padding: 10px;
+  }
+
+  [aria-expanded="true"] {
+    svg.fa-caret-down {
+      display: none !important;
+    }
+    svg.fa-caret-up {
+      display: inherit !important;
+    }
+  }
+
+  .inputs-collapser-header {
+    // background-color: $dark-bg !important;
+    padding: 5px;
+    border-width: 1px !important;;
+    border-radius: 0.25rem !important;
+    -webkit-border-radius: 0.25rem !important;
+    -moz-border-radius: 0.25rem !important;
+  }
 }
 
 .btn-basemap:focus {
