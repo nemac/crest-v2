@@ -153,7 +153,7 @@ $map_right_margin: 10px;
   margin: 5px;
 }
 
-.btn-basemap, .inputs-collapser {
+.btn-basemap {
   cursor: pointer;
   background-color: $body-bg !important;
   border-width: 1px !important;;
@@ -169,6 +169,51 @@ $map_right_margin: 10px;
   -moz-background-clip:    padding;
   background-clip:         padding-box;
   border-color: #f8f9fa;
+  border-style: solid;
+
+  .icon-right {
+    float: right;
+  }
+
+  .inputs-layer-list {
+    padding: 10px;
+  }
+
+  [aria-expanded="true"] {
+    svg.fa-caret-down {
+      display: none !important;
+    }
+    svg.fa-caret-up {
+      display: inherit !important;
+    }
+  }
+
+  .inputs-collapser-header {
+    // background-color: $dark-bg !important;
+    padding: 5px;
+    border-width: 1px !important;;
+    border-radius: 0.25rem !important;
+    -webkit-border-radius: 0.25rem !important;
+    -moz-border-radius: 0.25rem !important;
+  }
+}
+
+.inputs-collapser {
+  cursor: pointer;
+  background-color: $body-bg !important;
+  border-width: 1px !important;;
+  border-radius: 0.25rem !important;
+  -webkit-border-radius: 0.25rem !important;
+  -moz-border-radius: 0.25rem !important;
+  width: 100% !important;
+  box-shadow: $box-shadow-default !important;
+  -moz-box-shadow: $box-shadow-default !important;
+
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+  border-color: #6c757d; //#777777;
   border-style: solid;
 
   .icon-right {
