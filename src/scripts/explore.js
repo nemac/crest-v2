@@ -136,12 +136,12 @@ export class Explore extends Component {
     this.HubIntersectionApi = new HubIntersectionApi();
     this.NatureServeHubIntersectionApi = new NatureServeHubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
-    this.HubsNSExploreText = 'Where should I do a NS resilience project?';
+    this.HubsNSExploreText = 'Targeted Watersheds and Projects';
     this.DefaultExploreText = 'Start Exploring the Assessment';
     this.ExamplesExploreText = 'Case Studies';
     this.exlporeAssmentMessage = 'To examine the Assessment, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of an area, use the “Upload Shapefile” button.';
     this.exlporeHubMessage = 'To search for an area on which to implement a potential resilience project, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
-    this.exlporeNSHubMessage = 'To search for an area on which to implement a potential resilience project in a targeted watershed data, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
+    this.exlporeNSHubMessage = 'To search for an area on which to implement a potential resilience project using targeted watershed hubs, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
 
     this.restoreWhenNotShareURL();
 
