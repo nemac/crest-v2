@@ -174,7 +174,6 @@ function initMapComponent() { // add parameter for type of explore
 function setNavBars(selector) {
   NavBar.resetTabContent();
   const activeNav = store.getStateItem('activeNav');
-  console.log('setNavBars', selector)
   // this very hacky need better way to handle
   if (selector === 'main-nav-map-searchhubs' || selector === 'main-nav-map-searchNShubs' || selector === 'main-nav-map-examples') {
     NavBar.toggleTabContent('main-nav-map');

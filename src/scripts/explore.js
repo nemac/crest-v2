@@ -331,7 +331,6 @@ export class Explore extends Component {
   // and the default regional data.
   // the config has an item source that holds targetedwatershed or regional
   onlyDisplayValidLayers() {
-    console.log('onlyDisplayValidLayers')
     const activeNav = store.getStateItem('activeNav');
     let validSource = 'regional';
 
@@ -354,40 +353,28 @@ export class Explore extends Component {
     const layers = store.getStateItem('mapLayerDisplayStatus');
 
     Object.keys(layers).forEach((layer) => {
-      // console.log('loop', layer)
+      const asource = TMSLayers.filter(TMSlayer => (
+        TMSlayer.id === layer && TMSlayer.source === validSource
+      ));
 
-      const asource = TMSLayers.filter((layers) => {
-        // console.log(layers.id, layer, layers.source, validSource, layers.id === layer &&  layers.source === validSource)
-        return layers.id === layer &&  layers.source === validSource;
-      });
-
-      // console.log('asource', layer, asource);
-      // if (asource.length > 0) {
-      //   console.log('do layer draw')
-      // }
-      console.log(layer, layers[layer])
+      // layer is on and not part of the tabs data so it needs to be off
       if (layers[layer] && asource.length === 0) {
-        console.log('off', layer);
-        // if (this.mapComponent.map.hasLayer(layer)) {
-        //   this.mapComponent.map.removeLayer(layer);
-        // }
         this.mapComponent.toggleVisLayerOff(layer);
       }
 
+      // layer is on IS part of the tabs data os it needs to be on
       if (layers[layer] && asource.length > 0) {
-        console.log('On', layer);
         this.mapComponent.toggleVisLayerOn(layer);
       }
-
     });
   }
+
   // listens for the when the navbar changes EVENT, when it does
   // we re-draw the map for either the exlopre the assment or
   // search by hubs
   navBarChangeListner() {
     // event listner to handle nav change
     window.addEventListener('aboutNavChange', (e) => {
-      console.log('aboutNavChange')
       this.drawAreaGroup.clearLayers();
       Explore.clearZonalHolderButtons();
       Explore.clearZonalStatsWrapperDiv();
