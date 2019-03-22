@@ -9,6 +9,7 @@ import buffer from '@turf/buffer';
 import exploreTemplate from '../templates/explore.html';
 import Shapebuttons from '../templates/shapebuttons.html';
 
+import { mapConfig } from '../config/mapConfig';
 import { Component } from './components';
 import { Store } from './store';
 import { StoreShapesAPI } from './StoreShapesAPI';
@@ -325,12 +326,68 @@ export class Explore extends Component {
     return null;
   }
 
+  // only display layers that are needed in current tab
+  // this especially true for switching between targeted watershed data
+  // and the default regional data.
+  // the config has an item source that holds targetedwatershed or regional
+  onlyDisplayValidLayers() {
+    console.log('onlyDisplayValidLayers')
+    const activeNav = store.getStateItem('activeNav');
+    let validSource = 'regional';
+
+    switch (activeNav) {
+      case 'main-nav-map-searchhubs':
+        validSource = 'regional';
+        break;
+      case 'main-nav-map-examples':
+        validSource = 'regional';
+        break;
+      case 'main-nav-map-searchNShubs':
+        validSource = 'targetedwatershed';
+        break;
+      default:
+        validSource = 'regional';
+        break;
+    }
+
+    const { TMSLayers } = mapConfig;
+    const layers = store.getStateItem('mapLayerDisplayStatus');
+
+    Object.keys(layers).forEach((layer) => {
+      // console.log('loop', layer)
+
+      const asource = TMSLayers.filter((layers) => {
+        // console.log(layers.id, layer, layers.source, validSource, layers.id === layer &&  layers.source === validSource)
+        return layers.id === layer &&  layers.source === validSource;
+      });
+
+      // console.log('asource', layer, asource);
+      // if (asource.length > 0) {
+      //   console.log('do layer draw')
+      // }
+      console.log(layer, layers[layer])
+      if (layers[layer] && asource.length === 0) {
+        console.log('off', layer);
+        // if (this.mapComponent.map.hasLayer(layer)) {
+        //   this.mapComponent.map.removeLayer(layer);
+        // }
+        this.mapComponent.toggleVisLayerOff(layer);
+      }
+
+      if (layers[layer] && asource.length > 0) {
+        console.log('On', layer);
+        this.mapComponent.toggleVisLayerOn(layer);
+      }
+
+    });
+  }
   // listens for the when the navbar changes EVENT, when it does
   // we re-draw the map for either the exlopre the assment or
   // search by hubs
   navBarChangeListner() {
     // event listner to handle nav change
     window.addEventListener('aboutNavChange', (e) => {
+      console.log('aboutNavChange')
       this.drawAreaGroup.clearLayers();
       Explore.clearZonalHolderButtons();
       Explore.clearZonalStatsWrapperDiv();
@@ -357,6 +414,7 @@ export class Explore extends Component {
             // if there is NONE dispolay the text
             // that tells the user what to do
             UpdateZonalStatsBtn.classList.add('d-none');
+            this.onlyDisplayValidLayers();
             if (!checkValidObject(checkHubIntersectionJson)) {
               Explore.updateExploreText(exploreTitle, this.HubsExploreText);
               Explore.updateExploreText(exploreTitleResponsive, this.HubsExploreText);
@@ -389,6 +447,7 @@ export class Explore extends Component {
             this.caseStudies.initalize();
             return null;
           case 'main-nav-map-searchNShubs':
+            this.onlyDisplayValidLayers();
             UpdateZonalStatsBtn.classList.add('d-none');
             if (!checkValidObject(checkNatureServeHubIntersectionJson)) {
               Explore.updateExploreText(exploreTitle, this.HubsNSExploreText);
@@ -410,6 +469,7 @@ export class Explore extends Component {
             }
             return null;
           case 'main-nav-map':
+            this.onlyDisplayValidLayers();
             if (!checkValidObject(checkUserareas)) {
               UpdateZonalStatsBtn.classList.remove('d-none');
               Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
@@ -432,6 +492,7 @@ export class Explore extends Component {
             }
             return null;
           default:
+            this.onlyDisplayValidLayers();
             if (!checkValidObject(checkUserareas)) {
               UpdateZonalStatsBtn.classList.remove('d-none');
               Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
