@@ -2,6 +2,7 @@
 import { yaml } from 'js-yaml';
 import L from 'leaflet';
 
+import { mapConfig } from '../config/mapConfig';
 import caseStudyConfig from 'js-yaml-loader!../config/caseStudyConfig.yml';
 import caseStudiesTemplate from '../templates/case_studies.html';
 
@@ -33,6 +34,35 @@ export class CaseStudies {
     };
   }
 
+  // only display layers that are needed in current tab
+  // this especially true for switching between targeted watershed data
+  // and the default regional data.
+  // the config has an item source that holds targetedwatershed or regional
+  onlyDisplayValidLayers() {
+    const validSource = 'regional';
+
+    // get the layer list from the config file
+    const { TMSLayers } = mapConfig;
+    const layers = store.getStateItem('mapLayerDisplayStatus');
+
+    // filter the layers based on current source
+    Object.keys(layers).forEach((layer) => {
+      const asource = TMSLayers.filter(TMSlayer => (
+        TMSlayer.id === layer && TMSlayer.source === validSource
+      ));
+
+      // layer is on and not part of the tabs data so it needs to be off
+      if (layers[layer] && asource.length === 0) {
+        this.mapComponent.toggleVisLayerOff(layer);
+      }
+
+      // layer is on IS part of the tabs data os it needs to be on
+      if (layers[layer] && asource.length > 0) {
+        this.mapComponent.toggleVisLayerOn(layer);
+      }
+    });
+  }
+
   initalize() {
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
@@ -43,7 +73,7 @@ export class CaseStudies {
     }
 
     this.addClearEvent();
-
+    this.onlyDisplayValidLayers();
     this.caseStudies.forEach((study) => {
       // update main study narrative
       CaseStudies.updateNarrative(study.htmlid,
