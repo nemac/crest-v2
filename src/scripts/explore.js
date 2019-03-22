@@ -334,6 +334,8 @@ export class Explore extends Component {
     const activeNav = store.getStateItem('activeNav');
     let validSource = 'regional';
 
+    // using current nav bar set the valid layers
+    // either targetedwatershed or regional
     switch (activeNav) {
       case 'main-nav-map-searchhubs':
         validSource = 'regional';
@@ -349,9 +351,11 @@ export class Explore extends Component {
         break;
     }
 
+    // get the layer list from the config file
     const { TMSLayers } = mapConfig;
     const layers = store.getStateItem('mapLayerDisplayStatus');
 
+    // filter the layers based on current source
     Object.keys(layers).forEach((layer) => {
       const asource = TMSLayers.filter(TMSlayer => (
         TMSlayer.id === layer && TMSlayer.source === validSource
