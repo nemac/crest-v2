@@ -2,9 +2,9 @@
 import { yaml } from 'js-yaml';
 import L from 'leaflet';
 
-import { mapConfig } from '../config/mapConfig';
 import caseStudyConfig from 'js-yaml-loader!../config/caseStudyConfig.yml';
 import caseStudiesTemplate from '../templates/case_studies.html';
+import { mapConfig } from '../config/mapConfig';
 
 import { Store } from './store';
 
