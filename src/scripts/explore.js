@@ -2257,6 +2257,7 @@ export class Explore extends Component {
           Explore.sortHubsByHubScore();
           // draw zonal stats for each shape
           this.drawZonalStatsForStoredHubs();
+          this.drawHubsFromStateObject();
           this.mapComponent.map.fireEvent('zonalstatsend');
           break;
         case 'main-nav-map-examples':
@@ -2271,6 +2272,7 @@ export class Explore extends Component {
           Explore.sortNatureServeHubsByHubScore();
           // draw zonal stats for each shape
           this.drawZonalStatsForStoredNatureServeHubs();
+          this.drawNatureServeHubsFromStateObject();
           this.mapComponent.map.fireEvent('zonalstatsend');
           break;
         case 'main-nav-map':
