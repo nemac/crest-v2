@@ -275,6 +275,7 @@ export class Explore extends Component {
             Explore.dismissBufferCheckBox();
             if (checkValidObject(checkHubIntersectionJson)) {
               Explore.dismissExploreDirections();
+              this.drawZonalStatsForStoredHubs();
             }
             return null;
           case 'main-nav-map-searchNShubs':
@@ -284,9 +285,9 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
             Explore.updateExploreDirections(this.exlporeNSHubMessage);
             Explore.dismissBufferCheckBox();
-            console.log(checkNatureServeHubIntersectionJson)
             if (checkValidObject(checkNatureServeHubIntersectionJson)) {
               Explore.dismissExploreDirections();
+              this.drawZonalStatsForStoredNatureServeHubs();
             }
             return null;
           case 'main-nav-map-examples':
@@ -2199,10 +2200,11 @@ export class Explore extends Component {
   static clearFileInput(elem) {
     try {
       elem.value = null;
-    } catch(e) { }
+    } catch (e) { return null; }
     if (elem.value) {
-      elem.parentNode.replaceChild(elem.cloneNode(true), ctrl);
+      elem.parentNode.replaceChild(elem.cloneNode(true), elem);
     }
+    return null;
   }
 
   fileSelectHandler(event) {
