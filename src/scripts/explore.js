@@ -125,6 +125,7 @@ export class Explore extends Component {
 
     // handler for clicking the draw area button
     Explore.addDrawAreaClickHandler(mapComponent);
+    this.addUploadShapeHandler();
 
     // handle stop of draw with escape before finsihed
     Explore.addDrawVertexStop(mapComponent, mapInfoComponent);
@@ -145,8 +146,6 @@ export class Explore extends Component {
     this.exlporeNSHubMessage = 'To search for an area on which to implement a potential resilience project using targeted watershed hubs, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
 
     this.restoreWhenNotShareURL();
-
-    this.addUploadShapeHandler();
 
     Explore.addListAreasHandler();
 
@@ -285,6 +284,7 @@ export class Explore extends Component {
             Explore.updateExploreText(exploreTitleResponsive, this.HubsNSExploreText);
             Explore.updateExploreDirections(this.exlporeNSHubMessage);
             Explore.dismissBufferCheckBox();
+            console.log(checkNatureServeHubIntersectionJson)
             if (checkValidObject(checkNatureServeHubIntersectionJson)) {
               Explore.dismissExploreDirections();
             }
@@ -390,7 +390,6 @@ export class Explore extends Component {
       const checkUserareas = store.getStateItem('userareas');
       document.querySelector('.explore-row-container .sticky-top.sideheading').classList.remove('d-none');
       const UpdateZonalStatsBtn = document.getElementById('btn-update-zonal-stats');
-
       Explore.disableShapeExistsButtons();
       Explore.dismissExploreDirections();
       disableZonalButtons();
@@ -2181,9 +2180,13 @@ export class Explore extends Component {
 
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
-    const uploadFeaturesBtn = document.getElementById('upload-shape-btn');
-    uploadFeaturesBtn.addEventListener('click', e => Explore.clickUploadHandler());
-    uploadFeaturesBtn.addEventListener('change', e => this.fileSelectHandler(e));
+    const uploadFeaturesBtns = document.querySelectorAll('#upload-shape-btn');
+    uploadFeaturesBtns.forEach((elem) => {
+      if (elem) {
+        elem.addEventListener('click', e => Explore.clickUploadHandler());
+        elem.addEventListener('change', e => this.fileSelectHandler(e));
+      }
+    });
   }
 
   static clickUploadHandler() {
@@ -2191,11 +2194,23 @@ export class Explore extends Component {
     googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'upload shapefile');
   }
 
+  // clears file input, incase user switches tabs then
+  // uploads the same file.
+  static clearFileInput(elem) {
+    try {
+      elem.value = null;
+    } catch(e) { }
+    if (elem.value) {
+      elem.parentNode.replaceChild(elem.cloneNode(true), ctrl);
+    }
+  }
+
   fileSelectHandler(event) {
     store.setStoreItem('working_zonalstats', true);
     const fileList = event.target.files;
     const files = Explore.convertFileListToArray(fileList);
     this.processUploadedFiles(files);
+    Explore.clearFileInput(document.getElementById(event.target.id));
   }
 
   async processUploadedFiles(files) {

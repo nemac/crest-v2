@@ -191,8 +191,8 @@ function setNavBars(selector) {
   } else {
     NavBar.tabUpdate(selector);
   }
-  const navChangeEvent = new CustomEvent('aboutNavChange');
-  window.dispatchEvent(navChangeEvent);
+  // const navChangeEvent = new CustomEvent('aboutNavChange');
+  // window.dispatchEvent(navChangeEvent);
 }
 
 // Initializes the static pages by inserting the rendered template into the selected DOM element

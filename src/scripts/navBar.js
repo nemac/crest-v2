@@ -93,8 +93,8 @@ export class NavBar extends Component {
         store.setStoreItem('activeNav', nav.id);
 
         // this is repative with router?
-        // const navChangeEvent = new CustomEvent('aboutNavChange');
-        // window.dispatchEvent(navChangeEvent);
+        const navChangeEvent = new CustomEvent('aboutNavChange');
+        window.dispatchEvent(navChangeEvent);
       });
     });
   }
