@@ -10,6 +10,11 @@ import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import ZonalButtons from '../templates/zonal_buttons.html';
 import ZonalOverViewTable from '../templates/zonal_overview_table.html';
+import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
+import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
+import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
+import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
+import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
 import { Store } from './store';
 import {
   checkValidObject,
@@ -1005,6 +1010,23 @@ function drawDriver(graph, name, type, driver) {
   let height = getDriverHeight(driver.value);
   let cssKey = driver.key;
   let csstype = type;
+  let cssExtra = '';
+  const activeNav = store.getStateItem('activeNav');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      cssExtra = '';
+      break;
+    case 'main-nav-map-examples':
+      cssExtra = '';
+      break;
+    case 'main-nav-map-searchNShubs':
+      cssExtra = 'ns-';
+      break;
+    default:
+      cssExtra = '';
+      break;
+  }
 
   if (driver.key === 'hubs') {
     height = getTenHeight(driver.value);
@@ -1093,14 +1115,12 @@ function drawDriver(graph, name, type, driver) {
 
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
-
-  const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
-
+  const bar = graph.querySelector(`.zonal-long-graph-bar-${cssExtra}${driver.key}`);
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
 
   if (bar) {
-    bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
+    bar.setAttribute('id', `zonal-long-graph-bar-${cssExtra}${name}`);
     bar.style.height = formatPosition(height);
     if (name) {
       bar.classList.add(`zonal-long-table-cell-${cssKey}-${toolTipword}`);
@@ -1116,10 +1136,35 @@ function drawDriver(graph, name, type, driver) {
   }
 }
 
-function drawShortChart(wrapper, drivers, name) {
-  const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .zonal-long-graph');
-  assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+function drawShortChart(wrapper, drivers, name, activeNav) {
+  let assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    case 'main-nav-map-examples':
+      assetGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    case 'main-nav-map-searchNShubs':
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    case 'main-nav-map':
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    default:
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+  }
 }
 
 function drawMapInfoChart(drivers, name, graph) {
@@ -1158,6 +1203,31 @@ function getShortDataChartData(data) {
       label: 'terrestrial',
       key: 'terrestrial',
       value: data.terrestrial
+    },
+    {
+      label: 'ns-hubs',
+      key: 'ns-hubs',
+      value: data.ns_hubs
+    },
+    {
+      label: 'ns-fishandwildlife',
+      key: 'ns-fishandwildlife',
+      value: data.ns_fishandwildlife
+    },
+    {
+      label: 'ns-asset',
+      key: 'ns-asset',
+      value: data.ns_asset
+    },
+    {
+      label: 'ns-threat',
+      key: 'ns-threat',
+      value: data.ns_threat
+    },
+    {
+      label: 'ns-exposure',
+      key: 'ns-exposure',
+      value: data.ns_exposure
     }
   ];
 }
@@ -1180,6 +1250,8 @@ function drawMapInfoStats(data, doc) {
 // @return DOM element
 function drawShortZonalStats(data, name, mapComponent) {
   const wrapper = makeDiv();
+  const activeNav = store.getStateItem('activeNav');
+
   wrapper.classList.add('zonal-short-wrapper');
   wrapper.classList.add('w-100');
   wrapper.classList.add('active');
@@ -1198,7 +1270,7 @@ function drawShortZonalStats(data, name, mapComponent) {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
 
-  drawShortChart(wrapper, getShortDataChartData(data), HTMLName);
+  drawShortChart(wrapper, getShortDataChartData(data), HTMLName, activeNav);
 
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);
@@ -1209,8 +1281,6 @@ function drawShortZonalStats(data, name, mapComponent) {
 
   shortChart.addEventListener('mouseout', zonalLabelMouseOutHandler);
   shortChart.addEventListener('mouseover', zonalLabelMouseOverHandler);
-
-  const activeNav = store.getStateItem('activeNav');
 
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
@@ -1233,20 +1303,31 @@ function drawShortZonalStats(data, name, mapComponent) {
 
   const zoom = makeZoom(name, mapComponent);
 
+  const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
+  const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
+
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
       wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+      defaultLongGraphs.classList.remove('d-none');
+      nsLongGraphs.classList.add('d-none');
       break;
     case 'main-nav-map-examples':
       break;
     case 'main-nav-map-searchNShubs':
       wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+      defaultLongGraphs.classList.add('d-none');
+      nsLongGraphs.classList.remove('d-none');
       break;
     case 'main-nav-map':
       wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+      defaultLongGraphs.classList.remove('d-none');
+      nsLongGraphs.classList.add('d-none');
       break;
     default:
       wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+      defaultLongGraphs.classList.remove('d-none');
+      nsLongGraphs.classList.add('d-none');
       break;
   }
 
