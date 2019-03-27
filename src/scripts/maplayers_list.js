@@ -25,6 +25,12 @@ import ColorRampGeoStress from '../templates/colorramp_geostress.html';
 import ColorRampSlopefrom from '../templates/colorramp_slope.html';
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
 import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
+import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
+import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
+import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
+import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
+import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
+
 
 // scss
 import '../css/maplayers_list.scss';
@@ -373,6 +379,16 @@ export class MapLayersList extends Component {
         return ColorRampSlopefrom;
       case 'driver-threat':
         return ColorRampDriverThreat;
+      case 'ns-hub':
+        return ColorRampDriverNSHub;
+      case 'ns-exposure':
+        return ColorRampDriverNSExposure;
+      case 'ns-asset':
+        return ColorRampDriverNSAsset;
+      case 'ns-threat':
+        return ColorRampDriverNSThreat;
+      case 'ns-fishandwildlife':
+        return ColorRampDriverNSFishAndWildlife;
       default:
         return '';
     }

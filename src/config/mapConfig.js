@@ -330,7 +330,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
       tms: false,
-      legend: "hub",
+      legend: "ns-hub",
       description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'targetedwatershed'
     },
@@ -348,7 +348,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
       tms: false,
-      legend: "exposure",
+      legend: "ns-exposure",
       description: "The product of the Asset and Threat Indices which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.",
       source: 'targetedwatershed'
     },
@@ -366,7 +366,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
       tms: false,
-      legend: "asset",
+      legend: "ns-asset",
       description: "Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape.",
       source: 'targetedwatershed'
     },
@@ -384,7 +384,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
       tms: false,
-      legend: "threat",
+      legend: "ns-threat",
       description: "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.",
       source: 'targetedwatershed'
     },
@@ -402,7 +402,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "aquatic",
+      legend: "ns-fishandwildlife",
       description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
       source: 'targetedwatershed'
     },

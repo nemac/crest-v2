@@ -13,6 +13,13 @@ $asset-bar: #94571c;
 $threat-bar: #d4182b;
 $exposure-bar: #0f0;
 
+$ns-exposure-none: #E9ECEF;
+$ns-exposure-1: #1f6e6e;
+$ns-exposure-2: #92aa8c;
+$ns-exposure-3: #f5e9a9;
+$ns-exposure-4: #ac895c;
+$ns-exposure-5: #633319;
+
 $threat-none: #E9ECEF;
 $threat-1: #ffebd6;
 $threat-2: #f7d7bc;
@@ -25,6 +32,13 @@ $threat-8: #d14030;
 $threat-9: #c9251c;
 $threat-10: #c40a0a;
 $theatbarsep: #68ace7;
+
+$ns-threat-none: #E9ECEF;
+$ns-threat-1: #ffebd6;
+$ns-threat-2: #f5bca1;
+$ns-threat-3: #e88e6e;
+$ns-threat-4: #d85b3d;
+$ns-threat-5: #c40a0a;
 
 $asset-none: #E9ECEF;
 $asset-1: #b6edf0;
@@ -39,6 +53,13 @@ $asset-9: #1727a3;
 $asset-10: #090991;
 $assetbarsep: #d4182b;
 
+$ns-asset-none: #E9ECEF;
+$ns-asset-1: #b6edf0;
+$ns-asset-2: #82bcea;
+$ns-asset-3: #368de3;
+$ns-asset-4: #2e4fba;
+$ns-asset-5: #090991;
+
 $fish-none: #E9ECEF;
 $fish-0: #E9ECEF;
 $fish-1: #cde1e8;
@@ -47,6 +68,13 @@ $fish-3: #5ea5bb;
 $fish-4: #007e91;
 $fish-5: #005a62;
 $fish-bar: #f00;
+
+$ns-fishandwildlife-none: #E9ECEF;
+$ns-fishandwildlife-1: #eee7f8;
+$ns-fishandwildlife-2: #e6bbce;
+$ns-fishandwildlife-3: #db90a6;
+$ns-fishandwildlife-4: #af62a8;
+$ns-fishandwildlife-5: #7e33a8;
 
 $wildlife-none: #E9ECEF;
 $wildlife-0: #E9ECEF;
@@ -150,6 +178,13 @@ $hub-8: #d14c00;
 $hub-9: #ca3600;
 $hub-10: #c21500;
 $hub-bar: #0ff;
+
+$ns-hub-none: #E9ECEF;
+$ns-hub-1: #ffc500;
+$ns-hub-2: #f2a000;
+$ns-hub-3: #e37900;
+$ns-hub-4: #d35100;
+$ns-hub-5: #c21500;
 
 $asset-driver-0: #f7fbff;
 $asset-driver-1: #d1e3f3;
@@ -817,6 +852,37 @@ div.zonal-asset {
     color: #b2afaf;
   }
 
+  &-ns-exposure-box {
+    &-none {
+      background-color: $ns-exposure-none;
+      color: #000;
+    }
+    &-one {
+      background-color: $ns-exposure-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $ns-exposure-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $ns-exposure-3;
+      color: #000;
+    }
+
+    &-four{
+      background-color: $ns-exposure-4;
+      color: #000;
+    }
+
+    &-five{
+      background-color: $ns-exposure-5;
+      color: #b2afaf;
+    }
+  }
+
   &-exposure-box {
     &-none {
       background-color: $exposure-none;
@@ -872,6 +938,38 @@ div.zonal-asset {
     }
   }
 
+
+  &-ns-fishandwildlife {
+    &-none {
+      background-color: $ns-fishandwildlife-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $ns-fishandwildlife-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $ns-fishandwildlife-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $ns-fishandwildlife-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $ns-fishandwildlife-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $ns-fishandwildlife-5;
+      color: #b2afaf;
+    }
+  }
   &-fish {
     &-none {
       background-color: $fish-none;
@@ -1316,6 +1414,38 @@ div.zonal-asset {
     }
   }
 
+  &-ns-hub {
+    &-none {
+      background-color: $ns-hub-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $ns-hub-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $ns-hub-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $ns-hub-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $ns-hub-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $ns-hub-5;
+      color: #b2afaf;
+    }
+  }
+
   &-hub {
     &-none {
       background-color: $hub-none;
@@ -1431,6 +1561,38 @@ div.zonal-asset {
 
   }
 
+  &-ns-asset {
+    &-none {
+      background-color: $ns-asset-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $ns-asset-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $ns-asset-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $ns-asset-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $ns-asset-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $ns-asset-5;
+      color: #b2afaf;
+    }
+  }
+
   &-threat {
     &-none {
       background-color: $threat-none;
@@ -1484,6 +1646,38 @@ div.zonal-asset {
 
     &-ten {
       background-color: $threat-10;
+      color: #b2afaf;
+    }
+  }
+
+  &-ns-threat {
+    &-none {
+      background-color: $ns-threat-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $ns-threat-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $ns-threat-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $ns-threat-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $ns-threat-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $ns-threat-5;
       color: #b2afaf;
     }
   }
