@@ -900,6 +900,12 @@ function buildLongStatsHtml(wrapper) {
   innerWrapper.querySelector('.zonal-long-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
   innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
   innerWrapper.querySelector('.zonal-long-table-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampThreat;
+
+  innerWrapper.querySelector('.zonal-long-ns-hub .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSHub;
+  innerWrapper.querySelector('.zonal-long-ns-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSExposure;
+  innerWrapper.querySelector('.zonal-long-table-ns-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSAsset;
+  innerWrapper.querySelector('.zonal-long-table-ns-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSThreat;
+  innerWrapper.querySelector('.zonal-long-table-index-ns-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSFishAndWildlife;
 }
 
 // convert a number to to the word representation
@@ -1033,9 +1039,19 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'hub';
   }
 
+  if (driver.key === 'ns-hubs') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-hub';
+  }
+
   if (driver.key === 'aquatic') {
     height = getSixHeight(driver.value);
     cssKey = 'fish';
+  }
+
+  if (driver.key === 'ns-fishandwildlife') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-fishandwildlife';
   }
 
   if (driver.key === 'terrestrial') {
@@ -1048,14 +1064,29 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'exposure-box';
   }
 
+  if (driver.key === 'ns-exposure') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-exposure-box';
+  }
+
   if (driver.key === 'threat') {
     height = getTenHeight(driver.value);
     cssKey = 'threat';
   }
 
+  if (driver.key === 'ns-threat') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-threat';
+  }
+
   if (driver.key === 'asset') {
     height = getTenHeight(driver.value);
     cssKey = 'asset';
+  }
+
+  if (driver.key === 'ns-asset') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-asset';
   }
 
   if (driver.key === 'population-density') {
@@ -1115,7 +1146,8 @@ function drawDriver(graph, name, type, driver) {
 
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
-  const bar = graph.querySelector(`.zonal-long-graph-bar-${cssExtra}${driver.key}`);
+  // const bar = graph.querySelector(`.zonal-long-graph-bar-${cssExtra}${driver.key}`);
+  const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
 
@@ -1421,44 +1453,84 @@ function enableInputGraphs(wrapper) {
 function drawLongZonalStats(data, name) {
   const HTMLName = makeHTMLName(name);
   const wrapper = makeDiv();
+  const activeNav = store.getStateItem('activeNav');
+
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.setAttribute('id', `name-${HTMLName}`);
   buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
   drawZonalButtons(HTMLName, name);
 
-  selectChartCell(wrapper, 'hub', data.hubs);
-  selectChartCell(wrapper, 'asset', data.asset);
-  selectChartCell(wrapper, 'threat', data.threat);
-  selectChartCell(wrapper, 'exposure-box', data.exposure);
-  selectChartCell(wrapper, 'fish', data.aquatic);
-  selectChartCell(wrapper, 'wildlife', data.terrestrial);
-
-  const activeNav = store.getStateItem('activeNav');
+  const defaultdetailGraphs = wrapper.querySelector('.default-detail-graphs');
+  const nsdetailGraphs = wrapper.querySelector('.ns-detail-graphs');
 
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       enableInputGraphs(wrapper);
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
       break;
     case 'main-nav-map-examples':
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       enableInputGraphs(wrapper);
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
       break;
     case 'main-nav-map-searchNShubs':
+      selectChartCell(wrapper, 'ns-hub', data.ns_hubs);
+      selectChartCell(wrapper, 'ns-asset', data.ns_asset);
+      selectChartCell(wrapper, 'ns-threat', data.ns_threat);
+      selectChartCell(wrapper, 'ns-exposure-box', data.ns_exposure);
+      selectChartCell(wrapper, 'ns-fishandwildlife', data.ns_aquatic);
+      selectChartCell(wrapper, 'ns-wildlife', data.ns_terrestrial);
+
       disableInputGraphs(wrapper);
+      defaultdetailGraphs.classList.add('d-none');
+      nsdetailGraphs.classList.remove('d-none');
       break;
     case 'main-nav-map':
+      selectChartCell(wrapper, 'ns-hub', data.hubs);
+      selectChartCell(wrapper, 'ns-asset', data.asset);
+      selectChartCell(wrapper, 'ns-threat', data.threat);
+      selectChartCell(wrapper, 'ns-exposure-box', data.exposure);
+      selectChartCell(wrapper, 'ns-fishandwildlife', data.aquatic);
+
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       enableInputGraphs(wrapper);
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
       break;
     default:
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       enableInputGraphs(wrapper);
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
       break;
   }
 
