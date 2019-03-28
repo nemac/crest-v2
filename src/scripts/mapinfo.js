@@ -64,6 +64,10 @@ export class MapInfo extends Component {
     $(() => {
       $('#mapinfodata [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
     });
+
+    window.addEventListener('aboutNavChange', (e) => {
+      this.restoreMapInfoState();
+    });
   }
 
   // add Identify control to leaflet map
@@ -106,7 +110,14 @@ export class MapInfo extends Component {
     this.mapComponent.mapCursorCrosshair();
 
     // remove from state
-    store.removeStateItem('mapClick');
+    const activeNav = store.getStateItem('activeNav');
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      // check the mapclick v
+      store.removeStateItem('mapinfons');
+    } else {
+      // check the mapclick v
+      store.removeStateItem('mapinfo');
+    }
   }
 
   // mapinfo (identify) control (button) on add function.
@@ -124,13 +135,26 @@ export class MapInfo extends Component {
 
   // restore the state form map info/identify
   restoreMapInfoState() {
+    const activeNav = store.getStateItem('activeNav');
+
     // check the mapclick variable. if map clicked restore the state
-    const mapClick = store.getStateItem('mapClick');
+    let mapClick = {};
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      mapClick = store.getStateItem('mapClickns');
+    } else {
+      mapClick = store.getStateItem('mapClick');
+    }
 
     // ensure the mapclick state is a valid object
     if (checkValidObject(mapClick)) {
       this.mapComponent.setMapClick(mapClick);
-      const IdentifyJsonFromStore = store.getStateItem('mapinfo');
+      let IdentifyJsonFromStore = {};
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        IdentifyJsonFromStore = store.getStateItem('mapinfons');
+      } else {
+        IdentifyJsonFromStore = store.getStateItem('mapinfo');
+      }
+      console.log(mapClick, IdentifyJsonFromStore)
       // check if mapinfo data is store use
       // data in store over going to api again
       this.retreiveMapClick(checkValidObject(IdentifyJsonFromStore));
@@ -160,7 +184,15 @@ export class MapInfo extends Component {
       store.saveAction('click');
 
       // save the mapclick location to the state store
-      store.setStoreItem('mapClick', ev.latlng);
+      const activeNav = store.getStateItem('activeNav');
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        store.setStoreItem('mapClickns', ev.latlng);
+      } else {
+        // check the mapclick v
+        store.setStoreItem('mapClick', ev.latlng);
+      }
+
       // ga event action, category, label
       googleAnalyticsEvent('click', 'map', 'mapinfo');
 
@@ -193,9 +225,16 @@ export class MapInfo extends Component {
       return false;
     }
 
+    const activeNav = store.getStateItem('activeNav');
     // get the map click location from the store
-    const mapClick = store.getStateItem('mapClick');
+    let mapClick = {};
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      mapClick = store.getStateItem('mapClickns');
+    } else {
+      mapClick = store.getStateItem('mapClick');
+    }
 
+    this.removeMapMarker();
     // ensure the mapclick is valid has information we can use
     if (!checkValidObject(mapClick)) {
       store.setStoreItem('working_mapinfo', false);
@@ -207,17 +246,29 @@ export class MapInfo extends Component {
       return false;
     }
 
+    console.log('restore', restore)
     let IdentifyJson = {};
+
     // use store data if exists otherwise use lambda function
     if (restore) {
       // store data
-      IdentifyJson = store.getStateItem('mapinfo');
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        IdentifyJson = store.getStateItem('mapinfons');
+      } else {
+        IdentifyJson = store.getStateItem('mapinfo');
+      }
+
       // ga event action, category, label
       googleAnalyticsEvent('call', 'store', 'IdentifyAPI');
     } else {
       // make call to lambda api.
       IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
-      store.setStoreItem('mapinfo', IdentifyJson);
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        store.setStoreItem('mapinfons', IdentifyJson);
+      } else {
+        store.setStoreItem('mapinfo', IdentifyJson);
+      }
+
       // ga event action, category, label
       googleAnalyticsEvent('call', 'lambda', 'IdentifyAPI');
     }
@@ -318,8 +369,17 @@ export class MapInfo extends Component {
       }
 
       // remove from state
-      store.removeStateItem('mapClick');
-      store.removeStateItem('mapinfo');
+      const activeNav = store.getStateItem('activeNav');
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        store.removeStateItem('mapClickns');
+        store.removeStateItem('mapinfons');
+      } else {
+        // check the mapclick v
+        store.removeStateItem('mapClick');
+        store.removeStateItem('mapinfo');
+      }
+
     });
   }
 
