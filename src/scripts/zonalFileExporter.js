@@ -13,6 +13,16 @@ const store = new Store({});
 // rename field
 function getCSVName(name) {
   switch (name) {
+    case 'ns_hubs':
+      return 'Targeted Watershed Hubs - data range (1 to 5)';
+    case 'ns_fishandwildlife':
+      return 'Targeted Watershed Fish and Wildlife Index - data range (1 to 5)';
+    case 'ns_asset':
+      return 'Targeted Watershed Asset Index - data range (1 to 5)';
+    case 'ns_threat':
+      return 'Targeted Watershed Index - data range (1 to 5)';
+    case 'ns_exposure':
+      return 'Targeted Watershed Exposure Index - data range (1 to 5)';
     case 'hubs':
       return 'Resilience Hubs - data range (1 to 10)';
     case 'aquatic':
@@ -24,31 +34,31 @@ function getCSVName(name) {
     case 'threat':
       return 'Threat Index - data range (1 to 10)';
     case 'exposure':
-      return 'Community Exposure Index - data range ( 1 to 10)';
+      return 'Community Exposure Index - data range (1 to 10)';
     case 'pop_density':
-      return 'Population Density - data range ( 0 to 5)';
+      return 'Population Density - data range (0 to 5)';
     case 'social_vuln':
-      return 'Social Vulnerability - data range ( 0 to 3)';
+      return 'Social Vulnerability - data range (0 to 3)';
     case 'crit_facilities':
-      return 'Critical Facilities - data range ( 0 or 5)';
+      return 'Critical Facilities - data range (0 or 5)';
     case 'crit_infra':
-      return 'Critical Infrastructure - data range ( 0 to 6)';
+      return 'Critical Infrastructure - data range (0 to 6)';
     case 'drainage':
-      return 'Impermeable Soils - data range ( 0 to 5)';
+      return 'Impermeable Soils - data range (0 to 5)';
     case 'erosion':
-      return 'Soil Erodibility - data range ( 0 to 5)';
+      return 'Soil Erodibility - data range (0 to 5)';
     case 'floodprone_areas':
-      return 'Flood-Prone Areas - data range ( 0 to 5)';
+      return 'Flood-Prone Areas - data range (0 to 5)';
     case 'sea_level_rise':
-      return 'Sea Level Rise - data range ( 0 to 5)';
+      return 'Sea Level Rise - data range (0 to 5)';
     case 'storm_surge':
-      return 'Storm Surge - data range ( 0 to 5)';
+      return 'Storm Surge - data range (0 to 5)';
     case 'stormsurge':
-      return 'Storm Surge - data range ( 0 to 5)';
+      return 'Storm Surge - data range (0 to 5)';
     case 'geostress':
-      return 'Geological Stressors - data range ( 0 to 3)';
+      return 'Geological Stressors - data range (0 to 3)';
     case 'slope':
-      return 'Areas of Low Slope - data range ( 0 to 5)';
+      return 'Areas of Low Slope - data range (0 to 5)';
     case 'TARGET_FID':
       return 'name';
     default:
