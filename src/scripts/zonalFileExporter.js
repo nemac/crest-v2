@@ -70,35 +70,35 @@ function getCSVName(name) {
 function getExportData(data) {
   const activeNav = store.getStateItem('activeNav');
 
-  let indexes = getIndexes(data).filter(val=>(val.source === 'default'));
-  let assetDrivers = getAssetDrivers(data).filter(val=>(val.source === 'default'));
-  let threatDrivers = getThreatDrivers(data).filter(val=>(val.source === 'default'))
+  let indexes = getIndexes(data).filter(val => (val.source === 'default'));
+  let assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+  let threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
 
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
-      indexes = getIndexes(data).filter(val=>(val.source === 'default'));
-      assetDrivers = getAssetDrivers(data).filter(val=>(val.source === 'default'));
-      threatDrivers = getThreatDrivers(data).filter(val=>(val.source === 'default'));
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
       break;
     case 'main-nav-map-examples':
-      indexes = getIndexes(data).filter(val=>(val.source === 'default'));
-      assetDrivers = getAssetDrivers(data).filter(val=>(val.source === 'default'));
-      threatDrivers = getThreatDrivers(data).filter(val=>(val.source === 'default'));
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
       break;
     case 'main-nav-map-searchNShubs':
-      indexes = getIndexes(data).filter(val=>(val.source === 'ns'));
-      assetDrivers = getAssetDrivers(data).filter(val=>(val.source === 'ns'));
-      threatDrivers = getThreatDrivers(data).filter(val=>(val.source === 'ns'));
+      indexes = getIndexes(data).filter(val => (val.source === 'ns'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'ns'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'ns'));
       break;
     case 'main-nav-map':
-      indexes = getIndexes(data).filter(val=>(val.source === 'default'));
-      assetDrivers = getAssetDrivers(data).filter(val=>(val.source === 'default'));
-      threatDrivers = getThreatDrivers(data).filter(val=>(val.source === 'default'));
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
       break;
     default:
-      indexes = getIndexes(data).filter(val=>(val.source === 'default'));
-      assetDrivers = getAssetDrivers(data).filter(val=>(val.source === 'default'));
-      threatDrivers = getThreatDrivers(data).filter(val=>(val.source === 'default'));
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
       break;
   }
   return indexes.concat(assetDrivers).concat(threatDrivers);
@@ -129,7 +129,6 @@ function formatExportData(exportData) {
 // @return Array
 function makeExportFileContent(data) {
   const csvString = formatExportData(getExportData(data));
-  console.log(csvString)
   return [`Index,Value,Range(s)\r\n${csvString}`];
 }
 
@@ -241,15 +240,8 @@ function handleZonalCsvExport(name) {
     }
     case 'main-nav-map-searchNShubs': {
       const data = getNatureServeHubDataFromState(key);
-      console.log(data)
-
       const label = makeNatureServeHubNameFromKey(key);
-      console.log(label)
-
       const fileContent = makeExportFileContent(data);
-      console.log(fileContent)
-
-
       triggerCsvExport(fileContent, label);
       break;
     }
