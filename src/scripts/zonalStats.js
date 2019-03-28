@@ -1506,12 +1506,13 @@ function drawLongZonalStats(data, name) {
       nsdetailGraphs.classList.remove('d-none');
       break;
     case 'main-nav-map':
-      selectChartCell(wrapper, 'ns-hub', data.hubs);
-      selectChartCell(wrapper, 'ns-asset', data.asset);
-      selectChartCell(wrapper, 'ns-threat', data.threat);
-      selectChartCell(wrapper, 'ns-exposure-box', data.exposure);
-      selectChartCell(wrapper, 'ns-fishandwildlife', data.aquatic);
-
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
