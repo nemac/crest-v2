@@ -1475,9 +1475,9 @@ function drawLongZonalStats(data, name) {
 
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
-      enableInputGraphs(wrapper);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
+      enableInputGraphs(wrapper);
       break;
     case 'main-nav-map-examples':
       selectChartCell(wrapper, 'hub', data.hubs);
@@ -1489,9 +1489,9 @@ function drawLongZonalStats(data, name) {
 
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
-      enableInputGraphs(wrapper);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
+      enableInputGraphs(wrapper);
       break;
     case 'main-nav-map-searchNShubs':
       selectChartCell(wrapper, 'ns-hub', data.ns_hubs);
@@ -1514,9 +1514,10 @@ function drawLongZonalStats(data, name) {
 
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
-      enableInputGraphs(wrapper);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
+      enableInputGraphs(wrapper);
+      console.log(wrapper);
       break;
     default:
       selectChartCell(wrapper, 'hub', data.hubs);
@@ -1528,9 +1529,10 @@ function drawLongZonalStats(data, name) {
 
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
-      enableInputGraphs(wrapper);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
+      enableInputGraphs(wrapper);
+      console.log(wrapper);
       break;
   }
 
