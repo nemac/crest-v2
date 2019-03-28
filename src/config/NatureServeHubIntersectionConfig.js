@@ -11,7 +11,7 @@ const config = {
     slr: 'sea_level_rise'
   },
   queryUrl: QUERY_REQUEST_URL,
-  agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'aquatic', 'terrestri', 'hubs', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'drainage', 'erosion', 'floodprone', 'geostress', 'slr', 'slope', 'stormsurge']
+  agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'aquatic', 'terrestri', 'hubs']
 };
 
 export default config;

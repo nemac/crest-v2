@@ -1171,6 +1171,7 @@ function drawMapInfoChart(drivers, name, graph) {
   const mapInfoGraph = graph.querySelector('#mapinfodata .zonal-long-graph');
   drivers.forEach(drawDriver.bind(null, mapInfoGraph, name, ''));
 }
+
 // @return Array
 function getShortDataChartData(data) {
   return [
@@ -1392,6 +1393,28 @@ function drawZonalButtons(HTMLName, name) {
   buttonHolder.innerHTML += wrapper.innerHTML;
 }
 
+// make the input graphs invisible for
+// nature server data there are no Inputs
+function disableInputGraphs(wrapper) {
+  const elems =  wrapper.querySelectorAll('.zonal-input-graph');
+  elems.forEach((elem) => {
+    if (elem) {
+      elem.classList.add('d-none');
+    }
+  });
+}
+
+// make the input graphs visible for
+// nature server data there are no Inputs
+function enableInputGraphs(wrapper) {
+  const elems =  wrapper.querySelectorAll('.zonal-input-graph');
+  elems.forEach((elem) => {
+    if (elem) {
+      elem.classList.remove('d-none');
+    }
+  });
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
@@ -1411,8 +1434,33 @@ function drawLongZonalStats(data, name) {
   selectChartCell(wrapper, 'fish', data.aquatic);
   selectChartCell(wrapper, 'wildlife', data.terrestrial);
 
-  drawAssetDrivers(wrapper, getAssetDrivers(data));
-  drawThreatDrivers(wrapper, getThreatDrivers(data));
+  const activeNav = store.getStateItem('activeNav');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      enableInputGraphs(wrapper);
+      break;
+    case 'main-nav-map-examples':
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      enableInputGraphs(wrapper);
+      break;
+    case 'main-nav-map-searchNShubs':
+      disableInputGraphs(wrapper);
+      break;
+    case 'main-nav-map':
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      enableInputGraphs(wrapper);
+      break;
+    default:
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      enableInputGraphs(wrapper);
+      break;
+  }
 
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
