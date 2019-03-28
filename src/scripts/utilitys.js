@@ -52,9 +52,21 @@ export function getIndexes(data) {
       range: '1 to 10'
     },
     {
+      label: 'Targeted Watershed Hubs',
+      key: 'ns-hubs',
+      value: data.ns_hubs,
+      range: '1 to 5'
+    },
+    {
       label: 'Aquatic Index',
       key: 'aquatic',
       value: data.aquatic,
+      range: '0 to 5'
+    },
+    {
+      label: 'Targeted Watershed Fish and Wildlife Index',
+      key: 'ns-fishandwildlife',
+      value: data.ns_fishandwildlife,
       range: '0 to 5'
     },
     {
@@ -70,16 +82,34 @@ export function getIndexes(data) {
       range: '1 to 10'
     },
     {
+      label: 'Targeted Watershed Asset Index',
+      key: 'ns-asset',
+      value: data.ns_asset,
+      range: '1 to 5'
+    },
+    {
       label: 'Threat Index',
       key: 'threats',
       value: data.threat,
       range: '1 to 10'
     },
     {
+      label: 'Targeted Watershed Threat Index',
+      key: 'ns-threats',
+      value: data.ns_threat,
+      range: '1 to 5'
+    },
+    {
       label: 'Community Exposure Index',
       key: 'exposure',
       value: data.exposure,
       range: '1 to 10'
+    },
+    {
+      label: 'Targeted Watershed Exposure Index',
+      key: 'ns-exposure',
+      value: data.ns_exposure,
+      range: '1 to 5'
     }
   ];
 }

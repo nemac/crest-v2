@@ -1427,8 +1427,8 @@ function drawZonalButtons(HTMLName, name) {
 
 // make the input graphs invisible for
 // nature server data there are no Inputs
-function disableInputGraphs(wrapper) {
-  const elems =  wrapper.querySelectorAll('.zonal-input-graph');
+function disableInputGraphs(wrapper, selector) {
+  const elems =  wrapper.querySelectorAll(selector);
   elems.forEach((elem) => {
     if (elem) {
       elem.classList.add('d-none');
@@ -1438,8 +1438,8 @@ function disableInputGraphs(wrapper) {
 
 // make the input graphs visible for
 // nature server data there are no Inputs
-function enableInputGraphs(wrapper) {
-  const elems =  wrapper.querySelectorAll('.zonal-input-graph');
+function enableInputGraphs(wrapper, selector) {
+  const elems =  wrapper.querySelectorAll(selector);
   elems.forEach((elem) => {
     if (elem) {
       elem.classList.remove('d-none');
@@ -1464,6 +1464,8 @@ function drawLongZonalStats(data, name) {
   const defaultdetailGraphs = wrapper.querySelector('.default-detail-graphs');
   const nsdetailGraphs = wrapper.querySelector('.ns-detail-graphs');
 
+  drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
+
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
       selectChartCell(wrapper, 'hub', data.hubs);
@@ -1475,9 +1477,12 @@ function drawLongZonalStats(data, name) {
 
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
+
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
-      enableInputGraphs(wrapper);
+      enableInputGraphs(wrapper, '.zonal-input-graph');
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns')
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map-examples':
       selectChartCell(wrapper, 'hub', data.hubs);
@@ -1491,7 +1496,9 @@ function drawLongZonalStats(data, name) {
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
-      enableInputGraphs(wrapper);
+      enableInputGraphs(wrapper, '.zonal-input-graph');
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns')
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map-searchNShubs':
       selectChartCell(wrapper, 'ns-hub', data.ns_hubs);
@@ -1501,9 +1508,11 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'ns-fishandwildlife', data.ns_aquatic);
       selectChartCell(wrapper, 'ns-wildlife', data.ns_terrestrial);
 
-      disableInputGraphs(wrapper);
+      disableInputGraphs(wrapper, '.zonal-input-graph');
       defaultdetailGraphs.classList.add('d-none');
       nsdetailGraphs.classList.remove('d-none');
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns')
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map':
       selectChartCell(wrapper, 'hub', data.hubs);
@@ -1512,13 +1521,14 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'exposure-box', data.exposure);
       selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'wildlife', data.terrestrial);
-      
+
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
-      enableInputGraphs(wrapper);
-      console.log(wrapper);
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns')
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+      enableInputGraphs(wrapper, '.zonal-input-graph');
       break;
     default:
       selectChartCell(wrapper, 'hub', data.hubs);
@@ -1532,54 +1542,53 @@ function drawLongZonalStats(data, name) {
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
-      enableInputGraphs(wrapper);
-      console.log(wrapper);
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns')
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+      enableInputGraphs(wrapper, '.zonal-input-graph');
       break;
   }
-
-  drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
 
   return wrapper;
 }
 
-
-// create function for all zonal stats
-function zonalStatTable() {
-  const userareas = store.getStateItem('userareas');
-  const tablewrapper = makeDiv();
-  tablewrapper.innerHTML = ZonalOverViewTable;
-
-  Object.keys(userareas).map((key) => {
-    const { name } = userareas[key][0];
-    const data = userareas[key][3].zonalstatsjson.features[0].properties.mean;
-    const datatablerow = tablewrapper.querySelector('#table-row-holder').cloneNode(true);
-
-    datatablerow.querySelector('.zonal-long-raw-value-areaid').innerHTML = name;
-    datatablerow.querySelector('.zonal-long-raw-value-hubs').innerHTML = checkNoData(data.hubs) ? 0 : Math.round(data.hubs * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-aquatic').innerHTML = checkNoData(data.aquatic) ? 0 : Math.round(data.aquatic * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-terrestrial').innerHTML = checkNoData(data.terrestrial) ? 0 : Math.round(data.terrestrial * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-exposure').innerHTML = checkNoData(data.exposure) ? 0 : Math.round(data.exposure * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-asset').innerHTML = checkNoData(data.asset) ? 0 : Math.round(data.asset * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-threats').innerHTML = checkNoData(data.threats) ? 0 : Math.round(data.threats * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
-    tablewrapper.querySelector('#table-row-holder').parentNode.appendChild(datatablerow);
-    return null;
-  });
-
-  const firstchild = tablewrapper.querySelectorAll('#table-row-holder')[0];
-  firstchild.parentNode.removeChild(firstchild);
-  return tablewrapper;
-}
+//
+// // create function for all zonal stats
+// function zonalStatTable() {
+//   const userareas = store.getStateItem('userareas');
+//   const tablewrapper = makeDiv();
+//   tablewrapper.innerHTML = ZonalOverViewTable;
+//   console.log(userareas);
+//   Object.keys(userareas).map((key) => {
+//     const { name } = userareas[key][0];
+//     const data = userareas[key][3].zonalstatsjson.features[0].properties.mean;
+//     const datatablerow = tablewrapper.querySelector('#table-row-holder').cloneNode(true);
+//
+//     datatablerow.querySelector('.zonal-long-raw-value-areaid').innerHTML = name;
+//     datatablerow.querySelector('.zonal-long-raw-value-hubs').innerHTML = checkNoData(data.hubs) ? 0 : Math.round(data.hubs * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-aquatic').innerHTML = checkNoData(data.aquatic) ? 0 : Math.round(data.aquatic * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-terrestrial').innerHTML = checkNoData(data.terrestrial) ? 0 : Math.round(data.terrestrial * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-exposure').innerHTML = checkNoData(data.exposure) ? 0 : Math.round(data.exposure * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-asset').innerHTML = checkNoData(data.asset) ? 0 : Math.round(data.asset * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-threats').innerHTML = checkNoData(data.threats) ? 0 : Math.round(data.threats * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
+//     datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
+//     tablewrapper.querySelector('#table-row-holder').parentNode.appendChild(datatablerow);
+//     return null;
+//   });
+//
+//   const firstchild = tablewrapper.querySelectorAll('#table-row-holder')[0];
+//   firstchild.parentNode.removeChild(firstchild);
+//   return tablewrapper;
+// }
 
 // check if graph or table is the active state is so we can disable the
 // mouse off event on the shape.  This prevents the map from removeing the
@@ -1666,9 +1675,8 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
   wrapper.appendChild(drawLongZonalStats(data, name));
 
-  const child = document.getElementById('full-table-holder').childNodes[0];
-
-  document.getElementById('full-table-holder').replaceChild(zonalStatTable(), child);
+  // const child = document.getElementById('full-table-holder').childNodes[0];
+  // document.getElementById('full-table-holder').replaceChild(zonalStatTable(), child);
   document.getElementById('zonal-content').appendChild(wrapper);
 
   // initalize new tooltips
