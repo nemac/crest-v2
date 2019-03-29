@@ -66,6 +66,33 @@ export class MapInfo extends Component {
     });
 
     window.addEventListener('aboutNavChange', (e) => {
+      // remove from state
+      const activeNav = store.getStateItem('activeNav');
+      let mapclick = {};
+      let mapinfo = {};
+
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        mapclick = store.getStateItem('mapClickns');
+        mapinfo = store.getStateItem('mapinfons');
+      } else {
+        // check the mapclick v
+        mapclick = store.getStateItem('mapClick');
+        mapinfo = store.getStateItem('mapinfo');
+      }
+
+      this.removeMapMarker();
+
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        store.setStoreItem('mapClickns', mapclick);
+        store.setStoreItem('mapinfons', mapinfo);
+      } else {
+        // check the mapclick v
+        store.setStoreItem('mapClick', mapclick);
+        store.setStoreItem('mapinfo', mapinfo);
+      }
+
       this.restoreMapInfoState();
     });
   }
@@ -154,7 +181,6 @@ export class MapInfo extends Component {
       } else {
         IdentifyJsonFromStore = store.getStateItem('mapinfo');
       }
-      console.log(mapClick, IdentifyJsonFromStore)
       // check if mapinfo data is store use
       // data in store over going to api again
       this.retreiveMapClick(checkValidObject(IdentifyJsonFromStore));
@@ -234,7 +260,6 @@ export class MapInfo extends Component {
       mapClick = store.getStateItem('mapClick');
     }
 
-    this.removeMapMarker();
     // ensure the mapclick is valid has information we can use
     if (!checkValidObject(mapClick)) {
       store.setStoreItem('working_mapinfo', false);
@@ -246,7 +271,6 @@ export class MapInfo extends Component {
       return false;
     }
 
-    console.log('restore', restore)
     let IdentifyJson = {};
 
     // use store data if exists otherwise use lambda function
@@ -257,7 +281,6 @@ export class MapInfo extends Component {
       } else {
         IdentifyJson = store.getStateItem('mapinfo');
       }
-
       // ga event action, category, label
       googleAnalyticsEvent('call', 'store', 'IdentifyAPI');
     } else {
@@ -293,7 +316,6 @@ export class MapInfo extends Component {
     // add the a click handler to popup to remove the
     // the point marker from the map and state
     this.addRemoveMarkerOnClick(popup);
-
     spinnerOff('retreiveMapClick complete');
     this.mapComponent.mapCursorDefault();
     // must click the i button to do this action we will have to remove this
@@ -379,7 +401,6 @@ export class MapInfo extends Component {
         store.removeStateItem('mapClick');
         store.removeStateItem('mapinfo');
       }
-
     });
   }
 
