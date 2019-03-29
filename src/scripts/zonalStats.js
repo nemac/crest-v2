@@ -1199,7 +1199,14 @@ function drawShortChart(wrapper, drivers, name, activeNav) {
 }
 
 function drawMapInfoChart(drivers, name, graph) {
-  const mapInfoGraph = graph.querySelector('#mapinfodata .zonal-long-graph');
+  const activeNav = store.getStateItem('activeNav');
+  let mapInfoElemCalss = '';
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    mapInfoElemCalss = '.ns-mapinfo';
+  } else {
+    mapInfoElemCalss = '.default-mapinfo';
+  }
+  const mapInfoGraph = graph.querySelector(`#mapinfodata ${mapInfoElemCalss} .zonal-long-graph`);
   drivers.forEach(drawDriver.bind(null, mapInfoGraph, name, ''));
 }
 

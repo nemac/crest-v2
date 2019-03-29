@@ -6,7 +6,6 @@ import mapInfoTemplate from '../templates/mapinfo.html';
 
 import { Component } from './components';
 import { Store } from './store';
-
 import { IdentifyAPI } from './identifyAPI';
 
 import {
@@ -19,6 +18,17 @@ import {
 import {
   drawMapInfoStats
 } from './zonalStats';
+
+const config = {
+  fieldMaps: {
+    exposure: 'ns_exposure',
+    asset: 'ns_asset',
+    threat: 'ns_threat',
+    fishandwildlife: 'ns_fishandwildlife',
+    hubs: 'ns_hubs'
+  },
+  agolOutFields: ['TARGET_FID', 'exposure', 'asset', 'threat', 'aquatic', 'hubs']
+};
 
 // required for bootstrap
 window.$ = require('jquery');
@@ -230,6 +240,21 @@ export class MapInfo extends Component {
     });
   }
 
+  static remapFields(json) {
+    const props = {};
+    Object.keys(json).forEach((agolField) => {
+      let fieldName;
+      const val = json[agolField];
+      if (agolField in config.fieldMaps) {
+        fieldName = config.fieldMaps[agolField];
+      } else {
+        fieldName = agolField;
+      }
+      props[fieldName] = val;
+    });
+    return props;
+  }
+
   // Load map data from the API
   // todo what else can be seperated out to make functions more
   // testable.
@@ -272,24 +297,28 @@ export class MapInfo extends Component {
     }
 
     let IdentifyJson = {};
-
+    let RemapedIdentifyJson = {};
     // use store data if exists otherwise use lambda function
     if (restore) {
       // store data
       if (activeNav === 'main-nav-map-searchNShubs') {
-        IdentifyJson = store.getStateItem('mapinfons');
+        RemapedIdentifyJson = store.getStateItem('mapinfons');
       } else {
-        IdentifyJson = store.getStateItem('mapinfo');
+        RemapedIdentifyJson = store.getStateItem('mapinfo');
       }
       // ga event action, category, label
       googleAnalyticsEvent('call', 'store', 'IdentifyAPI');
     } else {
       // make call to lambda api.
       IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
+
+
       if (activeNav === 'main-nav-map-searchNShubs') {
-        store.setStoreItem('mapinfons', IdentifyJson);
+        RemapedIdentifyJson = MapInfo.remapFields(IdentifyJson);
+        store.setStoreItem('mapinfons', RemapedIdentifyJson);
       } else {
-        store.setStoreItem('mapinfo', IdentifyJson);
+        RemapedIdentifyJson = IdentifyJson;
+        store.setStoreItem('mapinfo', RemapedIdentifyJson);
       }
 
       // ga event action, category, label
@@ -305,8 +334,17 @@ export class MapInfo extends Component {
     // get the mapinfo (identify) html document and udpate
     // the content with returned values
     const doc = MapInfo.getDocument();
-    MapInfo.buildMapInfoConent(IdentifyJson, doc);
+    MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc);
+    const defaultElem = doc.querySelector('.default-mapinfo');
+    const nsElem = doc.querySelector('.ns-mapinfo');
 
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      defaultElem.classList.add('d-none');
+      nsElem.classList.remove('d-none');
+    } else {
+      nsElem.classList.add('d-none');
+      defaultElem.classList.remove('d-none');
+    }
     // bind the html to the leaflet marker and open as leaflet popup
     const popup = MapInfo.bindPopup(this.marker, doc);
 
