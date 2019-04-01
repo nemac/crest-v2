@@ -5,6 +5,7 @@ const URL_IGNORE_KEYS = [
   'userarea',
   'userarea_buffered',
   'HubIntersectionJson',
+  'NatureServeHubIntersectionJson',
   'zonalstatsjson',
   'working_basemap',
   'working_mapinfo',
@@ -16,8 +17,10 @@ const URL_IGNORE_KEYS = [
   'userareas',
   'savedshapes',
   'savedhubs',
+  'savedNatureServeHubs',
   'userareacount',
   'mapinfo',
+  'mapinfons',
   'uuid'
 ];
 
@@ -25,6 +28,7 @@ const SHARE_URL_IGNORE_KEYS = [
   'userarea',
   'userarea_buffered',
   'HubIntersectionJson',
+  'NatureServeHubIntersectionJson',
   'zonalstatsjson',
   'working_basemap',
   'working_mapinfo',
