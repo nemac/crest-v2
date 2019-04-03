@@ -693,6 +693,10 @@ div.zonal-asset {
 
 .zonal-long-raw-values {
   display: none;
+  color: $body-color;
+  .table {
+    color: $body-color;
+  }
 }
 
 .active-table {
