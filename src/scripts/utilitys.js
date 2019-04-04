@@ -1,6 +1,29 @@
 import { Store } from './store';
+import { identifyConfig } from '../config/identifyConfig';
 
 const store = new Store({});
+
+// Parses the configuration of identify values and gets the requested configuration object
+// @param type | String - matches the layer key
+// @param rank | String || Number - rounded and matches the value key
+// @return Object
+export function getIdentifyValue(type, rank) {
+  const identifyData = identifyConfig.colorLookup;
+  const trueRank = Math.round(typeof rank !== 'number' ? parseFloat(rank) : rank);
+  let item;
+  let i;
+  let l;
+
+  for (i = 0, l = identifyData.length; i < l; i += 1) {
+    item = identifyData[i];
+    if (item.layer === type && item.value === trueRank) {
+      break;
+    }
+  }
+
+  return item;
+}
+
 /**
  * update the display of element
  *  @param { Object } element - Element object from click event, used to toggle
@@ -15,6 +38,184 @@ export function toggleElementDisplay(thisEle, elements) {
 
     tabEle.className = newMapClass;
   });
+}
+
+// Reformats data for the indexes
+// @param data | Object - all data from the API
+// @return Array
+export function getIndexes(data) {
+  return [
+    {
+      label: 'Resilience Hubs',
+      key: 'hubs',
+      value: data.hubs,
+      range: '1 to 10',
+      source: 'default'
+    },
+    {
+      label: 'Targeted Watershed Hubs',
+      key: 'ns-hubs',
+      value: data.ns_hubs,
+      range: '1 to 5',
+      source: 'ns'
+    },
+    {
+      label: 'Aquatic Index',
+      key: 'aquatic',
+      value: data.aquatic,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Targeted Watershed Fish and Wildlife',
+      key: 'ns-fishandwildlife',
+      value: data.ns_fishandwildlife,
+      range: '0 to 5',
+      source: 'ns'
+    },
+    {
+      label: 'Terrestrial Index',
+      key: 'terrestrial',
+      value: data.terrestrial,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Community Asset Index',
+      key: 'asset',
+      value: data.asset,
+      range: '1 to 10',
+      source: 'default'
+    },
+    {
+      label: 'Targeted Watershed Asset Index',
+      key: 'ns-asset',
+      value: data.ns_asset,
+      range: '1 to 5',
+      source: 'ns'
+    },
+    {
+      label: 'Threat Index',
+      key: 'threats',
+      value: data.threat,
+      range: '1 to 10',
+      source: 'default'
+    },
+    {
+      label: 'Targeted Watershed Threat Index',
+      key: 'ns-threats',
+      value: data.ns_threat,
+      range: '1 to 5',
+      source: 'ns'
+    },
+    {
+      label: 'Community Exposure Index',
+      key: 'exposure',
+      value: data.exposure,
+      range: '1 to 10',
+      source: 'default'
+    },
+    {
+      label: 'Targeted Watershed Exposure Index',
+      key: 'ns-exposure',
+      value: data.ns_exposure,
+      range: '1 to 5',
+      source: 'ns'
+    }
+  ];
+}
+
+// Reformats data for the asset drivers
+// @param data | Object - all data from the API
+// @return Array
+export function getAssetDrivers(data) {
+  return [
+    {
+      label: 'Population Density',
+      key: 'population-density',
+      value: data.pop_density,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Social Vulnerability',
+      key: 'social-vulnerability',
+      value: data.social_vuln,
+      range: '0 to 3',
+      source: 'default'
+    },
+    {
+      label: 'Critical Facilities',
+      key: 'critical-facilities',
+      value: data.crit_facilities,
+      range: '0 or 5',
+      source: 'default'
+    },
+    {
+      label: 'Critical Infrastructure',
+      key: 'critical-infrastructure',
+      value: data.crit_infra,
+      range: '0 to 6',
+      source: 'default'
+    }
+  ];
+}
+
+// Reformats data for the threat drivers
+// @param data | Object - all data from the API
+// @return Array
+export function getThreatDrivers(data) {
+  return [
+    {
+      label: 'Impermeable Soils',
+      key: 'drainage',
+      value: data.drainage,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Soil Erodibility',
+      key: 'erosion',
+      value: data.erosion,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Flood-Prone Areas',
+      key: 'floodprone-areas',
+      value: data.floodprone_areas,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Sea Level Rise',
+      key: 'sea-level-rise',
+      value: data.sea_level_rise,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Storm Surge',
+      key: 'storm-surge',
+      value: data.storm_surge,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Geological Stressors',
+      key: 'geostress',
+      value: data.geostress,
+      range: '0 to 3',
+      source: 'default'
+    },
+    {
+      label: 'Areas of Low Slope',
+      key: 'slope',
+      value: data.slope,
+      range: '0 to 5',
+      source: 'default'
+    }
+  ];
 }
 
 // ensure the object or variable is valid...

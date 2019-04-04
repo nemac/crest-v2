@@ -1,11 +1,12 @@
 import { CancelToken, get } from 'axios';
 
+import { Store } from './store';
 import { identifyConfig } from '../config/identifyConfig';
 
+const store = new Store({});
 const apiEndpoint = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/';
-const identifyPath = 'Prod/';
-
 // https://xi4lrz17r8.execute-api.us-east-1.amazonaws.com/Prod/identify/proxy?x=1745727&y=451980
+const identifyPath = 'Prod/';
 
 /** API Wrapper Service Class
 * this wrapps the lambda service into axios js calls
@@ -13,8 +14,20 @@ const identifyPath = 'Prod/';
 */
 export class IdentifyAPI {
   constructor(url = apiEndpoint, path = identifyPath) {
-    this.url = url + path;
+    this.apiEndpoint = url;
+    const activeNav = store.getStateItem('activeNav');
+    if (activeNav === 'main-nav-map-searchNShubs') { this.apiEndpoint = 'https://dm3kiccxv2.execute-api.us-east-1.amazonaws.com/'; }
+    this.url = this.apiEndpoint + path;
     this.cancelToken = CancelToken.source();
+
+    // handle nav bar change and potentail data change
+    // to targeted watersheds for identify
+    window.addEventListener('aboutNavChange', (e) => {
+      this.apiEndpoint = url;
+      const activeNavList = store.getStateItem('activeNav');
+      if (activeNavList === 'main-nav-map-searchNShubs') { this.apiEndpoint = 'https://dm3kiccxv2.execute-api.us-east-1.amazonaws.com/'; }
+      this.url = this.apiEndpoint + path;
+    });
   }
 
   async httpGet(queryString = '') {
@@ -52,7 +65,6 @@ export class IdentifyAPI {
     if (returnedFilteredItems !== undefined && returnedFilteredItems.length > 0) {
       filteredItems = returnedFilteredItems;
     }
-
     return filteredItems;
   }
 }

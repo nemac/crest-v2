@@ -6,7 +6,6 @@ import mapInfoTemplate from '../templates/mapinfo.html';
 
 import { Component } from './components';
 import { Store } from './store';
-
 import { IdentifyAPI } from './identifyAPI';
 
 import {
@@ -19,6 +18,17 @@ import {
 import {
   drawMapInfoStats
 } from './zonalStats';
+
+const config = {
+  fieldMaps: {
+    exposure: 'ns_exposure',
+    asset: 'ns_asset',
+    threat: 'ns_threat',
+    fishandwildlife: 'ns_fishandwildlife',
+    hubs: 'ns_hubs'
+  },
+  agolOutFields: ['TARGET_FID', 'exposure', 'asset', 'threat', 'aquatic', 'hubs']
+};
 
 // required for bootstrap
 window.$ = require('jquery');
@@ -64,6 +74,37 @@ export class MapInfo extends Component {
     $(() => {
       $('#mapinfodata [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
     });
+
+    window.addEventListener('aboutNavChange', (e) => {
+      // remove from state
+      const activeNav = store.getStateItem('activeNav');
+      let mapclick = {};
+      let mapinfo = {};
+
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        mapclick = store.getStateItem('mapClickns');
+        mapinfo = store.getStateItem('mapinfons');
+      } else {
+        // check the mapclick v
+        mapclick = store.getStateItem('mapClick');
+        mapinfo = store.getStateItem('mapinfo');
+      }
+
+      this.removeMapMarker();
+
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        store.setStoreItem('mapClickns', mapclick);
+        store.setStoreItem('mapinfons', mapinfo);
+      } else {
+        // check the mapclick v
+        store.setStoreItem('mapClick', mapclick);
+        store.setStoreItem('mapinfo', mapinfo);
+      }
+
+      this.restoreMapInfoState();
+    });
   }
 
   // add Identify control to leaflet map
@@ -106,7 +147,14 @@ export class MapInfo extends Component {
     this.mapComponent.mapCursorCrosshair();
 
     // remove from state
-    store.removeStateItem('mapClick');
+    const activeNav = store.getStateItem('activeNav');
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      // check the mapclick v
+      store.removeStateItem('mapinfons');
+    } else {
+      // check the mapclick v
+      store.removeStateItem('mapinfo');
+    }
   }
 
   // mapinfo (identify) control (button) on add function.
@@ -124,13 +172,25 @@ export class MapInfo extends Component {
 
   // restore the state form map info/identify
   restoreMapInfoState() {
+    const activeNav = store.getStateItem('activeNav');
+
     // check the mapclick variable. if map clicked restore the state
-    const mapClick = store.getStateItem('mapClick');
+    let mapClick = {};
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      mapClick = store.getStateItem('mapClickns');
+    } else {
+      mapClick = store.getStateItem('mapClick');
+    }
 
     // ensure the mapclick state is a valid object
     if (checkValidObject(mapClick)) {
       this.mapComponent.setMapClick(mapClick);
-      const IdentifyJsonFromStore = store.getStateItem('mapinfo');
+      let IdentifyJsonFromStore = {};
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        IdentifyJsonFromStore = store.getStateItem('mapinfons');
+      } else {
+        IdentifyJsonFromStore = store.getStateItem('mapinfo');
+      }
       // check if mapinfo data is store use
       // data in store over going to api again
       this.retreiveMapClick(checkValidObject(IdentifyJsonFromStore));
@@ -160,7 +220,15 @@ export class MapInfo extends Component {
       store.saveAction('click');
 
       // save the mapclick location to the state store
-      store.setStoreItem('mapClick', ev.latlng);
+      const activeNav = store.getStateItem('activeNav');
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        store.setStoreItem('mapClickns', ev.latlng);
+      } else {
+        // check the mapclick v
+        store.setStoreItem('mapClick', ev.latlng);
+      }
+
       // ga event action, category, label
       googleAnalyticsEvent('click', 'map', 'mapinfo');
 
@@ -170,6 +238,21 @@ export class MapInfo extends Component {
         this.retreiveMapClick(false);
       }
     });
+  }
+
+  static remapFields(json) {
+    const props = {};
+    Object.keys(json).forEach((agolField) => {
+      let fieldName;
+      const val = json[agolField];
+      if (agolField in config.fieldMaps) {
+        fieldName = config.fieldMaps[agolField];
+      } else {
+        fieldName = agolField;
+      }
+      props[fieldName] = val;
+    });
+    return props;
   }
 
   // Load map data from the API
@@ -193,8 +276,14 @@ export class MapInfo extends Component {
       return false;
     }
 
+    const activeNav = store.getStateItem('activeNav');
     // get the map click location from the store
-    const mapClick = store.getStateItem('mapClick');
+    let mapClick = {};
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      mapClick = store.getStateItem('mapClickns');
+    } else {
+      mapClick = store.getStateItem('mapClick');
+    }
 
     // ensure the mapclick is valid has information we can use
     if (!checkValidObject(mapClick)) {
@@ -208,16 +297,30 @@ export class MapInfo extends Component {
     }
 
     let IdentifyJson = {};
+    let RemapedIdentifyJson = {};
     // use store data if exists otherwise use lambda function
     if (restore) {
       // store data
-      IdentifyJson = store.getStateItem('mapinfo');
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        RemapedIdentifyJson = store.getStateItem('mapinfons');
+      } else {
+        RemapedIdentifyJson = store.getStateItem('mapinfo');
+      }
       // ga event action, category, label
       googleAnalyticsEvent('call', 'store', 'IdentifyAPI');
     } else {
       // make call to lambda api.
       IdentifyJson = await this.IdentifyAPI.getIdentifySummary(mapClick.lat, mapClick.lng);
-      store.setStoreItem('mapinfo', IdentifyJson);
+
+
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        RemapedIdentifyJson = MapInfo.remapFields(IdentifyJson);
+        store.setStoreItem('mapinfons', RemapedIdentifyJson);
+      } else {
+        RemapedIdentifyJson = IdentifyJson;
+        store.setStoreItem('mapinfo', RemapedIdentifyJson);
+      }
+
       // ga event action, category, label
       googleAnalyticsEvent('call', 'lambda', 'IdentifyAPI');
     }
@@ -231,8 +334,17 @@ export class MapInfo extends Component {
     // get the mapinfo (identify) html document and udpate
     // the content with returned values
     const doc = MapInfo.getDocument();
-    MapInfo.buildMapInfoConent(IdentifyJson, doc);
+    MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc);
+    const defaultElem = doc.querySelector('.default-mapinfo');
+    const nsElem = doc.querySelector('.ns-mapinfo');
 
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      defaultElem.classList.add('d-none');
+      nsElem.classList.remove('d-none');
+    } else {
+      nsElem.classList.add('d-none');
+      defaultElem.classList.remove('d-none');
+    }
     // bind the html to the leaflet marker and open as leaflet popup
     const popup = MapInfo.bindPopup(this.marker, doc);
 
@@ -242,7 +354,6 @@ export class MapInfo extends Component {
     // add the a click handler to popup to remove the
     // the point marker from the map and state
     this.addRemoveMarkerOnClick(popup);
-
     spinnerOff('retreiveMapClick complete');
     this.mapComponent.mapCursorDefault();
     // must click the i button to do this action we will have to remove this
@@ -318,8 +429,16 @@ export class MapInfo extends Component {
       }
 
       // remove from state
-      store.removeStateItem('mapClick');
-      store.removeStateItem('mapinfo');
+      const activeNav = store.getStateItem('activeNav');
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        // check the mapclick v
+        store.removeStateItem('mapClickns');
+        store.removeStateItem('mapinfons');
+      } else {
+        // check the mapclick v
+        store.removeStateItem('mapClick');
+        store.removeStateItem('mapinfo');
+      }
     });
   }
 

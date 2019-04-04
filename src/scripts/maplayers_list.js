@@ -25,6 +25,12 @@ import ColorRampGeoStress from '../templates/colorramp_geostress.html';
 import ColorRampSlopefrom from '../templates/colorramp_slope.html';
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
 import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
+import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
+import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
+import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
+import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
+import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
+
 
 // scss
 import '../css/maplayers_list.scss';
@@ -79,6 +85,20 @@ export class MapLayersList extends Component {
     this.addToolTipListners();
     MapLayersList.resizeMapList();
     window.addEventListener('resize', MapLayersList.resizeMapList);
+
+    window.addEventListener('aboutNavChange', (e) => {
+      const activeNav = store.getStateItem('activeNav');
+      const defaultLayerList = document.getElementById('defaultLayerList');
+      const nsLayerList = document.getElementById('NSLayerList');
+
+      if (activeNav === 'main-nav-map-searchNShubs') {
+        defaultLayerList.classList.add('d-none');
+        nsLayerList.classList.remove('d-none');
+      } else {
+        defaultLayerList.classList.remove('d-none');
+        nsLayerList.classList.add('d-none');
+      }
+    });
   }
 
   // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
@@ -231,7 +251,6 @@ export class MapLayersList extends Component {
   static mapListToggleToggle() {
     const mapListToggle = document.getElementById('mapListToggle');
     const mapLayerListState = store.getStateItem('maplayerlist');
-    // console.log('mapListToggleToggle', mapListToggle, mapLayerListState)
     if (mapListToggle) {
       if (mapLayerListState === 'open') {
         mapListToggle.classList.add('show');
@@ -360,6 +379,16 @@ export class MapLayersList extends Component {
         return ColorRampSlopefrom;
       case 'driver-threat':
         return ColorRampDriverThreat;
+      case 'ns-hub':
+        return ColorRampDriverNSHub;
+      case 'ns-exposure':
+        return ColorRampDriverNSExposure;
+      case 'ns-asset':
+        return ColorRampDriverNSAsset;
+      case 'ns-threat':
+        return ColorRampDriverNSThreat;
+      case 'ns-fishandwildlife':
+        return ColorRampDriverNSFishAndWildlife;
       default:
         return '';
     }
@@ -425,10 +454,12 @@ export class MapLayersList extends Component {
   // @param layerProps | Object
   static addLegendHTML(layerProps) {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
-    MapLayersList.getLegendWrapper(layerElem).innerHTML =
-    MapLayersList.getLegendHtml(layerProps.legend);
-    MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.description);
-    MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
+    if (layerElem) {
+      MapLayersList.getLegendWrapper(layerElem).innerHTML =
+          MapLayersList.getLegendHtml(layerProps.legend);
+      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.description);
+      MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
+    }
   }
 
   // Handles the toggle legend button being interacted with
@@ -477,7 +508,6 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
-
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {

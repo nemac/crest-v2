@@ -2610,13 +2610,33 @@ p.not-found {
   font-size: .85rem;
 }
 
-.mapinfodata {
+.mapinfodata .default-mapinfo{
   font-size: .85rem;
   .zonal-long-graph-label{
     &-exposure {
       .zonal-long-graph-label-text {
         left: -65% !important;
         top: 25px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.mapinfodata .ns-mapinfo{
+  font-size: .85rem;
+  .zonal-long-graph-label{
+    &-exposure {
+      .zonal-long-graph-label-text {
+        left: 0px !important;
+        top: 0px;
+        white-space: nowrap;
+      }
+    }
+    &-hubs {
+      .zonal-long-graph-label-text {
+        left: 5px !important;
+        top: 0px;
         white-space: nowrap;
       }
     }

@@ -5,6 +5,7 @@
 $body-bg:    $gray-800;
 $body-color: $gray-200;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .9); // $gray-800
+$dark-bg: #2A2E33;
 
 $box-shadow-default: 0 2.5px 5px rgba(0,0,0,0.19), 0 1.5px 1.5px rgba(0,0,0,0.23);
 $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
@@ -167,13 +168,93 @@ $map_right_margin: 10px;
   -webkit-background-clip: padding-box;
   -moz-background-clip:    padding;
   background-clip:         padding-box;
+  border-color: #6c757d !important;
+  border-style: solid;
+
+  .icon-right {
+    float: right;
+  }
+
+  .inputs-layer-list {
+    padding: 10px;
+  }
+
+  [aria-expanded="true"] {
+    svg.fa-caret-down {
+      display: none !important;
+    }
+    svg.fa-caret-up {
+      display: inherit !important;
+    }
+  }
+
+  .inputs-collapser-header {
+    // background-color: $dark-bg !important;
+    padding: 5px;
+    border-width: 1px !important;;
+    border-radius: 0.25rem !important;
+    -webkit-border-radius: 0.25rem !important;
+    -moz-border-radius: 0.25rem !important;
+  }
+}
+
+.inputs-collapser {
+  cursor: pointer;
+  background-color: $body-bg !important;
+  border-width: 1px !important;;
+  border-radius: 0.25rem !important;
+  -webkit-border-radius: 0.25rem !important;
+  -moz-border-radius: 0.25rem !important;
+  width: 100% !important;
+  box-shadow: $box-shadow-default !important;
+  -moz-box-shadow: $box-shadow-default !important;
+
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+  border-color: #6c757d; //#777777;
+  border-style: solid;
+
+  .icon-right {
+    float: right;
+  }
+
+  .inputs-layer-list {
+    padding: 10px;
+  }
+
+  [aria-expanded="true"] {
+    svg.fa-caret-down {
+      display: none !important;
+    }
+    svg.fa-caret-up {
+      display: inherit !important;
+    }
+  }
+
+  .inputs-collapser-header {
+    // background-color: $dark-bg !important;
+    padding: 5px;
+    border-width: 1px !important;;
+    border-radius: 0.25rem !important;
+    -webkit-border-radius: 0.25rem !important;
+    -moz-border-radius: 0.25rem !important;
+  }
+
+  .inputs-collapser-header:focus {
+    outline: $gray-600  !important;
+  }
+
+  .inputs-collapser-header:hover {
+    background-color: $gray-600 !important;
+    color: $body-color !important;
+  }
+
 }
 
 .btn-basemap:focus {
   outline: $gray-600  !important;
-  background-color: $gray-600  !important;
-  background-color: $gray-600 !important;
-  color: $body-color !important;
 }
 
 .btn-basemap:hover {

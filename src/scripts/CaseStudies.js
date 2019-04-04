@@ -1,8 +1,10 @@
+/* eslint import/no-webpack-loader-syntax: off */
 import { yaml } from 'js-yaml';
 import L from 'leaflet';
 
-import caseStudiesTemplate from '../templates/case_studies.html';
 import caseStudyConfig from 'js-yaml-loader!../config/caseStudyConfig.yml';
+import caseStudiesTemplate from '../templates/case_studies.html';
+import { mapConfig } from '../config/mapConfig';
 
 import { Store } from './store';
 
@@ -12,6 +14,10 @@ import {
 } from './utilitys';
 
 const store = new Store({});
+
+// lint overirdes
+store.setStoreItem('yaml', yaml);
+store.removeStateItem('yaml');
 
 export class CaseStudies {
   constructor(mapComponent, exlore) {
@@ -28,6 +34,35 @@ export class CaseStudies {
     };
   }
 
+  // only display layers that are needed in current tab
+  // this especially true for switching between targeted watershed data
+  // and the default regional data.
+  // the config has an item source that holds targetedwatershed or regional
+  onlyDisplayValidLayers() {
+    const validSource = 'regional';
+
+    // get the layer list from the config file
+    const { TMSLayers } = mapConfig;
+    const layers = store.getStateItem('mapLayerDisplayStatus');
+
+    // filter the layers based on current source
+    Object.keys(layers).forEach((layer) => {
+      const asource = TMSLayers.filter(TMSlayer => (
+        TMSlayer.id === layer && TMSlayer.source === validSource
+      ));
+
+      // layer is on and not part of the tabs data so it needs to be off
+      if (layers[layer] && asource.length === 0) {
+        this.mapComponent.toggleVisLayerOff(layer);
+      }
+
+      // layer is on IS part of the tabs data os it needs to be on
+      if (layers[layer] && asource.length > 0) {
+        this.mapComponent.toggleVisLayerOn(layer);
+      }
+    });
+  }
+
   initalize() {
     const zonalAreaWrapper = document.getElementById('zonal-area-wrapper');
     if (zonalAreaWrapper) {
@@ -38,7 +73,7 @@ export class CaseStudies {
     }
 
     this.addClearEvent();
-
+    this.onlyDisplayValidLayers();
     this.caseStudies.forEach((study) => {
       // update main study narrative
       CaseStudies.updateNarrative(study.htmlid,
@@ -263,7 +298,7 @@ export class CaseStudies {
 
   zoomToGeoJson(zoomlayer) {
     const zoomBounds = zoomlayer.getBounds();
-    this.mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+    this.mapComponent.map.flyToBounds(zoomBounds.pad(4));
   }
 
 
@@ -420,8 +455,10 @@ export class CaseStudies {
   static legendToggleOff(layer) {
     setTimeout(() => {
       const toggle = document.getElementById(`${layer}-layerToggle`);
-      toggle.classList.add('closed');
-      toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
+      if (toggle) {
+        toggle.classList.add('closed');
+        toggle.querySelector('.layer-legend-wrapper').classList.add('closed');
+      }
     }, 1);
     // ga event action, category, label
     googleAnalyticsEvent('click', 'example', `legend off ${layer}`);

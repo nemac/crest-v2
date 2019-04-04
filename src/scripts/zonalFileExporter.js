@@ -1,17 +1,70 @@
 import { saveCsv } from './fileExporter';
+import { Store } from './store';
 import {
+  googleAnalyticsEvent,
   getIndexes,
   getAssetDrivers,
-  getThreatDrivers,
-  getCSVName
-} from './zonalStats';
-import { Store } from './store';
-
-import {
-  googleAnalyticsEvent
+  getThreatDrivers
 } from './utilitys';
 
 const store = new Store({});
+
+
+// rename field
+function getCSVName(name) {
+  switch (name) {
+    case 'ns_hubs':
+      return 'Targeted Watershed Hubs - data range (1 to 5)';
+    case 'ns_fishandwildlife':
+      return 'Targeted Watershed Fish and Wildlife Index - data range (1 to 5)';
+    case 'ns_asset':
+      return 'Targeted Watershed Asset Index - data range (1 to 5)';
+    case 'ns_threat':
+      return 'Targeted Watershed Index - data range (1 to 5)';
+    case 'ns_exposure':
+      return 'Targeted Watershed Exposure Index - data range (1 to 5)';
+    case 'hubs':
+      return 'Resilience Hubs - data range (1 to 10)';
+    case 'aquatic':
+      return 'Aquatic Index - data range (0 to 5)';
+    case 'terrestrial':
+      return 'Terrestrial Index - data range (0 to 5)';
+    case 'asset':
+      return 'Community Asset Index - data range (1 to 10)';
+    case 'threat':
+      return 'Threat Index - data range (1 to 10)';
+    case 'exposure':
+      return 'Community Exposure Index - data range (1 to 10)';
+    case 'pop_density':
+      return 'Population Density - data range (0 to 5)';
+    case 'social_vuln':
+      return 'Social Vulnerability - data range (0 to 3)';
+    case 'crit_facilities':
+      return 'Critical Facilities - data range (0 or 5)';
+    case 'crit_infra':
+      return 'Critical Infrastructure - data range (0 to 6)';
+    case 'drainage':
+      return 'Impermeable Soils - data range (0 to 5)';
+    case 'erosion':
+      return 'Soil Erodibility - data range (0 to 5)';
+    case 'floodprone_areas':
+      return 'Flood-Prone Areas - data range (0 to 5)';
+    case 'sea_level_rise':
+      return 'Sea Level Rise - data range (0 to 5)';
+    case 'storm_surge':
+      return 'Storm Surge - data range (0 to 5)';
+    case 'stormsurge':
+      return 'Storm Surge - data range (0 to 5)';
+    case 'geostress':
+      return 'Geological Stressors - data range (0 to 3)';
+    case 'slope':
+      return 'Areas of Low Slope - data range (0 to 5)';
+    case 'TARGET_FID':
+      return 'name';
+    default:
+      return name;
+  }
+}
 
 /**
  * The code in this file provides the specific implementation of retrieving, formatting and
@@ -25,7 +78,40 @@ const store = new Store({});
 // @param data | Object
 // @return Array
 function getExportData(data) {
-  return getIndexes(data).concat(getAssetDrivers(data)).concat(getThreatDrivers(data));
+  const activeNav = store.getStateItem('activeNav');
+
+  let indexes = getIndexes(data).filter(val => (val.source === 'default'));
+  let assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+  let threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
+      break;
+    case 'main-nav-map-examples':
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
+      break;
+    case 'main-nav-map-searchNShubs':
+      indexes = getIndexes(data).filter(val => (val.source === 'ns'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'ns'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'ns'));
+      break;
+    case 'main-nav-map':
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
+      break;
+    default:
+      indexes = getIndexes(data).filter(val => (val.source === 'default'));
+      assetDrivers = getAssetDrivers(data).filter(val => (val.source === 'default'));
+      threatDrivers = getThreatDrivers(data).filter(val => (val.source === 'default'));
+      break;
+  }
+  return indexes.concat(assetDrivers).concat(threatDrivers);
 }
 
 // Implements a toString handler for each item in the array provided by getExportData to convert
@@ -86,6 +172,25 @@ function getZonalDataFromState(key) {
 //
 // @param key | String - Will likely be a 5 digit integer
 // @return Object
+function getNatureServeHubDataFromState(key) {
+  const NatureServehubData = store.getStateItem('NatureServeHubIntersectionJson');
+  let i;
+  let l;
+  let data = {};
+  for (i = 0, l = NatureServehubData.length; i < l; i += 1) {
+    if (NatureServehubData[i].properties.mean.TARGET_FID.toString() === key) {
+      data = NatureServehubData[i].properties.mean;
+      break;
+    }
+  }
+
+  return data;
+}
+
+// Mines the state object for the data about a hub from the API
+//
+// @param key | String - Will likely be a 5 digit integer
+// @return Object
 function getHubDataFromState(key) {
   const hubData = store.getStateItem('HubIntersectionJson');
   let i;
@@ -113,6 +218,14 @@ function makeZonalNameFromKey(key) {
 //
 // @param key | String
 // @return String
+function makeNatureServeHubNameFromKey(key) {
+  return `TargetedWaterShed-${key}`;
+}
+
+// Formats the key information about a hub into the format needed for the filename
+//
+// @param key | String
+// @return String
 function makeHubNameFromKey(key) {
   return `Hub-${key}`;
 }
@@ -122,14 +235,44 @@ function makeHubNameFromKey(key) {
 // @param name | String - result of makeHTMLName from zonalStats.js
 function handleZonalCsvExport(name) {
   const key = getZonalKeyFromName(name);
-  const [data, label] = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
-    [getHubDataFromState(key), makeHubNameFromKey(key)] :
-    [getZonalDataFromState(key), makeZonalNameFromKey(key)];
-  const fileContent = makeExportFileContent(data);
+  const activeNav = store.getStateItem('activeNav');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs': {
+      const data = getHubDataFromState(key);
+      const label = makeHubNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
+      break;
+    }
+    case 'main-nav-map-examples': {
+      break;
+    }
+    case 'main-nav-map-searchNShubs': {
+      const data = getNatureServeHubDataFromState(key);
+      const label = makeNatureServeHubNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
+      break;
+    }
+    case 'main-nav-map': {
+      const data = getZonalDataFromState(key);
+      const label = makeZonalNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
+      break;
+    }
+    default: {
+      const data = getZonalDataFromState(key);
+      const label = makeZonalNameFromKey(key);
+      const fileContent = makeExportFileContent(data);
+      triggerCsvExport(fileContent, label);
+      break;
+    }
+  }
+
   // ga event action, category, label
   googleAnalyticsEvent('click', 'download', `${name}`);
-
-  triggerCsvExport(fileContent, label);
 }
 
 // converts the the multple record object to csv and renames headers (field names)
@@ -137,7 +280,7 @@ function handleZonalCsvExport(name) {
 // @param name | String - data object from state that is properties.mean
 function convertDataToCSV(data) {
   const items = data;
-  const replacer = (key, value) => value === null ? '' : value;
+  const replacer = (key, value) => (value === null ? '' : value);
   const header = Object.keys(items[0]);
   const downloadHeader = header.map(name => getCSVName(name));
   let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')).join(','));
@@ -165,6 +308,19 @@ function getAllZonesFromState() {
 //
 // @param none
 // @return Object
+function getAllNatureServeHubsFromState() {
+  const NatureServeHubData = store.getStateItem('NatureServeHubIntersectionJson');
+  const data = [];
+  NatureServeHubData.forEach((NatureServeHub) => {
+    data.push(NatureServeHub.properties.mean);
+  });
+  return convertDataToCSV(data);
+}
+
+//  Mines the state object for the data about a hub from the API
+//
+// @param none
+// @return Object
 function getAllHubsFromState() {
   const hubData = store.getStateItem('HubIntersectionJson');
   const data = [];
@@ -178,12 +334,36 @@ function getAllHubsFromState() {
 //
 // @param name | String - result of makeHTMLName from zonalStats.js
 function handleZonalAllCsvExport(name) {
-  const fileContent = (store.getStateItem('activeNav') === 'main-nav-map-searchhubs') ?
-    [getAllHubsFromState()] :
-    [getAllZonesFromState()];
+  const activeNav = store.getStateItem('activeNav');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs': {
+      const fileContent = [getAllHubsFromState()];
+      triggerCsvExport(fileContent, 'All Data');
+      break;
+    }
+    case 'main-nav-map-examples': {
+      break;
+    }
+    case 'main-nav-map-searchNShubs': {
+      const fileContent = [getAllNatureServeHubsFromState()];
+      triggerCsvExport(fileContent, 'All Data');
+      break;
+    }
+    case 'main-nav-map': {
+      const fileContent = [getAllZonesFromState()];
+      triggerCsvExport(fileContent, 'All Data');
+      break;
+    }
+    default: {
+      const fileContent = [getAllZonesFromState()];
+      triggerCsvExport(fileContent, 'All Data');
+      break;
+    }
+  }
+
   // ga event action, category, label
   googleAnalyticsEvent('click', 'download', 'all');
-  triggerCsvExport(fileContent, 'All Data');
 }
 
 // Binds the export handler to the download button

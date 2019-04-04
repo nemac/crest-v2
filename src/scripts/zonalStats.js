@@ -9,12 +9,18 @@ import ColorRampThreat from '../templates/colorramp_threat.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import ZonalButtons from '../templates/zonal_buttons.html';
-import ZonalOverViewTable from '../templates/zonal_overview_table.html';
-import { identifyConfig } from '../config/identifyConfig';
+import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
+import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
+import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
+import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
+import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
 import { Store } from './store';
 import {
   checkValidObject,
-  googleAnalyticsEvent
+  googleAnalyticsEvent,
+  getIndexes,
+  getAssetDrivers,
+  getThreatDrivers
 } from './utilitys';
 import { bindZonalExportHandler } from './zonalFileExporter';
 // required for bootstrap
@@ -78,6 +84,291 @@ function stripUserArea(id) {
 // @return String
 function makeLabelText(name) {
   return `Get Details for ${name}`;
+}
+
+
+function setGraphsState(name, activetype) {
+  let newname = name;
+
+  const striptext = ['raw-name', 'graph-name', 'dismiss-name', 'label-name'];
+
+  striptext.map((replacetext) => {
+    if (name.indexOf(replacetext) >= 0) {
+      newname = name.replace(replacetext, 'name');
+      return newname;
+    }
+    return newname;
+  });
+
+  newname = newname.replace('name--USERAREA', 'name---USERAREA');
+  store.setStoreItem('zonalactive', [newname, activetype]);
+  return newname;
+}
+
+function enableMainZonalButton() {
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.remove('d-none');
+  });
+}
+
+function ZonalWrapperActiveRemove() {
+  const x = document.querySelectorAll('.zonal-short-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.remove('active');
+  }
+}
+
+function dissmissAllZonalStatsWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('active');
+    zonalwrapper.classList.add('d-none');
+  });
+}
+
+function zonalStatsWrappersActive(name) {
+  const zonalWrapper = document.getElementById(`zonal-stats-wrapper-${name}`);
+  zonalWrapper.classList.remove('d-none');
+  zonalWrapper.classList.add('active');
+}
+
+function disableMainZonalButton() {
+  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
+  zonalHolders.forEach((zonalHolder) => {
+    zonalHolder.classList.add('d-none');
+  });
+}
+
+function disableOverView(text = 'none') {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.add('d-none');
+}
+
+function disableAllZonalButtons() {
+  disableOverView();
+  const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
+  buttons.forEach((button) => {
+    button.classList.add('d-none');
+  });
+}
+
+// set zonal buttons and header off
+function disableZonalButtons(HTMLName) {
+  disableMainZonalButton();
+  disableAllZonalButtons();
+  disableOverView();
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
+  }
+}
+
+
+function disableAllZonalWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-long-wrapper ');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('active');
+  });
+}
+
+function enableOverView(text = 'none') {
+  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
+  buttonHolder.classList.remove('d-none');
+}
+
+function ZonalWrapperActiveAdd() {
+  const x = document.querySelectorAll('.zonal-short-wrapper');
+  let i;
+  for (i = 0; i < x.length; i += 1) {
+    x[i].classList.add('active');
+  }
+}
+
+// Switches the display to the short zonal stats
+// @param wrapper | DOM element
+function dismissLongZonalStats(wrapper) {
+  wrapper.classList.remove('active');
+  wrapper.classList.remove('active-table');
+  document.getElementById('zonal-header').classList.remove('d-none');
+
+  const id = wrapper.getAttribute('id');
+  const HTMLName = stripUserArea(id);
+  disableMainZonalButton();
+  disableZonalButtons(HTMLName);
+  disableAllZonalWrappers();
+  enableOverView('dismissLongZonalStats');
+
+  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+  hasShapeButtonElem.classList.remove('d-none');
+  // wrapper.previousSibling.style.height = '100%';
+  ZonalWrapperActiveAdd();
+}
+
+function enableAllZonalStatsWrappers() {
+  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
+  zonalWrappers.forEach((zonalwrapper) => {
+    zonalwrapper.classList.remove('d-none');
+  });
+}
+
+function togglePermHighLightsOff(elem) {
+  if (elem) {
+    elem.classList.remove('path-highlight-perm');
+    elem.classList.add('path-nohighlight-perm');
+  }
+}
+
+function toggleALLPathsOff(elem) {
+  const pathsHighlight = document.querySelectorAll('.path-highlight');
+  const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
+
+  pathsHighlight.forEach((path) => {
+    path.classList.remove('path-highlight');
+    path.classList.add('path-nohighlight');
+  });
+
+  pathsHighlightPerm.forEach((path) => {
+    path.classList.remove('path-highlight-perm');
+    path.classList.add('path-nohighlight-perm');
+  });
+}
+
+function getZonalWrapper(elem) {
+  const areanameid = elem.id;
+  const areaname = stripUserArea(areanameid);
+  const selector = `.zonal-long-wrapper.active#name-${areaname}`;
+  const wrapperelem = document.querySelector(selector);
+  return wrapperelem;
+}
+// Click handler to trigger the dismiss of the long zonal stats
+function dismissZonalClickHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'dismiss graphs');
+  shapeNavOn();
+
+  e.preventDefault();
+  setGraphsState('none', 'none');
+  dismissLongZonalStats(getZonalWrapper(this));
+  enableAllZonalStatsWrappers();
+  const name = e.target.getAttribute('id');
+
+  if (name) {
+    const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
+    const path = document.querySelector(`.path-${HTMLName}`);
+    togglePermHighLightsOff(path);
+  }
+  toggleALLPathsOff();
+}
+
+function displayRawValues(wrapper) {
+  if (wrapper) {
+    wrapper.classList.add('active-table');
+    const holderElem = document.getElementById('zonal-stats-button-holder');
+    if (holderElem) {
+      holderElem.classList.add('active-table');
+    }
+  }
+}
+
+function displayGraphs(wrapper) {
+  if (wrapper) {
+    wrapper.classList.remove('active-table');
+  }
+  const holderElem = document.getElementById('zonal-stats-button-holder');
+  if (holderElem) {
+    holderElem.classList.remove('active-table');
+  }
+}
+
+function displayZonalTableHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display table');
+
+  e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'table');
+  displayRawValues(getZonalWrapper(this));
+}
+
+
+function displayZonalGraphsHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from graphs');
+
+  e.preventDefault();
+  setGraphsState(this.getAttribute('id'), 'graph');
+  displayGraphs(getZonalWrapper(this));
+}
+
+
+// Switches the display to the long zonal stats
+// @param shortElem | DOM element
+function viewLongZonalStats(shortElem) {
+  if (shortElem) {
+    enableMainZonalButton();
+    shortElem.nextElementSibling.classList.add('active');
+    setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
+    document.getElementById('zonal-header').classList.add('d-none');
+    shapeNavOff();
+    ZonalWrapperActiveRemove();
+    const HTMLName = stripUserArea(shortElem.id);
+    dissmissAllZonalStatsWrappers();
+    zonalStatsWrappersActive(HTMLName);
+    const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
+    hasShapeButtonElem.classList.add('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+  }
+}
+
+// set zonal buttons and header on
+function enableZonalButtons(HTMLName) {
+  disableOverView();
+  if (document.querySelector(`#button-name--${HTMLName}`)) {
+    document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
+    document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
+
+
+    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
+    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
+    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
+    bindZonalExportHandler(HTMLName);
+  }
+}
+
+function togglePermHighLightsOn(elem) {
+  if (elem) {
+    elem.classList.add('path-highlight-perm');
+    elem.classList.remove('path-nohighlight-perm');
+  }
+}
+
+// Click handler to trigger the load of the long zonal stats
+function shortZonalClickHandler(e) {
+  // ga event action, category, label
+  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from details');
+
+  e.preventDefault();
+  const id = e.target.getAttribute('id');
+  const HTMLName = stripUserArea(id);
+  setGraphsState(this.getAttribute('id'), 'graph');
+  const shortChartElem = document.getElementById(`short-chart-${HTMLName}`);
+  viewLongZonalStats(shortChartElem);
+  enableZonalButtons(HTMLName);
+  disableOverView();
+
+  if (HTMLName) {
+    if (HTMLName.indexOf('div_class') === -1) {
+      const path = document.querySelector(`.path-${HTMLName}`);
+      togglePermHighLightsOn(path);
+    }
+  }
 }
 
 // Makes main title for an individual short zonal stats item
@@ -208,7 +499,8 @@ async function getExlporeGeoJson(areahml, mapComponent) {
   const area = areahml.replace('_', ' ');
   const currentshapes = store.getStateItem('userareas');
   const shape = Object.keys(currentshapes).filter((value) => {
-    return currentshapes[value][0].name === area;
+    const val = currentshapes[value][0].name === area;
+    return val;
   });
 
   const val = shape[0];
@@ -225,6 +517,20 @@ async function getHubGeoJson(areahml, mapComponent) {
   Object.keys(HubIntersectionJson).forEach((val) => {
     if (HubIntersectionJson[val].properties.mean.TARGET_FID.toString().trim() === area) {
       shape = HubIntersectionJson[val];
+    }
+  });
+
+  const zoomlayer = L.geoJSON(shape);
+  ZoomGeoJSON(zoomlayer, mapComponent);
+}
+
+async function getNatureServeHubGeoJson(areahml, mapComponent) {
+  const area = areahml.replace('_', ' ');
+  const NatureServeHubIntersectionJson = store.getStateItem('NatureServeHubIntersectionJson');
+  let shape = {};
+  Object.keys(NatureServeHubIntersectionJson).forEach((val) => {
+    if (NatureServeHubIntersectionJson[val].properties.mean.TARGET_FID.toString().trim() === area) {
+      shape = NatureServeHubIntersectionJson[val];
     }
   });
 
@@ -261,10 +567,24 @@ function makeZoom(name, mapComponent) {
     let areaname = stripUserArea(areanameid);
     areaname = areaname.replace('-USERAREA-', '').replace('_', ' ');
     const activeNav = store.getStateItem('activeNav');
-    if (activeNav === 'main-nav-map-searchhubs') {
-      getHubGeoJson(areaname, mapComponent);
-    } else {
-      getExlporeGeoJson(areaname, mapComponent);
+
+    if (activeNav) {
+      switch (activeNav) {
+        case 'main-nav-map-searchhubs':
+          getHubGeoJson(areaname, mapComponent);
+          break;
+        case 'main-nav-map-examples':
+          break;
+        case 'main-nav-map-searchNShubs':
+          getNatureServeHubGeoJson(areaname, mapComponent);
+          break;
+        case 'main-nav-map':
+          getExlporeGeoJson(areaname, mapComponent);
+          break;
+        default:
+          getExlporeGeoJson(areaname, mapComponent);
+          break;
+      }
     }
   });
   return Zoom;
@@ -311,27 +631,6 @@ function makeRemoveLabel(name, mapComponent) {
   return zonalLabel;
 }
 
-// Parses the configuration of identify values and gets the requested configuration object
-// @param type | String - matches the layer key
-// @param rank | String || Number - rounded and matches the value key
-// @return Object
-function getIdentifyValue(type, rank) {
-  const identifyData = identifyConfig.colorLookup;
-  const trueRank = Math.round(typeof rank !== 'number' ? parseFloat(rank) : rank);
-  let item;
-  let i;
-  let l;
-
-  for (i = 0, l = identifyData.length; i < l; i += 1) {
-    item = identifyData[i];
-    if (item.layer === type && item.value === trueRank) {
-      break;
-    }
-  }
-
-  return item;
-}
-
 // Creates all of the interior html for the short zonal stats
 // @param data | Object
 // @return Array
@@ -341,241 +640,6 @@ function makeShortZonalStatsInterior(data, name) {
   ];
 }
 
-function ZonalWrapperActiveRemove() {
-  const x = document.querySelectorAll('.zonal-short-wrapper');
-  let i;
-  for (i = 0; i < x.length; i += 1) {
-    x[i].classList.remove('active');
-  }
-}
-
-function ZonalWrapperActiveAdd() {
-  const x = document.querySelectorAll('.zonal-short-wrapper');
-  let i;
-  for (i = 0; i < x.length; i += 1) {
-    x[i].classList.add('active');
-  }
-}
-
-function setGraphsState(name, activetype) {
-  let newname = name;
-
-  const striptext = ['raw-name', 'graph-name', 'dismiss-name', 'label-name'];
-
-  striptext.map((replacetext) => {
-    if (name.indexOf(replacetext) >= 0) {
-      newname = name.replace(replacetext, 'name');
-      return newname;
-    }
-    return newname;
-  });
-
-  newname = newname.replace('name--USERAREA', 'name---USERAREA');
-  store.setStoreItem('zonalactive', [newname, activetype]);
-  return newname;
-}
-
-function disableMainZonalButton() {
-  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
-  zonalHolders.forEach((zonalHolder) => {
-    zonalHolder.classList.add('d-none');
-  });
-}
-
-function enableMainZonalButton() {
-  const zonalHolders = document.querySelectorAll('.zonal-stats-button-holder');
-  zonalHolders.forEach((zonalHolder) => {
-    zonalHolder.classList.remove('d-none');
-  });
-}
-
-function disableOverView(text = 'none') {
-  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
-  buttonHolder.classList.add('d-none');
-}
-
-function disableAllZonalButtons() {
-  disableOverView();
-  const buttons = document.querySelectorAll('.zonal-long-button-wrapper');
-  buttons.forEach((button) => {
-    button.classList.add('d-none');
-  });
-}
-
-// set zonal buttons and header off
-function disableZonalButtons(HTMLName) {
-  disableMainZonalButton();
-  disableAllZonalButtons();
-  disableOverView();
-  if (document.querySelector(`#button-name--${HTMLName}`)) {
-    document.querySelector(`#button-name--${HTMLName}`).classList.add('d-none');
-    document.querySelector(`#dismiss-name--${HTMLName}`).classList.add('d-none');
-    document.querySelector(`#raw-name--${HTMLName}`).classList.add('d-none');
-    document.querySelector(`#graph-name--${HTMLName}`).classList.add('d-none');
-  }
-}
-
-function enableOverView(text = 'none') {
-  const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
-  buttonHolder.classList.remove('d-none');
-}
-
-function enableAllZonalStatsWrappers() {
-  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
-  zonalWrappers.forEach((zonalwrapper) => {
-    zonalwrapper.classList.remove('d-none');
-  });
-}
-
-function dissmissAllZonalStatsWrappers() {
-  const zonalWrappers = document.querySelectorAll('.zonal-stats-wrapper');
-  zonalWrappers.forEach((zonalwrapper) => {
-    zonalwrapper.classList.remove('active');
-    zonalwrapper.classList.add('d-none');
-  });
-}
-
-function zonalStatsWrappersActive(name) {
-  const zonalWrapper = document.getElementById(`zonal-stats-wrapper-${name}`);
-  zonalWrapper.classList.remove('d-none');
-  zonalWrapper.classList.add('active');
-}
-
-function disableAllZonalWrappers() {
-  const zonalWrappers = document.querySelectorAll('.zonal-long-wrapper ');
-  zonalWrappers.forEach((zonalwrapper) => {
-    zonalwrapper.classList.remove('active');
-  });
-}
-
-// Switches the display to the short zonal stats
-// @param wrapper | DOM element
-function dismissLongZonalStats(wrapper) {
-  wrapper.classList.remove('active');
-  wrapper.classList.remove('active-table');
-  document.getElementById('zonal-header').classList.remove('d-none');
-
-  const id = wrapper.getAttribute('id');
-  const HTMLName = stripUserArea(id);
-  disableMainZonalButton();
-  disableZonalButtons(HTMLName);
-  disableAllZonalWrappers();
-  enableOverView('dismissLongZonalStats');
-
-  const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
-  hasShapeButtonElem.classList.remove('d-none');
-  // wrapper.previousSibling.style.height = '100%';
-  ZonalWrapperActiveAdd();
-}
-
-function getZonalWrapper(elem) {
-  const areanameid = elem.id;
-  const areaname = stripUserArea(areanameid);
-  const selector = `.zonal-long-wrapper.active#name-${areaname}`;
-  const wrapperelem = document.querySelector(selector);
-  return wrapperelem;
-}
-
-function togglePermHighLightsOff(elem) {
-  if (elem) {
-    elem.classList.remove('path-highlight-perm');
-    elem.classList.add('path-nohighlight-perm');
-  }
-}
-
-function toggleALLPathsOff(elem) {
-  const pathsHighlight = document.querySelectorAll('.path-highlight');
-  const pathsHighlightPerm = document.querySelectorAll('.path-highlight-perm');
-
-  pathsHighlight.forEach((path) => {
-    path.classList.remove('path-highlight');
-    path.classList.add('path-nohighlight');
-  });
-
-  pathsHighlightPerm.forEach((path) => {
-    path.classList.remove('path-highlight-perm');
-    path.classList.add('path-nohighlight-perm');
-  });
-}
-
-// Click handler to trigger the dismiss of the long zonal stats
-function dismissZonalClickHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'dismiss graphs');
-  shapeNavOn();
-
-  e.preventDefault();
-  setGraphsState('none', 'none');
-  dismissLongZonalStats(getZonalWrapper(this));
-  enableAllZonalStatsWrappers();
-  const name = e.target.getAttribute('id');
-
-  if (name) {
-    const HTMLName = name.replace(' ', '_').replace('dismiss-name-', '');
-    const path = document.querySelector(`.path-${HTMLName}`);
-    togglePermHighLightsOff(path);
-  }
-  toggleALLPathsOff();
-}
-
-function displayRawValues(wrapper) {
-  if (wrapper) {
-    wrapper.classList.add('active-table');
-    const holderElem = document.getElementById('zonal-stats-button-holder');
-    if (holderElem) {
-      holderElem.classList.add('active-table');
-    }
-  }
-}
-
-function displayZonalTableHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display table');
-
-  e.preventDefault();
-  setGraphsState(this.getAttribute('id'), 'table');
-  displayRawValues(getZonalWrapper(this));
-}
-
-function displayGraphs(wrapper) {
-  if (wrapper) {
-    wrapper.classList.remove('active-table');
-  }
-  const holderElem = document.getElementById('zonal-stats-button-holder');
-  if (holderElem) {
-    holderElem.classList.remove('active-table');
-  }
-}
-
-function displayZonalGraphsHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from graphs');
-
-  e.preventDefault();
-  setGraphsState(this.getAttribute('id'), 'graph');
-  displayGraphs(getZonalWrapper(this));
-}
-
-// Switches the display to the long zonal stats
-// @param shortElem | DOM element
-function viewLongZonalStats(shortElem) {
-  if (shortElem) {
-    enableMainZonalButton();
-    shortElem.nextElementSibling.classList.add('active');
-    setGraphsState(shortElem.nextElementSibling.getAttribute('id'), 'graph');
-    document.getElementById('zonal-header').classList.add('d-none');
-    shapeNavOff();
-    ZonalWrapperActiveRemove();
-    const HTMLName = stripUserArea(shortElem.id);
-    dissmissAllZonalStatsWrappers();
-    zonalStatsWrappersActive(HTMLName);
-    const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
-    hasShapeButtonElem.classList.add('d-none');
-    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
-    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
-    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
-  }
-}
 
 // checks if inner HTML of element is Plain old Text
 // instead of another HTML element
@@ -615,13 +679,6 @@ function toggleAllLongZonalsOff(elem) {
   zonalLongWrapper.forEach((zonal) => {
     zonal.classList.remove('active');
   });
-}
-
-function togglePermHighLightsOn(elem) {
-  if (elem) {
-    elem.classList.add('path-highlight-perm');
-    elem.classList.remove('path-nohighlight-perm');
-  }
 }
 
 function toggleLabelHighLightsOff(elem) {
@@ -667,23 +724,6 @@ function hideLastHighlight() {
   }
 }
 
-// set zonal buttons and header on
-function enableZonalButtons(HTMLName) {
-  disableOverView();
-  if (document.querySelector(`#button-name--${HTMLName}`)) {
-    document.querySelector(`#button-name--${HTMLName}`).classList.remove('d-none');
-    document.querySelector(`#dismiss-name--${HTMLName}`).classList.remove('d-none');
-    document.querySelector(`#raw-name--${HTMLName}`).classList.remove('d-none');
-    document.querySelector(`#graph-name--${HTMLName}`).classList.remove('d-none');
-
-
-    document.querySelector(`#dismiss-name--${HTMLName}`).addEventListener('click', dismissZonalClickHandler);
-    document.querySelector(`#raw-name--${HTMLName}`).addEventListener('click', displayZonalTableHandler);
-    document.querySelector(`#graph-name--${HTMLName}`).addEventListener('click', displayZonalGraphsHandler);
-    bindZonalExportHandler(HTMLName);
-  }
-}
-
 function viewLongZonalStatsFromShape(name) {
   // ga event action, category, label
   googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from shape');
@@ -713,28 +753,6 @@ function viewLongZonalStatsFromShape(name) {
   if (idname) {
     document.getElementById(idname).classList.add('active');
     setGraphsState(idname, 'graph');
-  }
-}
-
-// Click handler to trigger the load of the long zonal stats
-function shortZonalClickHandler(e) {
-  // ga event action, category, label
-  googleAnalyticsEvent('click', `zonalstats ${store.getStateItem('activeNav')}`, 'display graphs', 'from details');
-
-  e.preventDefault();
-  const id = e.target.getAttribute('id');
-  const HTMLName = stripUserArea(id);
-  setGraphsState(this.getAttribute('id'), 'graph');
-  const shortChartElem = document.getElementById(`short-chart-${HTMLName}`);
-  viewLongZonalStats(shortChartElem);
-  enableZonalButtons(HTMLName);
-  disableOverView();
-
-  if (HTMLName) {
-    if (HTMLName.indexOf('div_class') === -1) {
-      const path = document.querySelector(`.path-${HTMLName}`);
-      togglePermHighLightsOn(path);
-    }
   }
 }
 
@@ -881,6 +899,12 @@ function buildLongStatsHtml(wrapper) {
   innerWrapper.querySelector('.zonal-long-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
   innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
   innerWrapper.querySelector('.zonal-long-table-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampThreat;
+
+  innerWrapper.querySelector('.zonal-long-ns-hub .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSHub;
+  innerWrapper.querySelector('.zonal-long-ns-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSExposure;
+  innerWrapper.querySelector('.zonal-long-table-ns-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSAsset;
+  innerWrapper.querySelector('.zonal-long-table-ns-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSThreat;
+  innerWrapper.querySelector('.zonal-long-table-index-ns-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSFishAndWildlife;
 }
 
 // convert a number to to the word representation
@@ -984,197 +1008,6 @@ function selectChartCell(wrapper, type, value) {
   }
 }
 
-// rename field
-function getCSVName(name) {
-  switch (name) {
-    case 'hubs':
-      return 'Resilience Hubs - data range (1 to 10)';
-    case 'aquatic':
-      return 'Aquatic Index - data range (0 to 5)';
-    case 'terrestrial':
-      return 'Terrestrial Index - data range (0 to 5)';
-    case 'asset':
-      return 'Community Asset Index - data range (1 to 10)';
-    case 'threat':
-      return 'Threat Index - data range (1 to 10)';
-    case 'exposure':
-      return 'Community Exposure Index - data range ( 1 to 10)';
-    case 'pop_density':
-      return 'Population Density - data range ( 0 to 5)';
-    case 'social_vuln':
-      return 'Social Vulnerability - data range ( 0 to 3)';
-    case 'crit_facilities':
-      return 'Critical Facilities - data range ( 0 or 5)';
-    case 'crit_infra':
-      return 'Critical Infrastructure - data range ( 0 to 6)';
-    case 'drainage':
-      return 'Impermeable Soils - data range ( 0 to 5)';
-    case 'erosion':
-      return 'Soil Erodibility - data range ( 0 to 5)';
-    case 'floodprone_areas':
-      return 'Flood-Prone Areas - data range ( 0 to 5)';
-    case 'sea_level_rise':
-      return 'Sea Level Rise - data range ( 0 to 5)';
-    case 'storm_surge':
-      return 'Storm Surge - data range ( 0 to 5)';
-    case 'stormsurge':
-      return 'Storm Surge - data range ( 0 to 5)';
-    case 'geostress':
-      return 'Geological Stressors - data range ( 0 to 3)';
-    case 'slope':
-      return 'Areas of Low Slope - data range ( 0 to 5)';
-    case 'TARGET_FID':
-      return 'name';
-    default:
-      return name;
-  }
-}
-
-// Reformats data for the indexes
-// @param data | Object - all data from the API
-// @return Array
-function getIndexes(data) {
-  return [
-    {
-      label: 'Resilience Hubs',
-      key: 'hubs',
-      value: data.hubs,
-      range: '1 to 10'
-    },
-    {
-      label: 'Aquatic Index',
-      key: 'aquatic',
-      value: data.aquatic,
-      range: '0 to 5'
-    },
-    {
-      label: 'Terrestrial Index',
-      key: 'terrestrial',
-      value: data.terrestrial,
-      range: '0 to 5'
-    },
-    {
-      label: 'Community Asset Index',
-      key: 'asset',
-      value: data.asset,
-      range: '1 to 10'
-    },
-    {
-      label: 'Threat Index',
-      key: 'threats',
-      value: data.threat,
-      range: '1 to 10'
-    },
-    {
-      label: 'Community Exposure Index',
-      key: 'exposure',
-      value: data.exposure,
-      range: '1 to 10'
-    }
-  ];
-}
-
-// Reformats data for the asset drivers
-// @param data | Object - all data from the API
-// @return Array
-function getAssetDrivers(data) {
-  return [
-    {
-      label: 'Population Density',
-      key: 'population-density',
-      value: data.pop_density,
-      range: '0 to 5'
-    },
-    {
-      label: 'Social Vulnerability',
-      key: 'social-vulnerability',
-      value: data.social_vuln,
-      range: '0 to 3'
-    },
-    {
-      label: 'Critical Facilities',
-      key: 'critical-facilities',
-      value: data.crit_facilities,
-      range: '0 or 5'
-    },
-    {
-      label: 'Critical Infrastructure',
-      key: 'critical-infrastructure',
-      value: data.crit_infra,
-      range: '0 to 6'
-    }
-  ];
-}
-
-// Reformats data for the threat drivers
-// @param data | Object - all data from the API
-// @return Array
-function getThreatDrivers(data) {
-  return [
-    {
-      label: 'Impermeable Soils',
-      key: 'drainage',
-      value: data.drainage,
-      range: '0 to 5'
-    },
-    {
-      label: 'Soil Erodibility',
-      key: 'erosion',
-      value: data.erosion,
-      range: '0 to 5'
-    },
-    {
-      label: 'Flood-Prone Areas',
-      key: 'floodprone-areas',
-      value: data.floodprone_areas,
-      range: '0 to 5'
-    },
-    {
-      label: 'Sea Level Rise',
-      key: 'sea-level-rise',
-      value: data.sea_level_rise,
-      range: '0 to 5'
-    },
-    {
-      label: 'Storm Surge',
-      key: 'storm-surge',
-      value: data.storm_surge,
-      range: '0 to 5'
-    },
-    {
-      label: 'Geological Stressors',
-      key: 'geostress',
-      value: data.geostress,
-      range: '0 to 3'
-    },
-    {
-      label: 'Areas of Low Slope',
-      key: 'slope',
-      value: data.slope,
-      range: '0 to 5'
-    }
-  ];
-}
-
-// // Gets the color to be used for the driver bar
-// // @param driver | float - [0,100]
-// // @return String
-// function getDriverColor(driver) {
-//   if (driver <= 20) {
-//     return 'green';
-//   }
-//   if (driver <= 40) {
-//     return 'blue';
-//   }
-//   if (driver <= 60) {
-//     return 'yellow';
-//   }
-//   if (driver <= 80) {
-//     return 'orange';
-//   }
-//   return 'red';
-// }
-
 // Configures each driver bar
 // @param graph | DOM element
 // @param driver | Object
@@ -1182,15 +1015,42 @@ function drawDriver(graph, name, type, driver) {
   let height = getDriverHeight(driver.value);
   let cssKey = driver.key;
   let csstype = type;
+  let cssExtra = '';
+  const activeNav = store.getStateItem('activeNav');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      cssExtra = '';
+      break;
+    case 'main-nav-map-examples':
+      cssExtra = '';
+      break;
+    case 'main-nav-map-searchNShubs':
+      cssExtra = 'ns-';
+      break;
+    default:
+      cssExtra = '';
+      break;
+  }
 
   if (driver.key === 'hubs') {
     height = getTenHeight(driver.value);
     cssKey = 'hub';
   }
 
+  if (driver.key === 'ns-hubs') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-hub';
+  }
+
   if (driver.key === 'aquatic') {
     height = getSixHeight(driver.value);
     cssKey = 'fish';
+  }
+
+  if (driver.key === 'ns-fishandwildlife') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-fishandwildlife';
   }
 
   if (driver.key === 'terrestrial') {
@@ -1203,14 +1063,29 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'exposure-box';
   }
 
+  if (driver.key === 'ns-exposure') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-exposure-box';
+  }
+
   if (driver.key === 'threat') {
     height = getTenHeight(driver.value);
     cssKey = 'threat';
   }
 
+  if (driver.key === 'ns-threat') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-threat';
+  }
+
   if (driver.key === 'asset') {
     height = getTenHeight(driver.value);
     cssKey = 'asset';
+  }
+
+  if (driver.key === 'ns-asset') {
+    height = getSixHeight(driver.value);
+    cssKey = 'ns-asset';
   }
 
   if (driver.key === 'population-density') {
@@ -1270,14 +1145,13 @@ function drawDriver(graph, name, type, driver) {
 
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
-
+  // const bar = graph.querySelector(`.zonal-long-graph-bar-${cssExtra}${driver.key}`);
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
-
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
 
   if (bar) {
-    bar.setAttribute('id', `zonal-long-graph-bar-${name}`);
+    bar.setAttribute('id', `zonal-long-graph-bar-${cssExtra}${name}`);
     bar.style.height = formatPosition(height);
     if (name) {
       bar.classList.add(`zonal-long-table-cell-${cssKey}-${toolTipword}`);
@@ -1293,16 +1167,49 @@ function drawDriver(graph, name, type, driver) {
   }
 }
 
-function drawShortChart(wrapper, drivers, name) {
-  const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .zonal-long-graph');
-  assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+function drawShortChart(wrapper, drivers, name, activeNav) {
+  let assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    case 'main-nav-map-examples':
+      assetGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    case 'main-nav-map-searchNShubs':
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    case 'main-nav-map':
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+    default:
+      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      break;
+  }
 }
 
 function drawMapInfoChart(drivers, name, graph) {
-  const mapInfoGraph = graph.querySelector('#mapinfodata .zonal-long-graph');
+  const activeNav = store.getStateItem('activeNav');
+  let mapInfoElemCalss = '';
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    mapInfoElemCalss = '.ns-mapinfo';
+  } else {
+    mapInfoElemCalss = '.default-mapinfo';
+  }
+  const mapInfoGraph = graph.querySelector(`#mapinfodata ${mapInfoElemCalss} .zonal-long-graph`);
   drivers.forEach(drawDriver.bind(null, mapInfoGraph, name, ''));
 }
+
 // @return Array
 function getShortDataChartData(data) {
   return [
@@ -1335,6 +1242,31 @@ function getShortDataChartData(data) {
       label: 'terrestrial',
       key: 'terrestrial',
       value: data.terrestrial
+    },
+    {
+      label: 'ns-hubs',
+      key: 'ns-hubs',
+      value: data.ns_hubs
+    },
+    {
+      label: 'ns-fishandwildlife',
+      key: 'ns-fishandwildlife',
+      value: data.ns_fishandwildlife
+    },
+    {
+      label: 'ns-asset',
+      key: 'ns-asset',
+      value: data.ns_asset
+    },
+    {
+      label: 'ns-threat',
+      key: 'ns-threat',
+      value: data.ns_threat
+    },
+    {
+      label: 'ns-exposure',
+      key: 'ns-exposure',
+      value: data.ns_exposure
     }
   ];
 }
@@ -1357,6 +1289,8 @@ function drawMapInfoStats(data, doc) {
 // @return DOM element
 function drawShortZonalStats(data, name, mapComponent) {
   const wrapper = makeDiv();
+  const activeNav = store.getStateItem('activeNav');
+
   wrapper.classList.add('zonal-short-wrapper');
   wrapper.classList.add('w-100');
   wrapper.classList.add('active');
@@ -1375,7 +1309,7 @@ function drawShortZonalStats(data, name, mapComponent) {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
 
-  drawShortChart(wrapper, getShortDataChartData(data), HTMLName);
+  drawShortChart(wrapper, getShortDataChartData(data), HTMLName, activeNav);
 
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);
@@ -1387,19 +1321,53 @@ function drawShortZonalStats(data, name, mapComponent) {
   shortChart.addEventListener('mouseout', zonalLabelMouseOutHandler);
   shortChart.addEventListener('mouseover', zonalLabelMouseOverHandler);
 
-  const activeNav = store.getStateItem('activeNav');
-
-  if (activeNav !== 'main-nav-map-searchhubs') {
-    const rem = makeRemoveLabel(name, mapComponent);
-    wrapper.insertBefore(rem, wrapper.childNodes[0]);
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      break;
+    case 'main-nav-map-examples':
+      break;
+    case 'main-nav-map-searchNShubs':
+      break;
+    case 'main-nav-map': {
+      const rem = makeRemoveLabel(name, mapComponent);
+      wrapper.insertBefore(rem, wrapper.childNodes[0]);
+      break;
+    }
+    default: {
+      const rem = makeRemoveLabel(name, mapComponent);
+      wrapper.insertBefore(rem, wrapper.childNodes[0]);
+      break;
+    }
   }
 
   const zoom = makeZoom(name, mapComponent);
 
-  if (activeNav !== 'main-nav-map-searchhubs') {
-    wrapper.insertBefore(zoom, wrapper.childNodes[2]);
-  } else {
-    wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+  const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
+  const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+      defaultLongGraphs.classList.remove('d-none');
+      nsLongGraphs.classList.add('d-none');
+      break;
+    case 'main-nav-map-examples':
+      break;
+    case 'main-nav-map-searchNShubs':
+      wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+      defaultLongGraphs.classList.add('d-none');
+      nsLongGraphs.classList.remove('d-none');
+      break;
+    case 'main-nav-map':
+      wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+      defaultLongGraphs.classList.remove('d-none');
+      nsLongGraphs.classList.add('d-none');
+      break;
+    default:
+      wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+      defaultLongGraphs.classList.remove('d-none');
+      nsLongGraphs.classList.add('d-none');
+      break;
   }
 
   const ovr = makeOverviewLabel();
@@ -1463,71 +1431,126 @@ function drawZonalButtons(HTMLName, name) {
   buttonHolder.innerHTML += wrapper.innerHTML;
 }
 
+// make the input graphs invisible for
+// nature server data there are no Inputs
+function disableInputGraphs(wrapper, selector) {
+  const elems = wrapper.querySelectorAll(selector);
+  elems.forEach((elem) => {
+    if (elem) {
+      elem.classList.add('d-none');
+    }
+  });
+}
+
+// make the input graphs visible for
+// nature server data there are no Inputs
+function enableInputGraphs(wrapper, selector) {
+  const elems = wrapper.querySelectorAll(selector);
+  elems.forEach((elem) => {
+    if (elem) {
+      elem.classList.remove('d-none');
+    }
+  });
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
 function drawLongZonalStats(data, name) {
   const HTMLName = makeHTMLName(name);
   const wrapper = makeDiv();
+  const activeNav = store.getStateItem('activeNav');
+
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.setAttribute('id', `name-${HTMLName}`);
   buildLongStatsHtml(wrapper);
   drawName(wrapper, name);
   drawZonalButtons(HTMLName, name);
 
-  selectChartCell(wrapper, 'hub', data.hubs);
-  selectChartCell(wrapper, 'asset', data.asset);
-  selectChartCell(wrapper, 'threat', data.threat);
-  selectChartCell(wrapper, 'exposure-box', data.exposure);
-  selectChartCell(wrapper, 'fish', data.aquatic);
-  selectChartCell(wrapper, 'wildlife', data.terrestrial);
-
-  drawAssetDrivers(wrapper, getAssetDrivers(data));
-  drawThreatDrivers(wrapper, getThreatDrivers(data));
+  const defaultdetailGraphs = wrapper.querySelector('.default-detail-graphs');
+  const nsdetailGraphs = wrapper.querySelector('.ns-detail-graphs');
 
   drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
+
+  switch (activeNav) {
+    case 'main-nav-map-searchhubs':
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
+      enableInputGraphs(wrapper, '.zonal-input-graph');
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+      break;
+    case 'main-nav-map-examples':
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
+      enableInputGraphs(wrapper, '.zonal-input-graph');
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+      break;
+    case 'main-nav-map-searchNShubs':
+      selectChartCell(wrapper, 'ns-hub', data.ns_hubs);
+      selectChartCell(wrapper, 'ns-asset', data.ns_asset);
+      selectChartCell(wrapper, 'ns-threat', data.ns_threat);
+      selectChartCell(wrapper, 'ns-exposure-box', data.ns_exposure);
+      selectChartCell(wrapper, 'ns-fishandwildlife', data.ns_aquatic);
+      selectChartCell(wrapper, 'ns-wildlife', data.ns_terrestrial);
+      disableInputGraphs(wrapper, '.zonal-input-graph');
+      defaultdetailGraphs.classList.add('d-none');
+      nsdetailGraphs.classList.remove('d-none');
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+      break;
+    case 'main-nav-map':
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+      enableInputGraphs(wrapper, '.zonal-input-graph');
+      break;
+    default:
+      selectChartCell(wrapper, 'hub', data.hubs);
+      selectChartCell(wrapper, 'asset', data.asset);
+      selectChartCell(wrapper, 'threat', data.threat);
+      selectChartCell(wrapper, 'exposure-box', data.exposure);
+      selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      drawAssetDrivers(wrapper, getAssetDrivers(data));
+      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      defaultdetailGraphs.classList.remove('d-none');
+      nsdetailGraphs.classList.add('d-none');
+      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+      enableInputGraphs(wrapper, '.zonal-input-graph');
+      break;
+  }
 
   return wrapper;
 }
 
-
-// create function for all zonal stats
-function zonalStatTable() {
-  const userareas = store.getStateItem('userareas');
-  const tablewrapper = makeDiv();
-  tablewrapper.innerHTML = ZonalOverViewTable;
-
-  Object.keys(userareas).map((key) => {
-    const { name } = userareas[key][0];
-    const data = userareas[key][3].zonalstatsjson.features[0].properties.mean;
-    const datatablerow = tablewrapper.querySelector('#table-row-holder').cloneNode(true);
-
-    datatablerow.querySelector('.zonal-long-raw-value-areaid').innerHTML = name;
-    datatablerow.querySelector('.zonal-long-raw-value-hubs').innerHTML = checkNoData(data.hubs) ? 0 : Math.round(data.hubs * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-aquatic').innerHTML = checkNoData(data.aquatic) ? 0 : Math.round(data.aquatic * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-terrestrial').innerHTML = checkNoData(data.terrestrial) ? 0 : Math.round(data.terrestrial * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-exposure').innerHTML = checkNoData(data.exposure) ? 0 : Math.round(data.exposure * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-asset').innerHTML = checkNoData(data.asset) ? 0 : Math.round(data.asset * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-threats').innerHTML = checkNoData(data.threats) ? 0 : Math.round(data.threats * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-population-density').innerHTML = checkNoData(data.pop_density) ? 0 : Math.round(data.pop_density * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-social-vulnerability').innerHTML = checkNoData(data.social_vuln) ? 0 : Math.round(data.social_vuln * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-critical-facilities').innerHTML = checkNoData(data.crit_facilities) ? 0 : Math.round(data.crit_facilities * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-critical-infrastructure').innerHTML = checkNoData(data.crit_infra) ? 0 : Math.round(data.crit_infra * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-drainage').innerHTML = checkNoData(data.drainage) ? 0 : Math.round(data.drainage * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-erosion').innerHTML = checkNoData(data.erosion) ? 0 : Math.round(data.erosion * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-floodprone-areas').innerHTML = checkNoData(data.floodprone_areas) ? 0 : Math.round(data.floodprone_areas * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-sea-level-rise').innerHTML = checkNoData(data.storm_surge) ? 0 : Math.round(data.storm_surge * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-storm-surge').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-geostress').innerHTML = checkNoData(data.geostress) ? 0 : Math.round(data.geostress * 100) / 100;
-    datatablerow.querySelector('.zonal-long-raw-value-slope').innerHTML = checkNoData(data.slope) ? 0 : Math.round(data.slope * 100) / 100;
-    tablewrapper.querySelector('#table-row-holder').parentNode.appendChild(datatablerow);
-    return null;
-  });
-
-  const firstchild = tablewrapper.querySelectorAll('#table-row-holder')[0];
-  firstchild.parentNode.removeChild(firstchild);
-  return tablewrapper;
-}
 
 // check if graph or table is the active state is so we can disable the
 // mouse off event on the shape.  This prevents the map from removeing the
@@ -1614,9 +1637,8 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
   wrapper.appendChild(drawLongZonalStats(data, name));
 
-  const child = document.getElementById('full-table-holder').childNodes[0];
-
-  document.getElementById('full-table-holder').replaceChild(zonalStatTable(), child);
+  // const child = document.getElementById('full-table-holder').childNodes[0];
+  // document.getElementById('full-table-holder').replaceChild(zonalStatTable(), child);
   document.getElementById('zonal-content').appendChild(wrapper);
 
   // initalize new tooltips
@@ -1653,8 +1675,7 @@ export {
   toggleAllLongZonalsOff,
   getIndexes,
   getAssetDrivers,
-  getThreatDrivers,
-  getCSVName
+  getThreatDrivers
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

@@ -77,7 +77,7 @@ export class NavBar extends Component {
         NavBar.deactivateAllNavs();
 
         // this very hacky need better way to handle
-        if (nav.id === 'main-nav-map-searchhubs' || nav.id === 'main-nav-map-examples') {
+        if (nav.id === 'main-nav-map-searchhubs' || nav.id === 'main-nav-map-searchNShubs' || nav.id === 'main-nav-map-examples') {
           NavBar.toggleTabContent('main-nav-map');
         } else {
           NavBar.toggleTabContent(e.target.id);
@@ -92,8 +92,8 @@ export class NavBar extends Component {
         this.activeNav = nav.id;
         store.setStoreItem('activeNav', nav.id);
 
+        // this is repative with router?
         const navChangeEvent = new CustomEvent('aboutNavChange');
-
         window.dispatchEvent(navChangeEvent);
       });
     });
@@ -108,7 +108,7 @@ export class NavBar extends Component {
     const urlwithoutquery = fullurl.href.replace(urlParams, '');
 
     // this very hacky need better way to handle
-    if (id === 'main-nav-map-searchhubs') {
+    if (id === 'main-nav-map-searchhubs' || id === 'main-nav-map-searchNShubs' || id === 'main-nav-map-examples') {
       if (window.history && window.history.replaceState) {
         if (!hash) {
           window.history.replaceState({}, '', `${urlwithoutquery}SearchHubs`);

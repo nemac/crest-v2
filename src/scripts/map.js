@@ -451,6 +451,29 @@ export class Map extends Component {
     return props.restore;
   }
 
+  // Toggle map layer visibility for nav swithcing
+  toggleVisLayerOff(layerName) {
+    store.saveAction('maplayertoggle');
+    store.setStoreItem('working_basemap', true);
+    spinnerOn();
+    const layer = this.overlayMaps[layerName];
+    if (this.map.hasLayer(layer)) {
+      this.map.removeLayer(layer);
+    }
+    store.setStoreItem('working_basemap', false);
+  }
+
+  // Toggle map layer visibility for nav swithcing
+  toggleVisLayerOn(layerName) {
+    store.saveAction('maplayertoggle');
+    store.setStoreItem('working_basemap', true);
+    spinnerOn();
+    const layer = this.overlayMaps[layerName];
+    store.setStoreItem('working_basemap', false);
+    spinnerOn();
+    this.map.addLayer(layer);
+  }
+
   // Toggle map layer visibility
   // this needs to be made more modular but not sure
   // ho do that yet

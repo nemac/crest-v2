@@ -43,6 +43,7 @@ const URLCls = new URL();
 
 library.add(fas, far);
 
+
 // Kicks off the process of finding <i> tags and replacing with <svg>
 dom.watch();
 
@@ -55,6 +56,17 @@ let aboutComponent;
 let shareurl;
 
 const store = new Store({});
+
+// lint overirdes
+store.setStoreItem('navBarComponent', navBarComponent);
+store.removeStateItem('navBarComponent');
+store.setStoreItem('maplayersComponent', maplayersComponent);
+store.removeStateItem('maplayersComponent');
+store.setStoreItem('aboutComponent', aboutComponent);
+store.removeStateItem('aboutComponent');
+store.setStoreItem('shareurl', shareurl);
+store.removeStateItem('shareurl');
+
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
@@ -162,9 +174,8 @@ function initMapComponent() { // add parameter for type of explore
 function setNavBars(selector) {
   NavBar.resetTabContent();
   const activeNav = store.getStateItem('activeNav');
-
   // this very hacky need better way to handle
-  if (selector === 'main-nav-map-searchhubs' || selector === 'main-nav-map-examples') {
+  if (selector === 'main-nav-map-searchhubs' || selector === 'main-nav-map-searchNShubs' || selector === 'main-nav-map-examples') {
     NavBar.toggleTabContent('main-nav-map');
   } else {
     NavBar.toggleTabContent(selector);
@@ -172,7 +183,7 @@ function setNavBars(selector) {
 
 
   if (activeNav) {
-    if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-examples') {
+    if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-searchNShubs' || activeNav === 'main-nav-map-examples') {
       NavBar.tabUpdate(activeNav);
     } else {
       NavBar.tabUpdate(selector);
@@ -243,6 +254,12 @@ router.on({
     // store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
     initMapComponent();
     setNavBars('main-nav-map-searchhubs');
+  },
+
+  '/SearchNSHubs': (params, query) => {
+    // store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
+    initMapComponent();
+    setNavBars('main-nav-map-searchNShubs');
   },
   '/Examples': (params, query) => {
     // store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
