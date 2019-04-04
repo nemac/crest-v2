@@ -2323,10 +2323,10 @@ export class Explore extends Component {
   static sortNatureServeHubsByHubScore() {
     const NatureServehubsHubs = store.getStateItem('NatureServeHubIntersectionJson');
     const NatureServeHubIntersectionJsonSorted = NatureServehubsHubs.sort((a, b) => {
-      if (a.properties.mean.hubs > b.properties.mean.hubs) {
+      if (a.properties.mean.ns_hubs > b.properties.mean.ns_hubs) {
         return -1;
       }
-      if (a.properties.mean.hubs < b.properties.mean.hubs) {
+      if (a.properties.mean.ns_hubs < b.properties.mean.ns_hubs) {
         return 1;
       }
       // a must be equal to b
