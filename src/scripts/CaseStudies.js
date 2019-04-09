@@ -183,8 +183,16 @@ export class CaseStudies {
 
   unCheckLayers() {
     const layers = store.getStateItem('mapLayerDisplayStatus');
+    const validSource = 'regional';
+    // get the layer list from the config file
+    const { TMSLayers } = mapConfig;
     Object.keys(layers).forEach((layer) => {
-      if (layers[layer]) {
+      // only tuggle if regional data. targeted watershed
+      // data is not used in case studies
+      const asource = TMSLayers.filter(TMSlayer => (
+        TMSlayer.id === layer && TMSlayer.source === validSource
+      ));
+      if (layers[layer] && asource.length > 0) {
         this.layerToggle(layer);
       }
     });
