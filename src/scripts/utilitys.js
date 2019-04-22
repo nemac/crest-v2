@@ -441,12 +441,17 @@ export function addMissingStateItems() {
   // to long to list again
   if (!checkValidObject(store.getStateItem('mapLayerDisplayStatus'))) {
     store.setStoreItem('mapLayerDisplayStatus', {
-      HubsTMS: false,
+      HubsTMS: true,
+      NSHubsTMS: true,
       ExposureTMS: false,
+      NSExposureTMS: false,
       AssetsTMS: false,
+      NSAssetsTMS: false,
       ThreatsTMS: false,
+      NSThreatsTMS: false,
       AquaticTMS: false,
       TerrestrialTMS: false,
+      NSFishAndWildlifeTMS: false,
       PopDensityTMS: false,
       SocVulnTMS: false,
       CriticalFacilitiesTMS: false,
