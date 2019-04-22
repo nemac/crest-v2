@@ -8,6 +8,7 @@ import buffer from '@turf/buffer';
 // default map template
 import exploreTemplate from '../templates/explore.html';
 import Shapebuttons from '../templates/shapebuttons.html';
+import ZoomLinks from '../templates/zoomLinks.html';
 
 import { mapConfig } from '../config/mapConfig';
 import { Component } from './components';
@@ -138,7 +139,7 @@ export class Explore extends Component {
     this.HubIntersectionApi = new HubIntersectionApi();
     this.NatureServeHubIntersectionApi = new NatureServeHubIntersectionApi();
     this.HubsExploreText = 'Where should I do a resilience project?';
-    this.HubsNSExploreText = 'Targeted Watersheds and Projects';
+    this.HubsNSExploreText = 'Targeted Watersheds';
     this.DefaultExploreText = 'Start Exploring the Assessment';
     this.ExamplesExploreText = 'Case Studies';
     this.exlporeAssmentMessage = 'To examine the Assessment, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of an area, use the “Upload Shapefile” button.';
@@ -184,6 +185,72 @@ export class Explore extends Component {
 
     Explore.addResetControl(this.mapComponent.map);
     bindZonalAllExportHandler();
+
+    this.addZoomLinks();
+  }
+
+  addZoomLinks() {
+    const activeNav = store.getStateItem('activeNav');
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      const zoomLinksElem = document.getElementById('has-zoomlinks-holder');
+      if (zoomLinksElem) {
+        zoomLinksElem.classList.remove('d-none');
+        zoomLinksElem.innerHTML = ZoomLinks;
+      }
+
+      document.getElementById('zoomLinks-capefear').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 34.870704177396405, lng: -77.70473241806032 }, 8);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'cape fear');
+      });
+
+      document.getElementById('zoomLinks-charleston').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 32.928958424724215, lng: -79.64163064956666 }, 10);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'charleston');
+      });
+
+      document.getElementById('zoomLinks-delawarebay').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 39.146952938375655, lng: -74.92013812065126 }, 9);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'delaware bay');
+      });
+
+      document.getElementById('zoomLinks-narragansettbay').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 41.66393558993828, lng: -71.06065392494203 }, 9);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'narragansett bay');
+      });
+
+      document.getElementById('zoomLinks-portlandmaine').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 44.117439313560126, lng: -69.54407930374147 }, 9);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'portland maine');
+      });
+
+      document.getElementById('zoomLinks-sanfranciscobay').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 37.786165147923775, lng: -122.12116956710817 }, 8);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'sanfrancisco bay');
+      });
+
+      document.getElementById('zoomLinks-savannahriver').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 32.03778445137059, lng: -80.64509868621826 }, 9);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'savannah river');
+      });
+
+      document.getElementById('zoomLinks-stjohnsriver').addEventListener('click', (e) => {
+        this.mapComponent.map.setView({ lat: 29.77754569469741, lng: -80.64698696136476 }, 8);
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'zoomwatershed', 'st johns river');
+      });
+    } else {
+      const zoomLinksElem = document.getElementById('has-zoomlinks-holder');
+      if (zoomLinksElem) {
+        zoomLinksElem.classList.add('d-none');
+      }
+    }
   }
 
   static ResetControlHandler() {
@@ -324,8 +391,11 @@ export class Explore extends Component {
         }
       }
     }
+
+    this.addZoomLinks();
     return null;
   }
+
 
   // only display layers that are needed in current tab
   // this especially true for switching between targeted watershed data
@@ -396,6 +466,7 @@ export class Explore extends Component {
       disableZonalButtons();
       disableOverView();
       Explore.enableShapeButtons();
+      this.addZoomLinks();
 
       if (activeNav) {
         Explore.enableShapeButtons();

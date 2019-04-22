@@ -688,6 +688,96 @@ a.about-nav.active::before {
   background-color: $gray-300 !important;
 }
 
+
+.zoomLinks-collapser {
+  cursor: pointer;
+  background-color: $body-bg !important;
+  border-width: 1px !important;;
+  border-radius: 0.25rem !important;
+  -webkit-border-radius: 0.25rem !important;
+  -moz-border-radius: 0.25rem !important;
+  width: 100% !important;
+  box-shadow: $box-shadow-default !important;
+  -moz-box-shadow: $box-shadow-default !important;
+
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+  border-color: #6c757d; //#777777;
+  border-style: solid;
+  font-size: 1.25em;
+  font-weight: 500;
+  margin-bottom: 10px;
+
+  .icon-right {
+    float: right;
+  }
+
+  // .zoomLinks-list {
+  //   padding: 10px;
+  // }
+
+  [aria-expanded="true"] {
+    svg.fa-caret-down {
+      display: none !important;
+    }
+    svg.fa-caret-up {
+      display: inherit !important;
+    }
+  }
+
+  .zoomLinks-collapser-header {
+    padding: 5px;
+    border-width: 1px !important;
+    padding-left: 20px !important;
+    // border-radius: 0.25rem !important;
+    // -webkit-border-radius: 0.25rem !important;
+    // -moz-border-radius: 0.25rem !important;
+  }
+
+  .zoomLinks-collapser-header:focus {
+    background-color: $gray-600 !important;
+    outline: $gray-600  !important;
+  }
+
+  .zoomLinks-collapser-header:hover {
+    background-color: $gray-600 !important;
+    color: $body-color !important;
+  }
+
+  .list-group-item:last-child {
+    margin-bottom: 0 !important;
+    border-bottom-right-radius: 0.25rem !important;;
+    border-bottom-left-radius: 0.25rem !important;;
+  }
+
+  .zoomLinks-group-item:hover {
+    background-color: $gray-600 !important;
+    color: $body-color !important;
+    cursor: pointer;
+  }
+
+  .zoomLinks-group-item:focus {
+    border-color: $gray-600  !important;
+    outline: $gray-600  !important;
+  }
+
+  .list-group-item {
+    border-width: 0px !important;
+    font-size: 1.0em;
+  }
+
+  .zoomLinks-list-label-name {
+    font-size: .9em;
+  }
+
+  .list-group-dark {
+    border-top: 1px solid $gray-600 !important;
+    margin-top: 0px !important;
+  }
+}
+
 .mapinfo-header {
   width: 100%;
 }
