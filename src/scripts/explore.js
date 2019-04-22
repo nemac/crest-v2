@@ -378,15 +378,15 @@ export class Explore extends Component {
             }
             return null;
           default:
-            UpdateZonalStatsBtn.classList.remove('d-none');
-            this.drawUserAreaFromUsereas();
-            Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-            Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
-            Explore.updateExploreDirections(this.exlporeAssmentMessage);
-            Explore.enableBufferCheckBox();
-            if (checkValidObject(checkUserareas)) {
-              Explore.dismissExploreDirections();
-            }
+            // UpdateZonalStatsBtn.classList.remove('d-none');
+            // this.drawUserAreaFromUsereas();
+            // Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+            // Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+            // Explore.updateExploreDirections(this.exlporeAssmentMessage);
+            // Explore.enableBufferCheckBox();
+            // if (checkValidObject(checkUserareas)) {
+            //   Explore.dismissExploreDirections();
+            // }
             return null;
         }
       }
@@ -418,7 +418,7 @@ export class Explore extends Component {
         validSource = 'targetedwatershed';
         break;
       default:
-        validSource = 'regional';
+        // validSource = 'regional';
         break;
     }
 
@@ -554,27 +554,27 @@ export class Explore extends Component {
             }
             return null;
           default:
-            this.onlyDisplayValidLayers();
-            if (!checkValidObject(checkUserareas)) {
-              UpdateZonalStatsBtn.classList.remove('d-none');
-              Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-              Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
-              Explore.updateExploreDirections(this.exlporeAssmentMessage);
-              Explore.enableBufferCheckBox();
-              disableZonalButtons();
-              disableOverView();
-              // If there is explore assement data in store do NOT show text and draw the shpes
-            } else {
-              UpdateZonalStatsBtn.classList.remove('d-none');
-              Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
-              Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
-              Explore.updateExploreDirections(this.exlporeAssmentMessage);
-              Explore.enableBufferCheckBox();
-              Explore.dismissExploreDirections();
-              this.drawUserAreaFromUsereas();
-              enableZonalButtons();
-              Explore.setOverviewText();
-            }
+            // this.onlyDisplayValidLayers();
+            // if (!checkValidObject(checkUserareas)) {
+            //   UpdateZonalStatsBtn.classList.remove('d-none');
+            //   Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+            //   Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+            //   Explore.updateExploreDirections(this.exlporeAssmentMessage);
+            //   Explore.enableBufferCheckBox();
+            //   disableZonalButtons();
+            //   disableOverView();
+            //   // If there is explore assement data in store do NOT show text and draw the shpes
+            // } else {
+            //   UpdateZonalStatsBtn.classList.remove('d-none');
+            //   Explore.updateExploreText(exploreTitle, this.DefaultExploreText);
+            //   Explore.updateExploreText(exploreTitleResponsive, this.DefaultExploreText);
+            //   Explore.updateExploreDirections(this.exlporeAssmentMessage);
+            //   Explore.enableBufferCheckBox();
+            //   Explore.dismissExploreDirections();
+            //   this.drawUserAreaFromUsereas();
+            //   enableZonalButtons();
+            //   Explore.setOverviewText();
+            // }
             return null;
         }
       } else if (!checkValidObject(checkUserareas)) {
@@ -1310,7 +1310,7 @@ export class Explore extends Component {
         this.restoreExploreForShareURL();
         break;
       default:
-        this.restoreExploreForShareURL();
+        // this.restoreExploreForShareURL();
         break;
     }
 
@@ -1595,7 +1595,7 @@ export class Explore extends Component {
           this.getZonal();
           break;
         default:
-          this.getZonal();
+          // this.getZonal();
           break;
       }
       return layer;
@@ -1805,9 +1805,9 @@ export class Explore extends Component {
         Explore.dismissExploreDirections();
         break;
       default:
-        Explore.removeExistingExplore();
-        Explore.removeUserAreas();
-        Explore.dismissExploreDirections();
+        // Explore.removeExistingExplore();
+        // Explore.removeUserAreas();
+        // Explore.dismissExploreDirections();
         break;
     }
   }
@@ -1858,11 +1858,11 @@ export class Explore extends Component {
             }
             break;
           default:
-            if (checkValidObject(checkUserareas)) {
-              Explore.dismissExploreDirections();
-            } else {
-              Explore.updateExploreDirections(this.exlporeAssmentMessage);
-            }
+            // if (checkValidObject(checkUserareas)) {
+            //   Explore.dismissExploreDirections();
+            // } else {
+            //   Explore.updateExploreDirections(this.exlporeAssmentMessage);
+            // }
             break;
         }
       }
@@ -2087,13 +2087,13 @@ export class Explore extends Component {
           this.addUserAreaLabel(bufferedLayer);
           break;
         default:
-          // add layer to the leaflet map
-          this.drawAreaGroup.addLayer(layer);
-          this.drawAreaGroup.addLayer(bufferedLayer);
-
-          // start adding the user draw shape to the map
-          layer.addTo(mapComponent.map);
-          this.addUserAreaLabel(bufferedLayer);
+          // // add layer to the leaflet map
+          // this.drawAreaGroup.addLayer(layer);
+          // this.drawAreaGroup.addLayer(bufferedLayer);
+          //
+          // // start adding the user draw shape to the map
+          // layer.addTo(mapComponent.map);
+          // this.addUserAreaLabel(bufferedLayer);
           break;
       }
 
@@ -2141,14 +2141,14 @@ export class Explore extends Component {
           }
           break;
         default:
-          try {
-            await this.getZonal();
-          } catch (ev) {
-            // TODO: display message to the user (was the area too big? what happened?)
-            this.rollbackUserArea(layer, bufferedLayer);
-            store.setStoreItem('working_zonalstats', false);
-            spinnerOff();
-          }
+          // try {
+          //   await this.getZonal();
+          // } catch (ev) {
+          //   // TODO: display message to the user (was the area too big? what happened?)
+          //   this.rollbackUserArea(layer, bufferedLayer);
+          //   store.setStoreItem('working_zonalstats', false);
+          //   spinnerOff();
+          // }
           break;
       }
     });
@@ -2354,11 +2354,11 @@ export class Explore extends Component {
           }
           break;
         default:
-          // Assume we're on the default explore tab
-          this.drawAreaGroup.clearLayers();
-          for (let i = 0; i < featuresReady.length; i += 1) {
-            await this.addFeatureAsMapLayer(featuresReady[i]);
-          }
+          // // Assume we're on the default explore tab
+          // this.drawAreaGroup.clearLayers();
+          // for (let i = 0; i < featuresReady.length; i += 1) {
+          //   await this.addFeatureAsMapLayer(featuresReady[i]);
+          // }
           break;
       }
     }
