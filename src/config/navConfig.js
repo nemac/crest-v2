@@ -16,7 +16,7 @@ export var navConfig = {
   {
     name: "searchNSHubs",
     ref: "main-nav-map-searchNShubs",
-    text: "Targeted Watersheds and Projects",
+    text: "Targeted Watersheds",
     id: "main-nav-map-searchNShubs",
     href: "./#SearchNSHubs"
   },
