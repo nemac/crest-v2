@@ -1,17 +1,24 @@
 export var navConfig = {
   navs:[{
-    name: "home",
-    ref: "main-nav-map",
-    text: "Explore the Assessment",
-    id: "main-nav-map",
-    href: "./#Home"
+      name: "home",
+      ref: "main-nav-landingpage",
+      text: "Home",
+      id: "main-nav-landingpage",
+      href: "./#Home"
+    },
+    {
+      name: "searchHubs",
+      ref: "main-nav-map-searchhubs",
+      text: "Where Should I Do A Resilience Project?",
+      id: "main-nav-map-searchhubs",
+      href: "./#SearchHubs"
   },
   {
-    name: "searchHubs",
-    ref: "main-nav-map-searchhubs",
-    text: "Where Should I Do A Resilience Project?",
-    id: "main-nav-map-searchhubs",
-    href: "./#SearchHubs"
+    name: "AnalyzeProjectSites",
+    ref: "main-nav-map",
+    text: "Analyze Project Sites",
+    id: "main-nav-map",
+    href: "./#AnalyzeProjectSites"
   },
   {
     name: "searchNSHubs",

@@ -26,7 +26,7 @@ import { SearchLocations } from './searchlocations';
 // import html templates
 import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
-
+import LandingPage from '../templates/landingpage.html';
 import { restoreGraphState } from './zonalStats';
 
 // scss
@@ -181,7 +181,6 @@ function setNavBars(selector) {
     NavBar.toggleTabContent(selector);
   }
 
-
   if (activeNav) {
     if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-searchNShubs' || activeNav === 'main-nav-map-examples') {
       NavBar.tabUpdate(activeNav);
@@ -206,34 +205,6 @@ function initStaticPage(selector, template) {
 
 const router = new Navigo(homeloc, true);
 
-// TODO: make the tab content area dynamic also similar to the nav tabs
-
-// examples of coded map interactions for testing
-// const maintitleElement = document.getElementById('maintitle');
-// maintitleElement.addEventListener('click', (e) => {
-//   console.log(mapInfoComponent.marker)
-//   searchLocationsComponent.delayedSearchLocationPopup();
-//   const mapCenter = store.getStateItem('mapCenter')
-//
-//   mapComponent.restoreMapCenter(mapCenter)
-//   mapComponent.map.panTo(mapCenter);
-//   console.log('end', mapCenter)
-//   const store = new Store({});
-//   mapComponent.setLayerStatus('SA_ThreatIndex');
-//   mapComponent.setMapClick({lat: 32.76966654128219, lng: -79.93103027343751});
-//   mapComponent.setMapZoom(5);
-//   mapComponent.setMapCenter({lat: 32.76966654128219, lng: -79.93103027343751});
-//   console.log('test')
-//   mapComponent.clearState();
-//   console.log(store.clearState())
-//   console.log(store.getStateItem("mapClick"))
-//   console.log(mapComponent.restoreMapState())
-//   mapComponent.setStateFromObject(store.getState())
-//   console.log(JSON.stringify(store.getStateItem('mapLayerDisplayStatus')))
-//   console.log(store.removeStateItem('mapClick'));
-//   console.log(store.addStateItem('mapClick',{lat: 32.76966654128219, lng: -79.93103027343751}));
-//   console.log()
-// });
 addMissingStateItems();
 if (window.screen.availWidth < 769) {
   store.setStoreItem('maplayerlist', 'close');
@@ -241,36 +212,33 @@ if (window.screen.availWidth < 769) {
 
 router.on({
   '/': (params, query) => {
-    // store.setStoreItem('activeNav', 'main-nav-map');
-    initMapComponent();
-    setNavBars('main-nav-map');
+    setNavBars('main-nav-landingpage');
+    initStaticPage('landingpage-holder', LandingPage);
   },
   '/Home': (params, query) => {
-    // store.setStoreItem('activeNav', 'main-nav-map');
+    setNavBars('main-nav-landingpage');
+    initStaticPage('landingpage-holder', LandingPage);
+  },
+  '/AnalyzeProjectSites': (params, query) => {
     initMapComponent();
     setNavBars('main-nav-map');
   },
   '/SearchHubs': (params, query) => {
-    // store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
     initMapComponent();
     setNavBars('main-nav-map-searchhubs');
   },
 
   '/SearchNSHubs': (params, query) => {
-    // store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
     initMapComponent();
     setNavBars('main-nav-map-searchNShubs');
   },
   '/Examples': (params, query) => {
-    // store.setStoreItem('activeNav', 'main-nav-map-searchhubs');
     initMapComponent();
     setNavBars('main-nav-map-examples');
   },
   '/About': (params, query) => {
     setNavBars('main-nav-about');
-    // setAboutNavBars('about-nav');
     aboutComponent = initAbout('about-holder');
-    // initStaticPage('about-holder', AboutPage);
   },
   '/Download': (params, query) => {
     setNavBars('main-nav-download');

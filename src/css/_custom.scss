@@ -319,7 +319,7 @@ a.nav-link {
   margin-left: 0px !important;
 }
 
-#upload-shapefile-btn, #draw-area-btn {
+#upload-shapefile-btn, #draw-area-btn, #whatcando-btn {
   width: 100% !important;
 }
 
@@ -538,6 +538,12 @@ a.about-nav.active::before {
     padding: $padding15;
 }
 
+.landingpage-text{
+    margin: $margin;
+    padding: $padding15;
+}
+
+
 .about-tool-text {
   ol {
     margin-top: $margin15;
@@ -671,9 +677,36 @@ a.about-nav.active::before {
   font-weight: 900;
 }
 
-.download-container {
+.download-container, .whatcando-container {
   width: 100% !important;
-  padding: $padding15;
+  // padding/ $padding15;
+}
+
+.whatcando-container {
+  section {
+    margin-top: $padding15;
+  }
+  .section-subheading {
+    padding:  $padding15;
+  }
+  .action-description  {
+    padding:  $padding15;
+  }
+  .header-image  {
+    padding:  $padding15;
+  }
+  #whatcando-btn {
+    line-height: 60px !important
+  }
+  @media screen and (max-width: 640px) {
+    #whatcando-btn {
+       height: 50px !important;
+       line-height: 50px !important;
+     }
+  }
+  .whatcando-inner-container {
+    padding: 30px;
+  }
 }
 
 .download-group {
@@ -839,7 +872,7 @@ a.about-nav.active::before {
   padding-left: 15px !important;
 }
 
-#upload-shapefile-btn, #draw-area-btn {
+#upload-shapefile-btn, #draw-area-btn, #whatcando-btn {
   width: 100% !important;
 }
 
