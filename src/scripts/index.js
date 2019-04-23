@@ -200,7 +200,6 @@ function setNavBars(selector) {
 // @param template - HTML template
 function initStaticPage(selector, template) {
   const componentElem = document.getElementById(selector);
-  console.log(selector, template)
   componentElem.innerHTML = template;
 }
 

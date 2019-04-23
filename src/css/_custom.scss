@@ -679,14 +679,36 @@ a.about-nav.active::before {
 
 .download-container, .whatcando-container {
   width: 100% !important;
-  padding: $padding15;
+  // padding/ $padding15;
 }
 
 .whatcando-container {
   section {
-    margin-top: 60px
+    margin-top: $padding15;
+  }
+  .section-subheading {
+    padding:  $padding15;
+  }
+  .action-description  {
+    padding:  $padding15;
+  }
+  .header-image  {
+    padding:  $padding15;
+  }
+  #whatcando-btn {
+    line-height: 60px !important
+  }
+  @media screen and (max-width: 640px) {
+    #whatcando-btn {
+       height: 50px !important;
+       line-height: 50px !important;
+     }
+  }
+  .whatcando-inner-container {
+    padding: 30px;
   }
 }
+
 .download-group {
   box-shadow: $box-shadow-small;
   padding: 15px;
