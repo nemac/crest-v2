@@ -678,8 +678,9 @@ a.about-nav.active::before {
 }
 
 .download-container, .whatcando-container {
+  box-shadow: $box-shadow-small;
   width: 100% !important;
-  // padding/ $padding15;
+  padding: $padding15;
 }
 
 .whatcando-container {
@@ -710,9 +711,9 @@ a.about-nav.active::before {
 }
 
 .download-group {
-  box-shadow: $box-shadow-small;
+  // box-shadow: $box-shadow-small;
   padding: 15px;
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
 }
 
 .btn-download {
