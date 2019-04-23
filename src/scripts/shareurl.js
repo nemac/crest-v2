@@ -123,7 +123,7 @@ export class ShareUrl extends Component {
 
     const sharebtn = L.DomUtil.create('div', 'btn-mapshareurl-holder');
     sharebtn.setAttribute('id', 'btn-mapshareurl-holder');
-    sharebtn.innerHTML = '<a class="btn btn-light btn-mapshareurl" href="#" title="Share Map" ' +
+    sharebtn.innerHTML = '<a class="btn btn-light btn-mapshareurl" title="Share Map" ' +
                     'role="button" aria-label="Share Map"> ' +
                     '<i class="fas fa-share-alt i-shareurl">' +
                     '</i><div class="btn-med-share-label" >Share Map</div></a>';
