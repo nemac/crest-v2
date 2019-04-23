@@ -7,6 +7,13 @@ export var navConfig = {
       href: "./#About/"
     },
     {
+      name: "hubs",
+      ref: "about-nav-hubs",
+      text: "Making of Resilience Hubs",
+      id: "about-nav-hubs",
+      href: "./#About/"
+    },
+    {
       name: "exposure",
       ref: "about-nav-exposure",
       text: "Making of the Community Exposure Index",
@@ -25,6 +32,13 @@ export var navConfig = {
       ref: "about-nav-threats",
       text: "Making of the Threat Index",
       id: "about-nav-threats",
+      href: "./#About/"
+    },
+    {
+      name: "fishandwildlife",
+      ref: "about-nav-fishandwildlife",
+      text: "Making of Fish and Wildlife",
+      id: "about-nav-fishandwildlife",
       href: "./#About/"
     },
     {

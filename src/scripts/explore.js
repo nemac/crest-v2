@@ -138,13 +138,13 @@ export class Explore extends Component {
 
     this.HubIntersectionApi = new HubIntersectionApi();
     this.NatureServeHubIntersectionApi = new NatureServeHubIntersectionApi();
-    this.HubsExploreText = 'Where should I do a resilience project?';
+    this.HubsExploreText = 'Where Should I do a resilience project?';
     this.HubsNSExploreText = 'Targeted Watersheds';
-    this.DefaultExploreText = 'Start Exploring the Assessment';
+    this.DefaultExploreText = 'Analyze Project Sites';
     this.ExamplesExploreText = 'Case Studies';
-    this.exlporeAssmentMessage = 'To examine the Assessment, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of an area, use the “Upload Shapefile” button.';
-    this.exlporeHubMessage = 'To search for an area on which to implement a potential resilience project, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
-    this.exlporeNSHubMessage = 'To search for an area on which to implement a potential resilience project using targeted watershed hubs, click the "Draw Area on Map" button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.';
+    this.exlporeAssmentMessage = 'Click the "Draw Area on Map" button and then sketch an your project footprint(s) on the map. If you have a shapefile of the project footprint(s), use the “Upload Shapefile” button.<br /><br />The results will examine your project site in terms of its proximity to resilience hubs, as well as examine the community exposure and fish and wildlife indices in the surrounding area.';
+    this.exlporeHubMessage = 'Click the "Draw Area on Map" button and then sketch the area in which you’d like to do a resilience project on the map. If you have a shapefile of your area, use the “Upload Shapefile” button.<br /><br />The results will identify all resilience hubs in your study area and rank them by their potential for a project to deliver both human community resilience and fish and wildlife benefits';
+    this.exlporeNSHubMessage = 'Click the "Draw Area on Map" button and then sketch the area in which you’d like to do a resilience project on the map. If you have a shapefile of your area, use the “Upload Shapefile” button.<br /><br />The results will identify all resilience hubs in your study area and rank them by their potential for a project to deliver both human community resilience and fish and wildlife benefits';
 
     this.restoreWhenNotShareURL();
 
