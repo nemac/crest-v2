@@ -212,12 +212,12 @@ if (window.screen.availWidth < 769) {
 
 router.on({
   '/': (params, query) => {
-    setNavBars('main-nav-landingpage');
     initStaticPage('landingpage-holder', LandingPage);
+    setNavBars('main-nav-landingpage');
   },
   '/Home': (params, query) => {
-    setNavBars('main-nav-landingpage');
     initStaticPage('landingpage-holder', LandingPage);
+    setNavBars('main-nav-landingpage');
   },
   '/AnalyzeProjectSites': (params, query) => {
     initMapComponent();
@@ -237,12 +237,12 @@ router.on({
     setNavBars('main-nav-map-examples');
   },
   '/About': (params, query) => {
-    setNavBars('main-nav-about');
     aboutComponent = initAbout('about-holder');
+    setNavBars('main-nav-about');
   },
   '/Download': (params, query) => {
-    setNavBars('main-nav-download');
     initStaticPage('download-holder', DownloadDataPage);
+    setNavBars('main-nav-download');
     addDownloadGoogleEvents();
   }
 });
