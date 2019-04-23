@@ -36,6 +36,14 @@ a:hover {
   text-decoration: none !important;
 }
 
+// --hue: 210; /* Blue */
+// --link-color: hsl(var(--hue), 90%, 70%) !important;
+
+// a {
+//   --hue: 210; /* Blue */
+//   --link-color: hsl(var(--hue), 90%, 70%) !important;
+//   // color: $link-color !important;
+// }
 #main-content{
   padding: $padding15;
   min-height: 0px;
