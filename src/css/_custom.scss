@@ -570,6 +570,10 @@ a.about-nav.active::before {
 .about-main-text, .about-tool-text {
     margin: $margin;
     padding: $padding15;
+    a {
+      color: #17a2b8 !important;
+      text-decoration: underline;
+    }
 }
 
 .landingpage-text{
