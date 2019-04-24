@@ -1091,6 +1091,11 @@ a.about-nav.active::before {
   background-color: $body-color !important;
 }
 
+#btn-mapinfo-holder a{
+  color: $body-bg !important;
+
+}
+
 .btn-copy-share {
   cursor: pointer;
   position: relative;
