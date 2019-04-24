@@ -163,7 +163,7 @@ export class MapInfo extends Component {
     // setup custom style for mapinfo indentify control (button)
     const fa = L.DomUtil.create('div', 'btn-mapinfo-holder leaflet-bar');
     fa.setAttribute('id', 'btn-mapinfo-holder');
-    fa.innerHTML = '<a class="btn btn-light btn-mapinfo" href="#" title="Map Information" ' +
+    fa.innerHTML = '<a class="btn btn-light btn-mapinfo" title="Map Information" ' +
                     'role="button" aria-label="Map Information"> ' +
                     '<i class="fas fa-info i-mapinfo"></a>';
     L.DomEvent.disableClickPropagation(fa);
