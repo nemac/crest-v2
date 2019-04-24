@@ -512,6 +512,32 @@ a.nav-link {
   box-shadow: $box-shadow-small;
 }
 
+.about-nav {
+  @media screen and (max-width: 1700px) {
+    max-width: 250px !important;
+  }
+  @media screen and (max-width: 1600px) {
+    max-width: 200px !important;
+  }
+  @media screen and (max-width: 1500px) {
+    max-width: 150px !important;
+  }
+  @media screen and (max-width: 1200px) {
+    max-width: 125px !important;
+  }
+  @media screen and (max-width: 1100px) {
+    max-width: 100px !important;
+  }
+  @media screen and (max-width: 900px) {
+    max-width: 80px !important;
+    font-size: .8em !important;
+  }
+  @media screen and (max-width: 768px) {
+    max-width: 100% !important;
+    font-size: .9em !important;
+  }
+}
+
 a.about-nav {
   margin-bottom: 0px !important;
 }
@@ -705,7 +731,16 @@ a.about-nav.active::before {
     padding:  $padding15;
   }
   #whatcando-btn {
-    line-height: 60px !important
+    line-height: 60px !important;
+    background-color: #6c757d !important;
+    border: 1px solid #e9ecef !important;
+    color: #e9ecef !important;
+  }
+  #whatcando-btn:hover {
+    background-color: #565d64 !important;
+  }
+  #whatcando-btn:focus {
+    background-color: #565d64 !important;
   }
   @media screen and (max-width: 640px) {
     #whatcando-btn {
@@ -714,7 +749,7 @@ a.about-nav.active::before {
      }
   }
   .whatcando-inner-container {
-    padding: 30px;
+    padding: 15px;
   }
 }
 
@@ -1541,8 +1576,14 @@ p.not-found {
     margin-bottom: $margin !important;
     border: 1px solid $body-color !important;
     color: $body-color !important;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
+  .navbar-explore-shapes {
+    padding-left: 0px;
+    padding-right: 0px
+  }
   .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
     font-size: 1.5rem !important;
   }
@@ -2387,6 +2428,8 @@ p.not-found {
   -moz-border-radius: 0.25rem;
 }
 
+
+
 .tooltip {
     z-index: 10000;
     overflow: hidden;
@@ -2426,6 +2469,97 @@ p.not-found {
     &.bs-tooltip-bottom .arrow::before, &.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
         border-bottom-color: $body-color;
     }
+}
+
+.tooltip.exlpore-directions {
+  max-width: 500px !important;
+  padding-top: 5px !important;
+  text-align: left !important;
+  opacity: 1.0 !important;
+  font-size: 1rem !important;
+
+  @media screen and (max-width: 992px) {
+    max-width: 400px !important;
+  }
+
+  @media screen and (max-width: 400px) {
+    max-width: 300px !important;
+  }
+
+  .btn-explore-info {
+    background-color:  $gray-300 !important;
+    color: $body-bg !important;
+    font-size: .6rem !important;
+    width: 25px !important;
+    height: 25px !important;
+  }
+
+  .tooltip-inner {
+    float: left !important;
+    padding-right: 30px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .close-exlpore-directions {
+    cursor: pointer;
+    height: 33px !important;
+    position: relative;
+    left: -25px !important;
+    top: 5px;
+    padding: 5px;
+    color: $body-bg !important;
+    float: right !important;
+    background-color: $body-color !important;
+    border: 1px solid  $gray-400 !important;
+    border-radius: 4px;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+  }
+
+  .close-exlpore-directions:hover {
+    background-color: $gray-400 !important; //$body-color
+  }
+}
+
+.explore-helper {
+  background-color: $body-bg !important;
+  height: 35px !important;
+  width: 35px !important;
+  font-size: .75em;
+  border: 1px solid $body-list-border !important;
+  color: $body-color !important;
+  padding: 1px;
+  padding-left: 3px;
+  margin-right: 5px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  cursor: pointer;
+  box-shadow: $box-shadow-small;
+  color: #999595;
+  float: right !important;
+  @media screen and (max-width: 992px) {
+    float: left !important;
+    margin-top: -5px !important;
+    height: 25px !important;
+    width: 25px !important;
+  }
+  @media screen and (max-width: 640px) {
+    margin-top: -3px !important;
+  }
+  @media screen and (max-width: 360px) {
+    margin-top: -7px !important;
+  }
+}
+
+.explore-helper:hover{
+  background-color: $gray-600 !important;
+}
+
+.explore-helper:focus{
+  background-color: $gray-600 !important;
+  outline: $body-list-border  !important;
 }
 
 .openclosetext {
