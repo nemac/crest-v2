@@ -70,6 +70,17 @@ export class NavBar extends Component {
     this.addTabClick();
   }
 
+  static setTab(activeNav) {
+    if (activeNav) {
+      NavBar.deactivateAllNavs();
+      NavBar.toggleTabContent(activeNav);
+      const el = document.getElementById(activeNav);
+      if (el) {
+        el.className += ' active';
+      }
+    }
+  }
+
   addTabClick() {
     navConfig.navs.forEach((nav) => {
       const el = document.getElementById(nav.id);

@@ -38,7 +38,6 @@ const navBarComponent = new NavBar('nav-holder');
 const urlParams = new URLSearchParams(window.location.search);
 const hasShareURL = urlParams.get('shareurl');
 const theStartNav = urlParams.get('fornav');
-
 const URLCls = new URL();
 
 library.add(fas, far);
@@ -66,7 +65,6 @@ store.setStoreItem('aboutComponent', aboutComponent);
 store.removeStateItem('aboutComponent');
 store.setStoreItem('shareurl', shareurl);
 store.removeStateItem('shareurl');
-
 
 let homeloc = window.location.origin;
 // handle gh pages dist folder.
@@ -161,6 +159,7 @@ function initMapComponent() { // add parameter for type of explore
     }
   }
 
+
   mapComponent.renderCount += 1;
 
   // delay listners unitll after setup also needs slight time out so the map dose not move on start
@@ -173,7 +172,9 @@ function initMapComponent() { // add parameter for type of explore
 // Closes over global import NavBar
 function setNavBars(selector) {
   NavBar.resetTabContent();
+
   const activeNav = store.getStateItem('activeNav');
+
   // this very hacky need better way to handle
   if (selector === 'main-nav-map-searchhubs' || selector === 'main-nav-map-searchNShubs' || selector === 'main-nav-map-examples') {
     NavBar.toggleTabContent('main-nav-map');
@@ -257,3 +258,14 @@ router.notFound((query) => {
 });
 
 router.resolve();
+
+// // only run if share url has different start nav
+// if(checkValidObject(theStartNav)){
+//   store.setStoreItem('activeNav', theStartNav);
+//   initMapComponent();
+//   setNavBars(theStartNav);
+//   NavBar.tabUpdate(theStartNav);
+//   NavBar.toggleTabContent(theStartNav);
+//   const navChangeEvent = new CustomEvent('aboutNavChange');
+//   window.dispatchEvent(navChangeEvent);
+// }

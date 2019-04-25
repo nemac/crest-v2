@@ -85,7 +85,6 @@ export class Explore extends Component {
     this.drawAreaGroup = L.featureGroup().addTo(mapComponent.map);
     this.hasShareURL = hasShareURL;
     this.theStartNav = theStartNav;
-
     this.caseStudies = new CaseStudies(this.mapComponent, this);
 
     const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
@@ -648,12 +647,12 @@ export class Explore extends Component {
 
 
     $(() => {
-      $('#explore-holder [data-toggle="tooltip"]').tooltip({
+      $('#explore-title [data-toggle="tooltip"]').tooltip({
         trigger: 'hover click focus',
         template: testTemplate
       });
 
-      $('#explore-holder [data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
+      $('#explore-title [data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
         const directionElem = document.querySelector('.exlpore-directions .tooltip-inner');
         if (directionElem) {
           directionElem.innerHTML = elemText;
@@ -1349,7 +1348,6 @@ export class Explore extends Component {
   restoreSavedGeoJson() {
     store.setStoreItem('working_s3retreive', true);
     spinnerOn();
-
 
     switch (this.theStartNav) {
       case 'main-nav-map-searchhubs':
