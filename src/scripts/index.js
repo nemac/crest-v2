@@ -259,13 +259,14 @@ router.notFound((query) => {
 
 router.resolve();
 
-// // only run if share url has different start nav
-// if(checkValidObject(theStartNav)){
-//   store.setStoreItem('activeNav', theStartNav);
-//   initMapComponent();
-//   setNavBars(theStartNav);
-//   NavBar.tabUpdate(theStartNav);
-//   NavBar.toggleTabContent(theStartNav);
-//   const navChangeEvent = new CustomEvent('aboutNavChange');
-//   window.dispatchEvent(navChangeEvent);
-// }
+// only run if share url has different start nav
+if (checkValidObject(theStartNav)) {
+  const elemMain = document.getElementById('main-nav-map');
+  if (elemMain) {
+    elemMain.click();
+  }
+  const elemStartNav = document.getElementById(theStartNav);
+  if (elemStartNav) {
+    elemStartNav.click();
+  }
+}
