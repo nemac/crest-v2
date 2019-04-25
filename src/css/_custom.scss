@@ -716,14 +716,14 @@ a.about-nav.active::before {
 }
 
 .download-container, .whatcando-container {
-  box-shadow: $box-shadow-small;
+  // box-shadow: $box-shadow-small;
   width: 100% !important;
   padding: $padding15;
 }
 
 .whatcando-container {
   section {
-    margin-top: $padding15;
+    margin-top: 120px;
   }
   .whatcando-heading {
     font-size: 18px;
@@ -859,7 +859,7 @@ a.about-nav.active::before {
   .list-group-item {
     border-width: 0px !important;
     font-size: .9em;
-    padding-left: 10px !important; 
+    padding-left: 10px !important;
   }
 
   .zoomLinks-list-label-name {
