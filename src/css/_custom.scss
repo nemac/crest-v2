@@ -725,14 +725,25 @@ a.about-nav.active::before {
   section {
     margin-top: $padding15;
   }
+  .whatcando-heading {
+    font-size: 18px;
+    font-weight: 700;
+  }
   .section-subheading {
-    padding:  $padding15;
+    padding-left:  $padding15;
+    padding-right:  $padding15;
+    font-size: 14px;
   }
   .action-description  {
     padding:  $padding15;
+    font-size: 14px;
   }
   .header-image  {
-    padding:  $padding15;
+    border-radius: 15px !important;
+    -webkit-border-radius: 15px !important;
+    -moz-border-radius: 15px !important;
+    margin-bottom: 15px;
+    margin-top: 15px;
   }
   #whatcando-btn {
     line-height: 60px !important;
@@ -812,6 +823,7 @@ a.about-nav.active::before {
     padding: 5px;
     border-width: 1px !important;
     padding-left: 20px !important;
+    font-size: .9em;
     // border-radius: 0.25rem !important;
     // -webkit-border-radius: 0.25rem !important;
     // -moz-border-radius: 0.25rem !important;
@@ -846,7 +858,8 @@ a.about-nav.active::before {
 
   .list-group-item {
     border-width: 0px !important;
-    font-size: 1.0em;
+    font-size: .9em;
+    padding-left: 10px !important; 
   }
 
   .zoomLinks-list-label-name {
@@ -875,6 +888,7 @@ a.about-nav.active::before {
 
   #mainNavToggle {
     background-color: $body-main-bar-bg-color !important;
+    font-size: 14px;
   }
 
   h2 {
@@ -1324,7 +1338,7 @@ p.not-found {
 
   .brand-maplist-holder {
     position: fixed !important;
-    top: 170px !important;
+    top: 140px !important;
     width: 20.6% !important;
     min-width: 290px;
     max-width: 375px !important;
@@ -1348,7 +1362,7 @@ p.not-found {
   #maplayers_list-holder {
     width: 19% !important;
     position: fixed;
-    top: 220px !important;
+    top: 190px !important;
     left: 80.5% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
@@ -1474,6 +1488,8 @@ p.not-found {
     display: inline-block;
     margin-bottom: 0px !important;
     margin-top: 20px !important;
+    padding-left: 25px;
+    font-size: 18px  !important;;
   }
 
   .navbar-expand-lg {
@@ -1493,6 +1509,8 @@ p.not-found {
 
   #explore-title {
     display: block;
+    font-size: 1.2em;
+    margin-bottom: 15px;
   }
 
   .navbar-brand-exlore-title, #NFWF-Logo-Title-brand {
@@ -2082,7 +2100,7 @@ p.not-found {
   }
 
   .navbar-brand {
-    font-size: .842rem !important;
+    font-size: .742rem !important;
     margin-right: 5px !important;
   }
 }
@@ -2533,8 +2551,8 @@ p.not-found {
 
 .explore-helper {
   background-color: $body-bg !important;
-  height: 35px !important;
-  width: 35px !important;
+  height: 30px !important;
+  width: 30px !important;
   font-size: .75em;
   border: 1px solid $body-list-border !important;
   color: $body-color !important;
