@@ -219,6 +219,78 @@ $map_holder_printheight:  10.5in;
     break-after: always !important;
   }
 
+  #NFWF-Logo-Title {
+    display: none !important;
+  }
+
+  .LayerList-Group {
+    display: block !important;
+    float: none !important;
+    position: unset !important;
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    border: unset !important;
+    outline: unset !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-shadow: unset !important;
+    svg {
+      display: none !important;
+    }
+  }
+
+  .inputs-collapser [aria-expanded="true"] svg.fa-caret-down {
+    display: none !important;
+  }
+
+  .inputs-collapser [aria-expanded="true"] svg.fa-caret-up {
+    display: none !important;
+  }
+
+  .inputs-collapser [aria-expanded="false"] svg.fa-caret-down {
+    display: none !important;
+  }
+
+  .inputs-collapser [aria-expanded="false"] svg.fa-caret-up {
+    display: none !important;
+  }
+
+  .zoomLinks-Group {
+    display: none !important;    
+  }
+
+  .inputs-layer-list {
+    display: block !important;
+    float: none !important;
+    position: unset !important;
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    border: unset !important;
+    outline: unset !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-shadow: unset !important;
+    svg {
+      display: none !important;
+    }
+  }
+
+  .LayerInput-header  {
+    display: block !important;
+    float: none !important;
+    position: unset !important;
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    border: unset !important;
+    outline: unset !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-shadow: unset !important;
+    svg {
+      display: none !important;
+    }
+  }
+
   .map_responsive {
     display: block !important;
     float: none !important;
