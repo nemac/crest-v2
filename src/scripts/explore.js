@@ -150,8 +150,10 @@ export class Explore extends Component {
                                                         button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.
                                                         <br /><br />The results will identify all resilience hubs in your study area and rank them by their potential
                                                          for a project to deliver both human community resilience and fish and wildlife benefits`;
-    this.exlporeNSHubMessage = `${this.DefaultMessageText} In-depth analyses were done for 8 locations in the United States<br /><br />To search for an area in which to
-                                                          implement a potential resilience project, click the "Draw Area on Map" button and then sketch an area on the map.
+    this.exlporeNSHubMessage = `${this.DefaultMessageText} In-depth analyses were done for 8 locations in the United States<br /><br />Data for targeted watersheds is simplified
+                                                          for purposes of display in this webtool.  To see complete detailed datasets, please download the ArcGIS files located in
+                                                          the downloads section.<br /><br />To search for an area in which to implement a potential
+                                                          resilience project, click the "Draw Area on Map" button and then sketch an area on the map.
                                                           If you have a shapefile of the area, use the “Upload Shapefile” button.<br /><br />The results will identify all
                                                           resilience hubs in your study area and rank them by their potential for a project to deliver both human community
                                                           resilience and fish and wildlife benefits`;
