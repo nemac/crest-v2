@@ -215,10 +215,12 @@ router.on({
   '/': (params, query) => {
     initStaticPage('landingpage-holder', LandingPage);
     setNavBars('main-nav-landingpage');
+    addDownloadGoogleEvents();
   },
   '/Home': (params, query) => {
     initStaticPage('landingpage-holder', LandingPage);
     setNavBars('main-nav-landingpage');
+    addDownloadGoogleEvents();
   },
   '/AnalyzeProjectSites': (params, query) => {
     initMapComponent();
