@@ -410,8 +410,24 @@ export function addDownloadGoogleEvents() {
       });
     }
   });
-}
 
+  const watersheds = [
+    'whatcando-btn-reslinceprojects',
+    'whatcando-btn-analyzesites',
+    'whatcando-btn-learnmore',
+    'whatcando-btn-targetedwatershed'
+  ];
+
+  watersheds.forEach((id) => {
+    const elem = document.getElementById(id);
+    if (elem) {
+      elem.addEventListener('click', (ev) => {
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'landingpage', id);
+      });
+    }
+  });
+}
 
 // set stateitems if they do not exist
 // we will have to any new ones if added.
