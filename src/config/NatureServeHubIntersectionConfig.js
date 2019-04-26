@@ -1,5 +1,5 @@
 
-const GDB_NAME = 'NS_HUBS_WGS84_CLEAN_WITH_STATS';
+const GDB_NAME = 'NATURESERVE_HUBS_STATS_04252019';
 const QUERY_REQUEST_URL = `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/${GDB_NAME}/FeatureServer/0/query`;
 const config = {
   fieldMaps: {
