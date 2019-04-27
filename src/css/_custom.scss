@@ -732,6 +732,7 @@ a.about-nav.active::before {
   padding: 30px;
 }
 .landingpage-header {
+  width: 100%;
   background-image: url('../images/making-of-zoom-hubs-cut.png'); /* The image used */
   background-color: $body-color; /* Used if the image is unavailable */
   height: 320px; /* You must set a specified height */
@@ -743,8 +744,18 @@ a.about-nav.active::before {
 #tab-main-nav-landingpage, #landingpage-holder{
   background-color: $body-color;
   color: $body-bg;
+  margin-left: unset !important;
+  margin-right: unset !important;
+}
+.whatcando-row {
+  margin-left: unset !important;
+  margin-right: unset !important;
 }
 .whatcando-container {
+  .row {
+    margin-left: unset !important;
+    margin-right: unset !important;
+  }
   background-color: $body-color;
   color: $body-bg;
   section {
@@ -809,7 +820,14 @@ a.about-nav.active::before {
   @media screen and (max-width: 640px) {
     .whatcando-btn {
        height: 50px !important;
-       line-height: 50px !important;
+       line-height: 40px !important;
+     }
+  }
+  @media screen and (max-width: 400px) {
+    .whatcando-btn {
+      width: 250px !important;
+      font-size: 12px !important;
+      line-height: 40px !important;
      }
   }
   .whatcando-inner-container {
