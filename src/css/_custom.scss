@@ -45,7 +45,7 @@ a:hover {
 //   // color: $link-color !important;
 // }
 #main-content{
-  padding: $padding15;
+  // padding: $padding15;
   min-height: 0px;
 }
 
@@ -954,7 +954,7 @@ a.about-nav.active::before {
 }
 
 #main-content,{
-  padding: $padding15;
+  // padding: $padding15;
 }
 
 .nfwf-header {
@@ -2760,8 +2760,11 @@ p.not-found {
 
 #tab-main-nav-map {
   min-height: 0px;
+  padding: 15px;
 }
-
+#tab-main-nav-about {
+  padding: 15px;
+}
 .user-shape {
   white-space: pre-wrap;      /* CSS3 */
   white-space: -moz-pre-wrap; /* Firefox */
