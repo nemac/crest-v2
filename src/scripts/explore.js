@@ -688,7 +688,7 @@ export class Explore extends Component {
     if (elem) {
       const helperElem = '<button id="exlpore-helper-directions" aria-label="Show layer description" class="explore-helper" ' +
                          'title=" " data-toggle="tooltip" data-placement="bottom">' +
-                         '<i aria-label="Show layer description" class="fas fa-question"></i></button>';
+                         '<i aria-label="Show layer description" class="fas fa-info"></i></button>';
       elem.innerHTML = elemText + helperElem;
     }
   }

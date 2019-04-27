@@ -1,14 +1,14 @@
 caseStudies:
-  - name: Hurricane Sandy
+  - name: Atlantic City, New Jersey
     htmlid: sandy-case-study-main
-    narrative: Because of its size and strength, this devastating storm informed specific datasets to include in the regional coastal assessment. Of particular importance was the transportation infrastructure used in the Critical Infrastructure input.
+    narrative: Because of Hurricane Sandys size and strength , this devastating storm informed specific datasets to include in the regional coastal assessment. Of particular importance was the transportation infrastructure used in the Critical Infrastructure input.
     totalsteps: 7
     steps:
       - name: Start
         htmlid: sandy-case-study-step-0
         lasthtmlid: sandy-case-study-step-0
         nexthtmlid:  sandy-case-study-step-1
-        narrative: "Start: Explore the Hurricane Sandy study."
+        narrative: "Start: Explore the Atlantic City, New Jersey study."
         position: 0
         actions:
           name: View it on the map
@@ -126,7 +126,7 @@ caseStudies:
           legendScroll: 10
 
 
-  - name: Hurricane Harvey
+  - name: Buffalo Bayou, Houston Texas
     htmlid: harvey-case-study-main
     narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area. This assessment incorporates many inputs that would help planners prepare plans to improve community resilience around urban waterways.
     totalsteps: 7
@@ -136,7 +136,7 @@ caseStudies:
         htmlid: harvey-case-study-step-0
         lasthtmlid: harvey-case-study-step-0
         nexthtmlid: harvey-case-study-step-1
-        narrative: "Explore the Hurricane Harvey study."
+        narrative: "Explore the Buffalo Bayou, Houston Texas study."
         actions:
           name: View it on the map
           geojsonlabel: Buffalo Bayou
@@ -252,7 +252,7 @@ caseStudies:
           legendToggle: HubsTMS
           legendScroll: 10
 
-  - name: Hurricane Florence
+  - name: Wilmington, North Carolina
     htmlid: florence-case-study-main
     narrative: "Hurricane Florence was a slow-moving storm that produced extensive flooding throughout coastal North Carolina. Most notably, the town of Wilmington was essentially cut-off from the rest of the state for a time as a result of flooding from the storm."
     totalsteps: 7
@@ -262,7 +262,7 @@ caseStudies:
         htmlid: florence-case-study-step-0
         lasthtmlid: florence-case-study-step-0
         nexthtmlid: florence-case-study-step-1
-        narrative: "Explore the Hurricane Florence study."
+        narrative: "Explore the Wilmington, North Carolina study."
         actions:
           name: View it on the map
           geojsonlabel: Water Street
