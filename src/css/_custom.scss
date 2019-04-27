@@ -576,6 +576,15 @@ a.about-nav.active::before {
     }
 }
 
+.whatcando-container .final-report-link{
+    color: #17a2b8 !important;
+    text-decoration: underline;
+}
+
+.final-report-row {
+  padding-top: 15px;
+}
+
 .landingpage-text{
     margin: $margin;
     padding: $padding15;
@@ -804,7 +813,7 @@ a.about-nav.active::before {
   border-style: solid;
   font-size: 1.25em;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 
   .icon-right {
     float: right;
@@ -1111,7 +1120,6 @@ a.about-nav.active::before {
 
 #btn-mapinfo-holder a{
   color: $body-bg !important;
-
 }
 
 .btn-copy-share {
@@ -1514,7 +1522,7 @@ p.not-found {
   #explore-title {
     display: block;
     font-size: 1.2em;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
   }
 
   .navbar-brand-exlore-title, #NFWF-Logo-Title-brand {
@@ -2290,6 +2298,9 @@ p.not-found {
     #name {
       font-size: 1.5rem;
       font-weight: 800;
+      @media screen and (max-width: 768px) {
+        font-size: 1rem;
+      }
     }
 
     #narrative {
@@ -2559,9 +2570,9 @@ p.not-found {
 
 .explore-helper {
   background-color: $body-bg !important;
-  height: 30px !important;
-  width: 30px !important;
-  font-size: .75em;
+  height: 25px !important;
+  width: 25px !important;
+  font-size: .7em;
   border: 1px solid $body-list-border !important;
   color: $body-color !important;
   padding: 1px;
