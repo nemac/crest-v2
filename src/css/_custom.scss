@@ -582,7 +582,9 @@ a.about-nav.active::before {
 }
 
 .final-report-row {
-  padding-top: 15px;
+  padding-top: 24px;
+  padding-top: 24px;
+
 }
 
 .landingpage-text{
@@ -729,19 +731,51 @@ a.about-nav.active::before {
   width: 100% !important;
   padding: 30px;
 }
-
+.landingpage-header {
+  background-image: url('../images/making-of-zoom-hubs-cut.png'); /* The image used */
+  background-color: $body-color; /* Used if the image is unavailable */
+  height: 320px; /* You must set a specified height */
+  max-height: 320px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+#tab-main-nav-landingpage, #landingpage-holder{
+  background-color: $body-color;
+  color: $body-bg;
+}
 .whatcando-container {
+  background-color: $body-color;
+  color: $body-bg;
   section {
-    margin-top: 100px;
+    margin-top: 120px;
+    margin-bottom: 24px;
+  }
+  header {
+    text-align: center;
+  }
+  .section-header {
   }
   .whatcando-heading {
-    font-size: 18px;
+    margin-top: 15px;
+    font-size: 30px;
     font-weight: 700;
+    margin-bottom: 15px;
   }
   .section-subheading {
+    margin-top: 15px;
     padding-left:  $padding15;
     padding-right:  $padding15;
     font-size: 14px;
+    margin-bottom: 15px;
+  }
+  .whatcando-examples-row {
+    margin-top: 120px;
+  }
+  .whatcando-ex-image {
+    border-radius: 15px !important;
+    box-shadow: $box-shadow-default !important;
+    -moz-box-shadow: $box-shadow-default !important;
   }
   .action-description  {
     padding:  $padding15;
@@ -753,12 +787,18 @@ a.about-nav.active::before {
     -moz-border-radius: 15px !important;
     margin-bottom: 15px;
     margin-top: 15px;
+    box-shadow: $box-shadow-default !important;
+    -moz-box-shadow: $box-shadow-default !important;
   }
   .whatcando-btn {
-    line-height: 60px !important;
+    width: 330px !important;
+    height: 50px !important;
+    line-height: 40px !important;
+    border-radius: 25px  !important;
     background-color: #6c757d !important;
     border: 1px solid #e9ecef !important;
     color: #e9ecef !important;
+    font-size: 14px !important;
   }
   .whatcando-btn:hover {
     background-color: #565d64 !important;
@@ -773,7 +813,12 @@ a.about-nav.active::before {
      }
   }
   .whatcando-inner-container {
+    background-color: $body-bg;
+    color: $body-color;
     padding: 15px;
+    border-radius: 15px;
+    box-shadow: $box-shadow-default !important;
+    -moz-box-shadow: $box-shadow-default !important;
   }
 }
 
@@ -813,6 +858,7 @@ a.about-nav.active::before {
   border-style: solid;
   font-size: 1.25em;
   font-weight: 500;
+  margin-top: 15px;
   margin-bottom: 15px;
 
   .icon-right {
@@ -1236,8 +1282,8 @@ a.about-nav.active::before {
  }
 
  .exlpore-directions {
-   padding-top: $margin;
-   padding-bottom: $margin;
+   padding-top: $padding15;
+   padding-bottom: $padding15;
    display: flex;
  }
 
@@ -1523,6 +1569,7 @@ p.not-found {
     display: block;
     font-size: 1.2em;
     margin-bottom: 30px;
+    margin-top: 15px;
   }
 
   .navbar-brand-exlore-title, #NFWF-Logo-Title-brand {
@@ -2221,10 +2268,12 @@ p.not-found {
   .figure {
     padding-left: 5px !important;
     padding-right: 5px !important;
+    padding-bottom: 15px !important;
 
     @media screen and (max-width: 768px) {
       padding-left: 0px !important;
       padding-right: 0px !important;
+      padding-bottom: 10px !important;
     }
   }
 
