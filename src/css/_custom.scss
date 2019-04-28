@@ -632,7 +632,7 @@ a.about-nav.active::before {
   .title-caption {
     cursor: pointer;
     max-width: 1024px !important;
-    font-size: 1em;
+    font-size: 18px !important;
     font-weight: 800;
     border: 1px solid $gray-100;
     background: $gray-600;
@@ -1377,6 +1377,21 @@ p.not-found {
   }
 }
 
+#explore-title {
+  display: block;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 1280px) {
+  #explore-title {
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+}
+
 @media screen and (max-width: 1427px) {
   .btn-clear-area .btn-lg-label {
     display: none;
@@ -1583,13 +1598,6 @@ p.not-found {
     height: 100% !important;
   }
 
-  #explore-title {
-    display: block;
-    font-size: 1.2em;
-    margin-bottom: 30px;
-    margin-top: 15px;
-  }
-
   .navbar-brand-exlore-title, #NFWF-Logo-Title-brand {
     display: none;
   }
@@ -1606,6 +1614,7 @@ p.not-found {
     white-space: pre;
   }
 }
+
 ///
 @media screen and (max-width: 992px) {
 
@@ -2333,6 +2342,7 @@ p.not-found {
     }
 
     &.title-caption {
+      font-size: 18px !important;
       background-color: $gray-600;
       border-top-left-radius: 4px !important;
       border-top-right-radius: 4px !important;
@@ -2363,7 +2373,7 @@ p.not-found {
     }
 
     #name {
-      font-size: 1.5rem;
+      font-size: 18px;
       font-weight: 800;
       @media screen and (max-width: 768px) {
         font-size: 1rem;
@@ -2772,14 +2782,14 @@ p.not-found {
   white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
   width: 90px;
-  height: 60px;
+  height: 50px;
   margin: 5px;
   font-size: .9rem;
 }
 
 .upload-all {
   position: relative;
-  top: -5px;
+  top: -10px;
 }
 
 .exposure-equals {
