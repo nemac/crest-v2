@@ -197,7 +197,6 @@ export class Explore extends Component {
 
     Explore.addResetControl(this.mapComponent.map);
     bindZonalAllExportHandler();
-
     this.addZoomLinks();
   }
 
@@ -268,12 +267,17 @@ export class Explore extends Component {
   static ResetControlHandler() {
     const sharebtn = L.DomUtil.create('div', 'btn-mapreset-holder');
     sharebtn.setAttribute('id', 'btn-mapreset-holder');
-    sharebtn.innerHTML = '<a class="btn btn-light btn-mapreset"  href="#" title="Start Over" ' +
-                          'role="button" aria-label="Start Over"> ' +
+    sharebtn.innerHTML = '<a id="reset-settings" class="btn btn-light btn-mapreset"  href="#" title="Start Over and Clear Previous Selections" ' +
+                          'role="button" aria-label="Start over to clear previous selections" ' +
+                          'data-toggle="tooltip" data-placement="right" data-original-title="Start Over and Clear Previous Selections"> ' +
                           '<i class="fas fa-undo icon-reset"></i>' +
                           '<div class="btn-med-mapreset-label" >Start Over</div></a>';
 
     L.DomEvent.disableClickPropagation(sharebtn);
+    // initalize new tooltips
+    $(() => {
+      $('#btn-mapreset-holder [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+    });
     return sharebtn;
   }
 

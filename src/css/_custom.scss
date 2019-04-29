@@ -100,6 +100,11 @@ a.nav-link {
   padding-right: $padding15;
   background-color: $body-main-bar-bg-color !important;
 
+  #main-nav {
+    margin-right: unset !important;
+    width: 100% !important;
+  }
+
   #mainNavToggle {
     background-color: $body-main-bar-bg-color !important;
   }
@@ -1540,6 +1545,7 @@ p.not-found {
       background-color: $body-bg !important;
       margin: 15px;
       height: 100%;
+      width: 100% !important;
       transition: all 0.4s ease;
       will-change: transform;
 
@@ -2587,6 +2593,10 @@ p.not-found {
 
     .arrow:before {
         border-top-color: $body-color;
+    }
+
+    &.bs-tooltip-right .arrow::before, &.bs-tooltip-auto[x-placement^="right"] .arrow::before {
+        border-right-color: $body-color;
     }
 
     &.bs-tooltip-bottom .arrow::before, &.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
