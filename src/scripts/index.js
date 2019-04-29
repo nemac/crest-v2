@@ -247,6 +247,9 @@ router.on({
     initStaticPage('download-holder', DownloadDataPage);
     setNavBars('main-nav-download');
     addDownloadGoogleEvents();
+    $(() => {
+      $('.download-layer-name [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+    });
   }
 });
 
