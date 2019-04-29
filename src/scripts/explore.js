@@ -1592,12 +1592,10 @@ export class Explore extends Component {
         const hubobj = savedhubs[key][1].hub;
         if (checkValidObject(savedhubs)) {
           NatureServeHubsZonalshape = await this.StoreShapesAPI.httpGetSavedGeoJSON(hubobj.bucket,
-            hubobj.key.replace('prod/hubs','prod/natureserve'));
-
-          console.log(NatureServeHubsZonalshape);
+            hubobj.key.replace('prod/hubs', 'prod/natureserve'));
           // adds TARGET_FID to mean array
-          NatureServeHubsZonalshape.properties.mean.TARGET_FID =
-            NatureServeHubsZonalshape.properties.OBJECTID;
+          NatureServeHubsZonalshape.properties.mean =
+            { ...NatureServeHubsZonalshape.properties };
 
           // simplifies shape geometry
           simplifiedNatureServeHubsZonalshape =
