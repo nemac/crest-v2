@@ -15,6 +15,14 @@ import {
 
 const store = new Store({});
 
+
+// required for bootstrap
+window.$ = require('jquery');
+// required for tooltip, popup...
+window.Popper = require('popper.js');
+
+window.jQuery = window.$;
+
 /**
 * handles the identify interactions on the map
 * dosen't not deal with lambda api call but it does make that call
@@ -124,11 +132,17 @@ export class ShareUrl extends Component {
     const sharebtn = L.DomUtil.create('div', 'btn-mapshareurl-holder');
     sharebtn.setAttribute('id', 'btn-mapshareurl-holder');
     sharebtn.innerHTML = '<a class="btn btn-light btn-mapshareurl" title="Share Map" ' +
-                    'role="button" aria-label="Share Map"> ' +
+                    'role="button" aria-label="Share Map" ' +
+                    'data-toggle="tooltip" data-placement="right" data-original-title="Share Map"> ' +
                     '<i class="fas fa-share-alt i-shareurl">' +
                     '</i><div class="btn-med-share-label" >Share Map</div></a>';
 
     L.DomEvent.disableClickPropagation(sharebtn);
+    // initalize new tooltips
+    $(() => {
+      $('#btn-mapshareurl-holder [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+    });
+
     return sharebtn;
   }
 

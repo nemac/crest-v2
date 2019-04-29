@@ -163,10 +163,15 @@ export class MapInfo extends Component {
     // setup custom style for mapinfo indentify control (button)
     const fa = L.DomUtil.create('div', 'btn-mapinfo-holder leaflet-bar');
     fa.setAttribute('id', 'btn-mapinfo-holder');
-    fa.innerHTML = '<a class="btn btn-light btn-mapinfo" title="Map Information" ' +
-                    'role="button" aria-label="Map Information"> ' +
+    fa.innerHTML = '<a class="btn btn-light btn-mapinfo" title="Click Map for Summary Data" ' +
+                    'role="button" aria-label="Click Map for Summary Data" ' +
+                    'data-toggle="tooltip" data-placement="right" data-original-title="Click Map for Summary Data."> ' +
                     '<i class="fas fa-info i-mapinfo"></a>';
     L.DomEvent.disableClickPropagation(fa);
+    // initalize new tooltips
+    $(() => {
+      $('#btn-mapinfo-holder [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+    });
     return fa;
   }
 

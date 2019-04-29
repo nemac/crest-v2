@@ -18,6 +18,13 @@ import {
 
 const store = new Store({});
 
+// required for bootstrap
+window.$ = require('jquery');
+// required for tooltip, popup...
+window.Popper = require('popper.js');
+
+window.jQuery = window.$;
+
 /**
 * SearchLocations Component
 * SearchLocations handles searching places and geocoding,
@@ -48,9 +55,15 @@ export class SearchLocations extends Component {
     this.searchControl = geosearch(GeoSearchOptions).addTo(mapComponent.map);
     this.searchControlElement = document.querySelector('.geocoder-control.leaflet-control');
     this.searchBoxElement = document.querySelector('.geocoder-control-input.leaflet-bar');
+    this.searchIconElement = document.querySelector('.geocoder-control-input');
+
     this.collapseSearch = L.DomUtil.create('div', 'btn-search-locations-collapse-holder leaflet-bar d-none', this.searchControlElement);
     this.collapseSearch.setAttribute('id', 'btn-search-locations-collapse');
 
+    this.searchIconElement.setAttribute('data-toggle', 'tooltip');
+    this.searchIconElement.setAttribute('data-placement', 'right');
+    this.searchIconElement.setAttribute('data-original-title', 'Search by Place or Address');
+    this.searchIconElement.setAttribute('title', 'Search by Place or Address');
     // make sure map click events do not fire when user clicks on search conrol
     L.DomEvent.disableClickPropagation(this.searchControlElement);
 
@@ -77,6 +90,11 @@ export class SearchLocations extends Component {
 
     // add results hanlder for when user picks a location
     this.searchControl.on('results', this.resultsHandler.bind(this));
+
+    // initalize new tooltips
+    $(() => {
+      $('.geocoder-control [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+    });
   }
 
   // handle search box click.  This expands the search box.
