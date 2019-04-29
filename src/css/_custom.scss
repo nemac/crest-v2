@@ -2655,7 +2655,7 @@ p.not-found {
   }
 }
 
-.explore-helper {
+.explore-helper, .download-data-source-helper {
   background-color: $body-bg !important;
   height: 25px !important;
   width: 25px !important;
@@ -2686,11 +2686,11 @@ p.not-found {
   }
 }
 
-.explore-helper:hover{
+.explore-helper:hover, .download-data-source-helper:hover{
   background-color: $gray-600 !important;
 }
 
-.explore-helper:focus{
+.explore-helper:focus, .download-data-source-helper:focus{
   background-color: $gray-600 !important;
   outline: $body-list-border  !important;
 }
