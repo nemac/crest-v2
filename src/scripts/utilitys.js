@@ -416,7 +416,8 @@ export function addDownloadGoogleEvents() {
     'whatcando-btn-analyzesites',
     'whatcando-btn-learnmore',
     'whatcando-btn-targetedwatershed',
-    'whatcando-btn-finalreport'
+    'whatcando-btn-finalreport',
+    'whatcando-btn-startusingCREST'
   ];
 
   watersheds.forEach((id) => {
