@@ -85,7 +85,7 @@ a.nav-link {
 .about-footer {
   padding: 30px;
   img {
-    height: 75px;
+    margin-top: 30px;
   }
 }
 
@@ -322,10 +322,6 @@ a.nav-link {
 
 .mapinfo-header {
   width: 100%;
-}
-
-#primary-shape-holder {
-  margin-left: 0px !important;
 }
 
 #user-shape {
@@ -622,15 +618,15 @@ a.about-nav.active::before {
     font-size: .9em;
     font-weight: 300;
     max-width: 1024px !important;
+    @media screen and (max-width: 768px) {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
     p {
       max-width: 1024px !important;
     }
     li {
       max-width: 1024px !important;
-    }
-    @media screen and (max-width: 768px) {
-      padding-left: 5px;
-      padding-right: 5px;
     }
   }
 
@@ -724,6 +720,10 @@ a.about-nav.active::before {
 
 .download-layer-name {
   height: 30px;
+  @media screen and (max-width: 500px) {
+    margin-bottom: 5px !important;
+    margin-top: 20px !important;
+  }
 }
 
 .download-layer-name-main {
@@ -886,6 +886,9 @@ a.about-nav.active::before {
 
 .download-notes-description {
   padding-left: 75px;
+  @media screen and (max-width: 992px) {
+    padding-left: 5px;
+  }
   padding-right: 75px;
   margin-bottom: 10px;
   a {
@@ -901,6 +904,36 @@ a.about-nav.active::before {
   font-size: 14px;
   margin-left: 30px;
 }
+
+.exploreInfo-description-content {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  // padding-top: 15px;
+  border-bottom: solid 1px $gray-600;
+  font-size: 14px;
+  margin-left: 30px;
+  .btn-explore-info {
+    font-size: 12px;
+    width: 25px;
+    height: 25px;
+  }
+  .user-shape {
+    font-size: 12px;
+    .btn-icon {
+      position: relative;
+      top: -5px;
+    }
+    .btn-label {
+      font-size: 12px;
+      color: $body-bg;
+      position: relative;
+      top: -5px;
+    }
+    width: 130px;
+    height: 35px;
+  }
+}
+
 .download-description-name {
   font-weight: 700;
 }
@@ -1048,6 +1081,9 @@ a.about-nav.active::before {
 
 #primary-shape-holder {
   margin-left: 0px !important;
+  @media screen and (max-width: 768px) {
+    margin-left: 25px !important;
+  }
 }
 
 #user-shape {
@@ -1988,7 +2024,12 @@ p.not-found {
   #maplayers_list {
     .maplayerslisttoggle-collapse {
       margin-left: 15px !important;
+      margin-right: 15px  !important;
     }
+  }
+
+  #main-nav {
+    width: 90% !important;
   }
 
   #maplayers_list-holder  {
@@ -2223,7 +2264,7 @@ p.not-found {
   }
 
   .navbar-brand {
-    font-size: 1rem !important;
+    font-size: .95rem !important;
   }
 }
 @media screen and (max-width: 400px) {
@@ -2638,8 +2679,12 @@ p.not-found {
         border-top-color: $body-color;
     }
 
+
     &.bs-tooltip-right .arrow::before, &.bs-tooltip-auto[x-placement^="right"] .arrow::before {
-        border-right-color: $body-color;
+      right: 0 !important;
+      border-width: 0.4rem 0.4rem 0.4rem 0 !important;
+      border-right-color: $body-color !important;
+      border-top-color: rgba(0,0,0,0) !important;
     }
 
     &.bs-tooltip-bottom .arrow::before, &.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
@@ -2749,6 +2794,8 @@ p.not-found {
   }
 }
 
+
+
 .explore-helper, .download-data-source-helper  {
   background-color: $body-bg !important;
   height: 25px !important;
@@ -2766,19 +2813,14 @@ p.not-found {
   box-shadow: $box-shadow-small;
   color: #999595;
   float: right !important;
+}
+
+.explore-helper {
   @media screen and (max-width: 992px) {
-    float: left !important;
-    margin-top: -5px !important;
-    height: 25px !important;
-    width: 25px !important;
-  }
-  @media screen and (max-width: 640px) {
-    margin-top: -3px !important;
-  }
-  @media screen and (max-width: 360px) {
-    margin-top: -7px !important;
+    display: none !important;
   }
 }
+
 .download-data-group-notes {
   background-color: $body-bg !important;
   height: 25px !important;
@@ -2801,7 +2843,6 @@ p.not-found {
     margin-bottom: 5px;
   }
   @media screen and (max-width: 992px) {
-    float: left !important;
     margin-top: -5px !important;
     height: 25px !important;
     width: 25px !important;

@@ -132,29 +132,41 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
 
-    this.DefaultMessageText = 'Zoom in to an area to explore the data Or Click <button class="btn btn-light btn-explore-info" title="description" ' +
-                               'role="button" aria-label="description"><i class="fas fa-search"></i></button> to search by place or address Click ' +
+    this.DefaultMessageText = 'Zoom in to an area to explore the data, Click <button class="btn btn-light btn-explore-info" title="description" ' +
+                               'role="button" aria-label="description"><i class="fas fa-search"></i></button> to search by place or address, or Click ' +
                                '<button class="btn btn-light btn-explore-info" title="description" role="button" aria-label="description"> ' +
-                               '<i class="fas fa-info"></i></button> and then a place on the map for summary data.<br /><br />';
+                               '<i class="fas fa-info"></i></button> and then click a place on the map for summary data.<br /><br />';
+
     this.HubIntersectionApi = new HubIntersectionApi();
     this.NatureServeHubIntersectionApi = new NatureServeHubIntersectionApi();
     this.HubsExploreText = 'Where Should I do a resilience project?';
     this.HubsNSExploreText = 'Targeted Watersheds';
     this.DefaultExploreText = 'Analyze Project Sites';
     this.ExamplesExploreText = 'Case Studies';
-    this.exlporeAssmentMessage = `${this.DefaultMessageText} To analyze potential project sites, click the "Draw Area on Map" button and then sketch an your project footprint(s)
-                                                            on the map. If you have a shapefile of the project footprint(s), use the “Upload Shapefile” button.<br /><br />
+    this.exlporeAssmentMessage = `${this.DefaultMessageText} To analyze potential project sites, click the
+                                                            <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-label">Draw Area on Map</span></button>
+                                                            button and then sketch your project footprint(s)
+                                                            on the map. If you have a shapefile of the project footprint(s), use the
+                                                            <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-upload"></i></span><span class="btn-label">Upload Shapefile</span></button>
+                                                            button.<br /><br />
                                                             The results will examine your project site in terms of its proximity to resilience hubs, as well as examine the
                                                             community exposure and fish and wildlife indices in the surrounding area.`;
-    this.exlporeHubMessage = `${this.DefaultMessageText} To search for an area in which to implement a potential resilience project, click the "Draw Area on Map"
-                                                        button and then sketch an area on the map. If you have a shapefile of the area, use the “Upload Shapefile” button.
+    this.exlporeHubMessage = `${this.DefaultMessageText} To search for an area in which to implement a potential resilience project, click the
+                                                        <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-label">Draw Area on Map</span></button>
+                                                        button and then sketch an area on the map. If you have a shapefile of the area, use the
+                                                        <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-upload"></i></span><span class="btn-label">Upload Shapefile</span></button>
+                                                        button.
                                                         <br /><br />The results will identify all resilience hubs in your study area and rank them by their potential
                                                          for a project to deliver both human community resilience and fish and wildlife benefits`;
     this.exlporeNSHubMessage = `${this.DefaultMessageText} In-depth analyses were done for 8 locations in the United States<br /><br />Data for targeted watersheds is simplified
                                                           for purposes of display in this webtool.  To see complete detailed datasets, please download the ArcGIS files located in
                                                           the downloads section.<br /><br />To search for an area in which to implement a potential
-                                                          resilience project, click the "Draw Area on Map" button and then sketch an area on the map.
-                                                          If you have a shapefile of the area, use the “Upload Shapefile” button.<br /><br />The results will identify all
+                                                          resilience project, click the
+                                                          <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-label">Draw Area on Map</span></button>
+                                                          button and then sketch an area on the map.
+                                                          If you have a shapefile of the area, use the
+                                                          <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-upload"></i></span><span class="btn-label">Upload Shapefile</span></button>
+                                                          button.<br /><br />The results will identify all
                                                           resilience hubs in your study area and rank them by their potential for a project to deliver both human community
                                                           resilience and fish and wildlife benefits`;
 
@@ -641,43 +653,10 @@ export class Explore extends Component {
   }
 
   static updateExploreDirections(elemText) {
-    // // initalize new tooltips
-    // $(() => {
-    //   $('#explore-holder [data-toggle="tooltip"]').tooltip({ trigger: 'click' });
-    // });
-
-    const testTemplate = '<div class="tooltip exlpore-directions" role="tooltip">' +
-              '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
-              '  <div class="close-exlpore-directions"><i class="fa fa-times" aria-hidden="true"></i></div>' +
-              '</div>';
-
-
-    $(() => {
-      $('#explore-title [data-toggle="tooltip"]').tooltip({
-        trigger: 'hover click focus',
-        template: testTemplate
-      });
-
-      $('#explore-title [data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
-        const directionElem = document.querySelector('.exlpore-directions .tooltip-inner');
-        if (directionElem) {
-          directionElem.innerHTML = elemText;
-        }
-
-        const elems = document.querySelectorAll('.tooltip.exlpore-directions .close-exlpore-directions');
-        elems.forEach((elem) => {
-          if (elem) {
-            elem.addEventListener('click', (e) => {
-              const toolTipElem = Explore.ParentTooltip(e.target, 'tooltip');
-              $(toolTipElem).tooltip('hide');
-            });
-          }
-        });
-      });
-    });
-
-
-    // directionElem.classList.remove('d-none');
+    const textElem = document.getElementById('exploreInfo');
+    if (textElem) {
+      textElem.innerHTML = elemText;
+    }
   }
 
   // if parent is tooltip get id so we can hide it.

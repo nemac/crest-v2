@@ -140,7 +140,7 @@ export class ShareUrl extends Component {
     L.DomEvent.disableClickPropagation(sharebtn);
     // initalize new tooltips
     $(() => {
-      $('#btn-mapshareurl-holder [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+      $('#btn-mapshareurl-holder [data-toggle="tooltip"]').tooltip({ trigger: 'hover click focus' });
     });
 
     return sharebtn;
