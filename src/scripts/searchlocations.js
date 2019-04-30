@@ -93,7 +93,7 @@ export class SearchLocations extends Component {
 
     // initalize new tooltips
     $(() => {
-      $('.geocoder-control [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+      $('.geocoder-control [data-toggle="tooltip"]').tooltip({ trigger: 'hover' });
     });
   }
 
