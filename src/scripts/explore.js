@@ -149,7 +149,7 @@ export class Explore extends Component {
                                                             on the map. If you have a shapefile of the project footprint(s), use the
                                                             <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-upload"></i></span><span class="btn-label">Upload Shapefile</span></button>
                                                             button.<br /><br />
-                                                            The results will examine your project site in terms of its proximity to resilience hubs, as well as examine the
+                                                            The results will examine and compare your project site(s) in terms of its proximity to resilience hubs, as well as examine and compare the
                                                             community exposure and fish and wildlife indices in the surrounding area.`;
     this.exlporeHubMessage = `${this.DefaultMessageText} To search for an area in which to implement a potential resilience project, click the
                                                         <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-label">Draw Area on Map</span></button>
