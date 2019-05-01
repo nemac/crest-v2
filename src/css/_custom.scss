@@ -2693,6 +2693,34 @@ p.not-found {
     }
 }
 
+.tooltip.upload-shapefile, .tooltip.draw-shapefile {
+
+  opacity: 1.0 !important;
+
+  .tooltip-inner {
+    float: left !important;
+    padding-right: 30px;
+    max-width: 225px !important;
+    min-height: 50px;
+    opacity: 1.0 !important;
+  }
+
+  .close-upload-shapefile, .close-draw-shapefile {
+    cursor: pointer;
+    position: relative;
+    left: -25px !important;
+    top: 5px;
+    padding: 5px;
+    color: $body-bg !important;
+    float: right !important;
+    background-color: $body-color !important;
+    border: 1px solid  $gray-400 !important;
+    border-radius: 4px;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+  }
+}
+
 .tooltip.exlpore-directions {
   max-width: 500px !important;
   padding-top: 5px !important;

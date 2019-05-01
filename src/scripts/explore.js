@@ -210,6 +210,8 @@ export class Explore extends Component {
     Explore.addResetControl(this.mapComponent.map);
     bindZonalAllExportHandler();
     this.addZoomLinks();
+    Explore.addUploadShapeToolTip();
+    Explore.addUDrawShapeToolTip();
   }
 
   addZoomLinks() {
@@ -2285,6 +2287,71 @@ export class Explore extends Component {
       ListAreasBtn.addEventListener('click', e => Explore.restoreshapes(e));
     }
   }
+
+  static addUploadShapeToolTip() {
+    const template = '<div class="tooltip upload-shapefile" role="tooltip">' +
+              '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
+              '  <div class="close-upload-shapefile"><i class="fa fa-times" aria-hidden="true"></i></div>' +
+              '</div>';
+
+
+    const uploadFeaturesBtn2 = document.querySelector('#upload-shapefile-btn');
+    if (uploadFeaturesBtn2) {
+      uploadFeaturesBtn2.setAttribute('title', 'The shapefile must include a .shp, .shx, .dbf, and .prj file. The upload is limited to 25-30 shapes.');
+    }
+
+    $(() => {
+      $('#upload-shapefile-btn-tt [data-toggle="tooltip"]').tooltip({
+        trigger: 'hover focus',
+        template: template
+      });
+
+      $('#upload-shapefile-btn-tt [data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
+        const elems = document.querySelectorAll('.tooltip.upload-shapefile .close-upload-shapefile');
+        elems.forEach((elem) => {
+          if (elem) {
+            elem.addEventListener('click', (e) => {
+              const toolTipElem = Explore.ParentTooltip(e.target, 'tooltip');
+              $(toolTipElem).tooltip('hide');
+            });
+          }
+        });
+      });
+    });
+  }
+
+  static addUDrawShapeToolTip() {
+    const template = '<div class="tooltip draw-shapefile" role="tooltip">' +
+              '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
+              '  <div class="close-draw-shapefile"><i class="fa fa-times" aria-hidden="true"></i></div>' +
+              '</div>';
+
+
+    const uploadFeaturesBtn2 = document.querySelector('#draw-area-btn');
+    if (uploadFeaturesBtn2) {
+      uploadFeaturesBtn2.setAttribute('title', 'Sketch an area on the map.');
+    }
+
+    $(() => {
+      $('#draw-area-btn[data-toggle="tooltip"]').tooltip({
+        trigger: 'hover focus',
+        template: template
+      });
+
+      $('#draw-area-btn[data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
+        const elems = document.querySelectorAll('.tooltip.draw-shapefile .close-draw-shapefile');
+        elems.forEach((elem) => {
+          if (elem) {
+            elem.addEventListener('click', (e) => {
+              const toolTipElem = Explore.ParentTooltip(e.target, 'tooltip');
+              $(toolTipElem).tooltip('hide');
+            });
+          }
+        });
+      });
+    });
+  }
+
 
   // Listens for click events on the upload shape button.
   addUploadShapeHandler() {
