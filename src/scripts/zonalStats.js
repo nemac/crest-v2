@@ -904,7 +904,7 @@ function buildLongStatsHtml(wrapper) {
   innerWrapper.querySelector('.zonal-long-ns-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSExposure;
   innerWrapper.querySelector('.zonal-long-table-ns-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSAsset;
   innerWrapper.querySelector('.zonal-long-table-ns-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSThreat;
-  innerWrapper.querySelector('.zonal-long-table-index-ns-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSFishAndWildlife;
+  innerWrapper.querySelector('.zonal-long-table-ns-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSFishAndWildlife;
 }
 
 // convert a number to to the word representation
@@ -1508,8 +1508,7 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'ns-asset', data.ns_asset);
       selectChartCell(wrapper, 'ns-threat', data.ns_threat);
       selectChartCell(wrapper, 'ns-exposure-box', data.ns_exposure);
-      selectChartCell(wrapper, 'ns-fishandwildlife', data.ns_aquatic);
-      selectChartCell(wrapper, 'ns-wildlife', data.ns_terrestrial);
+      selectChartCell(wrapper, 'ns-fishandwildlife', data.ns_fishandwildlife);
       disableInputGraphs(wrapper, '.zonal-input-graph');
       defaultdetailGraphs.classList.add('d-none');
       nsdetailGraphs.classList.remove('d-none');

@@ -2289,7 +2289,7 @@ export class Explore extends Component {
   }
 
   static addUploadShapeToolTip() {
-    const template = '<div class="tooltip upload-shapefile" role="tooltip">' +
+    const toolTemplate = '<div class="tooltip upload-shapefile" role="tooltip">' +
               '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
               '  <div class="close-upload-shapefile"><i class="fa fa-times" aria-hidden="true"></i></div>' +
               '</div>';
@@ -2303,7 +2303,7 @@ export class Explore extends Component {
     $(() => {
       $('#upload-shapefile-btn-tt [data-toggle="tooltip"]').tooltip({
         trigger: 'hover focus',
-        template: template
+        template: toolTemplate
       });
 
       $('#upload-shapefile-btn-tt [data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
@@ -2321,7 +2321,7 @@ export class Explore extends Component {
   }
 
   static addUDrawShapeToolTip() {
-    const template = '<div class="tooltip draw-shapefile" role="tooltip">' +
+    const toolTemplate = '<div class="tooltip draw-shapefile" role="tooltip">' +
               '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
               '  <div class="close-draw-shapefile"><i class="fa fa-times" aria-hidden="true"></i></div>' +
               '</div>';
@@ -2335,7 +2335,7 @@ export class Explore extends Component {
     $(() => {
       $('#draw-area-btn[data-toggle="tooltip"]').tooltip({
         trigger: 'hover focus',
-        template: template
+        template: toolTemplate
       });
 
       $('#draw-area-btn[data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
