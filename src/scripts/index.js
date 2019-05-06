@@ -272,3 +272,16 @@ if (checkValidObject(theStartNav)) {
     elemStartNav.click();
   }
 }
+
+// need dom to be updated so timeout.
+// handles navigation from landing page to the tool and search by hubs
+setTimeout(() => {
+  const elemStartUsingCREST = document.getElementById('whatcando-btn-startusingCREST');
+  if (elemStartUsingCREST) {
+    const location = elemStartUsingCREST.getAttribute('href');
+    elemStartUsingCREST.addEventListener('click', (e) => {
+      e.preventDefault();
+      router.navigate(location);
+    });
+  }
+}, 50);
