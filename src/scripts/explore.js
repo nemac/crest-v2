@@ -861,6 +861,9 @@ export class Explore extends Component {
         // send to zonal stas and await
         const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
 
+        // ga event action, category, label
+        googleAnalyticsEvent('call', 'lambda', 'ZonalStatsAPI');
+
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
           drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
@@ -894,6 +897,9 @@ export class Explore extends Component {
     // send request to api
     const NatureServeHubIntersectionJson =
       await this.NatureServeHubIntersectionApi.getIntersectedNatureServeHubs(rawpostdata);
+
+    // ga event action, category, label
+    googleAnalyticsEvent('call', 'lambda', 'NatureServeHubIntersectionApi');
 
     // make sure there is valid data back as  a response
     if (!checkValidObject(NatureServeHubIntersectionJson)) {
@@ -930,6 +936,9 @@ export class Explore extends Component {
 
     // send request to api
     const HubIntersectionJson = await this.HubIntersectionApi.getIntersectedHubs(rawpostdata);
+
+    // ga event action, category, label
+    googleAnalyticsEvent('call', 'lambda', 'HubIntersectionApi');
 
     // make sure there is valid data back as  a response
     if (!checkValidObject(HubIntersectionJson)) {
@@ -1253,6 +1262,10 @@ export class Explore extends Component {
     }
 
     const ZonalStatsJson = await this.ZonalStatsAPI.getZonalStatsSummary(postdata);
+
+    // ga event action, category, label
+    googleAnalyticsEvent('call', 'lambda', 'ZonalStatsAPI');
+
     // If the API fails 3 times, error is thrown and no code below this point is run
     store.setStoreItem('zonalstatsjson', ZonalStatsJson);
 
@@ -1527,6 +1540,9 @@ export class Explore extends Component {
           hubsZonalshape.properties.mean.TARGET_FID = hubsZonalshape.properties.OBJECTID;
           // simplifies shape geometry
           simplifiedHubsZonalshape = HubIntersectionApi.simplifyshape(hubsZonalshape);
+
+          // ga event action, category, label
+          googleAnalyticsEvent('call', 'lambda', 'HubIntersectionApi');
         }
         // add hub geojson to array
         newshapes.push(simplifiedHubsZonalshape);
@@ -1581,6 +1597,9 @@ export class Explore extends Component {
           // simplifies shape geometry
           simplifiedNatureServeHubsZonalshape =
             NatureServeHubIntersectionApi.simplifyshape(NatureServeHubsZonalshape);
+
+          // ga event action, category, label
+          googleAnalyticsEvent('call', 'lambda', 'NatureServeHubIntersectionApi');
         }
         // add hub geojson to array
         newshapes.push(simplifiedNatureServeHubsZonalshape);
