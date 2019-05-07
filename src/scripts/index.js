@@ -211,16 +211,91 @@ if (window.screen.availWidth < 769) {
   store.setStoreItem('maplayerlist', 'close');
 }
 
+function addLandingListners() {
+  const elemStartUsingCREST = document.getElementById('whatcando-btn-startusingCREST');
+  if (elemStartUsingCREST) {
+    const location = elemStartUsingCREST.getAttribute('href');
+    elemStartUsingCREST.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map-searchhubs');
+      if (elemCREST) {
+        elemCREST.click();
+        setNavBars('main-nav-map-searchhubs');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingRP = document.getElementById('whatcando-btn-reslinceprojects');
+  if (elemStartUsingRP) {
+    const location = elemStartUsingRP.getAttribute('href');
+    elemStartUsingRP.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemSH = document.getElementById('main-nav-map-searchhubs');
+      if (elemSH) {
+        elemSH.click();
+        setNavBars('main-nav-map-searchhubs');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingAS = document.getElementById('whatcando-btn-analyzesites');
+  if (elemStartUsingAS) {
+    const location = elemStartUsingAS.getAttribute('href');
+    elemStartUsingAS.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemAS = document.getElementById('main-nav-map');
+      if (elemAS) {
+        elemAS.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingLM = document.getElementById('whatcando-btn-learnmore');
+  if (elemStartUsingLM) {
+    const location = elemStartUsingLM.getAttribute('href');
+    elemStartUsingLM.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemLM = document.getElementById('main-nav-about');
+      if (elemLM) {
+        elemLM.click();
+        setNavBars('main-nav-about');
+        router.navigate(location);
+        window.scrollTo(0, 0);
+      }
+    });
+  }
+
+  const elemStartUsingTS = document.getElementById('whatcando-btn-targetedwatershed');
+  if (elemStartUsingTS) {
+    const location = elemStartUsingTS.getAttribute('href');
+    elemStartUsingTS.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemTS = document.getElementById('main-nav-map-searchNShubs');
+      if (elemTS) {
+        elemTS.click();
+        setNavBars('main-nav-map-searchNShubs');
+        router.navigate(location);
+      }
+    });
+  }
+}
+
 router.on({
   '/': (params, query) => {
     initStaticPage('landingpage-holder', LandingPage);
     setNavBars('main-nav-landingpage');
     addDownloadGoogleEvents();
+    addLandingListners();
   },
   '/Home': (params, query) => {
     initStaticPage('landingpage-holder', LandingPage);
     setNavBars('main-nav-landingpage');
     addDownloadGoogleEvents();
+    addLandingListners();
   },
   '/AnalyzeProjectSites': (params, query) => {
     initMapComponent();
@@ -272,16 +347,12 @@ if (checkValidObject(theStartNav)) {
     elemStartNav.click();
   }
 }
-
-// need dom to be updated so timeout.
-// handles navigation from landing page to the tool and search by hubs
-setTimeout(() => {
-  const elemStartUsingCREST = document.getElementById('whatcando-btn-startusingCREST');
-  if (elemStartUsingCREST) {
-    const location = elemStartUsingCREST.getAttribute('href');
-    elemStartUsingCREST.addEventListener('click', (e) => {
-      e.preventDefault();
-      router.navigate(location);
-    });
-  }
-}, 50);
+//
+// function eventsaddtest() {
+//   // need dom to be updated so timeout.
+//   // handles navigation from landing page to the tool and search by hubs
+//   setTimeout(() => {
+//
+//   }, 50);
+//
+// }
