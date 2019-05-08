@@ -128,7 +128,7 @@ caseStudies:
 
   - name: Buffalo Bayou, Houston, Texas
     htmlid: harvey-case-study-main
-    narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area on 2017. This case study incorporates inputs that can help planners improve community resilience around urban waterways.
+    narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area in 2017. This case study incorporates inputs that can help planners improve community resilience around urban waterways.
     totalsteps: 7
     steps:
       - name: Start
@@ -149,7 +149,7 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-0
         htmlid: harvey-case-study-step-1
         nexthtmlid: harvey-case-study-step-2
-        narrative: "Buffalo Bayou, a slow-moving river that through Houston, Texas, is surrounded by parks and established neighborhoods. Buffalo Bayou Park is outlined here."
+        narrative: "Buffalo Bayou, a slow-moving river that flows through Houston, Texas, is surrounded by parks and established neighborhoods. Buffalo Bayou Park is outlined here."
         actions:
           name: Population Density
           layerToggle: PopDensityTMS
@@ -254,7 +254,7 @@ caseStudies:
 
   - name: Wilmington, North Carolina
     htmlid: florence-case-study-main
-    narrative: "Hurricane Florence was a slow-moving storm inn 2018 that produced extensive flooding throughout coastal North Carolina. Most notably, for a time the City of Wilmington was essentially cut off from the rest of the state as a result of storm-related flooding."
+    narrative: "Hurricane Florence was a slow-moving storm in 2018 that produced extensive flooding throughout coastal North Carolina. Most notably, for a time the city of Wilmington was essentially cut off from the rest of the state as a result of storm-related flooding."
     totalsteps: 7
     steps:
       - name: Start
@@ -303,7 +303,7 @@ caseStudies:
         lasthtmlid: florence-case-study-step-2
         htmlid: florence-case-study-step-3
         nexthtmlid: florence-case-study-step-4
-        narrative: "Storm Surge data from the National Hurricane Center suggests that this area of Water Street could be inundated by storm Categories 1-5. It is important to visualize this threat in low-lying coastal areas."
+        narrative: "Storm surge data from the National Hurricane Center suggests that this area of Water Street could be inundated by storms that are rated as Categories 1-5. It is important to visualize this threat in low-lying coastal areas."
         actions:
           name: Community Exposure Index
           layerToggle: ExposureTMS

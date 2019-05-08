@@ -160,7 +160,7 @@ export class Explore extends Component {
                                                          for a project located therein to deliver both human community resilience and fish and wildlife benefits.`;
     this.exlporeNSHubMessage = `${this.DefaultMessageText} In-depth analyses were performed for eight locations in the United States.<br /><br />Data for targeted watersheds is simplified
                                                           for purposes of display in this webtool.  To access the complete detailed datasets, download the ArcGIS files from
-                                                          the Download Data Tab.<br /><br />To search for an area in which to implement a potential
+                                                          the Download Data tab.<br /><br />To search for an area in which to implement a potential
                                                           resilience project, click the
                                                           <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-label">Draw Area on Map</span></button>
                                                           button and then sketch an area on the map.
