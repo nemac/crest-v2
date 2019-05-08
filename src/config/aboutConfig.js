@@ -9,7 +9,7 @@ export var navConfig = {
     {
       name: "hubs",
       ref: "about-nav-hubs",
-      text: "Making of Resilience Hubs",
+      text: "Making of the Resilience Hubs",
       id: "about-nav-hubs",
       href: "./#About/"
     },
@@ -37,7 +37,7 @@ export var navConfig = {
     {
       name: "fishandwildlife",
       ref: "about-nav-fishandwildlife",
-      text: "Making of Fish and Wildlife",
+      text: "Making of the Fish and Wildlife Index",
       id: "about-nav-fishandwildlife",
       href: "./#About/"
     },

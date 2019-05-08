@@ -1,14 +1,14 @@
 caseStudies:
   - name: Atlantic City, New Jersey
     htmlid: sandy-case-study-main
-    narrative: Because of Hurricane Sandys size and strength , this devastating storm informed specific datasets to include in the regional coastal assessment. Of particular importance was the transportation infrastructure used in the Critical Infrastructure input.
+    narrative: Because of Hurricane Sandy's size and strength, this devastating 2012 storm informed specific datasets to include in the regional coastal assessment. Of particular importance was the transportation infrastructure used in the Critical Infrastructure input.
     totalsteps: 7
     steps:
       - name: Start
         htmlid: sandy-case-study-step-0
         lasthtmlid: sandy-case-study-step-0
         nexthtmlid:  sandy-case-study-step-1
-        narrative: "Start: Explore the Atlantic City, New Jersey study."
+        narrative: "Explore the Atlantic City case study."
         position: 0
         actions:
           name: View it on the map
@@ -35,7 +35,7 @@ caseStudies:
         htmlid: sandy-case-study-step-2
         lasthtmlid: sandy-case-study-step-1
         nexthtmlid:  sandy-case-study-step-3
-        narrative: "White Horse Pike is in the Critical Infrastructure input as both a major road and an evacuation route, giving it a value of 2."
+        narrative: "White Horse Pike appears in the Critical Infrastructure input as both a major road and an evacuation route, giving it a value of 2."
         position: 2
         actions:
           name: Storm Surge
@@ -49,7 +49,7 @@ caseStudies:
         htmlid: sandy-case-study-step-3
         lasthtmlid: sandy-case-study-step-2
         nexthtmlid:  sandy-case-study-step-4
-        narrative: "White Horse Pike could be inundated with storm surge scenarios from conditions as low as Category 1 storms."
+        narrative: "White Horse Pike could be inundated under storm surge scenarios with conditions as low as Category 1 storms."
         position: 3
         actions:
           name: Community Exposure Index
@@ -84,7 +84,7 @@ caseStudies:
         lasthtmlid: sandy-case-study-step-4
         nexthtmlid:  sandy-case-study-step-6
         position: 5
-        narrative: "This area has a very high value in the Aquatic Index. Altogether, this area scores very high in wildlife habitat suitability and species presence."
+        narrative: "This area has a very high value in the Aquatic Index. All together, this area scores very high in wildlife habitat suitability and species presence."
         actions:
           name: Resilience Hubs
           layerToggle: HubsTMS
@@ -126,9 +126,9 @@ caseStudies:
           legendScroll: 10
 
 
-  - name: Buffalo Bayou, Houston Texas
+  - name: Buffalo Bayou, Houston, Texas
     htmlid: harvey-case-study-main
-    narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area. This assessment incorporates many inputs that would help planners prepare plans to improve community resilience around urban waterways.
+    narrative: Hurricane Harvey brought catastrophic rainfall to the Houston area on 2017. This case study incorporates inputs that can help planners improve community resilience around urban waterways.
     totalsteps: 7
     steps:
       - name: Start
@@ -136,7 +136,7 @@ caseStudies:
         htmlid: harvey-case-study-step-0
         lasthtmlid: harvey-case-study-step-0
         nexthtmlid: harvey-case-study-step-1
-        narrative: "Explore the Buffalo Bayou, Houston Texas study."
+        narrative: "Explore the Buffalo Bayou case study."
         actions:
           name: View it on the map
           geojsonlabel: Buffalo Bayou
@@ -149,7 +149,7 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-0
         htmlid: harvey-case-study-step-1
         nexthtmlid: harvey-case-study-step-2
-        narrative: "Buffalo Bayou, which flows through Houston, TX, is surrounded by parks and established neighborhoods. The Buffalo Bayou Park is outlined here."
+        narrative: "Buffalo Bayou, a slow-moving river that through Houston, Texas, is surrounded by parks and established neighborhoods. Buffalo Bayou Park is outlined here."
         actions:
           name: Population Density
           layerToggle: PopDensityTMS
@@ -177,7 +177,7 @@ caseStudies:
         lasthtmlid: harvey-case-study-step-2
         htmlid: harvey-case-study-step-3
         nexthtmlid: harvey-case-study-step-4
-        narrative: "This input shows flood-zone areas identified by FEMA and soils outside of those zones with the potential for flooding. The majority of the area identified here is part of the Park."
+        narrative: "This input shows flood-prone areas identified by FEMA and soils outside of those zones with the potential for flooding. The majority of the area identified here is part of the Park."
         actions:
           name: Show Community Exposure Index
           layerToggle: ExposureTMS
@@ -211,7 +211,7 @@ caseStudies:
         htmlid: harvey-case-study-step-5
         nexthtmlid: harvey-case-study-step-6
         position: 5
-        narrative: "The area surrounding Buffalo Bayou Park is low in the Aquatic Index, suggesting that this area is not a very suitable habitat for at-risk species but a few species may be found here."
+        narrative: "The area surrounding Buffalo Bayou Park is low on the Aquatic Index, suggesting that this area is not a very suitable habitat for at-risk species.  However, some species may be found here."
         actions:
           name: Resilience Hubs
           layerToggle: HubsTMS
@@ -237,7 +237,7 @@ caseStudies:
           legendToggle: AquaticTMS
           legendScroll: 250
 
-      - name: The viewer
+      - name: Explore
         position: 7
         lasthtmlid: harvey-case-study-step-6
         htmlid: harvey-case-study-step-7
@@ -254,7 +254,7 @@ caseStudies:
 
   - name: Wilmington, North Carolina
     htmlid: florence-case-study-main
-    narrative: "Hurricane Florence was a slow-moving storm that produced extensive flooding throughout coastal North Carolina. Most notably, the town of Wilmington was essentially cut-off from the rest of the state for a time as a result of flooding from the storm."
+    narrative: "Hurricane Florence was a slow-moving storm inn 2018 that produced extensive flooding throughout coastal North Carolina. Most notably, for a time the City of Wilmington was essentially cut off from the rest of the state as a result of storm-related flooding."
     totalsteps: 7
     steps:
       - name: Start
@@ -262,7 +262,7 @@ caseStudies:
         htmlid: florence-case-study-step-0
         lasthtmlid: florence-case-study-step-0
         nexthtmlid: florence-case-study-step-1
-        narrative: "Explore the Wilmington, North Carolina study."
+        narrative: "Explore the Wilmington case study."
         actions:
           name: View it on the map
           geojsonlabel: Water Street
@@ -298,29 +298,12 @@ caseStudies:
         lastactions:
               name: none;
 
-      # - name: Flood-Prone Areas
-      #   position: 3
-      #   lasthtmlid: florence-case-study-step-2
-      #   htmlid: florence-case-study-step-3
-      #   nexthtmlid: florence-case-study-step-4
-      #   narrative: "Since this area sits on the Cape Fear River, it is not surprising that it is threatened by many of the hazards identified in the Threat Index, including Flood-Prone Areas"
-      #   actions:
-      #     name: Storm Surge
-      #     layerToggle: StormSurgeTMS
-      #     legendToggle: StormSurgeTMS
-      #     legendScroll: 900
-      #   lastactions:
-      #     name: Population Density
-      #     layerToggle: PopDensityTMS
-      #     legendToggle: PopDensityTMS
-      #     legendScroll: 300
-
       - name: Storm Surge
         position: 4
         lasthtmlid: florence-case-study-step-2
         htmlid: florence-case-study-step-3
         nexthtmlid: florence-case-study-step-4
-        narrative: "“Storm Surge” Data from the National Hurricane Center suggests that this area of Water Street could be inundated by storm Categories 1-5. It is important to visualize this threat in low-lying coastal areas."
+        narrative: "Storm Surge data from the National Hurricane Center suggests that this area of Water Street could be inundated by storm Categories 1-5. It is important to visualize this threat in low-lying coastal areas."
         actions:
           name: Community Exposure Index
           layerToggle: ExposureTMS
@@ -355,7 +338,7 @@ caseStudies:
         htmlid: florence-case-study-step-5
         nexthtmlid: florence-case-study-step-6
         position: 6
-        narrative: "This area of Water Street has a high value in the Terrestrial Index. Altogether, this area scores very high in habitat suitability and species presence."
+        narrative: "This area of Water Street has a high value in the Terrestrial Index. All together, this area scores very high in habitat suitability and species presence."
         actions:
           name: Resilience Hubs
           layerToggle: HubsTMS
@@ -372,7 +355,7 @@ caseStudies:
         htmlid: florence-case-study-step-6
         nexthtmlid: florence-case-study-step-7
         position: 7
-        narrative: "There are no Hubs found inside the area drawn on the map. However, some exist closeby. The lack of Hubs is likely a result of the open space selection process that determines suitability. It is not common for Hubs to be located in urban areas because of the size threshold applied during this process."
+        narrative: "There are no Hubs inside the area drawn on the map; however, some exist nearby. The lack of Hubs is likely a result of the open space selection process that determines suitability. It is uncommon for Hubs to be located in urban areas because of the size threshold applied during this process."
         actions:
           name: none
         lastactions:
@@ -381,12 +364,12 @@ caseStudies:
           legendToggle: TerrestrialTMS
           legendScroll: 250
 
-      - name: The viewer
+      - name: Explore
         position: 8
         lasthtmlid: florence-case-study-step-6
         htmlid: florence-case-study-step-7
         nexthtmlid: florence-case-study-step-7
-        narrative: Explore Wilmington, N.C. in the viewer.
+        narrative: Explore Wilmington in the viewer.
         actions:
           name: Explore in the Viewer
           viewerlink: /?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map

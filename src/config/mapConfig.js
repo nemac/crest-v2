@@ -40,7 +40,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "exposure",
-      description: "The product of the Asset and Threat Indices which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.",
+      description: "The product of the Asset and Threat Indices, which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.",
       source: 'regional'
     },
     {
@@ -238,7 +238,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "slr",
-      description: "NOAA’s sea level rise scenarios ranked from low to high low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.",
+      description: "NOAA’s sea level rise scenarios ranked from low to high, with low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.",
       source: 'regional'
     },
     {
@@ -256,7 +256,7 @@ export var mapConfig = {
       maxNativeZoom: 12,
       tms: false,
       legend: "stormsurge",
-      description: "Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high with low being a 5-foot surge and high being a 1-foot surge. As a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values.",
+      description: "Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high, with low being a 5-foot surge and high being a 1-foot surge. As a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values.",
       source: 'regional'
     },
     {

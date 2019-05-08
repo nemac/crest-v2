@@ -132,14 +132,14 @@ export class Explore extends Component {
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
 
-    this.DefaultMessageText = 'Zoom in to an area to explore the data, Click <button class="btn btn-light btn-explore-info" title="description" ' +
-                               'role="button" aria-label="description"><i class="fas fa-search"></i></button> to search by place or address, or Click ' +
+    this.DefaultMessageText = 'Zoom in to an area to explore the data, click <button class="btn btn-light btn-explore-info" title="description" ' +
+                               'role="button" aria-label="description"><i class="fas fa-search"></i></button> to search by place or address, or click ' +
                                '<button class="btn btn-light btn-explore-info" title="description" role="button" aria-label="description"> ' +
                                '<i class="fas fa-info"></i></button> and then click a place on the map for summary data.<br /><br />';
 
     this.HubIntersectionApi = new HubIntersectionApi();
     this.NatureServeHubIntersectionApi = new NatureServeHubIntersectionApi();
-    this.HubsExploreText = 'Where Should I do a resilience project?';
+    this.HubsExploreText = 'Where Should I Do a Resilience Project?';
     this.HubsNSExploreText = 'Targeted Watersheds';
     this.DefaultExploreText = 'Analyze Project Sites';
     this.ExamplesExploreText = 'Case Studies';
@@ -149,26 +149,26 @@ export class Explore extends Component {
                                                             on the map. If you have a shapefile of the project footprint(s), use the
                                                             <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-upload"></i></span><span class="btn-label">Upload Shapefile</span></button>
                                                             button.<br /><br />
-                                                            The results will examine and compare your project site(s) in terms of its proximity to resilience hubs, as well as examine and compare the
-                                                            community exposure and fish and wildlife indices in the surrounding area.`;
+                                                            The results will allow you to examine and compare your project site(s) by proximity to Resilience Hubs, and explore and compare the
+                                                            Community Exposure and Fish and Wildlife Indices in the surrounding area.`;
     this.exlporeHubMessage = `${this.DefaultMessageText} To search for an area in which to implement a potential resilience project, click the
                                                         <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-label">Draw Area on Map</span></button>
                                                         button and then sketch an area on the map. If you have a shapefile of the area, use the
                                                         <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-upload"></i></span><span class="btn-label">Upload Shapefile</span></button>
                                                         button.
-                                                        <br /><br />The results will identify all resilience hubs in your study area and rank them by their potential
-                                                         for a project to deliver both human community resilience and fish and wildlife benefits`;
-    this.exlporeNSHubMessage = `${this.DefaultMessageText} In-depth analyses were done for 8 locations in the United States<br /><br />Data for targeted watersheds is simplified
-                                                          for purposes of display in this webtool.  To see complete detailed datasets, please download the ArcGIS files located in
-                                                          the downloads section.<br /><br />To search for an area in which to implement a potential
+                                                        <br /><br />The results will identify all Resilience Hubs in your study area and rank them by their potential
+                                                         for a project located therein to deliver both human community resilience and fish and wildlife benefits.`;
+    this.exlporeNSHubMessage = `${this.DefaultMessageText} In-depth analyses were performed for eight locations in the United States.<br /><br />Data for targeted watersheds is simplified
+                                                          for purposes of display in this webtool.  To access the complete detailed datasets, download the ArcGIS files from
+                                                          the Download Data Tab.<br /><br />To search for an area in which to implement a potential
                                                           resilience project, click the
                                                           <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-draw-polygon"></i></span><span class="btn-label">Draw Area on Map</span></button>
                                                           button and then sketch an area on the map.
                                                           If you have a shapefile of the area, use the
                                                           <button type="button" class="btn btn-light btn-box user-shape btn-draw-area bnt-primary"><span class="btn-icon"><i class="fas fa-upload"></i></span><span class="btn-label">Upload Shapefile</span></button>
                                                           button.<br /><br />The results will identify all
-                                                          resilience hubs in your study area and rank them by their potential for a project to deliver both human community
-                                                          resilience and fish and wildlife benefits`;
+                                                          Resilience Hubs in your study area and rank them by their potential for a project located therein to deliver both human community
+                                                          resilience and fish and wildlife benefits.`;
 
     this.restoreWhenNotShareURL();
 
