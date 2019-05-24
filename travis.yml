@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - stable
+deploy:
+    provider: s3
+    on:
+      branch: production
+    access_key_id: $access
+    secret_access_key: $secret
+    bucket: nfwf-tool-production-site
+    acl: public_read
+    local_dir: dist
+    skip_cleanup: true
+
+
+  #  "./node_modules/mocha/bin/mocha --compilers js:babel-core/register",
