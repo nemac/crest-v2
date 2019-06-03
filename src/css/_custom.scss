@@ -25,7 +25,7 @@ $padding15: 15px;
 $body-bg-semiTransparent:    rgba(53, 59, 65, .8); // $gray-800
 $body-bg-semiTransparent9:    rgba(53, 59, 65, .9); // $gray-800
 $body-bg-FullTransparent:    rgba(53, 59, 65, 0.0); // $gray-800
-
+$newbg: #2A2E33;
 // general page styles
 
 html, body {
@@ -636,7 +636,7 @@ a.about-nav.active::before {
     font-size: 18px !important;
     font-weight: 800;
     border: 1px solid $gray-100;
-    background:#2A2E33;
+    background:$newbg;
      // $gray-600;
     box-shadow: $box-shadow-default;
     padding: 10px;
@@ -941,7 +941,8 @@ a.about-nav.active::before {
 
 .zoomLinks-collapser {
   cursor: pointer;
-  background-color: $body-bg !important;
+  background-color: $newbg !important;
+  // $body-bg !important;
   border-width: 1px !important;;
   border-radius: 0.25rem !important;
   -webkit-border-radius: 0.25rem !important;
@@ -1607,7 +1608,7 @@ p.not-found {
     }
 
     #mapListToggle {
-      background-color: #2A2E33 !important;
+      background-color: $newbg !important;
       // $body-bg !important;
       border-color:  $body-list-border !important;
       border-width:  0px 1px 1px 1px !important;
@@ -1623,8 +1624,7 @@ p.not-found {
     }
 
     #ToggleLayerList {
-      background-color: #2A2E33 !important;
-      // #20232F
+      background-color: $newbg  !important;
        // $body-bg !important;
       margin: 15px;
       height: 100%;
@@ -2426,10 +2426,9 @@ p.not-found {
   }
 
   .figure-caption {
-    background-color: $body-bg;
-    color:
-     // #E8E9ED;
-    #e9ecef; //default white
+    background-color: $newbg;
+    // $body-bg;
+    color: #e9ecef; //default white
     padding: 15px;
     border: 1px solid #e9ecef;
     z-index: 1000;
@@ -2440,13 +2439,8 @@ p.not-found {
 
     &.title-caption {
       font-size: 18px !important;
-      background-color:
-      // #0e142b;
-      // #0d0818;
-      // #080B18;
-      // #20232F;
-      #2A2E33;
-      // $gray-600;default bootstrap gray
+      background-color:$newbg;
+       // $gray-600;// default bootstrap gray
       border-top-left-radius: 4px !important;
       border-top-right-radius: 4px !important;
       -webkit-border-top-left-radius: 4px !important;
