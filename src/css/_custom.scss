@@ -1099,6 +1099,7 @@ a.about-nav.active::before {
 
 #upload-shapefile-btn, #draw-area-btn, .whatcando-btn {
   width: 100% !important;
+
 }
 
 // button styles
@@ -1488,6 +1489,7 @@ p.not-found {
   #btn-clear-area, #btn-reset, #btn-update-zonal-stats, #btn-download-all-zonal-stats {
     margin-top: $margin;
     width: 100% !important;
+    background-color: #434548 !important; //newbg
   }
 }
 @media screen and (min-width: 993px) {
@@ -1585,7 +1587,7 @@ p.not-found {
       -moz-border-radius: 4px !important;
       box-shadow: $box-shadow-small;
       // margin-top: 5px;
-
+      background: $newbg !important;
       &:hover {
         background-color: $gray-600;
       }
@@ -1712,6 +1714,14 @@ p.not-found {
   $btn-color-secondary: $gray-800;
   $btn-color-prinary: $gray-700;
 
+
+
+  #upload-shapefile-btn, #draw-area-btn, .whatcando-btn {
+    width: 100% !important;
+    background-color: #54575b !important; //newbg
+  }
+
+
   .btn-secondary:active {
     background-color: $gray-800 !important;
     background-size: 100% !important;
@@ -1780,11 +1790,12 @@ p.not-found {
     color: $body-color !important;
     padding-left: 0px;
     padding-right: 0px;
+    background-color: $newbg !important;
   }
 
   .navbar-explore-shapes {
     padding-left: 0px;
-    padding-right: 0px
+    padding-right: 0px;
   }
   .navbar-brand-exlore-title, .navbar-brand-secondary-directions  {
     font-size: 1.5rem !important;
