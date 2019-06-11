@@ -824,7 +824,8 @@ a.about-nav.active::before {
     height: 50px !important;
     line-height: 40px !important;
     border-radius: 25px  !important;
-    background-color: #6c757d !important;
+    background-color: $newbg !important;
+     // #6c757d !important; //$newbg
     border: 1px solid #e9ecef !important;
     color: #e9ecef !important;
     font-size: 14px !important;
