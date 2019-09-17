@@ -657,7 +657,8 @@ a.nav-link {
   -moz-border-radius-topleft: 4px !important;
   -moz-border-radius-topright: 4px !important;
   box-shadow: $box-shadow-small;
-  color: #d1d4d7 !important; //new
+  color: #32fcea !important;
+  // #d1d4d7 !important; //new
 }
 
 .about-nav {
@@ -1257,12 +1258,16 @@ a.about-nav.active::before {
 
 #primary-shape-holder {
   margin-left: 0px !important;
-  background: #32fcea;
+  background:$body-bg; //fix 32fcea
 @include size768 {
     margin-left: 25px !important;
   }
-}
 
+
+}
+.bg-dark{
+background-color: $body-bg !important;
+}
 #user-shape {
   margin-left: 0px !important;
 }
@@ -2964,7 +2969,7 @@ p.not-found {
     padding: 5px;
     color: $body-bg !important;
     float: right !important;
-    background-color: #32fcea !important;
+    background-color: $body-color !important;
     border: 1px solid  $gray-400 !important;
     border-radius: 4px;
     -webkit-border-radius: 4px !important;
