@@ -1271,7 +1271,8 @@ a.about-nav.active::before {
 
 
 }
-.bg-dark{
+.bg-dark,.zonal-long-wrapper,.zonal-stats-button-holder, #zonal-stats-button-holder, .zonal-long-name, .zonal-long-button-wrapper{
+  //new removes boxes around certain user areas (descriptions of area)
 background-color: $body-bg !important;
 }
 #user-shape {
