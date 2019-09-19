@@ -657,7 +657,7 @@ a.nav-link {
   -moz-border-radius-topleft: 4px !important;
   -moz-border-radius-topright: 4px !important;
   box-shadow: $box-shadow-small;
-  color: #32fcea !important;
+  // color: #32fcea !important;
   // #d1d4d7 !important; //new
 }
 
@@ -1055,9 +1055,15 @@ a.about-nav.active::before {
 }
 
 .download-collapser {
+      padding-bottom: 6px;
   .icon-right {
+
     float: right;
   }
+}
+
+.download-collapse{
+      padding-bottom: 6px;
 }
 
 .download-notes-description {
@@ -1170,7 +1176,7 @@ a.about-nav.active::before {
   }
 
   .zoomLinks-collapser-header:hover {
-    background-color: $gray-600 !important;
+  @include hovcol(#060b18);
     color: $body-color !important;
   }
 
@@ -1906,7 +1912,7 @@ p.not-found {
     width: 100% !important;
     background-color: #54575b !important; //newbg
     &:hover{
-    @include hovcol(#54575b);
+    @include hovcol(black);
       // background: #323436 !important;
     }
   }
@@ -2752,6 +2758,7 @@ p.not-found {
       //   color: $body-color !important;
       //   white-space: normal !important;
       //
+
       // @include size768 {
       //     border: 1px solid $gray-700 !important;
       //   }
@@ -2983,7 +2990,7 @@ p.not-found {
 
 .tooltip.download-layer-description {
   max-width: 500px !important;
-  padding-top: 5px !important;
+  padding-top: px !important;
   text-align: left !important;
   opacity: 1.0 !important;
   font-size: 14px !important;
