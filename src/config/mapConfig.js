@@ -79,6 +79,25 @@ export var mapConfig = {
       description: "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.",
       source: 'regional'
     },
+
+    {
+      id: "FishAndWildlifeTMS",
+      layer: "FishAndWildlife TMS",
+      label: "FishAndWildlife Index",
+      url: "https://tiles.resilientcoasts.org/AquaticIndexTiles/{z}/{x}/{y}.png",
+      attribution: "NFWF 2018",
+      format: "image/png",
+      tileSize: 256,
+      transparent: true,
+      opacity: 0.75,
+      zIndex: 9000,
+      crs: L.CRS.EPSG3857,
+      maxNativeZoom: 12,
+      tms: false,
+      legend: "aquatic",
+      description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
+      source: 'regional'
+    },
     {
       id: "AquaticTMS",
       layer: "Aquatic TMS",
