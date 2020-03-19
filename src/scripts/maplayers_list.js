@@ -61,7 +61,9 @@ export class MapLayersList extends Component {
 
     const { WMSLayers } = mapConfig;
     const { TMSLayers } = mapConfig;
+    const { zoomRegions } = mapConfig;
 
+    // console.log('zoomRegions', zoomRegions)
     // MapLayersList.addOpenMapLayerListener();
     MapLayersList.addToggleMapLayerListener();
 
@@ -75,6 +77,8 @@ export class MapLayersList extends Component {
     MapLayersList.mapListToggleToggle();
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
+    MapLayersList.addZoomregionListeners(props.mapComponent, zoomRegions);
+
     MapLayersList.addLegendListeners();
 
     this.LayerDescriptionTemplate = '<div class="tooltip layerlist" role="tooltip">' +
@@ -151,6 +155,69 @@ export class MapLayersList extends Component {
     document.querySelector('#maplayers_list').style.maxHeight = `${window.innerHeight - offset}px`;
   }
 
+  static addZoomregionListeners(mapComponent, zoomRegions) {
+    const btnzoomregionElem = document.getElementById('btn-zoomregion');
+    if (btnzoomregionElem) {
+      btnzoomregionElem.addEventListener('click', (e) => { MapLayersList.zoomRegionListToggle(e); });
+    }
+
+    const btnzoomregionList = document.getElementById('zoomregionlist');
+    if (btnzoomregionList) {
+      btnzoomregionList.addEventListener('click', (e) => { MapLayersList.zoomRegionListToggle(e); });
+    }
+
+    document.getElementById('zoomregion-cus').addEventListener('click', (e) => {
+      const region = zoomRegions.filter(regions => regions.region === 'cus');
+      MapLayersList.zoomToRegion(mapComponent, region[0]);
+      MapLayersList.updateZoomRegionLabel('Contiental U.S.');
+
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'zoomregion', 'cus');
+    });
+
+    document.getElementById('zoomregion-pr').addEventListener('click', (e) => {
+      const region = zoomRegions.filter(regions => regions.region === 'pr');
+      MapLayersList.zoomToRegion(mapComponent, region[0]);
+      MapLayersList.updateZoomRegionLabel('Puerto Rico');
+
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'zoomregion', 'pr');
+    });
+
+    document.getElementById('zoomregion-uvi').addEventListener('click', (e) => {
+      const region = zoomRegions.filter(regions => regions.region === 'uvi');
+      MapLayersList.zoomToRegion(mapComponent, region[0]);
+      MapLayersList.updateZoomRegionLabel('US Virgin Islands');
+
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'zoomregion', 'uvi');
+    });
+
+    document.getElementById('zoomregion-cmni').addEventListener('click', (e) => {
+      const region = zoomRegions.filter(regions => regions.region === 'cmni');
+      MapLayersList.zoomToRegion(mapComponent, region[0]);
+      MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
+
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+    });
+
+    document.getElementById('zoomregion-guam').addEventListener('click', (e) => {
+      const region = zoomRegions.filter(regions => regions.region === 'guam');
+      MapLayersList.zoomToRegion(mapComponent, region[0]);
+      MapLayersList.updateZoomRegionLabel('Guam');
+
+      // ga event action, category, label
+      googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+    });
+  }
+
+  // zppm to region
+  static zoomToRegion(mapComponent, region) {
+    // console.log('region', region)
+    mapComponent.map.setView({ lat: region.center[0], lng: region.center[1] }, region.zoom);
+  }
+
   static addBaseMapListeners(mapComponent) {
     document.getElementById('basemap-DarkGray').addEventListener('click', (e) => {
       mapComponent.changeBaseMap('DarkGray');
@@ -198,6 +265,13 @@ export class MapLayersList extends Component {
     }
   }
 
+  static updateZoomRegionLabel(basemapname) {
+    const labelElem = document.getElementById('btn-zoomregion-label');
+    if (labelElem) {
+      labelElem.innerHTML = basemapname;
+    }
+  }
+
   // toggle basemap list on
   static baseMapListToggle(e) {
     // ga event action, category, label
@@ -211,6 +285,23 @@ export class MapLayersList extends Component {
       // baseMapListElem.classList.remove('active');
     } else {
       baseMapListElem.classList.add('closed');
+      // baseMapListElem.classList.add('active');
+    }
+  }
+
+  // toggle zoom region list on
+  static zoomRegionListToggle(e) {
+    // ga event action, category, label
+    googleAnalyticsEvent('click', 'button', 'zoomregionlist');
+
+    const zoomRegionListElem = document.getElementById('zoomregionlist');
+    const iszoomRegionListVissible = zoomRegionListElem.classList.contains('closed');
+
+    if (iszoomRegionListVissible) {
+      zoomRegionListElem.classList.remove('closed');
+      // baseMapListElem.classList.remove('active');
+    } else {
+      zoomRegionListElem.classList.add('closed');
       // baseMapListElem.classList.add('active');
     }
   }

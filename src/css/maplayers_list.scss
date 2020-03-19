@@ -128,7 +128,7 @@ $map_right_margin: 10px;
     white-space: pre;
 }
 
-.list-basemap.closed  {
+.list-basemap.closed, .list-zoomregion.closed   {
   overflow: hidden;
   max-height: 0;
   padding-top: 0;
@@ -142,6 +142,15 @@ $map_right_margin: 10px;
 .list-basemap {
   width: 90% !important;
   max-height: 1000px;
+  overflow: hidden;
+  transition: all 0.75s ease;
+  will-change: transform;
+}
+
+.list-zoomregion {
+  width: 100% !important;
+  max-height: 1000px;
+  font-size: .8rem;
   overflow: hidden;
   transition: all 0.75s ease;
   will-change: transform;
@@ -170,6 +179,10 @@ $map_right_margin: 10px;
   background-clip:         padding-box;
   border-color: #6c757d !important;
   border-style: solid;
+
+  &.zoom-region {
+    margin-top: 10px;
+  }
 
   .icon-right {
     float: right;
@@ -265,6 +278,20 @@ $map_right_margin: 10px;
 .basemap-img {
   width: 61px;
   height: 41px;
+  // border: $gray-700 solid 1px;
+  border-radius: 10%;
+  -webkit-border-radius: 10%;
+  -moz-border-radius: 10%;
+  margin-right: 10px;
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+}
+
+.zoomregion-img {
+  width: 40px;
+  height: 34px;
   // border: $gray-700 solid 1px;
   border-radius: 10%;
   -webkit-border-radius: 10%;

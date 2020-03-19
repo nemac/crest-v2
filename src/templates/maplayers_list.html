@@ -51,6 +51,42 @@
             </button>
           </div>
 
+          <button id="btn-zoomregion" title="Change region" aria-label="Clear Map" type="button" class="btn-light btn-basemap zoom-region">
+            <span class="btn-icon btn-text-left w-100">
+              <i class="fas fa-clone icon-left"></i>
+              <span class="btn-action">Zoom to a Region</span>
+              <span id="btn-zoomregion-label" class="btn-label">Contiental U.S.</span>
+            </span>
+          </button>
+
+          <div id="zoomregionlist" class="list-group list-group-dark list-zoomregion closed">
+            <span title="zoom to a region" aria-label="zoom region Contiental U.S" id="zoomregion_close" class="float-right text-right w-100 zoomregion_list_close d-none">
+              <span class="choose-base-map align-self-center">Contiental U.S.</span>
+              <i title="Close Zoom Region List" aria-label="Close Zoom Region List" class="fas fa-times"></i>
+            </span>
+            <button title="Zoom to a region Contiental U.S" aria-label="Zoom to a region Contiental U.S" id="zoomregion-cus" type="button" class="list-group-item list-group-item-action">
+              <img src="../images/zoomregion-cus.png" alt="Zoom to a region Contiental U.S" class="zoomregion-img  align-self-center" />
+              <span class="list-label-name align-self-center">Contiental U.S</span>
+            </button>
+            <button title="Zoom to a region Puerto RicoS" aria-label="Zoom to a region Puerto Rico" id="zoomregion-pr" type="button" class="list-group-item list-group-item-action">
+              <img src="../images/zoomregion-pr.png" alt="Zoom to a region Puerto Rico" class="zoomregion-img align-self-center" />
+              <span class="list-label-name align-self-center">Puerto Rico</span>
+            </button>
+            <button title="Zoom to a region US Virgin Islands" aria-label="Zoom to a region US Virgin Islands" id="zoomregion-uvi" type="button" class="list-group-item list-group-item-action">
+              <img src="../images/zoomregion-uvi.png" alt="Zoom to a region US Virgin Islands" class="zoomregion-img align-self-center" />
+              <span class="list-label-name align-self-center">US Virgin Islands</span>
+            </button>
+            <button title="Zoom to a region Northern Mariana Islands" aria-label="Zoom to a region Northern Mariana Islands" id="zoomregion-cmni" type="button" class="list-group-item list-group-item-action">
+              <img src="../images/zoomregion-cmni.png" alt="Zoom to a region Northern Mariana Islands" class="zoomregion-img align-self-center" />
+              <span class="list-label-name align-self-center">Northern Mariana Islands</span>
+            </button>
+            <button title="Zoom to a region Guam" aria-label="Zoom to a region Guam" id="zoomregion-guam" type="button" class="list-group-item list-group-item-action">
+              <img src="../images/zoomregion-guam.png" alt="Zoom to a region Guam" class="zoomregion-img align-self-center" />
+              <span class="list-label-name align-self-center">Guam</span>
+            </button>
+          </div>
+
+
           <span id="defaultLayerList" >
             <div class="LayerList-spacer" id="ExposureLayers-Header"></div>
 
