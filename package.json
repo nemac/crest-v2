@@ -1,6 +1,6 @@
 {
-  "name": "Coastal Resilience Evaluation and Siting Tool (CREST)",
-  "version": "1.0.0",
+  "name": "CREST",
+  "version": "1.1.0",
   "description": "CREST can be used to make informed decisions about the siting of restoration and resilience projects. The tool identifies Resilience Hubs, which are areas of open space where projects may have the greatest potential to benefit both human community resilience and fish and wildlife. Resilience Hubs incorporate multiple indices, which can also be explored through CREST.",
   "main": "index.js",
   "scripts": {
