@@ -500,6 +500,34 @@ export var mapConfig = {
     zoom: 4
  },
 
+ // region zooms
+ zoomRegions: [
+   {
+     region: 'cus',
+     center: [ 36.27970720524017, -95.05371093750001],
+     zoom: 4
+   },
+   {
+     region: 'pr',
+     center: [ 18.219772120864576, -66.11643075942995],
+     zoom: 8
+   },
+   {
+     region: 'uvi',
+     center: [ 17.721667763450085, -64.74265158176424],
+     zoom: 11
+   },
+   {
+     region: 'cmni',
+     center: [ 15.649362227964682, 147.71191120147708],
+     zoom: 7
+   },
+   {
+     region: 'guam',
+     center: [ 13.439496420468357, 144.77751821279526],
+     zoom: 10
+   }
+ ],
   //leaflet optoins expand as needed
   mapOptions: {
     // center: [ 32.7765, -79.9311 ],
