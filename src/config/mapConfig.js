@@ -545,7 +545,17 @@ export var mapConfig = {
      region: 'guam',
      center: [ 13.439496420468357, 144.77751821279526],
      zoom: 10
-   }
+   },
+   // {
+   //   region: 'alaska',
+   //   center: [ 62.72288115028305, 209.90641593933108],
+   //   zoom: 4
+   // },
+   // {
+   //   region: 'hawaii',
+   //   center: [ 21.08872447557743, 204.9689626693726],
+   //   zoom: 6
+   // }
  ],
   //leaflet optoins expand as needed
   mapOptions: {
