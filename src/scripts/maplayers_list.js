@@ -210,6 +210,24 @@ export class MapLayersList extends Component {
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'cmni');
     });
+
+    // document.getElementById('zoomregion-alaska').addEventListener('click', (e) => {
+    //   const region = zoomRegions.filter(regions => regions.region === 'alaska');
+    //   MapLayersList.zoomToRegion(mapComponent, region[0]);
+    //   MapLayersList.updateZoomRegionLabel('alaska');
+    //
+    //   // ga event action, category, label
+    //   googleAnalyticsEvent('click', 'zoomregion', 'alaska');
+    // });
+    //
+    // document.getElementById('zoomregion-hawaii').addEventListener('click', (e) => {
+    //   const region = zoomRegions.filter(regions => regions.region === 'hawaii');
+    //   MapLayersList.zoomToRegion(mapComponent, region[0]);
+    //   MapLayersList.updateZoomRegionLabel('hawaii');
+    //
+    //   // ga event action, category, label
+    //   googleAnalyticsEvent('click', 'zoomregion', 'hawaii');
+    // });
   }
 
   // zppm to region
