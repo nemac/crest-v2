@@ -138,7 +138,7 @@ export class MapLayersList extends Component {
   }
 
   static resizeMapList() {
-    const offset = 275;
+    const offset = 220;
     if (window.innerHeight < 1024) {
       document.querySelector('#maplayers_list-holder').style.maxHeight = `${window.innerHeight - offset}px`;
       document.querySelector('#maplayers_list-holder').style.height = `${window.innerHeight - offset}px`;

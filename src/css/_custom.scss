@@ -1710,7 +1710,7 @@ p.not-found {
 
   .brand-maplist-holder {
     position: fixed !important;
-    top: 140px !important;
+    top: 133px; // 140px !important;
     width: 20.6% !important;
     min-width: 290px;
     max-width: 375px !important;
@@ -1734,7 +1734,7 @@ p.not-found {
   #maplayers_list-holder {
     width: 19% !important;
     position: fixed;
-    top: 190px !important;
+    top: 185px !important; // 190px !important;
     left: 80.5% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;

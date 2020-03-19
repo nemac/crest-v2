@@ -83,7 +83,7 @@ export var mapConfig = {
     {
       id: "FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
-      label: "FishAndWildlife Index",
+      label: "Fish and Wildlife Index",
       url: "https://tiles.resilientcoasts.org/AquaticIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
