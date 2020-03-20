@@ -75,7 +75,8 @@ if (homeloc === 'https://nemac.github.io') {
     homeloc += '/crest-refresh-stagging/dist';
   }
 }
-
+console.log('path', path)
+console.log('homeloc', homeloc)
 // Creates a new Leaflet Map in the target DOM element
 //
 // @param selector - string DOM selector
