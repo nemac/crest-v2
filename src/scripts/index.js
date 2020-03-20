@@ -67,11 +67,11 @@ store.setStoreItem('shareurl', shareurl);
 store.removeStateItem('shareurl');
 
 let homeloc = window.location.origin;
-let path = window.location.pathname;
+const path = window.location.pathname;
 // handle gh pages dist folder.
 if (homeloc === 'https://nemac.github.io') {
   homeloc += '/NFWF_tool/dist';
-  if (path.includes('crest-refresh-stagging')){
+  if (path.includes('crest-refresh-stagging')) {
     homeloc += '/crest-refresh-stagging/dist';
   }
 }
