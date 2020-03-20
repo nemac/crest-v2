@@ -70,13 +70,14 @@ let homeloc = window.location.origin;
 const path = window.location.pathname;
 // handle gh pages dist folder.
 if (homeloc === 'https://nemac.github.io') {
-  homeloc += '/NFWF_tool/dist';
   if (path.includes('crest-refresh-stagging')) {
     homeloc += '/crest-refresh-stagging/dist';
+  } else {
+    homeloc += '/NFWF_tool/dist';
   }
 }
 console.log('path', path)
-console.log('homeloc', homeloc)
+console.log('homeloc', homeloc, path.includes('crest-refresh-stagging'))
 // Creates a new Leaflet Map in the target DOM element
 //
 // @param selector - string DOM selector
