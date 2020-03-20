@@ -76,8 +76,7 @@ if (homeloc === 'https://nemac.github.io') {
     homeloc += '/NFWF_tool/dist';
   }
 }
-console.log('path', path)
-console.log('homeloc', homeloc, path.includes('crest-refresh-stagging'))
+
 // Creates a new Leaflet Map in the target DOM element
 //
 // @param selector - string DOM selector
