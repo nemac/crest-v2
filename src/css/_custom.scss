@@ -993,6 +993,11 @@ a.about-nav.active::before {
   .whatcando-btn:focus {
     background-color: #565d64 !important;
   }
+  @media screen and (max-width: 1200px) {
+    .whatcando-btn {
+      width: 275px !important;
+     }
+  }
   @media screen and (max-width: 640px) {
     .whatcando-btn {
        height: 50px !important;
