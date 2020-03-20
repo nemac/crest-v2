@@ -422,14 +422,16 @@ a.nav-link {
   border: 1px solid $body-list-border !important;
   color: $body-color !important;
   padding: 1px;
-  padding-left: 3px;
+  padding-left: 1px;
   margin-right: 5px;
   border-radius: 4px;
   -webkit-border-radius: 4px !important;
   -moz-border-radius: 4px !important;
   cursor: pointer;
   box-shadow: $box-shadow-small;
-
+  .fa-info {
+    vertical-align: -.025em;
+  }
   &:hover {
     background-color: $gray-600;
   }
@@ -2837,6 +2839,10 @@ p.not-found {
   background-color:  $body-bg;
 }
 
+.custom-control-label::before, .custom-control-label::after {
+  top: 0.25rem;
+}
+
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: none;
 }
@@ -2847,7 +2853,9 @@ p.not-found {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   border: 1px solid $gray-700;
-  transform: scale(1.75);
+  // transform: scale(1.75);
+  transform: scale(1.4);
+  top: 0.25rem;
 }
 
 .custom-control-input:active ~ .custom-control-label::before {
@@ -2857,6 +2865,7 @@ p.not-found {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
+  top: 0.25rem;
 }
 
 
