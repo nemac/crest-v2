@@ -712,6 +712,12 @@ export class Explore extends Component {
 
     let name = '';
     const shapecount = store.getStateItem('userareacount');
+
+    // sometimes the shapecount is not a number re send buffer area
+    if (!Number.isInteger(shapecount)) {
+      this.bufferArea(unbufferedGeoJSON);
+    }
+
     name = `${this.defaultAreaName}${shapecount}`;
 
     const HTMLName = makeHTMLName(name);

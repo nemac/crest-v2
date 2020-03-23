@@ -762,7 +762,6 @@ function zonalLabelMouseOverHandler(e) {
   e.preventDefault();
   const id = e.target.getAttribute('id');
   const HTMLName = stripUserArea(id);
-
   if (innerHTMLisText(HTMLName)) {
     const path = document.querySelector(`.path-${HTMLName}`);
     togglePermHighLightsAllOff(path);
