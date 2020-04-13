@@ -62,6 +62,7 @@ export class MapLayersList extends Component {
     const { WMSLayers } = mapConfig;
     const { TMSLayers } = mapConfig;
     const { zoomRegions } = mapConfig;
+    //  store.getStateItem('region')
 
     // console.log('zoomRegions', zoomRegions)
     // MapLayersList.addOpenMapLayerListener();
@@ -94,15 +95,26 @@ export class MapLayersList extends Component {
       const activeNav = store.getStateItem('activeNav');
       const defaultLayerList = document.getElementById('defaultLayerList');
       const nsLayerList = document.getElementById('NSLayerList');
+      const btnZoomRegion = document.getElementById('btn-zoomregion');
 
       if (activeNav === 'main-nav-map-searchNShubs') {
         defaultLayerList.classList.add('d-none');
         nsLayerList.classList.remove('d-none');
+        btnZoomRegion.classList.add('d-none');
       } else {
         defaultLayerList.classList.remove('d-none');
         nsLayerList.classList.add('d-none');
+        btnZoomRegion.classList.remove('d-none');
       }
     });
+
+    // change region is state changes
+    window.addEventListener('regionChanged', (e) => {
+      MapLayersList.toggleRegionLayerList();
+    });
+
+    // run at startup to capture region in current state
+    MapLayersList.toggleRegionLayerList();
   }
 
   // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
@@ -171,6 +183,11 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Contiental U.S.');
 
+      // set region to conus
+      store.setStoreItem('region', 'conus');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
+
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'cus');
     });
@@ -179,6 +196,11 @@ export class MapLayersList extends Component {
       const region = zoomRegions.filter(regions => regions.region === 'pr');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Puerto Rico');
+
+      // set region to puerto_rico
+      store.setStoreItem('region', 'puerto_rico');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'pr');
@@ -189,6 +211,11 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('US Virgin Islands');
 
+      // set region to US Virgin Islands
+      store.setStoreItem('region', 'us_virgin_islands');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
+
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'uvi');
     });
@@ -198,23 +225,38 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
 
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'cmni');
-    });
-
-    document.getElementById('zoomregion-guam').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'guam');
-      MapLayersList.zoomToRegion(mapComponent, region[0]);
-      MapLayersList.updateZoomRegionLabel('Guam');
+      // set region to US Northern Mariana Islands
+      store.setStoreItem('region', 'northern_mariana_islands');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'cmni');
     });
+
+    // document.getElementById('zoomregion-guam').addEventListener('click', (e) => {
+    //   const region = zoomRegions.filter(regions => regions.region === 'guam');
+    //   MapLayersList.zoomToRegion(mapComponent, region[0]);
+    //   MapLayersList.updateZoomRegionLabel('Guam');
+    //   const navChangeEvent = new CustomEvent('regionChanged');
+    //    window.dispatchEvent(navChangeEvent);
+    //
+    //   // set region to US Guam
+    //   store.setStoreItem('region', 'guam');
+    //
+    //   // ga event action, category, label
+    //   googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+    // });
 
     // document.getElementById('zoomregion-alaska').addEventListener('click', (e) => {
     //   const region = zoomRegions.filter(regions => regions.region === 'alaska');
     //   MapLayersList.zoomToRegion(mapComponent, region[0]);
     //   MapLayersList.updateZoomRegionLabel('alaska');
+    //   const navChangeEvent = new CustomEvent('regionChanged');
+    //    window.dispatchEvent(navChangeEvent);
+    //
+    // set region to alaska
+    // store.setStoreItem('region', 'alaska');
     //
     //   // ga event action, category, label
     //   googleAnalyticsEvent('click', 'zoomregion', 'alaska');
@@ -224,6 +266,11 @@ export class MapLayersList extends Component {
     //   const region = zoomRegions.filter(regions => regions.region === 'hawaii');
     //   MapLayersList.zoomToRegion(mapComponent, region[0]);
     //   MapLayersList.updateZoomRegionLabel('hawaii');
+    //   const navChangeEvent = new CustomEvent('regionChanged');
+    //    window.dispatchEvent(navChangeEvent);
+    //
+    // set region to hawaii
+    // store.setStoreItem('region', 'hawaii');
     //
     //   // ga event action, category, label
     //   googleAnalyticsEvent('click', 'zoomregion', 'hawaii');
@@ -274,6 +321,62 @@ export class MapLayersList extends Component {
     if (btnBaseMapList) {
       btnBaseMapList.addEventListener('click', (e) => { MapLayersList.baseMapListToggle(e); });
     }
+  }
+
+  // toggle layer list for regions conus, pr, usvi, cmni, alaska...
+  static toggleRegionLayerList() {
+    // get region state
+    const region = store.getStateItem('region');
+    const activeNav = store.getStateItem('activeNav');
+
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      return null;
+    }
+
+    console.log('toggleRegionLayerList', region);
+    let src = '';
+
+    const defaultLayerList = document.getElementById('defaultLayerList');
+    const nsLayerList = document.getElementById('NSLayerList');
+    const puertoRicoLayerList = document.getElementById('puertoRicoLayerList');
+
+    switch (region) {
+      case 'conus':
+        defaultLayerList.classList.remove('d-none');
+        puertoRicoLayerList.classList.add('d-none');
+        MapLayersList.updateZoomRegionLabel('Contiental U.S.');
+        break;
+      case 'puerto_rico':
+        defaultLayerList.classList.add('d-none');
+        puertoRicoLayerList.classList.remove('d-none');
+        MapLayersList.updateZoomRegionLabel('Puerto Rico');
+        break;
+      case 'northern_mariana_islands':
+        src = '';
+        MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
+        break;
+      case 'us_virgin_islands':
+        src = '';
+        MapLayersList.updateZoomRegionLabel('US Virgin Islands');
+        break;
+      case 'alaska':
+        src = '';
+        MapLayersList.updateZoomRegionLabel('Alaska');
+        break;
+      case 'hawaii':
+        src = '';
+        break;
+        MapLayersList.updateZoomRegionLabel('Hawaii');
+      case 'guam':
+        src = '';
+        MapLayersList.updateZoomRegionLabel('Guam');
+        break;
+      default:
+        src = '';
+        MapLayersList.updateZoomRegionLabel('Contiental U.S.');
+        break;
+    }
+
   }
 
   static updateBaseMapLabel(basemapname) {
@@ -498,6 +601,49 @@ export class MapLayersList extends Component {
         return ColorRampDriverNSThreat;
       case 'ns-fishandwildlife':
         return ColorRampDriverNSFishAndWildlife;
+      case 'pr_hub':
+        return ColorRampHub;
+      case 'pr_asset':
+        return ColorRampAsset;
+      case 'pr_threat':
+        return ColorRampThreat;
+      case 'pr_exposure':
+        return ColorRampExposure;
+      case 'pr_terrestrial':
+        return ColorRampTerrestrial;
+      case 'pr_aquatic':
+        return ColorRampAquatic;
+      case 'pr_driver-asset':
+        return ColorRampDriverAsset;
+      case 'pr_popdensity':
+        return ColorRampPopDensity;
+      case 'pr_socvuln':
+        return ColorRampSocVuln;
+      case 'pr_critfac':
+        return ColorRampCritFac;
+      case 'pr_critinfra':
+        return ColorRampCritInfra;
+      case 'pr_drainage':
+        return ColorRampDrainage;
+      case 'pr_erosion':
+        return ColorRampErosion;
+      case 'pr_floodprone':
+        return ColorRampFloodProne;
+      case 'slr':
+        return ColorRampSLR;
+      case 'pr_stormsurge':
+        return ColorRampStormSurge;
+      case 'pr_geostress':
+        return ColorRampGeoStress;
+      case 'pr_slope':
+        return ColorRampSlopefrom;
+      case 'pr_driver-threat':
+        return ColorRampDriverThreat;
+      case 'pr_landslides':
+        return ColorRampSlopefrom;
+      case 'pr_tsunami':
+        return ColorRampSlopefrom;
+
       default:
         return '';
     }
@@ -617,6 +763,11 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
+    const region = store.getStateItem('region');
+    if (layerId.includes('PR')) {
+      // console.log('addLayerListListener', layerId, checkBox);
+    }
+
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {

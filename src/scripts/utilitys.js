@@ -480,7 +480,30 @@ export function addMissingStateItems() {
       StormSurgeTMS: false,
       GeoStressTMS: false,
       SlopeTMS: false,
-      FloodProneAreasTMS: false
+      FloodProneAreasTMS: false,
+      FishAndWildlifeTMS: false,
+
+      PR_HubsTMS: true,
+      PR_ExposureTMS: false,
+      PR_AssetsTMS: false,
+      PR_ThreatsTMS: false,
+      PR_AquaticTMS: false,
+      PR_TerrestrialTMS: false,
+      PR_PopDensityTMS: false,
+      PR_SocVulnTMS: false,
+      PR_CriticalFacilitiesTMS: false,
+      PR_CriticalInfrastructureTMS: false,
+      PR_DraingeTMS: false,
+      PR_ErosionTMS: false,
+      PR_SLRTMS: false,
+      PR_StormSurgeTMS: false,
+      PR_GeoStressTMS: false,
+      PR_SlopeTMS: false,
+      PR_FloodProneAreasTMS: false,
+      PR_FishAndWildlifeTMS: false,
+      PR_LandslideIndexTiles: false,
+      PR_TsunamiIndexTiles: false,
+
     });
   }
 
@@ -492,6 +515,12 @@ export function addMissingStateItems() {
       store.setStoreItem('maplayerlist', 'open');
     }
   }
+
+  // check for region default is conus
+  if (!checkValidObject(store.getStateItem('region'))) {
+    store.setStoreItem('region', 'conus');
+  }
+
 
   // check for userareacount default is 0
   if (!checkValidObject(store.getStateItem('userareacount'))) {

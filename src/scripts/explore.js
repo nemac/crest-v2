@@ -446,6 +446,10 @@ export class Explore extends Component {
         break;
       case 'main-nav-map-searchNShubs':
         validSource = 'targetedwatershed';
+        // ns is always consus
+        // // set region to conus
+        // store.setStoreItem('region', 'conus');
+
         break;
       default:
         // validSource = 'regional';
@@ -472,6 +476,9 @@ export class Explore extends Component {
         this.mapComponent.toggleVisLayerOn(layer);
       }
     });
+
+    const navChangeEvent = new CustomEvent('regionChanged');
+    window.dispatchEvent(navChangeEvent);
   }
 
   // listens for the when the navbar changes EVENT, when it does
