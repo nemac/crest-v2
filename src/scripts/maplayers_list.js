@@ -218,7 +218,7 @@ export class MapLayersList extends Component {
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'uvi');
+      googleAnalyticsEvent('click', 'zoomregion', 'usvi');
     });
 
     document.getElementById('zoomregion-cmni').addEventListener('click', (e) => {
@@ -340,16 +340,19 @@ export class MapLayersList extends Component {
     const defaultLayerList = document.getElementById('defaultLayerList');
     const nsLayerList = document.getElementById('NSLayerList');
     const puertoRicoLayerList = document.getElementById('puertoRicoLayerList');
+    const usVirginIslandsLayerList = document.getElementById('usVirginIslandsLayerList');
 
     switch (region) {
       case 'conus':
         defaultLayerList.classList.remove('d-none');
         puertoRicoLayerList.classList.add('d-none');
+        usVirginIslandsLayerList.classList.add('d-none');
         MapLayersList.updateZoomRegionLabel('Contiental U.S.');
         break;
       case 'puerto_rico':
         defaultLayerList.classList.add('d-none');
         puertoRicoLayerList.classList.remove('d-none');
+        usVirginIslandsLayerList.classList.add('d-none');
         MapLayersList.updateZoomRegionLabel('Puerto Rico');
         break;
       case 'northern_mariana_islands':
@@ -358,6 +361,9 @@ export class MapLayersList extends Component {
         break;
       case 'us_virgin_islands':
         src = '';
+        defaultLayerList.classList.add('d-none');
+        puertoRicoLayerList.classList.add('d-none');
+        usVirginIslandsLayerList.classList.remove('d-none');
         MapLayersList.updateZoomRegionLabel('US Virgin Islands');
         break;
       case 'alaska':
@@ -648,7 +654,45 @@ export class MapLayersList extends Component {
         return ColorRampSlopefrom;
       case 'pr_tsunami':
         return ColorRampSlopefrom;
-
+      case 'usvi_hub':
+        return ColorRampHub;
+      case 'usvi_asset':
+        return ColorRampAsset;
+      case 'usvi_threat':
+        return ColorRampThreat;
+      case 'usvi_exposure':
+        return ColorRampExposure;
+      case 'usvi_fishandwildlife':
+        return ColorRampFishAndWildlife;
+      case 'usvi_terrestrial':
+        return ColorRampTerrestrial;
+      case 'usvi_aquatic':
+        return ColorRampAquatic;
+      case 'usvi_driver-asset':
+        return ColorRampDriverAsset;
+      case 'usvi_popdensity':
+        return ColorRampPopDensity;
+      case 'usvi_socvuln':
+        return ColorRampSocVuln;
+      case 'usvi_critfac':
+        return ColorRampCritFac;
+      case 'usvi_critinfra':
+        return ColorRampCritInfra;
+      case 'usvi_drainage':
+        return ColorRampDrainage;
+      case 'usvi_erosion':
+        return ColorRampErosion;
+      case 'usvi_floodprone':
+        return ColorRampFloodProne;
+      case 'slr':
+        return ColorRampSLR;
+      case 'usvi_stormsurge':
+        return ColorRampStormSurge;
+      case 'usvi_geostress':
+        return ColorRampGeoStress;
+      case 'usvi_slope':
+        return ColorRampSlopefrom;
+      case 'usvi_driver-threat':
       default:
         return '';
     }
