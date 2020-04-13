@@ -98,9 +98,9 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 12,
       tms: false,
-      legend: "aquatic",
+      legend: "fishandwildlife",
       description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
-      source: 'regional',
+      source: 'fishandwildlife',
       region: 'conus'
     },
     {

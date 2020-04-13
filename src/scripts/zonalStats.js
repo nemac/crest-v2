@@ -869,6 +869,17 @@ function getSixHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+function getSevenHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 7;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
 function getTenHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 10;
@@ -1045,6 +1056,11 @@ function drawDriver(graph, name, type, driver) {
   if (driver.key === 'aquatic') {
     height = getSixHeight(driver.value);
     cssKey = 'fish';
+  }
+
+  if (driver.key === 'fishandwildlife') {
+    height = getSevenHeight(driver.value);
+    cssKey = 'fishandwildlife';
   }
 
   if (driver.key === 'ns-fishandwildlife') {

@@ -76,6 +76,14 @@ $ns-fishandwildlife-3: #db90a6;
 $ns-fishandwildlife-4: #af62a8;
 $ns-fishandwildlife-5: #7e33a8;
 
+$fishandwildlife-none: #E9ECEF;
+$fishandwildlife-1: #EEE7F8;
+$fishandwildlife-2: #E9BBCB;
+$fishandwildlife-3: #DB90A6;
+$fishandwildlife-4: #D27C99;
+$fishandwildlife-5: #B7528A;
+$fishandwildlife-6: #7E33A8;
+
 $wildlife-none: #E9ECEF;
 $wildlife-0: #E9ECEF;
 $wildlife-1: #ffe9c4;
@@ -660,7 +668,7 @@ div.zonal-asset {
   }
 }
 
-.zonal-long-ns-hubs, .zonal-long-ns-fishandwildlife, .zonal-long-ns-exposure-wrapper, .zonal-long-ns-asset-threat, .zonal-long-asset-threat, .zonal-long-fish-wildlife-wrapper, .zonal-long-exposure-wrapper {
+.zonal-long-ns-hubs,  .zonal-long-fishandwildlife.zonal-long-fishandwildlife, .zonal-long-ns-fishandwildlife.zonal-long-ns-fishandwildlife, .zonal-long-ns-exposure-wrapper, .zonal-long-ns-asset-threat, .zonal-long-asset-threat, .zonal-long-fish-wildlife-wrapper, .zonal-long-exposure-wrapper {
   margin-top: 40px;
 }
 
@@ -971,6 +979,42 @@ div.zonal-asset {
 
     &-five {
       background-color: $ns-fishandwildlife-5;
+      color: #b2afaf;
+    }
+  }
+  &-fishandwildlife {
+    &-none {
+      background-color: $fishandwildlife-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $fishandwildlife-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $fishandwildlife-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $fishandwildlife-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $fishandwildlife-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $fishandwildlife-5;
+      color: #b2afaf;
+    }
+
+    &-six {
+      background-color: $fishandwildlife-6;
       color: #b2afaf;
     }
   }
@@ -1847,6 +1891,11 @@ div.zonal-asset {
     }
   }
 
+  &-fishandwildlife {
+    .zonal-long-graph-label-text{
+      left: 5% !important;
+    }
+  }
   &-ns-exposure {
     .zonal-long-graph-label-text{
       left: 25% !important;
@@ -1936,6 +1985,13 @@ div.zonal-asset {
         left: 5% !important;
       }
     }
+
+    &-fishandwildlife {
+      .zonal-long-graph-label-text{
+        left: 5% !important;
+      }
+    }
+
 
     &-ns-exposure {
       .zonal-long-graph-label-text{

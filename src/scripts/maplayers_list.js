@@ -7,6 +7,7 @@ import { Store } from './store';
 
 // Legend Templates
 import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
 import ColorRampAquatic from '../templates/colorramp_aquatic.html';
 import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
@@ -563,6 +564,8 @@ export class MapLayersList extends Component {
         return ColorRampExposure;
       case 'terrestrial':
         return ColorRampTerrestrial;
+      case 'fishandwildlife':
+        return ColorRampFishAndWildlife;
       case 'aquatic':
         return ColorRampAquatic;
       case 'driver-asset':
