@@ -1148,6 +1148,11 @@ function drawDriver(graph, name, type, driver) {
     csstype = 'critinfra';
   }
 
+  if (driver.key === 'landslides-pr') {
+    height = getTwoHeight(driver.value);
+    csstype = 'landslides-pr';
+  }
+
   if (driver.key === 'drainage') {
     height = getSixHeight(driver.value);
     csstype = 'drainage';

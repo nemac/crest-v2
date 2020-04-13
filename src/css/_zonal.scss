@@ -74,7 +74,6 @@ $marine-3: #007E91;
 $marine-4: #005A62;
 $marine-bar: #f00;
 
-
 $fish-none: #E9ECEF;
 $fish-0: #E9ECEF;
 $fish-1: #cde1e8;
@@ -138,6 +137,10 @@ $socvulnislands-5: #270B59;
 $critfac-none: #E9ECEF;
 $critfac-0: #E9ECEF;
 $critfac-5: #0084a8;
+
+$landslides-pr-none: #E9ECEF;
+$landslides-pr-1: #fbacb9;
+$landslides-pr-2: #cd238f;
 
 $critfac-pr-none: #E9ECEF;
 $critfac-pr-3: #9EBBD7;
@@ -1218,6 +1221,23 @@ div.zonal-asset {
     &-five {
       background-color: $popdensity-5;
       color: #b2afaf;
+    }
+  }
+
+  &-landslides-pr {
+    &-none {
+      background-color: $landslides-pr-none;
+      color: #000;
+    }
+
+    &-one{
+      background-color: $landslides-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $landslides-pr-2;
+      color: #000;
     }
   }
 
@@ -2943,6 +2963,22 @@ $graph-tick-height-short: 5px;
     }
   }
 
+  &-landslides-pr {
+    &-none {
+      background-color: $landslides-pr-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $landslides-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $landslides-pr-2;
+      color: #000;
+    }
+  }
 
   &-critfac-pr {
     &-none {
