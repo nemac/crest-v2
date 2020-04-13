@@ -30,6 +30,7 @@ import ColorRampGeoStress from '../templates/colorramp_geostress.html';
 import ColorRampSlopefrom from '../templates/colorramp_slope.html';
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
 import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
+import ColorRampDriverTsunamiPR from '../templates/colorramp_tsunami_pr.html';
 import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
 import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
 import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
@@ -669,7 +670,7 @@ export class MapLayersList extends Component {
       case 'pr_landslides':
         return ColorRampSlopefrom;
       case 'pr_tsunami':
-        return ColorRampSlopefrom;
+        return ColorRampDriverTsunamiPR;
       case 'usvi_hub':
         return ColorRampHub;
       case 'usvi_asset':

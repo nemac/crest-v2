@@ -703,7 +703,7 @@ export var mapConfig = {
       id: "PR_TsunamiIndexTiles",
       layer: "Tsunami",
       label: "Tsunami",
-      url: "https://tiles.resilientcoasts.org/PR_ThreatsIndexTiles/{z}/{x}/{y}.png",
+      url: "https://tiles.resilientcoasts.org/PR_TsunamiIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
       tileSize: 256,

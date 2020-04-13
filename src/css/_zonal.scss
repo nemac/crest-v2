@@ -13,6 +13,13 @@ $asset-bar: #94571c;
 $threat-bar: #d4182b;
 $exposure-bar: #0f0;
 
+$tsunami-pr-none: #E9ECEF;
+$tsunami-pr-1: #414488;
+$tsunami-pr-2: #2A798F;
+$tsunami-pr-3: #22A985;
+$tsunami-pr-4: #7AD251;
+$tsunami-pr-5: #FEE825;
+
 $ns-exposure-none: #E9ECEF;
 $ns-exposure-1: #1f6e6e;
 $ns-exposure-2: #92aa8c;
@@ -1295,6 +1302,33 @@ div.zonal-asset {
     }
   }
 
+  &-tsunami-pr {
+    &-one {
+      background-color: $tsunami-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $tsunami-pr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $tsunami-pr-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $tsunami-pr-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $tsunami-pr-5;
+      color: #b2afaf;
+    }
+  }
+
   &-socvulnislands {
     &-one {
       background-color: $socvulnislands-1;
@@ -1320,8 +1354,6 @@ div.zonal-asset {
       background-color: $socvulnislands-5;
       color: #b2afaf;
     }
-
-
   }
 
 
@@ -2990,6 +3022,33 @@ $graph-tick-height-short: 5px;
     &-six {
       background-color: $critinfra-6;
       color: #000;
+    }
+  }
+
+  &-tsunami-pr {
+    &-one {
+      background-color: $tsunami-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $tsunami-pr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $tsunami-pr-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $tsunami-pr-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $tsunami-pr-5;
+      color: #b2afaf;
     }
   }
 

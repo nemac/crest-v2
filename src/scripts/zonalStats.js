@@ -1098,6 +1098,11 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'threat';
   }
 
+  if (driver.key === 'tsunami-pr') {
+    height = getFiveHeight(driver.value);
+    cssKey = 'tsunami-pr';
+  }
+
   if (driver.key === 'ns-threat') {
     height = getSixHeight(driver.value);
     cssKey = 'ns-threat';
@@ -1131,6 +1136,11 @@ function drawDriver(graph, name, type, driver) {
   if (driver.key === 'critical-facilities') {
     height = getSixHeight(driver.value);
     csstype = 'critfac';
+  }
+
+  if (driver.key === 'critical-facilities-pr') {
+    height = getSixHeight(driver.value);
+    csstype = 'critfac-pr';
   }
 
   if (driver.key === 'critical-infrastructure') {
