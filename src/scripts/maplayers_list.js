@@ -612,6 +612,8 @@ export class MapLayersList extends Component {
         return ColorRampThreat;
       case 'pr_exposure':
         return ColorRampExposure;
+      case 'pr_fishandwildlife':
+        return ColorRampFishAndWildlife;
       case 'pr_terrestrial':
         return ColorRampTerrestrial;
       case 'pr_aquatic':

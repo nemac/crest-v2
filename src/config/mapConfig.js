@@ -96,10 +96,10 @@ export var mapConfig = {
       opacity: 0.75,
       zIndex: 9000,
       crs: L.CRS.EPSG3857,
-      maxNativeZoom: 12,
+      maxNativeZoom: 13,
       tms: false,
       legend: "fishandwildlife",
-      description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
+      description: "Fish and wildlife needs a descriptionm currently this text is just a placeholder.",
       source: 'fishandwildlife',
       region: 'conus'
     },
@@ -447,8 +447,8 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_aquatic",
-      description: "Tsunami needs a descriptionm currently this text is just a placeholder.",
+      legend: "pr_fishandwildlife",
+      description: "Fish and wildlife needs a descriptionm currently this text is just a placeholder.",
       source: 'regional',
       region: 'puerto_rico'
     },
