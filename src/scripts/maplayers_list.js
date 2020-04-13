@@ -9,7 +9,9 @@ import { Store } from './store';
 import ColorRampHub from '../templates/colorramp_hub.html';
 import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
 import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+import ColorRampMarineIslands from '../templates/colorramp_marineislands.html';
 import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+import ColorRampTerrestrialIslands from '../templates/colorramp_terrestrialislands.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
 import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
@@ -574,6 +576,14 @@ export class MapLayersList extends Component {
         return ColorRampFishAndWildlife;
       case 'aquatic':
         return ColorRampAquatic;
+      case 'pr_aquatic':
+        return ColorRampMarineIslands;
+      case 'usvi_aquatic':
+        return ColorRampMarineIslands;
+      case 'pr_terrestrial':
+        return ColorRampTerrestrialIslands;
+      case 'usvi_terrestrial':
+        return ColorRampTerrestrialIslands;
       case 'driver-asset':
         return ColorRampDriverAsset;
       case 'popdensity':

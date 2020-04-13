@@ -1058,6 +1058,11 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'fish';
   }
 
+  if (driver.key === 'marineislands') {
+    height = getSixHeight(driver.value);
+    cssKey = 'marineislands';
+  }
+
   if (driver.key === 'fishandwildlife') {
     height = getSevenHeight(driver.value);
     cssKey = 'fishandwildlife';
@@ -1252,6 +1257,17 @@ function getShortDataChartData(data) {
       label: 'aquatic',
       key: 'aquatic',
       value: data.aquatic
+    },
+    {
+      label: 'marineislands',
+      key: 'marineislands',
+      value: data.marineislands
+    },
+
+    {
+      label: 'terrestrialislands',
+      key: 'terrestrialislands',
+      value: data.terrestrialislands
     },
     {
       label: 'terrestrial',

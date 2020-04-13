@@ -60,6 +60,14 @@ $ns-asset-3: #368de3;
 $ns-asset-4: #2e4fba;
 $ns-asset-5: #090991;
 
+$marine-none: #E9ECEF;
+$marine-1: #CDE1E8;
+$marine-2: #82BCD1;
+$marine-3: #007E91;
+$marine-4: #005A62;
+$marine-bar: #f00;
+
+
 $fish-none: #E9ECEF;
 $fish-0: #E9ECEF;
 $fish-1: #cde1e8;
@@ -68,6 +76,7 @@ $fish-3: #5ea5bb;
 $fish-4: #007e91;
 $fish-5: #005a62;
 $fish-bar: #f00;
+
 
 $ns-fishandwildlife-none: #E9ECEF;
 $ns-fishandwildlife-1: #eee7f8;
@@ -92,6 +101,13 @@ $wildlife-3: #79684e;
 $wildlife-4: #385b23;
 $wildlife-5: #004900;
 $wildlife-bar: #0f0;
+
+$terrestrialislands-none: #E9ECEF;
+$terrestrialislands-1: #ffe9c4;
+$terrestrialislands-2: #dfc878;
+$terrestrialislands-3: #79684e;
+$terrestrialislands-4: #385b23;
+$terrestrialislands-bar: #0f0;
 
 $popdensity-none: #E9ECEF;
 $popdensity-0: #E9ECEF;
@@ -671,7 +687,7 @@ div.zonal-asset {
 .zonal-long-ns-hubs,
 .zonal-long-fishandwildlife.zonal-long-fishandwildlife,
 .zonal-long-ns-fishandwildlife.zonal-long-ns-fishandwildlife,
-.zonal-long-ns-exposure-wrapper, .zonal-long-ns-asset-threat, 
+.zonal-long-ns-exposure-wrapper, .zonal-long-ns-asset-threat,
 .zonal-long-asset-threat,
 .zonal-long-fish-wildlife-wrapper,
 .zonal-long-exposure-wrapper {
@@ -1024,6 +1040,34 @@ div.zonal-asset {
       color: #b2afaf;
     }
   }
+
+  &-marineislands {
+    &-none {
+      background-color: $marine-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $marine-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $marine-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $marine-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $marine-4;
+      color: #000;
+    }
+  }
+
   &-fish {
     &-none {
       background-color: $fish-none;
@@ -1061,6 +1105,33 @@ div.zonal-asset {
     }
   }
 
+
+    &-terrestrialislands {
+      &-none {
+        background-color: $terrestrialislands-none;
+        color: #000;
+      }
+
+      &-one {
+        background-color: $terrestrialislands-1;
+        color: #000;
+      }
+
+      &-two {
+        background-color: $terrestrialislands-2;
+        color: #000;
+      }
+
+      &-three {
+        background-color: $terrestrialislands-3;
+        color: #000;
+      }
+
+      &-four {
+        background-color: $terrestrialislands-4;
+        color: #000;
+      }
+    }
   &-wildlife {
     &-none {
       background-color: $wildlife-none;

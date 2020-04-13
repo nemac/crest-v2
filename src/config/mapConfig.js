@@ -736,7 +736,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 13,
       tms: false,
-      legend: "pr_hub",
+      legend: "usvi_hub",
       description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -755,7 +755,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_exposure",
+      legend: "usvi_exposure",
       description: "The product of the Asset and Threat Indices, which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -774,7 +774,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_asset",
+      legend: "usvi_asset",
       description: "Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -793,7 +793,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_threat",
+      legend: "usvi_threat",
       description: "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -813,7 +813,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_fishandwildlife",
+      legend: "usvi_fishandwildlife",
       description: "Fish and wildlife needs a descriptionm currently this text is just a placeholder.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -832,7 +832,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_aquatic",
+      legend: "usvi_aquatic",
       description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -851,7 +851,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_terrestrial",
+      legend: "usvi_terrestrial",
       description: "An index of priority terrestrial species and their habitats, ranked by HUC-10 watershed. This Index also includes Important Bird Areas, which transcend watershed boundaries. A high value represents areas where the most priority species, their habitats, and important bird areas are present.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -870,7 +870,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_popdensity",
+      legend: "usvi_popdensity",
       description: "A ranking of population density by census blocks based on the 2016 American Community Survey. Areas are ranked from low to high using the ratio of people per square kilometer.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -889,7 +889,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_socvuln",
+      legend: "usvi_socvuln",
       description: "Communities that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN dataset. Census blocks above the 80th percentile are ranked from low to high, depicting areas of lower median incomes and minority populations.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -908,7 +908,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_critfac",
+      legend: "usvi_critfac",
       description: "Facilities such as schools, hospitals, and police and fire stations that are important to recovery efforts when a community is faced with a flood-related event. All facilities are given the same presence rank.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -927,7 +927,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_critinfra",
+      legend: "usvi_critinfra",
       description: "Infrastructure in and around communities that are integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines, among others. High values suggest areas where multiple infrastructure overlap.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -946,7 +946,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_drainage",
+      legend: "usvi_drainage",
       description: "Those areas with poor water drainage potential, including both less-porous soils and areas with high-intensity development. High values suggest that areas contain soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation events.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -965,7 +965,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_erosion",
+      legend: "usvi_erosion",
       description: "Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest that areas carry an increased potential for erosion due to flooding or heavy precipitation events.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -984,7 +984,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_slr",
+      legend: "usvi_slr",
       description: "NOAA’s sea level rise scenarios ranked from low to high, with low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -1003,7 +1003,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_stormsurge",
+      legend: "usvi_stormsurge",
       description: "Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high, with low being a 5-foot surge and high being a 1-foot surge. As a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -1022,7 +1022,7 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_slope",
+      legend: "usvi_slope",
       description: "The percent rise of the elevation of the landscape, given values from low to high. High values indicate those areas that are very low lying and more likely to retain water and flood.",
       source: 'regional',
       region: 'us_virgin_islands'
@@ -1041,11 +1041,12 @@ export var mapConfig = {
       crs: L.CRS.EPSG3857,
       maxNativeZoom: 14,
       tms: false,
-      legend: "pr_floodprone",
+      legend: "usvi_floodprone",
       description: "Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
+
 
 
 
