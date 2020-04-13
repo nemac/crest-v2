@@ -21,6 +21,7 @@ import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html'
 import ColorRampCritFac from '../templates/colorramp_critfac.html';
 import ColorRampCritFacPR from '../templates/colorramp_critfac_pr.html';
 import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
+import ColorRampCritInfraPR from '../templates/colorramp_critinfra_pr.html';
 import ColorRampDrainage from '../templates/colorramp_drainage.html';
 import ColorRampErosion from '../templates/colorramp_erosion.html';
 import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
@@ -651,7 +652,7 @@ export class MapLayersList extends Component {
       case 'pr_critfac':
         return ColorRampCritFacPR;
       case 'pr_critinfra':
-        return ColorRampCritInfra;
+        return ColorRampCritInfraPR;
       case 'pr_drainage':
         return ColorRampDrainage;
       case 'pr_erosion':

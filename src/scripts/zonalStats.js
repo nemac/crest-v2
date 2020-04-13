@@ -877,6 +877,19 @@ function getSevenHeight(driver) {
 
   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
 }
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getEightHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 8;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
@@ -1146,6 +1159,11 @@ function drawDriver(graph, name, type, driver) {
   if (driver.key === 'critical-infrastructure') {
     height = getTwoHeight(driver.value);
     csstype = 'critinfra';
+  }
+
+  if (driver.key === 'critical-infrastructure-pr') {
+    height = getEightHeight(driver.value);
+    csstype = 'critinfra-pr';
   }
 
   if (driver.key === 'landslides-pr') {

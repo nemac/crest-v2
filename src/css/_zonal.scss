@@ -155,6 +155,16 @@ $critinfra-4: #b15a3c;
 $critinfra-5: #ad3541;
 $critinfra-6: #7b1733;
 
+$critinfra-pr-none: #E9ECEF;
+$critinfra-pr-1: #CCD1D2;
+$critinfra-pr-2: #77B099;
+$critinfra-pr-3: #355C59;
+$critinfra-pr-4: #CDB16D;
+$critinfra-pr-5: #BD7D46;
+$critinfra-pr-6: #B5483E;
+$critinfra-pr-7: #A82B41;
+$critinfra-pr-8: #7B1733;
+
 $drainage-none: #E9ECEF;
 $drainage-0: #E9ECEF;
 $drainage-1: #447604;
@@ -1276,6 +1286,53 @@ div.zonal-asset {
 
     &-five {
       background-color: $critfac-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-critinfra-pr {
+    &-none {
+      background-color: $critinfra-pr-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critinfra-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $critinfra-pr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critinfra-pr-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $critinfra-pr-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critinfra-pr-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $critinfra-pr-6;
+      color: #b2afaf;
+    }
+
+    &-seven {
+      background-color: $critinfra-pr-7;
+      color: #b2afaf;
+    }
+
+    &-eight {
+      background-color: $critinfra-pr-8;
       color: #b2afaf;
     }
   }
@@ -3018,6 +3075,53 @@ $graph-tick-height-short: 5px;
       color: #000;
     }
   }
+
+    &-critinfra-pr {
+      &-none {
+        background-color: $critinfra-pr-none;
+        color: #000;
+      }
+
+      &-one {
+        background-color: $critinfra-pr-1;
+        color: #000;
+      }
+
+      &-two {
+        background-color: $critinfra-pr-2;
+        color: #000;
+      }
+
+      &-three {
+        background-color: $critinfra-pr-3;
+        color: #000;
+      }
+
+      &-four {
+        background-color: $critinfra-pr-4;
+        color: #000;
+      }
+
+      &-five {
+        background-color: $critinfra-pr-5;
+        color: #000;
+      }
+
+      &-six {
+        background-color: $critinfra-pr-6;
+        color: #b2afaf;
+      }
+
+      &-seven {
+        background-color: $critinfra-pr-7;
+        color: #b2afaf;
+      }
+
+      &-eight {
+        background-color: $critinfra-pr-8;
+        color: #b2afaf;
+      }
+    }
 
   &-critinfra {
     &-none {
