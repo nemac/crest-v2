@@ -17,6 +17,7 @@ import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
 import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
 import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
+import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html';
 import ColorRampCritFac from '../templates/colorramp_critfac.html';
 import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
 import ColorRampDrainage from '../templates/colorramp_drainage.html';
@@ -590,6 +591,8 @@ export class MapLayersList extends Component {
         return ColorRampPopDensity;
       case 'socvuln':
         return ColorRampSocVuln;
+      case 'socvulnislands':
+        return ColorRampSocVulnIslands;
       case 'critfac':
         return ColorRampCritFac;
       case 'critinfra':
@@ -639,7 +642,7 @@ export class MapLayersList extends Component {
       case 'pr_popdensity':
         return ColorRampPopDensity;
       case 'pr_socvuln':
-        return ColorRampSocVuln;
+        return ColorRampSocVulnIslands;
       case 'pr_critfac':
         return ColorRampCritFac;
       case 'pr_critinfra':
@@ -683,7 +686,7 @@ export class MapLayersList extends Component {
       case 'usvi_popdensity':
         return ColorRampPopDensity;
       case 'usvi_socvuln':
-        return ColorRampSocVuln;
+        return ColorRampSocVulnIslands;
       case 'usvi_critfac':
         return ColorRampCritFac;
       case 'usvi_critinfra':

@@ -714,11 +714,10 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_tsunami",
-      description: "Tsunami needs a descriptionm currently this text is just a placeholder.",
+      description: "Tsunami needs a description currently this text is just a placeholder.",
       source: 'regional',
       region: 'puerto_rico'
     },
-
 
 
 
@@ -1046,6 +1045,7 @@ export var mapConfig = {
       source: 'regional',
       region: 'us_virgin_islands'
     },
+
 
 
 

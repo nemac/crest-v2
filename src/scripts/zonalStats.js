@@ -1078,6 +1078,11 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'wildlife';
   }
 
+  if (driver.key === 'terrestriallands') {
+    height = getSixHeight(driver.value);
+    cssKey = 'terrestriallands';
+  }
+
   if (driver.key === 'exposure') {
     height = getTenHeight(driver.value);
     cssKey = 'exposure-box';
@@ -1116,6 +1121,11 @@ function drawDriver(graph, name, type, driver) {
   if (driver.key === 'social-vulnerability') {
     height = getThreeHeight(driver.value);
     csstype = 'socvuln';
+  }
+
+  if (driver.key === 'social-vulnerability-islands') {
+    height = getThreeHeight(driver.value);
+    csstype = 'socvulnislands';
   }
 
   if (driver.key === 'critical-facilities') {

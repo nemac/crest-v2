@@ -123,6 +123,12 @@ $socvuln-1: #abd2fa;
 $socvuln-2: #7692ff;
 $socvuln-3: #3a1459;
 
+$socvulnislands-1: #9EBBD7;
+$socvulnislands-2: #7A8EF5;
+$socvulnislands-3: #43309D;
+$socvulnislands-4: #321669;
+$socvulnislands-5: #270B59;
+
 $critfac-none: #E9ECEF;
 $critfac-0: #E9ECEF;
 $critfac-5: #0084a8;
@@ -1268,6 +1274,36 @@ div.zonal-asset {
       color: #b2afaf;
     }
   }
+
+  &-socvulnislands {
+    &-one {
+      background-color: $socvulnislands-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvulnislands-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvulnislands-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $socvulnislands-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $socvulnislands-5;
+      color: #b2afaf;
+    }
+
+
+  }
+
 
   &-socvuln {
     &-none {
@@ -2919,6 +2955,33 @@ $graph-tick-height-short: 5px;
     }
   }
 
+  &-socvulnislands {
+    &-one {
+      background-color: $socvulnislands-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvulnislands-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvulnislands-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $socvulnislands-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $socvulnislands-5;
+      color: #b2afaf;
+    }
+  }
+
   &-socvuln {
     &-none {
       background-color: $socvuln-none;
@@ -2945,6 +3008,8 @@ $graph-tick-height-short: 5px;
       color: #000;
     }
   }
+
+
 
   &-drainage {
     &-none {

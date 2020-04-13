@@ -483,7 +483,7 @@ export function addMissingStateItems() {
       FloodProneAreasTMS: false,
       FishAndWildlifeTMS: false,
 
-      PR_HubsTMS: true,
+      PR_HubsTMS: false,
       PR_ExposureTMS: false,
       PR_AssetsTMS: false,
       PR_ThreatsTMS: false,
@@ -504,6 +504,24 @@ export function addMissingStateItems() {
       PR_LandslideIndexTiles: false,
       PR_TsunamiIndexTiles: false,
 
+      USVI_HubsTMS: false,
+      USVI_ExposureTMS: false,
+      USVI_AssetsTMS: false,
+      USVI_ThreatsTMS: false,
+      USVI_AquaticTMS: false,
+      USVI_TerrestrialTMS: false,
+      USVI_PopDensityTMS: false,
+      USVI_SocVulnTMS: false,
+      USVI_CriticalFacilitiesTMS: false,
+      USVI_CriticalInfrastructureTMS: false,
+      USVI_DraingeTMS: false,
+      USVI_ErosionTMS: false,
+      USVI_SLRTMS: false,
+      USVI_StormSurgeTMS: false,
+      USVI_GeoStressTMS: false,
+      USVI_SlopeTMS: false,
+      USVI_FloodProneAreasTMS: false,
+      USVI_FishAndWildlifeTMS: false,
     });
   }
 
