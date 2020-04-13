@@ -19,6 +19,7 @@ import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
 import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
 import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html';
 import ColorRampCritFac from '../templates/colorramp_critfac.html';
+import ColorRampCritFacPR from '../templates/colorramp_critfac_pr.html';
 import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
 import ColorRampDrainage from '../templates/colorramp_drainage.html';
 import ColorRampErosion from '../templates/colorramp_erosion.html';
@@ -595,6 +596,8 @@ export class MapLayersList extends Component {
         return ColorRampSocVulnIslands;
       case 'critfac':
         return ColorRampCritFac;
+      case 'critfac-pr':
+        return ColorRampCritFacPR;
       case 'critinfra':
         return ColorRampCritInfra;
       case 'drainage':
@@ -644,7 +647,7 @@ export class MapLayersList extends Component {
       case 'pr_socvuln':
         return ColorRampSocVulnIslands;
       case 'pr_critfac':
-        return ColorRampCritFac;
+        return ColorRampCritFacPR;
       case 'pr_critinfra':
         return ColorRampCritInfra;
       case 'pr_drainage':
