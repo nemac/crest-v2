@@ -9,8 +9,7 @@
     "start": "./node_modules/.bin/webpack-dev-server",
     "build-css": "node-sass --include-path scss scss/main.scss   public/css/main.css",
     "build": "webpack",
-    "lint": "eslint ./src/scripts",
-    "preinstall": "npx npm-force-resolutions"
+    "lint": "eslint ./src/scripts"
   },
   "resolutions": {
     "minimist": "^1.2.5"
