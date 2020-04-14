@@ -2,8 +2,10 @@ language: node_js
 install:
   # Tell npm to ignore package-lock.json to avoid making local file
   # changes that would dirty the git workspace.
-  - npm config set package-lock false
+  # - npm config set package-lock false
   - npm install
+script:
+  - git checkout package-lock.json
 node_js:
   - stable
 deploy:
