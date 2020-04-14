@@ -96,7 +96,6 @@ export class URL {
         baseurl += '/NFWF_tool/dist';
       }
     }
-    
     return `${baseurl}/?state=${state}&shareurl=true&fornav=${statesobj.activeNav}`;
   }
 
