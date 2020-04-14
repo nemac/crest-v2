@@ -8,7 +8,7 @@ export var mapConfig = {
   //tile layers (WMS)
   TMSLayers:[
     {
-      id: "HubsTMS",
+      id: "CONUS_HubsTMS",
       layer: "Hubs TMS",
       label: "Resilience Hubs",
       url: "https://tiles.resilientcoasts.org/HubsIndexTiles/{z}/{x}/{y}.png",
@@ -27,7 +27,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "ExposureTMS",
+      id: "CONUS_ExposureTMS",
       layer: "Exposure TMS",
       label: "Community Exposure Index",
       url: "https://tiles.resilientcoasts.org/ExposureIndexTiles/{z}/{x}/{y}.png",
@@ -46,7 +46,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "AssetsTMS",
+      id: "CONUS_AssetsTMS",
       layer: "Assets TMS",
       label: "Community Asset Index",
       url: "https://tiles.resilientcoasts.org/AssetsIndexTiles/{z}/{x}/{y}.png",
@@ -65,7 +65,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "ThreatsTMS",
+      id: "CONUS_ThreatsTMS",
       layer: "Threats TMS",
       label: "Threat Index",
       url: "https://tiles.resilientcoasts.org/ThreatsIndexTiles/{z}/{x}/{y}.png",
@@ -85,7 +85,7 @@ export var mapConfig = {
     },
 
     {
-      id: "FishAndWildlifeTMS",
+      id: "CONUS_FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
       url: "https://tiles.resilientcoasts.org/CombinedWildlifeIndexTiles/{z}/{x}/{y}.png",
@@ -104,7 +104,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "AquaticTMS",
+      id: "CONUS_AquaticTMS",
       layer: "Aquatic TMS",
       label: "Marine Index",
       url: "https://tiles.resilientcoasts.org/AquaticIndexTiles/{z}/{x}/{y}.png",
@@ -123,7 +123,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "TerrestrialTMS",
+      id: "CONUS_TerrestrialTMS",
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
       url: "https://tiles.resilientcoasts.org/TerrestrialIndexTiles/{z}/{x}/{y}.png",
@@ -142,7 +142,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "PopDensityTMS",
+      id: "CONUS_PopDensityTMS",
       layer: "Population Density TMS",
       label: "Population Density",
       url: "https://tiles.resilientcoasts.org/PopDensityIndexTiles/{z}/{x}/{y}.png",
@@ -161,7 +161,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "SocVulnTMS",
+      id: "CONUS_SocVulnTMS",
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
       url: "https://tiles.resilientcoasts.org/SocVulnIndexTiles/{z}/{x}/{y}.png",
@@ -180,7 +180,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "CriticalFacilitiesTMS",
+      id: "CONUS_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
       url: "https://tiles.resilientcoasts.org/CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png",
@@ -199,7 +199,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "CriticalInfrastructureTMS",
+      id: "CONUS_CriticalInfrastructureTMS",
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
       url: "https://tiles.resilientcoasts.org/CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png",
@@ -218,7 +218,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "DrainageTMS",
+      id: "CONUS_DrainageTMS",
       layer: "Drainage TMS",
       label: "Impermeable Soils",
       url: "https://tiles.resilientcoasts.org/DraingeIndexTiles/{z}/{x}/{y}.png",
@@ -237,7 +237,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "ErosionTMS",
+      id: "CONUS_ErosionTMS",
       layer: "Erosion TMS",
       label: "Soil Erodibility",
       url: "https://tiles.resilientcoasts.org/ErosionIndexTiles/{z}/{x}/{y}.png",
@@ -256,7 +256,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "SLRTMS",
+      id: "CONUS_SLRTMS",
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
       url: "https://tiles.resilientcoasts.org/SLRIndexTiles/{z}/{x}/{y}.png",
@@ -275,7 +275,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "StormSurgeTMS",
+      id: "CONUS_StormSurgeTMS",
       layer: "Storm Surge TMS",
       label: "Storm Surge",
       url: "https://tiles.resilientcoasts.org/StormSurgeIndexTiles/{z}/{x}/{y}.png",
@@ -294,7 +294,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "GeoStressTMS",
+      id: "CONUS_GeoStressTMS",
       layer: "Geo Stressors TMS",
       label: "Geological Stressors",
       url: "https://tiles.resilientcoasts.org/GeoStressIndexTiles/{z}/{x}/{y}.png",
@@ -313,7 +313,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "SlopeTMS",
+      id: "CONUS_SlopeTMS",
       layer: "Slope TMS",
       label: "Areas of Low Slope",
       url: "https://tiles.resilientcoasts.org/SlopeIndexTiles/{z}/{x}/{y}.png",
@@ -332,7 +332,7 @@ export var mapConfig = {
       region: 'conus'
     },
     {
-      id: "FloodProneAreasTMS",
+      id: "CONUS_FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
       url: "https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png",
@@ -1053,7 +1053,7 @@ export var mapConfig = {
 
 
     {
-      id: "NSHubsTMS",
+      id: "NS_HubsTMS",
       layer: "Targeted Hubs TMS",
       label: "Hubs",
       url: "https://tiles.resilientcoasts.org/TargetedWatershedHubsTiles/{z}/{x}/{y}.png",
@@ -1069,10 +1069,10 @@ export var mapConfig = {
       legend: "ns-hub",
       description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'targetedwatershed',
-      region: 'conus'
+      region: 'targetedwatershed'
     },
     {
-      id: "NSExposureTMS",
+      id: "NS_ExposureTMS",
       layer: "Targeted Exposure TMS",
       label: "Exposure Index",
       url: "https://tiles.resilientcoasts.org/TargetedWatershedExposureTiles/{z}/{x}/{y}.png",
@@ -1088,10 +1088,10 @@ export var mapConfig = {
       legend: "ns-exposure",
       description: "The product of the Asset and Threat Indices which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.",
       source: 'targetedwatershed',
-      region: 'conus'
+      region: 'targetedwatershed'
     },
     {
-      id: "NSAssetsTMS",
+      id: "NS_AssetsTMS",
       layer: "Targeted Assets TMS",
       label: "Asset Index",
       url: "https://tiles.resilientcoasts.org/TargetedWatershedAssetTiles/{z}/{x}/{y}.png",
@@ -1107,10 +1107,10 @@ export var mapConfig = {
       legend: "ns-asset",
       description: "Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape.",
       source: 'targetedwatershed',
-      region: 'conus'
+      region: 'targetedwatershed'
     },
     {
-      id: "NSThreatsTMS",
+      id: "NS_ThreatsTMS",
       layer: "Targeted Threats TMS",
       label: "Threat Index",
       url: "https://tiles.resilientcoasts.org/TargetedWatershedThreatTiles/{z}/{x}/{y}.png",
@@ -1126,10 +1126,10 @@ export var mapConfig = {
       legend: "ns-threat",
       description: "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.",
       source: 'targetedwatershed',
-      region: 'conus'
+      region: 'targetedwatershed'
     },
     {
-      id: "NSFishAndWildlifeTMS",
+      id: "NS_FishAndWildlifeTMS",
       layer: "Targeted Fish and Wildlife TMS",
       label: "Fish and Wildlife Index",
       url: "https://tiles.resilientcoasts.org/TargetedWatershedFishandWildlifeTiles/{z}/{x}/{y}.png",
@@ -1145,7 +1145,7 @@ export var mapConfig = {
       legend: "ns-fishandwildlife",
       description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
       source: 'targetedwatershed',
-      region: 'conus'
+      region: 'targetedwatershed'
     },
 
   ],
@@ -1255,8 +1255,8 @@ export var mapConfig = {
    },
    {
      region: 'uvi',
-     center: [ 17.721667763450085, -64.74265158176424],
-     zoom: 11
+     center: [ 18.01530387941711, -64.49111938476564],
+     zoom: 10
    },
    {
      region: 'cmni',

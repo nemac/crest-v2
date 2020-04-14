@@ -446,13 +446,9 @@ export class Explore extends Component {
         break;
       case 'main-nav-map-searchNShubs':
         validSource = 'targetedwatershed';
-        // ns is always consus
-        // // set region to conus
-        // store.setStoreItem('region', 'conus');
-
         break;
       default:
-        // validSource = 'regional';
+        validSource = 'regional';
         break;
     }
 

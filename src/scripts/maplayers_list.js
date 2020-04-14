@@ -70,10 +70,7 @@ export class MapLayersList extends Component {
     const { WMSLayers } = mapConfig;
     const { TMSLayers } = mapConfig;
     const { zoomRegions } = mapConfig;
-    //  store.getStateItem('region')
 
-    // console.log('zoomRegions', zoomRegions)
-    // MapLayersList.addOpenMapLayerListener();
     MapLayersList.addToggleMapLayerListener();
 
     // Add a toggle button for each layer
@@ -102,7 +99,7 @@ export class MapLayersList extends Component {
     window.addEventListener('aboutNavChange', (e) => {
       const activeNav = store.getStateItem('activeNav');
       const defaultLayerList = document.getElementById('defaultLayerList');
-      const nsLayerList = document.getElementById('NSLayerList');
+      const nsLayerList = document.getElementById('NS_LayerList');
       const btnZoomRegion = document.getElementById('btn-zoomregion');
 
       if (activeNav === 'main-nav-map-searchNShubs') {
@@ -119,6 +116,7 @@ export class MapLayersList extends Component {
     // change region is state changes
     window.addEventListener('regionChanged', (e) => {
       MapLayersList.toggleRegionLayerList();
+      MapLayersList.toggleRegionsLayers(props.mapComponent);
     });
 
     // run at startup to capture region in current state
@@ -173,6 +171,39 @@ export class MapLayersList extends Component {
 
     document.querySelector('#maplayers_list-holder').style.maxHeight = `${window.innerHeight - offset}px`;
     document.querySelector('#maplayers_list').style.maxHeight = `${window.innerHeight - offset}px`;
+  }
+
+  static toggleRegionsLayers(mapComponent) {
+    //  get the region
+    const region = store.getStateItem('region');
+    const activeNav = store.getStateItem('activeNav');
+
+    // make sure region list are not displaying when targetedwatershed Nature Server data
+    // nav is current location
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      return null;
+    }
+
+    // get the layer list from the config file
+    const { TMSLayers } = mapConfig;
+    const layers = store.getStateItem('mapLayerDisplayStatus');
+    
+    // filter the layers based on current source
+    Object.keys(layers).forEach((layer) => {
+      const asource = TMSLayers.filter(TMSlayer => (
+        TMSlayer.id === layer && TMSlayer.region === region
+      ));
+
+      // layer is on and not part of the tabs data so it needs to be off
+      if (layers[layer] && asource.length === 0) {
+        mapComponent.toggleVisLayerOff(layer);
+      }
+
+      // layer is on IS part of the tabs data os it needs to be on
+      if (layers[layer] && asource.length > 0) {
+        mapComponent.toggleVisLayerOn(layer);
+      }
+    });
   }
 
   static addZoomregionListeners(mapComponent, zoomRegions) {
@@ -336,18 +367,19 @@ export class MapLayersList extends Component {
     // get region state
     const region = store.getStateItem('region');
     const activeNav = store.getStateItem('activeNav');
-
-    if (activeNav === 'main-nav-map-searchNShubs') {
-      return null;
-    }
-
-    console.log('toggleRegionLayerList', region);
-    let src = '';
-
     const defaultLayerList = document.getElementById('defaultLayerList');
-    const nsLayerList = document.getElementById('NSLayerList');
+    const nsLayerList = document.getElementById('NS_LayerList');
     const puertoRicoLayerList = document.getElementById('puertoRicoLayerList');
     const usVirginIslandsLayerList = document.getElementById('usVirginIslandsLayerList');
+
+    // make sure region list are not displaying when targetedwatershed Nature Server data
+    // nav is current location
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      defaultLayerList.classList.add('d-none');
+      puertoRicoLayerList.classList.add('d-none');
+      usVirginIslandsLayerList.classList.add('d-none');
+      return null;
+    }
 
     switch (region) {
       case 'conus':
@@ -355,6 +387,9 @@ export class MapLayersList extends Component {
         puertoRicoLayerList.classList.add('d-none');
         usVirginIslandsLayerList.classList.add('d-none');
         MapLayersList.updateZoomRegionLabel('Contiental U.S.');
+        // get the layer list from the config file
+        const { TMSLayers } = mapConfig;
+        const layers = store.getStateItem('mapLayerDisplayStatus');
         break;
       case 'puerto_rico':
         defaultLayerList.classList.add('d-none');
@@ -363,34 +398,27 @@ export class MapLayersList extends Component {
         MapLayersList.updateZoomRegionLabel('Puerto Rico');
         break;
       case 'northern_mariana_islands':
-        src = '';
         MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
         break;
       case 'us_virgin_islands':
-        src = '';
         defaultLayerList.classList.add('d-none');
         puertoRicoLayerList.classList.add('d-none');
         usVirginIslandsLayerList.classList.remove('d-none');
         MapLayersList.updateZoomRegionLabel('US Virgin Islands');
         break;
       case 'alaska':
-        src = '';
         MapLayersList.updateZoomRegionLabel('Alaska');
         break;
       case 'hawaii':
-        src = '';
-        break;
         MapLayersList.updateZoomRegionLabel('Hawaii');
+        break;
       case 'guam':
-        src = '';
         MapLayersList.updateZoomRegionLabel('Guam');
         break;
       default:
-        src = '';
         MapLayersList.updateZoomRegionLabel('Contiental U.S.');
         break;
     }
-
   }
 
   static updateBaseMapLabel(basemapname) {
