@@ -99,7 +99,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "fishandwildlife",
-      description: "Fish and wildlife needs a descriptionm currently this text is just a placeholder.",
+      description: "Fish and wildlife needs a description currently this text is just a placeholder.",
       source: 'fishandwildlife',
       region: 'conus'
     },
@@ -448,7 +448,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_fishandwildlife",
-      description: "Fish and wildlife needs a descriptionm currently this text is just a placeholder.",
+      description: "Fish and wildlife needs a description currently this text is just a placeholder.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -695,7 +695,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_landslides",
-      description: "Landslides needs a descriptionm currently this text is just a placeholder.",
+      description: "Landslides needs a description currently this text is just a placeholder.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -813,7 +813,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "usvi_fishandwildlife",
-      description: "Fish and wildlife needs a descriptionm currently this text is just a placeholder.",
+      description: "Fish and wildlife needs a description currently this text is just a placeholder.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
