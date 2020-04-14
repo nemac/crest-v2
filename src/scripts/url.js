@@ -86,16 +86,17 @@ export class URL {
     const statesobj = JSON.parse(statestr);
 
     let baseurl = `${window.location.origin}`;
+    const path = window.location.pathname;
 
     // handle gh pages dist folder.
     if (baseurl === 'https://nemac.github.io') {
       if (path.includes('crest-refresh-stagging')) {
-        homeloc += '/crest-refresh-stagging/dist';
+        baseurl += '/crest-refresh-stagging/dist';
       } else {
-        homeloc += '/NFWF_tool/dist';
+        baseurl += '/NFWF_tool/dist';
       }
     }
-
+    
     return `${baseurl}/?state=${state}&shareurl=true&fornav=${statesobj.activeNav}`;
   }
 
