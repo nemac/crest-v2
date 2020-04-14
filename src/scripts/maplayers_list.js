@@ -187,7 +187,7 @@ export class MapLayersList extends Component {
     // get the layer list from the config file
     const { TMSLayers } = mapConfig;
     const layers = store.getStateItem('mapLayerDisplayStatus');
-    
+
     // filter the layers based on current source
     Object.keys(layers).forEach((layer) => {
       const asource = TMSLayers.filter(TMSlayer => (
@@ -204,6 +204,8 @@ export class MapLayersList extends Component {
         mapComponent.toggleVisLayerOn(layer);
       }
     });
+
+    return null;
   }
 
   static addZoomregionListeners(mapComponent, zoomRegions) {
@@ -368,7 +370,6 @@ export class MapLayersList extends Component {
     const region = store.getStateItem('region');
     const activeNav = store.getStateItem('activeNav');
     const defaultLayerList = document.getElementById('defaultLayerList');
-    const nsLayerList = document.getElementById('NS_LayerList');
     const puertoRicoLayerList = document.getElementById('puertoRicoLayerList');
     const usVirginIslandsLayerList = document.getElementById('usVirginIslandsLayerList');
 
@@ -387,9 +388,6 @@ export class MapLayersList extends Component {
         puertoRicoLayerList.classList.add('d-none');
         usVirginIslandsLayerList.classList.add('d-none');
         MapLayersList.updateZoomRegionLabel('Contiental U.S.');
-        // get the layer list from the config file
-        const { TMSLayers } = mapConfig;
-        const layers = store.getStateItem('mapLayerDisplayStatus');
         break;
       case 'puerto_rico':
         defaultLayerList.classList.add('d-none');
@@ -419,6 +417,8 @@ export class MapLayersList extends Component {
         MapLayersList.updateZoomRegionLabel('Contiental U.S.');
         break;
     }
+
+    return null;
   }
 
   static updateBaseMapLabel(basemapname) {
@@ -609,14 +609,6 @@ export class MapLayersList extends Component {
         return ColorRampFishAndWildlife;
       case 'aquatic':
         return ColorRampAquatic;
-      case 'pr_aquatic':
-        return ColorRampMarineIslands;
-      case 'usvi_aquatic':
-        return ColorRampMarineIslands;
-      case 'pr_terrestrial':
-        return ColorRampTerrestrialIslands;
-      case 'usvi_terrestrial':
-        return ColorRampTerrestrialIslands;
       case 'driver-asset':
         return ColorRampDriverAsset;
       case 'popdensity':
@@ -668,11 +660,11 @@ export class MapLayersList extends Component {
       case 'pr_fishandwildlife':
         return ColorRampFishAndWildlife;
       case 'pr_terrestrial':
-        return ColorRampTerrestrial;
+        return ColorRampTerrestrialIslands;
       case 'pr_aquatic':
         return ColorRampAquatic;
       case 'pr_driver-asset':
-        return ColorRampDriverAsset;
+        return ColorRampMarineIslands;
       case 'pr_popdensity':
         return ColorRampPopDensity;
       case 'pr_socvuln':
@@ -687,7 +679,7 @@ export class MapLayersList extends Component {
         return ColorRampErosion;
       case 'pr_floodprone':
         return ColorRampFloodProne;
-      case 'slr':
+      case 'pr_slr':
         return ColorRampSLR;
       case 'pr_stormsurge':
         return ColorRampStormSurge;
@@ -712,9 +704,9 @@ export class MapLayersList extends Component {
       case 'usvi_fishandwildlife':
         return ColorRampFishAndWildlife;
       case 'usvi_terrestrial':
-        return ColorRampTerrestrial;
+        return ColorRampTerrestrialIslands;
       case 'usvi_aquatic':
-        return ColorRampAquatic;
+        return ColorRampMarineIslands;
       case 'usvi_driver-asset':
         return ColorRampDriverAsset;
       case 'usvi_popdensity':
@@ -731,7 +723,7 @@ export class MapLayersList extends Component {
         return ColorRampErosion;
       case 'usvi_floodprone':
         return ColorRampFloodProne;
-      case 'slr':
+      case 'usvi_slr':
         return ColorRampSLR;
       case 'usvi_stormsurge':
         return ColorRampStormSurge;
@@ -859,10 +851,6 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
-    const region = store.getStateItem('region');
-    if (layerId.includes('PR')) {
-      // console.log('addLayerListListener', layerId, checkBox);
-    }
 
     // ensure the html dom element exists
     if (checkBox !== undefined) {

@@ -521,7 +521,7 @@ export function addMissingStateItems() {
       USVI_GeoStressTMS: false,
       USVI_SlopeTMS: false,
       USVI_FloodProneAreasTMS: false,
-      USVI_FishAndWildlifeTMS: false,
+      USVI_FishAndWildlifeTMS: false
     });
   }
 

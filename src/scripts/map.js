@@ -478,7 +478,7 @@ export class Map extends Component {
   // Toggle map layer visibility
   // this needs to be made more modular but not sure
   // ho do that yet
-  toggleLayer(layerName, dostat=true) {
+  toggleLayer(layerName, dostat = true) {
     store.saveAction('maplayertoggle');
     store.setStoreItem('working_basemap', true);
     spinnerOn();
