@@ -459,28 +459,69 @@ export function addMissingStateItems() {
   // to long to list again
   if (!checkValidObject(store.getStateItem('mapLayerDisplayStatus'))) {
     store.setStoreItem('mapLayerDisplayStatus', {
-      HubsTMS: true,
-      NSHubsTMS: true,
-      ExposureTMS: false,
-      NSExposureTMS: false,
-      AssetsTMS: false,
-      NSAssetsTMS: false,
-      ThreatsTMS: false,
-      NSThreatsTMS: false,
-      AquaticTMS: false,
-      TerrestrialTMS: false,
+      CONUS_HubsTMS: true,
+      NS_HubsTMS: true,
+      CONUS_ExposureTMS: false,
+      NS_ExposureTMS: false,
+      CONUS_AssetsTMS: false,
+      NS_AssetsTMS: false,
+      CONUS_ThreatsTMS: false,
+      NS_ThreatsTMS: false,
+      CONUS_AquaticTMS: false,
+      CONUS_TerrestrialTMS: false,
       NSFishAndWildlifeTMS: false,
-      PopDensityTMS: false,
-      SocVulnTMS: false,
-      CriticalFacilitiesTMS: false,
-      CriticalInfrastructureTMS: false,
-      DraingeTMS: false,
-      ErosionTMS: false,
-      SLRTMS: false,
-      StormSurgeTMS: false,
-      GeoStressTMS: false,
-      SlopeTMS: false,
-      FloodProneAreasTMS: false
+      CONUS_PopDensityTMS: false,
+      CONUS_SocVulnTMS: false,
+      CONUS_CriticalFacilitiesTMS: false,
+      CONUS_CriticalInfrastructureTMS: false,
+      CONUS_DraingeTMS: false,
+      CONUS_ErosionTMS: false,
+      CONUS_SLRTMS: false,
+      CONUS_StormSurgeTMS: false,
+      CONUS_GeoStressTMS: false,
+      CONUS_SlopeTMS: false,
+      CONUS_FloodProneAreasTMS: false,
+      CONUS_FishAndWildlifeTMS: false,
+
+      PR_HubsTMS: false,
+      PR_ExposureTMS: false,
+      PR_AssetsTMS: false,
+      PR_ThreatsTMS: false,
+      PR_AquaticTMS: false,
+      PR_TerrestrialTMS: false,
+      PR_PopDensityTMS: false,
+      PR_SocVulnTMS: false,
+      PR_CriticalFacilitiesTMS: false,
+      PR_CriticalInfrastructureTMS: false,
+      PR_DraingeTMS: false,
+      PR_ErosionTMS: false,
+      PR_SLRTMS: false,
+      PR_StormSurgeTMS: false,
+      PR_GeoStressTMS: false,
+      PR_SlopeTMS: false,
+      PR_FloodProneAreasTMS: false,
+      PR_FishAndWildlifeTMS: false,
+      PR_LandslideIndexTiles: false,
+      PR_TsunamiIndexTiles: false,
+
+      USVI_HubsTMS: false,
+      USVI_ExposureTMS: false,
+      USVI_AssetsTMS: false,
+      USVI_ThreatsTMS: false,
+      USVI_AquaticTMS: false,
+      USVI_TerrestrialTMS: false,
+      USVI_PopDensityTMS: false,
+      USVI_SocVulnTMS: false,
+      USVI_CriticalFacilitiesTMS: false,
+      USVI_CriticalInfrastructureTMS: false,
+      USVI_DraingeTMS: false,
+      USVI_ErosionTMS: false,
+      USVI_SLRTMS: false,
+      USVI_StormSurgeTMS: false,
+      USVI_GeoStressTMS: false,
+      USVI_SlopeTMS: false,
+      USVI_FloodProneAreasTMS: false,
+      USVI_FishAndWildlifeTMS: false
     });
   }
 
@@ -492,6 +533,12 @@ export function addMissingStateItems() {
       store.setStoreItem('maplayerlist', 'open');
     }
   }
+
+  // check for region default is conus
+  if (!checkValidObject(store.getStateItem('region'))) {
+    store.setStoreItem('region', 'conus');
+  }
+
 
   // check for userareacount default is 0
   if (!checkValidObject(store.getStateItem('userareacount'))) {

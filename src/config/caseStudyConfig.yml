@@ -25,8 +25,8 @@ caseStudies:
         position: 1
         actions:
           name: Show Critical Infrastructure Asset Input
-          layerToggle: CriticalInfrastructureTMS
-          legendToggle: CriticalInfrastructureTMS
+          layerToggle: CONUS_CriticalInfrastructureTMS
+          legendToggle: CONUS_CriticalInfrastructureTMS
           legendScroll: 300
         lastactions:
           name: none
@@ -39,8 +39,8 @@ caseStudies:
         position: 2
         actions:
           name: Storm Surge
-          layerToggle: StormSurgeTMS
-          legendToggle: StormSurgeTMS
+          layerToggle: CONUS_StormSurgeTMS
+          legendToggle: CONUS_StormSurgeTMS
           legendScroll: 900
         lastactions:
           name: none
@@ -53,13 +53,13 @@ caseStudies:
         position: 3
         actions:
           name: Community Exposure Index
-          layerToggle: ExposureTMS
-          legendToggle: ExposureTMS
+          layerToggle: CONUS_ExposureTMS
+          legendToggle: CONUS_ExposureTMS
           legendScroll: 220
         lastactions:
           name: Critical Infrastructure
-          layerToggle: CriticalInfrastructureTMS
-          legendToggle: CriticalInfrastructureTMS
+          layerToggle: CONUS_CriticalInfrastructureTMS
+          legendToggle: CONUS_CriticalInfrastructureTMS
           legendScroll: 300
 
       - name: Community Exposure Index
@@ -70,13 +70,13 @@ caseStudies:
         narrative: "White Horse Pike is highly exposed, suggesting that it is impacted by several inputs in the Threat Index."
         actions:
           name: Aquatic Index
-          layerToggle: AquaticTMS
-          legendToggle: AquaticTMS
+          layerToggle: CONUS_AquaticTMS
+          legendToggle: CONUS_AquaticTMS
           legendScroll: 250
         lastactions:
           name: Storm Surge
-          layerToggle: StormSurgeTMS
-          legendToggle: StormSurgeTMS
+          layerToggle: CONUS_StormSurgeTMS
+          legendToggle: CONUS_StormSurgeTMS
           legendScroll: 900
 
       - name: Aquatic Index
@@ -87,13 +87,13 @@ caseStudies:
         narrative: "This area has a very high value in the Aquatic Index. All together, this area scores very high in wildlife habitat suitability and species presence."
         actions:
           name: Resilience Hubs
-          layerToggle: HubsTMS
-          legendToggle: HubsTMS
+          layerToggle: CONUS_HubsTMS
+          legendToggle: CONUS_HubsTMS
           legendScroll: 10
         lastactions:
           name: Community Exposure Index
-          layerToggle: ExposureTMS
-          legendToggle: ExposureTMS
+          layerToggle: CONUS_ExposureTMS
+          legendToggle: CONUS_ExposureTMS
           legendScroll: 220
 
       - name: Resilience Hubs
@@ -106,8 +106,8 @@ caseStudies:
           name: none
         lastactions:
           name: Aquatic Index
-          layerToggle: AquaticTMS
-          legendToggle: AquaticTMS
+          layerToggle: CONUS_AquaticTMS
+          legendToggle: CONUS_AquaticTMS
           legendScroll: 250
 
       - name: Explore
@@ -121,8 +121,8 @@ caseStudies:
           viewerlink: /?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A39.40138214739658%2C%22lng%22%3A-74.44979667663576%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A13%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fe1a77010acfb0f5f879a092fddc10e31%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2Fa8d31a25a5044c8436e63d9cf6fd3bc7%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F6a201e1507b7e6d2108ceb57cf97dcc6%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: Resilience Hubs
-          layerToggle: HubsTMS
-          legendToggle: HubsTMS
+          layerToggle: CONUS_HubsTMS
+          legendToggle: CONUS_HubsTMS
           legendScroll: 10
 
 
@@ -152,8 +152,8 @@ caseStudies:
         narrative: "Buffalo Bayou, a slow-moving river that flows through Houston, Texas, is surrounded by parks and established neighborhoods. Buffalo Bayou Park is outlined here."
         actions:
           name: Population Density
-          layerToggle: PopDensityTMS
-          legendToggle: PopDensityTMS
+          layerToggle: CONUS_PopDensityTMS
+          legendToggle: CONUS_PopDensityTMS
           legendScroll: 300
         lastactions:
           name: none;
@@ -166,8 +166,8 @@ caseStudies:
         narrative: "The Population Density input helps identify the most densely populated census blocks in the neighborhoods around the Park."
         actions:
           name: Flood-Prone Areas
-          layerToggle: FloodProneAreasTMS
-          legendToggle: FloodProneAreasTMS
+          layerToggle: CONUS_FloodProneAreasTMS
+          legendToggle: CONUS_FloodProneAreasTMS
           legendScroll: 750
         lastactions:
           name: none;
@@ -180,13 +180,13 @@ caseStudies:
         narrative: "This input shows flood-prone areas identified by FEMA and soils outside of those zones with the potential for flooding. The majority of the area identified here is part of the Park."
         actions:
           name: Show Community Exposure Index
-          layerToggle: ExposureTMS
-          legendToggle: ExposureTMS
+          layerToggle: CONUS_ExposureTMS
+          legendToggle: CONUS_ExposureTMS
           legendScroll: 220
         lastactions:
           name: Population Density
-          layerToggle: PopDensityTMS
-          legendToggle: PopDensityTMS
+          layerToggle: CONUS_PopDensityTMS
+          legendToggle: CONUS_PopDensityTMS
           legendScroll: 300
 
       - name: Community Exposure Index
@@ -197,13 +197,13 @@ caseStudies:
         narrative: "Buffalo Bayou is highly exposed, suggesting that it is impacted by many other inputs in the Threat Index. "
         actions:
           name: Aquatic Index
-          layerToggle: AquaticTMS
-          legendToggle: AquaticTMS
+          layerToggle: CONUS_AquaticTMS
+          legendToggle: CONUS_AquaticTMS
           legendScroll: 250
         lastactions:
           name: Show Flood-Prone Areas Threat Input
-          layerToggle: FloodProneAreasTMS
-          legendToggle: FloodProneAreasTMS
+          layerToggle: CONUS_FloodProneAreasTMS
+          legendToggle: CONUS_FloodProneAreasTMS
           legendScroll: 750
 
       - name: Aquatic Index
@@ -214,13 +214,13 @@ caseStudies:
         narrative: "The area surrounding Buffalo Bayou Park is low on the Aquatic Index, suggesting that this area is not a very suitable habitat for at-risk species.  However, some species may be found here."
         actions:
           name: Resilience Hubs
-          layerToggle: HubsTMS
-          legendToggle: HubsTMS
+          layerToggle: CONUS_HubsTMS
+          legendToggle: CONUS_HubsTMS
           legendScroll: 10
         lastactions:
           name: Community Exposure Index
-          layerToggle: ExposureTMS
-          legendToggle: ExposureTMS
+          layerToggle: CONUS_ExposureTMS
+          legendToggle: CONUS_ExposureTMS
           legendScroll: 220
 
       - name: Resilience Hubs
@@ -233,8 +233,8 @@ caseStudies:
           name: none
         lastactions:
           name: Aquatic Index
-          layerToggle: AquaticTMS
-          legendToggle: AquaticTMS
+          layerToggle: CONUS_AquaticTMS
+          legendToggle: CONUS_AquaticTMS
           legendScroll: 250
 
       - name: Explore
@@ -248,8 +248,8 @@ caseStudies:
           viewerlink: ?state=%7B%22basemap%22%3A%22DarkGray%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A29.76014899029522%2C%22lng%22%3A-95.38349390029909%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2Fc28319c253fed293bedf0d8cda0c7f23%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F32806e3502be4359e917d6ea1a1e4230%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2Fc8f5c0a4046277da5397b9db9717c1cf%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: Resilience Hubs
-          layerToggle: HubsTMS
-          legendToggle: HubsTMS
+          layerToggle: CONUS_HubsTMS
+          legendToggle: CONUS_HubsTMS
           legendScroll: 10
 
   - name: Wilmington, North Carolina
@@ -278,8 +278,8 @@ caseStudies:
         narrative: "Water Street is in Wilmington’s historic riverfront area, located on the Cape Fear River."
         actions:
           name: Population Density
-          layerToggle: PopDensityTMS
-          legendToggle: PopDensityTMS
+          layerToggle: CONUS_PopDensityTMS
+          legendToggle: CONUS_PopDensityTMS
           legendScroll: 300
         lastactions:
           name: none;
@@ -292,8 +292,8 @@ caseStudies:
         narrative: "In addition to restaurants, shops, and bed and breakfasts, this area is home to many full-time residents. This input suggests the majority of the area is low density with a few neighboring areas of moderate density."
         actions:
           name: Storm Surge
-          layerToggle: StormSurgeTMS
-          legendToggle: StormSurgeTMS
+          layerToggle: CONUS_StormSurgeTMS
+          legendToggle: CONUS_StormSurgeTMS
           legendScroll: 900
         lastactions:
               name: none;
@@ -306,13 +306,13 @@ caseStudies:
         narrative: "Storm surge data from the National Hurricane Center suggests that this area of Water Street could be inundated by storms that are rated as Categories 1-5. It is important to visualize this threat in low-lying coastal areas."
         actions:
           name: Community Exposure Index
-          layerToggle: ExposureTMS
-          legendToggle: ExposureTMS
+          layerToggle: CONUS_ExposureTMS
+          legendToggle: CONUS_ExposureTMS
           legendScroll: 220
         lastactions:
           name: Population Density
-          layerToggle: PopDensityTMS
-          legendToggle: PopDensityTMS
+          layerToggle: CONUS_PopDensityTMS
+          legendToggle: CONUS_PopDensityTMS
           legendScroll: 300
 
 
@@ -324,13 +324,13 @@ caseStudies:
         narrative: "As a result of the combination of assets and threats, this particular area of Water Street, housing the iconic J.W. Brooks building, is calculated as having high exposure in this assessment."
         actions:
           name: Terrestrial Index
-          layerToggle: TerrestrialTMS
-          legendToggle: TerrestrialTMS
+          layerToggle: CONUS_TerrestrialTMS
+          legendToggle: CONUS_TerrestrialTMS
           legendScroll: 250
         lastactions:
           name: Storm Surge
-          layerToggle: StormSurgeTMS
-          legendToggle: StormSurgeTMS
+          layerToggle: CONUS_StormSurgeTMS
+          legendToggle: CONUS_StormSurgeTMS
           legendScroll: 900
 
       - name: Terrestrial Index
@@ -341,13 +341,13 @@ caseStudies:
         narrative: "This area of Water Street has a high value in the Terrestrial Index. All together, this area scores very high in habitat suitability and species presence."
         actions:
           name: Resilience Hubs
-          layerToggle: HubsTMS
-          legendToggle: HubsTMS
+          layerToggle: CONUS_HubsTMS
+          legendToggle: CONUS_HubsTMS
           legendScroll: 10
         lastactions:
           name: Community Exposure Index
-          layerToggle: ExposureTMS
-          legendToggle: ExposureTMS
+          layerToggle: CONUS_ExposureTMS
+          legendToggle: CONUS_ExposureTMS
           legendScroll: 220
 
       - name: Resilience Hubs
@@ -360,8 +360,8 @@ caseStudies:
           name: none
         lastactions:
           name: Terrestrial Index
-          layerToggle: TerrestrialTMS
-          legendToggle: TerrestrialTMS
+          layerToggle: CONUS_TerrestrialTMS
+          legendToggle: CONUS_TerrestrialTMS
           legendScroll: 250
 
       - name: Explore
@@ -375,6 +375,6 @@ caseStudies:
           viewerlink: /?state=%7B%22basemap%22%3A%22Streets%22%2C%22lastaction%22%3A%22moveend%22%2C%22mapCenter%22%3A%7B%22lat%22%3A34.2348316809645%2C%22lng%22%3A-77.94089555740356%7D%2C%22mapLayerDisplayStatus%22%3A%7B%22HubsTMS%22%3Afalse%2C%22ExposureTMS%22%3Afalse%2C%22AssetsTMS%22%3Afalse%2C%22ThreatsTMS%22%3Afalse%2C%22AquaticTMS%22%3Afalse%2C%22TerrestrialTMS%22%3Afalse%2C%22PopDensityTMS%22%3Afalse%2C%22SocVulnTMS%22%3Afalse%2C%22CriticalFacilitiesTMS%22%3Afalse%2C%22CriticalInfrastructureTMS%22%3Afalse%2C%22DrainageTMS%22%3Afalse%2C%22ErosionTMS%22%3Afalse%2C%22SLRTMS%22%3Afalse%2C%22StormSurgeTMS%22%3Afalse%2C%22GeoStressTMS%22%3Afalse%2C%22SlopeTMS%22%3Afalse%2C%22FloodProneAreasTMS%22%3Afalse%7D%2C%22maplayerlist%22%3A%22open%22%2C%22mapZoom%22%3A15%2C%22activeNav%22%3A%22main-nav-map%22%2C%22zonalactive%22%3A%5B%22none%22%2C%22none%22%5D%2C%22aboutNav%22%3A%22about-nav-exposure%22%2C%22userareacount%22%3A1%2C%22savedshapes%22%3A%7B%22savedshape1%22%3A%5B%7B%22name%22%3A%22Area%201%22%7D%2C%7B%22savedshape_userarea%22%3A%7B%22key%22%3A%22prod%2F33ff82435f2fe8239d224906def750ac%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_userarea_buffered%22%3A%7B%22key%22%3A%22prod%2F6dcb164a032ec03e60886c35ecf84bc4%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%2C%7B%22savedshape_zonalstatsjson%22%3A%7B%22key%22%3A%22prod%2F447436aa128c6c5b24eccc9fb1a0505f%22%2C%22bucket%22%3A%22nfwf-tool-user-shapes%22%7D%7D%5D%7D%7D&shareurl=true&fornav=main-nav-map
         lastactions:
           name: Resilience Hubs
-          layerToggle: HubsTMS
-          legendToggle: HubsTMS
+          layerToggle: CONUS_HubsTMS
+          legendToggle: CONUS_HubsTMS
           legendScroll: 10

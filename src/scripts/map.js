@@ -478,7 +478,7 @@ export class Map extends Component {
   // Toggle map layer visibility
   // this needs to be made more modular but not sure
   // ho do that yet
-  toggleLayer(layerName) {
+  toggleLayer(layerName, dostat = true) {
     store.saveAction('maplayertoggle');
     store.setStoreItem('working_basemap', true);
     spinnerOn();
@@ -486,19 +486,25 @@ export class Map extends Component {
     const layer = this.overlayMaps[layerName];
     if (this.map.hasLayer(layer)) {
       this.map.removeLayer(layer);
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', `layerToggle off ${layerName}`);
-      mapDisplayLayersObj = { [layerName]: false };
+      if (dostat) {
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'maplayerlist', `layerToggle off ${layerName}`);
+        mapDisplayLayersObj = { [layerName]: false };
+      }
     } else {
       store.setStoreItem('working_basemap', true);
       spinnerOn();
       this.map.addLayer(layer);
-      mapDisplayLayersObj = { [layerName]: true };
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'maplayerlist', `layerToggle on ${layerName}`);
+      if (dostat) {
+        mapDisplayLayersObj = { [layerName]: true };
+        // ga event action, category, label
+        googleAnalyticsEvent('click', 'maplayerlist', `layerToggle on ${layerName}`);
+      }
     }
-    Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
-    store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
+    if (dostat) {
+      Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
+      store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
+    }
   }
 
   /**

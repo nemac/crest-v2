@@ -857,9 +857,45 @@ function getThreeHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+function getFiveHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 5;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
 function getSixHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 6;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getSevenHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 7;
+  const SCALE = 0;
+  const SCALE_GROUPS = 1;
+
+  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
+}
+
+// Finds the scaled position for the drivers
+// @param driver | float - value from the api for a driver
+// @return float - [0,100]
+function getEightHeight(driver) {
+  const LOW_RANGE = 0;
+  const HIGH_RANGE = 8;
   const SCALE = 0;
   const SCALE_GROUPS = 1;
 
@@ -1047,6 +1083,16 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'fish';
   }
 
+  if (driver.key === 'marineislands') {
+    height = getSixHeight(driver.value);
+    cssKey = 'marineislands';
+  }
+
+  if (driver.key === 'fishandwildlife') {
+    height = getSevenHeight(driver.value);
+    cssKey = 'fishandwildlife';
+  }
+
   if (driver.key === 'ns-fishandwildlife') {
     height = getSixHeight(driver.value);
     cssKey = 'ns-fishandwildlife';
@@ -1055,6 +1101,11 @@ function drawDriver(graph, name, type, driver) {
   if (driver.key === 'terrestrial') {
     height = getSixHeight(driver.value);
     cssKey = 'wildlife';
+  }
+
+  if (driver.key === 'terrestriallands') {
+    height = getSixHeight(driver.value);
+    cssKey = 'terrestriallands';
   }
 
   if (driver.key === 'exposure') {
@@ -1070,6 +1121,11 @@ function drawDriver(graph, name, type, driver) {
   if (driver.key === 'threat') {
     height = getTenHeight(driver.value);
     cssKey = 'threat';
+  }
+
+  if (driver.key === 'tsunami-pr') {
+    height = getFiveHeight(driver.value);
+    cssKey = 'tsunami-pr';
   }
 
   if (driver.key === 'ns-threat') {
@@ -1097,14 +1153,34 @@ function drawDriver(graph, name, type, driver) {
     csstype = 'socvuln';
   }
 
+  if (driver.key === 'social-vulnerability-islands') {
+    height = getThreeHeight(driver.value);
+    csstype = 'socvulnislands';
+  }
+
   if (driver.key === 'critical-facilities') {
     height = getSixHeight(driver.value);
     csstype = 'critfac';
   }
 
+  if (driver.key === 'critical-facilities-pr') {
+    height = getSixHeight(driver.value);
+    csstype = 'critfac-pr';
+  }
+
   if (driver.key === 'critical-infrastructure') {
     height = getTwoHeight(driver.value);
     csstype = 'critinfra';
+  }
+
+  if (driver.key === 'critical-infrastructure-pr') {
+    height = getEightHeight(driver.value);
+    csstype = 'critinfra-pr';
+  }
+
+  if (driver.key === 'landslides-pr') {
+    height = getTwoHeight(driver.value);
+    csstype = 'landslides-pr';
   }
 
   if (driver.key === 'drainage') {
@@ -1236,6 +1312,17 @@ function getShortDataChartData(data) {
       label: 'aquatic',
       key: 'aquatic',
       value: data.aquatic
+    },
+    {
+      label: 'marineislands',
+      key: 'marineislands',
+      value: data.marineislands
+    },
+
+    {
+      label: 'terrestrialislands',
+      key: 'terrestrialislands',
+      value: data.terrestrialislands
     },
     {
       label: 'terrestrial',

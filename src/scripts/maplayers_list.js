@@ -7,15 +7,21 @@ import { Store } from './store';
 
 // Legend Templates
 import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
 import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+import ColorRampMarineIslands from '../templates/colorramp_marineislands.html';
 import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+import ColorRampTerrestrialIslands from '../templates/colorramp_terrestrialislands.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
 import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
 import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
 import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
+import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html';
 import ColorRampCritFac from '../templates/colorramp_critfac.html';
+import ColorRampCritFacPR from '../templates/colorramp_critfac_pr.html';
 import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
+import ColorRampCritInfraPR from '../templates/colorramp_critinfra_pr.html';
 import ColorRampDrainage from '../templates/colorramp_drainage.html';
 import ColorRampErosion from '../templates/colorramp_erosion.html';
 import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
@@ -25,6 +31,8 @@ import ColorRampGeoStress from '../templates/colorramp_geostress.html';
 import ColorRampSlopefrom from '../templates/colorramp_slope.html';
 import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
 import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
+import ColorRampDriverTsunamiPR from '../templates/colorramp_tsunami_pr.html';
+import ColorRampDriverLandslidesPR from '../templates/colorramp_landslides_pr.html';
 import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
 import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
 import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
@@ -63,8 +71,6 @@ export class MapLayersList extends Component {
     const { TMSLayers } = mapConfig;
     const { zoomRegions } = mapConfig;
 
-    // console.log('zoomRegions', zoomRegions)
-    // MapLayersList.addOpenMapLayerListener();
     MapLayersList.addToggleMapLayerListener();
 
     // Add a toggle button for each layer
@@ -93,16 +99,28 @@ export class MapLayersList extends Component {
     window.addEventListener('aboutNavChange', (e) => {
       const activeNav = store.getStateItem('activeNav');
       const defaultLayerList = document.getElementById('defaultLayerList');
-      const nsLayerList = document.getElementById('NSLayerList');
+      const nsLayerList = document.getElementById('NS_LayerList');
+      const btnZoomRegion = document.getElementById('btn-zoomregion');
 
       if (activeNav === 'main-nav-map-searchNShubs') {
         defaultLayerList.classList.add('d-none');
         nsLayerList.classList.remove('d-none');
+        btnZoomRegion.classList.add('d-none');
       } else {
         defaultLayerList.classList.remove('d-none');
         nsLayerList.classList.add('d-none');
+        btnZoomRegion.classList.remove('d-none');
       }
     });
+
+    // change region is state changes
+    window.addEventListener('regionChanged', (e) => {
+      MapLayersList.toggleRegionLayerList();
+      MapLayersList.toggleRegionsLayers(props.mapComponent);
+    });
+
+    // run at startup to capture region in current state
+    MapLayersList.toggleRegionLayerList();
   }
 
   // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
@@ -155,6 +173,41 @@ export class MapLayersList extends Component {
     document.querySelector('#maplayers_list').style.maxHeight = `${window.innerHeight - offset}px`;
   }
 
+  static toggleRegionsLayers(mapComponent) {
+    //  get the region
+    const region = store.getStateItem('region');
+    const activeNav = store.getStateItem('activeNav');
+
+    // make sure region list are not displaying when targetedwatershed Nature Server data
+    // nav is current location
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      return null;
+    }
+
+    // get the layer list from the config file
+    const { TMSLayers } = mapConfig;
+    const layers = store.getStateItem('mapLayerDisplayStatus');
+
+    // filter the layers based on current source
+    Object.keys(layers).forEach((layer) => {
+      const asource = TMSLayers.filter(TMSlayer => (
+        TMSlayer.id === layer && TMSlayer.region === region
+      ));
+
+      // layer is on and not part of the tabs data so it needs to be off
+      if (layers[layer] && asource.length === 0) {
+        mapComponent.toggleVisLayerOff(layer);
+      }
+
+      // layer is on IS part of the tabs data os it needs to be on
+      if (layers[layer] && asource.length > 0) {
+        mapComponent.toggleVisLayerOn(layer);
+      }
+    });
+
+    return null;
+  }
+
   static addZoomregionListeners(mapComponent, zoomRegions) {
     const btnzoomregionElem = document.getElementById('btn-zoomregion');
     if (btnzoomregionElem) {
@@ -171,6 +224,11 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Contiental U.S.');
 
+      // set region to conus
+      store.setStoreItem('region', 'conus');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
+
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'cus');
     });
@@ -179,6 +237,11 @@ export class MapLayersList extends Component {
       const region = zoomRegions.filter(regions => regions.region === 'pr');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Puerto Rico');
+
+      // set region to puerto_rico
+      store.setStoreItem('region', 'puerto_rico');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'pr');
@@ -189,8 +252,13 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('US Virgin Islands');
 
+      // set region to US Virgin Islands
+      store.setStoreItem('region', 'us_virgin_islands');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
+
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'uvi');
+      googleAnalyticsEvent('click', 'zoomregion', 'usvi');
     });
 
     document.getElementById('zoomregion-cmni').addEventListener('click', (e) => {
@@ -198,23 +266,38 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
 
-      // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'cmni');
-    });
-
-    document.getElementById('zoomregion-guam').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'guam');
-      MapLayersList.zoomToRegion(mapComponent, region[0]);
-      MapLayersList.updateZoomRegionLabel('Guam');
+      // set region to US Northern Mariana Islands
+      store.setStoreItem('region', 'northern_mariana_islands');
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'cmni');
     });
+
+    // document.getElementById('zoomregion-guam').addEventListener('click', (e) => {
+    //   const region = zoomRegions.filter(regions => regions.region === 'guam');
+    //   MapLayersList.zoomToRegion(mapComponent, region[0]);
+    //   MapLayersList.updateZoomRegionLabel('Guam');
+    //   const navChangeEvent = new CustomEvent('regionChanged');
+    //    window.dispatchEvent(navChangeEvent);
+    //
+    //   // set region to US Guam
+    //   store.setStoreItem('region', 'guam');
+    //
+    //   // ga event action, category, label
+    //   googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+    // });
 
     // document.getElementById('zoomregion-alaska').addEventListener('click', (e) => {
     //   const region = zoomRegions.filter(regions => regions.region === 'alaska');
     //   MapLayersList.zoomToRegion(mapComponent, region[0]);
     //   MapLayersList.updateZoomRegionLabel('alaska');
+    //   const navChangeEvent = new CustomEvent('regionChanged');
+    //    window.dispatchEvent(navChangeEvent);
+    //
+    // set region to alaska
+    // store.setStoreItem('region', 'alaska');
     //
     //   // ga event action, category, label
     //   googleAnalyticsEvent('click', 'zoomregion', 'alaska');
@@ -224,6 +307,11 @@ export class MapLayersList extends Component {
     //   const region = zoomRegions.filter(regions => regions.region === 'hawaii');
     //   MapLayersList.zoomToRegion(mapComponent, region[0]);
     //   MapLayersList.updateZoomRegionLabel('hawaii');
+    //   const navChangeEvent = new CustomEvent('regionChanged');
+    //    window.dispatchEvent(navChangeEvent);
+    //
+    // set region to hawaii
+    // store.setStoreItem('region', 'hawaii');
     //
     //   // ga event action, category, label
     //   googleAnalyticsEvent('click', 'zoomregion', 'hawaii');
@@ -274,6 +362,63 @@ export class MapLayersList extends Component {
     if (btnBaseMapList) {
       btnBaseMapList.addEventListener('click', (e) => { MapLayersList.baseMapListToggle(e); });
     }
+  }
+
+  // toggle layer list for regions conus, pr, usvi, cmni, alaska...
+  static toggleRegionLayerList() {
+    // get region state
+    const region = store.getStateItem('region');
+    const activeNav = store.getStateItem('activeNav');
+    const defaultLayerList = document.getElementById('defaultLayerList');
+    const puertoRicoLayerList = document.getElementById('puertoRicoLayerList');
+    const usVirginIslandsLayerList = document.getElementById('usVirginIslandsLayerList');
+
+    // make sure region list are not displaying when targetedwatershed Nature Server data
+    // nav is current location
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      defaultLayerList.classList.add('d-none');
+      puertoRicoLayerList.classList.add('d-none');
+      usVirginIslandsLayerList.classList.add('d-none');
+      return null;
+    }
+
+    switch (region) {
+      case 'conus':
+        defaultLayerList.classList.remove('d-none');
+        puertoRicoLayerList.classList.add('d-none');
+        usVirginIslandsLayerList.classList.add('d-none');
+        MapLayersList.updateZoomRegionLabel('Contiental U.S.');
+        break;
+      case 'puerto_rico':
+        defaultLayerList.classList.add('d-none');
+        puertoRicoLayerList.classList.remove('d-none');
+        usVirginIslandsLayerList.classList.add('d-none');
+        MapLayersList.updateZoomRegionLabel('Puerto Rico');
+        break;
+      case 'northern_mariana_islands':
+        MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
+        break;
+      case 'us_virgin_islands':
+        defaultLayerList.classList.add('d-none');
+        puertoRicoLayerList.classList.add('d-none');
+        usVirginIslandsLayerList.classList.remove('d-none');
+        MapLayersList.updateZoomRegionLabel('US Virgin Islands');
+        break;
+      case 'alaska':
+        MapLayersList.updateZoomRegionLabel('Alaska');
+        break;
+      case 'hawaii':
+        MapLayersList.updateZoomRegionLabel('Hawaii');
+        break;
+      case 'guam':
+        MapLayersList.updateZoomRegionLabel('Guam');
+        break;
+      default:
+        MapLayersList.updateZoomRegionLabel('Contiental U.S.');
+        break;
+    }
+
+    return null;
   }
 
   static updateBaseMapLabel(basemapname) {
@@ -460,6 +605,8 @@ export class MapLayersList extends Component {
         return ColorRampExposure;
       case 'terrestrial':
         return ColorRampTerrestrial;
+      case 'fishandwildlife':
+        return ColorRampFishAndWildlife;
       case 'aquatic':
         return ColorRampAquatic;
       case 'driver-asset':
@@ -468,8 +615,12 @@ export class MapLayersList extends Component {
         return ColorRampPopDensity;
       case 'socvuln':
         return ColorRampSocVuln;
+      case 'socvulnislands':
+        return ColorRampSocVulnIslands;
       case 'critfac':
         return ColorRampCritFac;
+      case 'critfac-pr':
+        return ColorRampCritFacPR;
       case 'critinfra':
         return ColorRampCritInfra;
       case 'drainage':
@@ -498,6 +649,89 @@ export class MapLayersList extends Component {
         return ColorRampDriverNSThreat;
       case 'ns-fishandwildlife':
         return ColorRampDriverNSFishAndWildlife;
+      case 'pr_hub':
+        return ColorRampHub;
+      case 'pr_asset':
+        return ColorRampAsset;
+      case 'pr_threat':
+        return ColorRampThreat;
+      case 'pr_exposure':
+        return ColorRampExposure;
+      case 'pr_fishandwildlife':
+        return ColorRampFishAndWildlife;
+      case 'pr_terrestrial':
+        return ColorRampTerrestrialIslands;
+      case 'pr_aquatic':
+        return ColorRampAquatic;
+      case 'pr_driver-asset':
+        return ColorRampMarineIslands;
+      case 'pr_popdensity':
+        return ColorRampPopDensity;
+      case 'pr_socvuln':
+        return ColorRampSocVulnIslands;
+      case 'pr_critfac':
+        return ColorRampCritFacPR;
+      case 'pr_critinfra':
+        return ColorRampCritInfraPR;
+      case 'pr_drainage':
+        return ColorRampDrainage;
+      case 'pr_erosion':
+        return ColorRampErosion;
+      case 'pr_floodprone':
+        return ColorRampFloodProne;
+      case 'pr_slr':
+        return ColorRampSLR;
+      case 'pr_stormsurge':
+        return ColorRampStormSurge;
+      case 'pr_geostress':
+        return ColorRampGeoStress;
+      case 'pr_slope':
+        return ColorRampSlopefrom;
+      case 'pr_driver-threat':
+        return ColorRampDriverThreat;
+      case 'pr_landslides':
+        return ColorRampDriverLandslidesPR;
+      case 'pr_tsunami':
+        return ColorRampDriverTsunamiPR;
+      case 'usvi_hub':
+        return ColorRampHub;
+      case 'usvi_asset':
+        return ColorRampAsset;
+      case 'usvi_threat':
+        return ColorRampThreat;
+      case 'usvi_exposure':
+        return ColorRampExposure;
+      case 'usvi_fishandwildlife':
+        return ColorRampFishAndWildlife;
+      case 'usvi_terrestrial':
+        return ColorRampTerrestrialIslands;
+      case 'usvi_aquatic':
+        return ColorRampMarineIslands;
+      case 'usvi_driver-asset':
+        return ColorRampDriverAsset;
+      case 'usvi_popdensity':
+        return ColorRampPopDensity;
+      case 'usvi_socvuln':
+        return ColorRampSocVulnIslands;
+      case 'usvi_critfac':
+        return ColorRampCritFac;
+      case 'usvi_critinfra':
+        return ColorRampCritInfra;
+      case 'usvi_drainage':
+        return ColorRampDrainage;
+      case 'usvi_erosion':
+        return ColorRampErosion;
+      case 'usvi_floodprone':
+        return ColorRampFloodProne;
+      case 'usvi_slr':
+        return ColorRampSLR;
+      case 'usvi_stormsurge':
+        return ColorRampStormSurge;
+      case 'usvi_geostress':
+        return ColorRampGeoStress;
+      case 'usvi_slope':
+        return ColorRampSlopefrom;
+      case 'usvi_driver-threat':
       default:
         return '';
     }
@@ -617,6 +851,7 @@ export class MapLayersList extends Component {
   addLayerListListener(layerId) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
+
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {

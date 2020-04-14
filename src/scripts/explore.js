@@ -448,7 +448,7 @@ export class Explore extends Component {
         validSource = 'targetedwatershed';
         break;
       default:
-        // validSource = 'regional';
+        validSource = 'regional';
         break;
     }
 
@@ -472,6 +472,9 @@ export class Explore extends Component {
         this.mapComponent.toggleVisLayerOn(layer);
       }
     });
+
+    const navChangeEvent = new CustomEvent('regionChanged');
+    window.dispatchEvent(navChangeEvent);
   }
 
   // listens for the when the navbar changes EVENT, when it does

@@ -13,6 +13,13 @@ $asset-bar: #94571c;
 $threat-bar: #d4182b;
 $exposure-bar: #0f0;
 
+$tsunami-pr-none: #E9ECEF;
+$tsunami-pr-1: #414488;
+$tsunami-pr-2: #2A798F;
+$tsunami-pr-3: #22A985;
+$tsunami-pr-4: #7AD251;
+$tsunami-pr-5: #FEE825;
+
 $ns-exposure-none: #E9ECEF;
 $ns-exposure-1: #1f6e6e;
 $ns-exposure-2: #92aa8c;
@@ -60,6 +67,13 @@ $ns-asset-3: #368de3;
 $ns-asset-4: #2e4fba;
 $ns-asset-5: #090991;
 
+$marine-none: #E9ECEF;
+$marine-1: #CDE1E8;
+$marine-2: #82BCD1;
+$marine-3: #007E91;
+$marine-4: #005A62;
+$marine-bar: #f00;
+
 $fish-none: #E9ECEF;
 $fish-0: #E9ECEF;
 $fish-1: #cde1e8;
@@ -76,6 +90,14 @@ $ns-fishandwildlife-3: #db90a6;
 $ns-fishandwildlife-4: #af62a8;
 $ns-fishandwildlife-5: #7e33a8;
 
+$fishandwildlife-none: #E9ECEF;
+$fishandwildlife-1: #EEE7F8;
+$fishandwildlife-2: #E9BBCB;
+$fishandwildlife-3: #DB90A6;
+$fishandwildlife-4: #D27C99;
+$fishandwildlife-5: #B7528A;
+$fishandwildlife-6: #7E33A8;
+
 $wildlife-none: #E9ECEF;
 $wildlife-0: #E9ECEF;
 $wildlife-1: #ffe9c4;
@@ -84,6 +106,13 @@ $wildlife-3: #79684e;
 $wildlife-4: #385b23;
 $wildlife-5: #004900;
 $wildlife-bar: #0f0;
+
+$terrestrialislands-none: #E9ECEF;
+$terrestrialislands-1: #ffe9c4;
+$terrestrialislands-2: #dfc878;
+$terrestrialislands-3: #79684e;
+$terrestrialislands-4: #385b23;
+$terrestrialislands-bar: #0f0;
 
 $popdensity-none: #E9ECEF;
 $popdensity-0: #E9ECEF;
@@ -99,9 +128,23 @@ $socvuln-1: #abd2fa;
 $socvuln-2: #7692ff;
 $socvuln-3: #3a1459;
 
+$socvulnislands-1: #9EBBD7;
+$socvulnislands-2: #7A8EF5;
+$socvulnislands-3: #43309D;
+$socvulnislands-4: #321669;
+$socvulnislands-5: #270B59;
+
 $critfac-none: #E9ECEF;
 $critfac-0: #E9ECEF;
 $critfac-5: #0084a8;
+
+$landslides-pr-none: #E9ECEF;
+$landslides-pr-1: #fbacb9;
+$landslides-pr-2: #cd238f;
+
+$critfac-pr-none: #E9ECEF;
+$critfac-pr-3: #9EBBD7;
+$critfac-pr-5: #0084A8;
 
 $critinfra-none: #E9ECEF;
 $critinfra-0: #E9ECEF;
@@ -111,6 +154,16 @@ $critinfra-3: #e8b16d;
 $critinfra-4: #b15a3c;
 $critinfra-5: #ad3541;
 $critinfra-6: #7b1733;
+
+$critinfra-pr-none: #E9ECEF;
+$critinfra-pr-1: #CCD1D2;
+$critinfra-pr-2: #77B099;
+$critinfra-pr-3: #355C59;
+$critinfra-pr-4: #CDB16D;
+$critinfra-pr-5: #BD7D46;
+$critinfra-pr-6: #B5483E;
+$critinfra-pr-7: #A82B41;
+$critinfra-pr-8: #7B1733;
 
 $drainage-none: #E9ECEF;
 $drainage-0: #E9ECEF;
@@ -660,7 +713,13 @@ div.zonal-asset {
   }
 }
 
-.zonal-long-ns-hubs, .zonal-long-ns-fishandwildlife, .zonal-long-ns-exposure-wrapper, .zonal-long-ns-asset-threat, .zonal-long-asset-threat, .zonal-long-fish-wildlife-wrapper, .zonal-long-exposure-wrapper {
+.zonal-long-ns-hubs,
+.zonal-long-fishandwildlife.zonal-long-fishandwildlife,
+.zonal-long-ns-fishandwildlife.zonal-long-ns-fishandwildlife,
+.zonal-long-ns-exposure-wrapper, .zonal-long-ns-asset-threat,
+.zonal-long-asset-threat,
+.zonal-long-fish-wildlife-wrapper,
+.zonal-long-exposure-wrapper {
   margin-top: 40px;
 }
 
@@ -974,6 +1033,70 @@ div.zonal-asset {
       color: #b2afaf;
     }
   }
+  &-fishandwildlife {
+    &-none {
+      background-color: $fishandwildlife-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $fishandwildlife-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $fishandwildlife-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $fishandwildlife-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $fishandwildlife-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $fishandwildlife-5;
+      color: #b2afaf;
+    }
+
+    &-six {
+      background-color: $fishandwildlife-6;
+      color: #b2afaf;
+    }
+  }
+
+  &-marineislands {
+    &-none {
+      background-color: $marine-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $marine-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $marine-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $marine-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $marine-4;
+      color: #000;
+    }
+  }
+
   &-fish {
     &-none {
       background-color: $fish-none;
@@ -1011,6 +1134,33 @@ div.zonal-asset {
     }
   }
 
+
+    &-terrestrialislands {
+      &-none {
+        background-color: $terrestrialislands-none;
+        color: #000;
+      }
+
+      &-one {
+        background-color: $terrestrialislands-1;
+        color: #000;
+      }
+
+      &-two {
+        background-color: $terrestrialislands-2;
+        color: #000;
+      }
+
+      &-three {
+        background-color: $terrestrialislands-3;
+        color: #000;
+      }
+
+      &-four {
+        background-color: $terrestrialislands-4;
+        color: #000;
+      }
+    }
   &-wildlife {
     &-none {
       background-color: $wildlife-none;
@@ -1084,6 +1234,40 @@ div.zonal-asset {
     }
   }
 
+  &-landslides-pr {
+    &-none {
+      background-color: $landslides-pr-none;
+      color: #000;
+    }
+
+    &-one{
+      background-color: $landslides-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $landslides-pr-2;
+      color: #000;
+    }
+  }
+
+  &-critfac-pr {
+    &-none {
+      background-color: $critfac-pr-none;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critfac-pr-3;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critfac-pr-5;
+      color: #b2afaf;
+    }
+  }
+
   &-critfac {
     &-none {
       background-color: $critfac-none;
@@ -1102,6 +1286,53 @@ div.zonal-asset {
 
     &-five {
       background-color: $critfac-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-critinfra-pr {
+    &-none {
+      background-color: $critinfra-pr-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $critinfra-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $critinfra-pr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critinfra-pr-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $critinfra-pr-4;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critinfra-pr-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $critinfra-pr-6;
+      color: #b2afaf;
+    }
+
+    &-seven {
+      background-color: $critinfra-pr-7;
+      color: #b2afaf;
+    }
+
+    &-eight {
+      background-color: $critinfra-pr-8;
       color: #b2afaf;
     }
   }
@@ -1147,6 +1378,61 @@ div.zonal-asset {
       color: #b2afaf;
     }
   }
+
+  &-tsunami-pr {
+    &-one {
+      background-color: $tsunami-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $tsunami-pr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $tsunami-pr-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $tsunami-pr-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $tsunami-pr-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-socvulnislands {
+    &-one {
+      background-color: $socvulnislands-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvulnislands-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvulnislands-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $socvulnislands-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $socvulnislands-5;
+      color: #b2afaf;
+    }
+  }
+
 
   &-socvuln {
     &-none {
@@ -1847,6 +2133,11 @@ div.zonal-asset {
     }
   }
 
+  &-fishandwildlife {
+    .zonal-long-graph-label-text{
+      left: 5% !important;
+    }
+  }
   &-ns-exposure {
     .zonal-long-graph-label-text{
       left: 25% !important;
@@ -1936,6 +2227,13 @@ div.zonal-asset {
         left: 5% !important;
       }
     }
+
+    &-fishandwildlife {
+      .zonal-long-graph-label-text{
+        left: 5% !important;
+      }
+    }
+
 
     &-ns-exposure {
       .zonal-long-graph-label-text{
@@ -2722,6 +3020,40 @@ $graph-tick-height-short: 5px;
     }
   }
 
+  &-landslides-pr {
+    &-none {
+      background-color: $landslides-pr-none;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $landslides-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $landslides-pr-2;
+      color: #000;
+    }
+  }
+
+  &-critfac-pr {
+    &-none {
+      background-color: $critfac-pr-none;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $critfac-pr-3;
+      color: #000;
+    }
+
+    &-five {
+      background-color: $critfac-pr-5;
+      color: #b2afaf;
+    }
+  }
+
   &-critfac {
     &-none {
       background-color: $critfac-none;
@@ -2743,6 +3075,53 @@ $graph-tick-height-short: 5px;
       color: #000;
     }
   }
+
+    &-critinfra-pr {
+      &-none {
+        background-color: $critinfra-pr-none;
+        color: #000;
+      }
+
+      &-one {
+        background-color: $critinfra-pr-1;
+        color: #000;
+      }
+
+      &-two {
+        background-color: $critinfra-pr-2;
+        color: #000;
+      }
+
+      &-three {
+        background-color: $critinfra-pr-3;
+        color: #000;
+      }
+
+      &-four {
+        background-color: $critinfra-pr-4;
+        color: #000;
+      }
+
+      &-five {
+        background-color: $critinfra-pr-5;
+        color: #000;
+      }
+
+      &-six {
+        background-color: $critinfra-pr-6;
+        color: #b2afaf;
+      }
+
+      &-seven {
+        background-color: $critinfra-pr-7;
+        color: #b2afaf;
+      }
+
+      &-eight {
+        background-color: $critinfra-pr-8;
+        color: #b2afaf;
+      }
+    }
 
   &-critinfra {
     &-none {
@@ -2786,6 +3165,60 @@ $graph-tick-height-short: 5px;
     }
   }
 
+  &-tsunami-pr {
+    &-one {
+      background-color: $tsunami-pr-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $tsunami-pr-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $tsunami-pr-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $tsunami-pr-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $tsunami-pr-5;
+      color: #b2afaf;
+    }
+  }
+
+  &-socvulnislands {
+    &-one {
+      background-color: $socvulnislands-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $socvulnislands-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $socvulnislands-3;
+      color: #b2afaf;
+    }
+
+    &-four {
+      background-color: $socvulnislands-4;
+      color: #b2afaf;
+    }
+
+    &-five {
+      background-color: $socvulnislands-5;
+      color: #b2afaf;
+    }
+  }
+
   &-socvuln {
     &-none {
       background-color: $socvuln-none;
@@ -2812,6 +3245,8 @@ $graph-tick-height-short: 5px;
       color: #000;
     }
   }
+
+
 
   &-drainage {
     &-none {
