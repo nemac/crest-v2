@@ -106,7 +106,7 @@ export class MapLayersList extends Component {
               '  <div class="close-layerlist"><i class="fa fa-times" aria-hidden="true"></i></div>' +
               '</div>';
 
-    this.addToolTipListners();
+    MapLayersList.addToolTipListners();
     MapLayersList.resizeMapList();
     window.addEventListener('resize', MapLayersList.resizeMapList);
 
@@ -140,25 +140,9 @@ export class MapLayersList extends Component {
   // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
   // use tooltip and popover components everywhere
   // initalize new tooltips
-  addToolTipListners() {
+  static addToolTipListners() {
     $(() => {
-      $('#maplayers_list [data-toggle="popover"]').popover()
-      // {
-      //   trigger: 'hover',
-      //   // template: this.LayerDescriptionTemplate
-      // });
-
-      // $('#maplayers_list [data-toggle="popover"]').on('shown.bs.tooltip', () => {
-      //   const elems = document.querySelectorAll('.tooltip.layerlist .close-layerlist');
-      //   elems.forEach((elem) => {
-      //     if (elem) {
-      //       elem.addEventListener('click', (e) => {
-      //         const toolTipElem = MapLayersList.ParentTooltip(e.target, 'popover');
-      //         $(toolTipElem).popover('hide');
-      //       });
-      //     }
-      //   });
-      // });
+      $('#maplayers_list [data-toggle="popover"]').popover();
     });
   }
 
