@@ -422,16 +422,14 @@ a.nav-link {
   border: 1px solid $body-list-border !important;
   color: $body-color !important;
   padding: 1px;
-  padding-left: 1px;
+  padding-left: 3px;
   margin-right: 5px;
   border-radius: 4px;
   -webkit-border-radius: 4px !important;
   -moz-border-radius: 4px !important;
   cursor: pointer;
   box-shadow: $box-shadow-small;
-  .fa-info {
-    vertical-align: -.025em;
-  }
+
   &:hover {
     background-color: $gray-600;
   }
@@ -763,18 +761,29 @@ a.about-nav.active::before {
       margin-left: 0px;
     }
   }
-
+  .figure-img {
+    margin-left: 10px;
+  }
   .figure-caption {
     color: $body-color !important;
     font-size: .9em;
     font-weight: 300;
     max-width: 1024px !important;
-  @include size768 {
-      padding-left: 5px;
-      padding-right: 5px;
+    @include size768 {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    .region-header {
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .region-header-middle {
+    margin-top: 16px;
     }
     p {
       max-width: 1024px !important;
+      margin-left: 10px;
     }
     li {
       max-width: 1024px !important;
@@ -992,11 +1001,6 @@ a.about-nav.active::before {
   }
   .whatcando-btn:focus {
     background-color: #565d64 !important;
-  }
-  @media screen and (max-width: 1200px) {
-    .whatcando-btn {
-      width: 275px !important;
-     }
   }
   @media screen and (max-width: 640px) {
     .whatcando-btn {
@@ -1717,7 +1721,7 @@ p.not-found {
 
   .brand-maplist-holder {
     position: fixed !important;
-    top: 133px; // 140px !important;
+    top: 140px !important;
     width: 20.6% !important;
     min-width: 290px;
     max-width: 375px !important;
@@ -1741,7 +1745,7 @@ p.not-found {
   #maplayers_list-holder {
     width: 19% !important;
     position: fixed;
-    top: 185px !important; // 190px !important;
+    top: 190px !important;
     left: 80.5% !important;
     z-index: 4500 !important;
     background-color: rgba(53, 59, 65, 0) !important;
@@ -2844,10 +2848,6 @@ p.not-found {
   background-color:  $body-bg;
 }
 
-.custom-control-label::before, .custom-control-label::after {
-  top: 0.25rem;
-}
-
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: none;
 }
@@ -2858,9 +2858,7 @@ p.not-found {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   border: 1px solid $gray-700;
-  // transform: scale(1.75);
-  transform: scale(1.4);
-  top: 0.25rem;
+  transform: scale(1.75);
 }
 
 .custom-control-input:active ~ .custom-control-label::before {
@@ -2870,7 +2868,6 @@ p.not-found {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  top: 0.25rem;
 }
 
 
