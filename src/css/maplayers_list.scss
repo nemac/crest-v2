@@ -421,9 +421,6 @@ $map_right_margin: 10px;
     border-bottom: 1px solid #ffffff40;
     margin-bottom: 5px;
     margin-left: -1.5rem; /* Negative of the left padding on the .custom-control which is declared.... somewhere.... */
-    @media screen and (max-width: 992px) {
-     overflow: hidden;
-    }
     max-height: 500px;
     transition: all 0.75s ease;
     will-change: transform;

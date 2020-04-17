@@ -55,7 +55,21 @@ window.Popper = require('popper.js');
 
 window.jQuery = window.$;
 
+// hide all popups on clickoutside
+// $('html').on('click', function(e) {
+//   if (typeof $(e.target).data('tooltip') == 'undefined') {
+//     $('.tooltip').tooltip('hide');
+//   }
+// });
 
+// $("html").on("click", function (e) {
+//     var elems = $(e.target);
+//       if (elems[0].className.indexOf("tooltip") == -1) {
+//           $(".tooltip").each(function () {
+//               $(this).tooltip("hide");
+//           });
+//       }
+// });
 // templates
 // import layer_checkboxTemplate from '../templates/layer_checkbox.html'
 
@@ -87,7 +101,7 @@ export class MapLayersList extends Component {
 
     MapLayersList.addLegendListeners();
 
-    this.LayerDescriptionTemplate = '<div class="tooltip layerlist" role="tooltip">' +
+    this.LayerDescriptionTemplate = '<div class="tooltip layerlist" role="popover">' +
               '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
               '  <div class="close-layerlist"><i class="fa fa-times" aria-hidden="true"></i></div>' +
               '</div>';
@@ -128,22 +142,23 @@ export class MapLayersList extends Component {
   // initalize new tooltips
   addToolTipListners() {
     $(() => {
-      $('#maplayers_list [data-toggle="tooltip"]').tooltip({
-        trigger: 'hover click focus',
-        template: this.LayerDescriptionTemplate
-      });
+      $('#maplayers_list [data-toggle="popover"]').popover()
+      // {
+      //   trigger: 'hover',
+      //   // template: this.LayerDescriptionTemplate
+      // });
 
-      $('#maplayers_list [data-toggle="tooltip"]').on('shown.bs.tooltip', () => {
-        const elems = document.querySelectorAll('.tooltip.layerlist .close-layerlist');
-        elems.forEach((elem) => {
-          if (elem) {
-            elem.addEventListener('click', (e) => {
-              const toolTipElem = MapLayersList.ParentTooltip(e.target, 'tooltip');
-              $(toolTipElem).tooltip('hide');
-            });
-          }
-        });
-      });
+      // $('#maplayers_list [data-toggle="popover"]').on('shown.bs.tooltip', () => {
+      //   const elems = document.querySelectorAll('.tooltip.layerlist .close-layerlist');
+      //   elems.forEach((elem) => {
+      //     if (elem) {
+      //       elem.addEventListener('click', (e) => {
+      //         const toolTipElem = MapLayersList.ParentTooltip(e.target, 'popover');
+      //         $(toolTipElem).popover('hide');
+      //       });
+      //     }
+      //   });
+      // });
     });
   }
 
@@ -800,7 +815,8 @@ export class MapLayersList extends Component {
     if (layerElem) {
       MapLayersList.getLegendWrapper(layerElem).innerHTML =
           MapLayersList.getLegendHtml(layerProps.legend);
-      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.description);
+      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
+      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
       MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
     }
   }
