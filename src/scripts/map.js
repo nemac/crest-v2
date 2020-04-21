@@ -9,6 +9,7 @@ import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import bboxPolygon from '@turf/bbox-polygon';
+import { point } from '@turf/helpers';
 
 // SCSS
 import '../css/_custom_leaflet.scss';
@@ -399,7 +400,55 @@ export class Map extends Component {
     this.map.on('moveend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('moveend');
-      console.log('mapMoveEndHandler', this.map.getBounds())
+
+      // check region
+      const region = this.inRegion();
+
+      // create region location aware region messages
+      this.regionAwareMessages( region );
+    });
+  }
+
+  // check if map's center is in a regions extent
+  inRegion( centerPoint ) {
+    // get mapconfig so we can check all regions
+    const { zoomRegions } = mapConfig;
+    // console.log('inRegion', zoomRegions)
+
+    // iterate all regions from config and check if current map cetner
+    // is within the regions extent
+    zoomRegions.forEach((region) => {
+      // the regions extent
+      const poly = bboxPolygon(region.extent)
+
+      // the current map cetner point
+      const pt = point([this.map.getCenter().lng, this.map.getCenter().lat]);
+
+      // is the the current map cetner point within the regions extent
+      const isRegion = booleanPointInPolygon(pt, poly);
+      console.log('inRegion loop', region.region , isRegion)
+
+      // add boolean
+      region.inregion = isRegion
+    });
+    // return new regions object
+    return zoomRegions;
+  }
+
+  // create messages for any region that is  within the curent map
+  // and is not the current region, so the user knows that it exists
+  regionAwareMessages( regions ) {
+    //  get maps current region
+    const currentRegion = store.getStateItem('region');
+    // iterate all regions from config and check if current map cetner
+    // is within the regions extent
+    regions.map((region) => {
+      // console.log('regionAwareMessages', region.region, currentRegion, region.inregion)
+      if (currentRegion !== region.region && region.inregion ) {
+        const message = `hey it looks like the map is near ${region.region}. There is data available for ${region.region} but its not displayed. You change the region to ${region.region} to view and analyze ${region.region} data.`
+        console.log(message)
+      }
+
     });
   }
 
