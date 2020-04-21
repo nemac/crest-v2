@@ -439,19 +439,35 @@ $map_right_margin: 10px;
 }
 
 .layer-description-text {
-    width: 20px;
-    font-size: .95em;
-    color: #999595;
+  width: 20px;
+  font-size: .90em;
+  height: 25px !important;
+  border: 1px solid  $gray-600 !important;
+  color: $body-color !important;
+  margin-right: 5px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  cursor: pointer;
+  box-shadow: $box-shadow-small;
 
-    &:hover {
-        color: #fff;
-        cursor: pointer;
-    }
+  svg {
+    // vertical-align: -0.10em;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: $gray-600;
+  }
+  &:focus {
+    outline: none;
+  }
 }
 
 .layer-legend-toggler {
     width: 20px;
-    color: #999595;
+    color: $body-color !important;
     cursor: pointer;
 
     &.closed {

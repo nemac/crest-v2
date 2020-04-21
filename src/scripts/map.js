@@ -7,6 +7,8 @@ import { basemapLayer } from 'esri-leaflet';
 
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import bboxPolygon from '@turf/bbox-polygon';
 
 // SCSS
 import '../css/_custom_leaflet.scss';
@@ -397,6 +399,7 @@ export class Map extends Component {
     this.map.on('moveend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('moveend');
+      console.log('mapMoveEndHandler', this.map.getBounds())
     });
   }
 
