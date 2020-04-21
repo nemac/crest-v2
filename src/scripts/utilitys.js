@@ -536,7 +536,7 @@ export function addMissingStateItems() {
 
   // check for region default is conus
   if (!checkValidObject(store.getStateItem('region'))) {
-    store.setStoreItem('region', 'conus');
+    store.setStoreItem('region', 'continental_us');
   }
 
 

@@ -8,6 +8,9 @@ import { basemapLayer } from 'esri-leaflet';
 import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import booleanOverlap from '@turf/boolean-overlap';
+import booleanWithin from '@turf/boolean-within';
+
 import bboxPolygon from '@turf/bbox-polygon';
 import { point } from '@turf/helpers';
 
@@ -89,6 +92,8 @@ export class Map extends Component {
 
     // add spinner element
     Map.addSpinnerElement();
+
+    Map.addRegionNotDisplayedListner();
   }
 
   // add spinner element to leftlet map panes
@@ -400,56 +405,102 @@ export class Map extends Component {
     this.map.on('moveend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('moveend');
-
-      // check region
-      const region = this.inRegion();
-
-      // create region location aware region messages
-      this.regionAwareMessages( region );
     });
   }
 
   // check if map's center is in a regions extent
-  inRegion( centerPoint ) {
+  inRegion() {
     // get mapconfig so we can check all regions
     const { zoomRegions } = mapConfig;
-    // console.log('inRegion', zoomRegions)
+    if (this.map.getBounds()) {
+      // the current map extent
+      const mapBBox = bboxPolygon(this.map.getBounds().toBBoxString().split(',').map(x=>+x));
 
-    // iterate all regions from config and check if current map cetner
-    // is within the regions extent
-    zoomRegions.forEach((region) => {
-      // the regions extent
-      const poly = bboxPolygon(region.extent)
+      // the current map center point
+      const mapCenterPoint = point(this.map.getCenter().toString().split(',').map(x=>+x));
 
-      // the current map cetner point
-      const pt = point([this.map.getCenter().lng, this.map.getCenter().lat]);
+      // iterate all regions from config and check if current map cetner
+      // is within the regions extent
+      zoomRegions.forEach((region) => {
+        // console.log('zoomRegions before',region.extent)
+        // the regions extent
+        const regionPoly = bboxPolygon(region.extent);
+        // var myStyle = {
+        //   "color": "#ff7800",
+        //   "weight": 5,
+        //   "opacity": 0.15
+        // };
+        // L.geoJSON(regionPoly, {
+        //     style: myStyle
+        // }).addTo(this.map);
+        // console.log('zoomRegions after')
 
-      // is the the current map cetner point within the regions extent
-      const isRegion = booleanPointInPolygon(pt, poly);
-      console.log('inRegion loop', region.region , isRegion)
+        // is the the current map cetner point within the regions extent
+        // const isRegion = booleanPointInPolygon(mapCenterPoint, poly);
+        const isRegion = booleanOverlap(regionPoly, mapBBox) || booleanWithin(regionPoly, mapBBox) ||  booleanPointInPolygon(mapCenterPoint, regionPoly);
 
-      // add boolean
-      region.inregion = isRegion
-    });
+        // add boolean
+        region.inregion = isRegion;
+      });
+    }
+
     // return new regions object
     return zoomRegions;
   }
 
-  // create messages for any region that is  within the curent map
-  // and is not the current region, so the user knows that it exists
+  // create messages for any region that is  within the curent map extent
+  // and is not the current region, so the user knows the regional data exists
   regionAwareMessages( regions ) {
     //  get maps current region
     const currentRegion = store.getStateItem('region');
+    let message = '';
+
     // iterate all regions from config and check if current map cetner
     // is within the regions extent
     regions.map((region) => {
-      // console.log('regionAwareMessages', region.region, currentRegion, region.inregion)
       if (currentRegion !== region.region && region.inregion ) {
-        const message = `hey it looks like the map is near ${region.region}. There is data available for ${region.region} but its not displayed. You change the region to ${region.region} to view and analyze ${region.region} data.`
-        console.log(message)
+        const regionnotdisplayedEvent = new CustomEvent('regionnotdisplayed',  { detail: region.region });
+        window.dispatchEvent(regionnotdisplayedEvent);
       }
+    });
+
+    // if (message.length > 0 ) {
+    //   this.mapMessage(message);
+    // } else {
+    //   const mapMessageElem = document.getElementById('map-messages');
+    //   if (mapMessageElem) {
+    //     mapMessageElem.classList.add('d-none');
+    //   }
+    // }
+  }
+
+  static addRegionNotDisplayedListner () {
+    window.addEventListener('regionnotdisplayed', (e) => {
+      // add tool tip
+      document.getElementById('btn-zoomregion').setAttribute('title', '');
+      $(() => {
+        $('#btn-zoomregion').popover({
+            trigger: 'manual',
+            placement: 'bottom',
+            content: `The map contains data from the region ${e.detail}. Try switching the region if you wanted to view data associated with the region ${e.detail}`,
+            title: ''
+        })
+
+        $('#btn-zoomregion').popover('show');
+        window.addEventListener('click', e => $('#btn-zoomregion').popover('dispose'));
+      });
 
     });
+
+  }
+
+  // makes a map message and displays the message
+  mapMessage ( messageText ) {
+    const mapMessageElem = document.getElementById('map-messages');
+    if (mapMessageElem) {
+      mapMessageElem.classList.remove('d-none');
+      mapMessageElem.innerHTML = messageText;
+    }
   }
 
   // map zoom end map handler
@@ -548,7 +599,11 @@ export class Map extends Component {
       spinnerOn();
       this.map.addLayer(layer);
       if (dostat) {
-        mapDisplayLayersObj = { [layerName]: true };
+        // check region
+        const region = this.inRegion();
+
+        // create region location aware region messages
+        this.regionAwareMessages( region );
         // ga event action, category, label
         googleAnalyticsEvent('click', 'maplayerlist', `layerToggle on ${layerName}`);
       }

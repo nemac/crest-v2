@@ -219,21 +219,21 @@ export class MapLayersList extends Component {
     }
 
     document.getElementById('zoomregion-cus').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'cus');
+      const region = zoomRegions.filter(regions => regions.region === 'continental_us');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Contiental U.S.');
 
       // set region to conus
-      store.setStoreItem('region', 'conus');
+      store.setStoreItem('region', 'continental_us');
       const navChangeEvent = new CustomEvent('regionChanged');
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'cus');
+      googleAnalyticsEvent('click', 'zoomregion', 'continental_us');
     });
 
     document.getElementById('zoomregion-pr').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'pr');
+      const region = zoomRegions.filter(regions => regions.region === 'puerto_rico');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Puerto Rico');
 
@@ -243,11 +243,11 @@ export class MapLayersList extends Component {
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'pr');
+      googleAnalyticsEvent('click', 'zoomregion', 'puerto_rico');
     });
 
     document.getElementById('zoomregion-uvi').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'uvi');
+      const region = zoomRegions.filter(regions => regions.region === 'us_virgin_islands');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('US Virgin Islands');
 
@@ -257,11 +257,11 @@ export class MapLayersList extends Component {
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'usvi');
+      googleAnalyticsEvent('click', 'zoomregion', 'us_virgin_islands');
     });
 
     document.getElementById('zoomregion-cmni').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'cmni');
+      const region = zoomRegions.filter(regions => regions.region === 'northern_mariana_islands');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
 
@@ -271,7 +271,7 @@ export class MapLayersList extends Component {
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+      googleAnalyticsEvent('click', 'zoomregion', 'northern_mariana_islands');
     });
 
     // document.getElementById('zoomregion-guam').addEventListener('click', (e) => {
@@ -285,7 +285,7 @@ export class MapLayersList extends Component {
     //   store.setStoreItem('region', 'guam');
     //
     //   // ga event action, category, label
-    //   googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+    //   googleAnalyticsEvent('click', 'zoomregion', 'guam');
     // });
 
     // document.getElementById('zoomregion-alaska').addEventListener('click', (e) => {

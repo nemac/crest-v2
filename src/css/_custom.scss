@@ -1780,6 +1780,19 @@ p.not-found {
     }
   }
 
+  .map-messages {
+    z-index: 4000;
+    width: 50%;
+    background-color: white;
+    color: black;
+    padding: 12px;
+    border-radius: 4px;
+    height: 100px;
+    top: calc(100% - 124px);
+    left: calc(150px);
+    font-size: 14px;
+  }
+
   .map_responsive {
     overflow-y: auto !important;
     overflow-x: hidden !important;
