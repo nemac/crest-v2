@@ -856,8 +856,8 @@ export class MapLayersList extends Component {
       if (label != null) {
         // update the label
         label.textContent = layerName;
-        label.setAttribute('title', `Toggles the layer ${layerName} on or off`)
-        label.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`)
+        label.setAttribute('title', `Toggles the layer ${layerName} on or off`);
+        label.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`);
       }
     }
   }
@@ -875,8 +875,8 @@ export class MapLayersList extends Component {
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {
-        checkBox.setAttribute('title', `Toggles the layer ${layerName} on or off`)
-        checkBox.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`)
+        checkBox.setAttribute('title', `Toggles the layer ${layerName} on or off`);
+        checkBox.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`);
 
         // add the listner
         checkBox.addEventListener('click', (e) => {

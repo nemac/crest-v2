@@ -166,7 +166,7 @@ export class SearchLocations extends Component {
 
     // clear old locations
     this.removeSearchLocations();
-    console.log('resultsHandler', data)
+
     // save results
     SearchLocations.saveResultsToStore(data);
 

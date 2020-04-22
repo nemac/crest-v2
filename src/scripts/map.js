@@ -4,15 +4,15 @@ import { basemapLayer } from 'esri-leaflet';
 // may need feature layer latter if store the user generated shapefiles, drawon
 // user drawn shapes somehere else if so add this
 // import { basemapLayer, featureLayer } from 'esri-leaflet';
-
-import { Component } from './components';
-import { mapConfig } from '../config/mapConfig';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import booleanOverlap from '@turf/boolean-overlap';
 import booleanWithin from '@turf/boolean-within';
 import booleanContains from '@turf/boolean-contains';
 import bboxPolygon from '@turf/bbox-polygon';
 import { point } from '@turf/helpers';
+
+import { Component } from './components';
+import { mapConfig } from '../config/mapConfig';
 
 // SCSS
 import '../css/_custom_leaflet.scss';
@@ -120,7 +120,6 @@ export class Map extends Component {
 
   // saves the current map center and zoom level to state in locat storage
   saveZoomAndMapPosition() {
-    // console.log('saveZoomAndMapPosition', this.map.getCenter(), this.map.getZoom())
     store.setStoreItem('mapCenter', this.map.getCenter());
     store.setStoreItem('mapZoom', this.map.getZoom());
   }
@@ -414,12 +413,10 @@ export class Map extends Component {
     const { zoomRegions } = mapConfig;
     if (this.map.getBounds()) {
       // the current map extent
-      const mapBBox = bboxPolygon(this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x=>+x));
-       // const mapBBox = bboxPolygon(this.map.getBounds().toBBoxString().split(',').map(x=>+x));
+      const mapBBox = bboxPolygon(this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x => +x));
 
       // the current map center point
-      // const mapCenterPoint = point(this.map.getCenter().toString().split(',').map(x=>+x));
-      const mapCenterPoint = point( this.map.wrapLatLng(this.map.getCenter()).toString().split(',').map(x=>+x));
+      const mapCenterPoint = point(this.map.wrapLatLng(this.map.getCenter()).toString().split(',').map(x => +x));
 
       // iterate all regions from config and check if current map cetner
       // is within the regions extent
@@ -429,11 +426,13 @@ export class Map extends Component {
 
         // is the the current map cetner point within the regions extent
         // const isRegion = booleanPointInPolygon(mapCenterPoint, poly);
-        const isRegion = booleanOverlap(regionPoly, mapBBox) || booleanContains(regionPoly, mapBBox)
-                            || booleanWithin(regionPoly, mapBBox) ||  booleanPointInPolygon(mapCenterPoint, regionPoly);
+        const isRegion = booleanOverlap(regionPoly, mapBBox) ||
+                            booleanContains(regionPoly, mapBBox) ||
+                            booleanWithin(regionPoly, mapBBox) ||
+                            booleanPointInPolygon(mapCenterPoint, regionPoly);
 
         // add boolean
-        region.inregion = isRegion;
+        region.inregion = isRegion; // eslint-disable-line
       });
     }
     // return new regions object
@@ -442,57 +441,48 @@ export class Map extends Component {
 
   // create messages for any region that is  within the curent map extent
   // and is not the current region, so the user knows the regional data exists
-  regionAwareMessages( regions ) {
+  static regionAwareMessages(regions) {
     //  get maps current region
     const currentRegion = store.getStateItem('region');
-    let mapRegions = [];
+    const mapRegions = [];
 
     // iterate all regions from config and check if current map cetner
     // is within the regions extent
     regions.map((region) => {
-      console.log(currentRegion, region.region, region.inregion)
-      if (currentRegion !== region.region && region.inregion ) {
-        mapRegions.push(region.label)
+      if (currentRegion !== region.region && region.inregion) {
+        mapRegions.push(region.label);
       }
+      return mapRegions;
     });
 
     // only trigger the an event if there are regions on the map that are not the current region
-    if (mapRegions.length > 0 ) {
-      const regionnotdisplayedEvent = new CustomEvent('regionnotdisplayed',  { detail: mapRegions.join() });
+    if (mapRegions.length > 0) {
+      const regionnotdisplayedEvent = new CustomEvent('regionnotdisplayed', { detail: mapRegions.join() });
       window.dispatchEvent(regionnotdisplayedEvent);
     }
   }
 
   // addds listener for when there is a region to be displayed.
-  static addRegionNotDisplayedListner () {
+  static addRegionNotDisplayedListner() {
     window.addEventListener('regionnotdisplayed', (e) => {
       // add tool tip
       document.getElementById('btn-zoomregion').setAttribute('title', '');
       $(() => {
         $('#btn-zoomregion').popover({
-            trigger: 'manual',
-            placement: 'bottom',
-            content: `The map boundaries include ${e.detail}. If you want to view data associated with ${e.detail} you will need to switch the region.`,
-            title: '',
-            template: '<div class="popover location-aware-messsage" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
-        })
+          trigger: 'manual',
+          placement: 'bottom',
+          content: `The map boundaries include ${e.detail}. If you want to view data associated with ${e.detail} you will need to switch the region.`,
+          title: '',
+          template: '<div class="popover location-aware-messsage" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+        });
 
         // show the a loation aware message saying the region available but not activated
         $('#btn-zoomregion').popover('show');
         // dismiss on click anywhere or after 10 seconds
-        window.addEventListener('click', e => $('#btn-zoomregion').popover('dispose'));
+        window.addEventListener('click', clicke => $('#btn-zoomregion').popover('dispose'));
         setTimeout(() => { $('#btn-zoomregion').popover('dispose'); }, 10000);
       });
     });
-  }
-
-  // makes a map message and displays the message
-  mapMessage ( messageText ) {
-    const mapMessageElem = document.getElementById('map-messages');
-    if (mapMessageElem) {
-      mapMessageElem.classList.remove('d-none');
-      mapMessageElem.innerHTML = messageText;
-    }
   }
 
   // map zoom end map handler
@@ -501,10 +491,6 @@ export class Map extends Component {
     this.map.on('zoomend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('zoomend');
-      console.log(this.map.getBounds().toBBoxString());
-      console.log( this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString() );
-      console.log(this.map.getCenter().toString());
-
     });
   }
 
@@ -599,7 +585,8 @@ export class Map extends Component {
         const region = this.inRegion();
 
         // create region location aware region messages
-        this.regionAwareMessages( region );
+        Map.regionAwareMessages(region);
+
         // ga event action, category, label
         googleAnalyticsEvent('click', 'maplayerlist', `layerToggle on ${layerName}`);
       }

@@ -2319,7 +2319,6 @@ export class Explore extends Component {
   static addUploadShapeToolTip() {
     const toolTemplate = '<div class="tooltip upload-shapefile" role="tooltip">' +
               '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
-              // '  <div class="close-upload-shapefile"><i class="fa fa-times" aria-hidden="true"></i></div>' +
               '</div>';
 
 
@@ -2351,7 +2350,6 @@ export class Explore extends Component {
   static addUDrawShapeToolTip() {
     const toolTemplate = '<div class="tooltip draw-shapefile" role="tooltip">' +
               '  <div class="arrow"></div><div class="tooltip-inner"></div>' +
-              // '  <div class="close-draw-shapefile"><i class="fa fa-times" aria-hidden="true"></i></div>' +
               '</div>';
 
 
