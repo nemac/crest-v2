@@ -463,8 +463,8 @@ export class Map extends Component {
       }
     });
 
+    // only trigger the an event if there are regions on the map that are not the current region
     if (mapRegions.length > 0 ) {
-      console.log(mapRegions.join())
       const regionnotdisplayedEvent = new CustomEvent('regionnotdisplayed',  { detail: mapRegions.join() });
       window.dispatchEvent(regionnotdisplayedEvent);
     }
@@ -490,9 +490,7 @@ export class Map extends Component {
         window.addEventListener('click', e => $('#btn-zoomregion').popover('dispose'));
         setTimeout(() => { $('#btn-zoomregion').popover('dispose'); }, 10000);
       });
-
     });
-
   }
 
   // makes a map message and displays the message
