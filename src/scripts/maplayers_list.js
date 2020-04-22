@@ -548,7 +548,7 @@ export class MapLayersList extends Component {
   /** Create and append new layer button DIV */
   updateMapLayer(layerProps) {
     // add listener
-    this.addLayerListListener(layerProps.id);
+    this.addLayerListListener(layerProps.id, layerProps.label);
 
     // update label
     MapLayersList.updateLayerListName(layerProps.id, layerProps.label);
@@ -838,6 +838,8 @@ export class MapLayersList extends Component {
       if (label != null) {
         // update the label
         label.textContent = layerName;
+        label.setAttribute('title', `Toggles the layer ${layerName} on or off`)
+        label.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`)
       }
     }
   }
@@ -848,13 +850,16 @@ export class MapLayersList extends Component {
    *  @param { string }  layer id.
    *
    */
-  addLayerListListener(layerId) {
+  addLayerListListener(layerId, layerName) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
 
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {
+        checkBox.setAttribute('title', `Toggles the layer ${layerName} on or off`)
+        checkBox.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`)
+
         // add the listner
         checkBox.addEventListener('click', (e) => {
           this.toggleMapLayer(layerId);
