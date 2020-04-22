@@ -106,7 +106,7 @@ export var mapConfig = {
     {
       id: "CONUS_AquaticTMS",
       layer: "Aquatic TMS",
-      label: "Marine Index",
+      label: "Aquatic Index",
       url: "https://tiles.resilientcoasts.org/AquaticIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",

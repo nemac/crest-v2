@@ -382,7 +382,7 @@ export class MapLayersList extends Component {
     }
 
     switch (region) {
-      case 'conus':
+      case 'continental_us':
         defaultLayerList.classList.remove('d-none');
         puertoRicoLayerList.classList.add('d-none');
         usVirginIslandsLayerList.classList.add('d-none');
@@ -802,6 +802,24 @@ export class MapLayersList extends Component {
       MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
       MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
       MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
+    }
+
+    const legendElem = document.getElementById(`legend-${layerProps.id}`);
+    if (legendElem) {
+      legendElem.setAttribute('title', `Legend for ${layerProps.label}`);
+      legendElem.setAttribute('aria-label', `Legend for ${layerProps.label}`);
+    }
+
+    const legendShowElem = document.getElementById(`show-legend-${layerProps.id}`);
+    if (legendShowElem) {
+      legendShowElem.setAttribute('title', `Show legend for ${layerProps.label}`);
+      legendShowElem.setAttribute('aria-label', `Show legend for ${layerProps.label}`);
+    }
+
+    const legendHideElem = document.getElementById(`hide-legend-${layerProps.id}`);
+    if (legendHideElem) {
+      legendHideElem.setAttribute('title', `Hide legend for ${layerProps.label}`);
+      legendHideElem.setAttribute('aria-label', `Hide legend for ${layerProps.label}`);
     }
   }
 
