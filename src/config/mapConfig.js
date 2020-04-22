@@ -1247,7 +1247,8 @@ export var mapConfig = {
     zoom: 4,
     maxZoom: 16,
     minZoom: 4,
-    crs: L.CRS.EPSG3857
+    crs: L.CRS.EPSG3857,
+    worldCopyJump: true
   }
 
 };

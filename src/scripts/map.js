@@ -10,7 +10,7 @@ import { mapConfig } from '../config/mapConfig';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import booleanOverlap from '@turf/boolean-overlap';
 import booleanWithin from '@turf/boolean-within';
-
+import booleanContains from '@turf/boolean-contains';
 import bboxPolygon from '@turf/bbox-polygon';
 import { point } from '@turf/helpers';
 
@@ -414,36 +414,45 @@ export class Map extends Component {
     const { zoomRegions } = mapConfig;
     if (this.map.getBounds()) {
       // the current map extent
-      const mapBBox = bboxPolygon(this.map.getBounds().toBBoxString().split(',').map(x=>+x));
-
+      const mapBBox = bboxPolygon(this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x=>+x));
+       // const mapBBox = bboxPolygon(this.map.getBounds().toBBoxString().split(',').map(x=>+x));
+       
       // the current map center point
       const mapCenterPoint = point(this.map.getCenter().toString().split(',').map(x=>+x));
 
       // iterate all regions from config and check if current map cetner
       // is within the regions extent
       zoomRegions.forEach((region) => {
-        // console.log('zoomRegions before',region.extent)
         // the regions extent
         const regionPoly = bboxPolygon(region.extent);
-        // var myStyle = {
-        //   "color": "#ff7800",
-        //   "weight": 5,
-        //   "opacity": 0.15
-        // };
-        // L.geoJSON(regionPoly, {
-        //     style: myStyle
-        // }).addTo(this.map);
-        // console.log('zoomRegions after')
+        var myStyleOrange = {
+          "color": "#ff7800",
+          "weight": 5,
+          "opacity": 1
+        };
+        L.geoJSON(regionPoly, {
+            style: myStyleOrange
+        }).addTo(this.map);
+
+
+        var myStyleLCyan = {
+          "color": "#E0FFFF",
+          "weight": 5,
+          "opacity": 1
+        };
+        L.geoJSON(mapBBox, {
+            style: myStyleLCyan
+        }).addTo(this.map);
 
         // is the the current map cetner point within the regions extent
         // const isRegion = booleanPointInPolygon(mapCenterPoint, poly);
-        const isRegion = booleanOverlap(regionPoly, mapBBox) || booleanWithin(regionPoly, mapBBox) ||  booleanPointInPolygon(mapCenterPoint, regionPoly);
+        const isRegion = booleanOverlap(regionPoly, mapBBox) || booleanContains(regionPoly, mapBBox)
+                            || booleanWithin(regionPoly, mapBBox) ||  booleanPointInPolygon(mapCenterPoint, regionPoly);
 
         // add boolean
         region.inregion = isRegion;
       });
     }
-
     // return new regions object
     return zoomRegions;
   }
@@ -458,6 +467,7 @@ export class Map extends Component {
     // iterate all regions from config and check if current map cetner
     // is within the regions extent
     regions.map((region) => {
+      console.log(currentRegion, region.region, region.inregion)
       if (currentRegion !== region.region && region.inregion ) {
         mapRegions.push(region.label)
       }
@@ -508,6 +518,10 @@ export class Map extends Component {
     this.map.on('zoomend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('zoomend');
+      console.log(this.map.getBounds().toBBoxString());
+      console.log( this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString() );
+      console.log(this.map.getCenter().toString());
+
     });
   }
 
