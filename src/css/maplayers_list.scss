@@ -176,12 +176,11 @@ $map_right_margin: 10px;
 }
 
 .popover.location-aware-messsage {
-  max-width: 400px !important;
+  max-width: 500px !important;
   @media screen and (max-width: 768px) {
     max-width: 250px !important;
   }
 }
-
 
 .btn-basemap {
   cursor: pointer;

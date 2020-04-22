@@ -416,33 +416,16 @@ export class Map extends Component {
       // the current map extent
       const mapBBox = bboxPolygon(this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x=>+x));
        // const mapBBox = bboxPolygon(this.map.getBounds().toBBoxString().split(',').map(x=>+x));
-       
+
       // the current map center point
-      const mapCenterPoint = point(this.map.getCenter().toString().split(',').map(x=>+x));
+      // const mapCenterPoint = point(this.map.getCenter().toString().split(',').map(x=>+x));
+      const mapCenterPoint = point( this.map.wrapLatLng(this.map.getCenter()).toString().split(',').map(x=>+x));
 
       // iterate all regions from config and check if current map cetner
       // is within the regions extent
       zoomRegions.forEach((region) => {
         // the regions extent
         const regionPoly = bboxPolygon(region.extent);
-        var myStyleOrange = {
-          "color": "#ff7800",
-          "weight": 5,
-          "opacity": 1
-        };
-        L.geoJSON(regionPoly, {
-            style: myStyleOrange
-        }).addTo(this.map);
-
-
-        var myStyleLCyan = {
-          "color": "#E0FFFF",
-          "weight": 5,
-          "opacity": 1
-        };
-        L.geoJSON(mapBBox, {
-            style: myStyleLCyan
-        }).addTo(this.map);
 
         // is the the current map cetner point within the regions extent
         // const isRegion = booleanPointInPolygon(mapCenterPoint, poly);
