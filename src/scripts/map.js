@@ -453,27 +453,24 @@ export class Map extends Component {
   regionAwareMessages( regions ) {
     //  get maps current region
     const currentRegion = store.getStateItem('region');
-    let message = '';
+    let mapRegions = [];
 
     // iterate all regions from config and check if current map cetner
     // is within the regions extent
     regions.map((region) => {
       if (currentRegion !== region.region && region.inregion ) {
-        const regionnotdisplayedEvent = new CustomEvent('regionnotdisplayed',  { detail: region.region });
-        window.dispatchEvent(regionnotdisplayedEvent);
+        mapRegions.push(region.label)
       }
     });
 
-    // if (message.length > 0 ) {
-    //   this.mapMessage(message);
-    // } else {
-    //   const mapMessageElem = document.getElementById('map-messages');
-    //   if (mapMessageElem) {
-    //     mapMessageElem.classList.add('d-none');
-    //   }
-    // }
+    if (mapRegions.length > 0 ) {
+      console.log(mapRegions.join())
+      const regionnotdisplayedEvent = new CustomEvent('regionnotdisplayed',  { detail: mapRegions.join() });
+      window.dispatchEvent(regionnotdisplayedEvent);
+    }
   }
 
+  // addds listener for when there is a region to be displayed.
   static addRegionNotDisplayedListner () {
     window.addEventListener('regionnotdisplayed', (e) => {
       // add tool tip
@@ -482,12 +479,16 @@ export class Map extends Component {
         $('#btn-zoomregion').popover({
             trigger: 'manual',
             placement: 'bottom',
-            content: `The map contains data from the region ${e.detail}. Try switching the region if you wanted to view data associated with the region ${e.detail}`,
-            title: ''
+            content: `The map boundaries include ${e.detail}. If you want to view data associated with ${e.detail} you will need to switch the region.`,
+            title: '',
+            template: '<div class="popover location-aware-messsage" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
         })
 
+        // show the a loation aware message saying the region available but not activated
         $('#btn-zoomregion').popover('show');
+        // dismiss on click anywhere or after 10 seconds
         window.addEventListener('click', e => $('#btn-zoomregion').popover('dispose'));
+        setTimeout(() => { $('#btn-zoomregion').popover('dispose'); }, 10000);
       });
 
     });

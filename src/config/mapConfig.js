@@ -1179,6 +1179,7 @@ export var mapConfig = {
  zoomRegions: [
    {
      region: 'continental_us',
+     label: 'Continental U.S',
      center: [ 40.979898, -81.474609 ],
      extent: [ -132.97, 25.16, -62.49, 50.00],
      // -132.97851562500003,25.16517336866393,-62.49023437500001,50.00773901463687
@@ -1188,18 +1189,21 @@ export var mapConfig = {
    },
    {
      region: 'puerto_rico',
+     label: 'Puerto Rico',
      center: [ 18.219772120864576, -66.11643075942995],
      extent: [-68.28,  17.35, -65.07, 19.00],
      zoom: 8
    },
    {
      region: 'us_virgin_islands',
+     label: 'US Virgin Islands',
      center: [ 18.01530387941711, -64.49111938476564],
      extent: [-65.15, 17.63, -63.68, 18.43],
      zoom: 10
    },
    {
      region: 'northern_mariana_islands',
+     label: 'Northern Mariana Islands',
      center: [ 16.088042, 148.425293],
      extent: [ 142.95, 13.90, 149.95, 19.78 ],
      zoom: 7
@@ -1212,6 +1216,7 @@ export var mapConfig = {
    // },
    {
      region: 'guam',
+     label: 'Guam',
      center: [ 13.45908, 145.129395],
      extent: [ 144.33, 13.20, 145.88, 13.79 ],
      zoom: 9
@@ -1223,12 +1228,14 @@ export var mapConfig = {
    //   zoom: 9
    // },
    //   region: 'alaska',
+   //   label: 'Alaska',
    //   center: [ 62.72288115028305, 209.90641593933108],
    //   extent: [-193.01, 48.63,  -90.08, 73.73],
    //   zoom: 4
    // },
    // {
    //   region: 'hawaii',
+   //   label: 'Hawaii',
    //   center: [ 21.08872447557743, 204.9689626693726],
    //   extent: [-166.09, 13.77,   -140.36, 26.78],
    //   zoom: 6

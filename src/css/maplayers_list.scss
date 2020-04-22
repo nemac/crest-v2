@@ -162,6 +162,27 @@ $map_right_margin: 10px;
   margin: 5px;
 }
 
+.map-messages {
+  z-index: 4000;
+  width: 50%;
+  background-color: white;
+  color: black;
+  padding: 12px;
+  border-radius: 4px;
+  height: 100px;
+  top: calc(100% - 124px);
+  left: calc(150px);
+  font-size: 14px;
+}
+
+.popover.location-aware-messsage {
+  max-width: 400px !important;
+  @media screen and (max-width: 768px) {
+    max-width: 250px !important;
+  }
+}
+
+
 .btn-basemap {
   cursor: pointer;
   background-color: $body-bg !important;
