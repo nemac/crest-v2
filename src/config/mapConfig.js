@@ -106,7 +106,7 @@ export var mapConfig = {
     {
       id: "CONUS_AquaticTMS",
       layer: "Aquatic TMS",
-      label: "Marine Index",
+      label: "Aquatic Index",
       url: "https://tiles.resilientcoasts.org/AquaticIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -1178,38 +1178,66 @@ export var mapConfig = {
  // region zooms
  zoomRegions: [
    {
-     region: 'cus',
-     center: [ 36.27970720524017, -95.05371093750001],
+     region: 'continental_us',
+     label: 'Continental U.S',
+     center: [ 40.979898, -81.474609 ],
+     extent: [ -132.97, 25.16, -62.49, 50.00],
+     // -132.97851562500003,25.16517336866393,-62.49023437500001,50.00773901463687
+     // -133.50585937500003,21.453068633086783,-35.94726562500001,58.53959476664049
      zoom: 4
+     // map.js:425 -134.29687500000003,19.145168196205297,-36.73828125000001,57.231502991478926 LatLng(40.84706, -85.517578)
    },
    {
-     region: 'pr',
+     region: 'puerto_rico',
+     label: 'Puerto Rico',
      center: [ 18.219772120864576, -66.11643075942995],
+     extent: [-68.28,  17.35, -65.07, 19.00],
      zoom: 8
    },
    {
-     region: 'uvi',
+     region: 'us_virgin_islands',
+     label: 'US Virgin Islands',
      center: [ 18.01530387941711, -64.49111938476564],
+     extent: [-65.15, 17.63, -63.68, 18.43],
      zoom: 10
    },
    {
-     region: 'cmni',
-     center: [ 15.649362227964682, 147.71191120147708],
+     region: 'northern_mariana_islands',
+     label: 'Northern Mariana Islands',
+     center: [ 16.088042, 148.425293],
+     extent: [ 142.95, 13.90, 149.95, 19.78 ],
      zoom: 7
    },
+   // {
+   //   region: 'northern_mariana_islands',
+   //   center: [ 15.654776, -211.322021],
+   //   extent: [ -217.41, 12.58, -205.22, 18.67 ],
+   //   zoom: 7
+   // },
    {
      region: 'guam',
-     center: [ 13.439496420468357, 144.77751821279526],
-     zoom: 10
+     label: 'Guam',
+     center: [ 13.45908, 145.129395],
+     extent: [ 144.33, 13.20, 145.88, 13.79 ],
+     zoom: 9
    },
-   // {
+   // // {
+   //   region: 'guam',
+   //   center: [ 13.45908, -214.129395],
+   //   extent: [ -215.67, 13.05, -214.14, 13.82],
+   //   zoom: 9
+   // },
    //   region: 'alaska',
+   //   label: 'Alaska',
    //   center: [ 62.72288115028305, 209.90641593933108],
+   //   extent: [-193.01, 48.63,  -90.08, 73.73],
    //   zoom: 4
    // },
    // {
    //   region: 'hawaii',
+   //   label: 'Hawaii',
    //   center: [ 21.08872447557743, 204.9689626693726],
+   //   extent: [-166.09, 13.77,   -140.36, 26.78],
    //   zoom: 6
    // }
  ],
@@ -1219,7 +1247,8 @@ export var mapConfig = {
     zoom: 4,
     maxZoom: 16,
     minZoom: 4,
-    crs: L.CRS.EPSG3857
+    crs: L.CRS.EPSG3857,
+    worldCopyJump: true
   }
 
 };

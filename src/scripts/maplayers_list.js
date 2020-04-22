@@ -219,21 +219,21 @@ export class MapLayersList extends Component {
     }
 
     document.getElementById('zoomregion-cus').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'cus');
+      const region = zoomRegions.filter(regions => regions.region === 'continental_us');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Contiental U.S.');
 
       // set region to conus
-      store.setStoreItem('region', 'conus');
+      store.setStoreItem('region', 'continental_us');
       const navChangeEvent = new CustomEvent('regionChanged');
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'cus');
+      googleAnalyticsEvent('click', 'zoomregion', 'continental_us');
     });
 
     document.getElementById('zoomregion-pr').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'pr');
+      const region = zoomRegions.filter(regions => regions.region === 'puerto_rico');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Puerto Rico');
 
@@ -243,11 +243,11 @@ export class MapLayersList extends Component {
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'pr');
+      googleAnalyticsEvent('click', 'zoomregion', 'puerto_rico');
     });
 
     document.getElementById('zoomregion-uvi').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'uvi');
+      const region = zoomRegions.filter(regions => regions.region === 'us_virgin_islands');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('US Virgin Islands');
 
@@ -257,11 +257,11 @@ export class MapLayersList extends Component {
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'usvi');
+      googleAnalyticsEvent('click', 'zoomregion', 'us_virgin_islands');
     });
 
     document.getElementById('zoomregion-cmni').addEventListener('click', (e) => {
-      const region = zoomRegions.filter(regions => regions.region === 'cmni');
+      const region = zoomRegions.filter(regions => regions.region === 'northern_mariana_islands');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
 
@@ -271,7 +271,7 @@ export class MapLayersList extends Component {
       window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
-      googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+      googleAnalyticsEvent('click', 'zoomregion', 'northern_mariana_islands');
     });
 
     // document.getElementById('zoomregion-guam').addEventListener('click', (e) => {
@@ -285,7 +285,7 @@ export class MapLayersList extends Component {
     //   store.setStoreItem('region', 'guam');
     //
     //   // ga event action, category, label
-    //   googleAnalyticsEvent('click', 'zoomregion', 'cmni');
+    //   googleAnalyticsEvent('click', 'zoomregion', 'guam');
     // });
 
     // document.getElementById('zoomregion-alaska').addEventListener('click', (e) => {
@@ -382,7 +382,7 @@ export class MapLayersList extends Component {
     }
 
     switch (region) {
-      case 'conus':
+      case 'continental_us':
         defaultLayerList.classList.remove('d-none');
         puertoRicoLayerList.classList.add('d-none');
         usVirginIslandsLayerList.classList.add('d-none');
@@ -548,7 +548,7 @@ export class MapLayersList extends Component {
   /** Create and append new layer button DIV */
   updateMapLayer(layerProps) {
     // add listener
-    this.addLayerListListener(layerProps.id);
+    this.addLayerListListener(layerProps.id, layerProps.label);
 
     // update label
     MapLayersList.updateLayerListName(layerProps.id, layerProps.label);
@@ -803,6 +803,24 @@ export class MapLayersList extends Component {
       MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
       MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
     }
+
+    const legendElem = document.getElementById(`legend-${layerProps.id}`);
+    if (legendElem) {
+      legendElem.setAttribute('title', `Legend for ${layerProps.label}`);
+      legendElem.setAttribute('aria-label', `Legend for ${layerProps.label}`);
+    }
+
+    const legendShowElem = document.getElementById(`show-legend-${layerProps.id}`);
+    if (legendShowElem) {
+      legendShowElem.setAttribute('title', `Show legend for ${layerProps.label}`);
+      legendShowElem.setAttribute('aria-label', `Show legend for ${layerProps.label}`);
+    }
+
+    const legendHideElem = document.getElementById(`hide-legend-${layerProps.id}`);
+    if (legendHideElem) {
+      legendHideElem.setAttribute('title', `Hide legend for ${layerProps.label}`);
+      legendHideElem.setAttribute('aria-label', `Hide legend for ${layerProps.label}`);
+    }
   }
 
   // Handles the toggle legend button being interacted with
@@ -838,6 +856,8 @@ export class MapLayersList extends Component {
       if (label != null) {
         // update the label
         label.textContent = layerName;
+        label.setAttribute('title', `Toggles the layer ${layerName} on or off`);
+        label.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`);
       }
     }
   }
@@ -848,13 +868,16 @@ export class MapLayersList extends Component {
    *  @param { string }  layer id.
    *
    */
-  addLayerListListener(layerId) {
+  addLayerListListener(layerId, layerName) {
     // get and update the layer's checkbox
     const checkBox = document.getElementById(`${layerId}-toggle`);
 
     // ensure the html dom element exists
     if (checkBox !== undefined) {
       if (checkBox != null) {
+        checkBox.setAttribute('title', `Toggles the layer ${layerName} on or off`);
+        checkBox.setAttribute('aria-label', `Toggles the layer ${layerName} on or off`);
+
         // add the listner
         checkBox.addEventListener('click', (e) => {
           this.toggleMapLayer(layerId);

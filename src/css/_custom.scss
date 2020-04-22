@@ -417,27 +417,6 @@ a.nav-link {
   }
 }
 
-.layer-description-text {
-  height: 25px !important;
-  border: 1px solid $body-list-border !important;
-  color: $body-color !important;
-  padding: 1px;
-  padding-left: 3px;
-  margin-right: 5px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px !important;
-  -moz-border-radius: 4px !important;
-  cursor: pointer;
-  box-shadow: $box-shadow-small;
-
-  &:hover {
-    background-color: $gray-600;
-  }
-  &:focus {
-    outline: none;
-  }
-}
-
 .leaflet-draw {
   display: none !important;
   &.active {
@@ -1793,7 +1772,6 @@ p.not-found {
       -webkit-border-radius: 4px !important;
       -moz-border-radius: 4px !important;
       box-shadow: $box-shadow-small;
-      // margin-top: 5px;
       background: $newbg !important;
       &:hover {
         background-color: $gray-600;
@@ -1801,7 +1779,7 @@ p.not-found {
 
     }
   }
-
+  
   .map_responsive {
     overflow-y: auto !important;
     overflow-x: hidden !important;
@@ -2861,7 +2839,7 @@ p.not-found {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   border: 1px solid $gray-700;
-  transform: scale(1.75);
+  transform: scale(1.4);
 }
 
 .custom-control-input:active ~ .custom-control-label::before {
