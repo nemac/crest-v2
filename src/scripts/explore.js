@@ -1995,6 +1995,11 @@ export class Explore extends Component {
       //  we will have to add that back.  so this not ideal
       mapComponent.map.off('click');
 
+      // check region
+      const region = mapComponent.inRegion();
+      // create region location aware region messages
+      mapComponent.regionAwareMessages(region);
+
       // ga event action, category, label
       googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'draw area');
 
@@ -2384,13 +2389,18 @@ export class Explore extends Component {
     const uploadFeaturesBtns = document.querySelectorAll('#upload-shape-btn');
     uploadFeaturesBtns.forEach((elem) => {
       if (elem) {
-        elem.addEventListener('click', e => Explore.clickUploadHandler());
+        elem.addEventListener('click', e => this.clickUploadHandler());
         elem.addEventListener('change', e => this.fileSelectHandler(e));
       }
     });
   }
 
-  static clickUploadHandler() {
+  clickUploadHandler() {
+    // check region
+    const region = this.mapComponent.inRegion();
+    // create region location aware region messages
+    this.mapComponent.regionAwareMessages(region);
+
     // ga event action, category, label
     googleAnalyticsEvent('click', `explore ${store.getStateItem('activeNav')}`, 'upload shapefile');
   }

@@ -451,10 +451,14 @@ export class Map extends Component {
 
   // create messages for any region that is  within the curent map extent
   // and is not the current region, so the user knows the regional data exists
-  static regionAwareMessages(regions) {
+  regionAwareMessages(regions) {
     //  get maps current region
     const currentRegion = store.getStateItem('region');
     const mapRegions = [];
+
+    // this does nothing don't want lint static errors
+    const cnt = this.renderCount;
+    if (cnt) { this.renderCount = cnt; }
 
     // iterate all regions from config and check if current map cetner
     // is within the regions extent
@@ -488,9 +492,9 @@ export class Map extends Component {
 
         // show the a loation aware message saying the region available but not activated
         $('#btn-zoomregion').popover('show');
-        // dismiss on click anywhere or after 10 seconds
+        // dismiss on click anywhere or after 5 seconds
         window.addEventListener('click', clicke => $('#btn-zoomregion').popover('dispose'));
-        setTimeout(() => { $('#btn-zoomregion').popover('dispose'); }, 10000);
+        setTimeout(() => { $('#btn-zoomregion').popover('dispose'); }, 5000);
       });
     });
   }
@@ -595,7 +599,7 @@ export class Map extends Component {
       // check region
       const region = this.inRegion();
       // create region location aware region messages
-      Map.regionAwareMessages(region);
+      this.regionAwareMessages(region);
       if (dostat) {
         // ga event action, category, label
         googleAnalyticsEvent('click', 'maplayerlist', `layerToggle on ${layerName}`);
