@@ -404,8 +404,11 @@ export class Map extends Component {
     this.map.on('moveend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('moveend');
-      console.log('center', this.map.wrapLatLng(this.map.getCenter()).toString().split(',').map(x => +x))
-      console.log('mapBBox', this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x => +x))
+      // uncomment to get console of center and extent helpful for region extents
+      // console.log('center',  [this.map.getCenter().wrap().lng,
+      //   this.map.getCenter().wrap().lat] )
+      // console.log('mapBBox',
+      //   this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x => +x))
     });
   }
 
@@ -427,7 +430,8 @@ export class Map extends Component {
       const mapBBox = bboxPolygon(this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x => +x));
 
       // the current map center point
-      const mapCenterPoint = point(this.map.wrapLatLng(this.map.getCenter()).toString().split(',').map(x => +x));
+      const mapCenterPoint = point([this.map.getCenter().wrap().lng,
+        this.map.getCenter().wrap().lat]);
 
       // iterate all regions from config and check if current map cetner
       // is within the regions extent
