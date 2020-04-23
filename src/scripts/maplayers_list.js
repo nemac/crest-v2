@@ -319,7 +319,6 @@ export class MapLayersList extends Component {
 
   // zppm to region
   static zoomToRegion(mapComponent, region) {
-    // console.log('region', region)
     mapComponent.map.setView({ lat: region.center[0], lng: region.center[1] }, region.zoom);
   }
 

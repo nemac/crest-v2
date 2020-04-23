@@ -411,7 +411,16 @@ export class Map extends Component {
   inRegion() {
     // get mapconfig so we can check all regions
     const { zoomRegions } = mapConfig;
-    if (this.map.getBounds()) {
+    let doit = true;
+
+    // check if map is initializeing for the first time
+    try {
+      this.map.getBounds();
+    } catch (err) {
+      doit = false;
+    }
+
+    if (doit) {
       // the current map extent
       const mapBBox = bboxPolygon(this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x => +x));
 
@@ -435,6 +444,7 @@ export class Map extends Component {
         region.inregion = isRegion; // eslint-disable-line
       });
     }
+
     // return new regions object
     return zoomRegions;
   }
@@ -560,6 +570,7 @@ export class Map extends Component {
     this.map.addLayer(layer);
   }
 
+
   // Toggle map layer visibility
   // this needs to be made more modular but not sure
   // ho do that yet
@@ -574,27 +585,24 @@ export class Map extends Component {
       if (dostat) {
         // ga event action, category, label
         googleAnalyticsEvent('click', 'maplayerlist', `layerToggle off ${layerName}`);
-        mapDisplayLayersObj = { [layerName]: false };
       }
+      mapDisplayLayersObj = { [layerName]: false };
     } else {
       store.setStoreItem('working_basemap', true);
       spinnerOn();
       this.map.addLayer(layer);
+      mapDisplayLayersObj = { [layerName]: true };
+      // check region
+      const region = this.inRegion();
+      // create region location aware region messages
+      Map.regionAwareMessages(region);
       if (dostat) {
-        // check region
-        const region = this.inRegion();
-
-        // create region location aware region messages
-        Map.regionAwareMessages(region);
-
         // ga event action, category, label
         googleAnalyticsEvent('click', 'maplayerlist', `layerToggle on ${layerName}`);
       }
     }
-    if (dostat) {
-      Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
-      store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
-    }
+    Object.assign(this.mapOverlayLayers, mapDisplayLayersObj);
+    store.setStoreItem('mapLayerDisplayStatus', this.mapOverlayLayers);
   }
 
   /**
