@@ -290,12 +290,12 @@ a.nav-link {
   // margin-top: 50px;
 }
 
-#glossary-holder, #exposure-holder, #assets-holder, #threats-holder ,#aboutgen-holder {
+#reports-holder, #glossary-holder, #exposure-holder, #assets-holder, #threats-holder ,#aboutgen-holder {
   // margin-top: $margin;
   margin-bottom: $margin*2;
 }
 
-#tab-about-nav-glossary {
+#tab-about-nav-reports, #tab-about-nav-glossary {
   margin-left: -15px;
 }
 
@@ -629,7 +629,6 @@ a.nav-link {
   font-size: .9rem !important;
   &.active {
     background-color: grayscale(#0f1110);
-    // $aboutbackground;
     color: #FFF !important; //new
   }
   border-top-left-radius: 4px;
@@ -639,8 +638,6 @@ a.nav-link {
   -moz-border-radius-topleft: 4px !important;
   -moz-border-radius-topright: 4px !important;
   box-shadow: $box-shadow-small;
-  // color: #32fcea !important;
-  // #d1d4d7 !important; //new
 }
 
 .about-nav {
@@ -648,19 +645,16 @@ a.nav-link {
     max-width: 250px !important;
   }
   @media screen and (max-width: 1600px) {
-    max-width: 200px !important;
+    max-width: 250px !important;
   }
   @media screen and (max-width: 1500px) {
+    max-width: 225px !important;
+  }
+  @media screen and (max-width: 1000px) {
     max-width: 150px !important;
   }
-  @media screen and (max-width: 1200px) {
-    max-width: 125px !important;
-  }
-  @media screen and (max-width: 1100px) {
-    max-width: 100px !important;
-  }
   @media screen and (max-width: 900px) {
-    max-width: 80px !important;
+    max-width: 150px !important;
     font-size: .8em !important;
   }
 @include size768 {
@@ -1779,7 +1773,7 @@ p.not-found {
 
     }
   }
-  
+
   .map_responsive {
     overflow-y: auto !important;
     overflow-x: hidden !important;
@@ -3150,10 +3144,15 @@ p.not-found {
   width: inherit !important;
 }
 
-.glossary-container, .about-container {
+.reports-container, .glossary-container, .about-container {
   margin-right: 0px !important;
   margin-left: 0px !important;
   padding-bottom: 15px !important;
+}
+
+.reports-container {
+  min-height: 200px;
+  padding: 12px;
 }
 
 .term {
