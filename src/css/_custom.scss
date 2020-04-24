@@ -1019,6 +1019,20 @@ a.about-nav.active::before {
   font-weight: 300;
 }
 
+.download-source-break {
+  width: 90%;
+}
+
+.download-datagroup-break {
+  border-color: $body-list-border;
+  width: 60%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+  margin-left: 0;
+  text-align: left;
+}
+
 .exploreInfo-description-content {
   margin-bottom: 10px;
   padding-bottom: 5px;
