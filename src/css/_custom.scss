@@ -850,11 +850,6 @@ a.about-nav.active::before {
 //end of making of styles
 
 // download styles
-
-.download-row {
-  padding-top: 10px;
-}
-
 .download-layer-name {
   height: 30px;
   @media screen and (max-width: 500px) {
@@ -864,12 +859,10 @@ a.about-nav.active::before {
 }
 
 .download-layer-name-main {
-  // padding-top: 30px;
   font-weight: 900;
 }
 
 .download-container, .whatcando-container {
-  // box-shadow: $box-shadow-small;
   width: 100% !important;
   padding: 30px;
 }
@@ -880,10 +873,6 @@ a.about-nav.active::before {
   text-decoration: underline;
   }
 }
-
-// .data-source-list {
-//   // padding-left: 25px;
-// }
 
 //landing page styles
 .landingpage-header {
@@ -1020,64 +1009,19 @@ a.about-nav.active::before {
 .btn-download { //download page buttons
   width: 100%;
   height: 30px;
-  background-color: $gray-300 !important; //new
-
-  &:hover {
-@include hovcol($gray-300);
-  // background-color: mix($gray-300,gray,25) !important;
-    // #949596 !important;
-  }
-@include size992 {
-    &:enabled {
-      background: #32363a !important;
-    }
-
-    &:hover {
-    // background-color: mix(white,#32363a,25) !important;
-        @include hovcol(#32363a);
-      // scale-color(#545b62, $lightness: 50%)
-   //#32363a
-    }
-  }
+  text-decoration: underline;
 }
 
-.download-collapser {
-      padding-bottom: 6px;
-  .icon-right {
-
-    float: right;
-  }
-}
-
-.download-collapse{
-      padding-bottom: 6px;
-}
-
-.download-notes-description {
-  padding-left: 75px;
-  @media screen and (max-width: 992px) {
-    padding-left: 5px;
-  }
-  padding-right: 75px;
+.data-download-description, .data-download-size {
   margin-bottom: 10px;
-  a {
-    color: #17a2b8 !important;
-    text-decoration: underline;
-  }
-}
-
-.download-description-content {
-  margin-bottom: 10px;
-  padding-top: 15px;
-  border-bottom: solid 1px $gray-700;
-  font-size: 14px;
-  margin-left: 30px;
+  padding-top: 10px;
+  margin-left: 15px;
+  font-weight: 300;
 }
 
 .exploreInfo-description-content {
   margin-bottom: 10px;
   padding-bottom: 5px;
-  // padding-top: 15px;
   border-bottom: solid 1px $gray-600;
   font-size: 14px;
   margin-left: 30px;
