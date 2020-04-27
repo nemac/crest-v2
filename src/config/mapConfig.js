@@ -448,7 +448,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_fishandwildlife",
-      description: "Fish and wildlife needs a description currently this text is just a placeholder.",
+      description: "Identifies valuable habitat for species of concern in both the terrestrial and marine environments. Higher values indicate more valuable habitat areas for both.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -467,7 +467,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_aquatic",
-      description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
+      description: "Higher values identify habitat areas that are most valuable for providing protection to nearby coastal communities and for the protection of marine species.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -486,7 +486,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_terrestrial",
-      description: "An index of priority terrestrial species and their habitats, ranked by HUC-10 watershed. This Index also includes Important Bird Areas, which transcend watershed boundaries. A high value represents areas where the most priority species, their habitats, and important bird areas are present.",
+      description: "Higher values identify habitat areas that are suitable to the most species of concern for that region, based on habitat preferences and potential threats identified by the IUCN Red List.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -505,7 +505,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_popdensity",
-      description: "A ranking of population density by census blocks based on the 2016 American Community Survey. Areas are ranked from low to high using the ratio of people per square kilometer.",
+      description: "A ranking of population density by census block groups based on the 2016 American Community Survey. Areas are ranked from low to high using the ratio of people per square kilometer.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -683,7 +683,7 @@ export var mapConfig = {
     {
       id: "PR_LandslideIndexTiles",
       layer: "Landslides",
-      label: "Landslides",
+      label: "Geostress",
       url: "https://tiles.resilientcoasts.org/PR_LandslideIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2018",
       format: "image/png",
@@ -695,7 +695,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_landslides",
-      description: "Landslides needs a description currently this text is just a placeholder.",
+      description: "Shows landslide susceptibility in Puerto Rico, including slopes that exceed fifty percent. A higher rank indicates higher susceptibilitys.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -714,7 +714,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "pr_tsunami",
-      description: "Tsunami needs a description currently this text is just a placeholder.",
+      description: "Represents the potential inundation height above the ground from a tsunami in Puerto Rico. A higher rank indicates a higher inundation depth.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -813,7 +813,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "usvi_fishandwildlife",
-      description: "Fish and wildlife needs a description currently this text is just a placeholder.",
+      description: "Identifies valuable habitat for species of concern in both the terrestrial and marine environments. Higher values indicate more valuable habitat areas for both.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
@@ -832,7 +832,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "usvi_aquatic",
-      description: "An index of priority aquatic species and their habitats, ranked by HUC-10 watershed. A high value represents watersheds where the most priority species and their habitats are present.",
+      description: "Higher values identify habitat areas that are most valuable for providing protection to nearby coastal communities and for the protection of marine species.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
@@ -851,7 +851,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "usvi_terrestrial",
-      description: "An index of priority terrestrial species and their habitats, ranked by HUC-10 watershed. This Index also includes Important Bird Areas, which transcend watershed boundaries. A high value represents areas where the most priority species, their habitats, and important bird areas are present.",
+      description: "Higher values identify habitat areas that are suitable to the most species of concern for that region, based on habitat preferences and potential threats identified by the IUCN Red List.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
@@ -870,7 +870,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "usvi_popdensity",
-      description: "A ranking of population density by census blocks based on the 2016 American Community Survey. Areas are ranked from low to high using the ratio of people per square kilometer.",
+      description: "A ranking of population density by estates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
@@ -889,7 +889,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "usvi_socvuln",
-      description: "Communities that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN dataset. Census blocks above the 80th percentile are ranked from low to high, depicting areas of lower median incomes and minority populations.",
+      description: "Estates are ranked from low to high, depicting areas of lower median incomes and minority populations based on 2010 Decennial Census Data and guidance from USEPA EJSCREEN methodology.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
