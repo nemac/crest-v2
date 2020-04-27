@@ -82,7 +82,7 @@ if (homeloc === 'https://nemac.github.io') {
 //  or anywhere really
 function triggerZoomRegionQuikLink() {
   const navChangeEvent = new CustomEvent('zoomRegionQuikLink');
-  window.dispatchEvent(navChangeEvent)
+  window.dispatchEvent(navChangeEvent);
 }
 
 function setRegionsQuikLinkState(regionForState) {

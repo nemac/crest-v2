@@ -213,7 +213,7 @@ export class MapLayersList extends Component {
       const region = store.getStateItem('region');
       const regionInfo = zoomRegions.filter(regions => regions.region === region);
       MapLayersList.zoomToRegion(mapComponent, regionInfo[0]);
-    })
+    });
   }
 
   static addZoomregionListeners(mapComponent, zoomRegions) {
