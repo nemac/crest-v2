@@ -28,6 +28,7 @@ import DownloadDataPage from '../templates/downloaddata.html';
 import NotFoundPage from '../templates/notfound.html';
 import LandingPage from '../templates/landingpage.html';
 import { restoreGraphState } from './zonalStats';
+import { mapConfig } from '../config/mapConfig';
 
 // scss
 import '../css/_print.scss';
@@ -76,6 +77,23 @@ if (homeloc === 'https://nemac.github.io') {
     homeloc += '/NFWF_tool/dist';
   }
 }
+
+// triggers event for zomming to region with a quick link from home page
+//  or anywhere really
+function triggerZoomRegionQuikLink() {
+  const navChangeEvent = new CustomEvent('zoomRegionQuikLink');
+  window.dispatchEvent(navChangeEvent)
+}
+
+function setRegionsQuikLinkState(regionForState) {
+  const { zoomRegions } = mapConfig;
+  store.setStoreItem('region', regionForState);
+  const region = zoomRegions.filter(regions => regions.region === regionForState);
+  store.setStoreItem('region', regionForState);
+  store.setStoreItem('mapCenter', { lat: region[0].center[0], lng: region[0].center[1] });
+  store.setStoreItem('mapZoom', region[0].zoom);
+}
+
 
 // Creates a new Leaflet Map in the target DOM element
 //
@@ -230,6 +248,71 @@ function addLandingListners() {
       }
     });
   }
+
+  const elemStartUsingCRESTCONUS = document.getElementById('whatcando-btn-startusingCREST-conus');
+  if (elemStartUsingCRESTCONUS) {
+    const location = elemStartUsingCRESTCONUS.getAttribute('href');
+    elemStartUsingCRESTCONUS.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('continental_us');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTPuertoRico = document.getElementById('whatcando-btn-startusingCREST-puerto_rico');
+  if (elemStartUsingCRESTPuertoRico) {
+    const location = elemStartUsingCRESTPuertoRico.getAttribute('href');
+    elemStartUsingCRESTPuertoRico.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('puerto_rico');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTUSVirginIslands = document.getElementById('whatcando-btn-startusingCREST-us_virgin_islands');
+  if (elemStartUsingCRESTUSVirginIslands) {
+    const location = elemStartUsingCRESTUSVirginIslands.getAttribute('href');
+    elemStartUsingCRESTUSVirginIslands.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('us_virgin_islands');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTNorthernMarianaIslands = document.getElementById('whatcando-btn-startusingCREST-northern_mariana_islands');
+  if (elemStartUsingCRESTNorthernMarianaIslands) {
+    const location = elemStartUsingCRESTNorthernMarianaIslands.getAttribute('href');
+    elemStartUsingCRESTNorthernMarianaIslands.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('northern_mariana_islands');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
 
   const elemStartUsingRP = document.getElementById('whatcando-btn-reslinceprojects');
   if (elemStartUsingRP) {

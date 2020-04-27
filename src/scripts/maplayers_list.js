@@ -98,6 +98,7 @@ export class MapLayersList extends Component {
 
     MapLayersList.addBaseMapListeners(props.mapComponent);
     MapLayersList.addZoomregionListeners(props.mapComponent, zoomRegions);
+    MapLayersList.zoomRegionQuickLinkListener(props.mapComponent, zoomRegions);
 
     MapLayersList.addLegendListeners();
 
@@ -205,6 +206,14 @@ export class MapLayersList extends Component {
     });
 
     return null;
+  }
+
+  static zoomRegionQuickLinkListener(mapComponent, zoomRegions) {
+    window.addEventListener('zoomRegionQuikLink', (e) => {
+      const region = store.getStateItem('region');
+      const regionInfo = zoomRegions.filter(regions => regions.region === region);
+      MapLayersList.zoomToRegion(mapComponent, regionInfo[0]);
+    })
   }
 
   static addZoomregionListeners(mapComponent, zoomRegions) {

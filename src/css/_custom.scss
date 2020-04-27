@@ -991,8 +991,34 @@ a.about-nav.active::before {
 }
 
 //end of landing page styles
+
+.dropdown.show {
+  .dropdown-menu.show {
+    width: 330px;
+    @media screen and (max-width: 400px) {
+      width: 250px !important;
+    }
+    top: 1px !important;
+    background-color: $newbg !important;
+    border: 1px solid #e9ecef !important;
+    color: #e9ecef !important;
+    font-size: 14px !important;
+    box-shadow: $box-shadow-default;
+    .dropdown-item {
+      color: #e9ecef !important;
+      &:focus, &:hover {
+      background-color: #565d64 !important;
+      }
+    }
+  }
+}
+
 .download-group {
   padding: 15px;
+
+  .fa-download {
+    margin-right: 6px;
+  }
 }
 
 .download-group.dg-no-padding {
