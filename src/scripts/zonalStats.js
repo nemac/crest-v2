@@ -1463,7 +1463,11 @@ function drawShortZonalStats(data, name, mapComponent) {
 
   const zoom = makeZoom(name, mapComponent);
 
-  const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
+  let defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
+  // const region = store.getStateItem('region');
+  // if (region !== 'continental_us') {
+  //   defaultLongGraphs =  wrapper.querySelector(`.long-graphs-${region}`);
+  // }
   const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
 
   switch (activeNav) {

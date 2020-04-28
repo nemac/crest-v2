@@ -442,7 +442,7 @@ div.zonal-asset {
     }
   }
 
-    .zonal-header-fish-wildlife .zonal-header-item-label {
+    .zonal-header-wildlife, .zonal-header-fish-wildlife .zonal-header-item-label {
       &:first-child {
         margin-right: 10px;
       }
@@ -2122,57 +2122,63 @@ div.zonal-asset {
 .zonal-long-graph-label{
 
   &-ns-hubs {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 35% !important;
     }
   }
 
   &-ns-fishandwildlife {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 5% !important;
     }
   }
 
+  &-wildlife {
+    .zonal-long-graph-label-text {
+      left: 20% !important;
+    }
+  }
+
   &-fishandwildlife {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 5% !important;
     }
   }
   &-ns-exposure {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 25% !important;
     }
   }
 
   &-ns-asset {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 30% !important;
     }
   }
 
   &-ns-threat {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 35% !important;
     }
   }
 
   &-asset {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 30% !important;
     }
   }
   &-threat {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 15% !important;
     }
   }
   &-aquatic {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 15% !important;
     }
   }
   &-terrestrial {
-    .zonal-long-graph-label-text{
+    .zonal-long-graph-label-text {
       left: 15% !important;
     }
   }
@@ -2189,22 +2195,22 @@ div.zonal-asset {
   .zonal-long-graph-label{
 
     &-asset {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 25% !important;
       }
     }
     &-threat {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 25% !important;
       }
     }
     &-aquatic {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 25% !important;
       }
     }
     &-terrestrial {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 25% !important;
       }
     }
@@ -2216,76 +2222,81 @@ div.zonal-asset {
   .zonal-long-graph-label{
 
     &-ns-hubs {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 35% !important;
       }
     }
 
     &-ns-fishandwildlife {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 5% !important;
       }
     }
 
     &-fishandwildlife {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 5% !important;
       }
     }
 
+    &-wildlife {
+      .zonal-long-graph-label-text {
+        left: 35% !important;
+      }
+    }
 
     &-ns-exposure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-ns-asset {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 30% !important;
       }
     }
 
     &-ns-threat {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 35% !important;
       }
     }
 
 
     &-population-density {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-social-vulnerability {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-critical-infrastructure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-geostress {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -50% !important;
         top: 215%;
       }
     }
 
     &-slope {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -30% !important;
       }
     }
 
     &-drainage {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -55% !important;
       }
     }
@@ -2367,32 +2378,39 @@ div.zonal-asset {
   .zonal-long-graph-label{
 
     &-social-vulnerability {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-critical-infrastructure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-geostress {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
         top: 75%;
       }
     }
 
+    &-wildlife {
+      .zonal-long-graph-label-text {
+        left: 5% !important;
+        top: 6px;
+      }
+    }
+
     &-slope {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-drainage {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
@@ -2459,104 +2477,110 @@ div.zonal-asset {
   .zonal-long-graph-label {
 
     &-hubs {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-asset {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 30% !important;
       }
     }
 
     &-exposure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -10% !important;
       }
     }
 
     &-threat {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 30% !important;
       }
     }
 
     &-aquatic {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
+    &-wildlife {
+      .zonal-long-graph-label-text {
+        left: 5% !important;
+      }
+    }
+
     &-terrestrial {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-erosion {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 30% !important;
       }
     }
 
     &-floodprone-areas {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-population-density {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-storm-surge {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-sea-level-rise {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-social-vulnerability {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-critical-infrastructure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-critical-facilities {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
 
     &-geostress {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-slope {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
         // top: 0px !important;
       }
     }
 
     &-drainage {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 20% !important;
       }
     }
@@ -2567,89 +2591,89 @@ div.zonal-asset {
   .zonal-long-graph-label{
 
     &-hubs {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -20% !important;
       }
     }
 
     &-asset {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 15% !important;
       }
     }
 
     &-exposure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -65% !important;
         top: 20px;
-        white-space: nowrap;
+        // white-space: nowrap;
       }
     }
 
     &-threat {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 15% !important;
       }
     }
 
     &-aquatic {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 15% !important;
       }
     }
 
     &-terrestrial {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -25% !important;
       }
     }
 
     &-erosion {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -35% !important;
       }
     }
 
     &-floodprone-areas {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -15% !important;
       }
     }
 
     &-sea-level-rise {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 5% !important;
       }
     }
 
     &-social-vulnerability {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-critical-infrastructure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -10% !important;
       }
     }
 
     &-geostress {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -38% !important;
         top: 30px !important;
       }
     }
 
     &-slope {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -18% !important;
         // top: 0px !important;
       }
     }
 
     &-drainage {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -25% !important;
       }
     }
@@ -2659,10 +2683,10 @@ div.zonal-asset {
 @media screen and (max-width: 450px) {
   .zonal-long-graph-label {
     &-exposure {
-      .zonal-long-graph-label-text{
-        left: -75% !important;
-        top: 20px;
-        white-space: nowrap;
+      .zonal-long-graph-label-text {
+        left: -10% !important;
+        top: 10px;
+        // white-space: nowrap;
       }
     }
   }
@@ -2690,20 +2714,20 @@ div.zonal-asset {
 
   .zonal-long-graph-label{
     &-geostress {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -45% !important;
         top: 30px !important;
       }
     }
 
     &-drainage {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -20px !important;
       }
     }
 
     &-erosion {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -15px !important;
       }
     }
@@ -2733,89 +2757,89 @@ div.zonal-asset {
   .zonal-long-graph-label{
 
     &-hubs {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -20% !important;
       }
     }
 
     &-asset {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 15% !important;
       }
     }
 
     &-exposure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -15% !important;
         white-space: normal;
       }
     }
 
     &-threat {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 15% !important;
       }
     }
 
     &-aquatic {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 15% !important;
       }
     }
 
     &-terrestrial {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -25% !important;
       }
     }
 
     &-erosion {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -65% !important;
         top: 25px !important;
       }
     }
 
     &-floodprone-areas {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -15% !important;
       }
     }
 
     &-sea-level-rise {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 5% !important;
       }
     }
 
     &-social-vulnerability {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: 0% !important;
       }
     }
 
     &-critical-infrastructure {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -10% !important;
       }
     }
 
     &-geostress {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -35% !important;
         top: 40px !important;
       }
     }
 
     &-slope {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -18% !important;
         // top: 0px !important;
       }
     }
 
     &-drainage {
-      .zonal-long-graph-label-text{
+      .zonal-long-graph-label-text {
         left: -85% !important;
       }
     }

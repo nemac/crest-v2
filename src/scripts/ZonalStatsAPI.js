@@ -1,10 +1,15 @@
 import { CancelToken, post } from 'axios';
+import { Store } from './store';
+
 // import { postData } from '../config/testpost';
 import { checkValidObject } from './utilitys';
 
 // prod api is having issues some I am switching ot the dev version until its resolved
-const apiEndpoint = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/';
-const zonalStatsPath = 'Prod/zonal_stats';
+// const apiEndpoint = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/';
+// const zonalStatsPath = 'Prod/zonal_stats';
+const apiEndpoint = 'https://rlwk45u34h.execute-api.us-east-1.amazonaws.com/';
+const zonalStatsPath = 'beta/zonal_stats';
+const store = new Store({});
 
 // const apiEndpoint = 'https://ktj0thaws0.execute-api.us-east-1.amazonaws.com/';
 // const zonalStatsPath = 'Dev/zonal_stats';
@@ -44,7 +49,8 @@ export class ZonalStatsAPI {
     let numAttempts = 0;
     while (numAttempts < maxAttempts) {
       try {
-        const response = await post(this.url, postdata, axiosConfig);
+        const region = store.getStateItem('region');
+        const response = await post(`${this.url}?region=${region}`, postdata, axiosConfig);
         if (response.status === 200 && response.data) {
           return response.data;
         }
