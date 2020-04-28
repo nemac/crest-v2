@@ -669,9 +669,9 @@ export class MapLayersList extends Component {
       case 'pr_terrestrial':
         return ColorRampTerrestrialIslands;
       case 'pr_aquatic':
-        return ColorRampAquatic;
-      case 'pr_driver-asset':
         return ColorRampMarineIslands;
+      case 'pr_driver-asset':
+        return ColorRampAsset;
       case 'pr_popdensity':
         return ColorRampPopDensity;
       case 'pr_socvuln':
