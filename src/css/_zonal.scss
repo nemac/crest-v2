@@ -2158,7 +2158,7 @@ div.zonal-asset {
 
   &-asset {
     .zonal-long-graph-label-text{
-      left: 15% !important;
+      left: 30% !important;
     }
   }
   &-threat {
@@ -2178,9 +2178,8 @@ div.zonal-asset {
   }
   &-exposure {
     .zonal-long-graph-label-text {
-      left: -35% !important;
-      top: 20px;
-      white-space: nowrap;
+      left: 0% !important;
+      top: 0px;
     }
   }
 }
@@ -2292,8 +2291,8 @@ div.zonal-asset {
     }
     &-exposure {
       .zonal-long-graph-label-text {
-        left: -55% !important;
-        white-space: nowrap;
+        left: 0% !important;
+        // white-space: nowrap;
       }
     }
   }
@@ -2825,13 +2824,13 @@ div.zonal-asset {
 
 
 .zonal-long-graph-wrapper-short-chart {
-  $asset-bar-wrapper-width: 100% / 6;
+  $asset-bar-wrapper-width: 100% / 5;
   .zonal-long-graph-label {
     width: $asset-bar-wrapper-width;
   }
 
   .zonal-long-graph-bar-wrapper {
-    $asset-bar-width: 12%;
+    $asset-bar-width: 15%;
     $asset-bar-margin: ($asset-bar-wrapper-width - $asset-bar-width) / 2;
     width: $asset-bar-width;
     margin: 0 $asset-bar-margin;
