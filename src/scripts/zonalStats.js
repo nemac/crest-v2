@@ -809,6 +809,15 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   if (val === '255') {
     valOveride = 0;
   }
+  if (val === '255.0') {
+    valOveride = 0;
+  }
+  if (val === '128') {
+    valOveride = 0;
+  }
+  if (val === '128.0') {
+    valOveride = 0;
+  }
   let position = (valOveride - rangeMin) / (rangeMax - rangeMin); // [0,1]
   position += scale; // [0,scaleGroups]
   position = (position / scaleGroups) * 100; // [0, 100]
@@ -1083,7 +1092,7 @@ function drawDriver(graph, name, type, driver) {
     cssKey = 'fish';
   }
 
-  if (driver.key === 'marineislands') {
+  if (driver.key === 'marine') {
     height = getSixHeight(driver.value);
     cssKey = 'marineislands';
   }
@@ -1280,6 +1289,10 @@ function drawMapInfoChart(drivers, name, graph) {
     mapInfoElemCalss = '.ns-mapinfo';
   } else {
     mapInfoElemCalss = '.default-mapinfo';
+    const region = store.getStateItem('region');
+    if (region !== 'continental_us') {
+      mapInfoElemCalss = `#mapinfo-${region}`;
+    }
   }
   const mapInfoGraph = graph.querySelector(`#mapinfodata ${mapInfoElemCalss} .zonal-long-graph`);
   drivers.forEach(drawDriver.bind(null, mapInfoGraph, name, ''));
@@ -1314,15 +1327,15 @@ function getShortDataChartData(data) {
       value: data.aquatic
     },
     {
-      label: 'marineislands',
-      key: 'marineislands',
-      value: data.marineislands
+      label: 'marine',
+      key: 'marine',
+      value: data.marine
     },
 
     {
       label: 'terrestrialislands',
-      key: 'terrestrialislands',
-      value: data.terrestrialislands
+      key: 'terrestrial',
+      value: data.terrestrial
     },
     {
       label: 'terrestrial',

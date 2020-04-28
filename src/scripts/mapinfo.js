@@ -339,16 +339,24 @@ export class MapInfo extends Component {
     // get the mapinfo (identify) html document and udpate
     // the content with returned values
     const doc = MapInfo.getDocument();
+    const region = store.getStateItem('region');
+
     MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc);
     const defaultElem = doc.querySelector('.default-mapinfo');
     const nsElem = doc.querySelector('.ns-mapinfo');
-
+    const regionElem = doc.querySelector(`#mapinfo-${region}`);
     if (activeNav === 'main-nav-map-searchNShubs') {
       defaultElem.classList.add('d-none');
       nsElem.classList.remove('d-none');
     } else {
       nsElem.classList.add('d-none');
       defaultElem.classList.remove('d-none');
+      if (region !== 'continental_us') {
+        if (regionElem) {
+          defaultElem.classList.add('d-none');
+          regionElem.classList.remove('d-none');
+        }
+      }
     }
     // bind the html to the leaflet marker and open as leaflet popup
     const popup = MapInfo.bindPopup(this.marker, doc);

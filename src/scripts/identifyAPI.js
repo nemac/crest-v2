@@ -7,8 +7,9 @@ const store = new Store({});
 // const apiEndpoint = 'https://ktj0thaws0.execute-api.us-east-1.amazonaws.com/';
 // const identifyPath = 'Dev/';
 
-const apiEndpoint = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/';
-const identifyPath = 'Prod/';
+// const apiEndpoint = 'https://lg0njzoglg.execute-api.us-east-1.amazonaws.com/';
+const apiEndpoint = 'https://rlwk45u34h.execute-api.us-east-1.amazonaws.com/';
+const identifyPath = 'beta/';
 
 /** API Wrapper Service Class
 * this wrapps the lambda service into axios js calls
@@ -48,7 +49,8 @@ export class IdentifyAPI {
   }
 
   getIdentifySummary(lat = '1745727', lng = '451980') {
-    return this.httpGet(`identify?lat=${lat}&lng=${lng}`);
+    const region = store.getStateItem('region');
+    return this.httpGet(`identify?lat=${lat}&lng=${lng}&region=${region}`);
   }
 
   static getIdentifyItem(item, value) {
