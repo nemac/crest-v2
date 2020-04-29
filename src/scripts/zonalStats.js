@@ -15,6 +15,7 @@ import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_ass
 import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
 import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
 import { Store } from './store';
+import { mapConfig } from '../config/mapConfig';
 import {
   checkValidObject,
   googleAnalyticsEvent,
@@ -22,6 +23,7 @@ import {
   getAssetDrivers,
   getThreatDrivers
 } from './utilitys';
+const { zoomRegions } = mapConfig;
 import { bindZonalExportHandler } from './zonalFileExporter';
 // required for bootstrap
 window.$ = require('jquery');
@@ -85,7 +87,6 @@ function stripUserArea(id) {
 function makeLabelText(name) {
   return `Get Details for ${name}`;
 }
-
 
 function setGraphsState(name, activetype) {
   let newname = name;
@@ -1269,10 +1270,11 @@ function drawDriver(graph, name, type, driver) {
 }
 
 function drawShortChart(wrapper, drivers, name, activeNav) {
-  let assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+  let graphSelector = '.default-long-graphs';
+  let assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
-      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
       assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
       drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
       break;
@@ -1287,12 +1289,12 @@ function drawShortChart(wrapper, drivers, name, activeNav) {
       drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
       break;
     case 'main-nav-map':
-      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
       assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
       drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
       break;
     default:
-      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
       assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
       drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
       break;
@@ -1401,7 +1403,6 @@ function drawAssetDrivers(wrapper, drivers) {
 
 // draw the mapinfo chart. This is the indentify click function
 function drawMapInfoStats(data, doc) {
-  // console.log('drawMapInfoStats', data);
   drawMapInfoChart(getShortDataChartData(data), 'mapInfo', doc);
 }
 
@@ -1463,13 +1464,12 @@ function drawShortZonalStats(data, name, mapComponent) {
 
   const zoom = makeZoom(name, mapComponent);
 
-  let defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
+  const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
   // const region = store.getStateItem('region');
   // if (region !== 'continental_us') {
   //   defaultLongGraphs =  wrapper.querySelector(`.long-graphs-${region}`);
   // }
   const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
-
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
       wrapper.insertBefore(zoom, wrapper.childNodes[1]);
@@ -1744,9 +1744,29 @@ function restoreGraphState() {
   return null;
 }
 
+function toggleRegionCharts() {
+  const region = store.getStateItem('region');
+  const notInRegionInfo = zoomRegions.filter(regions => regions.region !== region);
+  const inRegionInfo = zoomRegions.filter(regions => regions.region === region);
+
+  notInRegionInfo.map( region => {
+    const notThisRegion = document.querySelector(`.zonal-stats-wrapper.region-${region.region}`);
+    if (notThisRegion) {
+      notThisRegion.classList.add('d-none');
+    }
+  });
+
+  inRegionInfo.map( region => {
+    const inThisRegion = document.querySelector(`.zonal-stats-wrapper.region-${region.region}`);
+    if (inThisRegion) {
+      inThisRegion.classList.remove('d-none');
+    }
+  });
+}
+
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
-function drawZonalStatsFromAPI(data, name, mapComponent) {
+function drawZonalStatsFromAPI(data, name, mapComponent, region='continental_us') {
   const HTMLName = makeHTMLName(name);
 
   if (!document.getElementById('zonal-header')) {
@@ -1754,8 +1774,9 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   }
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
+  // wrapper.classList.add(`zonal-stats-region-${region}`);
   wrapper.classList.add('h-100');
-
+  wrapper.classList.add(`region-${region}`);
   wrapper.setAttribute('id', `zonal-stats-wrapper-${HTMLName}`);
 
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
@@ -1776,6 +1797,7 @@ function drawZonalStatsFromAPI(data, name, mapComponent) {
   disableMainZonalButton();
 
   restoreGraphState();
+  toggleRegionCharts();
 }
 
 export {
@@ -1827,3 +1849,8 @@ if (!Element.prototype.closest) {
     return null;
   };
 }
+
+// change region is state changes
+window.addEventListener('regionChanged', (e) => {
+  toggleRegionCharts();
+});

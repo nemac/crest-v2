@@ -34,6 +34,9 @@ $body-bg-semiTransparent9:    rgba(53, 59, 65, .9); // $gray-800
 $body-bg-FullTransparent:    rgba(53, 59, 65, 0.0); // $gray-800
 $newbg: #151417;
 
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,600,700);
+$roboto:  Roboto, Helvetica, 'Helvetica Neue', Arial, sans-serif; // default should be everywhere
+
 @mixin hovcol($color){
   // @content;
 @if(lightness($color) > 50){
@@ -170,6 +173,7 @@ background-color: mix(white,$color,25) !important;
 
 html, body {
     height: 100%;
+    font-family: $roboto;
 }
 
 a:hover {

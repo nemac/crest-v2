@@ -772,6 +772,10 @@ export class Explore extends Component {
       }
     });
 
+    // get current region so we can insert it as property attribute
+    const region = store.getStateItem('region');
+    bufferedGeoJSON.properties.region = region;
+
     // add buffered area to store
     store.setStoreItem('userarea_buffered', bufferedGeoJSON);
 
@@ -845,6 +849,7 @@ export class Explore extends Component {
       if (checkobj.call(currentshapes, key)) {
         const rawpostdata = currentshapes[key][2].userarea_buffered;
         const { name } = currentshapes[key][0];
+        // const { region } = currentshapes[key][4];
 
         let postdata = '';
 
@@ -875,9 +880,11 @@ export class Explore extends Component {
 
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
+          const region = ZonalStatsJson.features[0].properties.region.toString().trim();
           drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
             name,
-            this.mapComponent.map);
+            this.mapComponent.map,
+            region);
         }
       }
     }
@@ -1282,9 +1289,11 @@ export class Explore extends Component {
 
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
+      const region = ZonalStatsJson.features[0].properties.region.toString().trim();
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
         name,
-        this.mapComponent.map);
+        this.mapComponent.map,
+        region);
     }
 
     this.mapComponent.map.fireEvent('zonalstatsend');
@@ -1681,6 +1690,7 @@ export class Explore extends Component {
       const { userarea } = currentshapes[key][1];
       const buffered = currentshapes[key][2].userarea_buffered;
       const zonal = currentshapes[key][3].zonalstatsjson;
+      // const { region } = currentshapes[key][4];
 
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer
@@ -1742,7 +1752,8 @@ export class Explore extends Component {
         this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
-          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
+          const region = zonal.features[0].properties.region.toString().trim();
+          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent, region);
         }
 
         Explore.enableShapeExistsButtons();
@@ -2178,6 +2189,10 @@ export class Explore extends Component {
       const geojson = layer.toGeoJSON();
       // update store
       store.setStoreItem('lastaction', 'draw area');
+      // get current region so we can insert it as property attribute
+      const region = store.getStateItem('region');
+      geojson.properties.region = region;
+
       store.setStoreItem('userarea', geojson);
 
       switch (activeNav) {
@@ -2255,12 +2270,14 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('userareas');
     const shapecount = store.getStateItem('userareacount');
     const name = `${this.defaultAreaName}${shapecount}`;
+    const region = store.getStateItem('region');
     const newshape = {
       [`userarea${shapecount}`]: [
         { name },
         { userarea: store.getStateItem('userarea') },
         { userarea_buffered: store.getStateItem('userarea_buffered') },
-        { zonalstatsjson: store.getStateItem('zonalstatsjson') }
+        { zonalstatsjson: store.getStateItem('zonalstatsjson') },
+        { region }
       ]
     };
 
@@ -2455,12 +2472,15 @@ export class Explore extends Component {
       featuresReady.push(...features);
     }
     const activeNav = store.getStateItem('activeNav');
+    const region = store.getStateItem('region');
+
     if (activeNav) {
       switch (activeNav) {
         case 'main-nav-map-searchhubs':
           Explore.removeExistingHubs();
           this.drawAreaGroup.clearLayers();
           for (let i = 0; i < featuresReady.length; i += 1) {
+            featuresReady[i].properties.region = region;
             store.setStoreItem('userarea', featuresReady[i]);
             await this.getHubsZonal();
           }
@@ -2476,6 +2496,7 @@ export class Explore extends Component {
           Explore.removeExistingNatureServeHubs();
           this.drawAreaGroup.clearLayers();
           for (let i = 0; i < featuresReady.length; i += 1) {
+            featuresReady[i].properties.region = region;
             store.setStoreItem('userarea', featuresReady[i]);
             await this.getNatureServeHubsZonal();
           }
@@ -2517,7 +2538,8 @@ export class Explore extends Component {
     const NatureServeHubs = store.getStateItem('NatureServeHubIntersectionJson');
     for (let i = 0; i < NatureServeHubs.length; i += 1) {
       const name = `${NatureServeHubs[i].properties.mean.TARGET_FID}`.toString().trim();
-      drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map);
+      const region = NatureServeHubs[i].features[0].properties.region.toString().trim();
+      drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map, region);
     }
   }
 
@@ -2525,7 +2547,8 @@ export class Explore extends Component {
     const hubs = store.getStateItem('HubIntersectionJson');
     for (let i = 0; i < hubs.length; i += 1) {
       const name = `${hubs[i].properties.mean.TARGET_FID}`.toString().trim();
-      drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
+      const region = hubs[i].features[0].properties.region.toString().trim();
+      drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map, region);
     }
   }
 
@@ -2613,6 +2636,12 @@ export class Explore extends Component {
     const newLayer = L.geoJson(feature);
 
     store.setStoreItem('lastaction', 'upload_shape');
+
+    // add region to geojson regions
+    const region = store.getStateItem('region');
+    const geojson = newLayer.toGeoJSON()
+    geojson.properties.region = region;
+
     store.setStoreItem('userarea', newLayer.toGeoJSON());
 
     const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
@@ -2627,7 +2656,6 @@ export class Explore extends Component {
       await this.getZonal();
     } catch (e) {
       // TODO: Display a message to the user
-      // console.log('rollback uploaded feature');
       this.rollbackUserArea(newLayer, bufferedLayer);
       store.setStoreItem('working_zonalstats', false);
       spinnerOff();

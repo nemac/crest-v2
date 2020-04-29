@@ -1180,6 +1180,7 @@ export var mapConfig = {
    {
      region: 'continental_us',
      label: 'Continental U.S',
+     chartSelector: 'continental_us',
      center: [ 40.979898, -81.474609 ],
      extent: [ -132.97, 25.16, -62.49, 50.00],
      zoom: 4
@@ -1187,6 +1188,7 @@ export var mapConfig = {
    {
      region: 'puerto_rico',
      label: 'Puerto Rico',
+     chartSelector: 'puerto_rico',
      center: [ 18.219772120864576, -66.11643075942995],
      extent: [ -67.54431130541467, 17.46071271042981, -65.08612038744593, 18.895892559415024],
      zoom: 8
@@ -1194,6 +1196,7 @@ export var mapConfig = {
    {
      region: 'us_virgin_islands',
      label: 'US Virgin Islands',
+     chartSelector: 'us_virgin_islands',
      center: [ 18.01530387941711, -64.49111938476564],
      extent: [-65.13508888306899, 17.627008270947076, -64.25480934205336, 18.46267598832466],
      zoom: 10
@@ -1201,31 +1204,22 @@ export var mapConfig = {
    {
      region: 'northern_mariana_islands',
      label: 'Northern Mariana Islands',
+     chartSelector: 'northern_mariana_islands',
      center: [ 16.088042, 148.425293],
      extent: [ 142.95, 13.90, 149.95, 19.78 ],
      zoom: 7
    },
-   // {
-   //   region: 'northern_mariana_islands',
-   //   center: [ 15.654776, -211.322021],
-   //   extent: [ -217.41, 12.58, -205.22, 18.67 ],
-   //   zoom: 7
-   // },
    {
      region: 'guam',
      label: 'Guam',
+     chartSelector: 'guam',
      center: [ 13.45908, 145.129395],
      extent: [ 144.33, 13.20, 145.88, 13.79 ],
      zoom: 9
    },
-   // // {
-   //   region: 'guam',
-   //   center: [ 13.45908, -214.129395],
-   //   extent: [ -215.67, 13.05, -214.14, 13.82],
-   //   zoom: 9
-   // },
    //   region: 'alaska',
    //   label: 'Alaska',
+   //   chartSelector: 'alaska',
    //   center: [ 62.72288115028305, 209.90641593933108],
    //   extent: [-193.01, 48.63,  -90.08, 73.73],
    //   zoom: 4
@@ -1233,6 +1227,7 @@ export var mapConfig = {
    // {
    //   region: 'hawaii',
    //   label: 'Hawaii',
+   //   chartSelector: 'hawaii',
    //   center: [ 21.08872447557743, 204.9689626693726],
    //   extent: [-166.09, 13.77,   -140.36, 26.78],
    //   zoom: 6
