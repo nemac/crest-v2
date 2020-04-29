@@ -3,6 +3,7 @@ import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ColorRampHub from '../templates/colorramp_hub.html';
 import ColorRampAquatic from '../templates/colorramp_aquatic.html';
 import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
 import ColorRampExposure from '../templates/colorramp_exposure.html';
 import ColorRampAsset from '../templates/colorramp_asset.html';
 import ColorRampThreat from '../templates/colorramp_threat.html';
@@ -21,7 +22,8 @@ import {
   googleAnalyticsEvent,
   getIndexes,
   getAssetDrivers,
-  getThreatDrivers
+  getThreatDrivers,
+  getFishAndWildLifeDrivers
 } from './utilitys';
 const { zoomRegions } = mapConfig;
 import { bindZonalExportHandler } from './zonalFileExporter';
@@ -263,6 +265,7 @@ function dismissZonalClickHandler(e) {
     togglePermHighLightsOff(path);
   }
   toggleALLPathsOff();
+  toggleRegionCharts();
 }
 
 function displayRawValues(wrapper) {
@@ -951,8 +954,8 @@ function buildLongStatsHtml(wrapper) {
   innerWrapper.innerHTML = ZonalLong;
 
   innerWrapper.querySelector('.zonal-long-hub .zonal-long-table-wrapper').innerHTML = ColorRampHub;
-  innerWrapper.querySelector('.zonal-long-table-index--aquatic .zonal-long-table-wrapper').innerHTML = ColorRampAquatic;
-  innerWrapper.querySelector('.zonal-long-table-index--wildlife .zonal-long-table-wrapper').innerHTML = ColorRampTerrestrial;
+  // innerWrapper.querySelector('.zonal-long-table-index--aquatic .zonal-long-table-wrapper').innerHTML = ColorRampAquatic;
+  innerWrapper.querySelector('.zonal-long-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampFishAndWildlife;
   innerWrapper.querySelector('.zonal-long-exposure-box .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
   innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
   innerWrapper.querySelector('.zonal-long-table-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampThreat;
@@ -1069,6 +1072,10 @@ function selectChartCell(wrapper, type, value) {
 // @param graph | DOM element
 // @param driver | Object
 function drawDriver(graph, name, type, driver) {
+  if(type === 'fishandwildlife') {
+    console.log('drawDriver', name)
+  }
+
   let height = getDriverHeight(driver.value);
   let cssKey = driver.key;
   let csstype = type;
@@ -1102,12 +1109,17 @@ function drawDriver(graph, name, type, driver) {
 
   if (driver.key === 'aquatic') {
     height = getSixHeight(driver.value);
-    cssKey = 'fish';
+    csstype = 'fish';
+  }
+
+  if (driver.key === 'terrestrial') {
+    height = getSixHeight(driver.value);
+    csstype = 'terrestrial';
   }
 
   if (driver.key === 'marine') {
     height = getFourHeight(driver.value);
-    cssKey = 'marineislands';
+    csstype = 'marineislands';
   }
 
   if (driver.key === 'wildlife') {
@@ -1123,11 +1135,6 @@ function drawDriver(graph, name, type, driver) {
   if (driver.key === 'ns-fishandwildlife') {
     height = getSixHeight(driver.value);
     cssKey = 'ns-fishandwildlife';
-  }
-
-  if (driver.key === 'terrestrial') {
-    height = getSixHeight(driver.value);
-    cssKey = 'terrestrial';
   }
 
   if (driver.key === 'terrestriallands') {
@@ -1393,6 +1400,15 @@ function getShortDataChartData(data) {
   ];
 }
 
+// Configures each fish and wildlife inout driver bar
+// @param wrapper | DOM element
+// @param drivers | Array
+function drawFishAndWildlifeDrivers(wrapper, drivers) {
+  const fishandwildlifeGraph = wrapper.querySelector('.zonal-long-graph-wrapper-fishandwildlife .zonal-long-graph');
+  drivers.forEach(drawDriver.bind(null, fishandwildlifeGraph, '', 'fishandwildlife'));
+}
+
+
 // Configures each asset driver bar
 // @param wrapper | DOM element
 // @param drivers | Array
@@ -1603,8 +1619,8 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'asset', data.asset);
       selectChartCell(wrapper, 'threat', data.threat);
       selectChartCell(wrapper, 'exposure-box', data.exposure);
-      selectChartCell(wrapper, 'fish', data.aquatic);
-      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      // selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.wildlife);
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
@@ -1618,8 +1634,9 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'asset', data.asset);
       selectChartCell(wrapper, 'threat', data.threat);
       selectChartCell(wrapper, 'exposure-box', data.exposure);
-      selectChartCell(wrapper, 'fish', data.aquatic);
-      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      // selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
+      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data))
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
@@ -1645,8 +1662,9 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'asset', data.asset);
       selectChartCell(wrapper, 'threat', data.threat);
       selectChartCell(wrapper, 'exposure-box', data.exposure);
-      selectChartCell(wrapper, 'fish', data.aquatic);
-      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      // selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
+      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data))
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
@@ -1660,8 +1678,8 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'asset', data.asset);
       selectChartCell(wrapper, 'threat', data.threat);
       selectChartCell(wrapper, 'exposure-box', data.exposure);
-      selectChartCell(wrapper, 'fish', data.aquatic);
-      selectChartCell(wrapper, 'wildlife', data.terrestrial);
+      // selectChartCell(wrapper, 'fish', data.aquatic);
+      selectChartCell(wrapper, 'wildlife', data.wildlife);
       drawAssetDrivers(wrapper, getAssetDrivers(data));
       drawThreatDrivers(wrapper, getThreatDrivers(data));
       defaultdetailGraphs.classList.remove('d-none');
@@ -1821,7 +1839,8 @@ export {
   toggleAllLongZonalsOff,
   getIndexes,
   getAssetDrivers,
-  getThreatDrivers
+  getThreatDrivers,
+  getFishAndWildLifeDrivers
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

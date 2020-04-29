@@ -2174,12 +2174,12 @@ div.zonal-asset {
   }
   &-aquatic {
     .zonal-long-graph-label-text {
-      left: 15% !important;
+      left: 40% !important;
     }
   }
   &-terrestrial {
     .zonal-long-graph-label-text {
-      left: 15% !important;
+      left: 40% !important;
     }
   }
   &-exposure {
@@ -2204,16 +2204,16 @@ div.zonal-asset {
         left: 25% !important;
       }
     }
-    &-aquatic {
-      .zonal-long-graph-label-text {
-        left: 25% !important;
-      }
-    }
-    &-terrestrial {
-      .zonal-long-graph-label-text {
-        left: 25% !important;
-      }
-    }
+    // &-aquatic {
+    //   .zonal-long-graph-label-text {
+    //     left: 25% !important;
+    //   }
+    // }
+    // &-terrestrial {
+    //   .zonal-long-graph-label-text {
+    //     left: 25% !important;
+    //   }
+    // }
   }
 }
 
@@ -2500,11 +2500,11 @@ div.zonal-asset {
       }
     }
 
-    &-aquatic {
-      .zonal-long-graph-label-text {
-        left: 20% !important;
-      }
-    }
+    // &-aquatic {
+    //   .zonal-long-graph-label-text {
+    //     left: 20% !important;
+    //   }
+    // }
 
     &-wildlife {
       .zonal-long-graph-label-text {
@@ -2512,11 +2512,11 @@ div.zonal-asset {
       }
     }
 
-    &-terrestrial {
-      .zonal-long-graph-label-text {
-        left: 20% !important;
-      }
-    }
+    // &-terrestrial {
+    //   .zonal-long-graph-label-text {
+    //     left: 20% !important;
+    //   }
+    // }
 
     &-erosion {
       .zonal-long-graph-label-text {
@@ -2616,17 +2616,17 @@ div.zonal-asset {
       }
     }
 
-    &-aquatic {
-      .zonal-long-graph-label-text {
-        left: 15% !important;
-      }
-    }
-
-    &-terrestrial {
-      .zonal-long-graph-label-text {
-        left: -25% !important;
-      }
-    }
+    // &-aquatic {
+    //   .zonal-long-graph-label-text {
+    //     left: 15% !important;
+    //   }
+    // }
+    //
+    // &-terrestrial {
+    //   .zonal-long-graph-label-text {
+    //     left: -25% !important;
+    //   }
+    // }
 
     &-erosion {
       .zonal-long-graph-label-text {
@@ -2781,17 +2781,17 @@ div.zonal-asset {
       }
     }
 
-    &-aquatic {
-      .zonal-long-graph-label-text {
-        left: 15% !important;
-      }
-    }
-
-    &-terrestrial {
-      .zonal-long-graph-label-text {
-        left: -25% !important;
-      }
-    }
+    // &-aquatic {
+    //   .zonal-long-graph-label-text {
+    //     left: 15% !important;
+    //   }
+    // }
+    //
+    // &-terrestrial {
+    //   .zonal-long-graph-label-text {
+    //     left: -25% !important;
+    //   }
+    // }
 
     &-erosion {
       .zonal-long-graph-label-text {
@@ -2953,6 +2953,21 @@ $graph-tick-height-short: 5px;
   }
 }
 
+.zonal-long-graph-wrapper-fishandwildlife {
+  $fishandwildlife-bar-wrapper-width: 100% / 2;
+  .zonal-long-graph-label {
+    width: $fishandwildlife-bar-wrapper-width;
+  }
+
+  .zonal-long-graph-bar-wrapper {
+    $fishandwildlife-bar-width: 40%;
+    $fishandwildlife-bar-margin: ($fishandwildlife-bar-wrapper-width - $fishandwildlife-bar-width) / 2;
+    width: $fishandwildlife-bar-width;
+    margin: 0 $fishandwildlife-bar-margin;
+  }
+}
+
+
 .zonal-long-graph-wrapper-asset {
   $asset-bar-wrapper-width: 100% / 4;
   .zonal-long-graph-label {
@@ -3005,6 +3020,78 @@ $graph-tick-height-short: 5px;
 
 
 .driver-chart-backgroundColor {
+
+  &-fish {
+    &-none {
+      background-color: $fish-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $fish-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $fish-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $fish-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $fish-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $fish-4;
+      color: #000;
+    }
+    &-five {
+      background-color: $fish-5;
+      color: #000;
+    }
+  }
+
+  &-terrestrial {
+    &-none {
+      background-color: $wildlife-none;
+      color: #000;
+    }
+
+    &-zero {
+      background-color: $wildlife-0;
+      color: #000;
+    }
+
+    &-one {
+      background-color: $wildlife-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $wildlife-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $wildlife-3;
+      color: #000;
+    }
+
+    &-four {
+      background-color: $wildlife-5;
+      color: #000;
+    }
+    &-five {
+      background-color: $fish-5;
+      color: #000;
+    }
+  }
 
 
   &-popdensity {

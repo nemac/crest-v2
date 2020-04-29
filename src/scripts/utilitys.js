@@ -128,6 +128,28 @@ export function getIndexes(data) {
 // Reformats data for the asset drivers
 // @param data | Object - all data from the API
 // @return Array
+export function getFishAndWildLifeDrivers(data) {
+  return [
+    {
+      label: 'Aquatic',
+      key: 'aquatic',
+      value: data.aquatic,
+      range: '0 to 5',
+      source: 'default'
+    },
+    {
+      label: 'Terrestrial',
+      key: 'terrestrial',
+      value: data.terrestrial,
+      range: '0 to 5',
+      source: 'default'
+    }
+  ];
+}
+
+// Reformats data for the asset drivers
+// @param data | Object - all data from the API
+// @return Array
 export function getAssetDrivers(data) {
   return [
     {
