@@ -811,6 +811,7 @@ function zonalLabelMouseOutHandler(e) {
 // @param rangeMax - int
 // @param scale - int. [0,scaleGroups - 1]
 // @param scaleGroups - int. Number of groups the value could be scaled for. [1,]
+// TODO ADD TO MAPCONFIG nodata value overide
 function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   let valOveride = val;
   // no data overide
@@ -838,6 +839,7 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getDriverHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 5;
@@ -850,9 +852,10 @@ function getDriverHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getTwoHeight(driver) {
   const LOW_RANGE = 0;
-  const HIGH_RANGE = 5;
+  const HIGH_RANGE = 2;
   const SCALE = 0;
   const SCALE_GROUPS = 2;
 
@@ -862,6 +865,7 @@ function getTwoHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getThreeHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 3;
@@ -874,6 +878,7 @@ function getThreeHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getFourHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 4;
@@ -886,6 +891,7 @@ function getFourHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getFiveHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 5;
@@ -898,6 +904,7 @@ function getFiveHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getSixHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 6;
@@ -922,6 +929,7 @@ function getSixHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getEightHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 8;
@@ -934,6 +942,7 @@ function getEightHeight(driver) {
 // Finds the scaled position for the drivers
 // @param driver | float - value from the api for a driver
 // @return float - [0,100]
+// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
 function getTenHeight(driver) {
   const LOW_RANGE = 0;
   const HIGH_RANGE = 10;
@@ -1046,6 +1055,8 @@ function numberToWord(number) {
   return numberWord;
 }
 
+// sets the value of the main inputs current value
+// this is the yellow box and adds a tool tip for the value
 function selectChartCell(wrapper, type, value) {
   const roundedValue = parseInt(value, 10);
 
@@ -1080,185 +1091,37 @@ function drawDriver(graph, name, type, driver, region) {
   let cssKey = driver.key;
   let csstype = type;
   let cssExtra = '';
-  const activeNav = store.getStateItem('activeNav');
 
-  const layerRegionInfo = TMSLayers.filter((layers) => {
-    layers.region === region
-  });
+  // filter the region layer list so we can get map configation values for all
+  // regions layers
+  const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
-  switch (activeNav) {
-    case 'main-nav-map-searchhubs':
-      cssExtra = '';
-      break;
-    case 'main-nav-map-examples':
-      cssExtra = '';
-      break;
-    case 'main-nav-map-searchNShubs':
-      cssExtra = 'ns-';
-      break;
-    default:
-      cssExtra = '';
-      break;
+  // filter the regions layers to the specifc layer so we can get map configation values
+  const layerInfo =  layerRegionInfo.filter(layer => layer.apikey === driver.key);
+
+  // if layerInfo empty array then exit nothing matches.
+  if (layerInfo.length === 0) {
+    return null;
   }
 
-  if (driver.key === 'hubs') {
-    height = getTenHeight(driver.value);
-    cssKey = 'hub';
-  }
+  // get layer chart css settings from mapconfig.js
+  cssExtra = layerInfo[0].chartCSSExtra;
+  cssKey = layerInfo[0].chartCSSKey;
+  csstype = layerInfo[0].chartCSStype;
 
-  if (driver.key === 'ns-hubs') {
-    height = getSixHeight(driver.value);
-    cssKey = 'ns-hub';
-  }
+  // get the percent translation of the actual value so we
+  // compare all the values on the chart
+  height = getValuePosition(driver.value,
+    layerInfo[0].chartMinValue,
+    layerInfo[0].chartMaxValue,
+    layerInfo[0].chartScale,
+    layerInfo[0].chartScaleGroups);
 
-  if (driver.key === 'aquatic') {
-    height = getSixHeight(driver.value);
-    csstype = 'fish';
-  }
-
-  if (driver.key === 'terrestrial') {
-    height = getSixHeight(driver.value);
-    csstype = 'terrestrial';
-  }
-
-  if (driver.key === 'marine') {
-    height = getFourHeight(driver.value);
-    csstype = 'marineislands';
-  }
-
-  if (driver.key === 'wildlife') {
-    height = getSixHeight(driver.value);
-    cssKey = 'fishandwildlife';
-  }
-
-  if (driver.key === 'fishandwildlife') {
-    height = getSixHeight(driver.value);
-    cssKey = 'fishandwildlife';
-  }
-
-  if (driver.key === 'ns-fishandwildlife') {
-    height = getSixHeight(driver.value);
-    cssKey = 'ns-fishandwildlife';
-  }
-
-  if (driver.key === 'terrestriallands') {
-    height = getSixHeight(driver.value);
-    cssKey = 'terrestriallands';
-  }
-
-  if (driver.key === 'exposure') {
-    height = getTenHeight(driver.value);
-    cssKey = 'exposure-box';
-  }
-
-  if (driver.key === 'ns-exposure') {
-    height = getSixHeight(driver.value);
-    cssKey = 'ns-exposure-box';
-  }
-
-  if (driver.key === 'threat') {
-    height = getTenHeight(driver.value);
-    cssKey = 'threat';
-  }
-
-  if (driver.key === 'tsunami-pr') {
-    height = getFiveHeight(driver.value);
-    cssKey = 'tsunami-pr';
-  }
-
-  if (driver.key === 'ns-threat') {
-    height = getSixHeight(driver.value);
-    cssKey = 'ns-threat';
-  }
-
-  if (driver.key === 'asset') {
-    height = getTenHeight(driver.value);
-    cssKey = 'asset';
-  }
-
-  if (driver.key === 'ns-asset') {
-    height = getSixHeight(driver.value);
-    cssKey = 'ns-asset';
-  }
-
-  if (driver.key === 'population-density') {
-    height = getSixHeight(driver.value);
-    csstype = 'popdensity';
-  }
-
-  if (driver.key === 'social-vulnerability') {
-    height = getThreeHeight(driver.value);
-    csstype = 'socvuln';
-  }
-
-  if (driver.key === 'social-vulnerability-islands') {
-    height = getThreeHeight(driver.value);
-    csstype = 'socvulnislands';
-  }
-
-  if (driver.key === 'critical-facilities') {
-    height = getSixHeight(driver.value);
-    csstype = 'critfac';
-  }
-
-  if (driver.key === 'critical-facilities-pr') {
-    height = getSixHeight(driver.value);
-    csstype = 'critfac-pr';
-  }
-
-  if (driver.key === 'critical-infrastructure') {
-    height = getTwoHeight(driver.value);
-    csstype = 'critinfra';
-  }
-
-  if (driver.key === 'critical-infrastructure-pr') {
-    height = getEightHeight(driver.value);
-    csstype = 'critinfra-pr';
-  }
-
-  if (driver.key === 'landslides-pr') {
-    height = getTwoHeight(driver.value);
-    csstype = 'landslides-pr';
-  }
-
-  if (driver.key === 'drainage') {
-    height = getSixHeight(driver.value);
-    csstype = 'drainage';
-  }
-
-  if (driver.key === 'erosion') {
-    height = getSixHeight(driver.value);
-    csstype = 'erosion';
-  }
-
-  if (driver.key === 'floodprone-areas') {
-    height = getSixHeight(driver.value);
-    csstype = 'floodprone';
-  }
-
-  if (driver.key === 'sea-level-rise') {
-    height = getSixHeight(driver.value);
-    csstype = 'slr';
-  }
-
-  if (driver.key === 'storm-surge') {
-    height = getSixHeight(driver.value);
-    csstype = 'stormsurge';
-  }
-
-  if (driver.key === 'geostress') {
-    height = getThreeHeight(driver.value);
-    csstype = 'geostress';
-  }
-
-  if (driver.key === 'slope') {
-    height = getSixHeight(driver.value);
-    csstype = 'slope';
-  }
-
+  // round the value then convert to a word for css
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
-  // const bar = graph.querySelector(`.zonal-long-graph-bar-${cssExtra}${driver.key}`);
+
+  // replace the bar and add tool tip for values
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
@@ -1268,8 +1131,6 @@ function drawDriver(graph, name, type, driver, region) {
     bar.style.height = formatPosition(height);
     if (name) {
       bar.classList.add(`zonal-long-table-cell-${cssKey}-${toolTipword}`);
-    // } else {
-      // bar.style.backgroundColor = getDriverColor(height);
     }
 
     bar.classList.add(`driver-chart-backgroundColor-${csstype}-${roundedValueWord}`);
@@ -1280,8 +1141,8 @@ function drawDriver(graph, name, type, driver, region) {
   }
 }
 
-function drawShortChart(wrapper, drivers, name, activeNav, region) {
-  console.log('drawShortChart', activeNav)
+function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
+  console.log('drawSummaryChart', activeNav)
   let graphSelector = '.default-long-graphs';
   let summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
 
@@ -1335,7 +1196,8 @@ function drawMapInfoChart(drivers, name, graph, region) {
 }
 
 // @return Array
-function getShortDataChartData(data) {
+// TODO ADD TO MAPCONFIG not sure how yet
+function getSummaryDataChartData(data) {
   return [
     {
       label: 'hubs',
@@ -1415,7 +1277,6 @@ function getShortDataChartData(data) {
 // @param drivers | Array
 function drawFishAndWildlifeDrivers(wrapper, drivers, region) {
   const fishandwildlifeGraph = wrapper.querySelector('.zonal-long-graph-wrapper-fishandwildlife .zonal-long-graph');
-  // drivers.forEach(drawDriver.bind(null, fishandwildlifeGraph, '', 'fishandwildlife', 'test'));
   // draw summary graph using driver function
   drivers.forEach( (driver) => {
     console.log('drawFishAndWildlifeDrivers', driver)
@@ -1429,7 +1290,6 @@ function drawFishAndWildlifeDrivers(wrapper, drivers, region) {
 // @param drivers | Array
 function drawAssetDrivers(wrapper, drivers, region) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
-  // drivers.forEach(drawDriver.bind(null, assetGraph, '', 'asset', 'test'));
   drivers.forEach( (driver) => {
     drawDriver(assetGraph, 'asset-graph', 'asset-graph', driver, region);
   });
@@ -1437,7 +1297,7 @@ function drawAssetDrivers(wrapper, drivers, region) {
 
 // draw the mapinfo chart. This is the indentify click function
 function drawMapInfoStats(data, doc, region) {
-  drawMapInfoChart(getShortDataChartData(data), 'mapInfo', doc, region);
+  drawMapInfoChart(getSummaryDataChartData(data), 'mapInfo', doc, region);
 }
 
 // Creates the entire short zonal stats block of html
@@ -1465,7 +1325,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
 
-  drawShortChart(wrapper, getShortDataChartData(data), HTMLName, activeNav, region);
+  drawSummaryChart(wrapper, getSummaryDataChartData(data), HTMLName, activeNav, region);
 
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);
@@ -1542,11 +1402,9 @@ function drawShortZonalStats(data, name, mapComponent, region) {
 // @param drivers | Array
 function drawThreatDrivers(wrapper, drivers, region) {
   const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
-  // drivers.forEach(drawDriver.bind(null, threatGraph, '', 'threat', 'test'), region);
   drivers.forEach( (driver) => {
     drawDriver(threatGraph, 'threat-graph', 'threat-graph', driver, region);
   });
-
 }
 
 function findRawValue(wrapper, key) {

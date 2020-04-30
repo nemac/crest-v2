@@ -1070,7 +1070,7 @@ div.zonal-asset {
     }
   }
 
-  &-marineislands {
+  &-marine {
     &-none {
       background-color: $marine-none;
       color: #000;
@@ -1134,7 +1134,6 @@ div.zonal-asset {
     }
   }
 
-
     &-terrestrialislands {
       &-none {
         background-color: $terrestrialislands-none;
@@ -1161,6 +1160,7 @@ div.zonal-asset {
         color: #000;
       }
     }
+
   &-wildlife {
     &-none {
       background-color: $wildlife-none;
@@ -1256,13 +1256,27 @@ div.zonal-asset {
       background-color: $critfac-pr-none;
       color: #000;
     }
-
+    &-one {
+      background-color: $critfac-pr-3;
+      color: #000;
+    }
+    &-two {
+      background-color: $critfac-pr-3;
+      color: #000;
+    }
     &-three {
       background-color: $critfac-pr-3;
       color: #000;
     }
-
+    &-four {
+      background-color: $critfac-pr-3;
+      color: #000;
+    }
     &-five {
+      background-color: $critfac-pr-5;
+      color: #b2afaf;
+    }
+    &-six {
       background-color: $critfac-pr-5;
       color: #b2afaf;
     }

@@ -45,7 +45,6 @@ export class ZonalStatsAPI {
 
   async getZonalStatsSummary(postdata) {
     const axiosConfig = this.makeConfigObj(postdata);
-    // const success = false;
     let numAttempts = 0;
     while (numAttempts < maxAttempts) {
       try {
