@@ -128,23 +128,75 @@ export function getIndexes(data) {
 // Reformats data for the asset drivers
 // @param data | Object - all data from the API
 // @return Array
-export function getFishAndWildLifeDrivers(data) {
-  return [
-    {
-      label: 'Aquatic',
-      key: 'aquatic',
-      value: data.aquatic,
-      range: '0 to 5',
-      source: 'default'
-    },
-    {
-      label: 'Terrestrial',
-      key: 'terrestrial',
-      value: data.terrestrial,
-      range: '0 to 5',
-      source: 'default'
-    }
-  ];
+export function getFishAndWildLifeDrivers(data, region) {
+  let drivers = [{
+        label: 'Aquatic',
+        key: 'aquatic',
+        value: data.aquatic,
+        range: '0 to 5',
+        source: 'default'
+      },
+      {
+        label: 'Terrestrial',
+        key: 'terrestrial',
+        value: data.terrestrial,
+        range: '0 to 5',
+        source: 'default'
+      }];
+
+  switch (region) {
+    case 'puerto_rico':
+      drivers = [{
+            label: 'Marine',
+            key: 'aquatic',
+            value: data.marine,
+            range: '0 to 5',
+            source: 'default'
+          },
+          {
+            label: 'Terrestrial',
+            key: 'terrestrial',
+            value: data.terrestrial,
+            range: '0 to 5',
+            source: 'default'
+          }];
+      break;
+    case 'us_virgin_islands':
+      drivers = [{
+            label: 'Marine',
+            key: 'aquatic',
+            value: data.marine,
+            range: '0 to 5',
+            source: 'default'
+          },
+          {
+            label: 'Terrestrial',
+            key: 'terrestrial',
+            value: data.terrestrial,
+            range: '0 to 5',
+            source: 'default'
+          }];
+      break;
+    case 'northern_mariana_islands':
+      drivers = [{
+            label: 'Marine',
+            key: 'aquatic',
+            value: data.marine,
+            range: '0 to 5',
+            source: 'default'
+          },
+          {
+            label: 'Terrestrial',
+            key: 'terrestrial',
+            value: data.terrestrial,
+            range: '0 to 5',
+            source: 'default'
+          }];
+      break;
+    default:
+      drivers = drivers;
+  }
+  return drivers;
 }
 
 // Reformats data for the asset drivers

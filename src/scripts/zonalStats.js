@@ -17,6 +17,7 @@ import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_th
 import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
+
 import {
   checkValidObject,
   googleAnalyticsEvent,
@@ -25,7 +26,10 @@ import {
   getThreatDrivers,
   getFishAndWildLifeDrivers
 } from './utilitys';
+
 const { zoomRegions } = mapConfig;
+const { TMSLayers } = mapConfig;
+
 import { bindZonalExportHandler } from './zonalFileExporter';
 // required for bootstrap
 window.$ = require('jquery');
@@ -1071,16 +1075,16 @@ function selectChartCell(wrapper, type, value) {
 // Configures each driver bar
 // @param graph | DOM element
 // @param driver | Object
-function drawDriver(graph, name, type, driver) {
-  if(type === 'fishandwildlife') {
-    console.log('drawDriver', name)
-  }
-
+function drawDriver(graph, name, type, driver, region) {
   let height = getDriverHeight(driver.value);
   let cssKey = driver.key;
   let csstype = type;
   let cssExtra = '';
   const activeNav = store.getStateItem('activeNav');
+
+  const layerRegionInfo = TMSLayers.filter((layers) => {
+    layers.region === region
+  });
 
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
@@ -1276,39 +1280,41 @@ function drawDriver(graph, name, type, driver) {
   }
 }
 
-function drawShortChart(wrapper, drivers, name, activeNav) {
+function drawShortChart(wrapper, drivers, name, activeNav, region) {
+  console.log('drawShortChart', activeNav)
   let graphSelector = '.default-long-graphs';
-  let assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+  let summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
-      assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
       break;
     case 'main-nav-map-examples':
-      assetGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
-      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
       break;
     case 'main-nav-map-searchNShubs':
-      assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
-      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      summaryGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
+      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
       break;
     case 'main-nav-map':
-      assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
       break;
     default:
-      assetGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-      assetGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      drivers.forEach(drawDriver.bind(null, assetGraph, name, ''));
+      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
       break;
   }
+
+  // draw summary graph using driver function
+  drivers.forEach( (driver) => {
+    drawDriver(summaryGraph, name, 'summary-graph', driver, region)
+  });
 }
 
-function drawMapInfoChart(drivers, name, graph) {
+function drawMapInfoChart(drivers, name, graph, region) {
   const activeNav = store.getStateItem('activeNav');
   let mapInfoElemCalss = '';
   if (activeNav === 'main-nav-map-searchNShubs') {
@@ -1321,7 +1327,11 @@ function drawMapInfoChart(drivers, name, graph) {
     }
   }
   const mapInfoGraph = graph.querySelector(`#mapinfodata ${mapInfoElemCalss} .zonal-long-graph`);
-  drivers.forEach(drawDriver.bind(null, mapInfoGraph, name, ''));
+
+  // draw summary graph using driver function
+  drivers.forEach( (driver) => {
+    drawDriver(mapInfoGraph, name, 'map-info-graph', driver, region)
+  });
 }
 
 // @return Array
@@ -1403,29 +1413,37 @@ function getShortDataChartData(data) {
 // Configures each fish and wildlife inout driver bar
 // @param wrapper | DOM element
 // @param drivers | Array
-function drawFishAndWildlifeDrivers(wrapper, drivers) {
+function drawFishAndWildlifeDrivers(wrapper, drivers, region) {
   const fishandwildlifeGraph = wrapper.querySelector('.zonal-long-graph-wrapper-fishandwildlife .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, fishandwildlifeGraph, '', 'fishandwildlife'));
+  // drivers.forEach(drawDriver.bind(null, fishandwildlifeGraph, '', 'fishandwildlife', 'test'));
+  // draw summary graph using driver function
+  drivers.forEach( (driver) => {
+    console.log('drawFishAndWildlifeDrivers', driver)
+    drawDriver(fishandwildlifeGraph, 'fish-and-wildlife-graph', 'fish-and-wildlife-graph', driver, region);
+  });
 }
 
 
 // Configures each asset driver bar
 // @param wrapper | DOM element
 // @param drivers | Array
-function drawAssetDrivers(wrapper, drivers) {
+function drawAssetDrivers(wrapper, drivers, region) {
   const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, assetGraph, '', 'asset'));
+  // drivers.forEach(drawDriver.bind(null, assetGraph, '', 'asset', 'test'));
+  drivers.forEach( (driver) => {
+    drawDriver(assetGraph, 'asset-graph', 'asset-graph', driver, region);
+  });
 }
 
 // draw the mapinfo chart. This is the indentify click function
-function drawMapInfoStats(data, doc) {
-  drawMapInfoChart(getShortDataChartData(data), 'mapInfo', doc);
+function drawMapInfoStats(data, doc, region) {
+  drawMapInfoChart(getShortDataChartData(data), 'mapInfo', doc, region);
 }
 
 // Creates the entire short zonal stats block of html
 // @param data | Object
 // @return DOM element
-function drawShortZonalStats(data, name, mapComponent) {
+function drawShortZonalStats(data, name, mapComponent, region) {
   const wrapper = makeDiv();
   const activeNav = store.getStateItem('activeNav');
 
@@ -1447,7 +1465,7 @@ function drawShortZonalStats(data, name, mapComponent) {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
 
-  drawShortChart(wrapper, getShortDataChartData(data), HTMLName, activeNav);
+  drawShortChart(wrapper, getShortDataChartData(data), HTMLName, activeNav, region);
 
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);
@@ -1522,9 +1540,13 @@ function drawShortZonalStats(data, name, mapComponent) {
 // Configures each threat driver bar
 // @param wrapper | DOM element
 // @param drivers | Array
-function drawThreatDrivers(wrapper, drivers) {
+function drawThreatDrivers(wrapper, drivers, region) {
   const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
-  drivers.forEach(drawDriver.bind(null, threatGraph, '', 'threat'));
+  // drivers.forEach(drawDriver.bind(null, threatGraph, '', 'threat', 'test'), region);
+  drivers.forEach( (driver) => {
+    drawDriver(threatGraph, 'threat-graph', 'threat-graph', driver, region);
+  });
+
 }
 
 function findRawValue(wrapper, key) {
@@ -1597,7 +1619,7 @@ function enableInputGraphs(wrapper, selector) {
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
-function drawLongZonalStats(data, name) {
+function drawLongZonalStats(data, name, region) {
   const HTMLName = makeHTMLName(name);
   const wrapper = makeDiv();
   const activeNav = store.getStateItem('activeNav');
@@ -1621,8 +1643,8 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'exposure-box', data.exposure);
       // selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'wildlife', data.wildlife);
-      drawAssetDrivers(wrapper, getAssetDrivers(data));
-      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       enableInputGraphs(wrapper, '.zonal-input-graph');
@@ -1636,9 +1658,9 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'exposure-box', data.exposure);
       // selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
-      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data))
-      drawAssetDrivers(wrapper, getAssetDrivers(data));
-      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
+      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       enableInputGraphs(wrapper, '.zonal-input-graph');
@@ -1664,9 +1686,9 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'exposure-box', data.exposure);
       // selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
-      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data))
-      drawAssetDrivers(wrapper, getAssetDrivers(data));
-      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
+      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
@@ -1680,8 +1702,8 @@ function drawLongZonalStats(data, name) {
       selectChartCell(wrapper, 'exposure-box', data.exposure);
       // selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'wildlife', data.wildlife);
-      drawAssetDrivers(wrapper, getAssetDrivers(data));
-      drawThreatDrivers(wrapper, getThreatDrivers(data));
+      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
@@ -1768,17 +1790,21 @@ function toggleRegionCharts() {
   const inRegionInfo = zoomRegions.filter(regions => regions.region === region);
 
   notInRegionInfo.map( region => {
-    const notThisRegion = document.querySelector(`.zonal-stats-wrapper.region-${region.region}`);
-    if (notThisRegion) {
-      notThisRegion.classList.add('d-none');
-    }
-  });
+    const notThisRegionElems = document.querySelectorAll(`.zonal-stats-wrapper.region-${region.region}`);
+    notThisRegionElems.forEach( (notThisRegionElem) => {
+      if (notThisRegionElem) {
+        notThisRegionElem.classList.add('d-none');
+      }
+    });
+  });;
 
   inRegionInfo.map( region => {
-    const inThisRegion = document.querySelector(`.zonal-stats-wrapper.region-${region.region}`);
-    if (inThisRegion) {
-      inThisRegion.classList.remove('d-none');
-    }
+    const inThisRegionElems = document.querySelectorAll(`.zonal-stats-wrapper.region-${region.region}`);
+    inThisRegionElems.forEach( (inThisRegionElem) => {
+      if (inThisRegionElem) {
+        inThisRegionElem.classList.remove('d-none');
+      }
+    });
   });
 }
 
@@ -1797,8 +1823,8 @@ function drawZonalStatsFromAPI(data, name, mapComponent, region='continental_us'
   wrapper.classList.add(`region-${region}`);
   wrapper.setAttribute('id', `zonal-stats-wrapper-${HTMLName}`);
 
-  wrapper.appendChild(drawShortZonalStats(data, name, mapComponent));
-  wrapper.appendChild(drawLongZonalStats(data, name));
+  wrapper.appendChild(drawShortZonalStats(data, name, mapComponent, region));
+  wrapper.appendChild(drawLongZonalStats(data, name, region));
 
   // const child = document.getElementById('full-table-holder').childNodes[0];
   // document.getElementById('full-table-holder').replaceChild(zonalStatTable(), child);

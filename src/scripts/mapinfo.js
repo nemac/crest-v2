@@ -341,7 +341,7 @@ export class MapInfo extends Component {
     const doc = MapInfo.getDocument();
     const region = store.getStateItem('region');
 
-    MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc);
+    MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc, region);
     const defaultElem = doc.querySelector('.default-mapinfo');
     const nsElem = doc.querySelector('.ns-mapinfo');
     const regionElem = doc.querySelector(`#mapinfo-${region}`);
@@ -379,8 +379,8 @@ export class MapInfo extends Component {
   // @param { Object } IdentifyJson is json data returned from api
   // @param { Object } doc is html document (identify/mapinfo html element)
   //
-  static buildMapInfoConent(IdentifyJson, doc) {
-    drawMapInfoStats(IdentifyJson, doc);
+  static buildMapInfoConent(IdentifyJson, doc, region) {
+    drawMapInfoStats(IdentifyJson, doc, region);
     // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
     // use tooltip and popover components everywhere
     $(() => {
