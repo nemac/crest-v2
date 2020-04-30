@@ -13,6 +13,8 @@ export var mapConfig = {
       label: "Resilience Hubs",
       apikey: 'hubs', // chart key also
       chartLabel: 'Resilience Hubs',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'hub',
       chartCSSExtra: '',
       chartCSStype: 'hub',
@@ -42,6 +44,8 @@ export var mapConfig = {
       label: "Community Exposure Index",
       apikey: 'exposure', // chart key also
       chartLabel: 'Community Exposure',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'exposure',
       chartCSSExtra: '',
       chartCSStype: 'exposure',
@@ -71,6 +75,8 @@ export var mapConfig = {
       label: "Community Asset Index",
       apikey: 'asset', // chart key also
       chartLabel: 'Community Asset',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'asset',
       chartCSSExtra: '',
       chartCSStype: 'asset',
@@ -100,6 +106,8 @@ export var mapConfig = {
       label: "Threat Index",
       apikey: 'threat', // chart key also
       chartLabel: 'Threat',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'threat',
       chartCSSExtra: '',
       chartCSStype: 'threat',
@@ -130,6 +138,8 @@ export var mapConfig = {
       label: "Fish and Wildlife Index",
       apikey: 'wildlife', // chart key also
       chartLabel: 'Fish and Wildlife',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'fishandwildlife',
       chartCSSExtra: '',
       chartCSStype: 'fishandwildlife',
@@ -159,6 +169,8 @@ export var mapConfig = {
       label: "Aquatic Index",
       apikey: 'aquatic', // chart key also
       chartLabel: 'Aquatic', //update this
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'fish',
       chartCSSExtra: '',
       chartCSStype: 'fish', //update this
@@ -188,6 +200,8 @@ export var mapConfig = {
       label: "Terrestrial Index",
       apikey: 'terrestrial', // chart key also
       chartLabel: 'Terrestrial',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'terrestrial',
       chartCSSExtra: '',
       chartCSStype: 'terrestrial',
@@ -216,6 +230,8 @@ export var mapConfig = {
       layer: "Population Density TMS",
       label: "Population Density",
       apikey: 'population-density', // chart key also
+      chartDriver: true,
+      chartInput: false,
       chartLabel: 'Population Density',
       chartCSSKey: 'popdensity',
       chartCSSExtra: '',
@@ -246,6 +262,8 @@ export var mapConfig = {
       label: "Social Vulnerability",
       apikey: 'social-vulnerability', // chart key also
       chartLabel: 'Social Vulnerability',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'socvuln',
       chartCSSExtra: '',
       chartCSStype: 'socvuln',
@@ -275,6 +293,8 @@ export var mapConfig = {
       label: "Critical Facilities",
       apikey: 'critical-facilities', // chart key also
       chartLabel: 'Critical Facilities',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'critfac',
       chartCSSExtra: '',
       chartCSStype: 'critfac',
@@ -304,6 +324,8 @@ export var mapConfig = {
       label: "Critical Infrastructure",
       apikey: 'critical-infrastructure', // chart key also
       chartLabel: 'Critical Infrastructure',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'critinfra',
       chartCSSExtra: '',
       chartCSStype: 'critinfra',
@@ -333,6 +355,8 @@ export var mapConfig = {
       label: "Impermeable Soils",
       apikey: 'drainage', // chart key also
       chartLabel: 'Impermeable Soils',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'drainage',
       chartCSSExtra: '',
       chartCSStype: 'drainage',
@@ -362,6 +386,8 @@ export var mapConfig = {
       label: "Soil Erodibility",
       apikey: 'erosion', // chart key also
       chartLabel: 'Soil Erodibility',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'erosion',
       chartCSSExtra: '',
       chartCSStype: 'erosion',
@@ -391,6 +417,8 @@ export var mapConfig = {
       label: "Sea Level Rise",
       apikey: 'sea-level-rise', // chart key also
       chartLabel: 'Sea Level Rise',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'slr',
       chartCSSExtra: '',
       chartCSStype: 'slr',
@@ -420,6 +448,8 @@ export var mapConfig = {
       label: "Storm Surge",
       apikey: 'storm-surge', // chart key also
       chartLabel: 'Storm Surge',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'stormsurge',
       chartCSSExtra: '',
       chartCSStype: 'stormsurge',
@@ -449,6 +479,8 @@ export var mapConfig = {
       label: "Geological Stressors",
       apikey: 'geostress', // chart key also
       chartLabel: 'Geological Stressors',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'geostress',
       chartCSSExtra: '',
       chartCSStype: 'geostress',
@@ -478,6 +510,8 @@ export var mapConfig = {
       label: "Areas of Low Slope",
       apikey: 'slope', // chart key also
       chartLabel: 'Areas of Low Slope',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'slope',
       chartCSSExtra: '',
       chartCSStype: 'slope',
@@ -507,6 +541,8 @@ export var mapConfig = {
       label: "Flood-Prone Areas",
       apikey: 'floodprone-areas', // chart key also
       chartLabel: 'Flood-Prone Areas',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'floodprone',
       chartCSSExtra: '',
       chartCSStype: 'floodprone',
@@ -542,6 +578,8 @@ export var mapConfig = {
       label: "Resilience Hubs",
       apikey: 'hubs', // chart key also
       chartLabel: 'Resilience Hubs',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'hub',
       chartCSSExtra: '',
       chartCSStype: 'hub',
@@ -571,6 +609,8 @@ export var mapConfig = {
       label: "Community Exposure Index",
       apikey: 'exposure', // chart key also
       chartLabel: 'Community Exposure',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'exposure',
       chartCSSExtra: '',
       chartCSStype: 'exposure',
@@ -600,6 +640,8 @@ export var mapConfig = {
       label: "Community Asset Index",
       apikey: 'asset', // chart key also
       chartLabel: 'Community Asset',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'asset',
       chartCSSExtra: '',
       chartCSStype: 'asset',
@@ -629,6 +671,8 @@ export var mapConfig = {
       label: "Threat Index",
       apikey: 'threat', // chart key also
       chartLabel: 'Threat',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'threat',
       chartCSSExtra: '',
       chartCSStype: 'threat',
@@ -658,6 +702,8 @@ export var mapConfig = {
       layer: "FishAndWildlife TMS",
       apikey: 'wildlife', // chart key also
       chartLabel: 'Fish and Wildlife',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'fishandwildlife',
       chartCSSExtra: '',
       chartCSStype: 'fishandwildlife',
@@ -688,6 +734,8 @@ export var mapConfig = {
       label: "Marine Index",
       apikey: 'aquatic', // chart key also
       chartLabel: 'Marine', //update this
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'marine',
       chartCSSExtra: '',
       chartCSStype: 'marine', //update this
@@ -717,6 +765,8 @@ export var mapConfig = {
       label: "Terrestrial Index",
       apikey: 'terrestrial', // chart key also
       chartLabel: 'Terrestrial',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'terrestrialislands',
       chartCSSExtra: '',
       chartCSStype: 'terrestrialislands',
@@ -746,6 +796,8 @@ export var mapConfig = {
       label: "Population Density",
       apikey: 'population-density', // chart key also
       chartLabel: 'Population Density',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'popdensity',
       chartCSSExtra: '',
       chartCSStype: 'popdensity',
@@ -775,6 +827,8 @@ export var mapConfig = {
       label: "Social Vulnerability",
       apikey: 'social-vulnerability', // chart key also
       chartLabel: 'Social Vulnerability',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'socvulnislands',
       chartCSSExtra: '',
       chartCSStype: 'socvulnislands',
@@ -804,6 +858,8 @@ export var mapConfig = {
       label: "Critical Facilities",
       apikey: 'critical-facilities', // chart key also
       chartLabel: 'Critical Facilities',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'critfac-pr',
       chartCSSExtra: '',
       chartCSStype: 'critfac-pr',
@@ -832,6 +888,8 @@ export var mapConfig = {
       label: "Critical Infrastructure",
       apikey: 'critical-infrastructure', // chart key also
       chartLabel: 'Critical Infrastructure',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'critinfra-pr',
       chartCSSExtra: '',
       chartCSStype: 'critinfra-pr',
@@ -861,6 +919,8 @@ export var mapConfig = {
       label: "Impermeable Soils",
       apikey: 'drainage', // chart key also
       chartLabel: 'Impermeable Soils',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'drainage',
       chartCSSExtra: '',
       chartCSStype: 'drainage',
@@ -890,6 +950,8 @@ export var mapConfig = {
       label: "Soil Erodibility",
       apikey: 'erosion', // chart key also
       chartLabel: 'Soil Erodibility',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'erosion',
       chartCSSExtra: '',
       chartCSStype: 'erosion',
@@ -919,6 +981,8 @@ export var mapConfig = {
       label: "Sea Level Rise",
       apikey: 'sea-level-rise', // chart key also
       chartLabel: 'Sea Level Rise',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'slr',
       chartCSSExtra: '',
       chartCSStype: 'slr',
@@ -948,6 +1012,8 @@ export var mapConfig = {
       label: "Storm Surge",
       apikey: 'storm-surge', // chart key also
       chartLabel: 'Storm Surge',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'stormsurge',
       chartCSSExtra: '',
       chartCSStype: 'stormsurge',
@@ -977,6 +1043,8 @@ export var mapConfig = {
       label: "Areas of Low Slope",
       apikey: 'slope', // chart key also
       chartLabel: 'Areas of Low Slope',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'slope',
       chartCSSExtra: '',
       chartCSStype: 'slope',
@@ -1006,6 +1074,8 @@ export var mapConfig = {
       label: "Flood-Prone Areas",
       apikey: 'floodprone-areas', // chart key also
       chartLabel: 'Flood-Prone Areas',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'floodprone',
       chartCSSExtra: '',
       chartCSStype: 'floodprone',
@@ -1035,6 +1105,8 @@ export var mapConfig = {
       label: "Geological Stressors",
       apikey: 'geostress', // chart key also
       chartLabel: 'Geological Stressors',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'geostress',
       chartCSSExtra: '',
       chartCSStype: 'geostress',
@@ -1064,6 +1136,8 @@ export var mapConfig = {
       label: "Tsunami",
       apikey: 'tsunami', // chart key also
       chartLabel: 'Tsunami',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'tsunami',
       chartCSSExtra: '',
       chartCSStype: 'tsunami',
@@ -1096,6 +1170,8 @@ export var mapConfig = {
       label: "Resilience Hubs",
       apikey: 'hubs', // chart key also
       chartLabel: 'Resilience Hubs',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'hub',
       chartCSSExtra: '',
       chartCSStype: 'hub',
@@ -1125,6 +1201,8 @@ export var mapConfig = {
       label: "Community Exposure Index",
       apikey: 'exposure', // chart key also
       chartLabel: 'Community Exposure',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'exposure',
       chartCSSExtra: '',
       chartCSStype: 'exposure',
@@ -1154,6 +1232,8 @@ export var mapConfig = {
       label: "Community Asset Index",
       apikey: 'asset', // chart key also
       chartLabel: 'Community Asset',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'asset',
       chartCSSExtra: '',
       chartCSStype: 'asset',
@@ -1183,6 +1263,8 @@ export var mapConfig = {
       label: "Threat Index",
       apikey: 'threat', // chart key also
       chartLabel: 'Threat',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'threat',
       chartCSSExtra: '',
       chartCSStype: 'threat',
@@ -1213,6 +1295,8 @@ export var mapConfig = {
       label: "Fish and Wildlife Index",
       apikey: 'wildlife', // chart key also
       chartLabel: 'Fish and Wildlife',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'fishandwildlife',
       chartCSSExtra: '',
       chartCSStype: 'fishandwildlife',
@@ -1242,6 +1326,8 @@ export var mapConfig = {
       label: "Marine Index",
       apikey: 'aquatic', // chart key also
       chartLabel: 'Marine', //update this
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'marine',
       chartCSSExtra: '',
       chartCSStype: 'marine', //update this
@@ -1271,6 +1357,8 @@ export var mapConfig = {
       label: "Terrestrial Index",
       apikey: 'terrestrial', // chart key also
       chartLabel: 'Terrestrial',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'terrestrialislands',
       chartCSSExtra: '',
       chartCSStype: 'terrestrialislands',
@@ -1300,6 +1388,8 @@ export var mapConfig = {
       label: "Population Density",
       apikey: 'population-density', // chart key also
       chartLabel: 'Population Density',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'popdensity',
       chartCSSExtra: '',
       chartCSStype: 'popdensity',
@@ -1329,6 +1419,8 @@ export var mapConfig = {
       label: "Social Vulnerability",
       apikey: 'social-vulnerability', // chart key also
       chartLabel: 'Social Vulnerability',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'socvulnislands',
       chartCSSExtra: '',
       chartCSStype: 'socvuln',
@@ -1358,6 +1450,8 @@ export var mapConfig = {
       label: "Critical Facilities",
       apikey: 'critical-facilities', // chart key also
       chartLabel: 'Critical Facilities',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'critfac',
       chartCSSExtra: '',
       chartCSStype: 'critfac',
@@ -1387,6 +1481,8 @@ export var mapConfig = {
       label: "Critical Infrastructure",
       apikey: 'critical-infrastructure', // chart key also
       chartLabel: 'Critical Infrastructure',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'critinfra',
       chartCSSExtra: '',
       chartCSStype: 'critinfra',
@@ -1416,6 +1512,8 @@ export var mapConfig = {
       label: "Impermeable Soils",
       apikey: 'drainage', // chart key also
       chartLabel: 'Impermeable Soils',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'drainage',
       chartCSSExtra: '',
       chartCSStype: 'drainage',
@@ -1445,6 +1543,8 @@ export var mapConfig = {
       label: "Soil Erodibility",
       apikey: 'erosion', // chart key also
       chartLabel: 'Soil Erodibility',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'erosion',
       chartCSSExtra: '',
       chartCSStype: 'erosion',
@@ -1474,6 +1574,8 @@ export var mapConfig = {
       label: "Sea Level Rise",
       apikey: 'sea-level-rise', // chart key also
       chartLabel: 'Sea Level Rise',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'slr',
       chartCSSExtra: '',
       chartCSStype: 'slr',
@@ -1503,6 +1605,8 @@ export var mapConfig = {
       label: "Storm Surge",
       apikey: 'storm-surge', // chart key also
       chartLabel: 'Storm Surge',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'stormsurge',
       chartCSSExtra: '',
       chartCSStype: 'stormsurge',
@@ -1532,6 +1636,8 @@ export var mapConfig = {
       label: "Areas of Low Slope",
       apikey: 'slope', // chart key also
       chartLabel: 'Areas of Low Slope',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'slope',
       chartCSSExtra: '',
       chartCSStype: 'slope',
@@ -1561,6 +1667,8 @@ export var mapConfig = {
       label: "Flood-Prone Areas",
       apikey: 'floodprone-areas', // chart key also
       chartLabel: 'Flood-Prone Areas',
+      chartDriver: true,
+      chartInput: false,
       chartCSSKey: 'floodprone',
       chartCSSExtra: '',
       chartCSStype: 'floodprone',
@@ -1597,6 +1705,8 @@ export var mapConfig = {
       label: "Hubs",
       apikey: 'ns-hubs', // chart key also
       chartLabel: 'Hubs',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'ns-hub',
       chartCSSExtra: 'ns-',
       chartCSStype: 'ns-hub',
@@ -1626,6 +1736,8 @@ export var mapConfig = {
       label: "Exposure Index",
       apikey: 'exposure', // chart key also
       chartLabel: 'Community Exposure',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'exposure',
       chartCSSExtra: 'ns-',
       chartCSStype: 'exposure',
@@ -1655,6 +1767,8 @@ export var mapConfig = {
       label: "Asset Index",
       apikey: 'asset', // chart key also
       chartLabel: 'Community Asset',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'ns-asset',
       chartCSSExtra: 'ns-',
       chartCSStype: 'ns-asset',
@@ -1684,6 +1798,8 @@ export var mapConfig = {
       label: "Threat Index",
       apikey: 'threat', // chart key also
       chartLabel: 'Threat',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'ns-threat',
       chartCSSExtra: 'ns-',
       chartCSStype: 'ns-threat',
@@ -1713,6 +1829,8 @@ export var mapConfig = {
       label: "Fish and Wildlife Index",
       apikey: 'wildlife', // chart key also
       chartLabel: 'Fish and Wildlife',
+      chartDriver: false,
+      chartInput: true,
       chartCSSKey: 'ns-fishandwildlife',
       chartCSSExtra: 'ns-',
       chartCSStype: 'ns-fishandwildlife',

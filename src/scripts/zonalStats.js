@@ -1086,81 +1086,35 @@ function drawMapInfoChart(drivers, name, graph, region) {
   });
 }
 
-// @return Array
-// TODO ADD TO MAPCONFIG not sure how yet
-function getSummaryDataChartData(data) {
-  return [
-    {
-      label: 'hubs',
-      key: 'hubs',
-      value: data.hubs
-    },
-    {
-      label: 'exposure',
-      key: 'exposure',
-      value: data.exposure
-    },
-    {
-      label: 'asset',
-      key: 'asset',
-      value: data.asset
-    },
-    {
-      label: 'threat',
-      key: 'threat',
-      value: data.threat
-    },
-    {
-      label: 'aquatic',
-      key: 'aquatic',
-      value: data.aquatic
-    },
-    {
-      label: 'marine',
-      key: 'marine',
-      value: data.marine
-    },
-    {
-      label: 'wildlife',
-      key: 'wildlife',
-      value: data.wildlife
-    },
-    {
-      label: 'terrestrialislands',
-      key: 'terrestrial',
-      value: data.terrestrial
-    },
-    {
-      label: 'terrestrial',
-      key: 'terrestrial',
-      value: data.terrestrial
-    },
-    {
-      label: 'ns-hubs',
-      key: 'ns-hubs',
-      value: data.ns_hubs
-    },
-    {
-      label: 'ns-fishandwildlife',
-      key: 'ns-fishandwildlife',
-      value: data.ns_fishandwildlife
-    },
-    {
-      label: 'ns-asset',
-      key: 'ns-asset',
-      value: data.ns_asset
-    },
-    {
-      label: 'ns-threat',
-      key: 'ns-threat',
-      value: data.ns_threat
-    },
-    {
-      label: 'ns-exposure',
-      key: 'ns-exposure',
-      value: data.ns_exposure
+// @return Array of summary data used in indentify (mapinfo) and intial zonal stats chart
+function getSummaryDataChartData(data, region) {
+  // filter the region layer list so we can get map configation values for all
+  // regions layers
+  const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
+
+  // filter the regions layers to the specifc layer so we can get map configation values
+  const layerInfo =  layerRegionInfo.filter(layer => layer.chartDriver);
+
+  // if layerInfo empty array then exit nothing matches.
+  if (layerInfo.length === 0) {
+    return null;
+  }
+
+  // iteraite over returned data and values and map it into a object array
+  // that only contains summary data or input data not driver data
+  const summmaryData = [];
+  Object.keys(data).map((key) => {
+
+    // check of data matches a driver
+    const layerInfoHasKey =  layerRegionInfo.filter(layer => layer.apikey === key);
+
+    // check of data matches a driver and add it to a new object araray that is key, value
+    if (layerInfoHasKey.length > 0 ) {
+      summmaryData.push({key, value: data[key] })
     }
-  ];
+  });
+
+  return summmaryData;
 }
 
 // Configures each fish and wildlife inout driver bar
@@ -1186,7 +1140,7 @@ function drawAssetDrivers(wrapper, drivers, region) {
 
 // draw the mapinfo chart. This is the indentify click function
 function drawMapInfoStats(data, doc, region) {
-  drawMapInfoChart(getSummaryDataChartData(data), 'mapInfo', doc, region);
+  drawMapInfoChart(getSummaryDataChartData(data, region), 'mapInfo', doc, region);
 }
 
 // Creates the entire short zonal stats block of html
@@ -1214,7 +1168,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
 
-  drawSummaryChart(wrapper, getSummaryDataChartData(data), HTMLName, activeNav, region);
+  drawSummaryChart(wrapper, getSummaryDataChartData(data, region), HTMLName, activeNav, region);
 
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);
@@ -1248,10 +1202,10 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   const zoom = makeZoom(name, mapComponent);
 
   const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
-  // const region = store.getStateItem('region');
-  // if (region !== 'continental_us') {
-  //   defaultLongGraphs =  wrapper.querySelector(`.long-graphs-${region}`);
-  // }
+    // const region = store.getStateItem('region');
+    // if (region !== 'continental_us') {
+    //   defaultLongGraphs =  wrapper.querySelector(`.long-graphs-${region}`);
+    // }
   const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
@@ -1388,7 +1342,6 @@ function drawLongZonalStats(data, name, region) {
       selectChartCell(wrapper, 'asset', data.asset);
       selectChartCell(wrapper, 'threat', data.threat);
       selectChartCell(wrapper, 'exposure-box', data.exposure);
-      // selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'wildlife', data.wildlife);
       drawAssetDrivers(wrapper, getAssetDrivers(data), region);
       drawThreatDrivers(wrapper, getThreatDrivers(data), region);
@@ -1403,7 +1356,6 @@ function drawLongZonalStats(data, name, region) {
       selectChartCell(wrapper, 'asset', data.asset);
       selectChartCell(wrapper, 'threat', data.threat);
       selectChartCell(wrapper, 'exposure-box', data.exposure);
-      // selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
       drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
       drawAssetDrivers(wrapper, getAssetDrivers(data), region);
@@ -1431,7 +1383,6 @@ function drawLongZonalStats(data, name, region) {
       selectChartCell(wrapper, 'asset', data.asset);
       selectChartCell(wrapper, 'threat', data.threat);
       selectChartCell(wrapper, 'exposure-box', data.exposure);
-      // selectChartCell(wrapper, 'fish', data.aquatic);
       selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
       drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
       drawAssetDrivers(wrapper, getAssetDrivers(data), region);
