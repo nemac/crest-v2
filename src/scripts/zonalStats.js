@@ -836,122 +836,6 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   return position;
 }
 
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getDriverHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 5;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getTwoHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 2;
-  const SCALE = 0;
-  const SCALE_GROUPS = 2;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getThreeHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 3;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getFourHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 4;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getFiveHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 5;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getSixHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 6;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// // Finds the scaled position for the drivers
-// // @param driver | float - value from the api for a driver
-// // @return float - [0,100]
-// function getSevenHeight(driver) {
-//   const LOW_RANGE = 0;
-//   const HIGH_RANGE = 7;
-//   const SCALE = 0;
-//   const SCALE_GROUPS = 1;
-//
-//   return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-// }
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getEightHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 8;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
-// Finds the scaled position for the drivers
-// @param driver | float - value from the api for a driver
-// @return float - [0,100]
-// TODO ADD TO MAPCONFIG make genereric getDriverHeight(dirver, low, high, scale, scalegroups)
-function getTenHeight(driver) {
-  const LOW_RANGE = 0;
-  const HIGH_RANGE = 10;
-  const SCALE = 0;
-  const SCALE_GROUPS = 1;
-
-  return getValuePosition(driver, LOW_RANGE, HIGH_RANGE, SCALE, SCALE_GROUPS);
-}
-
 // Returns a position formatted as a percentage
 // @param position | float
 // @return String
@@ -1087,7 +971,8 @@ function selectChartCell(wrapper, type, value) {
 // @param graph | DOM element
 // @param driver | Object
 function drawDriver(graph, name, type, driver, region) {
-  let height = getDriverHeight(driver.value);
+  // get the percent translation of the actual default assume 10
+  let height = getValuePosition(driver.value, 0, 10, 1);
   let cssKey = driver.key;
   let csstype = type;
   let cssExtra = '';
@@ -1121,11 +1006,13 @@ function drawDriver(graph, name, type, driver, region) {
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
 
-  // replace the bar and add tool tip for values
+  // round values and get bar element
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
+
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
 
+  // replace the bar and add tool tip for values
   if (bar) {
     bar.setAttribute('id', `zonal-long-graph-bar-${cssExtra}${name}`);
     bar.style.height = formatPosition(height);
@@ -1139,10 +1026,14 @@ function drawDriver(graph, name, type, driver, region) {
     bar.setAttribute('data-toggle', 'tooltip');
     bar.setAttribute('data-placement', 'top');
   }
+
+  const label = graph.querySelector(`.zonal-long-graph-label-${driver.key} .zonal-long-graph-label-text`);
+  if (label) {
+    label.innerHTML = `${layerInfo[0].chartLabel}`
+  }
 }
 
 function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
-  console.log('drawSummaryChart', activeNav)
   let graphSelector = '.default-long-graphs';
   let summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
 
@@ -1279,11 +1170,9 @@ function drawFishAndWildlifeDrivers(wrapper, drivers, region) {
   const fishandwildlifeGraph = wrapper.querySelector('.zonal-long-graph-wrapper-fishandwildlife .zonal-long-graph');
   // draw summary graph using driver function
   drivers.forEach( (driver) => {
-    console.log('drawFishAndWildlifeDrivers', driver)
     drawDriver(fishandwildlifeGraph, 'fish-and-wildlife-graph', 'fish-and-wildlife-graph', driver, region);
   });
 }
-
 
 // Configures each asset driver bar
 // @param wrapper | DOM element
