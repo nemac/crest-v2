@@ -405,7 +405,7 @@ export var mapConfig = {
       chartLegendValues: 1,
       chartCSSColor: {
         0: '#E9ECEF',
-        5: '#0084a8',
+        1: '#0084a8', // 5
       },
       chartDriver: true,
       chartInput: false,
@@ -1161,14 +1161,11 @@ export var mapConfig = {
       label: "Critical Facilities",
       apikey: 'critical-facilities', // chart key also
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
+      chartLegendValues: 2,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#9EBBD7',
-        2: '#9EBBD7',
-        3: '#9EBBD7',
-        4: '#9EBBD7',
-        5: '#0084A8',
+        1: '#9EBBD7', // 3
+        2: '#0084A8', // 5
       },
       chartDriver: true,
       chartInput: false,
@@ -1965,7 +1962,7 @@ export var mapConfig = {
       chartLegendValues: 1,
       chartCSSColor: {
         0: '#E9ECEF',
-        5: '#0084a8',
+        1: '#0084a8', // 5
       },
       chartDriver: true,
       chartInput: false,

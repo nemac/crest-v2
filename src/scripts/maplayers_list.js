@@ -7,38 +7,48 @@ import { Store } from './store';
 
 // Legend Templates
 import ColorRampHub from '../templates/colorramp_hub.html';
-import ColorRampTenBreaks from '../templates/colorramp_ten_breaks.html';
-import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
-import ColorRampAquatic from '../templates/colorramp_aquatic.html';
-import ColorRampMarineIslands from '../templates/colorramp_marineislands.html';
-import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
-import ColorRampTerrestrialIslands from '../templates/colorramp_terrestrialislands.html';
-import ColorRampExposure from '../templates/colorramp_exposure.html';
-import ColorRampAsset from '../templates/colorramp_asset.html';
-import ColorRampThreat from '../templates/colorramp_threat.html';
-import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
-import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
-import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html';
-import ColorRampCritFac from '../templates/colorramp_critfac.html';
-import ColorRampCritFacPR from '../templates/colorramp_critfac_pr.html';
-import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
-import ColorRampCritInfraPR from '../templates/colorramp_critinfra_pr.html';
-import ColorRampDrainage from '../templates/colorramp_drainage.html';
-import ColorRampErosion from '../templates/colorramp_erosion.html';
-import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
-import ColorRampSLR from '../templates/colorramp_slr.html';
-import ColorRampStormSurge from '../templates/colorramp_stormsurge.html';
-import ColorRampGeoStress from '../templates/colorramp_geostress.html';
-import ColorRampSlopefrom from '../templates/colorramp_slope.html';
-import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
-import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
-import ColorRampDriverTsunamiPR from '../templates/colorramp_tsunami_pr.html';
-import ColorRampDriverLandslidesPR from '../templates/colorramp_landslides_pr.html';
-import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
-import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
-import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
-import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
-import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
+import ColorRampTenBreaks from '../templates/colorramp_breaks_ten.html';
+import ColorRampNineBreaks from '../templates/colorramp_breaks_nine.html';
+import ColorRampEightBreaks from '../templates/colorramp_breaks_eight.html';
+import ColorRampSevenBreaks from '../templates/colorramp_breaks_seven.html';
+import ColorRampSixBreaks from '../templates/colorramp_breaks_six.html';
+import ColorRampFiveBreaks from '../templates/colorramp_breaks_five.html';
+import ColorRampFourBreaks from '../templates/colorramp_breaks_four.html';
+import ColorRampThreeBreaks from '../templates/colorramp_breaks_three.html';
+import ColorRampTwoBreaks from '../templates/colorramp_breaks_two.html';
+import ColorRampOneBreaks from '../templates/colorramp_breaks_one.html';
+
+// import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
+// import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+// import ColorRampMarineIslands from '../templates/colorramp_marineislands.html';
+// import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+// import ColorRampTerrestrialIslands from '../templates/colorramp_terrestrialislands.html';
+// import ColorRampExposure from '../templates/colorramp_exposure.html';
+// import ColorRampAsset from '../templates/colorramp_asset.html';
+// import ColorRampThreat from '../templates/colorramp_threat.html';
+// import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
+// import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
+// import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html';
+// import ColorRampCritFac from '../templates/colorramp_critfac.html';
+// import ColorRampCritFacPR from '../templates/colorramp_critfac_pr.html';
+// import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
+// import ColorRampCritInfraPR from '../templates/colorramp_critinfra_pr.html';
+// import ColorRampDrainage from '../templates/colorramp_drainage.html';
+// import ColorRampErosion from '../templates/colorramp_erosion.html';
+// import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
+// import ColorRampSLR from '../templates/colorramp_slr.html';
+// import ColorRampStormSurge from '../templates/colorramp_stormsurge.html';
+// import ColorRampGeoStress from '../templates/colorramp_geostress.html';
+// import ColorRampSlopefrom from '../templates/colorramp_slope.html';
+// import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
+// import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
+// import ColorRampDriverTsunamiPR from '../templates/colorramp_tsunami_pr.html';
+// import ColorRampDriverLandslidesPR from '../templates/colorramp_landslides_pr.html';
+// import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
+// import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
+// import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
+// import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
+// import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
 
 
 // scss
@@ -606,143 +616,26 @@ export class MapLayersList extends Component {
     switch (maxValue) {
       case 10:
         return ColorRampTenBreaks;
-      case 'asset':
-        return ColorRampAsset;
-      case 'threat':
-        return ColorRampThreat;
-      case 'exposure':
-        return ColorRampExposure;
-      case 'terrestrial':
-        return ColorRampTerrestrial;
-      case 'fishandwildlife':
-        return ColorRampFishAndWildlife;
-      case 'aquatic':
-        return ColorRampAquatic;
-      case 'driver-asset':
-        return ColorRampDriverAsset;
-      case 'popdensity':
-        return ColorRampPopDensity;
-      case 'socvuln':
-        return ColorRampSocVuln;
-      case 'socvulnislands':
-        return ColorRampSocVulnIslands;
-      case 'critfac':
-        return ColorRampCritFac;
-      case 'critfac-pr':
-        return ColorRampCritFacPR;
-      case 'critinfra':
-        return ColorRampCritInfra;
-      case 'drainage':
-        return ColorRampDrainage;
-      case 'erosion':
-        return ColorRampErosion;
-      case 'floodprone':
-        return ColorRampFloodProne;
-      case 'slr':
-        return ColorRampSLR;
-      case 'stormsurge':
-        return ColorRampStormSurge;
-      case 'geostress':
-        return ColorRampGeoStress;
-      case 'slope':
-        return ColorRampSlopefrom;
-      case 'driver-threat':
-        return ColorRampDriverThreat;
-      case 'ns-hub':
-        return ColorRampDriverNSHub;
-      case 'ns-exposure':
-        return ColorRampDriverNSExposure;
-      case 'ns-asset':
-        return ColorRampDriverNSAsset;
-      case 'ns-threat':
-        return ColorRampDriverNSThreat;
-      case 'ns-fishandwildlife':
-        return ColorRampDriverNSFishAndWildlife;
-      case 'pr_hub':
-        return ColorRampHub;
-      case 'pr_asset':
-        return ColorRampAsset;
-      case 'pr_threat':
-        return ColorRampThreat;
-      case 'pr_exposure':
-        return ColorRampExposure;
-      case 'pr_fishandwildlife':
-        return ColorRampFishAndWildlife;
-      case 'pr_terrestrial':
-        return ColorRampTerrestrialIslands;
-      case 'pr_aquatic':
-        return ColorRampMarineIslands;
-      case 'pr_driver-asset':
-        return ColorRampAsset;
-      case 'pr_popdensity':
-        return ColorRampPopDensity;
-      case 'pr_socvuln':
-        return ColorRampSocVulnIslands;
-      case 'pr_critfac':
-        return ColorRampCritFacPR;
-      case 'pr_critinfra':
-        return ColorRampCritInfraPR;
-      case 'pr_drainage':
-        return ColorRampDrainage;
-      case 'pr_erosion':
-        return ColorRampErosion;
-      case 'pr_floodprone':
-        return ColorRampFloodProne;
-      case 'pr_slr':
-        return ColorRampSLR;
-      case 'pr_stormsurge':
-        return ColorRampStormSurge;
-      case 'pr_geostress':
-        return ColorRampGeoStress;
-      case 'pr_slope':
-        return ColorRampSlopefrom;
-      case 'pr_driver-threat':
-        return ColorRampDriverThreat;
-      case 'pr_landslides':
-        return ColorRampDriverLandslidesPR;
-      case 'pr_tsunami':
-        return ColorRampDriverTsunamiPR;
-      case 'usvi_hub':
-        return ColorRampHub;
-      case 'usvi_asset':
-        return ColorRampAsset;
-      case 'usvi_threat':
-        return ColorRampThreat;
-      case 'usvi_exposure':
-        return ColorRampExposure;
-      case 'usvi_fishandwildlife':
-        return ColorRampFishAndWildlife;
-      case 'usvi_terrestrial':
-        return ColorRampTerrestrialIslands;
-      case 'usvi_aquatic':
-        return ColorRampMarineIslands;
-      case 'usvi_driver-asset':
-        return ColorRampDriverAsset;
-      case 'usvi_popdensity':
-        return ColorRampPopDensity;
-      case 'usvi_socvuln':
-        return ColorRampSocVulnIslands;
-      case 'usvi_critfac':
-        return ColorRampCritFac;
-      case 'usvi_critinfra':
-        return ColorRampCritInfra;
-      case 'usvi_drainage':
-        return ColorRampDrainage;
-      case 'usvi_erosion':
-        return ColorRampErosion;
-      case 'usvi_floodprone':
-        return ColorRampFloodProne;
-      case 'usvi_slr':
-        return ColorRampSLR;
-      case 'usvi_stormsurge':
-        return ColorRampStormSurge;
-      case 'usvi_geostress':
-        return ColorRampGeoStress;
-      case 'usvi_slope':
-        return ColorRampSlopefrom;
-      case 'usvi_driver-threat':
+      case 9:
+        return ColorRampNineBreaks;
+      case 8:
+        return ColorRampEightBreaks;
+      case 7:
+        return ColorRampSevenBreaks;
+      case 6:
+        return ColorRampSixBreaks;
+      case 5:
+        return ColorRampFiveBreaks;
+      case 4:
+        return ColorRampFourBreaks;
+      case 3:
+        return ColorRampThreeBreaks;
+      case 2:
+        return ColorRampTwoBreaks;
+      case 1:
+        return ColorRampOneBreaks;
       default:
-        return '';
+        return ColorRampTenBreaks;
     }
   }
 
