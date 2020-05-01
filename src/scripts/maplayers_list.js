@@ -18,39 +18,6 @@ import ColorRampThreeBreaks from '../templates/colorramp_breaks_three.html';
 import ColorRampTwoBreaks from '../templates/colorramp_breaks_two.html';
 import ColorRampOneBreaks from '../templates/colorramp_breaks_one.html';
 
-// import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
-// import ColorRampAquatic from '../templates/colorramp_aquatic.html';
-// import ColorRampMarineIslands from '../templates/colorramp_marineislands.html';
-// import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
-// import ColorRampTerrestrialIslands from '../templates/colorramp_terrestrialislands.html';
-// import ColorRampExposure from '../templates/colorramp_exposure.html';
-// import ColorRampAsset from '../templates/colorramp_asset.html';
-// import ColorRampThreat from '../templates/colorramp_threat.html';
-// import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
-// import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
-// import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html';
-// import ColorRampCritFac from '../templates/colorramp_critfac.html';
-// import ColorRampCritFacPR from '../templates/colorramp_critfac_pr.html';
-// import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
-// import ColorRampCritInfraPR from '../templates/colorramp_critinfra_pr.html';
-// import ColorRampDrainage from '../templates/colorramp_drainage.html';
-// import ColorRampErosion from '../templates/colorramp_erosion.html';
-// import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
-// import ColorRampSLR from '../templates/colorramp_slr.html';
-// import ColorRampStormSurge from '../templates/colorramp_stormsurge.html';
-// import ColorRampGeoStress from '../templates/colorramp_geostress.html';
-// import ColorRampSlopefrom from '../templates/colorramp_slope.html';
-// import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
-// import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
-// import ColorRampDriverTsunamiPR from '../templates/colorramp_tsunami_pr.html';
-// import ColorRampDriverLandslidesPR from '../templates/colorramp_landslides_pr.html';
-// import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
-// import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
-// import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
-// import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
-// import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
-
-
 // scss
 import '../css/maplayers_list.scss';
 
@@ -702,40 +669,47 @@ export class MapLayersList extends Component {
     const roundedValueWord = numberToWord(layerProps.chartLegendValues);
 
     if (layerElem) {
+
+      // get the legend html based on the number of breaks supports 1-10 breaks
       MapLayersList.getLegendWrapper(layerElem).innerHTML = MapLayersList.getLegendHtml(layerProps.chartLegendValues);
+
+      // get the color palette for layer, each layer can have its own
       const colorPalette = layerProps.chartCSSColor;
+
+      // iterate the color palette for layer so we can assing apporaite css color to element
       Object.keys(colorPalette).forEach((color) => {
+
+        // convert the color number to number word 2 - two
+        // this is how html elments are named.
         const colorlueWord = numberToWord(parseInt(color));
-        console.log(parseInt(color), colorlueWord)
+
+        // get the element based on the color word
         const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
+
+        // if the element exists add css color values
         if (valueELem) {
+          // set background based on mapconfig values
           valueELem.style.background = colorPalette[color];
 
-          // last color tends to be to dark for dark font
-          if (parseInt(color) >= layerProps.chartLegendValues ) {
-            valueELem.style.color = '#fff';
-          } else {
-            valueELem.style.color = '#000';
-          }
+          // set font color
+          valueELem.style.color = '#000';
 
+          // // last color tends to be to dark for dark font
+          // if (parseInt(color) >= layerProps.chartLegendValues ) {
+          //   valueELem.style.color = '#fff';
+          // }
+          // add classes for region, chartCSSSelector, and source in case we want to find it later
           valueELem.classList.add(layerProps.chartCSSSelector);
           valueELem.classList.add(layerProps.region);
           valueELem.classList.add(layerProps.source);
         }
-        console.log(layerElem)
+
+        // set attributes for popups 
         MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
         MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
         MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
-        // console.log(colorPalette[color])
       })
-      // layerElem.getLegendId()
-      // MapLayersList.getLegendWrapper(layerElem).innerHTML =
-      //     MapLayersList.getLegendHtml(layerProps.legend);
-      // MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
-      // MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
-      // MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
     }
-
     const legendElem = document.getElementById(`legend-${layerProps.id}`);
     if (legendElem) {
       legendElem.setAttribute('title', `Legend for ${layerProps.label}`);
