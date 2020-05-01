@@ -935,8 +935,8 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   const roundedValueWord = numberToWord(roundedValue);
 
   if (cssKey === 'hubs' && region === 'continental_us') {
-    // console.log(roundedValue, layerInfo[0].chartCSSColor[`${roundedValue}`])
-    // console.log(roundedValue, layerInfo[0].chartLegendValues)
+    console.log(roundedValue, layerInfo[0].chartCSSColor[`${roundedValue}`])
+    console.log(roundedValue, layerInfo[0].chartLegendValues)
     // [`${roundedValue}`]
   }
 
@@ -950,15 +950,11 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   const toolTipword = numberToWord(roundedValue);
 
   // replace the bar and add tool tip for values
-  //  TODO FIX THIS BAR HEIGHT ADD CSS VALUE?
   if (bar) {
-    bar.setAttribute('id', `zonal-long-graph-bar-${cssExtra}${name}`);
     bar.style.height = formatPosition(height);
-    if (name) {
-      bar.classList.add(`zonal-long-table-cell-${cssKey}-${toolTipword}`);
-    }
+    bar.style.background = layerInfo[0].chartCSSColor[`${roundedValue}`];
 
-    bar.classList.add(`driver-chart-backgroundColor-${csstype}-${roundedValueWord}`);
+    // add tool tips and aria
     bar.setAttribute('title', `${tooltipValue}`);
     bar.setAttribute('aria-label', `${tooltipValue}`);
     bar.setAttribute('data-toggle', 'tooltip');
