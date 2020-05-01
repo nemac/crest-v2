@@ -7,6 +7,7 @@ import { Store } from './store';
 
 // Legend Templates
 import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampTenBreaks from '../templates/colorramp_ten_breaks.html';
 import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
 import ColorRampAquatic from '../templates/colorramp_aquatic.html';
 import ColorRampMarineIslands from '../templates/colorramp_marineislands.html';
@@ -44,7 +45,8 @@ import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwat
 import '../css/maplayers_list.scss';
 
 import {
-  googleAnalyticsEvent
+  googleAnalyticsEvent,
+  numberToWord
 } from './utilitys';
 
 const store = new Store({});
@@ -600,10 +602,10 @@ export class MapLayersList extends Component {
   //
   // @param type | String
   // @return String
-  static getLegendHtml(type) {
-    switch (type) {
-      case 'hub':
-        return ColorRampHub;
+  static getLegendHtml(maxValue) {
+    switch (maxValue) {
+      case 10:
+        return ColorRampTenBreaks;
       case 'asset':
         return ColorRampAsset;
       case 'threat':
@@ -804,12 +806,41 @@ export class MapLayersList extends Component {
   // @param layerProps | Object
   static addLegendHTML(layerProps) {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
+    const roundedValueWord = numberToWord(layerProps.chartLegendValues);
+
     if (layerElem) {
-      MapLayersList.getLegendWrapper(layerElem).innerHTML =
-          MapLayersList.getLegendHtml(layerProps.legend);
-      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
-      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
-      MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
+      MapLayersList.getLegendWrapper(layerElem).innerHTML = MapLayersList.getLegendHtml(layerProps.chartLegendValues);
+      const colorPalette = layerProps.chartCSSColor;
+      Object.keys(colorPalette).forEach((color) => {
+        const colorlueWord = numberToWord(parseInt(color));
+        console.log(parseInt(color), colorlueWord)
+        const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
+        if (valueELem) {
+          valueELem.style.background = colorPalette[color];
+
+          // last color tends to be to dark for dark font
+          if (parseInt(color) >= layerProps.chartLegendValues ) {
+            valueELem.style.color = '#fff';
+          } else {
+            valueELem.style.color = '#000';
+          }
+
+          valueELem.classList.add(layerProps.chartCSSSelector);
+          valueELem.classList.add(layerProps.region);
+          valueELem.classList.add(layerProps.source);
+        }
+        console.log(layerElem)
+        MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
+        MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
+        MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
+        // console.log(colorPalette[color])
+      })
+      // layerElem.getLegendId()
+      // MapLayersList.getLegendWrapper(layerElem).innerHTML =
+      //     MapLayersList.getLegendHtml(layerProps.legend);
+      // MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
+      // MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
+      // MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
     }
 
     const legendElem = document.getElementById(`legend-${layerProps.id}`);

@@ -25,7 +25,8 @@ import {
   getAssetDrivers,
   getThreatDrivers,
   getFishAndWildLifeDrivers,
-  groupByDriver
+  groupByDriver,
+  numberToWord
 } from './utilitys';
 
 const { zoomRegions } = mapConfig;
@@ -865,81 +866,6 @@ function buildLongStatsHtml(wrapper) {
   innerWrapper.querySelector('.zonal-long-table-ns-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSFishAndWildlife;
 }
 
-// convert a number to to the word representation
-// of the number.  We are using the word in the HTML class
-// and will use this to highlight the value in the chart details
-function numberToWord(number) {
-  let numberWord = 'none';
-
-  switch (number) {
-    case 0:
-      numberWord = 'none';
-      break;
-    case 1:
-      numberWord = 'one';
-      break;
-    case 2:
-      numberWord = 'two';
-      break;
-    case 3:
-      numberWord = 'three';
-      break;
-    case 4:
-      numberWord = 'four';
-      break;
-    case 5:
-      numberWord = 'five';
-      break;
-    case 6:
-      numberWord = 'six';
-      break;
-    case 7:
-      numberWord = 'seven';
-      break;
-    case 8:
-      numberWord = 'eight';
-      break;
-    case 9:
-      numberWord = 'nine';
-      break;
-    case 10:
-      numberWord = 'ten';
-      break;
-    case 11:
-      numberWord = 'eleven';
-      break;
-    case 12:
-      numberWord = 'twelve';
-      break;
-    case 13:
-      numberWord = 'thirteen';
-      break;
-    case 14:
-      numberWord = 'fourteen';
-      break;
-    case 15:
-      numberWord = 'fifteen';
-      break;
-    case 16:
-      numberWord = 'sixteen';
-      break;
-    case 17:
-      numberWord = 'seventeen';
-      break;
-    case 18:
-      numberWord = 'eightteen';
-      break;
-    case 19:
-      numberWord = 'nineteen';
-      break;
-    case 20:
-      numberWord = 'twenty';
-      break;
-    default:
-  }
-  return numberWord;
-}
-
 // sets the value of the main inputs current value
 // this is the yellow box and adds a tool tip for the value
 function selectChartCell(wrapper, type, value) {
@@ -1009,8 +935,8 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   const roundedValueWord = numberToWord(roundedValue);
 
   if (cssKey === 'hubs' && region === 'continental_us') {
-    console.log(roundedValue, layerInfo[0].chartCSSColor[`${roundedValue}`])
-    console.log(roundedValue, layerInfo[0].chartLegendValues)
+    // console.log(roundedValue, layerInfo[0].chartCSSColor[`${roundedValue}`])
+    // console.log(roundedValue, layerInfo[0].chartLegendValues)
     // [`${roundedValue}`]
   }
 
