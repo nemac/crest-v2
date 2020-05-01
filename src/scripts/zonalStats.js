@@ -956,6 +956,7 @@ function selectChartCell(wrapper, type, value) {
 
   if (checkValidObject(roundedValue)) {
     const selector = `.zonal-long-table-cell-${type}-${roundedValueWord}`;
+    console.log('selector',selector)
     const cell = wrapper.querySelector(selector);
     if (cell) {
       cell.classList.add('selected-cell');
@@ -976,7 +977,7 @@ function drawDriver(graph, name, type, driver, region) {
   let cssKey = driver.key;
   let csstype = type;
   let cssExtra = '';
-
+  // console.log(graph, name, type, driver, region)
   // filter the region layer list so we can get map configation values for all
   // regions layers
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
@@ -1008,6 +1009,7 @@ function drawDriver(graph, name, type, driver, region) {
 
   // round values and get bar element
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
+  // console.log('bar', bar, `.zonal-long-graph-bar-${driver.key}`);
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
@@ -1046,21 +1048,21 @@ function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
       summaryGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
       summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
       break;
-    // case 'main-nav-map-searchhubs':
-    //   summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-    //   summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-    //   break;
-    // case 'main-nav-map':
-    //   summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-    //   summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-    //   break;
+    case 'main-nav-map-searchhubs':
+      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      break;
+    case 'main-nav-map':
+      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+      break;
     default:
       summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
       summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
       break;
   }
 
-  summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+  // summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
   // draw summary graph using driver function
   drivers.forEach( (driver) => {
     drawDriver(summaryGraph, name, 'summary-graph', driver, region)
@@ -1094,7 +1096,7 @@ function getSummaryDataChartData(data, region) {
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo =  layerRegionInfo.filter(layer => layer.chartDriver);
+  const layerInfo =  layerRegionInfo.filter(layer => layer.chartInput);
 
   // if layerInfo empty array then exit nothing matches.
   if (layerInfo.length === 0) {
@@ -1107,14 +1109,12 @@ function getSummaryDataChartData(data, region) {
   Object.keys(data).map((key) => {
 
     // check of data matches a driver
-    const layerInfoHasKey =  layerRegionInfo.filter(layer => layer.apikey === key);
-
+    const layerInfoHasKey =  layerRegionInfo.filter(layer => layer.apikey === key)
     // check of data matches a driver and add it to a new object araray that is key, value
     if (layerInfoHasKey.length > 0 ) {
       summmaryData.push({key, value: data[key] })
     }
   });
-
   return summmaryData;
 }
 
