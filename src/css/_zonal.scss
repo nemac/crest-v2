@@ -791,10 +791,6 @@ div.zonal-asset {
   width: 100% !important;
 }
 
-.zonal-long-table-exposure {
-  width: 75% !important;
-}
-
 .zonal-long-table-row {
   display: flex;
   margin-top: 10px;
@@ -915,7 +911,7 @@ div.zonal-asset {
     color: #b2afaf;
   }
 
-  &-ns-exposure-box {
+  &-ns-exposure {
     &-none {
       background-color: $ns-exposure-none;
       color: #000;
@@ -1001,6 +997,60 @@ div.zonal-asset {
     }
   }
 
+  &-exposure {
+    &-none {
+      background-color: $exposure-none;
+      color: #000;
+    }
+    &-one {
+      background-color: $exposure-1;
+      color: #000;
+    }
+
+    &-two {
+      background-color: $exposure-2;
+      color: #000;
+    }
+
+    &-three {
+      background-color: $exposure-3;
+      color: #000;
+    }
+
+    &-four{
+      background-color: $exposure-4;
+      color: #000;
+    }
+
+    &-five{
+      background-color: $exposure-5;
+      color: #000;
+    }
+
+    &-six {
+      background-color: $exposure-6;
+      color: #000;
+    }
+
+    &-seven {
+      background-color: $exposure-7;
+      color: #000;
+    }
+
+    &-eight {
+      background-color: $exposure-8;
+      color: #000;
+    }
+
+    &-nine {
+      background-color: $exposure-9;
+      color: #000;
+    }
+    &-ten {
+      background-color: $exposure-10;
+      color: #b2afaf;
+    }
+  }
 
   &-ns-fishandwildlife {
     &-none {
@@ -2028,7 +2078,7 @@ div.zonal-asset {
     background-color: $threat-bar;
   }
 
-  &-exposure-box {
+  &-exposure {
     background-color: $exposure-bar;
   }
 

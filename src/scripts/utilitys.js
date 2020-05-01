@@ -43,6 +43,7 @@ export function toggleElementDisplay(thisEle, elements) {
 // Reformats data for the indexes
 // @param data | Object - all data from the API
 // @return Array
+//  TODO add from mapconfig
 export function getIndexes(data) {
   return [
     {
@@ -128,6 +129,7 @@ export function getIndexes(data) {
 // Reformats data for the asset drivers
 // @param data | Object - all data from the API
 // @return Array
+//  TODO add from mapconfig
 export function getFishAndWildLifeDrivers(data, region) {
   let drivers = [{
         label: 'Aquatic',
@@ -202,6 +204,7 @@ export function getFishAndWildLifeDrivers(data, region) {
 // Reformats data for the asset drivers
 // @param data | Object - all data from the API
 // @return Array
+//  TODO add from mapconfig
 export function getAssetDrivers(data) {
   return [
     {
@@ -238,6 +241,7 @@ export function getAssetDrivers(data) {
 // Reformats data for the threat drivers
 // @param data | Object - all data from the API
 // @return Array
+//  TODO add from mapconfig
 export function getThreatDrivers(data) {
   return [
     {

@@ -2538,8 +2538,9 @@ export class Explore extends Component {
     const NatureServeHubs = store.getStateItem('NatureServeHubIntersectionJson');
     for (let i = 0; i < NatureServeHubs.length; i += 1) {
       const name = `${NatureServeHubs[i].properties.mean.TARGET_FID}`.toString().trim();
-      const region = NatureServeHubs[i].features[0].properties.region.toString().trim();
-      drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map, region);
+      // TODO add region to stored hub shapes or add on the fly with turf?
+      // const region = NatureServeHubs[i].features[0].properties.region.toString().trim();
+      drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map, 'targetedwatershed');
     }
   }
 
@@ -2547,8 +2548,9 @@ export class Explore extends Component {
     const hubs = store.getStateItem('HubIntersectionJson');
     for (let i = 0; i < hubs.length; i += 1) {
       const name = `${hubs[i].properties.mean.TARGET_FID}`.toString().trim();
-      const region = hubs[i].features[0].properties.region.toString().trim();
-      drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map, region);
+      // TODO add region to stored hub shapes or add on the fly with turf?
+      // const region = hubs[i].features[0].properties.region.toString().trim();
+      drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map, 'continental_us');
     }
   }
 
