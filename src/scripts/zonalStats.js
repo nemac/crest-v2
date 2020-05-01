@@ -1010,6 +1010,7 @@ function drawDriver(graph, name, type, driver, region, view=false) {
 
   if (cssKey === 'hubs' && region === 'continental_us') {
     console.log(roundedValue, layerInfo[0].chartCSSColor[`${roundedValue}`])
+    console.log(roundedValue, layerInfo[0].chartLegendValues)
     // [`${roundedValue}`]
   }
 
