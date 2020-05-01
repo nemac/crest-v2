@@ -956,7 +956,6 @@ function selectChartCell(wrapper, type, value) {
 
   if (checkValidObject(roundedValue)) {
     const selector = `.zonal-long-table-cell-${type}-${roundedValueWord}`;
-    console.log('selector',selector)
     const cell = wrapper.querySelector(selector);
     if (cell) {
       cell.classList.add('selected-cell');
@@ -977,7 +976,7 @@ function drawDriver(graph, name, type, driver, region) {
   let cssKey = driver.key;
   let csstype = type;
   let cssExtra = '';
-  // console.log(graph, name, type, driver, region)
+
   // filter the region layer list so we can get map configation values for all
   // regions layers
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
@@ -1009,7 +1008,6 @@ function drawDriver(graph, name, type, driver, region) {
 
   // round values and get bar element
   const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
-  // console.log('bar', bar, `.zonal-long-graph-bar-${driver.key}`);
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
