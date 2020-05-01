@@ -126,6 +126,27 @@ export function getIndexes(data) {
   ];
 }
 
+// Reformats data for the drivers of inputs
+// @param data | Object - all data from the API
+// @return Array
+//  TODO add from mapconfig
+export function groupByDriver(collection, property) {
+    var i = 0, val, index,
+        values = [], result = [];
+    for (; i < collection.length; i++) {
+        val = collection[i][property];
+        index = values.indexOf(val);
+        if (index > -1)
+            result[index].push(collection[i]);
+        else {
+            values.push(val);
+            result.push([collection[i]]);
+        }
+    }
+    return result;
+}
+
+
 // Reformats data for the asset drivers
 // @param data | Object - all data from the API
 // @return Array

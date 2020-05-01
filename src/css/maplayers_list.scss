@@ -500,7 +500,7 @@ $map_right_margin: 10px;
 }
 
 .layer-legend .zonal-long-table-cell {
-  &-hub, &-ns-hub{
+  &-hub, &-hubs, &-ns-hub, &-ns-hubs {
     &-none {
      display: none;
    }
@@ -530,7 +530,7 @@ $map_right_margin: 10px;
    }
   }
 
-  &-exposure-box, &-ns-exposure-box {
+  &-exposure-box, &-ns-exposure-bo, &-exposure, &-ns-exposure {
     &-none {
      display: none;
    }
@@ -550,7 +550,7 @@ $map_right_margin: 10px;
    }
   }
 
-  &-wildlife, &-ns-fishandwildlife {
+  &-wildlife, &-fishandwildlife, &-ns-fishandwildlife {
     &-none {
      display: none;
    }

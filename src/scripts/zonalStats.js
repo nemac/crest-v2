@@ -24,7 +24,8 @@ import {
   getIndexes,
   getAssetDrivers,
   getThreatDrivers,
-  getFishAndWildLifeDrivers
+  getFishAndWildLifeDrivers,
+  groupByDriver
 } from './utilitys';
 
 const { zoomRegions } = mapConfig;
@@ -850,7 +851,7 @@ function buildLongStatsHtml(wrapper) {
   const innerWrapper = wrapper;
   innerWrapper.innerHTML = ZonalLong;
 
-  innerWrapper.querySelector('.zonal-long-hub .zonal-long-table-wrapper').innerHTML = ColorRampHub;
+  innerWrapper.querySelector('.zonal-long-hubs .zonal-long-table-wrapper').innerHTML = ColorRampHub;
   // innerWrapper.querySelector('.zonal-long-table-index--aquatic .zonal-long-table-wrapper').innerHTML = ColorRampAquatic;
   innerWrapper.querySelector('.zonal-long-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampFishAndWildlife;
   innerWrapper.querySelector('.zonal-long-exposure .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
@@ -970,7 +971,7 @@ function selectChartCell(wrapper, type, value) {
 // Configures each driver bar
 // @param graph | DOM element
 // @param driver | Object
-function drawDriver(graph, name, type, driver, region) {
+function drawDriver(graph, name, type, driver, region, view=false) {
   // get the percent translation of the actual default assume 10
   let height = getValuePosition(driver.value, 0, 10, 1);
   let cssKey = driver.key;
@@ -982,7 +983,7 @@ function drawDriver(graph, name, type, driver, region) {
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo =  layerRegionInfo.filter(layer => layer.apikey === driver.key);
+  const layerInfo = layerRegionInfo.filter(layer => layer.apikey === driver.key);
 
   // if layerInfo empty array then exit nothing matches.
   if (layerInfo.length === 0) {
@@ -991,7 +992,7 @@ function drawDriver(graph, name, type, driver, region) {
 
   // get layer chart css settings from mapconfig.js
   cssExtra = layerInfo[0].chartCSSExtra;
-  cssKey = layerInfo[0].chartCSSKey;
+  cssKey = layerInfo[0].chartCSSSelector;
   csstype = layerInfo[0].chartCSStype;
 
   // get the percent translation of the actual value so we
@@ -1002,17 +1003,27 @@ function drawDriver(graph, name, type, driver, region) {
     layerInfo[0].chartScale,
     layerInfo[0].chartScaleGroups);
 
+
   // round the value then convert to a word for css
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
 
+  if (cssKey === 'hubs' && region === 'continental_us') {
+    console.log(roundedValue, layerInfo[0].chartCSSColor[`${roundedValue}`])
+    // [`${roundedValue}`]
+  }
+
   // round values and get bar element
-  const bar = graph.querySelector(`.zonal-long-graph-bar-${driver.key}`);
+  const bar = graph.querySelector(`.zonal-long-graph-bar-${layerInfo[0].chartCSSSelector}`);
+  if (view) {
+      // console.log('cssKey, height', cssKey, height, driver.value, layerInfo[0].chartCSSSelector)
+  }
 
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
 
   // replace the bar and add tool tip for values
+  //  TODO FIX THIS BAR HEIGHT ADD CSS VALUE?
   if (bar) {
     bar.setAttribute('id', `zonal-long-graph-bar-${cssExtra}${name}`);
     bar.style.height = formatPosition(height);
@@ -1094,7 +1105,7 @@ function getSummaryDataChartData(data, region) {
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo =  layerRegionInfo.filter(layer => layer.chartInput);
+  const layerInfo = layerRegionInfo.filter(layer => layer.chartInput);
 
   // if layerInfo empty array then exit nothing matches.
   if (layerInfo.length === 0) {
@@ -1107,7 +1118,7 @@ function getSummaryDataChartData(data, region) {
   Object.keys(data).map((key) => {
 
     // check of data matches a driver
-    const layerInfoHasKey =  layerRegionInfo.filter(layer => layer.apikey === key)
+    const layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key)
     // check of data matches a driver and add it to a new object araray that is key, value
     if (layerInfoHasKey.length > 0 ) {
       summmaryData.push({key, value: data[key] })
@@ -1203,7 +1214,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
     // const region = store.getStateItem('region');
     // if (region !== 'continental_us') {
-    //   defaultLongGraphs =  wrapper.querySelector(`.long-graphs-${region}`);
+    //   defaultLongGraphs = wrapper.querySelector(`.long-graphs-${region}`);
     // }
   const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
   switch (activeNav) {
@@ -1324,7 +1335,7 @@ function getLongBarInputChartData(data, region) {
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo =  layerRegionInfo.filter(layer => layer.chartInput);
+  const layerInfo = layerRegionInfo.filter(layer => layer.chartInput);
 
   // if layerInfo empty array then exit nothing matches.
   if (layerInfo.length === 0) {
@@ -1337,11 +1348,11 @@ function getLongBarInputChartData(data, region) {
   Object.keys(data).map((key) => {
 
     // check of data matches a driver
-    const layerInfoHasKey =  layerInfo.filter(layer => layer.apikey === key);
+    const layerInfoHasKey = layerInfo.filter(layer => layer.apikey === key);
 
     // check of data matches a driver and add it to a new object araray that is key, value
     if (layerInfoHasKey.length > 0 ) {
-      longDetailData.push({key, value: data[key], cssselector: layerInfoHasKey[0].chartCSSKey  })
+      longDetailData.push({key, value: data[key], cssselector: layerInfoHasKey[0].chartCSSSelector  })
     }
   });
 
@@ -1354,6 +1365,28 @@ function makeDetailChartInputCharts(wrapper, longDetailData) {
    longDetailData.forEach((data) => {
      selectChartCell(wrapper, data.cssselector, data.value);
    });
+}
+
+
+// take map config data and api data and maps to
+// the driver charts in the details, then dynamically uses the
+// chartInputName key from the mapconfig.js to create driver charts
+function makeDetailDriverCharts(wrapper, data, region) {
+  const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
+  const layerInfo = layerRegionInfo.filter(layer => layer.chartDriver);
+  const driverGroups = groupByDriver(layerInfo, 'chartInputName');
+
+  // iterate each group i.e. FishAndWildlife, assets, threats
+  driverGroups.map( driver => {
+    const driverGroupName = driver[0].chartInputName;
+    const driverGroupArray = [];
+    // iterate the driver group and get data
+    driver.map( layer => {
+      const inputData = { key: layer.apikey, value: data[layer.apikey] };
+      const inputGraph = wrapper.querySelector(`.zonal-long-graph-wrapper.zonal-long-graph-wrapper-${driverGroupName}`);
+      drawDriver(inputGraph, `${driverGroupName}-graph`, `${driverGroupName}-graph`, inputData, region, true);
+    });
+  });
 }
 
 // Draws and configures the long zonal stats
@@ -1377,15 +1410,12 @@ function drawLongZonalStats(data, name, region) {
   const longDetailData = getLongBarInputChartData(data, region);
   makeDetailChartInputCharts(wrapper, longDetailData);
 
+  makeDetailDriverCharts(wrapper, data, region)
+
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
-      // selectChartCell(wrapper, 'hub', data.hubs);
-      // selectChartCell(wrapper, 'asset', data.asset);
-      // selectChartCell(wrapper, 'threat', data.threat);
-      // selectChartCell(wrapper, 'exposure-box', data.exposure);
-      // selectChartCell(wrapper, 'wildlife', data.wildlife);
-      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
+      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       enableInputGraphs(wrapper, '.zonal-input-graph');
@@ -1393,14 +1423,9 @@ function drawLongZonalStats(data, name, region) {
       enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map-examples':
-      // selectChartCell(wrapper, 'hub', data.hubs);
-      // selectChartCell(wrapper, 'asset', data.asset);
-      // selectChartCell(wrapper, 'threat', data.threat);
-      // selectChartCell(wrapper, 'exposure-box', data.exposure);
-      // selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
-      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
-      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
+      // drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
+      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       enableInputGraphs(wrapper, '.zonal-input-graph');
@@ -1408,11 +1433,6 @@ function drawLongZonalStats(data, name, region) {
       enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map-searchNShubs':
-      // selectChartCell(wrapper, 'ns-hub', data.ns_hubs);
-      // selectChartCell(wrapper, 'ns-asset', data.ns_asset);
-      // selectChartCell(wrapper, 'ns-threat', data.ns_threat);
-      // selectChartCell(wrapper, 'ns-exposure-box', data.ns_exposure);
-      // selectChartCell(wrapper, 'ns-fishandwildlife', data.ns_fishandwildlife);
       disableInputGraphs(wrapper, '.zonal-input-graph');
       defaultdetailGraphs.classList.add('d-none');
       nsdetailGraphs.classList.remove('d-none');
@@ -1420,14 +1440,9 @@ function drawLongZonalStats(data, name, region) {
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map':
-      // selectChartCell(wrapper, 'hub', data.hubs);
-      // selectChartCell(wrapper, 'asset', data.asset);
-      // selectChartCell(wrapper, 'threat', data.threat);
-      // selectChartCell(wrapper, 'exposure-box', data.exposure);
-      // selectChartCell(wrapper, 'fishandwildlife', data.wildlife);
-      drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
-      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
+      // drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
+      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
@@ -1435,14 +1450,8 @@ function drawLongZonalStats(data, name, region) {
       enableInputGraphs(wrapper, '.zonal-input-graph');
       break;
     default:
-      // selectChartCell(wrapper, 'hub', data.hubs);
-      // selectChartCell(wrapper, 'asset', data.asset);
-      // selectChartCell(wrapper, 'threat', data.threat);
-      // selectChartCell(wrapper, 'exposure-box', data.exposure);
-      // // selectChartCell(wrapper, 'fish', data.aquatic);
-      // selectChartCell(wrapper, 'wildlife', data.wildlife);
-      drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      drawThreatDrivers(wrapper, getThreatDrivers(data), region);
+      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
+      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');

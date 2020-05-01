@@ -1800,7 +1800,7 @@ div.zonal-asset {
     }
   }
 
-  &-hub {
+  &-hub, &-hubs  {
     &-none {
       background-color: $hub-none;
       color: #000;
@@ -2101,7 +2101,7 @@ div.zonal-asset {
     background-color: $wildlife-bar;
   }
 
-  &-hub {
+  &-hub, &-hubs {
     background-color: $hub-bar;
   }
 }
