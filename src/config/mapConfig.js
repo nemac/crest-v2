@@ -12,6 +12,7 @@ export var mapConfig = {
       layer: "Hubs TMS",
       label: "Resilience Hubs",
       apikey: 'hubs',
+      hubsapikey: 'hubs',
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -58,6 +59,7 @@ export var mapConfig = {
       layer: "Exposure TMS",
       label: "Community Exposure Index",
       apikey: 'exposure',
+      hubsapikey: 'exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -104,6 +106,7 @@ export var mapConfig = {
       layer: "Assets TMS",
       label: "Community Asset Index",
       apikey: 'asset',
+      hubsapikey: 'asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -252,9 +255,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'fishandwildlife',
-      chartCSSSelector: 'fish',
+      chartCSSSelector: 'aquatic',
       chartCSSExtra: '',
-      // chartCSStype: 'fish', //update this
+      // chartCSStype: 'aquatic', //update this
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -771,6 +774,7 @@ export var mapConfig = {
       layer: "Hubs TMS",
       label: "Resilience Hubs",
       apikey: 'hubs',
+      hubsapikey: 'hubs',
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -817,6 +821,7 @@ export var mapConfig = {
       layer: "Exposure TMS",
       label: "Community Exposure Index",
       apikey: 'exposure',
+      hubsapikey: 'exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -863,6 +868,7 @@ export var mapConfig = {
       layer: "Assets TMS",
       label: "Community Asset Index",
       apikey: 'asset',
+      hubsapikey: 'asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -1569,6 +1575,7 @@ export var mapConfig = {
       layer: "Hubs TMS",
       label: "Resilience Hubs",
       apikey: 'hubs',
+      hubsapikey: 'hubs',
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
       chartDriver: false,
@@ -1615,6 +1622,7 @@ export var mapConfig = {
       layer: "Exposure TMS",
       label: "Community Exposure Index",
       apikey: 'exposure',
+      hubsapikey: 'exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -1661,6 +1669,7 @@ export var mapConfig = {
       layer: "Assets TMS",
       label: "Community Asset Index",
       apikey: 'asset',
+      hubsapikey: 'asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 10,
       chartCSSColor: {
