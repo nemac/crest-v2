@@ -933,19 +933,8 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   const roundedValue = parseInt(driver.value, 10);
   const roundedValueWord = numberToWord(roundedValue);
 
-  if (cssKey === 'hubs' && region === 'continental_us') {
-    console.log(roundedValue, layerInfo[0].chartCSSColor[`${roundedValue}`])
-    console.log(roundedValue, layerInfo[0].chartLegendValues)
-  }
-
   // round values and get bar element
   const bar = graph.querySelector(`.zonal-long-graph-bar-${layerInfo[0].chartCSSSelector}`);
-
-  if (view) {
-      console.log('bar', `.zonal-long-graph-bar-${layerInfo[0].chartCSSSelector}`)
-      console.log('cssKey, height', cssKey, height, driver.value, layerInfo[0].chartCSSSelector)
-  }
-
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
 
@@ -1306,9 +1295,7 @@ function makeDetailDriverCharts(wrapper, data, region) {
     // iterate the driver group and get data
     driver.map( layer => {
       const inputData = { key: layer.apikey, value: data[layer.apikey] };
-      console.log(inputData)
       const inputGraph = wrapper.querySelector(`.zonal-long-graph-wrapper.zonal-long-graph-wrapper-${driverGroupName}`);
-      // console.log(inputGraph)
       drawDriver(inputGraph, `${driverGroupName}-graph`, `${driverGroupName}-graph`, inputData, region, true);
     });
   });
