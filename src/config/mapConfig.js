@@ -11,7 +11,7 @@ export var mapConfig = {
       id: "CONUS_HubsTMS",
       layer: "Hubs TMS",
       label: "Resilience Hubs",
-      apikey: 'hubs', // chart key also
+      apikey: 'hubs',
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -57,7 +57,7 @@ export var mapConfig = {
       id: "CONUS_ExposureTMS",
       layer: "Exposure TMS",
       label: "Community Exposure Index",
-      apikey: 'exposure', // chart key also
+      apikey: 'exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -103,7 +103,7 @@ export var mapConfig = {
       id: "CONUS_AssetsTMS",
       layer: "Assets TMS",
       label: "Community Asset Index",
-      apikey: 'asset', // chart key also
+      apikey: 'asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -149,7 +149,7 @@ export var mapConfig = {
       id: "CONUS_ThreatsTMS",
       layer: "Threats TMS",
       label: "Threat Index",
-      apikey: 'threat', // chart key also
+      apikey: 'threat',
       chartLabel: 'Threat',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -196,7 +196,7 @@ export var mapConfig = {
       id: "CONUS_FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
-      apikey: 'wildlife', // chart key also
+      apikey: 'wildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -238,7 +238,7 @@ export var mapConfig = {
       id: "CONUS_AquaticTMS",
       layer: "Aquatic TMS",
       label: "Aquatic Index",
-      apikey: 'aquatic', // chart key also
+      apikey: 'aquatic',
       chartLabel: 'Aquatic', //update this
       chartLegendValues: 5,
       chartCSSColor: {
@@ -279,7 +279,7 @@ export var mapConfig = {
       id: "CONUS_TerrestrialTMS",
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
-      apikey: 'terrestrial', // chart key also
+      apikey: 'terrestrial',
       chartLabel: 'Terrestrial',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -320,7 +320,7 @@ export var mapConfig = {
       id: "CONUS_PopDensityTMS",
       layer: "Population Density TMS",
       label: "Population Density",
-      apikey: 'pop_density', // chart key also
+      apikey: 'pop_density',
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
@@ -361,7 +361,7 @@ export var mapConfig = {
       id: "CONUS_SocVulnTMS",
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
-      apikey: 'social-vulnerability', // chart key also
+      apikey: 'social_vuln',
       chartLabel: 'Social Vulnerability',
       chartLegendValues: 3,
       chartCSSColor: {
@@ -373,9 +373,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'socvuln',
+      chartCSSSelector: 'social-vulnerability',
       chartCSSExtra: '',
-      // chartCSStype: 'socvuln',
+      // chartCSStype: 'social-vulnerability',
       chartMaxValue: 3,
       chartMinValue: 0,
       chartScale: 0,
@@ -400,7 +400,7 @@ export var mapConfig = {
       id: "CONUS_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
-      apikey: 'critical-facilities', // chart key also
+      apikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
       chartLegendValues: 1,
       chartCSSColor: {
@@ -410,7 +410,7 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'critfac',
+      chartCSSSelector: 'critical-infrastructure',
       chartCSSExtra: '',
       // chartCSStype: 'critfac',
       chartMaxValue: 6,
@@ -437,7 +437,7 @@ export var mapConfig = {
       id: "CONUS_CriticalInfrastructureTMS",
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
-      apikey: 'critical-infrastructure', // chart key also
+      apikey: 'crit_infra',
       chartLabel: 'Critical Infrastructure',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -479,7 +479,7 @@ export var mapConfig = {
       id: "CONUS_DrainageTMS",
       layer: "Drainage TMS",
       label: "Impermeable Soils",
-      apikey: 'drainage', // chart key also
+      apikey: 'drainage',
       chartLabel: 'Impermeable Soils',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -520,7 +520,7 @@ export var mapConfig = {
       id: "CONUS_ErosionTMS",
       layer: "Erosion TMS",
       label: "Soil Erodibility",
-      apikey: 'erosion', // chart key also
+      apikey: 'erosion',
       chartLabel: 'Soil Erodibility',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -561,7 +561,7 @@ export var mapConfig = {
       id: "CONUS_SLRTMS",
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
-      apikey: 'sea-level-rise', // chart key also
+      apikey: 'sea_level_rise',
       chartLabel: 'Sea Level Rise',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -575,9 +575,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'slr',
+      chartCSSSelector: 'sea-level-rise',
       chartCSSExtra: '',
-      // chartCSStype: 'slr',
+      // chartCSStype: 'sea-level-rise',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -602,7 +602,7 @@ export var mapConfig = {
       id: "CONUS_StormSurgeTMS",
       layer: "Storm Surge TMS",
       label: "Storm Surge",
-      apikey: 'storm-surge', // chart key also
+      apikey: 'storm_surge',
       chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -616,9 +616,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'stormsurge',
+      chartCSSSelector: 'storm-surge',
       chartCSSExtra: '',
-      // chartCSStype: 'stormsurge',
+      // chartCSStype: 'storm-surge',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -643,7 +643,7 @@ export var mapConfig = {
       id: "CONUS_GeoStressTMS",
       layer: "Geo Stressors TMS",
       label: "Geological Stressors",
-      apikey: 'geostress', // chart key also
+      apikey: 'geostress',
       chartLabel: 'Geological Stressors',
       chartLegendValues: 3,
       chartCSSColor: {
@@ -682,7 +682,7 @@ export var mapConfig = {
       id: "CONUS_SlopeTMS",
       layer: "Slope TMS",
       label: "Areas of Low Slope",
-      apikey: 'slope', // chart key also
+      apikey: 'slope',
       chartLabel: 'Areas of Low Slope',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -723,7 +723,7 @@ export var mapConfig = {
       id: "CONUS_FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
-      apikey: 'floodprone-areas', // chart key also
+      apikey: 'floodprone_areas',
       chartLabel: 'Flood-Prone Areas',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -737,9 +737,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'floodprone',
+      chartCSSSelector: 'floodprone-areas',
       chartCSSExtra: '',
-      // chartCSStype: 'floodprone',
+      // chartCSStype: 'floodprone-areas',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -770,7 +770,7 @@ export var mapConfig = {
       id: "PR_HubsTMS",
       layer: "Hubs TMS",
       label: "Resilience Hubs",
-      apikey: 'hubs', // chart key also
+      apikey: 'hubs',
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -816,7 +816,7 @@ export var mapConfig = {
       id: "PR_ExposureTMS",
       layer: "Exposure TMS",
       label: "Community Exposure Index",
-      apikey: 'exposure', // chart key also
+      apikey: 'exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -862,7 +862,7 @@ export var mapConfig = {
       id: "PR_AssetsTMS",
       layer: "Assets TMS",
       label: "Community Asset Index",
-      apikey: 'asset', // chart key also
+      apikey: 'asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -908,7 +908,7 @@ export var mapConfig = {
       id: "PR_ThreatsTMS",
       layer: "Threats TMS",
       label: "Threat Index",
-      apikey: 'threat', // chart key also
+      apikey: 'threat',
       chartLabel: 'Threat',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -954,7 +954,7 @@ export var mapConfig = {
     {
       id: "PR_FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
-      apikey: 'wildlife', // chart key also
+      apikey: 'wildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -997,7 +997,7 @@ export var mapConfig = {
       id: "PR_AquaticTMS",
       layer: "Marine TMS",
       label: "Marine Index",
-      apikey: 'marine', // chart key also
+      apikey: 'marine',
       chartLabel: 'Marine', //update this
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1037,7 +1037,7 @@ export var mapConfig = {
       id: "PR_TerrestrialTMS",
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
-      apikey: 'terrestrial', // chart key also
+      apikey: 'terrestrial',
       chartLabel: 'Terrestrial',
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1050,9 +1050,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'fishandwildlife',
-      chartCSSSelector: 'terrestrialislands',
+      chartCSSSelector: 'terrestrial',
       chartCSSExtra: '',
-      // chartCSStype: 'terrestrialislands',
+      // chartCSStype: 'terrestrial',
       chartMaxValue: 5,
       chartMinValue: 0,
       chartScale: 0,
@@ -1077,7 +1077,7 @@ export var mapConfig = {
       id: "PR_PopDensityTMS",
       layer: "Population Density TMS",
       label: "Population Density",
-      apikey: 'pop_density', // chart key also
+      apikey: 'pop_density',
       chartLabel: 'Population Density',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1118,7 +1118,7 @@ export var mapConfig = {
       id: "PR_SocVulnTMS",
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
-      apikey: 'social-vulnerability', // chart key also
+      apikey: 'social_vuln',
       chartLabel: 'Social Vulnerability',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1132,9 +1132,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'socvulnislands',
+      chartCSSSelector: 'social-vulnerability',
       chartCSSExtra: '',
-      // chartCSStype: 'socvulnislands',
+      // chartCSStype: 'social-vulnerability',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -1159,7 +1159,7 @@ export var mapConfig = {
       id: "PR_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
-      apikey: 'critical-facilities', // chart key also
+      apikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
       chartLegendValues: 2,
       chartCSSColor: {
@@ -1170,9 +1170,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'critfac-pr',
+      chartCSSSelector: 'critical-facilities',
       chartCSSExtra: '',
-      // chartCSStype: 'critfac-pr',
+      // chartCSStype: 'critical-facilities',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -1196,7 +1196,7 @@ export var mapConfig = {
       id: "PR_CriticalInfrastructureTMS",
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
-      apikey: 'critical-infrastructure', // chart key also
+      apikey: 'crit_infra',
       chartLabel: 'Critical Infrastructure',
       chartLegendValues: 8,
       chartCSSColor: {
@@ -1213,9 +1213,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'critinfra-pr',
+      chartCSSSelector: 'critical-infrastructure',
       chartCSSExtra: '',
-      // chartCSStype: 'critinfra-pr',
+      // chartCSStype: 'critical-infrastructure',
       chartMaxValue: 8,
       chartMinValue: 0,
       chartScale: 0,
@@ -1240,7 +1240,7 @@ export var mapConfig = {
       id: "PR_DrainageTMS",
       layer: "Drainage TMS",
       label: "Impermeable Soils",
-      apikey: 'drainage', // chart key also
+      apikey: 'impermeable',
       chartLabel: 'Impermeable Soils',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1281,7 +1281,7 @@ export var mapConfig = {
       id: "PR_ErosionTMS",
       layer: "Erosion TMS",
       label: "Soil Erodibility",
-      apikey: 'erosion', // chart key also
+      apikey: 'erosion',
       chartLabel: 'Soil Erodibility',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1322,7 +1322,7 @@ export var mapConfig = {
       id: "PR_SLRTMS",
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
-      apikey: 'sea-level-rise', // chart key also
+      apikey: 'sea_level_rise',
       chartLabel: 'Sea Level Rise',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1336,9 +1336,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'slr',
+      chartCSSSelector: 'sea-level-rise',
       chartCSSExtra: '',
-      // chartCSStype: 'slr',
+      // chartCSStype: 'sea-level-rise',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -1363,7 +1363,7 @@ export var mapConfig = {
       id: "PR_StormSurgeTMS",
       layer: "Storm Surge TMS",
       label: "Storm Surge",
-      apikey: 'storm-surge', // chart key also
+      apikey: 'storm_surge',
       chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1377,9 +1377,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'stormsurge',
+      chartCSSSelector: 'storm-surge',
       chartCSSExtra: '',
-      // chartCSStype: 'stormsurge',
+      // chartCSStype: 'storm-surge',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -1404,7 +1404,7 @@ export var mapConfig = {
       id: "PR_SlopeTMS",
       layer: "Slope TMS",
       label: "Areas of Low Slope",
-      apikey: 'slope', // chart key also
+      apikey: 'low_areas',
       chartLabel: 'Areas of Low Slope',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1445,7 +1445,7 @@ export var mapConfig = {
       id: "PR_FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
-      apikey: 'floodprone-areas', // chart key also
+      apikey: 'floodprone_areas',
       chartLabel: 'Flood-Prone Areas',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1459,7 +1459,7 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'floodprone',
+      chartCSSSelector: 'floodprone-areas',
       chartCSSExtra: '',
       // chartCSStype: 'floodprone',
       chartMaxValue: 6,
@@ -1486,7 +1486,7 @@ export var mapConfig = {
       id: "PR_LandslideIndexTiles",
       layer: "Landslides",
       label: "Geological Stressors",
-      apikey: 'geostress', // chart key also
+      apikey: 'landslides',
       chartLabel: 'Geological Stressors',
       chartLegendValues: 2,
       chartCSSColor: {
@@ -1524,7 +1524,7 @@ export var mapConfig = {
       id: "PR_TsunamiIndexTiles",
       layer: "Tsunami",
       label: "Tsunami",
-      apikey: 'tsunami', // chart key also
+      apikey: 'tsunami',
       chartLabel: 'Tsunami',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1568,7 +1568,7 @@ export var mapConfig = {
       id: "USVI_HubsTMS",
       layer: "Hubs TMS",
       label: "Resilience Hubs",
-      apikey: 'hubs', // chart key also
+      apikey: 'hubs',
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
       chartDriver: false,
@@ -1614,7 +1614,7 @@ export var mapConfig = {
       id: "USVI_ExposureTMS",
       layer: "Exposure TMS",
       label: "Community Exposure Index",
-      apikey: 'exposure', // chart key also
+      apikey: 'exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -1660,7 +1660,7 @@ export var mapConfig = {
       id: "USVI_AssetsTMS",
       layer: "Assets TMS",
       label: "Community Asset Index",
-      apikey: 'asset', // chart key also
+      apikey: 'asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -1706,7 +1706,7 @@ export var mapConfig = {
       id: "USVI_ThreatsTMS",
       layer: "Threats TMS",
       label: "Threat Index",
-      apikey: 'threat', // chart key also
+      apikey: 'threat',
       chartLabel: 'Threat',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -1753,7 +1753,7 @@ export var mapConfig = {
       id: "USVI_FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
-      apikey: 'wildlife', // chart key also
+      apikey: 'wildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -1795,7 +1795,7 @@ export var mapConfig = {
       id: "USVI_AquaticTMS",
       layer: "Marine TMS",
       label: "Marine Index",
-      apikey: 'marine', // chart key also
+      apikey: 'marine',
       chartLabel: 'Marine', //update this
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1835,7 +1835,7 @@ export var mapConfig = {
       id: "USVI_TerrestrialTMS",
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
-      apikey: 'terrestrial', // chart key also
+      apikey: 'terrestrial',
       chartLabel: 'Terrestrial',
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1848,9 +1848,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'fishandwildlife',
-      chartCSSSelector: 'terrestrialislands',
+      chartCSSSelector: 'terrestrial',
       chartCSSExtra: '',
-      // chartCSStype: 'terrestrialislands',
+      // chartCSStype: 'terrestrial',
       chartMaxValue: 5,
       chartMinValue: 0,
       chartScale: 0,
@@ -1875,7 +1875,7 @@ export var mapConfig = {
       id: "USVI_PopDensityTMS",
       layer: "Population Density TMS",
       label: "Population Density",
-      apikey: 'pop_density', // chart key also
+      apikey: 'pop_density',
       chartLabel: 'Population Density',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1916,7 +1916,7 @@ export var mapConfig = {
       id: "USVI_SocVulnTMS",
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
-      apikey: 'social-vulnerability', // chart key also
+      apikey: 'social_vuln',
       chartLabel: 'Social Vulnerability',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1930,7 +1930,7 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'socvulnislands',
+      chartCSSSelector: 'social-vulnerability',
       chartCSSExtra: '',
       // chartCSStype: 'socvuln',
       chartMaxValue: 6,
@@ -1957,7 +1957,7 @@ export var mapConfig = {
       id: "USVI_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
-      apikey: 'critical-facilities', // chart key also
+      apikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
       chartLegendValues: 1,
       chartCSSColor: {
@@ -1967,9 +1967,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'critfac',
+      chartCSSSelector: 'critical-facilities',
       chartCSSExtra: '',
-      // chartCSStype: 'critfac',
+      // chartCSStype: 'critical-facilities',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -1994,7 +1994,7 @@ export var mapConfig = {
       id: "USVI_CriticalInfrastructureTMS",
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
-      apikey: 'critical-infrastructure', // chart key also
+      apikey: 'crit_infra',
       chartLabel: 'Critical Infrastructure',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -2009,9 +2009,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
-      chartCSSSelector: 'critinfra',
+      chartCSSSelector: 'critical-infrastructure',
       chartCSSExtra: '',
-      // chartCSStype: 'critinfra',
+      // chartCSStype: 'critical-infrastructure',
       chartMaxValue: 2,
       chartMinValue: 0,
       chartScale: 0,
@@ -2036,7 +2036,7 @@ export var mapConfig = {
       id: "USVI_DrainageTMS",
       layer: "Drainage TMS",
       label: "Impermeable Soils",
-      apikey: 'drainage', // chart key also
+      apikey: 'impermeable',
       chartLabel: 'Impermeable Soils',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2077,7 +2077,7 @@ export var mapConfig = {
       id: "USVI_ErosionTMS",
       layer: "Erosion TMS",
       label: "Soil Erodibility",
-      apikey: 'erosion', // chart key also
+      apikey: 'erosion',
       chartLabel: 'Soil Erodibility',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2118,7 +2118,7 @@ export var mapConfig = {
       id: "USVI_SLRTMS",
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
-      apikey: 'sea-level-rise', // chart key also
+      apikey: 'sea_level_rise',
       chartLabel: 'Sea Level Rise',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2132,9 +2132,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'slr',
+      chartCSSSelector: 'sea-level-rise',
       chartCSSExtra: '',
-      // chartCSStype: 'slr',
+      // chartCSStype: 'sea-level-rise',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -2159,7 +2159,7 @@ export var mapConfig = {
       id: "USVI_StormSurgeTMS",
       layer: "Storm Surge TMS",
       label: "Storm Surge",
-      apikey: 'storm-surge', // chart key also
+      apikey: 'storm_surge',
       chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2173,9 +2173,9 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'stormsurge',
+      chartCSSSelector: 'storm-surge',
       chartCSSExtra: '',
-      // chartCSStype: 'stormsurge',
+      // chartCSStype: 'storm-surge',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -2200,7 +2200,7 @@ export var mapConfig = {
       id: "USVI_SlopeTMS",
       layer: "Slope TMS",
       label: "Areas of Low Slope",
-      apikey: 'slope', // chart key also
+      apikey: 'low_areas',
       chartLabel: 'Areas of Low Slope',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2241,7 +2241,7 @@ export var mapConfig = {
       id: "USVI_FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
-      apikey: 'floodprone-areas', // chart key also
+      apikey: 'floodprone_areas',
       chartLabel: 'Flood-Prone Areas',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2255,7 +2255,7 @@ export var mapConfig = {
       chartDriver: true,
       chartInput: false,
       chartInputName: 'threat',
-      chartCSSSelector: 'floodprone',
+      chartCSSSelector: 'floodprone-areas',
       chartCSSExtra: '',
       // chartCSStype: 'floodprone',
       chartMaxValue: 6,
@@ -2289,7 +2289,7 @@ export var mapConfig = {
       id: "NS_HubsTMS",
       layer: "Targeted Hubs TMS",
       label: "Hubs",
-      apikey: 'ns_hubs', // chart key also
+      apikey: 'ns_hubs',
       chartLabel: 'Hubs',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2330,7 +2330,7 @@ export var mapConfig = {
       id: "NS_ExposureTMS",
       layer: "Targeted Exposure TMS",
       label: "Exposure Index",
-      apikey: 'ns_exposure', // chart key also
+      apikey: 'ns_exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2371,7 +2371,7 @@ export var mapConfig = {
       id: "NS_AssetsTMS",
       layer: "Targeted Assets TMS",
       label: "Asset Index",
-      apikey: 'ns_asset', // chart key also
+      apikey: 'ns_asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2412,7 +2412,7 @@ export var mapConfig = {
       id: "NS_ThreatsTMS",
       layer: "Targeted Threats TMS",
       label: "Threat Index",
-      apikey: 'ns_threat', // chart key also
+      apikey: 'ns_threat',
       chartLabel: 'Threat',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2453,7 +2453,7 @@ export var mapConfig = {
       id: "NS_FishAndWildlifeTMS",
       layer: "Targeted Fish and Wildlife TMS",
       label: "Fish and Wildlife Index",
-      apikey: 'ns_fishandwildlife', // chart key also
+      apikey: 'ns_fishandwildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 5,
       chartCSSColor: {
