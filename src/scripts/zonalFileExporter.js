@@ -283,6 +283,7 @@ function convertDataToCSV(data) {
   const replacer = (key, value) => (value === null ? '' : value);
   const header = Object.keys(items[0]);
   const downloadHeader = header.map(name => getCSVName(name));
+  // console.log('convertDataToCSV', data, header)
   let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')).join(','));
   csv.unshift(downloadHeader.join(','));
   csv = csv.join('\r\n');

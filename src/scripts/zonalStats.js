@@ -176,7 +176,6 @@ function disableZonalButtons(HTMLName) {
   }
 }
 
-
 function disableAllZonalWrappers() {
   const zonalWrappers = document.querySelectorAll('.zonal-long-wrapper ');
   zonalWrappers.forEach((zonalwrapper) => {
@@ -853,7 +852,6 @@ function buildLongStatsHtml(wrapper) {
   innerWrapper.innerHTML = ZonalLong;
 
   innerWrapper.querySelector('.zonal-long-hubs .zonal-long-table-wrapper').innerHTML = ColorRampHub;
-  // innerWrapper.querySelector('.zonal-long-table-index--aquatic .zonal-long-table-wrapper').innerHTML = ColorRampAquatic;
   innerWrapper.querySelector('.zonal-long-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampFishAndWildlife;
   innerWrapper.querySelector('.zonal-long-exposure .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
   innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
@@ -903,15 +901,8 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   let cssKey = driver.key;
   let csstype = type;
   let cssExtra = '';
-  // let apiKey = layer.apikey;
 
   const activeNav = store.getStateItem('activeNav');
-
-  // if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
-  //   apiKey = layer.hubsapikey;
-  //   value = data[apiKey];
-  // }
-
 
   // filter the region layer list so we can get map configation values for all
   // regions layers
@@ -927,8 +918,6 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   if (layerInfo.length === 0) {
     return null;
   }
-
-  console.log(layerInfo)
 
   // get layer chart css settings from mapconfig.js
   cssExtra = layerInfo[0].chartCSSExtra;
@@ -1038,13 +1027,21 @@ function getSummaryDataChartData(data, region) {
     return null;
   }
 
+  const activeNav = store.getStateItem('activeNav');
+
   // iterate over returned data and values and map it into a object array
   // that only contains summary data or input data not driver data
   const summmaryData = [];
   Object.keys(data).map((key) => {
 
     // check of data matches a driver
-    const layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key)
+    let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
+
+    // filter the regions layers to the specifc layer so we can get map configation values
+    if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+      layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
+    }
+
     // check of data matches a driver and add it to a new object araray that is key, value
     if (layerInfoHasKey.length > 0 ) {
       summmaryData.push({key, value: data[key] })
@@ -1195,8 +1192,30 @@ function formatRawValue(value) {
   return checkNoData(value) ? 'No data' : formatToThreePlaces(value);
 }
 
+// renders data in a table format
+// only renders data that is available for the region it is from.
 function drawRawValue(wrapper, value) {
-  findRawValue(wrapper, value.key).appendChild(makeTextElement(formatRawValue(value.value)));
+  let tr = document.createElement("tr");
+
+  let th = document.createElement("th");
+  let label = document.createTextNode(value.label);
+  th.appendChild(label);
+
+  let tdvalue = document.createElement("td");
+  let dataValue = document.createTextNode(formatRawValue(value.value));
+  tdvalue.appendChild(dataValue);
+
+  let tdrange = document.createElement("td");
+  let range = document.createTextNode(value.range);
+  tdrange.appendChild(range);
+
+  tr.appendChild(th);
+  tr.appendChild(tdvalue);
+  tr.appendChild(tdrange);
+
+  const elem = wrapper.querySelector('.table-rawdata .body-rawdata').appendChild(tr);
+
+  // findRawValue(wrapper, value.cssselector).appendChild(makeTextElement(formatRawValue(value.value)));
 }
 
 function populateRawTableRow(wrapper, value) {
@@ -1265,13 +1284,20 @@ function getLongBarInputChartData(data, region) {
     return null;
   }
 
+  const activeNav = store.getStateItem('activeNav');
+
   // iterate over returned data and values and map it into a object array
   // that only contains summary data or input data not driver data
   const longDetailData = [];
   Object.keys(data).map((key) => {
 
     // check of data matches a driver
-    const layerInfoHasKey = layerInfo.filter(layer => layer.apikey === key);
+    let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
+
+    // filter the regions layers to the specifc layer so we can get map configation values
+    if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+      layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
+    }
 
     // check of data matches a driver and add it to a new object araray that is key, value
     if (layerInfoHasKey.length > 0 ) {
@@ -1322,6 +1348,45 @@ function makeDetailDriverCharts(wrapper, data, region) {
   });
 }
 
+function getDataForTables(data, region) {
+  // filter the region layer list so we can get map configation values for all
+  // regions layers
+  const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
+  const activeNav = store.getStateItem('activeNav');
+
+  // if layerRegionInfo empty array then exit nothing matches.
+  if (layerRegionInfo.length === 0) {
+    return null;
+  }
+
+  // iterate over returned data and values and map it into a object array
+  // that only contains summary data or input data not driver data
+  const dataForTables = [];
+  Object.keys(data).map((key) => {
+
+    // check of data matches a driver
+    let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
+
+    // filter the regions layers to the specifc layer so we can get map configation values
+    if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+      layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
+    }
+
+    // check of data matches a driver and add it to a new object araray that is key, value
+    if (layerInfoHasKey.length > 0 ) {
+      dataForTables.push({
+         key,
+         value: data[key],
+         cssselector: layerInfoHasKey[0].chartCSSSelector,
+         label: layerInfoHasKey[0].label,
+         range: `${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue  - 1}`,
+         source: layerInfoHasKey[0].source
+       })
+    }
+  });
+  return dataForTables;
+}
+
 // Draws and configures the long zonal stats
 // @param data | Object - results of API
 // @return DOM element
@@ -1339,7 +1404,9 @@ function drawLongZonalStats(data, name, region) {
   const defaultdetailGraphs = wrapper.querySelector('.default-detail-graphs');
   const nsdetailGraphs = wrapper.querySelector('.ns-detail-graphs');
 
-  drawRawValues(wrapper, getIndexes(data).concat(getAssetDrivers(data), getThreatDrivers(data)));
+  const dataForTable = getDataForTables(data, region);
+  drawRawValues(wrapper, dataForTable);
+
   const longDetailData = getLongBarInputChartData(data, region);
   makeDetailChartInputCharts(wrapper, longDetailData);
 
@@ -1347,8 +1414,6 @@ function drawLongZonalStats(data, name, region) {
 
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
-      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       enableInputGraphs(wrapper, '.zonal-input-graph');
@@ -1356,9 +1421,6 @@ function drawLongZonalStats(data, name, region) {
       enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map-examples':
-      // drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
-      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       enableInputGraphs(wrapper, '.zonal-input-graph');
@@ -1373,9 +1435,6 @@ function drawLongZonalStats(data, name, region) {
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
       break;
     case 'main-nav-map':
-      // drawFishAndWildlifeDrivers(wrapper, getFishAndWildLifeDrivers(data, region), region)
-      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
@@ -1383,8 +1442,6 @@ function drawLongZonalStats(data, name, region) {
       enableInputGraphs(wrapper, '.zonal-input-graph');
       break;
     default:
-      // drawAssetDrivers(wrapper, getAssetDrivers(data), region);
-      // drawThreatDrivers(wrapper, getThreatDrivers(data), region);
       defaultdetailGraphs.classList.remove('d-none');
       nsdetailGraphs.classList.add('d-none');
       disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
@@ -1392,7 +1449,6 @@ function drawLongZonalStats(data, name, region) {
       enableInputGraphs(wrapper, '.zonal-input-graph');
       break;
   }
-
   return wrapper;
 }
 
