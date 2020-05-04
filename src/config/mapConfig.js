@@ -153,6 +153,7 @@ export var mapConfig = {
       layer: "Threats TMS",
       label: "Threat Index",
       apikey: 'threat',
+      hubsapikey: 'threat',
       chartLabel: 'Threat',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -200,6 +201,7 @@ export var mapConfig = {
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
       apikey: 'wildlife',
+      hubsapikey: 'fishandwildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -242,7 +244,8 @@ export var mapConfig = {
       layer: "Aquatic TMS",
       label: "Aquatic Index",
       apikey: 'aquatic',
-      chartLabel: 'Aquatic', //update this
+      hubsapikey: 'aquatic',
+      chartLabel: 'Aquatic',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -283,6 +286,7 @@ export var mapConfig = {
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
       apikey: 'terrestrial',
+      hubsapikey: 'terrestrial',
       chartLabel: 'Terrestrial',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -324,6 +328,7 @@ export var mapConfig = {
       layer: "Population Density TMS",
       label: "Population Density",
       apikey: 'pop_density',
+      hubsapikey: 'pop_density',
       chartDriver: true,
       chartInput: false,
       chartInputName: 'asset',
@@ -365,6 +370,7 @@ export var mapConfig = {
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
       apikey: 'social_vuln',
+      hubsapikey: 'social_vuln',
       chartLabel: 'Social Vulnerability',
       chartLegendValues: 3,
       chartCSSColor: {
@@ -404,6 +410,7 @@ export var mapConfig = {
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
       apikey: 'crit_facilities',
+      hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
       chartLegendValues: 1,
       chartCSSColor: {
@@ -441,6 +448,7 @@ export var mapConfig = {
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
       apikey: 'crit_infra',
+      hubsapikey: 'crit_infra',
       chartLabel: 'Critical Infrastructure',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -483,6 +491,7 @@ export var mapConfig = {
       layer: "Drainage TMS",
       label: "Impermeable Soils",
       apikey: 'drainage',
+      hubsapikey: 'drainage',
       chartLabel: 'Impermeable Soils',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -524,6 +533,7 @@ export var mapConfig = {
       layer: "Erosion TMS",
       label: "Soil Erodibility",
       apikey: 'erosion',
+      hubsapikey: 'erosion',
       chartLabel: 'Soil Erodibility',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -565,6 +575,7 @@ export var mapConfig = {
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
       apikey: 'sea_level_rise',
+      hubsapikey: 'sea_level_rise',
       chartLabel: 'Sea Level Rise',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -606,6 +617,7 @@ export var mapConfig = {
       layer: "Storm Surge TMS",
       label: "Storm Surge",
       apikey: 'storm_surge',
+      hubsapikey: 'stormsurge',
       chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -647,6 +659,7 @@ export var mapConfig = {
       layer: "Geo Stressors TMS",
       label: "Geological Stressors",
       apikey: 'geostress',
+      hubsapikey: 'geostress',
       chartLabel: 'Geological Stressors',
       chartLegendValues: 3,
       chartCSSColor: {
@@ -686,6 +699,7 @@ export var mapConfig = {
       layer: "Slope TMS",
       label: "Areas of Low Slope",
       apikey: 'slope',
+      hubsapikey: 'slope',
       chartLabel: 'Areas of Low Slope',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -727,6 +741,7 @@ export var mapConfig = {
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
       apikey: 'floodprone_areas',
+      hubsapikey: 'floodprone_areas',
       chartLabel: 'Flood-Prone Areas',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -774,6 +789,7 @@ export var mapConfig = {
       layer: "Hubs TMS",
       label: "Resilience Hubs",
       apikey: 'hubs',
+      hubsapikey: 'hubs',
       hubsapikey: 'hubs',
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
@@ -915,6 +931,7 @@ export var mapConfig = {
       layer: "Threats TMS",
       label: "Threat Index",
       apikey: 'threat',
+      hubsapikey: 'threat',
       chartLabel: 'Threat',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -961,6 +978,7 @@ export var mapConfig = {
       id: "PR_FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
       apikey: 'wildlife',
+      hubsapikey: 'wildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -1004,6 +1022,7 @@ export var mapConfig = {
       layer: "Marine TMS",
       label: "Marine Index",
       apikey: 'marine',
+      hubsapikey: 'marine',
       chartLabel: 'Marine', //update this
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1044,6 +1063,7 @@ export var mapConfig = {
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
       apikey: 'terrestrial',
+      hubsapikey: 'terrestrial',
       chartLabel: 'Terrestrial',
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1084,6 +1104,7 @@ export var mapConfig = {
       layer: "Population Density TMS",
       label: "Population Density",
       apikey: 'pop_density',
+      hubsapikey: 'pop_density',
       chartLabel: 'Population Density',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1125,6 +1146,7 @@ export var mapConfig = {
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
       apikey: 'social_vuln',
+      hubsapikey: 'social_vuln',
       chartLabel: 'Social Vulnerability',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1166,6 +1188,7 @@ export var mapConfig = {
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
       apikey: 'crit_facilities',
+      hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
       chartLegendValues: 2,
       chartCSSColor: {
@@ -1203,6 +1226,7 @@ export var mapConfig = {
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
       apikey: 'crit_infra',
+      hubsapikey: 'crit_infra',
       chartLabel: 'Critical Infrastructure',
       chartLegendValues: 8,
       chartCSSColor: {
@@ -1247,6 +1271,7 @@ export var mapConfig = {
       layer: "Drainage TMS",
       label: "Impermeable Soils",
       apikey: 'impermeable',
+      hubsapikey: 'impermeable',
       chartLabel: 'Impermeable Soils',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1288,6 +1313,7 @@ export var mapConfig = {
       layer: "Erosion TMS",
       label: "Soil Erodibility",
       apikey: 'erosion',
+      hubsapikey: 'erosion',
       chartLabel: 'Soil Erodibility',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1329,6 +1355,7 @@ export var mapConfig = {
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
       apikey: 'sea_level_rise',
+      hubsapikey: 'sea_level_rise',
       chartLabel: 'Sea Level Rise',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1370,6 +1397,7 @@ export var mapConfig = {
       layer: "Storm Surge TMS",
       label: "Storm Surge",
       apikey: 'storm_surge',
+      hubsapikey: 'storm_surge',
       chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1411,6 +1439,7 @@ export var mapConfig = {
       layer: "Slope TMS",
       label: "Areas of Low Slope",
       apikey: 'low_areas',
+      hubsapikey: 'low_areas',
       chartLabel: 'Areas of Low Slope',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1452,6 +1481,7 @@ export var mapConfig = {
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
       apikey: 'floodprone_areas',
+      hubsapikey: 'floodprone_areas',
       chartLabel: 'Flood-Prone Areas',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1493,6 +1523,7 @@ export var mapConfig = {
       layer: "Landslides",
       label: "Geological Stressors",
       apikey: 'landslides',
+      hubsapikey: 'landslides',
       chartLabel: 'Geological Stressors',
       chartLegendValues: 2,
       chartCSSColor: {
@@ -1531,6 +1562,7 @@ export var mapConfig = {
       layer: "Tsunami",
       label: "Tsunami",
       apikey: 'tsunami',
+      hubsapikey: 'tsunami',
       chartLabel: 'Tsunami',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1716,6 +1748,7 @@ export var mapConfig = {
       layer: "Threats TMS",
       label: "Threat Index",
       apikey: 'threat',
+      hubsapikey: 'threat',
       chartLabel: 'Threat',
       chartLegendValues: 10,
       chartCSSColor: {
@@ -1763,6 +1796,7 @@ export var mapConfig = {
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
       apikey: 'wildlife',
+      hubsapikey: 'wildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -1805,6 +1839,7 @@ export var mapConfig = {
       layer: "Marine TMS",
       label: "Marine Index",
       apikey: 'marine',
+      hubsapikey: 'marine',
       chartLabel: 'Marine', //update this
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1845,6 +1880,7 @@ export var mapConfig = {
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
       apikey: 'terrestrial',
+      hubsapikey: 'terrestrial',
       chartLabel: 'Terrestrial',
       chartLegendValues: 4,
       chartCSSColor: {
@@ -1885,6 +1921,7 @@ export var mapConfig = {
       layer: "Population Density TMS",
       label: "Population Density",
       apikey: 'pop_density',
+      hubsapikey: 'pop_density',
       chartLabel: 'Population Density',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1926,6 +1963,7 @@ export var mapConfig = {
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
       apikey: 'social_vuln',
+      hubsapikey: 'social_vuln',
       chartLabel: 'Social Vulnerability',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -1967,6 +2005,7 @@ export var mapConfig = {
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
       apikey: 'crit_facilities',
+      hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
       chartLegendValues: 1,
       chartCSSColor: {
@@ -2004,6 +2043,7 @@ export var mapConfig = {
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
       apikey: 'crit_infra',
+      hubsapikey: 'crit_infra',
       chartLabel: 'Critical Infrastructure',
       chartLegendValues: 6,
       chartCSSColor: {
@@ -2046,6 +2086,7 @@ export var mapConfig = {
       layer: "Drainage TMS",
       label: "Impermeable Soils",
       apikey: 'impermeable',
+      hubsapikey: 'impermeable',
       chartLabel: 'Impermeable Soils',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2087,6 +2128,7 @@ export var mapConfig = {
       layer: "Erosion TMS",
       label: "Soil Erodibility",
       apikey: 'erosion',
+      hubsapikey: 'erosion',
       chartLabel: 'Soil Erodibility',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2128,6 +2170,7 @@ export var mapConfig = {
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
       apikey: 'sea_level_rise',
+      hubsapikey: 'sea_level_rise',
       chartLabel: 'Sea Level Rise',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2169,6 +2212,7 @@ export var mapConfig = {
       layer: "Storm Surge TMS",
       label: "Storm Surge",
       apikey: 'storm_surge',
+      hubsapikey: 'storm_surge',
       chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2210,6 +2254,7 @@ export var mapConfig = {
       layer: "Slope TMS",
       label: "Areas of Low Slope",
       apikey: 'low_areas',
+      hubsapikey: 'low_areas',
       chartLabel: 'Areas of Low Slope',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2251,6 +2296,7 @@ export var mapConfig = {
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
       apikey: 'floodprone_areas',
+      hubsapikey: 'floodprone_areas',
       chartLabel: 'Flood-Prone Areas',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2299,6 +2345,7 @@ export var mapConfig = {
       layer: "Targeted Hubs TMS",
       label: "Hubs",
       apikey: 'ns_hubs',
+      hubsapikey: 'ns_hubs',
       chartLabel: 'Hubs',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2340,6 +2387,7 @@ export var mapConfig = {
       layer: "Targeted Exposure TMS",
       label: "Exposure Index",
       apikey: 'ns_exposure',
+      hubsapikey: 'ns_exposure',
       chartLabel: 'Community Exposure',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2381,6 +2429,7 @@ export var mapConfig = {
       layer: "Targeted Assets TMS",
       label: "Asset Index",
       apikey: 'ns_asset',
+      hubsapikey: 'ns_asset',
       chartLabel: 'Community Asset',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2422,6 +2471,7 @@ export var mapConfig = {
       layer: "Targeted Threats TMS",
       label: "Threat Index",
       apikey: 'ns_threat',
+      hubsapikey: 'ns_threat',
       chartLabel: 'Threat',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2463,6 +2513,7 @@ export var mapConfig = {
       layer: "Targeted Fish and Wildlife TMS",
       label: "Fish and Wildlife Index",
       apikey: 'ns_fishandwildlife',
+      hubsapikey: 'ns_fishandwildlife',
       chartLabel: 'Fish and Wildlife',
       chartLegendValues: 5,
       chartCSSColor: {

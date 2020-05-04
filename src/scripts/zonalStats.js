@@ -903,18 +903,32 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   let cssKey = driver.key;
   let csstype = type;
   let cssExtra = '';
+  // let apiKey = layer.apikey;
+
+  const activeNav = store.getStateItem('activeNav');
+
+  // if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+  //   apiKey = layer.hubsapikey;
+  //   value = data[apiKey];
+  // }
+
 
   // filter the region layer list so we can get map configation values for all
   // regions layers
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
+  let layerInfo = layerRegionInfo.filter(layer => layer.apikey === driver.key);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo = layerRegionInfo.filter(layer => layer.apikey === driver.key);
+  if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+    layerInfo = layerRegionInfo.filter(layer => layer.hubsapikey === driver.key);
+  }
 
   // if layerInfo empty array then exit nothing matches.
   if (layerInfo.length === 0) {
     return null;
   }
+
+  console.log(layerInfo)
 
   // get layer chart css settings from mapconfig.js
   cssExtra = layerInfo[0].chartCSSExtra;
@@ -1124,10 +1138,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   const zoom = makeZoom(name, mapComponent);
 
   const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
-    // const region = store.getStateItem('region');
-    // if (region !== 'continental_us') {
-    //   defaultLongGraphs = wrapper.querySelector(`.long-graphs-${region}`);
-    // }
+
   const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
   switch (activeNav) {
     case 'main-nav-map-searchhubs':
@@ -1284,6 +1295,8 @@ function makeDetailChartInputCharts(wrapper, longDetailData) {
 // the driver charts in the details, then dynamically uses the
 // chartInputName key from the mapconfig.js to create driver charts
 function makeDetailDriverCharts(wrapper, data, region) {
+  const activeNav = store.getStateItem('activeNav');
+
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
   const layerInfo = layerRegionInfo.filter(layer => layer.chartDriver);
   const driverGroups = groupByDriver(layerInfo, 'chartInputName');
@@ -1294,7 +1307,15 @@ function makeDetailDriverCharts(wrapper, data, region) {
     const driverGroupArray = [];
     // iterate the driver group and get data
     driver.map( layer => {
-      const inputData = { key: layer.apikey, value: data[layer.apikey] };
+      let apiKey = layer.apikey;
+      let value = data[apiKey];
+      // check nav for hubs, for now the api returns different values and field names in hub areas stashed in s3 and AGOL
+      if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+        apiKey = layer.hubsapikey;
+        value = data[apiKey];
+      }
+
+      const inputData = { key: apiKey, value: value };
       const inputGraph = wrapper.querySelector(`.zonal-long-graph-wrapper.zonal-long-graph-wrapper-${driverGroupName}`);
       drawDriver(inputGraph, `${driverGroupName}-graph`, `${driverGroupName}-graph`, inputData, region, true);
     });
