@@ -260,7 +260,7 @@ export var mapConfig = {
       chartInputName: 'fishandwildlife',
       chartCSSSelector: 'aquatic',
       chartCSSExtra: '',
-      // chartCSStype: 'aquatic', //update this
+      // chartCSStype: 'aquatic',
       chartMaxValue: 6,
       chartMinValue: 0,
       chartScale: 0,
@@ -1023,7 +1023,7 @@ export var mapConfig = {
       label: "Marine Index",
       apikey: 'marine',
       hubsapikey: 'marine',
-      chartLabel: 'Marine', //update this
+      chartLabel: 'Marine',
       chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -1037,7 +1037,7 @@ export var mapConfig = {
       chartInputName: 'fishandwildlife',
       chartCSSSelector: 'aquatic',
       chartCSSExtra: '',
-      // chartCSStype: 'aquatic', //update this
+      // chartCSStype: 'aquatic',
       chartMaxValue: 5,
       chartMinValue: 0,
       chartScale: 0,
@@ -1840,7 +1840,7 @@ export var mapConfig = {
       label: "Marine Index",
       apikey: 'marine',
       hubsapikey: 'marine',
-      chartLabel: 'Marine', //update this
+      chartLabel: 'Marine',
       chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -1854,7 +1854,7 @@ export var mapConfig = {
       chartInputName: 'fishandwildlife',
       chartCSSSelector: 'aquatic',
       chartCSSExtra: '',
-      // chartCSStype: 'aquatic', //update this
+      // chartCSStype: 'aquatic',
       chartMaxValue: 5,
       chartMinValue: 0,
       chartScale: 0,

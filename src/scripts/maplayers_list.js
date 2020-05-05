@@ -153,7 +153,7 @@ export class MapLayersList extends Component {
   }
 
   static toggleRegionsLayers(mapComponent) {
-    //  get the region
+    // get the region
     const region = store.getStateItem('region');
     const activeNav = store.getStateItem('activeNav');
 
@@ -704,7 +704,7 @@ export class MapLayersList extends Component {
           valueELem.classList.add(layerProps.source);
         }
 
-        // set attributes for popups 
+        // set attributes for popups
         MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
         MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
         MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);

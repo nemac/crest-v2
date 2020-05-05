@@ -953,7 +953,8 @@ function drawDriver(graph, name, type, driver, region, view=false) {
     bar.setAttribute('data-placement', 'top');
   }
 
-  const label = graph.querySelector(`.zonal-long-graph-label-${driver.key} .zonal-long-graph-label-text`);
+  // render label from the mapconfig
+  const label = graph.querySelector(`.zonal-long-graph-label-${layerInfo[0].chartCSSSelector} .zonal-long-graph-label-text`);
   if (label) {
     label.innerHTML = `${layerInfo[0].chartLabel}`
   }
