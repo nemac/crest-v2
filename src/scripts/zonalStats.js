@@ -840,21 +840,17 @@ function buildLongStatsHtml(wrapper) {
   const { TMSLayers } = mapConfig;
   const inputData = TMSLayers.filter(layer => layer.chartInput  );
 
-  console.log('inputData', inputData)
   // iterate the layer props to assing apporaite thml
    inputData.forEach((layerProps) => {
      const layerElem = wrapper.querySelector(`.zonal-long-${layerProps.chartCSSSelector}-wrapper .zonal-long-table-wrapper`)
      const roundedValueWord = numberToWord(layerProps.chartLegendValues);
 
-       // console.log('layerElem', layerElem)
        if (layerElem) {
          const legendHTML = getLegendHtml(layerProps.chartLegendValues);
          layerElem.innerHTML = legendHTML;
-         // console.log('layerElem', layerElem)
 
         // get the color palette for layer, each layer can have its own
         const colorPalette = layerProps.chartCSSColor;
-        // console.log('colorPalette', colorPalette)
 
         // iterate the color palette for layer so we can assing apporaite css color to element
         Object.keys(colorPalette).forEach((color) => {
@@ -862,7 +858,6 @@ function buildLongStatsHtml(wrapper) {
           // convert the color number to number word 2 - two
           // this is how html elments are named.
           const colorlueWord = numberToWord(parseInt(color));
-          // console.log('colorlueWord', colorlueWord)
           // get the element based on the color word
           const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
 
@@ -1082,27 +1077,6 @@ function getSummaryDataChartData(data, region) {
   return summmaryData;
 }
 
-// Configures each fish and wildlife inout driver bar
-// @param wrapper | DOM element
-// @param drivers | Array
-function drawFishAndWildlifeDrivers(wrapper, drivers, region) {
-  const fishandwildlifeGraph = wrapper.querySelector('.zonal-long-graph-wrapper-fishandwildlife .zonal-long-graph');
-  // draw summary graph using driver function
-  drivers.forEach( (driver) => {
-    drawDriver(fishandwildlifeGraph, 'fish-and-wildlife-graph', 'fish-and-wildlife-graph', driver, region);
-  });
-}
-
-// Configures each asset driver bar
-// @param wrapper | DOM element
-// @param drivers | Array
-function drawAssetDrivers(wrapper, drivers, region) {
-  const assetGraph = wrapper.querySelector('.zonal-long-graph-wrapper-asset .zonal-long-graph');
-  drivers.forEach( (driver) => {
-    drawDriver(assetGraph, 'asset-graph', 'asset-graph', driver, region);
-  });
-}
-
 // draw the mapinfo chart. This is the indentify click function
 function drawMapInfoStats(data, doc, region) {
   drawMapInfoChart(getSummaryDataChartData(data, region), 'mapInfo', doc, region);
@@ -1202,16 +1176,6 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   return wrapper;
 }
 
-// Configures each threat driver bar
-// @param wrapper | DOM element
-// @param drivers | Array
-function drawThreatDrivers(wrapper, drivers, region) {
-  const threatGraph = wrapper.querySelector('.zonal-long-graph-wrapper-threat .zonal-long-graph');
-  drivers.forEach( (driver) => {
-    drawDriver(threatGraph, 'threat-graph', 'threat-graph', driver, region);
-  });
-}
-
 function findRawValue(wrapper, key) {
   return wrapper.querySelector(`.zonal-long-raw-value-${key}`);
 }
@@ -1246,8 +1210,6 @@ function drawRawValue(wrapper, value) {
   tr.appendChild(tdrange);
 
   const elem = wrapper.querySelector('.table-rawdata .body-rawdata').appendChild(tr);
-
-  // findRawValue(wrapper, value.cssselector).appendChild(makeTextElement(formatRawValue(value.value)));
 }
 
 function populateRawTableRow(wrapper, value) {
@@ -1363,6 +1325,10 @@ function makeDetailDriverCharts(wrapper, data, region) {
   driverGroups.map( driver => {
     const driverGroupName = driver[0].chartInputName;
     const driverGroupArray = [];
+    const barWidth = ((100 / driver.length) - 2);
+
+    console.log('driver', driver.length, barWidth)
+
     // iterate the driver group and get data
     driver.map( layer => {
       let apiKey = layer.apikey;
