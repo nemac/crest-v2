@@ -924,7 +924,6 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   let height = getValuePosition(driver.value, 0, 10, 1);
   let cssKey = driver.key;
   let csstype = type;
-  let cssExtra = '';
 
   const activeNav = store.getStateItem('activeNav');
   if (activeNav ===  'main-nav-map-searchNShubs') {
@@ -946,7 +945,6 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   }
 
   // get layer chart css settings from mapconfig.js
-  cssExtra = layerInfo[0].chartCSSExtra;
   cssKey = layerInfo[0].chartCSSSelector;
   csstype = layerInfo[0].chartCSStype;
 
