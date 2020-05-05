@@ -839,6 +839,8 @@ function buildLongStatsHtml(wrapper) {
 
   const { TMSLayers } = mapConfig;
   const inputData = TMSLayers.filter(layer => layer.chartInput  );
+
+  console.log('inputData', inputData)
   // iterate the layer props to assing apporaite thml
    inputData.forEach((layerProps) => {
      const layerElem = wrapper.querySelector(`.zonal-long-${layerProps.chartCSSSelector}-wrapper .zonal-long-table-wrapper`)
@@ -903,7 +905,6 @@ function selectChartCell(wrapper, type, value) {
 
   if (checkValidObject(roundedValue)) {
     const selector = `.zonal-long-table-item.value-${roundedValueWord}.${type}`;
-    console.log('selector', wrapper, selector)
     const cell = wrapper.querySelector(selector);
     if (cell) {
       cell.classList.add('selected-cell');
