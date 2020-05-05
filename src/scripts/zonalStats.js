@@ -963,7 +963,10 @@ function drawDriver(graph, name, type, driver, region, view=false) {
 function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
   let graphSelector = '.default-long-graphs';
   let summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-
+  if (activeNav ===  'main-nav-map-searchNShubs') {
+    region = 'targetedwatershed'
+  }
+  
   switch (activeNav) {
     case 'main-nav-map-examples':
       summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
@@ -1354,7 +1357,9 @@ function getDataForTables(data, region) {
   // regions layers
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
   const activeNav = store.getStateItem('activeNav');
-
+  if (activeNav ===  'main-nav-map-searchNShubs') {
+    region = 'targetedwatershed'
+  }
   // if layerRegionInfo empty array then exit nothing matches.
   if (layerRegionInfo.length === 0) {
     return null;

@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import { saveCsv } from './fileExporter';
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
@@ -10,9 +11,11 @@ const { TMSLayers } = mapConfig;
 
 // rename field
 function getCSVName(name) {
-  console.log('getCSVName', name)
   if (name === 'TARGET_FID') {
-    return 'name';
+    return 'Name';
+  }
+  if (name === 'name') {
+    return 'Name';
   }
 
   // filter the region layer list so we can get map configation values for all
@@ -39,7 +42,9 @@ function getCSVName(name) {
 
   // check of data matches a driver and add it to a new object araray that is key, value
   if (layerInfoHasKey.length > 0 ) {
-    return `${layerInfoHasKey[0].label} - data range (${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue  - 1})`;
+    const label = `${layerInfoHasKey[0].label}-data range (${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue - 1})`;
+    // have to add underscore for some csv conversions and I don't know why
+    return label.replace(/ /g,"_");
   }
 }
 
@@ -244,9 +249,9 @@ function handleZonalCsvExport(name) {
     }
   }
 
-  console.log(data)
+  // console.log(data)
   const formatedData = formatDataForTables(data, region);
-  console.log(formatedData)
+  // console.log(formatedData)
   const label = makeZonalNameFromKey(key);
   const fileContent = makeExportFileContent(formatedData);
   triggerCsvExport(fileContent, label);
@@ -264,10 +269,32 @@ function convertDataToCSV(data) {
   const replacer = (key, value) => (value === null ? '' : value);
   const header = Object.keys(items[0]);
   const downloadHeader = header.map(name => getCSVName(name));
+  // console.log(header, downloadHeader)
   let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')).join(','));
+
+  // const downloadHeader = header.map(name => getCSVName(name));
+  // console.log(header, downloadHeader)
+  // let csv = items.map((row) => {
+  //   const t =  header.map((fieldName) => {
+  //     console.log('test', JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""'))
+  //     return JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')
+  //   }).join(',');
+  //   console.log('t', t)
+  //   return t;
+  // });
+
+  const tempHeader = header.map(name => getCSVName(name));
+  console.log(tempHeader.join(','), csv)
   csv.unshift(downloadHeader.join(','));
+  console.log(csv)
   csv = csv.join('\r\n');
   return csv;
+}
+
+// filter geojson by the current region
+function regionFilter(feature) {
+  const region =  store.getStateItem('region');
+  if (feature.properties.region === region) return true
 }
 
 // Mines the state object for the data about all user defined zones from the API
@@ -277,10 +304,17 @@ function convertDataToCSV(data) {
 function getAllZonesFromState() {
   const zonaldata = [];
   const userareas = store.getStateItem('userareas');
+  let region =  store.getStateItem('region');
+
   Object.keys(userareas).forEach((key) => {
     const { name } = userareas[key][0];
-    const data = { name, ...userareas[key][3].zonalstatsjson.features[0].properties.mean };
-    zonaldata.push(data);
+    const  zonalData = userareas[key][3].zonalstatsjson
+    const regionalData = L.geoJson(zonalData, {filter: regionFilter}).toGeoJSON();
+    // limit to regional data, and make sure empty GeoJson is ignored
+    if (regionalData.features[0]) {
+      const data = { name, ...userareas[key][3].zonalstatsjson.features[0].properties.mean };
+      zonaldata.push(data);
+    }
   });
   return convertDataToCSV(zonaldata);
 }
