@@ -249,9 +249,7 @@ function handleZonalCsvExport(name) {
     }
   }
 
-  // console.log(data)
   const formatedData = formatDataForTables(data, region);
-  // console.log(formatedData)
   const label = makeZonalNameFromKey(key);
   const fileContent = makeExportFileContent(formatedData);
   triggerCsvExport(fileContent, label);
@@ -269,24 +267,12 @@ function convertDataToCSV(data) {
   const replacer = (key, value) => (value === null ? '' : value);
   const header = Object.keys(items[0]);
   const downloadHeader = header.map(name => getCSVName(name));
-  // console.log(header, downloadHeader)
+
   let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')).join(','));
-
-  // const downloadHeader = header.map(name => getCSVName(name));
-  // console.log(header, downloadHeader)
-  // let csv = items.map((row) => {
-  //   const t =  header.map((fieldName) => {
-  //     console.log('test', JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""'))
-  //     return JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')
-  //   }).join(',');
-  //   console.log('t', t)
-  //   return t;
-  // });
-
   const tempHeader = header.map(name => getCSVName(name));
-  console.log(tempHeader.join(','), csv)
+
+  // push header to begining of array
   csv.unshift(downloadHeader.join(','));
-  console.log(csv)
   csv = csv.join('\r\n');
   return csv;
 }

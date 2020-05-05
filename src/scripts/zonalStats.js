@@ -1,32 +1,31 @@
 import L from 'leaflet';
 import ZonalWrapper from '../templates/zonal_wrapper.html';
-import ColorRampHub from '../templates/colorramp_hub.html';
-import ColorRampAquatic from '../templates/colorramp_aquatic.html';
-import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
-import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
-import ColorRampExposure from '../templates/colorramp_exposure.html';
-import ColorRampAsset from '../templates/colorramp_asset.html';
-import ColorRampThreat from '../templates/colorramp_threat.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import ZonalButtons from '../templates/zonal_buttons.html';
-import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
-import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
-import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
-import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
-import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
+
+// import ColorRampHub from '../templates/colorramp_hub.html';
+// import ColorRampAquatic from '../templates/colorramp_aquatic.html';
+// import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
+// import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
+// import ColorRampExposure from '../templates/colorramp_exposure.html';
+// import ColorRampAsset from '../templates/colorramp_asset.html';
+// import ColorRampThreat from '../templates/colorramp_threat.html';
+
+// import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
+// import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
+// import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
+// import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
+// import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
 
 import {
   checkValidObject,
   googleAnalyticsEvent,
-  getIndexes,
-  getAssetDrivers,
-  getThreatDrivers,
-  getFishAndWildLifeDrivers,
   groupByDriver,
-  numberToWord
+  numberToWord,
+  getLegendHtml
 } from './utilitys';
 
 const { zoomRegions } = mapConfig;
@@ -212,7 +211,6 @@ function dismissLongZonalStats(wrapper) {
 
   const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
   hasShapeButtonElem.classList.remove('d-none');
-  // wrapper.previousSibling.style.height = '100%';
   ZonalWrapperActiveAdd();
 }
 
@@ -849,19 +847,56 @@ function formatPosition(position) {
 function buildLongStatsHtml(wrapper) {
   // lint complains otherwise, but due to chaining of functions it's mistaken
   const innerWrapper = wrapper;
+  // const region = store.getStateItem('region');
   innerWrapper.innerHTML = ZonalLong;
 
-  innerWrapper.querySelector('.zonal-long-hubs .zonal-long-table-wrapper').innerHTML = ColorRampHub;
-  innerWrapper.querySelector('.zonal-long-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampFishAndWildlife;
-  innerWrapper.querySelector('.zonal-long-exposure .zonal-long-table-wrapper').innerHTML = ColorRampExposure;
-  innerWrapper.querySelector('.zonal-long-table-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampAsset;
-  innerWrapper.querySelector('.zonal-long-table-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampThreat;
+  const { TMSLayers } = mapConfig;
+  const inputData = TMSLayers.filter(layer => layer.chartInput  );
+  // iterate the layer props to assing apporaite thml
+   inputData.forEach((layerProps) => {
+     const layerElem = wrapper.querySelector(`.zonal-long-${layerProps.chartCSSSelector}-wrapper .zonal-long-table-wrapper`)
+     const roundedValueWord = numberToWord(layerProps.chartLegendValues);
 
-  innerWrapper.querySelector('.zonal-long-ns-hub .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSHub;
-  innerWrapper.querySelector('.zonal-long-ns-exposure .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSExposure;
-  innerWrapper.querySelector('.zonal-long-table-ns-asset-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSAsset;
-  innerWrapper.querySelector('.zonal-long-table-ns-threat-sep .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSThreat;
-  innerWrapper.querySelector('.zonal-long-table-ns-fishandwildlife .zonal-long-table-wrapper').innerHTML = ColorRampDriverNSFishAndWildlife;
+       // console.log('layerElem', layerElem)
+       if (layerElem) {
+         const legendHTML = getLegendHtml(layerProps.chartLegendValues);
+         layerElem.innerHTML = legendHTML;
+         console.log('layerElem', layerElem)
+
+        // get the color palette for layer, each layer can have its own
+        const colorPalette = layerProps.chartCSSColor;
+        console.log('colorPalette', colorPalette)
+
+        // iterate the color palette for layer so we can assing apporaite css color to element
+        Object.keys(colorPalette).forEach((color) => {
+
+          // convert the color number to number word 2 - two
+          // this is how html elments are named.
+          const colorlueWord = numberToWord(parseInt(color));
+          console.log('colorlueWord', colorlueWord)
+          // get the element based on the color word
+          const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
+
+          // if the element exists add css color values
+          if (valueELem) {
+            // set background based on mapconfig values
+            valueELem.style.background = colorPalette[color];
+
+            // set font color
+            valueELem.style.color = '#000';
+
+            // // last color tends to be to dark for dark font
+            // if (parseInt(color) >= layerProps.chartLegendValues ) {
+            //   valueELem.style.color = '#fff';
+            // }
+            // add classes for region, chartCSSSelector, and source in case we want to find it later
+            valueELem.classList.add(layerProps.chartCSSSelector);
+            valueELem.classList.add(layerProps.region);
+            valueELem.classList.add(layerProps.source);
+          }
+        })
+     }
+   });
 }
 
 // sets the value of the main inputs current value
@@ -903,7 +938,9 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   let cssExtra = '';
 
   const activeNav = store.getStateItem('activeNav');
-
+  if (activeNav ===  'main-nav-map-searchNShubs') {
+    region = 'targetedwatershed'
+  }
   // filter the region layer list so we can get map configation values for all
   // regions layers
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
@@ -941,6 +978,10 @@ function drawDriver(graph, name, type, driver, region, view=false) {
   const tooltipValue = Math.round(driver.value * 100) / 100;
   const toolTipword = numberToWord(roundedValue);
 
+  // if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+  //   console.log(toolTipword, `.zonal-long-graph-bar-${layerInfo[0].chartCSSSelector}`)
+  // }
+
   // replace the bar and add tool tip for values
   if (bar) {
     bar.style.height = formatPosition(height);
@@ -966,7 +1007,7 @@ function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
   if (activeNav ===  'main-nav-map-searchNShubs') {
     region = 'targetedwatershed'
   }
-  
+
   switch (activeNav) {
     case 'main-nav-map-examples':
       summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
@@ -1605,11 +1646,7 @@ export {
   enableZonalButtons,
   disableZonalButtons,
   toggleALLPathsOff,
-  toggleAllLongZonalsOff,
-  getIndexes,
-  getAssetDrivers,
-  getThreatDrivers,
-  getFishAndWildLifeDrivers
+  toggleAllLongZonalsOff
 };
 
 // Polyfill for Element.closest for IE9+ and Safari

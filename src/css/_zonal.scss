@@ -714,6 +714,7 @@ div.zonal-asset {
 }
 
 .zonal-long-ns-hubs,
+.zonal-long-ns_hubss,
 .zonal-long-fishandwildlife.zonal-long-fishandwildlife,
 .zonal-long-ns-fishandwildlife.zonal-long-ns-fishandwildlife,
 .zonal-long-ns-exposure-wrapper, .zonal-long-ns-asset-threat,
@@ -1768,7 +1769,7 @@ div.zonal-asset {
     }
   }
 
-  &-ns-hub {
+  &-ns-hub, &-ns_hubs {
     &-none {
       background-color: $ns-hub-none;
       color: #000;
@@ -2185,7 +2186,7 @@ div.zonal-asset {
 
 .zonal-long-graph-label{
 
-  &-ns-hubs {
+  &-ns-hubs, &-ns_hubs {
     .zonal-long-graph-label-text {
       left: 35% !important;
     }
@@ -2285,7 +2286,7 @@ div.zonal-asset {
 @media screen and (max-width: 1286px) {
   .zonal-long-graph-label{
 
-    &-ns-hubs {
+    &-ns-hubs, &-ns_hubs {
       .zonal-long-graph-label-text {
         left: 35% !important;
       }

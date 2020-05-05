@@ -1,5 +1,17 @@
 import { Store } from './store';
 import { identifyConfig } from '../config/identifyConfig';
+// Legend Templates
+import ColorRampHub from '../templates/colorramp_hub.html';
+import ColorRampTenBreaks from '../templates/colorramp_breaks_ten.html';
+import ColorRampNineBreaks from '../templates/colorramp_breaks_nine.html';
+import ColorRampEightBreaks from '../templates/colorramp_breaks_eight.html';
+import ColorRampSevenBreaks from '../templates/colorramp_breaks_seven.html';
+import ColorRampSixBreaks from '../templates/colorramp_breaks_six.html';
+import ColorRampFiveBreaks from '../templates/colorramp_breaks_five.html';
+import ColorRampFourBreaks from '../templates/colorramp_breaks_four.html';
+import ColorRampThreeBreaks from '../templates/colorramp_breaks_three.html';
+import ColorRampTwoBreaks from '../templates/colorramp_breaks_two.html';
+import ColorRampOneBreaks from '../templates/colorramp_breaks_one.html';
 
 const store = new Store({});
 
@@ -113,6 +125,37 @@ export function numberToWord(number) {
     default:
   }
   return numberWord;
+}
+
+// Returns the HTML for a specified legend type
+//
+// @param type | String
+// @return String
+export function getLegendHtml(maxValue) {
+  switch (maxValue) {
+    case 10:
+      return ColorRampTenBreaks;
+    case 9:
+      return ColorRampNineBreaks;
+    case 8:
+      return ColorRampEightBreaks;
+    case 7:
+      return ColorRampSevenBreaks;
+    case 6:
+      return ColorRampSixBreaks;
+    case 5:
+      return ColorRampFiveBreaks;
+    case 4:
+      return ColorRampFourBreaks;
+    case 3:
+      return ColorRampThreeBreaks;
+    case 2:
+      return ColorRampTwoBreaks;
+    case 1:
+      return ColorRampOneBreaks;
+    default:
+      return ColorRampTenBreaks;
+  }
 }
 
 // Reformats data for the drivers of inputs
