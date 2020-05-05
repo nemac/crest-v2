@@ -1,7 +1,6 @@
 import { Store } from './store';
 import { identifyConfig } from '../config/identifyConfig';
 // Legend Templates
-import ColorRampHub from '../templates/colorramp_hub.html';
 import ColorRampTenBreaks from '../templates/colorramp_breaks_ten.html';
 import ColorRampNineBreaks from '../templates/colorramp_breaks_nine.html';
 import ColorRampEightBreaks from '../templates/colorramp_breaks_eight.html';

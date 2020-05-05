@@ -4,19 +4,6 @@ import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import ZonalButtons from '../templates/zonal_buttons.html';
 
-// import ColorRampHub from '../templates/colorramp_hub.html';
-// import ColorRampAquatic from '../templates/colorramp_aquatic.html';
-// import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
-// import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
-// import ColorRampExposure from '../templates/colorramp_exposure.html';
-// import ColorRampAsset from '../templates/colorramp_asset.html';
-// import ColorRampThreat from '../templates/colorramp_threat.html';
-
-// import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
-// import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
-// import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
-// import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
-// import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
 
@@ -861,11 +848,11 @@ function buildLongStatsHtml(wrapper) {
        if (layerElem) {
          const legendHTML = getLegendHtml(layerProps.chartLegendValues);
          layerElem.innerHTML = legendHTML;
-         console.log('layerElem', layerElem)
+         // console.log('layerElem', layerElem)
 
         // get the color palette for layer, each layer can have its own
         const colorPalette = layerProps.chartCSSColor;
-        console.log('colorPalette', colorPalette)
+        // console.log('colorPalette', colorPalette)
 
         // iterate the color palette for layer so we can assing apporaite css color to element
         Object.keys(colorPalette).forEach((color) => {
@@ -873,7 +860,7 @@ function buildLongStatsHtml(wrapper) {
           // convert the color number to number word 2 - two
           // this is how html elments are named.
           const colorlueWord = numberToWord(parseInt(color));
-          console.log('colorlueWord', colorlueWord)
+          // console.log('colorlueWord', colorlueWord)
           // get the element based on the color word
           const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
 
@@ -915,7 +902,8 @@ function selectChartCell(wrapper, type, value) {
   }
 
   if (checkValidObject(roundedValue)) {
-    const selector = `.zonal-long-table-cell-${type}-${roundedValueWord}`;
+    const selector = `.zonal-long-table-item.value-${roundedValueWord}.${type}`;
+    console.log('selector', wrapper, selector)
     const cell = wrapper.querySelector(selector);
     if (cell) {
       cell.classList.add('selected-cell');
