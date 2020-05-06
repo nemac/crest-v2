@@ -1,4 +1,4 @@
-import L from 'leaflet';
+  import L from 'leaflet';
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
@@ -365,29 +365,6 @@ function shortZonalClickHandler(e) {
       const path = document.querySelector(`.path-${HTMLName}`);
       togglePermHighLightsOn(path);
     }
-  }
-
-  if (document.getElementById("myChart")) {
-    new Chart(document.getElementById("myChart"), {
-        type: 'bar',
-        data: {
-          labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-          datasets: [
-            {
-              label: "Population (millions)",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
-            }
-          ]
-        },
-        options: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: 'Predicted world population (millions) in 2050'
-          }
-        }
-    });
   }
 }
 
@@ -1022,28 +999,31 @@ function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
     region = 'targetedwatershed'
   }
 
-  switch (activeNav) {
-    case 'main-nav-map-examples':
-      summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
-      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      break;
-    case 'main-nav-map-searchNShubs':
-      summaryGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
-      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      break;
-    case 'main-nav-map-searchhubs':
-      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      break;
-    case 'main-nav-map':
-      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      break;
-    default:
-      summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-      summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-      break;
-  }
+  // summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+  // summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+
+  // switch (activeNav) {
+  //   case 'main-nav-map-examples':
+  //     summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
+  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+  //     break;
+  //   case 'main-nav-map-searchNShubs':
+  //     summaryGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
+  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+  //     break;
+  //   case 'main-nav-map-searchhubs':
+  //     summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+  //     break;
+  //   case 'main-nav-map':
+  //     summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+  //     break;
+  //   default:
+  //     summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
+  //     break;
+  // }
 
   // summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
   // draw summary graph using driver function
@@ -1143,7 +1123,6 @@ function drawShortZonalStats(data, name, mapComponent, region) {
 
   // console.log('stripUserArea', stripUserArea(name));
   const chartName = stripUserArea(name);
-  formatChartData();
   const configchartdata = store.getStateItem('configchartdata');
   const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
   console.log('chartName', chartName);
@@ -1154,6 +1133,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   // // summary-chart state-USERAREA-Area_6
   // convert to chart data
 
+  // probably need to paging next ten etc
   new Chart(wrapper.querySelector(`.summary-chart.state${HTMLName}`), {
       type: 'bar',
       data: {
@@ -1182,7 +1162,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
             ticks: {
               reverse: false,
               fontColor: '#e9ecef',
-              fontSize: 10,
+              fontSize: 12,
               lineWidth: 0,
               color: '#e9ecef',
               lineWidth: 0.25,
@@ -1190,6 +1170,13 @@ function drawShortZonalStats(data, name, mapComponent, region) {
               padding: 5,
               maxRotation: 0,
               minRotation: 0,
+              callback: function(label) {
+                if (/\s/.test(label)) {
+                  return label.split(" ");
+                }else{
+                  return label;
+                }
+              }
             }
           }],
              yAxes: [{
@@ -1230,9 +1217,10 @@ function drawShortZonalStats(data, name, mapComponent, region) {
            },
         responsive: true,
         maintainAspectRatio: false,
+        fontFamily: 'Roboto',
         legend: { display: false },
         title: {
-          display: true,
+          display: false,
           text:  chartdata[0].groupname,
         },
         tooltips: {
@@ -1240,6 +1228,10 @@ function drawShortZonalStats(data, name, mapComponent, region) {
             titleFontColor: '#1c1c20',
             bodyFontColor: '#1c1c20',
             displayColors: false,
+            titleAlign: 'center',
+            bodyAlign: 'center',
+            bodyFontFamily: 'Roboto',
+            fontFamily: 'Roboto',
             callbacks: {
                 label: function(tooltipItem, data) {
                     var label = data.datasets[tooltipItem.datasetIndex].label || '';
@@ -1284,30 +1276,35 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
 
   const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
-  switch (activeNav) {
-    case 'main-nav-map-searchhubs':
-      wrapper.insertBefore(zoom, wrapper.childNodes[1]);
-      defaultLongGraphs.classList.remove('d-none');
-      nsLongGraphs.classList.add('d-none');
-      break;
-    case 'main-nav-map-examples':
-      break;
-    case 'main-nav-map-searchNShubs':
-      wrapper.insertBefore(zoom, wrapper.childNodes[1]);
-      defaultLongGraphs.classList.add('d-none');
-      nsLongGraphs.classList.remove('d-none');
-      break;
-    case 'main-nav-map':
-      wrapper.insertBefore(zoom, wrapper.childNodes[2]);
-      defaultLongGraphs.classList.remove('d-none');
-      nsLongGraphs.classList.add('d-none');
-      break;
-    default:
-      wrapper.insertBefore(zoom, wrapper.childNodes[2]);
-      defaultLongGraphs.classList.remove('d-none');
-      nsLongGraphs.classList.add('d-none');
-      break;
-  }
+  wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+  defaultLongGraphs.classList.remove('d-none');
+
+  // switch (activeNav) {
+  //   case 'main-nav-map-searchhubs':
+  //     wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+  //     // defaultLongGraphs.classList.remove('d-none');
+  //     // nsLongGraphs.classList.add('d-none');
+  //     break;
+  //   case 'main-nav-map-examples':
+  //     break;
+  //   case 'main-nav-map-searchNShubs':
+  //     wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+  //     defaultLongGraphs.classList.remove('d-none');
+  //     nsLongGraphs.classList.add('d-none');
+  //     // defaultLongGraphs.classList.add('d-none');
+  //     // nsLongGraphs.classList.remove('d-none');
+  //     break;
+  //   case 'main-nav-map':
+  //     wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+  //     defaultLongGraphs.classList.remove('d-none');
+  //     nsLongGraphs.classList.add('d-none');
+  //     break;
+  //   default:
+  //     wrapper.insertBefore(zoom, wrapper.childNodes[2]);
+  //     // defaultLongGraphs.classList.remove('d-none');
+  //     // nsLongGraphs.classList.add('d-none');
+  //     break;
+  // }
 
   const ovr = makeOverviewLabel();
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');

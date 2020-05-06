@@ -424,6 +424,8 @@ export class Explore extends Component {
     }
 
     this.addZoomLinks();
+    // convert to chart data
+    formatChartData();
     return null;
   }
 
@@ -1676,6 +1678,9 @@ export class Explore extends Component {
       }
       return layer;
     }
+
+    // convert to chart data
+    formatChartData();
     return null;
   }
 
@@ -1944,6 +1949,8 @@ export class Explore extends Component {
             break;
         }
       }
+      // convert to chart data
+      formatChartData();
     });
   }
 
@@ -2238,6 +2245,8 @@ export class Explore extends Component {
           // }
           break;
       }
+      // convert to chart data
+      formatChartData();
     });
   }
 
@@ -2248,6 +2257,8 @@ export class Explore extends Component {
     this.drawAreaGroup.removeLayer(bufferedLayer);
     const userareacount = store.getStateItem('userareacount');
     store.setStoreItem('userareacount', userareacount - 1);
+    // convert to chart data
+    formatChartData();
   }
 
   static resetshapescounter() {
@@ -2531,6 +2542,8 @@ export class Explore extends Component {
       Explore.doNothing();
     }
 
+    // convert to chart data
+    formatChartData();
     store.setStoreItem('working_zonalstats', false);
     spinnerOff();
   }
