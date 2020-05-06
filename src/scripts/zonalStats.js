@@ -42,6 +42,7 @@ function shapeNavOn() {
     elem.classList.remove('long-graphs-active');
   }
 }
+
 // Checks if a value falls in the range of accepted values
 // @param val | string || integer || float
 // @return boolean
