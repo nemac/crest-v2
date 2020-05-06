@@ -1,5 +1,8 @@
+import L from 'leaflet';
 import { Store } from './store';
 import { identifyConfig } from '../config/identifyConfig';
+import { mapConfig } from '../config/mapConfig';
+
 // Legend Templates
 import ColorRampTenBreaks from '../templates/colorramp_breaks_ten.html';
 import ColorRampNineBreaks from '../templates/colorramp_breaks_nine.html';
@@ -13,6 +16,9 @@ import ColorRampTwoBreaks from '../templates/colorramp_breaks_two.html';
 import ColorRampOneBreaks from '../templates/colorramp_breaks_one.html';
 
 const store = new Store({});
+const { TMSLayers } = mapConfig;
+const { zoomRegions } = mapConfig;
+
 
 // Parses the configuration of identify values and gets the requested configuration object
 // @param type | String - matches the layer key
@@ -336,6 +342,172 @@ export function googleAnalyticsEvent(action = '', category = '', label = '', val
     value: `${value}`,
     uuid: store.getStateItem('uuid')
   });
+}
+
+// prep all userareas data for charting, and dump into the state
+export function formatChartData() {
+  // data: {
+  //   labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+  //   datasets: [
+  //     {
+  //       label: "Population (millions)",
+  //       backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+  //       data: [2478,5267,734,784,433]
+  //     }
+  //   ]
+  // },
+
+  // const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
+
+  const test = {
+    chartData: [
+      {
+        region: 'test1',
+        areaName: '123',
+        label: 'Test 1',
+        charts: [{
+          chartGroup: 'Chart 1 test 1',
+          data: [0, 1, 2, 3],
+          label: ['One', 'Two', 'Three'],
+          color: ['Red', 'Green', 'Blue'],
+        },
+        {
+          chartGroup: 'Chart 2 test 1',
+          data: [0, 1, 2, 3],
+          label: ['One', 'Two', 'Three'],
+          color: ['Red', 'Green', 'Blue'],
+        }]
+      },
+      {
+        region: 'test2',
+        areaName: '456',
+        label: 'Test 2',
+        charts: [{
+          chartGroup: 'Chart 1 test 2',
+          data: [0, 1, 2, 3],
+          label: ['One', 'Two', 'Three'],
+          color: ['Red', 'Green', 'Blue'],
+        },
+        {
+          chartGroup: 'Chart 2 test 2',
+          data: [0, 1, 2, 3],
+          label: ['One', 'Two', 'Three'],
+          color: ['Red', 'Green', 'Blue'],
+        }]
+      },
+    ]
+  }
+
+  const { chartData } = test;
+  const areaName = chartData.filter(chart => chart.areaName === '456')
+  const { charts } = areaName[0];
+  const areaNameChart = charts.filter(chart => chart.chartGroup === 'Chart 2 test 2')
+  console.log('areaNameChart', areaNameChart)
+
+  //  get user areas and uploaded shapefiles from state
+  const Currentshapes = store.getStateItem('userareas');
+  //  get hubs from state
+  const HubIntersectionJson = store.getStateItem('HubIntersectionJson');
+  //  get nature server hubs from state
+  const NatureServeHubIntersectionJson = store.getStateItem('NatureServeHubIntersectionJson');
+
+
+
+  // // constrain charts for all valid regions from mapConfig
+  // // iterate valid regions from mapConfig
+  // Object.keys(zoomRegions).map((zoomRegionsKey) => {
+  //   // console.log(zoomRegionsKey, zoomRegions[zoomRegionsKey])
+  //
+  //   // get a valid region from mapConfig
+  //   const region = zoomRegions[zoomRegionsKey];
+  //
+  //   // get valid layers from mapConfig
+  //   const regionLayers = TMSLayers.filter(layers => layers.region === region.region);
+  //   console.log('region', region.region)
+  //    // some regions may not have layers yet make sure they exist
+  //   if (regionLayers.length > 0 ) {
+  //
+  //     // get unique chart types from mapConfig should by summary and [N] drivers
+  //     const driverGroups = groupByDriver(regionLayers, 'chartInputName');
+  //     Object.keys(driverGroups).map((driverGroupKey) => {
+  //       console.log('    driverGroups', driverGroups[driverGroupKey][0].chartInputName)
+  //     });
+  //   }
+  // });
+
+
+
+
+
+  // user areas and uploaded shapefiles
+  const currentshapes = store.getStateItem('userareas');
+  let allchartdata = []
+  Object.keys(currentshapes).map((currentshapekey) => {
+    const name = currentshapes[currentshapekey][0].name
+    const zonalStatsJson = currentshapes[currentshapekey][3].zonalstatsjson
+    const statistics = zonalStatsJson.features[0].properties.mean
+    let region = 'continental_us';
+
+    if (zonalStatsJson.features[0].properties.region) {
+      region = zonalStatsJson.features[0].properties.region.toString().trim();
+    }
+
+    // const regionLayers = TMSLayers.filter(layers => layers.region === region.region);
+
+    let values = [];
+    let apiKeys = [];
+
+
+    const chartdata = { name, region, statistics}
+    // let palette = [];
+    allchartdata.push(chartdata)
+
+    // Object.keys(zonalData).map((zonalKey) => {
+    //   // const layerProp = regionLayers.filter(layers => layers.apikey === zonalKey);
+    //   // const paletteValue = layerProp[0].chartCSSColor[parseInt(zonalData[zonalKey])] // numberToWord(parseInt(zonalData[zonalKey]));
+    //   // console.log(zonalKey, layerProp, paletteValue)
+    //
+    //   // arrays
+    //   values.push(zonalData[zonalKey]);
+    //   apiKeys.push(zonalKey);
+    //   chartdata.push(chartdata:{})
+    //
+    //   // palette.push(paletteValue);
+    //   // labels.push(layerProp[0].chartLabel);
+    // });
+
+    // console.log('prepareChartData labels', labels)
+    // console.log('prepareChartData palette', palette)
+  });
+  console.log('DATA', allchartdata.filter(layer => layer.name === 'Area 1'))
+
+  // const layerInfo = layerRegionInfo.filter(layer => layer.chartDriver);
+  // const driverGroups = groupByDriver(layerInfo, 'chartInputName');
+  //
+  // // iterate each group i.e. FishAndWildlife, assets, threats
+  // driverGroups.map( driver => {
+  //   const driverGroupName = driver[0].chartInputName;
+  //   const driverGroupArray = [];
+  //   const barWidth = ((100 / driver.length) - 2);
+  //
+  //   console.log('driver', driver.length, barWidth)
+  //
+  //   // iterate the driver group and get data
+  //   driver.map( layer => {
+  //     let apiKey = layer.apikey;
+  //     let value = data[apiKey];
+  //     // check nav for hubs, for now the api returns different values and field names in hub areas stashed in s3 and AGOL
+  //     if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+  //       apiKey = layer.hubsapikey;
+  //       value = data[apiKey];
+  //     }
+  //
+  //     const inputData = { key: apiKey, value: value };
+  //     const inputGraph = wrapper.querySelector(`.zonal-long-graph-wrapper.zonal-long-graph-wrapper-${driverGroupName}`);
+  //     drawDriver(inputGraph, `${driverGroupName}-graph`, `${driverGroupName}-graph`, inputData, region, true);
+  //   });
+  // });
+
 }
 
 // add google event tags for downloads.

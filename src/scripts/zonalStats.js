@@ -3,6 +3,7 @@ import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import ZonalButtons from '../templates/zonal_buttons.html';
+import Chart from 'chart.js';
 
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
@@ -362,6 +363,29 @@ function shortZonalClickHandler(e) {
       const path = document.querySelector(`.path-${HTMLName}`);
       togglePermHighLightsOn(path);
     }
+  }
+
+  if (document.getElementById("myChart")) {
+    new Chart(document.getElementById("myChart"), {
+        type: 'bar',
+        data: {
+          labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+          datasets: [
+            {
+              label: "Population (millions)",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              data: [2478,5267,734,784,433]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Predicted world population (millions) in 2050'
+          }
+        }
+    });
   }
 }
 
@@ -838,7 +862,7 @@ function buildLongStatsHtml(wrapper) {
   innerWrapper.innerHTML = ZonalLong;
 
   const { TMSLayers } = mapConfig;
-  const inputData = TMSLayers.filter(layer => layer.chartInput  );
+  const inputData = TMSLayers.filter(layer => layer.chartSummary  );
 
   // iterate the layer props to assing apporaite thml
    inputData.forEach((layerProps) => {
@@ -986,6 +1010,11 @@ function drawDriver(graph, name, type, driver, region, view=false) {
 function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
   let graphSelector = '.default-long-graphs';
   let summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
+
+  if (!summaryGraph) {
+    return null;
+  }
+
   if (activeNav ===  'main-nav-map-searchNShubs') {
     region = 'targetedwatershed'
   }
@@ -1047,7 +1076,7 @@ function getSummaryDataChartData(data, region) {
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo = layerRegionInfo.filter(layer => layer.chartInput);
+  const layerInfo = layerRegionInfo.filter(layer => layer.chartSummary);
 
   // if layerInfo empty array then exit nothing matches.
   if (layerInfo.length === 0) {
@@ -1271,7 +1300,7 @@ function getLongBarInputChartData(data, region) {
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo = layerRegionInfo.filter(layer => layer.chartInput);
+  const layerInfo = layerRegionInfo.filter(layer => layer.chartSummary);
 
   // if layerInfo empty array then exit nothing matches.
   if (layerInfo.length === 0) {
@@ -1327,7 +1356,7 @@ function makeDetailDriverCharts(wrapper, data, region) {
     const driverGroupArray = [];
     const barWidth = ((100 / driver.length) - 2);
 
-    console.log('driver', driver.length, barWidth)
+    // console.log('driver', driver.length, barWidth)
 
     // iterate the driver group and get data
     driver.map( layer => {
