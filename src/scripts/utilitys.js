@@ -413,7 +413,6 @@ export function formatChartData() {
       allchartdata.push(chartdata);
     });
   }
-
   if (checkValidObject(HubIntersectionJson)) {
     HubIntersectionJson.forEach((feature) => {
       const userarea = feature;
@@ -435,9 +434,8 @@ export function formatChartData() {
     });
   }
 
-  // console.log('NatureServeHubIntersectionJson', NatureServeHubIntersectionJson)
-  if (checkValidObject(HubIntersectionJson)) {
-    HubIntersectionJson.forEach((feature) => {
+  if (checkValidObject(NatureServeHubIntersectionJson)) {
+    NatureServeHubIntersectionJson.forEach((feature) => {
       const userarea = feature;
 
       if (checkValidObject(userarea)) {
@@ -529,7 +527,7 @@ export function formatChartData() {
     })
   });
 
-  console.log('configchartdata', configchartdata)
+  // console.log('configchartdata', configchartdata)
   // allchartdata.filter(layer => layer.name === 'Area 1')
   store.setStoreItem('configchartdata', configchartdata);
 }

@@ -1146,8 +1146,9 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   formatChartData();
   const configchartdata = store.getStateItem('configchartdata');
   const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+  console.log('chartName', chartName);
 
-  // console.log('chartdata.colors', chartdata[0].colors)
+  console.log('chartdata[0].values', chartdata[0].values)
   // // console.log(wrapper.querySelector(`.summary-chart.state${HTMLName}`))
   // // `.summary-chart.state${HTMLName}`
   // // summary-chart state-USERAREA-Area_6
@@ -1228,6 +1229,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
              }]
            },
         responsive: true,
+        maintainAspectRatio: false,
         legend: { display: false },
         title: {
           display: true,
@@ -1240,7 +1242,6 @@ function drawShortZonalStats(data, name, mapComponent, region) {
             displayColors: false,
             callbacks: {
                 label: function(tooltipItem, data) {
-                    console.log(chartdata[0].hovervalues[tooltipItem.index], data,tooltipItem.index)
                     var label = data.datasets[tooltipItem.datasetIndex].label || '';
                     return chartdata[0].hovervalues[tooltipItem.index];
                 }
