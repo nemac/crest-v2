@@ -690,7 +690,6 @@ div.zonal-asset {
   }
 }
 
-
 .zonal-long-graph-label{
 
   &-ns-hubs, &-ns_hubs {
@@ -1507,13 +1506,13 @@ $graph-tick-height-short: 5px;
 }
 
 .zonal-long-graph-wrapper-threat {
-  $threat-bar-wrapper-width: 100% / 7;
+  $threat-bar-wrapper-width: 100% / 8;
   .zonal-long-graph-label {
     width: $threat-bar-wrapper-width;
   }
 
   .zonal-long-graph-bar-wrapper {
-    $threat-bar-width: 10%;
+    $threat-bar-width: 8%;
     $threat-bar-margin: ($threat-bar-wrapper-width - $threat-bar-width) / 2;
     width: $threat-bar-width;
     margin: 0 $threat-bar-margin;

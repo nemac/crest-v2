@@ -13,6 +13,7 @@ import {
   googleAnalyticsEvent,
   groupByDriver,
   numberToWord,
+  formatChartData,
   getLegendHtml
 } from './utilitys';
 
@@ -431,6 +432,7 @@ function addUserAreaIdsToChildren(children, name) {
       // add userarea name only if the node is an HTML element
       if (childItem instanceof Element) {
         childItem.setAttribute('id', `generic-${name}`);
+        childItem.classList.add(`state${name}`);
       }
 
       // check if the child has children if so recursivly call this function again
@@ -1139,6 +1141,114 @@ function drawShortZonalStats(data, name, mapComponent, region) {
 
   drawSummaryChart(wrapper, getSummaryDataChartData(data, region), HTMLName, activeNav, region);
 
+  // console.log('stripUserArea', stripUserArea(name));
+  const chartName = stripUserArea(name);
+  formatChartData();
+  const configchartdata = store.getStateItem('configchartdata');
+  const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+
+  // console.log('chartdata.colors', chartdata[0].colors)
+  // // console.log(wrapper.querySelector(`.summary-chart.state${HTMLName}`))
+  // // `.summary-chart.state${HTMLName}`
+  // // summary-chart state-USERAREA-Area_6
+  // convert to chart data
+
+  new Chart(wrapper.querySelector(`.summary-chart.state${HTMLName}`), {
+      type: 'bar',
+      data: {
+        labels: chartdata[0].labels,
+        datasets: [
+          {
+            label: chartdata[0].groupname,
+            backgroundColor: chartdata[0].colors,
+            hoverBackgroundColor: chartdata[0].colors,
+            data: chartdata[0].values
+          }
+        ]
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            gridLines: {
+              drawBorder: true,
+              drawTicks: false,
+              color: '#1c1c20',
+              lineWidth: 0.0,
+              zeroLineWidth: 1.5,
+              zeroLineColor: '#999',
+              borderDash: [5, 5],
+            },
+            ticks: {
+              reverse: false,
+              fontColor: '#e9ecef',
+              fontSize: 10,
+              lineWidth: 0,
+              color: '#e9ecef',
+              lineWidth: 0.25,
+              borderDash: [2, 2],
+              padding: 5,
+              maxRotation: 0,
+              minRotation: 0,
+            }
+          }],
+             yAxes: [{
+               gridLines: {
+                 display: true,
+                 drawTicks: false,
+                 color: '#999',
+                 lineWidth: 0.25,
+                 zeroLineWidth: 1.5,
+                 zeroLineColor: '#999',
+                 borderDash: [2, 2],
+               },
+               ticks: {
+                 fontColor: '#e9ecef',
+                 reverse: false,
+                 padding: 5,
+                 stepSize: 25,
+                 min: 0,
+                 max: 100,
+                  callback: function(value, index, values) {
+                      switch (value) {
+                        case 0:
+                          return 'Low';
+                          break;
+                        case 50:
+                          return 'Med';
+                          break;
+                        case 100:
+                          return 'High';
+                          break;
+                        default:
+                          return ''
+                      }
+                      return value;
+                  }
+               },
+             }]
+           },
+        responsive: true,
+        legend: { display: false },
+        title: {
+          display: true,
+          text:  chartdata[0].groupname,
+        },
+        tooltips: {
+            backgroundColor: '#e9ecef',
+            titleFontColor: '#1c1c20',
+            bodyFontColor: '#1c1c20',
+            displayColors: false,
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    console.log(chartdata[0].hovervalues[tooltipItem.index], data,tooltipItem.index)
+                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                    return chartdata[0].hovervalues[tooltipItem.index];
+                }
+            }
+        }
+      }
+  });
+
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);
   }
@@ -1371,6 +1481,7 @@ function makeDetailDriverCharts(wrapper, data, region) {
 
       const inputData = { key: apiKey, value: value };
       const inputGraph = wrapper.querySelector(`.zonal-long-graph-wrapper.zonal-long-graph-wrapper-${driverGroupName}`);
+      // console.log('inputData', inputData)
       drawDriver(inputGraph, `${driverGroupName}-graph`, `${driverGroupName}-graph`, inputData, region, true);
     });
   });

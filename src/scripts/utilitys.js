@@ -397,60 +397,66 @@ export function formatChartData() {
   // object to hold chart data
   let allchartdata = []
 
-  Object.keys(Currentshapes).map((currentshapekey) => {
-    const name = Currentshapes[currentshapekey][0].name
-    const source = 'zonalstats'
-    const statsJson = Currentshapes[currentshapekey][3].zonalstatsjson
-    const statistics = statsJson.features[0].properties.mean
-    let region = 'continental_us';
-
-    if (statsJson.features[0].properties.region) {
-      region = statsJson.features[0].properties.region.toString().trim();
-    }
-
-    const chartdata = { name, region, source, statistics};
-    allchartdata.push(chartdata);
-  });
-
-  HubIntersectionJson.forEach((feature) => {
-    const userarea = feature;
-
-    if (checkValidObject(userarea)) {
-      const name = feature.properties.mean.TARGET_FID.toString().trim();
-      const source = 'nfwf_hubs';
+  if (checkValidObject(Currentshapes)) {
+    Object.keys(Currentshapes).map((currentshapekey) => {
+      const name = Currentshapes[currentshapekey][0].name
+      const source = 'zonalstats'
+      const statsJson = Currentshapes[currentshapekey][3].zonalstatsjson
+      const statistics = statsJson.features[0].properties.mean
       let region = 'continental_us';
-      const statistics = feature.properties.mean;
 
-      // make region exists it will not exist in old data
-      if (feature.properties.region) {
-        region = feature.properties.region.toString().trim();
+      if (statsJson.features[0].properties.region) {
+        region = statsJson.features[0].properties.region.toString().trim();
       }
 
       const chartdata = { name, region, source, statistics};
       allchartdata.push(chartdata);
-    }
-  });
+    });
+  }
 
-  NatureServeHubIntersectionJson.forEach((feature) => {
-    const userarea = feature;
+  if (checkValidObject(HubIntersectionJson)) {
+    HubIntersectionJson.forEach((feature) => {
+      const userarea = feature;
 
-    if (checkValidObject(userarea)) {
-      const name = feature.properties.mean.TARGET_FID.toString().trim();
-      const source = 'natureserve_hubs';
-      let region = 'targetedwatershed';
-      const statistics = feature.properties.mean;
+      if (checkValidObject(userarea)) {
+        const name = feature.properties.mean.TARGET_FID.toString().trim();
+        const source = 'nfwf_hubs';
+        let region = 'continental_us';
+        const statistics = feature.properties.mean;
 
-      // make region exists it will not exist in old data
-      if (feature.properties.region) {
-        region = feature.properties.region.toString().trim();
+        // make region exists it will not exist in old data
+        if (feature.properties.region) {
+          region = feature.properties.region.toString().trim();
+        }
+
+        const chartdata = { name, region, source, statistics};
+        allchartdata.push(chartdata);
       }
+    });
+  }
 
-      const chartdata = { name, region, source, statistics};
-      allchartdata.push(chartdata);
-    }
-  });
+  // console.log('NatureServeHubIntersectionJson', NatureServeHubIntersectionJson)
+  if (checkValidObject(HubIntersectionJson)) {
+    HubIntersectionJson.forEach((feature) => {
+      const userarea = feature;
 
-  console.log('DATA', allchartdata)
+      if (checkValidObject(userarea)) {
+        const name = feature.properties.mean.TARGET_FID.toString().trim();
+        const source = 'natureserve_hubs';
+        let region = 'targetedwatershed';
+        const statistics = feature.properties.mean;
+
+        // make region exists it will not exist in old data
+        if (feature.properties.region) {
+          region = feature.properties.region.toString().trim();
+        }
+
+        const chartdata = { name, region, source, statistics};
+        allchartdata.push(chartdata);
+      }
+    });
+  }
+
 
   let configchartdata = [];
 
@@ -458,32 +464,36 @@ export function formatChartData() {
   allchartdata.map(area => {
     const regionLayers = TMSLayers.filter(layers => layers.region === area.region);
 
+    // get chart groups from mapConfig
     const driverGroups = groupByDriver(regionLayers, 'chartInputName');
 
+    // iterage the the chart groups to ensure data is seperated by chart type all of this is dervived from mapConfig
     Object.keys(driverGroups).map((group) => {
+      // get group name
       const grouplayers = driverGroups[group];
       const groupname = grouplayers[0].chartInputName;
-      console.log('driverGroups', groupname)
       const values = [];
+      const hovervalues = [];
       const labels = [];
       const colors = [];
 
+      // iterate the zonal stats and remap values to mapconfig chart types
       Object.keys(area.statistics).map((statisticskey) => {
 
         let configlayer = grouplayers.filter(layer => layer.apikey === statisticskey);
 
+        // apikey match could is different for hubs will work on this later to make names consistent
         if (area.source === 'nfwf_hubs') {
           configlayer = grouplayers.filter(layer => layer.hubsapikey === statisticskey);
         }
 
-        if (area.source === 'natureserve_hubs') {
-          configlayer = grouplayers.filter(layer => layer.apikey === statisticskey);
-        }
-
+        // ensure that the data exists if no data for the matches in config and return ignore this
+        // this can happent with hubs and id field
         if (configlayer[0]) {
 
+          // get value convert NaN to 0
+          const value =  checkNoData(area.statistics[statisticskey]) ? 0 : (Math.round(area.statistics[statisticskey] * 100) / 100) ;
 
-          const value =  checkNoData(area.statistics[statisticskey]) ? 0 : area.statistics[statisticskey];
 
           // get the percent translation of the actual value so we
           // compare all the values on the chart
@@ -493,28 +503,35 @@ export function formatChartData() {
             configlayer[0].chartScale,
             configlayer[0].chartScaleGroups);
 
-          const label = configlayer[0].label;
+          // get mapConfig data
+          const label = configlayer[0].chartLabel;
+
+          // get mapConfig colors
           const color = configlayer[0].chartCSSColor[parseInt(area.statistics[statisticskey])];
+
+          // push dat into data, label, color arrays most charting libraries need this
           values.push(height);
+          hovervalues.push(value);
           labels.push(label);
           colors.push(color);
         }
-
       });
+
+      // get name, region, and source for chart json
       const name = area.name;
       const region = area.region;
       const source = area.source;
 
-      const data = { name, region, source, groupname, values, colors, labels };
+      //  create group chart data object
+      const data = { name, region, source, groupname, values, hovervalues, colors, labels };
+      // push group into into chart object
       configchartdata.push(data);
     })
   });
 
   console.log('configchartdata', configchartdata)
   // allchartdata.filter(layer => layer.name === 'Area 1')
-
-
-
+  store.setStoreItem('configchartdata', configchartdata);
 }
 
 // add google event tags for downloads.

@@ -24,6 +24,7 @@ import {
   checkValidObject,
   spinnerOff,
   spinnerOn,
+  formatChartData,
   googleAnalyticsEvent
 } from './utilitys';
 
