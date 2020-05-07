@@ -424,8 +424,6 @@ export class Explore extends Component {
     }
 
     this.addZoomLinks();
-    // convert to chart data
-    formatChartData();
     return null;
   }
 
@@ -1678,9 +1676,6 @@ export class Explore extends Component {
       }
       return layer;
     }
-
-    // convert to chart data
-    formatChartData();
     return null;
   }
 
@@ -1690,7 +1685,8 @@ export class Explore extends Component {
     spinnerOn();
 
     const currentshapes = store.getStateItem('userareas');
-
+    formatChartData();
+    
     Object.keys(currentshapes).forEach((key) => {
       const { name } = currentshapes[key][0];
       const { userarea } = currentshapes[key][1];
@@ -1949,8 +1945,6 @@ export class Explore extends Component {
             break;
         }
       }
-      // convert to chart data
-      formatChartData();
     });
   }
 
@@ -2295,6 +2289,8 @@ export class Explore extends Component {
 
     const newshapes = { ...currentshapes, ...newshape };
     store.setStoreItem('userareas', newshapes);
+    // convert to chart data
+    formatChartData();
     return name;
   }
 
@@ -2542,8 +2538,6 @@ export class Explore extends Component {
       Explore.doNothing();
     }
 
-    // convert to chart data
-    formatChartData();
     store.setStoreItem('working_zonalstats', false);
     spinnerOff();
   }
