@@ -3,7 +3,6 @@ import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
 import ZonalButtons from '../templates/zonal_buttons.html';
-import Chart from 'chart.js';
 
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
@@ -14,6 +13,7 @@ import {
   groupByDriver,
   numberToWord,
   formatChartData,
+  makeBasicBarChart,
   getLegendHtml
 } from './utilitys';
 
@@ -1125,194 +1125,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   const chartName = stripUserArea(name);
   const configchartdata = store.getStateItem('configchartdata');
   const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
-
-  // probably need to paging next ten etc
-  new Chart(wrapper.querySelector(`.summary-chart.state${HTMLName}`), {
-      type: 'bar',
-      data: {
-        labels: chartdata[0].labels,
-        datasets: [
-          {
-            label: chartdata[0].groupname,
-            backgroundColor: chartdata[0].colors,
-            hoverBackgroundColor: chartdata[0].colors,
-            data: chartdata[0].values
-          }
-        ]
-      },
-      options: {
-        scales: {
-          xAxes: [{
-            gridLines: {
-              drawBorder: true,
-              drawTicks: false,
-              color: '#1c1c20',
-              lineWidth: 0.0,
-              zeroLineWidth: 1.5,
-              zeroLineColor: '#999',
-              borderDash: [5, 5],
-            },
-            ticks: {
-              reverse: false,
-              fontColor: '#e9ecef',
-              fontSize: 12,
-              lineWidth: 0,
-              color: '#e9ecef',
-              lineWidth: 0.25,
-              borderDash: [2, 2],
-              padding: 5,
-              maxRotation: 0,
-              minRotation: 0,
-              callback: function(label) {
-                if (/\s/.test(label)) {
-                  return label.split(" ");
-                }else{
-                  return label;
-                }
-              }
-            }
-          }],
-             yAxes: [{
-               gridLines: {
-                 beginAtZero:true,
-                 display: true,
-                 drawTicks: false,
-                 color: '#999',
-                 lineWidth: 0.25,
-                 zeroLineWidth: 1.5,
-                 zeroLineColor: '#999',
-                 borderDash: [2, 2],
-               },
-               ticks: {
-                 fontColor: '#e9ecef',
-                 reverse: false,
-                 padding: 5,
-                 stepSize: 25,
-                 min: 0,
-                 max: 100,
-                  callback: function(value, index, values) {
-                      switch (value) {
-                        case 0:
-                          return 'Low';
-                          break;
-                        case 50:
-                          return 'Med';
-                          break;
-                        case 100:
-                          return 'High';
-                          break;
-                        default:
-                          return ''
-                      }
-                      return value;
-                  }
-               },
-             }]
-           },
-        responsive: true,
-        maintainAspectRatio: false,
-        fontFamily: 'Roboto',
-        legend: { display: false },
-        title: {
-          display: false,
-          text:  chartdata[0].groupname,
-        },
-        layout: {
-           padding: {
-              // top: 35  //set that fits the best
-           }
-         },
-        tooltips: {
-            backgroundColor: '#e9ecef',
-            titleFontColor: '#1c1c20',
-            bodyFontColor: '#1c1c20',
-            displayColors: false,
-            enabled: true,
-            titleAlign: 'center',
-            bodyAlign: 'center',
-            bodyFontFamily: 'Roboto',
-            fontFamily: 'Roboto',
-            yAlign: 'bottom',
-            xAlign: 'center',
-            callbacks: {
-                label: function(tooltipItem, data) {
-                    const label = data.datasets[tooltipItem.datasetIndex].label || '';
-                    return chartdata[0].hovervalues[tooltipItem.index];
-                }
-            },
-
-                        // custom: function(tooltipModel) {
-                        //     // Tooltip Element
-                        //     var tooltipEl = document.getElementById('chartjs-tooltip');
-                        //
-                        //     // Create element on first render
-                        //     if (!tooltipEl) {
-                        //         tooltipEl = document.createElement('div');
-                        //         tooltipEl.id = 'chartjs-tooltip';
-                        //         tooltipEl.innerHTML = '<table></table>';
-                        //         document.body.appendChild(tooltipEl);
-                        //     }
-                        //
-                        //     // Set caret Position
-                        //     tooltipEl.classList.add('above');
-                        //     // // tooltipEl.classList.remove('above', 'below', 'no-transform');
-                        //     // if (tooltipModel.yAlign) {
-                        //     //     tooltipEl.classList.add(tooltipModel.yAlign);
-                        //     // } else {
-                        //     //     tooltipEl.classList.add('no-transform');
-                        //     // }
-                        //
-                        //     function getBody(bodyItem) {
-                        //         return bodyItem.lines;
-                        //     }
-                        //
-                        //     // Set Text
-                        //     if (tooltipModel.body) {
-                        //         var titleLines = tooltipModel.title || [];
-                        //         var bodyLines = tooltipModel.body.map(getBody);
-                        //
-                        //         var innerHtml = '<thead>';
-                        //
-                        //         titleLines.forEach(function(title) {
-                        //             innerHtml += '<tr><th>' + title + '</th></tr>';
-                        //         });
-                        //         innerHtml += '</thead><tbody>';
-                        //
-                        //         bodyLines.forEach(function(body, i) {
-                        //             var colors = tooltipModel.labelColors[i];
-                        //             var style = 'background:' + colors.backgroundColor;
-                        //             style += '; border-color:' + colors.borderColor;
-                        //             style += '; border-width: 2px';
-                        //             var span = '<span style="' + style + '"></span>';
-                        //             innerHtml += '<tr><td>' + span + body + '</td></tr>';
-                        //         });
-                        //         innerHtml += '</tbody>';
-                        //
-                        //         var tableRoot = tooltipEl.querySelector('table');
-                        //         tableRoot.innerHTML = innerHtml;
-                        //     }
-                        //
-                        //     // `this` will be the overall tooltip
-                        //     var position = this._chart.canvas.getBoundingClientRect();
-                        //
-                        //     // Display, position, and set styles for font
-                        //     tooltipEl.style.opacity = 1;
-                        //     tooltipEl.style.backgroundColor = tooltipModel.backgroundColor;
-                        //     tooltipEl.style.color = tooltipModel.bodyFontColor;
-                        //     // tooltip.style
-                        //     tooltipEl.style.position = 'absolute';
-                        //     tooltipEl.style.left = position.left +  window.pageXOffset + tooltipModel.caretX + 'px';
-                        //     tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY  + 'px';
-                        //     tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
-                        //     tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
-                        //     tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
-                        //     tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
-                        //     tooltipEl.style.zIndex = 4444;
-                        //     tooltipEl.style.pointerEvents = 'none';
-                        // }
-         }
-      }
-  });
+  makeBasicBarChart(wrapper, HTMLName, chartdata);
 
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);

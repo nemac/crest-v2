@@ -1053,6 +1053,7 @@ export class Explore extends Component {
     } else {
       store.setStoreItem('NatureServeHubIntersectionJson', json);
     }
+    formatChartData();
   }
 
   // renders the shapes from the user areas state object
@@ -1161,6 +1162,7 @@ export class Explore extends Component {
     } else {
       store.setStoreItem('HubIntersectionJson', json);
     }
+    formatChartData();
   }
 
   // renders the shapes from the user areas state object
@@ -1569,6 +1571,7 @@ export class Explore extends Component {
     }
 
     store.setStoreItem('HubIntersectionJson', newshapes);
+    formatChartData();
     this.drawHubsFromStateObject();
     this.drawZonalStatsForStoredHubs();
     Explore.sortHubsByHubScore();
@@ -1626,6 +1629,7 @@ export class Explore extends Component {
     }
 
     store.setStoreItem('NatureServeHubIntersectionJson', newshapes);
+    formatChartData();
     this.drawNatureServeHubsFromStateObject();
     this.drawZonalStatsForStoredNatureServeHubs();
     Explore.sortNatureServeHubsByHubScore();
@@ -1686,7 +1690,7 @@ export class Explore extends Component {
 
     const currentshapes = store.getStateItem('userareas');
     formatChartData();
-    
+
     Object.keys(currentshapes).forEach((key) => {
       const { name } = currentshapes[key][0];
       const { userarea } = currentshapes[key][1];
@@ -1829,6 +1833,7 @@ export class Explore extends Component {
     store.removeStateItem('userareas');
     store.removeStateItem('zonalstatsjson');
     Explore.resetshapescounter();
+    formatChartData();
   }
 
   static removeUserAreas() {
@@ -1840,11 +1845,13 @@ export class Explore extends Component {
   static removeExistingHubs() {
     store.removeStateItem('HubIntersectionJson');
     store.removeStateItem('savedhubs');
+    formatChartData();
   }
 
   static removeExistingNatureServeHubs() {
     store.removeStateItem('NatureServeHubIntersectionJson');
     store.removeStateItem('savedNatureServehubs');
+    formatChartData();
   }
 
   static clearDetailsHolder() {

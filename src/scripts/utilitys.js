@@ -2,6 +2,7 @@ import L from 'leaflet';
 import { Store } from './store';
 import { identifyConfig } from '../config/identifyConfig';
 import { mapConfig } from '../config/mapConfig';
+import Chart from 'chart.js';
 
 // Legend Templates
 import ColorRampTenBreaks from '../templates/colorramp_breaks_ten.html';
@@ -376,7 +377,7 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   if (val === '128.0') {
     valOveride = 0;
   }
-  let position = (valOveride - rangeMin) / (rangeMax - rangeMin); // [0,1]
+  let position = (valOveride - rangeMin) / ((rangeMax-1) - rangeMin); // [0,1]
   position += scale; // [0,scaleGroups]
   position = (position / scaleGroups) * 100; // [0, 100]
   if (position === 100) {
@@ -530,6 +531,225 @@ export function formatChartData() {
   // console.log('configchartdata', configchartdata)
   // allchartdata.filter(layer => layer.name === 'Area 1')
   store.setStoreItem('configchartdata', configchartdata);
+}
+
+// chartjs axis label function to wrap text, labels are too ling
+function chartjsWrapTextLabel(label) {
+ if (/\s/.test(label)) {
+   return label.split(" ");
+ } else {
+   return label;
+ }
+}
+// return function (tooltipModel) {
+
+// custom chartjs y axis labels high to low
+function chartjsYLabels(value, index, values) {
+      switch (value) {
+        case 0:
+          return 'Low';
+          break;
+        case 50:
+          return 'Med';
+          break;
+        case 100:
+          return 'High';
+          break;
+        default:
+          return ''
+      }
+      return value;
+}
+
+// custom charths tool tip label chart values are percent of total so
+// users can compare the actual values are not percents this makes
+// the tooltip the actual value
+function chartjsCustomToolTipLabel(chartdata) {
+  return function (tooltipItem, data) {
+    const label = data.datasets[tooltipItem.datasetIndex].label || '';
+    return chartdata[0].hovervalues[tooltipItem.index];
+  }
+}
+
+// custom chartjs tool tip this needs work later
+function chartjsCustomToolTip(tooltipModel) {
+  // return function (tooltipModel) {
+    // Tooltip Element
+    let tooltipEl = document.getElementById('chartjs-tooltip');
+
+    // Create element on first render
+    if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.id = 'chartjs-tooltip';
+        tooltipEl.innerHTML = '<table></table>';
+        document.body.appendChild(tooltipEl);
+    }
+
+    // Set caret Position
+    tooltipEl.classList.add('above');
+    // // tooltipEl.classList.remove('above', 'below', 'no-transform');
+    // if (tooltipModel.yAlign) {
+    //     tooltipEl.classList.add(tooltipModel.yAlign);
+    // } else {
+    //     tooltipEl.classList.add('no-transform');
+    // }
+
+    function getBody(bodyItem) {
+        return bodyItem.lines;
+    }
+
+    // Set Text
+    if (tooltipModel.body) {
+        var titleLines = tooltipModel.title || [];
+        var bodyLines = tooltipModel.body.map(getBody);
+
+        var innerHtml = '<thead>';
+
+        titleLines.forEach(function(title) {
+            innerHtml += '<tr><th>' + title + '</th></tr>';
+        });
+        innerHtml += '</thead><tbody>';
+
+        bodyLines.forEach(function(body, i) {
+            var colors = tooltipModel.labelColors[i];
+            var style = 'background:' + colors.backgroundColor;
+            style += '; border-color:' + colors.borderColor;
+            style += '; border-width: 2px';
+            var span = '<span style="' + style + '"></span>';
+            innerHtml += '<tr><td>' + span + body + '</td></tr>';
+        });
+        innerHtml += '</tbody>';
+
+        var tableRoot = tooltipEl.querySelector('table');
+        tableRoot.innerHTML = innerHtml;
+    }
+
+    // `this` will be the overall tooltip
+    var position = this._chart.canvas.getBoundingClientRect();
+
+    // Display, position, and set styles for font
+    tooltipEl.style.opacity = 1;
+    tooltipEl.style.backgroundColor = tooltipModel.backgroundColor;
+    tooltipEl.style.color = tooltipModel.bodyFontColor;
+    // tooltip.style
+    tooltipEl.style.position = 'absolute';
+    tooltipEl.style.left = position.left +  window.pageXOffset + tooltipModel.caretX + 'px';
+    tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY  + 'px';
+    tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
+    tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
+    tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
+    tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
+    tooltipEl.style.zIndex = 4444;
+    tooltipEl.style.pointerEvents = 'none';
+  // };
+}
+
+// function to create charts using chart.js
+export function makeBasicBarChart(wrapper, HTMLName, chartdata) {
+  const fontDarkColor = '#1c1c20';
+  const fontLightColor = '#e9ecef';
+  const fontSecondaryColor = '#999';
+  const backgroundDarkColor = '#1c1c20';
+  const backgroundLightColor = '#e9ecef';
+  const backgroundSecondaryColor = '#999';
+  const fontFamily = 'Roboto';
+
+    // probably need to paging next ten etc
+    new Chart(wrapper.querySelector(`.summary-chart.state${HTMLName}`), {
+        type: 'bar',
+        data: {
+          labels: chartdata[0].labels,
+          datasets: [
+            {
+              label: chartdata[0].groupname,
+              backgroundColor: chartdata[0].colors,
+              hoverBackgroundColor: chartdata[0].colors,
+              data: chartdata[0].values
+            }
+          ]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              gridLines: {
+                drawBorder: true,
+                drawTicks: false,
+                color: backgroundDarkColor,
+                lineWidth: 0.0,
+                zeroLineWidth: 1.5,
+                zeroLineColor: backgroundSecondaryColor,
+                borderDash: [5, 5],
+              },
+              ticks: {
+                reverse: false,
+                fontColor: fontLightColor,
+                fontSize: 12,
+                lineWidth: 0,
+                color: backgroundLightColor,
+                lineWidth: 0.25,
+                borderDash: [2, 2],
+                padding: 5,
+                maxRotation: 0,
+                minRotation: 0,
+                callback: chartjsWrapTextLabel,
+              }
+            }],
+               yAxes: [{
+                 gridLines: {
+                   beginAtZero:true,
+                   display: true,
+                   drawTicks: false,
+                   color: backgroundSecondaryColor,
+                   lineWidth: 0.25,
+                   zeroLineWidth: 1.5,
+                   zeroLineColor: backgroundSecondaryColor,
+                   borderDash: [2, 2],
+                 },
+                 ticks: {
+                   fontColor: fontLightColor,
+                   reverse: false,
+                   padding: 5,
+                   stepSize: 25,
+                   min: 0,
+                   max: 100,
+                    callback: chartjsYLabels,
+                 },
+               }]
+             },
+          responsive: true,
+          maintainAspectRatio: false,
+          fontFamily: fontFamily,
+          legend: { display: false },
+          title: {
+            display: false,
+            text:  chartdata[0].groupname,
+          },
+          layout: {
+             padding: {
+                top: 40  //set that fits the best
+             }
+           },
+          tooltips: {
+              backgroundColor: backgroundLightColor,
+              titleFontColor: fontDarkColor,
+              bodyFontColor: fontDarkColor,
+              displayColors: false,
+              enabled: true,
+              titleAlign: 'center',
+              bodyAlign: 'center',
+              bodyFontFamily: fontFamily,
+              fontFamily: fontFamily,
+              yAlign: 'bottom',
+              xAlign: 'center',
+              callbacks: {
+                label: chartjsCustomToolTipLabel(chartdata)
+
+              },
+            // uncomment later once I can work on this. position of tip is off. 
+            // custom: chartjsCustomToolTip,
+           }
+        }
+    });
 }
 
 // add google event tags for downloads.

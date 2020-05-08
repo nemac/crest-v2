@@ -10,9 +10,13 @@ $box-shadow-default: 0 2.5px 5px rgba(0,0,0,0.19), 0 1.5px 1.5px rgba(0,0,0,0.23
 $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
 
 .chartjs-wrapper {
-  max-height: 180px;
-  height: 180px;
+  max-height: 200px;
+  height: 200px;
   width: 100%;
+}
+
+#chartjs-tooltip {
+  background-color: 'red';
 }
 
 #zonal-long-name {
