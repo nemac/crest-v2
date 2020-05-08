@@ -645,7 +645,7 @@ function chartjsCustomToolTip(tooltipModel) {
 }
 
 // function to create charts using chart.js
-export function makeBasicBarChart(wrapper, HTMLName, chartdata) {
+export function makeBasicBarChart(wrapper, selector, chartdata) {
   const fontDarkColor = '#1c1c20';
   const fontLightColor = '#e9ecef';
   const fontSecondaryColor = '#999';
@@ -655,7 +655,7 @@ export function makeBasicBarChart(wrapper, HTMLName, chartdata) {
   const fontFamily = 'Roboto';
 
     // probably need to paging next ten etc
-    new Chart(wrapper.querySelector(`.summary-chart.state${HTMLName}`), {
+    new Chart(wrapper.querySelector(selector), {
         type: 'bar',
         data: {
           labels: chartdata[0].labels,
@@ -745,7 +745,7 @@ export function makeBasicBarChart(wrapper, HTMLName, chartdata) {
                 label: chartjsCustomToolTipLabel(chartdata)
 
               },
-            // uncomment later once I can work on this. position of tip is off. 
+            // uncomment later once I can work on this. position of tip is off.
             // custom: chartjsCustomToolTip,
            }
         }

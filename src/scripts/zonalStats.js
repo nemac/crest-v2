@@ -1125,7 +1125,8 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   const chartName = stripUserArea(name);
   const configchartdata = store.getStateItem('configchartdata');
   const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
-  makeBasicBarChart(wrapper, HTMLName, chartdata);
+  const chartSelector = `.summary-chart.state${HTMLName}`;
+  makeBasicBarChart(wrapper, chartSelector, chartdata);
 
   if (window.screen.availWidth > 769) {
     wrapper.addEventListener('click', shortZonalClickHandler);
