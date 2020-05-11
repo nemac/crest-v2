@@ -386,6 +386,107 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   return position;
 }
 
+// prep mapinfo Identify Data
+export function formatMapInfoChartData() {
+  //  get nature server hubs from state
+  const Mapinfo = store.getStateItem('mapinfo');
+  let allchartdata = [];
+
+  const name = 'mapinfo';
+  const source = 'zonalstats';
+  const statistics = Mapinfo;
+
+  let region = store.getStateItem('region');
+  const activeNav = store.getStateItem('activeNav');
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    region = 'targetwatershed';
+  }
+
+  const chartdata = { name, region, source, statistics};
+  allchartdata.push(chartdata);
+
+  const mapinfochartdata = chartDataReformat(allchartdata);
+
+  // console.log('mapinfochartdata', mapinfochartdata)
+  store.setStoreItem('mapinfochartdata', mapinfochartdata);
+
+}
+
+// generic function for chartdata and identify data formating
+function chartDataReformat(allchartdata) {
+  let configchartdata = [];
+
+  // map the chart data object to transform labels and groups
+  allchartdata.map(area => {
+    const regionLayers = TMSLayers.filter(layers => layers.region === area.region);
+
+    // get chart groups from mapConfig
+    const driverGroups = groupByDriver(regionLayers, 'chartInputName');
+
+    // iterage the the chart groups to ensure data is seperated by chart type all of this is dervived from mapConfig
+    Object.keys(driverGroups).map((group) => {
+      // get group name
+      const grouplayers = driverGroups[group];
+      const groupname = grouplayers[0].chartInputName;
+      const values = [];
+      const hovervalues = [];
+      const labels = [];
+      const colors = [];
+
+      // iterate the zonal stats and remap values to mapconfig chart types
+      Object.keys(area.statistics).map((statisticskey) => {
+
+        let configlayer = grouplayers.filter(layer => layer.apikey === statisticskey);
+
+        // apikey match could is different for hubs will work on this later to make names consistent
+        if (area.source === 'nfwf_hubs') {
+          configlayer = grouplayers.filter(layer => layer.hubsapikey === statisticskey);
+        }
+
+        // ensure that the data exists if no data for the matches in config and return ignore this
+        // this can happent with hubs and id field
+        if (configlayer[0]) {
+
+          // get value convert NaN to 0
+          const value =  checkNoData(area.statistics[statisticskey]) ? 0 : (Math.round(area.statistics[statisticskey] * 100) / 100) ;
+
+
+          // get the percent translation of the actual value so we
+          // compare all the values on the chart
+          const height = getValuePosition(value,
+            configlayer[0].chartMinValue,
+            configlayer[0].chartMaxValue,
+            configlayer[0].chartScale,
+            configlayer[0].chartScaleGroups);
+
+          // get mapConfig data
+          const label = configlayer[0].chartLabel;
+
+          // get mapConfig colors
+          const color = configlayer[0].chartCSSColor[parseInt(area.statistics[statisticskey])];
+
+          // push dat into data, label, color arrays most charting libraries need this
+          values.push(height);
+          hovervalues.push(value);
+          labels.push(label);
+          colors.push(color);
+        }
+      });
+
+      // get name, region, and source for chart json
+      const name = area.name;
+      const region = area.region;
+      const source = area.source;
+
+      //  create group chart data object
+      const data = { name, region, source, groupname, values, hovervalues, colors, labels };
+      // push group into into chart object
+      configchartdata.push(data);
+    })
+  });
+  return configchartdata;
+}
+
 // prep all userareas data for charting, and dump into the state
 export function formatChartData() {
   //  get user areas and uploaded shapefiles from state
@@ -457,76 +558,7 @@ export function formatChartData() {
   }
 
 
-  let configchartdata = [];
-
-  // map the chart data object to transform labels and groups
-  allchartdata.map(area => {
-    const regionLayers = TMSLayers.filter(layers => layers.region === area.region);
-
-    // get chart groups from mapConfig
-    const driverGroups = groupByDriver(regionLayers, 'chartInputName');
-
-    // iterage the the chart groups to ensure data is seperated by chart type all of this is dervived from mapConfig
-    Object.keys(driverGroups).map((group) => {
-      // get group name
-      const grouplayers = driverGroups[group];
-      const groupname = grouplayers[0].chartInputName;
-      const values = [];
-      const hovervalues = [];
-      const labels = [];
-      const colors = [];
-
-      // iterate the zonal stats and remap values to mapconfig chart types
-      Object.keys(area.statistics).map((statisticskey) => {
-
-        let configlayer = grouplayers.filter(layer => layer.apikey === statisticskey);
-
-        // apikey match could is different for hubs will work on this later to make names consistent
-        if (area.source === 'nfwf_hubs') {
-          configlayer = grouplayers.filter(layer => layer.hubsapikey === statisticskey);
-        }
-
-        // ensure that the data exists if no data for the matches in config and return ignore this
-        // this can happent with hubs and id field
-        if (configlayer[0]) {
-
-          // get value convert NaN to 0
-          const value =  checkNoData(area.statistics[statisticskey]) ? 0 : (Math.round(area.statistics[statisticskey] * 100) / 100) ;
-
-
-          // get the percent translation of the actual value so we
-          // compare all the values on the chart
-          const height = getValuePosition(value,
-            configlayer[0].chartMinValue,
-            configlayer[0].chartMaxValue,
-            configlayer[0].chartScale,
-            configlayer[0].chartScaleGroups);
-
-          // get mapConfig data
-          const label = configlayer[0].chartLabel;
-
-          // get mapConfig colors
-          const color = configlayer[0].chartCSSColor[parseInt(area.statistics[statisticskey])];
-
-          // push dat into data, label, color arrays most charting libraries need this
-          values.push(height);
-          hovervalues.push(value);
-          labels.push(label);
-          colors.push(color);
-        }
-      });
-
-      // get name, region, and source for chart json
-      const name = area.name;
-      const region = area.region;
-      const source = area.source;
-
-      //  create group chart data object
-      const data = { name, region, source, groupname, values, hovervalues, colors, labels };
-      // push group into into chart object
-      configchartdata.push(data);
-    })
-  });
+  const configchartdata = chartDataReformat(allchartdata);
 
   // console.log('configchartdata', configchartdata)
   // allchartdata.filter(layer => layer.name === 'Area 1')
@@ -653,7 +685,7 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
   const backgroundLightColor = '#e9ecef';
   const backgroundSecondaryColor = '#999';
   const fontFamily = 'Roboto';
-
+  // console.log('makeBasicBarChart', chartdata)
     // probably need to paging next ten etc
     new Chart(wrapper.querySelector(selector), {
         type: 'bar',

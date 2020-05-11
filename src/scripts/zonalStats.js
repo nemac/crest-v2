@@ -14,6 +14,7 @@ import {
   numberToWord,
   formatChartData,
   makeBasicBarChart,
+  formatMapInfoChartData,
   getLegendHtml
 } from './utilitys';
 
@@ -1031,26 +1032,55 @@ function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
     drawDriver(summaryGraph, name, 'summary-graph', driver, region)
   });
 }
-
-function drawMapInfoChart(drivers, name, graph, region) {
-  const activeNav = store.getStateItem('activeNav');
-  let mapInfoElemCalss = '';
-  if (activeNav === 'main-nav-map-searchNShubs') {
-    mapInfoElemCalss = '.ns-mapinfo';
-  } else {
-    mapInfoElemCalss = '.default-mapinfo';
-    const region = store.getStateItem('region');
-    if (region !== 'continental_us') {
-      mapInfoElemCalss = `#mapinfo-${region}`;
-    }
-  }
-  const mapInfoGraph = graph.querySelector(`#mapinfodata ${mapInfoElemCalss} .zonal-long-graph`);
-
-  // draw summary graph using driver function
-  drivers.forEach( (driver) => {
-    drawDriver(mapInfoGraph, name, 'map-info-graph', driver, region)
-  });
-}
+//
+// function drawMapInfoChart(drivers, name, graph, region) {
+//   // <div class="chartjs-wrapper">
+//   //   <canvas id="" class="d-flex summary-chart"></canvas>
+//   // </div>
+//   // const activeNav = store.getStateItem('activeNav');
+//   // let mapInfoElemCalss = '';
+//   // if (activeNav === 'main-nav-map-searchNShubs') {
+//   //   mapInfoElemCalss = '.ns-mapinfo';
+//   // } else {
+//   //   mapInfoElemCalss = '.default-mapinfo';
+//   //   const region = store.getStateItem('region');
+//   //   if (region !== 'continental_us') {
+//   //     mapInfoElemCalss = `#mapinfo-${region}`;
+//   //   }
+//
+//   // const chartName = stripUserArea(name);
+//   // const configchartdata = store.getStateItem('configchartdata');
+//   // const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+//   // const chartSelector = `#mapinfodata .summary-chart`;
+//   // makeBasicBarChart(graph, chartSelector, chartdata);
+//   formatMapInfoChartData();
+//   // get chart data for summary data
+//   const chartName = 'mapinfo';
+//   const mapinfochartdata = store.getStateItem('mapinfochartdata');
+//   const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+//   // console.log('formatMapInfoChartData graph', graph)
+//   const chartSelector = `#mapinfodata #mapInfo-chart`;
+//   console.log('graph', graph.querySelector(chartSelector))
+//   makeBasicBarChart(graph, chartSelector, chartdata);
+//
+//   // const activeNav = store.getStateItem('activeNav');
+//   // let mapInfoElemCalss = '';
+//   // if (activeNav === 'main-nav-map-searchNShubs') {
+//   //   mapInfoElemCalss = '.ns-mapinfo';
+//   // } else {
+//   //   mapInfoElemCalss = '.default-mapinfo';
+//   //   const region = store.getStateItem('region');
+//   //   if (region !== 'continental_us') {
+//   //     mapInfoElemCalss = `#mapinfo-${region}`;
+//   //   }
+//   // }
+//   // const mapInfoGraph = graph.querySelector(`#mapinfodata ${mapInfoElemCalss} .zonal-long-graph`);
+//   //
+//   // // draw summary graph using driver function
+//   // drivers.forEach( (driver) => {
+//   //   drawDriver(mapInfoGraph, name, 'map-info-graph', driver, region)
+//   // });
+// }
 
 // @return Array of summary data used in indentify (mapinfo) and intial zonal stats chart
 function getSummaryDataChartData(data, region) {
@@ -1091,7 +1121,17 @@ function getSummaryDataChartData(data, region) {
 
 // draw the mapinfo chart. This is the indentify click function
 function drawMapInfoStats(data, doc, region) {
-  drawMapInfoChart(getSummaryDataChartData(data, region), 'mapInfo', doc, region);
+  formatMapInfoChartData();
+  // get chart data for summary data
+  const chartName = 'mapinfo';
+  const mapinfochartdata = store.getStateItem('mapinfochartdata');
+  const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+  // console.log('formatMapInfoChartData graph', graph)
+  const chartSelector = `#mapinfodata .summary-chart`;
+  // console.log('graph', doc.querySelector(chartSelector))
+  // makeBasicBarChart(doc, chartSelector, chartdata);
+
+  // drawMapInfoChart(getSummaryDataChartData(data, region), 'mapInfo', doc, region);
 }
 
 // Creates the entire short zonal stats block of html
@@ -1119,7 +1159,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
 
-  drawSummaryChart(wrapper, getSummaryDataChartData(data, region), HTMLName, activeNav, region);
+  // drawSummaryChart(wrapper, getSummaryDataChartData(data, region), HTMLName, activeNav, region);
 
   // get chart data for summary data
   const chartName = stripUserArea(name);
@@ -1338,7 +1378,7 @@ function makeDetailChartInputCharts(wrapper, longDetailData) {
 // take map config data and api data and maps to
 // the driver charts in the details, then dynamically uses the
 // chartInputName key from the mapconfig.js to create driver charts
-function makeDetailDriverCharts(wrapper, data, region) {
+function makeDetailDriverCharts(wrapper, data, region, chartName) {
   const activeNav = store.getStateItem('activeNav');
 
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
@@ -1349,25 +1389,28 @@ function makeDetailDriverCharts(wrapper, data, region) {
   driverGroups.map( driver => {
     const driverGroupName = driver[0].chartInputName;
     const driverGroupArray = [];
-    const barWidth = ((100 / driver.length) - 2);
 
-    // console.log('driver', driver.length, barWidth)
+    // filter data fro the group
+    const configchartdata = store.getStateItem('configchartdata');
+    const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === driverGroupName &&  chartdata.region ===  region)
 
-    // iterate the driver group and get data
-    driver.map( layer => {
-      let apiKey = layer.apikey;
-      let value = data[apiKey];
-      // check nav for hubs, for now the api returns different values and field names in hub areas stashed in s3 and AGOL
-      if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
-        apiKey = layer.hubsapikey;
-        value = data[apiKey];
-      }
+    // make new html elements
+    //  TODO Needs Titles in mapConfig...
+    const HTMLName = makeHTMLName(chartName);
+    const driverHolder = wrapper.querySelector(`#name-${HTMLName} #driver-charts-holder`);
+    const NewDiv = makeDiv();
+    NewDiv.setAttribute('id', `driver-${driverGroupName}`);
+    NewDiv.classList.add('chartjs-wrapper');
+    NewDiv.innerHTML = `<canvas id="" class="d-flex details-chart group-${driverGroupName}"></canvas>`
 
-      const inputData = { key: apiKey, value: value };
-      const inputGraph = wrapper.querySelector(`.zonal-long-graph-wrapper.zonal-long-graph-wrapper-${driverGroupName}`);
-      // console.log('inputData', inputData)
-      drawDriver(inputGraph, `${driverGroupName}-graph`, `${driverGroupName}-graph`, inputData, region, true);
-    });
+    // ensire the the html element that holds the driver charts exists
+    if (driverHolder) {
+      driverHolder.appendChild(NewDiv);
+    }
+
+    // make the driver charts
+    const chartSelector = `#name-${HTMLName} #driver-charts-holder .details-chart.group-${driverGroupName}`;
+    makeBasicBarChart(driverHolder, chartSelector, chartdata);
   });
 }
 
@@ -1426,54 +1469,63 @@ function drawLongZonalStats(data, name, region) {
   drawName(wrapper, name);
   drawZonalButtons(HTMLName, name);
 
+
   const defaultdetailGraphs = wrapper.querySelector('.default-detail-graphs');
   const nsdetailGraphs = wrapper.querySelector('.ns-detail-graphs');
 
   const dataForTable = getDataForTables(data, region);
   drawRawValues(wrapper, dataForTable);
 
-  const longDetailData = getLongBarInputChartData(data, region);
-  makeDetailChartInputCharts(wrapper, longDetailData);
+  // get chart data for summary data
+  const chartName = stripUserArea(name);
+  const configchartdata = store.getStateItem('configchartdata');
+  const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+  const chartSelector = `#name-${HTMLName} .summary-chart-details`;
+  makeBasicBarChart(wrapper, chartSelector, chartdata);
 
-  makeDetailDriverCharts(wrapper, data, region)
+  // const longDetailData = getLongBarInputChartData(data, region);
+  // makeDetailChartInputCharts(wrapper, longDetailData);
 
-  switch (activeNav) {
-    case 'main-nav-map-searchhubs':
-      defaultdetailGraphs.classList.remove('d-none');
-      nsdetailGraphs.classList.add('d-none');
-      enableInputGraphs(wrapper, '.zonal-input-graph');
-      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-      break;
-    case 'main-nav-map-examples':
-      defaultdetailGraphs.classList.remove('d-none');
-      nsdetailGraphs.classList.add('d-none');
-      enableInputGraphs(wrapper, '.zonal-input-graph');
-      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-      break;
-    case 'main-nav-map-searchNShubs':
-      disableInputGraphs(wrapper, '.zonal-input-graph');
-      defaultdetailGraphs.classList.add('d-none');
-      nsdetailGraphs.classList.remove('d-none');
-      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-      break;
-    case 'main-nav-map':
-      defaultdetailGraphs.classList.remove('d-none');
-      nsdetailGraphs.classList.add('d-none');
-      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-      enableInputGraphs(wrapper, '.zonal-input-graph');
-      break;
-    default:
-      defaultdetailGraphs.classList.remove('d-none');
-      nsdetailGraphs.classList.add('d-none');
-      disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-      enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-      enableInputGraphs(wrapper, '.zonal-input-graph');
-      break;
-  }
+  makeDetailDriverCharts(wrapper, data, region, chartName)
+  defaultdetailGraphs.classList.remove('d-none');
+
+  // switch (activeNav) {
+  //   case 'main-nav-map-searchhubs':
+  //     defaultdetailGraphs.classList.remove('d-none');
+  //     nsdetailGraphs.classList.add('d-none');
+  //     enableInputGraphs(wrapper, '.zonal-input-graph');
+  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+  //     break;
+  //   case 'main-nav-map-examples':
+  //     defaultdetailGraphs.classList.remove('d-none');
+  //     nsdetailGraphs.classList.add('d-none');
+  //     enableInputGraphs(wrapper, '.zonal-input-graph');
+  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+  //     break;
+  //   case 'main-nav-map-searchNShubs':
+  //     disableInputGraphs(wrapper, '.zonal-input-graph');
+  //     defaultdetailGraphs.classList.add('d-none');
+  //     nsdetailGraphs.classList.remove('d-none');
+  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+  //     break;
+  //   case 'main-nav-map':
+  //     defaultdetailGraphs.classList.remove('d-none');
+  //     nsdetailGraphs.classList.add('d-none');
+  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+  //     enableInputGraphs(wrapper, '.zonal-input-graph');
+  //     break;
+  //   default:
+  //     defaultdetailGraphs.classList.remove('d-none');
+  //     nsdetailGraphs.classList.add('d-none');
+  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
+  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
+  //     enableInputGraphs(wrapper, '.zonal-input-graph');
+  //     break;
+  // }
   return wrapper;
 }
 

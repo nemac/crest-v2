@@ -71,9 +71,9 @@ export class MapInfo extends Component {
     // setup marker layer which is not set yet.
     this.marker = undefined;
 
-    $(() => {
-      $('#mapinfodata [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
-    });
+    // $(() => {
+    //   $('#mapinfodata [data-toggle="tooltip"]').tooltip({ trigger: 'hover focus' });
+    // });
 
     window.addEventListener('aboutNavChange', (e) => {
       // remove from state
@@ -342,22 +342,22 @@ export class MapInfo extends Component {
     const region = store.getStateItem('region');
 
     MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc, region);
-    const defaultElem = doc.querySelector('.default-mapinfo');
-    const nsElem = doc.querySelector('.ns-mapinfo');
-    const regionElem = doc.querySelector(`#mapinfo-${region}`);
-    if (activeNav === 'main-nav-map-searchNShubs') {
-      defaultElem.classList.add('d-none');
-      nsElem.classList.remove('d-none');
-    } else {
-      nsElem.classList.add('d-none');
-      defaultElem.classList.remove('d-none');
-      if (region !== 'continental_us') {
-        if (regionElem) {
-          defaultElem.classList.add('d-none');
-          regionElem.classList.remove('d-none');
-        }
-      }
-    }
+    // const defaultElem = doc.querySelector('.default-mapinfo');
+    // const nsElem = doc.querySelector('.ns-mapinfo');
+    // const regionElem = doc.querySelector(`#mapinfo-${region}`);
+    // if (activeNav === 'main-nav-map-searchNShubs') {
+    //   defaultElem.classList.add('d-none');
+    //   nsElem.classList.remove('d-none');
+    // } else {
+    //   nsElem.classList.add('d-none');
+    //   defaultElem.classList.remove('d-none');
+    //   if (region !== 'continental_us') {
+    //     if (regionElem) {
+    //       defaultElem.classList.add('d-none');
+    //       regionElem.classList.remove('d-none');
+    //     }
+    //   }
+    // }
     // bind the html to the leaflet marker and open as leaflet popup
     const popup = MapInfo.bindPopup(this.marker, doc);
 
