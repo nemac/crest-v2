@@ -359,7 +359,7 @@ export class MapInfo extends Component {
     //   }
     // }
     // bind the html to the leaflet marker and open as leaflet popup
-    const popup = MapInfo.bindPopup(this.marker, doc);
+    const popup = this.bindPopup(this.marker, doc);
 
     // toggle spinner css from utility.js
     store.setStoreItem('working_mapinfo', false);
@@ -394,7 +394,7 @@ export class MapInfo extends Component {
 
   // bind popup to marker
   // @param { Object } doc is html document (identify/mapinfo html element)
-  static bindPopup(marker, doc) {
+  bindPopup(marker, doc) {
     const mapinformationel = doc.getElementById('map_info_list');
     const tooltipContent = L.Util.template(mapinformationel.outerHTML);
 
@@ -413,6 +413,11 @@ export class MapInfo extends Component {
     const SearchLocationsCloseButtonElement = document.querySelector('.map-information-popup .leaflet-popup-close-button');
     SearchLocationsCloseButtonElement.setAttribute('aria-label', 'Close Map Information');
     SearchLocationsCloseButtonElement.setAttribute('title', 'Close Map Information');
+
+    this.map.addEventListener('popupopen', (e) => {
+      const removeUserAreaEvent = new CustomEvent('leafletpopupopen');
+      window.dispatchEvent(removeUserAreaEvent);
+    });
 
     return popup;
   }

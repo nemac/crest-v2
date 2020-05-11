@@ -887,151 +887,35 @@ function buildLongStatsHtml(wrapper) {
      }
    });
 }
+//
+// // sets the value of the main inputs current value
+// // this is the yellow box and adds a tool tip for the value
+// function selectChartCell(wrapper, type, value) {
+//   const roundedValue = parseInt(value, 10);
+//
+//   const roundedValueWord = numberToWord(roundedValue);
+//   let tooltipValue = Math.round(value * 100) / 100;
+//   if (Number.isNaN(tooltipValue)) {
+//     tooltipValue = 'None';
+//   }
+//
+//   if (tooltipValue === 0) {
+//     tooltipValue = 'None';
+//   }
+//
+//   if (checkValidObject(roundedValue)) {
+//     const selector = `.zonal-long-table-item.value-${roundedValueWord}.${type}`;
+//     const cell = wrapper.querySelector(selector);
+//     if (cell) {
+//       cell.classList.add('selected-cell');
+//       cell.setAttribute('title', `${tooltipValue}`);
+//       cell.setAttribute('aria-label', `${tooltipValue}`);
+//       cell.setAttribute('data-toggle', 'tooltip');
+//       cell.setAttribute('data-placement', 'top');
+//     }
+//   }
+// }
 
-// sets the value of the main inputs current value
-// this is the yellow box and adds a tool tip for the value
-function selectChartCell(wrapper, type, value) {
-  const roundedValue = parseInt(value, 10);
-
-  const roundedValueWord = numberToWord(roundedValue);
-  let tooltipValue = Math.round(value * 100) / 100;
-  if (Number.isNaN(tooltipValue)) {
-    tooltipValue = 'None';
-  }
-
-  if (tooltipValue === 0) {
-    tooltipValue = 'None';
-  }
-
-  if (checkValidObject(roundedValue)) {
-    const selector = `.zonal-long-table-item.value-${roundedValueWord}.${type}`;
-    const cell = wrapper.querySelector(selector);
-    if (cell) {
-      cell.classList.add('selected-cell');
-      cell.setAttribute('title', `${tooltipValue}`);
-      cell.setAttribute('aria-label', `${tooltipValue}`);
-      cell.setAttribute('data-toggle', 'tooltip');
-      cell.setAttribute('data-placement', 'top');
-    }
-  }
-}
-
-// Configures each driver bar
-// @param graph | DOM element
-// @param driver | Object
-function drawDriver(graph, name, type, driver, region, view=false) {
-  // get the percent translation of the actual default assume 10
-  let height = getValuePosition(driver.value, 0, 10, 1);
-  let cssKey = driver.key;
-  let csstype = type;
-
-  const activeNav = store.getStateItem('activeNav');
-  if (activeNav ===  'main-nav-map-searchNShubs') {
-    region = 'targetedwatershed'
-  }
-  // filter the region layer list so we can get map configation values for all
-  // regions layers
-  const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
-  let layerInfo = layerRegionInfo.filter(layer => layer.apikey === driver.key);
-
-  // filter the regions layers to the specifc layer so we can get map configation values
-  if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
-    layerInfo = layerRegionInfo.filter(layer => layer.hubsapikey === driver.key);
-  }
-
-  // if layerInfo empty array then exit nothing matches.
-  if (layerInfo.length === 0) {
-    return null;
-  }
-
-  // get layer chart css settings from mapconfig.js
-  cssKey = layerInfo[0].chartCSSSelector;
-  csstype = layerInfo[0].chartCSStype;
-
-  // get the percent translation of the actual value so we
-  // compare all the values on the chart
-  height = getValuePosition(driver.value,
-    layerInfo[0].chartMinValue,
-    layerInfo[0].chartMaxValue,
-    layerInfo[0].chartScale,
-    layerInfo[0].chartScaleGroups);
-
-  // round the value then convert to a word for css
-  const roundedValue = parseInt(driver.value, 10);
-  const roundedValueWord = numberToWord(roundedValue);
-
-  // round values and get bar element
-  const bar = graph.querySelector(`.zonal-long-graph-bar-${layerInfo[0].chartCSSSelector}`);
-  const tooltipValue = Math.round(driver.value * 100) / 100;
-  const toolTipword = numberToWord(roundedValue);
-
-  // if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
-  //   console.log(toolTipword, `.zonal-long-graph-bar-${layerInfo[0].chartCSSSelector}`)
-  // }
-
-  // replace the bar and add tool tip for values
-  if (bar) {
-    bar.style.height = formatPosition(height);
-    bar.style.background = layerInfo[0].chartCSSColor[`${roundedValue}`];
-
-    // add tool tips and aria
-    bar.setAttribute('title', `${tooltipValue}`);
-    bar.setAttribute('aria-label', `${tooltipValue}`);
-    bar.setAttribute('data-toggle', 'tooltip');
-    bar.setAttribute('data-placement', 'top');
-  }
-
-  // render label from the mapconfig
-  const label = graph.querySelector(`.zonal-long-graph-label-${layerInfo[0].chartCSSSelector} .zonal-long-graph-label-text`);
-  if (label) {
-    label.innerHTML = `${layerInfo[0].chartLabel}`
-  }
-}
-
-function drawSummaryChart(wrapper, drivers, name, activeNav, region) {
-  let graphSelector = '.default-long-graphs';
-  let summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-
-  if (!summaryGraph) {
-    return null;
-  }
-
-  if (activeNav ===  'main-nav-map-searchNShubs') {
-    region = 'targetedwatershed'
-  }
-
-  // summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
-  // summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-
-  // switch (activeNav) {
-  //   case 'main-nav-map-examples':
-  //     summaryGraph = wrapper.querySelector('zonal-long-graph-wrapper-short-chart .default-long-graphs .zonal-long-graph');
-  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  //     break;
-  //   case 'main-nav-map-searchNShubs':
-  //     summaryGraph = wrapper.querySelector('.zonal-long-graph-wrapper-short-chart .ns-long-graphs .zonal-long-graph');
-  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  //     break;
-  //   case 'main-nav-map-searchhubs':
-  //     summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  //     break;
-  //   case 'main-nav-map':
-  //     summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  //     break;
-  //   default:
-  //     summaryGraph = wrapper.querySelector(`.zonal-long-graph-wrapper-short-chart ${graphSelector} .zonal-long-graph`);
-  //     summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  //     break;
-  // }
-
-  // summaryGraph.setAttribute('id', `zonal-long-graph-${name}`);
-  // draw summary graph using driver function
-  drivers.forEach( (driver) => {
-    drawDriver(summaryGraph, name, 'summary-graph', driver, region)
-  });
-}
 //
 // function drawMapInfoChart(drivers, name, graph, region) {
 //   // <div class="chartjs-wrapper">
@@ -1122,16 +1006,29 @@ function getSummaryDataChartData(data, region) {
 // draw the mapinfo chart. This is the indentify click function
 function drawMapInfoStats(data, doc, region) {
   formatMapInfoChartData();
+  console.log('leafletpopupopen ', doc)
+  window.addEventListener('leafletpopupopen', drawMapInfoStatsHandler(data, doc, region));
+}
+
+
+// event function;
+function drawMapInfoStatsHandler(){
+  // drawMapInfoStats(data, doc, region);
+  formatMapInfoChartData();
   // get chart data for summary data
   const chartName = 'mapinfo';
+  const region = store.getStateItem('region')
   const mapinfochartdata = store.getStateItem('mapinfochartdata');
   const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
   // console.log('formatMapInfoChartData graph', graph)
-  const chartSelector = `#mapinfodata .summary-chart`;
-  // console.log('graph', doc.querySelector(chartSelector))
-  // makeBasicBarChart(doc, chartSelector, chartdata);
+  const chartSelector = `.leaflet-popup #mapInfo-chart.summary-chart`;
+  console.log('leafletpopupopen called drawMapInfoStatsHandler', chartdata, document, region, chartSelector)
+    setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 150);
+  // makeBasicBarChart(document, chartSelector, chartdata);
 
-  // drawMapInfoChart(getSummaryDataChartData(data, region), 'mapInfo', doc, region);
+  // return function (event) {
+  //   return null;
+  // }
 }
 
 // Creates the entire short zonal stats block of html
@@ -1158,8 +1055,6 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   makeShortZonalStatsInterior(data, name).forEach((elem) => {
     wrapper.insertBefore(elem, wrapper.childNodes[0]);
   });
-
-  // drawSummaryChart(wrapper, getSummaryDataChartData(data, region), HTMLName, activeNav, region);
 
   // get chart data for summary data
   const chartName = stripUserArea(name);
@@ -1198,39 +1093,10 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   }
 
   const zoom = makeZoom(name, mapComponent);
-
   const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
 
-  const nsLongGraphs = wrapper.querySelector('.ns-long-graphs');
   wrapper.insertBefore(zoom, wrapper.childNodes[1]);
   defaultLongGraphs.classList.remove('d-none');
-
-  // switch (activeNav) {
-  //   case 'main-nav-map-searchhubs':
-  //     wrapper.insertBefore(zoom, wrapper.childNodes[1]);
-  //     // defaultLongGraphs.classList.remove('d-none');
-  //     // nsLongGraphs.classList.add('d-none');
-  //     break;
-  //   case 'main-nav-map-examples':
-  //     break;
-  //   case 'main-nav-map-searchNShubs':
-  //     wrapper.insertBefore(zoom, wrapper.childNodes[1]);
-  //     defaultLongGraphs.classList.remove('d-none');
-  //     nsLongGraphs.classList.add('d-none');
-  //     // defaultLongGraphs.classList.add('d-none');
-  //     // nsLongGraphs.classList.remove('d-none');
-  //     break;
-  //   case 'main-nav-map':
-  //     wrapper.insertBefore(zoom, wrapper.childNodes[2]);
-  //     defaultLongGraphs.classList.remove('d-none');
-  //     nsLongGraphs.classList.add('d-none');
-  //     break;
-  //   default:
-  //     wrapper.insertBefore(zoom, wrapper.childNodes[2]);
-  //     // defaultLongGraphs.classList.remove('d-none');
-  //     // nsLongGraphs.classList.add('d-none');
-  //     break;
-  // }
 
   const ovr = makeOverviewLabel();
   const buttonHolder = document.getElementById('zonal-stats-short-title-holder');
@@ -1305,74 +1171,74 @@ function drawZonalButtons(HTMLName, name) {
   buttonHolder.innerHTML += wrapper.innerHTML;
 }
 
-// make the input graphs invisible for
-// nature server data there are no Inputs
-function disableInputGraphs(wrapper, selector) {
-  const elems = wrapper.querySelectorAll(selector);
-  elems.forEach((elem) => {
-    if (elem) {
-      elem.classList.add('d-none');
-    }
-  });
-}
+// // make the input graphs invisible for
+// // nature server data there are no Inputs
+// function disableInputGraphs(wrapper, selector) {
+//   const elems = wrapper.querySelectorAll(selector);
+//   elems.forEach((elem) => {
+//     if (elem) {
+//       elem.classList.add('d-none');
+//     }
+//   });
+// }
+//
+// // make the input graphs visible for
+// // nature server data there are no Inputs
+// function enableInputGraphs(wrapper, selector) {
+//   const elems = wrapper.querySelectorAll(selector);
+//   elems.forEach((elem) => {
+//     if (elem) {
+//       elem.classList.remove('d-none');
+//     }
+//   });
+// }
 
-// make the input graphs visible for
-// nature server data there are no Inputs
-function enableInputGraphs(wrapper, selector) {
-  const elems = wrapper.querySelectorAll(selector);
-  elems.forEach((elem) => {
-    if (elem) {
-      elem.classList.remove('d-none');
-    }
-  });
-}
+// // used in chart detials, gets the data and then create the long legend stlye bar charts
+// // for the all inputs indices
+// function getLongBarInputChartData(data, region) {
+//   // filter the region layer list so we can get map configation values for all
+//   // regions layers
+//   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
+//
+//   // filter the regions layers to the specifc layer so we can get map configation values
+//   const layerInfo = layerRegionInfo.filter(layer => layer.chartSummary);
+//
+//   // if layerInfo empty array then exit nothing matches.
+//   if (layerInfo.length === 0) {
+//     return null;
+//   }
+//
+//   const activeNav = store.getStateItem('activeNav');
+//
+//   // iterate over returned data and values and map it into a object array
+//   // that only contains summary data or input data not driver data
+//   const longDetailData = [];
+//   Object.keys(data).map((key) => {
+//
+//     // check of data matches a driver
+//     let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
+//
+//     // filter the regions layers to the specifc layer so we can get map configation values
+//     if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+//       layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
+//     }
+//
+//     // check of data matches a driver and add it to a new object araray that is key, value
+//     if (layerInfoHasKey.length > 0 ) {
+//       longDetailData.push({key, value: data[key], cssselector: layerInfoHasKey[0].chartCSSSelector  })
+//     }
+//   });
+//
+//   return longDetailData;
+// }
 
-// used in chart detials, gets the data and then create the long legend stlye bar charts
-// for the all inputs indices
-function getLongBarInputChartData(data, region) {
-  // filter the region layer list so we can get map configation values for all
-  // regions layers
-  const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
-
-  // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo = layerRegionInfo.filter(layer => layer.chartSummary);
-
-  // if layerInfo empty array then exit nothing matches.
-  if (layerInfo.length === 0) {
-    return null;
-  }
-
-  const activeNav = store.getStateItem('activeNav');
-
-  // iterate over returned data and values and map it into a object array
-  // that only contains summary data or input data not driver data
-  const longDetailData = [];
-  Object.keys(data).map((key) => {
-
-    // check of data matches a driver
-    let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
-
-    // filter the regions layers to the specifc layer so we can get map configation values
-    if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
-      layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
-    }
-
-    // check of data matches a driver and add it to a new object araray that is key, value
-    if (layerInfoHasKey.length > 0 ) {
-      longDetailData.push({key, value: data[key], cssselector: layerInfoHasKey[0].chartCSSSelector  })
-    }
-  });
-
-  return longDetailData;
-}
-
-//  makes the selected value (yellow box) on the long legend stlye bar charts
-// from data driven by mapconfig charts in the details secitons
-function makeDetailChartInputCharts(wrapper, longDetailData) {
-   longDetailData.forEach((data) => {
-     selectChartCell(wrapper, data.cssselector, data.value);
-   });
-}
+// //  makes the selected value (yellow box) on the long legend stlye bar charts
+// // from data driven by mapconfig charts in the details secitons
+// function makeDetailChartInputCharts(wrapper, longDetailData) {
+//    longDetailData.forEach((data) => {
+//      selectChartCell(wrapper, data.cssselector, data.value);
+//    });
+// }
 
 
 // take map config data and api data and maps to
@@ -1469,10 +1335,6 @@ function drawLongZonalStats(data, name, region) {
   drawName(wrapper, name);
   drawZonalButtons(HTMLName, name);
 
-
-  const defaultdetailGraphs = wrapper.querySelector('.default-detail-graphs');
-  const nsdetailGraphs = wrapper.querySelector('.ns-detail-graphs');
-
   const dataForTable = getDataForTables(data, region);
   drawRawValues(wrapper, dataForTable);
 
@@ -1483,49 +1345,8 @@ function drawLongZonalStats(data, name, region) {
   const chartSelector = `#name-${HTMLName} .summary-chart-details`;
   makeBasicBarChart(wrapper, chartSelector, chartdata);
 
-  // const longDetailData = getLongBarInputChartData(data, region);
-  // makeDetailChartInputCharts(wrapper, longDetailData);
-
+  // make drivers charts will create drivers based on mapconfig
   makeDetailDriverCharts(wrapper, data, region, chartName)
-  defaultdetailGraphs.classList.remove('d-none');
-
-  // switch (activeNav) {
-  //   case 'main-nav-map-searchhubs':
-  //     defaultdetailGraphs.classList.remove('d-none');
-  //     nsdetailGraphs.classList.add('d-none');
-  //     enableInputGraphs(wrapper, '.zonal-input-graph');
-  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-  //     break;
-  //   case 'main-nav-map-examples':
-  //     defaultdetailGraphs.classList.remove('d-none');
-  //     nsdetailGraphs.classList.add('d-none');
-  //     enableInputGraphs(wrapper, '.zonal-input-graph');
-  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-  //     break;
-  //   case 'main-nav-map-searchNShubs':
-  //     disableInputGraphs(wrapper, '.zonal-input-graph');
-  //     defaultdetailGraphs.classList.add('d-none');
-  //     nsdetailGraphs.classList.remove('d-none');
-  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-  //     break;
-  //   case 'main-nav-map':
-  //     defaultdetailGraphs.classList.remove('d-none');
-  //     nsdetailGraphs.classList.add('d-none');
-  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-  //     enableInputGraphs(wrapper, '.zonal-input-graph');
-  //     break;
-  //   default:
-  //     defaultdetailGraphs.classList.remove('d-none');
-  //     nsdetailGraphs.classList.add('d-none');
-  //     disableInputGraphs(wrapper, '.zonal-long-raw-values tr.ns');
-  //     enableInputGraphs(wrapper, '.zonal-long-raw-values tr.default');
-  //     enableInputGraphs(wrapper, '.zonal-input-graph');
-  //     break;
-  // }
   return wrapper;
 }
 
