@@ -637,7 +637,6 @@ function makeShortZonalStatsInterior(data, name) {
   ];
 }
 
-
 // checks if inner HTML of element is Plain old Text
 // instead of another HTML element
 function innerHTMLisText(innerHTML) {
@@ -936,13 +935,24 @@ function drawMapInfoStats() {
 function drawMapInfoStatsHandler(){
   formatMapInfoChartData();
   // get chart data for summary data
-  const chartName = 'mapinfo';
-  const region = store.getStateItem('region')
-  const mapinfochartdata = store.getStateItem('mapinfochartdata');
+  const activeNav = store.getStateItem('activeNav');
+  let chartName = 'mapinfo_nfwf';
+  let region = store.getStateItem('region')
+  let mapinfochartdata = store.getStateItem('mapinfochartdata');
+
+  // natureserve data in differ state key
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    chartName= 'mapinfo_ns';
+    region = 'targetedwatershed';
+    mapinfochartdata = store.getStateItem('mapinfonschartdata');
+  }
+
+  // filter chart data
   const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
   const chartSelector = `.leaflet-popup #mapInfo-chart.summary-chart`;
+
   // leaflet popup takes a second to render, chartjs needs to be rendered to draw on the canvas and resize so timeout needed
-  setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 300);
+  setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 500);
   return null;
 }
 

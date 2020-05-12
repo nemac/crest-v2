@@ -18,9 +18,15 @@ const identifyPath = 'beta/';
 export class IdentifyAPI {
   constructor(url = apiEndpoint, path = identifyPath) {
     this.apiEndpoint = url;
+    this.path = identifyPath;
     const activeNav = store.getStateItem('activeNav');
-    if (activeNav === 'main-nav-map-searchNShubs') { this.apiEndpoint = 'https://dm3kiccxv2.execute-api.us-east-1.amazonaws.com/'; }
-    this.url = this.apiEndpoint + path;
+    if (activeNav === 'main-nav-map-searchNShubs') {
+      this.apiEndpoint = 'https://dm3kiccxv2.execute-api.us-east-1.amazonaws.com/';
+      this.path = 'Prod/';
+    } else {
+      this.path = identifyPath;
+    }
+    this.url = this.apiEndpoint + this.path;
     this.cancelToken = CancelToken.source();
 
     // handle nav bar change and potentail data change
@@ -28,8 +34,13 @@ export class IdentifyAPI {
     window.addEventListener('aboutNavChange', (e) => {
       this.apiEndpoint = url;
       const activeNavList = store.getStateItem('activeNav');
-      if (activeNavList === 'main-nav-map-searchNShubs') { this.apiEndpoint = 'https://dm3kiccxv2.execute-api.us-east-1.amazonaws.com/'; }
-      this.url = this.apiEndpoint + path;
+      if (activeNavList === 'main-nav-map-searchNShubs') {
+        this.apiEndpoint = 'https://dm3kiccxv2.execute-api.us-east-1.amazonaws.com/';
+        this.path = 'Prod/';
+      } else {
+        this.path = identifyPath;
+      }
+      this.url = this.apiEndpoint + this.path;
     });
   }
 

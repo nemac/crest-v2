@@ -388,32 +388,37 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
 
 // prep mapinfo Identify Data
 export function formatMapInfoChartData() {
-  //  get nature server hubs from state
-  const Mapinfo = store.getStateItem('mapinfo');
-  let allchartdata = [];
-
-  const name = 'mapinfo';
-  const source = 'zonalstats';
-  const statistics = Mapinfo;
-
-  let region = store.getStateItem('region');
   const activeNav = store.getStateItem('activeNav');
+  //  get identify data from state
+  let Mapinfo = store.getStateItem('mapinfo');
+  let region = store.getStateItem('region');
+  let source = 'mapinfo_nfwf';
+  let name = 'mapinfo_nfwf';
   if (activeNav === 'main-nav-map-searchNShubs') {
-    region = 'targetwatershed';
+    Mapinfo = store.getStateItem('mapinfons');
+    region = 'targetedwatershed';
+    source = 'mapinfo_ns';
+    name = 'mapinfo_ns';
   }
 
+  let allchartdata = [];
+
+  const statistics = Mapinfo;
   const chartdata = { name, region, source, statistics};
   allchartdata.push(chartdata);
 
   const mapinfochartdata = chartDataReformat(allchartdata);
 
-  store.setStoreItem('mapinfochartdata', mapinfochartdata);
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    store.setStoreItem('mapinfonschartdata', mapinfochartdata);
+  } else {
+    store.setStoreItem('mapinfochartdata', mapinfochartdata);
+  }
 }
 
 // generic function for chartdata and identify data formating
 function chartDataReformat(allchartdata) {
   let configchartdata = [];
-
   // map the chart data object to transform labels and groups
   allchartdata.map(area => {
     const regionLayers = TMSLayers.filter(layers => layers.region === area.region);
@@ -438,7 +443,7 @@ function chartDataReformat(allchartdata) {
         let configlayer = grouplayers.filter(layer => layer.apikey === statisticskey);
 
         // apikey match could is different for hubs will work on this later to make names consistent
-        if (area.source === 'nfwf_hubs') {
+        if (area.source === 'nfwf_hubs' || area.source === 'mapinfo_ns') {
           configlayer = grouplayers.filter(layer => layer.hubsapikey === statisticskey);
         }
 
@@ -678,10 +683,11 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
   const backgroundSecondaryColor = '#999';
   const fontFamily = 'Roboto';
   const fontSize = 10
+
   // escape error when chart selector not found
   if (!wrapper.querySelector(selector)) {
-    console.log(`Chart with selector ${selector} not found!`)
-    return null
+    // console.log(`Chart with selector ${selector} not found!`)
+    return null;
   }
   // probably need to pagging next ten etc
   new Chart(wrapper.querySelector(selector), {
