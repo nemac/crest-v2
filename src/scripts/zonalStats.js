@@ -942,7 +942,7 @@ function drawMapInfoStatsHandler(){
   const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
   const chartSelector = `.leaflet-popup #mapInfo-chart.summary-chart`;
   // leaflet popup takes a second to render, chartjs needs to be rendered to draw on the canvas and resize so timeout needed
-  setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 150);
+  setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 250);
   return null;
 }
 

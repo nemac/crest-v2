@@ -47,130 +47,25 @@ background-color: mix(white,$color,25) !important;
 
 }
 
-// @mixin size1700{
-//   @media screen and (max-width: 1700px) {
-//     @content;
-//   }
-// }
-// @mixin size1600{
-//   @media screen and (max-width: 1600px) {
-//     @content;
-//   }
-// }
-//@mixin size1500{
-//   @media screen and (max-width: 1500px) {
-// @content;  }
-// }
-//@mixin size1427{
-// @media screen and (max-width: 1427px) {
-// @content;
-// }
-//}
-  //@mixin size1280{
-// @media screen and (max-width: 1280px) {
-// @content;
-// }
-//}
-// @mixin size1200{
-//   @media screen and (max-width: 1200px) {
-// @content;  }
-// }
-// @mixin size1100{
-//   @media screen and (max-width: 1100px) {
-// @content;  }
-// }
-// @mixin size1024{
-// @media screen and (max-width: 1024px) {
-// @content;
-// }
-// }
 @mixin size1000{
 @media screen and (max-width: 1000px) {
 @content;
   }
 }
-// @mixin size993{
-// @media screen and (min-width: 993px) {
-// @content;
-//   }
-// }
+
 @mixin size992{
 @media screen and (max-width: 992px) {
   @content;
   }
 }
-//  @mixin size900{
-//   @media screen and (max-width: 900px) {
-// @content;  }
-//}
 
 @mixin size768{
-
   @media screen and (max-width: 768px) {
       @content;
   }
 }
-//@mixin size640{
-// @media screen and (max-width: 640px) {
-// @content;
-//    }
-// }
-// @mixin size500{
-// @media screen and (max-width: 500px) {
-// @content;
-//  }
-// }
-// @mixin size414{
-// @media screen and (max-width: 414px) {
-// @content;
-//   }
-// }
-// @mixin size400{
-// @media screen and (max-width: 400px) {
-//   @content;
-// }
-// }
-// @mixin size375{
-// @media screen and (max-width: 375px) {
-// @content;
-//   }
-// }
-// @mixin size360{
-// @media screen and (max-width: 360px) {
-// @content;
-//   }
-// }
-// @mixin size325{
-// @media screen and (max-width: 325px) {
-//   @content;
-//   }
-// }
-// @mixin size320{
-// @media screen and (max-width: 320px) {
-// @content;
-//     }
-// }
-// @mixin size324{
-// @media screen and (max-width: 324px) {
-// @content;
-//       }
-// }
- //  "phone":        400px,
- // "phone-wide":   480px,
- // "phablet":      560px,
- // "tablet-small": 640px,
- // "tablet":       768px,
- // "tablet-wide":  1024px,
- // "desktop":      1248px,
- // "desktop-wide": 1440px
-// }
-
-
-
-
 
 // general page styles
-
 html, body {
     height: 100%;
     font-family: $roboto;
@@ -180,16 +75,7 @@ a:hover {
   text-decoration: none !important;
 }
 
-// --hue: 210; /* Blue */
-// --link-color: hsl(var(--hue), 90%, 70%) !important;
-
-// a {
-//   --hue: 210; /* Blue */
-//   --link-color: hsl(var(--hue), 90%, 70%) !important;
-//   // color: $link-color !important;
-// }
 #main-content{
-  // padding: $padding15;
   min-height: 0px;
 }
 
@@ -203,7 +89,6 @@ hr {
 }
 
 // nav bar styles
-
 .main-navbar-toggle {
     z-index: 5000 !important;
 }
@@ -219,7 +104,6 @@ a.nav-link.active {
 
 a.nav-link {
   color: #babcbf !important; //new
-  // color: rgba(255, 255, 255, 0.5);
   border-bottom: 1px solid $gray-200;
   margin-bottom: $margin;
   margin-left: $margin;
@@ -301,8 +185,8 @@ a.nav-link {
 .w-45 {
   width: 45% !important;
 }
-// map styles
 
+// map styles
 #exposure-holder {
   h5 {
     margin: 15px !important;
@@ -1287,8 +1171,6 @@ background-color: $body-bg !important;
 }
 
 .action-bnt-row {
-  // padding-left: 0px !important;
-  // margin-right: -15px !important;
   padding-right: 0px !important;
 }
 
@@ -3453,17 +3335,16 @@ p.not-found {
   margin-bottom: 0px;
 }
 
-// test
-//  chartjs
+// chartjs
 #chartjs-tooltip {
   background-color: $leaflet-draw-tooltip-top-bg;
-  border-color: $leaflet-draw-tooltip-top-bg;
+  border-color: $gray-200;
   @include border-radius(4px, 4px);
+  box-shadow: $box-shadow-small;
 }
 
 #chartjs-tooltip.above:before {
   border: solid;
-  border-color: $leaflet-draw-tooltip-top-bg transparent;
   border-color: $leaflet-draw-tooltip-top-bg transparent;
   border-width: 8px 8px 0 8px;
   content:"";

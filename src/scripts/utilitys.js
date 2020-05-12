@@ -647,18 +647,17 @@ function chartjsCustomToolTip(tooltipModel) {
     var tableRoot = tooltipEl.querySelector('table');
     tableRoot.innerHTML = innerHtml;
   }
-  //
-  // // `this` will be the overall tooltip
+
+  // `this` will be the overall tooltip
   var position = this._chart.canvas.getBoundingClientRect();
-  //
-  // // Display, position, and set styles for font
-  // tooltipEl.style.opacity = 1;
+
+  // Display, position, and set styles for font
+
   tooltipEl.style.backgroundColor = tooltipModel.backgroundColor;
   tooltipEl.style.color = tooltipModel.bodyFontColor;
+
   // tooltip.style
   var canvas = this._chart.canvas;
-
-  console.log(tooltipModel.height, position.top, tooltipModel.caretY)
   tooltipEl.style.opacity = 1;
   tooltipEl.style.position = 'absolute';
   tooltipEl.style.caretSize = 5;
@@ -759,7 +758,7 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
       },
       layout: {
         padding: {
-          top: 40  //set that fits the best
+          // top: 40  //set that fits the best
         }
       },
       tooltips: {
