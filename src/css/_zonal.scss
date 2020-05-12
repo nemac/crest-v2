@@ -99,7 +99,7 @@ $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
   position: relative;
   width: 25px;
   height: 25px;
-  border-radius: 0;
+  @include border-radius(0px, 0px);
 
   &:after {
     position: absolute;
@@ -485,7 +485,7 @@ div.zonal-asset {
 
 .zonal-long-button {
   cursor: pointer;
-  border-radius: 2px;
+  @include border-radius(2px, 2px);
   background-color:  $body-color;
   color: $body-bg;
   font-size: 15px;
@@ -595,7 +595,7 @@ div.zonal-asset {
      width: 16px;
      height: 16px;
      line-height: 14px;
-     border-radius: 50%;
+     @include border-radius(50%, 50%);
      top: 20px;
      left: -15px;
      padding: 3px;

@@ -34,9 +34,7 @@ $map_right_margin: 10px;
     float: right !important;
     background-color: $body-color !important;
     border: 1px solid  $gray-400 !important;
-    border-radius: 4px;
-    -webkit-border-radius: 4px !important;
-    -moz-border-radius: 4px !important;
+    @include border-radius(4px, 4px);
   }
 }
 
@@ -167,7 +165,7 @@ $map_right_margin: 10px;
   background-color: white;
   color: black;
   padding: 12px;
-  border-radius: 4px;
+  @include border-radius(4px, 4px);
   height: 100px;
   top: calc(100% - 124px);
   left: calc(150px);
@@ -185,9 +183,7 @@ $map_right_margin: 10px;
   cursor: pointer;
   background-color: $body-bg !important;
   border-width: 1px !important;;
-  border-radius: 0.25rem !important;
-  -webkit-border-radius: 0.25rem !important;
-  -moz-border-radius: 0.25rem !important;
+  @include border-radius(4px, 4px);
   width: 100% !important;
   box-shadow: $box-shadow-default !important;
   -moz-box-shadow: $box-shadow-default !important;
@@ -224,9 +220,7 @@ $map_right_margin: 10px;
     // background-color: $dark-bg !important;
     padding: 5px;
     border-width: 1px !important;;
-    border-radius: 0.25rem !important;
-    -webkit-border-radius: 0.25rem !important;
-    -moz-border-radius: 0.25rem !important;
+    @include border-radius(0.25rem, 0.25rem);
   }
 }
 
@@ -234,9 +228,7 @@ $map_right_margin: 10px;
   cursor: pointer;
   background-color: $body-bg !important;
   border-width: 1px !important;;
-  border-radius: 0.25rem !important;
-  -webkit-border-radius: 0.25rem !important;
-  -moz-border-radius: 0.25rem !important;
+  @include border-radius(0.25rem, 0.25rem);
   width: 100% !important;
   box-shadow: $box-shadow-default !important;
   -moz-box-shadow: $box-shadow-default !important;
@@ -266,12 +258,9 @@ $map_right_margin: 10px;
   }
 
   .inputs-collapser-header {
-    // background-color: $dark-bg !important;
     padding: 5px;
     border-width: 1px !important;;
-    border-radius: 0.25rem !important;
-    -webkit-border-radius: 0.25rem !important;
-    -moz-border-radius: 0.25rem !important;
+    @include border-radius(0.25rem, 0.25rem);
   }
 
   .inputs-collapser-header:focus {
@@ -297,10 +286,7 @@ $map_right_margin: 10px;
 .basemap-img {
   width: 61px;
   height: 41px;
-  // border: $gray-700 solid 1px;
-  border-radius: 10%;
-  -webkit-border-radius: 10%;
-  -moz-border-radius: 10%;
+  @include border-radius(10%, 10%);
   margin-right: 10px;
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
@@ -311,10 +297,7 @@ $map_right_margin: 10px;
 .zoomregion-img {
   width: 40px;
   height: 34px;
-  // border: $gray-700 solid 1px;
-  border-radius: 10%;
-  -webkit-border-radius: 10%;
-  -moz-border-radius: 10%;
+  @include border-radius(10%, 10%);
   margin-right: 10px;
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
@@ -368,9 +351,7 @@ $map_right_margin: 10px;
   background-color: $body-bg;
   background:  $body-bg-semiTransparent;
   color: $body-color;
-  border-radius: 0.25rem;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
+  @include border-radius(0.25rem, 0.25rem);
   overflow: scroll;
 }
 
@@ -464,9 +445,7 @@ $map_right_margin: 10px;
   border: 1px solid  $gray-600 !important;
   color: $body-color !important;
   margin-right: 5px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px !important;
-  -moz-border-radius: 4px !important;
+  @include border-radius(4px, 4px);
   cursor: pointer;
   box-shadow: $box-shadow-small;
 
