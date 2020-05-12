@@ -609,20 +609,20 @@ function chartjsCustomToolTip(tooltipModel) {
     tooltipEl.innerHTML = '<table></table>';
     document.body.appendChild(tooltipEl);
   }
-
-  // Set caret Position
-  tooltipEl.classList.add('above');
-  // // tooltipEl.classList.remove('above', 'below', 'no-transform');
-  // if (tooltipModel.yAlign) {
-  //     tooltipEl.classList.add(tooltipModel.yAlign);
-  // } else {
-  //     tooltipEl.classList.add('no-transform');
-  // }
-
+  //
+  // // Set caret Position
+  // tooltipEl.classList.add('above');
+  // // // tooltipEl.classList.remove('above', 'below', 'no-transform');
+  // // if (tooltipModel.yAlign) {
+  tooltipEl.classList.add(tooltipModel.yAlign);
+  // // } else {
+  // //     tooltipEl.classList.add('no-transform');
+  // // }
+  //
   function getBody(bodyItem) {
     return bodyItem.lines;
   }
-
+  //
   // Set Text
   if (tooltipModel.body) {
     var titleLines = tooltipModel.title || [];
@@ -648,18 +648,22 @@ function chartjsCustomToolTip(tooltipModel) {
     var tableRoot = tooltipEl.querySelector('table');
     tableRoot.innerHTML = innerHtml;
   }
-
-  // `this` will be the overall tooltip
+  //
+  // // `this` will be the overall tooltip
   var position = this._chart.canvas.getBoundingClientRect();
-
-  // Display, position, and set styles for font
-  tooltipEl.style.opacity = 1;
+  //
+  // // Display, position, and set styles for font
+  // tooltipEl.style.opacity = 1;
   tooltipEl.style.backgroundColor = tooltipModel.backgroundColor;
   tooltipEl.style.color = tooltipModel.bodyFontColor;
   // tooltip.style
+  var canvas = this._chart.canvas;
+
+  console.log(tooltipModel.height, position.top, tooltipModel.caretY)
   tooltipEl.style.position = 'absolute';
-  tooltipEl.style.left = position.left +  window.pageXOffset + tooltipModel.caretX + 'px';
-  tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY  + 'px';
+  tooltipEl.style.caretSize = 2;
+  tooltipEl.style.left = canvas.offsetLeft + tooltipModel.caretX + 'px';
+  tooltipEl.style.top = position.top - tooltipModel.height - tooltipModel.yPadding + tooltipModel.caretY + 'px';
   tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
   tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
   tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
@@ -764,7 +768,7 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
         titleFontColor: fontDarkColor,
         bodyFontColor: fontDarkColor,
         displayColors: false,
-        enabled: true,
+        enabled: false,
         titleAlign: 'center',
         bodyAlign: 'center',
         bodyFontFamily: fontFamily,
@@ -772,11 +776,11 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
         yAlign: 'bottom',
         xAlign: 'center',
         callbacks: {
-          label: chartjsCustomToolTipLabel(chartdata)
-
+          label: chartjsCustomToolTipLabel(chartdata),
+          // title: () => {}
         },
         // uncomment later once I can work on this. position of tip is off.
-        // custom: chartjsCustomToolTip,
+        custom: chartjsCustomToolTip,
       }
     }
   });
