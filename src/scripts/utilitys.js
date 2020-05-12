@@ -407,9 +407,7 @@ export function formatMapInfoChartData() {
 
   const mapinfochartdata = chartDataReformat(allchartdata);
 
-  // console.log('mapinfochartdata', mapinfochartdata)
   store.setStoreItem('mapinfochartdata', mapinfochartdata);
-
 }
 
 // generic function for chartdata and identify data formating
@@ -428,6 +426,7 @@ function chartDataReformat(allchartdata) {
       // get group name
       const grouplayers = driverGroups[group];
       const groupname = grouplayers[0].chartInputName;
+      const grouplabel= grouplayers[0].chartInpuLabel;
       const values = [];
       const hovervalues = [];
       const labels = [];
@@ -449,7 +448,6 @@ function chartDataReformat(allchartdata) {
 
           // get value convert NaN to 0
           const value =  checkNoData(area.statistics[statisticskey]) ? 0 : (Math.round(area.statistics[statisticskey] * 100) / 100) ;
-
 
           // get the percent translation of the actual value so we
           // compare all the values on the chart
@@ -479,7 +477,7 @@ function chartDataReformat(allchartdata) {
       const source = area.source;
 
       //  create group chart data object
-      const data = { name, region, source, groupname, values, hovervalues, colors, labels };
+      const data = { name, region, source, groupname, grouplabel, values, hovervalues, colors, labels };
       // push group into into chart object
       configchartdata.push(data);
     })
@@ -557,11 +555,7 @@ export function formatChartData() {
     });
   }
 
-
   const configchartdata = chartDataReformat(allchartdata);
-
-  // console.log('configchartdata', configchartdata)
-  // allchartdata.filter(layer => layer.name === 'Area 1')
   store.setStoreItem('configchartdata', configchartdata);
 }
 
@@ -573,7 +567,6 @@ function chartjsWrapTextLabel(label) {
    return label;
  }
 }
-// return function (tooltipModel) {
 
 // custom chartjs y axis labels high to low
 function chartjsYLabels(value, index, values) {
@@ -582,7 +575,7 @@ function chartjsYLabels(value, index, values) {
           return 'Low';
           break;
         case 50:
-          return 'Med';
+          return '';
           break;
         case 100:
           return 'High';
@@ -691,8 +684,6 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
     console.log(`Chart with selector ${selector} not found!`)
     return null
   }
-  // wrapper.querySelector(selector).innerText = 'test innerHTML';
-  // return null;
   // probably need to pagging next ten etc
   new Chart(wrapper.querySelector(selector), {
     type: 'bar',

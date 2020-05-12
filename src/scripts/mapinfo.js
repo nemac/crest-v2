@@ -341,23 +341,9 @@ export class MapInfo extends Component {
     const doc = MapInfo.getDocument();
     const region = store.getStateItem('region');
 
+    // build the map info (identify) data
     MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc, region);
-    // const defaultElem = doc.querySelector('.default-mapinfo');
-    // const nsElem = doc.querySelector('.ns-mapinfo');
-    // const regionElem = doc.querySelector(`#mapinfo-${region}`);
-    // if (activeNav === 'main-nav-map-searchNShubs') {
-    //   defaultElem.classList.add('d-none');
-    //   nsElem.classList.remove('d-none');
-    // } else {
-    //   nsElem.classList.add('d-none');
-    //   defaultElem.classList.remove('d-none');
-    //   if (region !== 'continental_us') {
-    //     if (regionElem) {
-    //       defaultElem.classList.add('d-none');
-    //       regionElem.classList.remove('d-none');
-    //     }
-    //   }
-    // }
+
     // bind the html to the leaflet marker and open as leaflet popup
     const popup = this.bindPopup(this.marker, doc);
 
@@ -379,17 +365,8 @@ export class MapInfo extends Component {
   // @param { Object } IdentifyJson is json data returned from api
   // @param { Object } doc is html document (identify/mapinfo html element)
   //
-  static buildMapInfoConent(IdentifyJson, doc, region) {
-    drawMapInfoStats(IdentifyJson, doc, region);
-    // tooltip and popover require javascript side modification to enable them (new in Bootstrap 4)
-    // use tooltip and popover components everywhere
-    $(() => {
-      $('[data-toggle="tooltip"]').tooltip({
-        trigger: 'hover focus'
-      });
-
-      $('[data-toggle="popover"]').popover();
-    });
+  static buildMapInfoConent() {
+    drawMapInfoStats();
   }
 
   // bind popup to marker

@@ -389,7 +389,6 @@ function makeLabel(name) {
   zonalLabel.setAttribute('aria-label', `Get Details for ${stripUserArea(name)}`);
 
   zonalLabel.innerHTML = '<span class="btn-icon" id="btn-details-icon" ><i class="far fa-chart-bar"></i></span>';
-  // zonalLabel.setAttribute('id', 'zonal-label');
   zonalLabel.appendChild(makeTextElement(makeLabelText(name)));
 
   if (window.screen.availWidth < 769) {
@@ -484,7 +483,6 @@ function ZoomGeoJSON(zoomlayer, mapComponent) {
 // @return DOM element
 function makeOverviewLabel() {
   const Overview = makeDiv();
-
   Overview.setAttribute('title', 'Overview');
   Overview.setAttribute('aria-label', 'Overview');
   Overview.classList.add('col-12');
@@ -887,84 +885,6 @@ function buildLongStatsHtml(wrapper) {
      }
    });
 }
-//
-// // sets the value of the main inputs current value
-// // this is the yellow box and adds a tool tip for the value
-// function selectChartCell(wrapper, type, value) {
-//   const roundedValue = parseInt(value, 10);
-//
-//   const roundedValueWord = numberToWord(roundedValue);
-//   let tooltipValue = Math.round(value * 100) / 100;
-//   if (Number.isNaN(tooltipValue)) {
-//     tooltipValue = 'None';
-//   }
-//
-//   if (tooltipValue === 0) {
-//     tooltipValue = 'None';
-//   }
-//
-//   if (checkValidObject(roundedValue)) {
-//     const selector = `.zonal-long-table-item.value-${roundedValueWord}.${type}`;
-//     const cell = wrapper.querySelector(selector);
-//     if (cell) {
-//       cell.classList.add('selected-cell');
-//       cell.setAttribute('title', `${tooltipValue}`);
-//       cell.setAttribute('aria-label', `${tooltipValue}`);
-//       cell.setAttribute('data-toggle', 'tooltip');
-//       cell.setAttribute('data-placement', 'top');
-//     }
-//   }
-// }
-
-//
-// function drawMapInfoChart(drivers, name, graph, region) {
-//   // <div class="chartjs-wrapper">
-//   //   <canvas id="" class="d-flex summary-chart"></canvas>
-//   // </div>
-//   // const activeNav = store.getStateItem('activeNav');
-//   // let mapInfoElemCalss = '';
-//   // if (activeNav === 'main-nav-map-searchNShubs') {
-//   //   mapInfoElemCalss = '.ns-mapinfo';
-//   // } else {
-//   //   mapInfoElemCalss = '.default-mapinfo';
-//   //   const region = store.getStateItem('region');
-//   //   if (region !== 'continental_us') {
-//   //     mapInfoElemCalss = `#mapinfo-${region}`;
-//   //   }
-//
-//   // const chartName = stripUserArea(name);
-//   // const configchartdata = store.getStateItem('configchartdata');
-//   // const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
-//   // const chartSelector = `#mapinfodata .summary-chart`;
-//   // makeBasicBarChart(graph, chartSelector, chartdata);
-//   formatMapInfoChartData();
-//   // get chart data for summary data
-//   const chartName = 'mapinfo';
-//   const mapinfochartdata = store.getStateItem('mapinfochartdata');
-//   const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
-//   // console.log('formatMapInfoChartData graph', graph)
-//   const chartSelector = `#mapinfodata #mapInfo-chart`;
-//   console.log('graph', graph.querySelector(chartSelector))
-//   makeBasicBarChart(graph, chartSelector, chartdata);
-//
-//   // const activeNav = store.getStateItem('activeNav');
-//   // let mapInfoElemCalss = '';
-//   // if (activeNav === 'main-nav-map-searchNShubs') {
-//   //   mapInfoElemCalss = '.ns-mapinfo';
-//   // } else {
-//   //   mapInfoElemCalss = '.default-mapinfo';
-//   //   const region = store.getStateItem('region');
-//   //   if (region !== 'continental_us') {
-//   //     mapInfoElemCalss = `#mapinfo-${region}`;
-//   //   }
-//   // }
-//   // const mapInfoGraph = graph.querySelector(`#mapinfodata ${mapInfoElemCalss} .zonal-long-graph`);
-//   //
-//   // // draw summary graph using driver function
-//   // drivers.forEach( (driver) => {
-//   //   drawDriver(mapInfoGraph, name, 'map-info-graph', driver, region)
-//   // });
-// }
 
 // @return Array of summary data used in indentify (mapinfo) and intial zonal stats chart
 function getSummaryDataChartData(data, region) {
@@ -1004,31 +924,26 @@ function getSummaryDataChartData(data, region) {
 }
 
 // draw the mapinfo chart. This is the indentify click function
-function drawMapInfoStats(data, doc, region) {
+function drawMapInfoStats() {
+  // reform identify data into chartjs data
   formatMapInfoChartData();
-  console.log('leafletpopupopen ', doc)
-  window.addEventListener('leafletpopupopen', drawMapInfoStatsHandler(data, doc, region));
+
+  // add listener for leaflets open popup
+  window.addEventListener('leafletpopupopen', drawMapInfoStatsHandler);
 }
 
-
-// event function;
+// event function to draw mapinfp (identify) stats
 function drawMapInfoStatsHandler(){
-  // drawMapInfoStats(data, doc, region);
   formatMapInfoChartData();
   // get chart data for summary data
   const chartName = 'mapinfo';
   const region = store.getStateItem('region')
   const mapinfochartdata = store.getStateItem('mapinfochartdata');
   const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
-  // console.log('formatMapInfoChartData graph', graph)
   const chartSelector = `.leaflet-popup #mapInfo-chart.summary-chart`;
-  console.log('leafletpopupopen called drawMapInfoStatsHandler', chartdata, document, region, chartSelector)
-    setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 150);
-  // makeBasicBarChart(document, chartSelector, chartdata);
-
-  // return function (event) {
-  //   return null;
-  // }
+  // leaflet popup takes a second to render, chartjs needs to be rendered to draw on the canvas and resize so timeout needed
+  setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 150);
+  return null;
 }
 
 // Creates the entire short zonal stats block of html
@@ -1171,76 +1086,6 @@ function drawZonalButtons(HTMLName, name) {
   buttonHolder.innerHTML += wrapper.innerHTML;
 }
 
-// // make the input graphs invisible for
-// // nature server data there are no Inputs
-// function disableInputGraphs(wrapper, selector) {
-//   const elems = wrapper.querySelectorAll(selector);
-//   elems.forEach((elem) => {
-//     if (elem) {
-//       elem.classList.add('d-none');
-//     }
-//   });
-// }
-//
-// // make the input graphs visible for
-// // nature server data there are no Inputs
-// function enableInputGraphs(wrapper, selector) {
-//   const elems = wrapper.querySelectorAll(selector);
-//   elems.forEach((elem) => {
-//     if (elem) {
-//       elem.classList.remove('d-none');
-//     }
-//   });
-// }
-
-// // used in chart detials, gets the data and then create the long legend stlye bar charts
-// // for the all inputs indices
-// function getLongBarInputChartData(data, region) {
-//   // filter the region layer list so we can get map configation values for all
-//   // regions layers
-//   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
-//
-//   // filter the regions layers to the specifc layer so we can get map configation values
-//   const layerInfo = layerRegionInfo.filter(layer => layer.chartSummary);
-//
-//   // if layerInfo empty array then exit nothing matches.
-//   if (layerInfo.length === 0) {
-//     return null;
-//   }
-//
-//   const activeNav = store.getStateItem('activeNav');
-//
-//   // iterate over returned data and values and map it into a object array
-//   // that only contains summary data or input data not driver data
-//   const longDetailData = [];
-//   Object.keys(data).map((key) => {
-//
-//     // check of data matches a driver
-//     let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
-//
-//     // filter the regions layers to the specifc layer so we can get map configation values
-//     if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
-//       layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
-//     }
-//
-//     // check of data matches a driver and add it to a new object araray that is key, value
-//     if (layerInfoHasKey.length > 0 ) {
-//       longDetailData.push({key, value: data[key], cssselector: layerInfoHasKey[0].chartCSSSelector  })
-//     }
-//   });
-//
-//   return longDetailData;
-// }
-
-// //  makes the selected value (yellow box) on the long legend stlye bar charts
-// // from data driven by mapconfig charts in the details secitons
-// function makeDetailChartInputCharts(wrapper, longDetailData) {
-//    longDetailData.forEach((data) => {
-//      selectChartCell(wrapper, data.cssselector, data.value);
-//    });
-// }
-
-
 // take map config data and api data and maps to
 // the driver charts in the details, then dynamically uses the
 // chartInputName key from the mapconfig.js to create driver charts
@@ -1254,6 +1099,8 @@ function makeDetailDriverCharts(wrapper, data, region, chartName) {
   // iterate each group i.e. FishAndWildlife, assets, threats
   driverGroups.map( driver => {
     const driverGroupName = driver[0].chartInputName;
+    const driverGroupLabel = driver[0].chartInpuLabel;
+
     const driverGroupArray = [];
 
     // filter data fro the group
@@ -1261,17 +1108,29 @@ function makeDetailDriverCharts(wrapper, data, region, chartName) {
     const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === driverGroupName &&  chartdata.region ===  region)
 
     // make new html elements
-    //  TODO Needs Titles in mapConfig...
     const HTMLName = makeHTMLName(chartName);
     const driverHolder = wrapper.querySelector(`#name-${HTMLName} #driver-charts-holder`);
-    const NewDiv = makeDiv();
-    NewDiv.setAttribute('id', `driver-${driverGroupName}`);
-    NewDiv.classList.add('chartjs-wrapper');
-    NewDiv.innerHTML = `<canvas id="" class="d-flex details-chart group-${driverGroupName}"></canvas>`
+
+
+    // make title div to hold chart title
+    const NewTitleDiv = makeDiv();
+    NewTitleDiv.setAttribute('id', `driver-title-${driverGroupName}`);
+    NewTitleDiv.innerHTML = `${driverGroupLabel}`;
+    NewTitleDiv.classList.add('text-center');
+    NewTitleDiv.classList.add('text-capitalize');
+    NewTitleDiv.classList.add('font-weight-bold');
+    NewTitleDiv.classList.add('pt-3');
+
+    // make canvas div to hold chart
+    const NewChartCanvasDiv = makeDiv();
+    NewChartCanvasDiv.setAttribute('id', `driver-${driverGroupName}`);
+    NewChartCanvasDiv.classList.add('chartjs-wrapper');
+    NewChartCanvasDiv.innerHTML = `<canvas id="" class="d-flex details-chart group-${driverGroupName}"></canvas>`
 
     // ensire the the html element that holds the driver charts exists
     if (driverHolder) {
-      driverHolder.appendChild(NewDiv);
+      driverHolder.appendChild(NewTitleDiv);
+      driverHolder.appendChild(NewChartCanvasDiv);
     }
 
     // make the driver charts
@@ -1349,7 +1208,6 @@ function drawLongZonalStats(data, name, region) {
   makeDetailDriverCharts(wrapper, data, region, chartName)
   return wrapper;
 }
-
 
 // check if graph or table is the active state is so we can disable the
 // mouse off event on the shape.  This prevents the map from removeing the

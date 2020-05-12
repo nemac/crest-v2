@@ -598,11 +598,6 @@ a.nav-link {
   height: 30px !important;
 }
 
-.mapinfodata::-webkit-scrollbar-corner{
-  display: none;
-}
-
-
 // about styles
 
 // $aboutbackground: #3c4044; //#3B3E42; //2F3235
@@ -2238,9 +2233,6 @@ p.not-found {
     }
   }
 
-  .mapinfodata {
-    overflow: scroll;
-  }
 
   .map_info_list .toggle-list .zonal-long-graph-label-terrestrial .zonal-long-graph-label-text {
     left: -10px !important;
@@ -2261,6 +2253,10 @@ p.not-found {
 
   }
 
+  .mapinfodata {
+    overflow: scroll;
+  }
+
   .mapinfodata::-webkit-scrollbar {
      -webkit-appearance: none;
      width: 7px;
@@ -2271,6 +2267,10 @@ p.not-found {
      -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
      background-color: $body-color;
+   }
+
+   .mapinfodata::-webkit-scrollbar-corner{
+     display: none;
    }
 
     #btn-clear-area, #btn-update-zonal-stats, #btn-download-all-zonal-stats {
@@ -3387,6 +3387,19 @@ p.not-found {
     vertical-align: inherit;
 }
 
+.searchlocations-point {
+  background-color: $body-bg;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+
+  /* Prevent background color leak outs */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding;
+  background-clip:         padding-box;
+
+}
+
 .mapinfodata-header {
   font-size: 1.250em;
 }
@@ -3396,19 +3409,6 @@ p.not-found {
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  /* Prevent background color leak outs */
-  -webkit-background-clip: padding-box;
-  -moz-background-clip:    padding;
-  background-clip:         padding-box;
-
-}
-
-.searchlocations-point {
-  background-color: $body-bg;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
   -moz-background-clip:    padding;
@@ -3431,40 +3431,7 @@ p.not-found {
   width: 250px;
   font-size: .85rem;
 }
-
-.mapinfodata .default-mapinfo{
-  font-size: .85rem;
-  .zonal-long-graph-label{
-    &-exposure {
-      .zonal-long-graph-label-text {
-        // left: -65% !important;
-        // top: 25px;
-        // white-space: nowrap;
-      }
-    }
-  }
-}
-
-.mapinfodata .ns-mapinfo{
-  font-size: .85rem;
-  .zonal-long-graph-label{
-    &-exposure {
-      .zonal-long-graph-label-text {
-        left: 0px !important;
-        top: 0px;
-        white-space: nowrap;
-      }
-    }
-    &-hubs {
-      .zonal-long-graph-label-text {
-        left: 5px !important;
-        top: 0px;
-        white-space: nowrap;
-      }
-    }
-  }
-}
-
+å
 .searchlocationsdata {
   font-size: .85rem;
 }
