@@ -598,7 +598,6 @@ function chartjsCustomToolTipLabel(chartdata) {
 
 // custom chartjs tool tip this needs work later
 function chartjsCustomToolTip(tooltipModel) {
-  // return function (tooltipModel) {
   // Tooltip Element
   let tooltipEl = document.getElementById('chartjs-tooltip');
 
@@ -609,20 +608,20 @@ function chartjsCustomToolTip(tooltipModel) {
     tooltipEl.innerHTML = '<table></table>';
     document.body.appendChild(tooltipEl);
   }
-  //
-  // // Set caret Position
-  // tooltipEl.classList.add('above');
-  // // // tooltipEl.classList.remove('above', 'below', 'no-transform');
-  // // if (tooltipModel.yAlign) {
-  tooltipEl.classList.add(tooltipModel.yAlign);
-  // // } else {
-  // //     tooltipEl.classList.add('no-transform');
-  // // }
-  //
+
+  // Set caret Position
+  tooltipEl.classList.add('above');
+
+  // Hide if no tooltip
+  if (tooltipModel.opacity === 0) {
+      tooltipEl.style.opacity = 0;
+      return;
+  }
+
   function getBody(bodyItem) {
     return bodyItem.lines;
   }
-  //
+
   // Set Text
   if (tooltipModel.body) {
     var titleLines = tooltipModel.title || [];
@@ -660,17 +659,17 @@ function chartjsCustomToolTip(tooltipModel) {
   var canvas = this._chart.canvas;
 
   console.log(tooltipModel.height, position.top, tooltipModel.caretY)
+  tooltipEl.style.opacity = 1;
   tooltipEl.style.position = 'absolute';
-  tooltipEl.style.caretSize = 2;
-  tooltipEl.style.left = canvas.offsetLeft + tooltipModel.caretX + 'px';
-  tooltipEl.style.top = position.top - tooltipModel.height - tooltipModel.yPadding + tooltipModel.caretY + 'px';
+  tooltipEl.style.caretSize = 5;
+  tooltipEl.style.left = position.left - (tooltipModel.width/2) + tooltipModel.caretX + 'px';
+  tooltipEl.style.top = position.top - tooltipModel.height - (tooltipModel.yPadding*2) - tooltipEl.style.caretSize + tooltipModel.caretY + 'px';
   tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
   tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
   tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
   tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
   tooltipEl.style.zIndex = 4444;
   tooltipEl.style.pointerEvents = 'none';
-  // };
 }
 
 // function to create charts using chart.js

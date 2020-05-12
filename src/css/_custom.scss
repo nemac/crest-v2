@@ -342,7 +342,7 @@ a.nav-link {
   max-width: 200px;
   min-width: 200px;
   height: 5px;
-  border-radius: 5px;
+  @include border-radius(5px, 5px);
   background: $body-color-medium;
   outline: none;
   padding: 0px;
@@ -355,7 +355,7 @@ a.nav-link {
     width: 10px;
     height: 10px;
     left: 7px;
-    border-radius: 50%;
+    @include border-radius(50%, 50%)
     top: -2px;
     z-index: 1;
     box-shadow: 0px 0 0 $body-color-medium
@@ -384,7 +384,7 @@ a.nav-link {
   margin: 0px;
   width: 25px;
   height: 25px;
-  border-radius: 50%;
+  @include border-radius(50%, 50%);
   background: $body-color;
   cursor: pointer;
 }
@@ -392,7 +392,7 @@ a.nav-link {
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  border-radius: 50%;
+  @include border-radius(50%, 50%);
   background: $body-color;
   cursor: pointer;
 }
@@ -404,9 +404,7 @@ a.nav-link {
   margin-right: 2px;
   height: 25px !important;
   border: 1px solid $body-list-border !important;
-  border-radius: 4px;
-  -webkit-border-radius: 4px !important;
-  -moz-border-radius: 4px !important;
+  @include border-radius(4px, 4px);
   box-shadow: $box-shadow-small;
 
   &:hover {
@@ -515,9 +513,7 @@ a.nav-link {
 .geocoder-control-input.leaflet-bar {
   border-width: 0px;
   height: 30px;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
+  @include border-radius(2px, 2px);
 }
 
 .geocoder-control-input {
@@ -761,12 +757,11 @@ a.about-nav.active::before {
     font-weight: 800;
     border: 1px solid $gray-100;
     background: $newbg;
-     // $gray-600;
     box-shadow: $box-shadow-default;
     padding: 10px;
     margin: 0px 5px 10px 0px;
 
-    border-radius: 4px;
+    @include border-radius(4px, 4px);
 
     font-size: 1em;
     @media screen and (max-width: 400px) {
@@ -919,7 +914,7 @@ a.about-nav.active::before {
     margin-top: 120px;
   }
   .whatcando-ex-image {
-    border-radius: 15px !important;
+    @include border-radius(15px, 15px);
     box-shadow: $box-shadow-default !important;
     -moz-box-shadow: $box-shadow-default !important;
   }
@@ -928,9 +923,7 @@ a.about-nav.active::before {
     font-size: 14px;
   }
   .header-image  {
-    border-radius: 15px !important;
-    -webkit-border-radius: 15px !important;
-    -moz-border-radius: 15px !important;
+    @include border-radius(15px, 15px);
     margin-bottom: 15px;
     margin-top: 15px;
     box-shadow: $box-shadow-default !important;
@@ -940,7 +933,7 @@ a.about-nav.active::before {
     width: 330px !important;
     height: 50px !important;
     line-height: 40px !important;
-    border-radius: 25px  !important;
+    @include border-radius(25px, 25px);
     background-color: $newbg !important;
      // #6c757d !important; //$newbg
     border: 1px solid #e9ecef !important;
@@ -949,7 +942,6 @@ a.about-nav.active::before {
   }
   .whatcando-btn:hover {
     @include hovcol ($newbg);
-    // background-color:  #333534 !important;
     // #4f5251 !important; //new #565d64 lighten($newbg,25)
   }
   .whatcando-btn:focus {
@@ -972,7 +964,7 @@ a.about-nav.active::before {
     background-color: $body-bg;
     color: $body-color;
     padding: 15px;
-    border-radius: 15px;
+    @include border-radius(15px, 15px);
     box-shadow: $box-shadow-default !important;
     -moz-box-shadow: $box-shadow-default !important;
   }
@@ -1083,10 +1075,8 @@ a.about-nav.active::before {
   cursor: pointer;
   background-color: $newbg !important;
   // $body-bg !important;
-  border-width: 1px !important;;
-  border-radius: 0.25rem !important;
-  -webkit-border-radius: 0.25rem !important;
-  -moz-border-radius: 0.25rem !important;
+  border-width: 1px !important;
+  @include border-radius(0.25rem, 0.25rem);
   width: 100% !important;
   box-shadow: $box-shadow-default !important;
   -moz-box-shadow: $box-shadow-default !important;
@@ -1124,9 +1114,6 @@ a.about-nav.active::before {
     border-width: 1px !important;
     padding-left: 20px !important;
     font-size: .9em;
-    // border-radius: 0.25rem !important;
-    // -webkit-border-radius: 0.25rem !important;
-    // -moz-border-radius: 0.25rem !important;
   }
 
   .zoomLinks-collapser-header:focus {
@@ -1365,9 +1352,7 @@ background-color: $body-bg !important;
   position: relative;
   left: 275px;
   bottom: 0px;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
+  @include border-radius(2px, 2px);
   margin-left: 2px;
   vertical-align: middle !important;
   align-items: center !important;
@@ -1385,9 +1370,7 @@ background-color: $body-bg !important;
   background-size: 30px;
   color: $gray-700;
   color: $body-bg;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
+  @include border-radius(2px, 2px);
   cursor: pointer;
 }
 
@@ -1465,10 +1448,7 @@ background-color: $body-bg !important;
   width: 30px;
   height: 30px;
   font-size: 15px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  vertical-align: middle !important;
+  @include border-radius(4px, 4px);
   align-items: center !important;
 }
 
@@ -1478,9 +1458,7 @@ background-color: $body-bg !important;
   width: 75px;
   height: 30px;
   font-size: 15px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
+  @include border-radius(4px, 4px);
   vertical-align: middle !important;
   align-items: center !important;
 }
@@ -1510,9 +1488,7 @@ background-color: $body-bg !important;
  }
 
 #explore-holder::-webkit-scrollbar-thumb {
-   border-radius: 4px;
-   -webkit-border-radius: 4px;
-   -moz-border-radius: 4px;
+   @include border-radius(4px, 4px);
    background-color: $body-color;
  }
 
@@ -1554,9 +1530,7 @@ a.list-group-item.list-group-item-action.not-found{
   background-color: $body-bg;
   border-color: $gray-400;
   border-width: 0px;
-  border-radius: 0;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
+  @include border-radius(0px, 0px);
   text-decoration: underline;
 }
 
@@ -1585,9 +1559,7 @@ p.not-found {
   &::-webkit-scrollbar-thumb {
     max-height: 15px;
     background-color: $gray-500;
-    border-radius: 4px;
-    -webkit-border-radius: 4px !important;
-    -moz-border-radius: 4px !important;
+    @include border-radius(4px, 4px);
     &:vertical {
       height: 10px;
     }
@@ -1701,9 +1673,7 @@ p.not-found {
 
   .maplayers_list {
     height: 100% !important;
-    border-radius: 4px !important;
-    -webkit-border-radius: 4px !important;
-    -moz-border-radius: 4px !important;
+    @include border-radius(4px, 4px);
 
     .navbar {
       padding-right: 0px !important;
@@ -1734,9 +1704,7 @@ p.not-found {
       width: 35px;
       height: 35px;
       border: 1px solid  $gray-600 !important;
-      border-radius: 4px;
-      -webkit-border-radius: 4px !important;
-      -moz-border-radius: 4px !important;
+      @include border-radius(4px, 4px);
       box-shadow: $box-shadow-small;
       background: $newbg !important;
       &:hover {
@@ -2010,9 +1978,7 @@ p.not-found {
     #mapListToggle {
       background-color: $body-bg !important;
       border: 1px solid $body-list-border !important;
-      border-radius: 4px !important;
-      -webkit-border-radius: 4px !important;
-      -moz-border-radius: 4px !important;
+      @include border-radius(4px, 4px);
       z-index: 4000 !important;
     }
 
@@ -2263,13 +2229,11 @@ p.not-found {
    }
 
    .mapinfodata::-webkit-scrollbar-thumb {
-     border-radius: 4px;
-     -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
+     @include border-radius(4px, 4px);
      background-color: $body-color;
    }
 
-   .mapinfodata::-webkit-scrollbar-corner{
+   .mapinfodata::-webkit-scrollbar-corner {
      display: none;
    }
 
@@ -2612,7 +2576,6 @@ p.not-found {
     &.title-caption { //case studies
       font-size: 18px !important;
       background-color:$newbg;
-       // $gray-600;// default bootstrap gray
       border-top-left-radius: 4px !important;
       border-top-right-radius: 4px !important;
       -webkit-border-top-left-radius: 4px !important;
@@ -2806,9 +2769,7 @@ p.not-found {
 
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
   background-color:  $body-bg;
-  border-radius: 0.25rem;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
+  @include border-radius(0.25rem, 0.25rem);
   border: 1px solid $gray-700;
   transform: scale(1.4);
 }
@@ -2817,9 +2778,7 @@ p.not-found {
   background-color: $body-color;
   background:  $body-bg-semiTransparent;
   border: 0px solid $body-color;
-  border-radius: 0.25rem;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
+  @include border-radius(0.25rem, 0.25rem);
 }
 
 
@@ -2895,9 +2854,7 @@ p.not-found {
     float: right !important;
     background-color: $body-color !important;
     border: 1px solid  $gray-400 !important;
-    border-radius: 4px;
-    -webkit-border-radius: 4px !important;
-    -moz-border-radius: 4px !important;
+    @include border-radius(4px, 4px);
   }
 }
 
@@ -2942,9 +2899,7 @@ p.not-found {
     float: right !important;
     background-color: $body-color !important;
     border: 1px solid  $gray-400 !important;
-    border-radius: 4px;
-    -webkit-border-radius: 4px !important;
-    -moz-border-radius: 4px !important;
+    @include border-radius(4px, 4px);
   }
 
   .close-exlpore-directions:hover {
@@ -2973,58 +2928,6 @@ p.not-found {
     max-width: 300px !important;
   }
 }
-//
-// .tooltip.download-layer-description {
-//   max-width: 500px !important;
-//   padding-top: 0px !important;
-//   text-align: left !important;
-//   opacity: 1.0 !important;
-//   font-size: 14px !important;
-//
-//   @media screen and (max-width: 992px) {
-//     max-width: 400px !important;
-//   }
-//
-//   @media screen and (max-width: 400px) {
-//     max-width: 300px !important;
-//   }
-//
-//   .btn-explore-info {
-//     background-color:  $gray-300 !important;
-//     color: $body-bg !important;
-//     font-size: .6rem !important;
-//     width: 25px !important;
-//     height: 25px !important;
-//   }
-//
-//   .tooltip-inner {
-//     float: left !important;
-//     padding-right: 30px;
-//     padding-top: 10px !important;
-//     padding-bottom: 10px !important;
-//   }
-//
-//   .close-download-layer-description {
-//     cursor: pointer;
-//     height: 33px !important;
-//     position: relative;
-//     left: -25px !important;
-//     top: 5px;
-//     padding: 5px;
-//     color: $body-bg !important;
-//     float: right !important;
-//     background-color: $body-color !important;
-//     border: 1px solid  $gray-400 !important;
-//     border-radius: 4px;
-//     -webkit-border-radius: 4px !important;
-//     -moz-border-radius: 4px !important;
-//   }
-//
-//   .close-download-layer-description:hover {
-//     background-color: $gray-400 !important; //$body-color
-//   }
-// }
-
 
 
 .explore-helper, .download-data-source-helper  {
@@ -3037,9 +2940,7 @@ p.not-found {
   padding: 1px;
   padding-left: 3px;
   margin-right: 5px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px !important;
-  -moz-border-radius: 4px !important;
+  @include border-radius(4px, 4px);
   cursor: pointer;
   box-shadow: $box-shadow-small;
   // color: #999595; //?
@@ -3063,9 +2964,7 @@ p.not-found {
   padding: 1px;
   padding-left: 3px;
   margin-right: 5px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px !important;
-  -moz-border-radius: 4px !important;
+  @include border-radius(4px, 4px);
   cursor: pointer;
   box-shadow: $box-shadow-small;
   // color: #999595;
@@ -3341,9 +3240,7 @@ p.not-found {
   width: 30px;
   height: 30px;
   font-size: 15px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
+  @include border-radius(4px, 4px);
   vertical-align: middle !important;
   align-items: center !important;
 }
@@ -3389,9 +3286,7 @@ p.not-found {
 
 .searchlocations-point {
   background-color: $body-bg;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
+  @include border-radius(10px, 10px);
 
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
@@ -3406,9 +3301,7 @@ p.not-found {
 
 .map-info-point{
   background-color: $body-bg;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
+  @include border-radius(10px, 10px);
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
   -moz-background-clip:    padding;
@@ -3501,9 +3394,7 @@ p.not-found {
   background: $body-bg;
   background:  $body-bg-semiTransparent9;
   color: $body-color;
-  border-radius: 0px;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
+  @include border-radius(0px, 0px);
   min-width: 300px;
 }
 
@@ -3563,3 +3454,24 @@ p.not-found {
 }
 
 // test
+//  chartjs
+#chartjs-tooltip {
+  background-color: $leaflet-draw-tooltip-top-bg;
+  border-color: $leaflet-draw-tooltip-top-bg;
+  @include border-radius(4px, 4px);
+}
+
+#chartjs-tooltip.above:before {
+  border: solid;
+  border-color: $leaflet-draw-tooltip-top-bg transparent;
+  border-color: $leaflet-draw-tooltip-top-bg transparent;
+  border-width: 8px 8px 0 8px;
+  content:"";
+  display: block;
+  left: 50%;
+  top: 100%;
+  position: absolute;
+  z-index: 99;
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
