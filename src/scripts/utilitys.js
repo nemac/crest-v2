@@ -624,32 +624,29 @@ function chartjsCustomToolTip(tooltipModel) {
 
   // Set Text
   if (tooltipModel.body) {
-    var titleLines = tooltipModel.title || [];
-    var bodyLines = tooltipModel.body.map(getBody);
-
-    var innerHtml = '<thead>';
+    let titleLines = tooltipModel.title || [];
+    let bodyLines = tooltipModel.body.map(getBody);
+    let innerHtml = '<thead>';
 
     titleLines.forEach(function(title) {
       innerHtml += '<tr><th>' + title + '</th></tr>';
     });
-    innerHtml += '</thead><tbody>';
+    innerHtml += '</thead><tbody class="w-100">';
 
     bodyLines.forEach(function(body, i) {
-      var colors = tooltipModel.labelColors[i];
-      var style = 'background:' + colors.backgroundColor;
-      style += '; border-color:' + colors.borderColor;
-      style += '; border-width: 2px';
-      var span = '<span style="' + style + '"></span>';
-      innerHtml += '<tr><td>' + span + body + '</td></tr>';
+      let colors = tooltipModel.labelColors[i];
+      const style = 'background:' + colors.backgroundColor;
+      const span = '<span class="chartjs-tooltip-body-text text-center justify-content-center align-items-center align-self-center w-100"></span>';
+      innerHtml += `<tr class="w-100"><td class="w-100">${span}${body}</td></tr>`;
     });
     innerHtml += '</tbody>';
 
-    var tableRoot = tooltipEl.querySelector('table');
+    let tableRoot = tooltipEl.querySelector('table');
     tableRoot.innerHTML = innerHtml;
   }
 
   // `this` will be the overall tooltip
-  var position = this._chart.canvas.getBoundingClientRect();
+  const position = this._chart.canvas.getBoundingClientRect();
 
   // Display, position, and set styles for font
 
@@ -657,11 +654,11 @@ function chartjsCustomToolTip(tooltipModel) {
   tooltipEl.style.color = tooltipModel.bodyFontColor;
 
   // tooltip.style
-  var canvas = this._chart.canvas;
+  const canvas = this._chart.canvas;
   tooltipEl.style.opacity = 1;
   tooltipEl.style.position = 'absolute';
   tooltipEl.style.caretSize = 5;
-  tooltipEl.style.left = position.left - (tooltipModel.width/2) + tooltipModel.caretX + 'px';
+  tooltipEl.style.left = (position.left + tooltipModel.caretX) - (tooltipModel.width/2) + 'px';
   tooltipEl.style.top = position.top - tooltipModel.height - (tooltipModel.yPadding*2) - tooltipEl.style.caretSize + tooltipModel.caretY + 'px';
   tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
   tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
@@ -755,11 +752,6 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
       title: {
         display: false,
         text:  chartdata[0].groupname,
-      },
-      layout: {
-        padding: {
-          // top: 40  //set that fits the best
-        }
       },
       tooltips: {
         backgroundColor: backgroundLightColor,

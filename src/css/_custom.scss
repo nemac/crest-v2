@@ -3338,9 +3338,16 @@ p.not-found {
 // chartjs
 #chartjs-tooltip {
   background-color: $leaflet-draw-tooltip-top-bg;
-  border-color: $gray-200;
+  border-color: $gray-800;
   @include border-radius(4px, 4px);
   box-shadow: $box-shadow-small;
+  min-width: 50px;
+  min-height: 50px;
+  font-family: $roboto;
+  font-size: 12px;
+  td {
+    text-align: center;
+    }
 }
 
 #chartjs-tooltip.above:before {
