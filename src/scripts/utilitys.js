@@ -426,16 +426,18 @@ function chartDataReformat(allchartdata) {
     // get chart groups from mapConfig
     const driverGroups = groupByDriver(regionLayers, 'chartInputName');
 
-    // iterage the the chart groups to ensure data is seperated by chart type all of this is dervived from mapConfig
+    // iterate the the chart groups to ensure data is seperated by chart type all of this is dervived from mapConfig
     Object.keys(driverGroups).map((group) => {
       // get group name
       const grouplayers = driverGroups[group];
       const groupname = grouplayers[0].chartInputName;
       const grouplabel= grouplayers[0].chartInpuLabel;
-      const values = [];
-      const hovervalues = [];
-      const labels = [];
-      const colors = [];
+      const totalChartValues = area.statistics.length-1;
+      const values = [totalChartValues];
+      const hovervalues = [totalChartValues];
+      const labels = [totalChartValues];
+      const colors = [totalChartValues];
+
 
       // iterate the zonal stats and remap values to mapconfig chart types
       Object.keys(area.statistics).map((statisticskey) => {
@@ -468,11 +470,14 @@ function chartDataReformat(allchartdata) {
           // get mapConfig colors
           const color = configlayer[0].chartCSSColor[parseInt(area.statistics[statisticskey])];
 
-          // push dat into data, label, color arrays most charting libraries need this
-          values.push(height);
-          hovervalues.push(value);
-          labels.push(label);
-          colors.push(color);
+          // get chart order
+          const orderValue =  configlayer[0].chartOrder;
+
+          // push dat into data, label, color arrays most charting libraries need this use sort order for array positions - sorts data for charts
+          values[orderValue-1] = height;
+          hovervalues[orderValue-1] = value;
+          labels[orderValue-1] = label;
+          colors[orderValue-1] = color;
         }
       });
 
@@ -483,10 +488,12 @@ function chartDataReformat(allchartdata) {
 
       //  create group chart data object
       const data = { name, region, source, groupname, grouplabel, values, hovervalues, colors, labels };
+
       // push group into into chart object
       configchartdata.push(data);
     })
   });
+
   return configchartdata;
 }
 
