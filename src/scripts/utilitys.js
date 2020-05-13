@@ -660,11 +660,12 @@ function chartjsCustomToolTip(tooltipModel) {
 
   // tooltip.style
   const canvas = this._chart.canvas;
+  const accountForFontSize = 12;
   tooltipEl.style.opacity = 1;
   tooltipEl.style.position = 'absolute';
   tooltipEl.style.caretSize = 5;
   tooltipEl.style.left = (position.left + tooltipModel.caretX) - (tooltipModel.width/2) + 'px';
-  tooltipEl.style.top = position.top - tooltipModel.height - (tooltipModel.yPadding*2) - tooltipEl.style.caretSize + tooltipModel.caretY + 'px';
+  tooltipEl.style.top = position.top - tooltipModel.height - (tooltipModel.yPadding*2) - (accountForFontSize) - tooltipEl.style.caretSize + tooltipModel.caretY + 'px';
   tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
   tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
   tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;

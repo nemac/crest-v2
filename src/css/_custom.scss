@@ -3345,9 +3345,16 @@ p.not-found {
   min-height: 50px;
   font-family: $roboto;
   font-size: 12px;
+  th {
+    font-weight: normal;
+  }
   td {
     text-align: center;
-    }
+  }
+  tbody {
+    font-weight: bold;
+    font-size: 18px;
+  }
 }
 
 #chartjs-tooltip.above:before {
