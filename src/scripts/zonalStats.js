@@ -1006,21 +1006,24 @@ function drawShortZonalStats(data, name, mapComponent, region) {
     case 'main-nav-map-searchNShubs':
       break;
     case 'main-nav-map': {
+      // detete the area button
       const rem = makeRemoveLabel(name, mapComponent);
-      wrapper.insertBefore(rem, wrapper.childNodes[0]);
+      wrapper.insertBefore(rem, wrapper.childNodes[1]);
       break;
     }
     default: {
+      // detete the area button
       const rem = makeRemoveLabel(name, mapComponent);
-      wrapper.insertBefore(rem, wrapper.childNodes[0]);
+      wrapper.insertBefore(rem, wrapper.childNodes[1]);
       break;
     }
   }
 
+  // zoom to the area button
   const zoom = makeZoom(name, mapComponent);
-  const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
-
   wrapper.insertBefore(zoom, wrapper.childNodes[1]);
+
+  const defaultLongGraphs = wrapper.querySelector('.default-long-graphs');
   defaultLongGraphs.classList.remove('d-none');
 
   const ovr = makeOverviewLabel();
