@@ -454,7 +454,7 @@ function chartDataReformat(allchartdata) {
       });
 
       // get name, region, and source for chart json
-      const { name } = area.name;
+      const name = area.name;
       const region = area.region;
       const source = area.source;
 

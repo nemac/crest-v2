@@ -9,6 +9,12 @@ $body-color: $gray-200;
 $box-shadow-default: 0 2.5px 5px rgba(0,0,0,0.19), 0 1.5px 1.5px rgba(0,0,0,0.23);
 $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
 
+@mixin box-shadow-mixin($shadow...) {
+  -webkit-box-shadow: $shadow;
+     -moz-box-shadow: $shadow;
+          box-shadow: $shadow;
+}
+
 .chartjs-wrapper {
   max-height: 150px;
   height: 150px;
@@ -136,7 +142,7 @@ div.zonal-asset {
 .zonal-stats-wrapper {
   width: 100%;
   margin-bottom: 5px !important;
-  box-shadow: $box-shadow-small;
+  @include box-shadow-mixin($box-shadow-small);
 }
 
 .zonal-long-name-sticky {

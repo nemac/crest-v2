@@ -10,6 +10,12 @@ $dark-bg: #2A2E33;
 $box-shadow-default: 0 2.5px 5px rgba(0,0,0,0.19), 0 1.5px 1.5px rgba(0,0,0,0.23);
 $box-shadow-small: 0 2px 5px rgba(0,0,0,0.19), 0 1.25px 1.25px rgba(0,0,0,0.23);
 
+@mixin box-shadow-mixin($shadow...) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
 $layer_list_width: 275px;
 $layer_list_width_closed: 200px;
 $layer_list_padding: 10px;
@@ -49,7 +55,7 @@ $map_right_margin: 10px;
 }
 
 .layer-legend {
-    margin: 10px;
+  margin: 10px;
 }
 
 .map-information-popup a.leaflet-popup-close-button {
@@ -121,8 +127,8 @@ $map_right_margin: 10px;
 }
 
 .btn-action:after {
-    content:"\000A";
-    white-space: pre;
+  content:"\000A";
+  white-space: pre;
 }
 
 .list-basemap.closed, .list-zoomregion.closed   {
@@ -185,8 +191,7 @@ $map_right_margin: 10px;
   border-width: 1px !important;;
   @include border-radius(4px, 4px);
   width: 100% !important;
-  box-shadow: $box-shadow-default !important;
-  -moz-box-shadow: $box-shadow-default !important;
+  @include box-shadow-mixin($box-shadow-default !important);
 
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
@@ -230,8 +235,7 @@ $map_right_margin: 10px;
   border-width: 1px !important;;
   @include border-radius(0.25rem, 0.25rem);
   width: 100% !important;
-  box-shadow: $box-shadow-default !important;
-  -moz-box-shadow: $box-shadow-default !important;
+  @include box-shadow-mixin($box-shadow-default !important);
 
   /* Prevent background color leak outs */
   -webkit-background-clip: padding-box;
@@ -317,20 +321,20 @@ $map_right_margin: 10px;
 }
 
 .list-group-dark, .list-group-item {
-    background-color: $body-bg !important;
-    background:  $body-bg-semiTransparent !important;
-    color: $body-color !important;
-    border-color: $gray-700 !important;
-    width: 100%;
+  background-color: $body-bg !important;
+  background:  $body-bg-semiTransparent !important;
+  color: $body-color !important;
+  border-color: $gray-700 !important;
+  width: 100%;
 }
 
 .basemap_list_close:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .basemap_list_close {
-    font-size: 10px;
-    margin: 5px;
+  font-size: 10px;
+  margin: 5px;
 }
 
 .list-group-dark {
@@ -376,8 +380,8 @@ $map_right_margin: 10px;
 }
 
 .custom-control {
-    padding-bottom: 2px;
-    margin-top: 1.5px;
+  padding-bottom: 2px;
+  margin-top: 1.5px;
 }
 
 .maplayers_list hr {
@@ -385,57 +389,57 @@ $map_right_margin: 10px;
 }
 
 .maplayers_list label {
-    font-size: 12px;
-    padding: 3px;
+  font-size: 12px;
+  padding: 3px;
 }
 
 .maplayers_list {
-    .zonal-long-table-row {
-        margin-top: 0;
-    }
+  .zonal-long-table-row {
+    margin-top: 0;
+  }
 
-    div.zonal-long-table-header-simple {
-        top: 0;
-    }
+  div.zonal-long-table-header-simple {
+    top: 0;
+  }
 
-    .zonal-long-table-row-header-simple {
-        height: 18px;
-    }
+  .zonal-long-table-row-header-simple {
+    height: 18px;
+  }
 
-    .zonal-long-table-item, .zonal-long-table-row-header-simple {
-        transition-property: all;
-        transition-duration: .5s;
-        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-    }
+  .zonal-long-table-item, .zonal-long-table-row-header-simple {
+    transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  }
 
-    .driver-chart-backgroundColor-asset, .driver-chart-backgroundColor-threat {
-        &-zero, &-one, &-two {
-            color: #000;
-        }
+  .driver-chart-backgroundColor-asset, .driver-chart-backgroundColor-threat {
+    &-zero, &-one, &-two {
+      color: #000;
     }
+  }
 }
 
 .layer-legend-wrapper {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #ffffff40;
-    margin-bottom: 5px;
-    margin-left: -1.5rem; /* Negative of the left padding on the .custom-control which is declared.... somewhere.... */
-    max-height: 500px;
-    transition: all 0.75s ease;
-    will-change: transform;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ffffff40;
+  margin-bottom: 5px;
+  margin-left: -1.5rem; /* Negative of the left padding on the .custom-control which is declared.... somewhere.... */
+  max-height: 500px;
+  transition: all 0.75s ease;
+  will-change: transform;
 
-    &.closed {
-        animation: scale-display--reversed .3s;
-        overflow: hidden;
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        border-bottom: 0;
-        margin-bottom: 0;
-        transition: all 0.4s ease;
-        will-change: transform;
-    }
+  &.closed {
+    animation: scale-display--reversed .3s;
+    overflow: hidden;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+    margin-bottom: 0;
+    transition: all 0.4s ease;
+    will-change: transform;
+  }
 }
 
 .layer-description-text {
@@ -447,8 +451,7 @@ $map_right_margin: 10px;
   margin-right: 5px;
   @include border-radius(4px, 4px);
   cursor: pointer;
-  box-shadow: $box-shadow-small;
-
+  @include box-shadow-mixin($box-shadow-small);
   svg {
     // vertical-align: -0.10em;
   }
@@ -464,17 +467,17 @@ $map_right_margin: 10px;
 }
 
 .layer-legend-toggler {
-    width: 20px;
-    color: $body-color !important;
-    cursor: pointer;
+  width: 20px;
+  color: $body-color !important;
+  cursor: pointer;
 
-    &.closed {
-        color: #fff;
-    }
+  &.closed {
+    color: #fff;
+  }
 
-    &:hover {
-        color: #999595;
-    }
+  &:hover {
+    color: #999595;
+  }
 }
 
 .layer-legend .value-none {
