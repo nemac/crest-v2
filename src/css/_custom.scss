@@ -326,6 +326,7 @@ a.nav-link {
 
 .mapinfo-header {
   width: 100%;
+  padding-top: 8px;
 }
 
 #user-shape {
@@ -1033,11 +1034,6 @@ a.about-nav.active::before {
     margin-top: 0px !important;
   }
 }
-
-.mapinfo-header {
-  width: 100%;
-}
-
 // #main-content,{
 //   // padding: $padding15;
 // }
