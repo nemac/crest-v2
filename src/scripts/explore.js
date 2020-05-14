@@ -2151,7 +2151,7 @@ export class Explore extends Component {
       newname = `${this.defaultAreaName}${shapecount}`;
     }
 
-    // labels nees a sec so it's placed on the correct location
+    // labels need a sec so it's placed on the correct location
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions); }, 50);
   }
 
@@ -2577,6 +2577,7 @@ export class Explore extends Component {
       // const region = hubs[i].features[0].properties.region.toString().trim();
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map, 'continental_us');
       // TO DO add pagination ???
+      // if (i>10) { return null}
     }
   }
 

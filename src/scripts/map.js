@@ -164,6 +164,7 @@ export class Map extends Component {
       this.basemaploaded = true;
       store.setStoreItem('working_basemap', false);
       spinnerOff('load');
+      this.hideLabelsZooomOut();
     });
 
     // add new event to fire when on base map is in process of loading
@@ -404,6 +405,7 @@ export class Map extends Component {
     this.map.on('moveend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('moveend');
+      this.hideLabelsZooomOut();
       // uncomment to get console of center and extent helpful for region extents
       // console.log('center',  [this.map.getCenter().wrap().lng,
       //   this.map.getCenter().wrap().lat] )
@@ -505,12 +507,25 @@ export class Map extends Component {
     });
   }
 
+  // hides labels when users zoom out
+  // hide area labels when user zooms out
+  hideLabelsZooomOut() {
+    this.map.eachLayer((layer) => {
+      if (this.map.getZoom() <= 10) {
+        document.querySelector('.leaflet-tooltip-pane').classList.add('d-none');
+      } else {
+        document.querySelector('.leaflet-tooltip-pane').classList.remove('d-none');
+      }
+    });
+  }
+
   // map zoom end map handler
   // https://leafletjs.com/reference-1.3.0.html#map-zoomend
   mapZoomEndHandler() {
     this.map.on('zoomend', (event) => {
       this.saveZoomAndMapPosition();
       store.saveAction('zoomend');
+      this.hideLabelsZooomOut();
     });
   }
 
