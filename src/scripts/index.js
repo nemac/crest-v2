@@ -10,7 +10,8 @@ import { URL } from './url';
 import {
   checkValidObject,
   addMissingStateItems,
-  addDownloadGoogleEvents
+  addDownloadGoogleEvents,
+  formatChartData
 } from './utilitys';
 
 // import extended components
@@ -66,6 +67,9 @@ store.setStoreItem('aboutComponent', aboutComponent);
 store.removeStateItem('aboutComponent');
 store.setStoreItem('shareurl', shareurl);
 store.removeStateItem('shareurl');
+
+// reformat state data for use in charts.js
+formatChartData();
 
 let homeloc = window.location.origin;
 const path = window.location.pathname;

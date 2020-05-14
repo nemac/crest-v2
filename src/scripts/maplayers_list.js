@@ -5,46 +5,13 @@ import { Component } from './components';
 import { mapConfig } from '../config/mapConfig';
 import { Store } from './store';
 
-// Legend Templates
-import ColorRampHub from '../templates/colorramp_hub.html';
-import ColorRampFishAndWildlife from '../templates/colorramp_fishandwildlife.html';
-import ColorRampAquatic from '../templates/colorramp_aquatic.html';
-import ColorRampMarineIslands from '../templates/colorramp_marineislands.html';
-import ColorRampTerrestrial from '../templates/colorramp_terrestrial.html';
-import ColorRampTerrestrialIslands from '../templates/colorramp_terrestrialislands.html';
-import ColorRampExposure from '../templates/colorramp_exposure.html';
-import ColorRampAsset from '../templates/colorramp_asset.html';
-import ColorRampThreat from '../templates/colorramp_threat.html';
-import ColorRampPopDensity from '../templates/colorramp_popdensity.html';
-import ColorRampSocVuln from '../templates/colorramp_socvuln.html';
-import ColorRampSocVulnIslands from '../templates/colorramp_socvulnislands.html';
-import ColorRampCritFac from '../templates/colorramp_critfac.html';
-import ColorRampCritFacPR from '../templates/colorramp_critfac_pr.html';
-import ColorRampCritInfra from '../templates/colorramp_critinfra.html';
-import ColorRampCritInfraPR from '../templates/colorramp_critinfra_pr.html';
-import ColorRampDrainage from '../templates/colorramp_drainage.html';
-import ColorRampErosion from '../templates/colorramp_erosion.html';
-import ColorRampFloodProne from '../templates/colorramp_floodprone.html';
-import ColorRampSLR from '../templates/colorramp_slr.html';
-import ColorRampStormSurge from '../templates/colorramp_stormsurge.html';
-import ColorRampGeoStress from '../templates/colorramp_geostress.html';
-import ColorRampSlopefrom from '../templates/colorramp_slope.html';
-import ColorRampDriverAsset from '../templates/colorramp_driver_asset.html';
-import ColorRampDriverThreat from '../templates/colorramp_driver_threat.html';
-import ColorRampDriverTsunamiPR from '../templates/colorramp_tsunami_pr.html';
-import ColorRampDriverLandslidesPR from '../templates/colorramp_landslides_pr.html';
-import ColorRampDriverNSHub from '../templates/colorramp_targetedwatershed_hub.html';
-import ColorRampDriverNSExposure from '../templates/colorramp_targetedwatershed_exposure.html';
-import ColorRampDriverNSAsset from '../templates/colorramp_targetedwatershed_asset.html';
-import ColorRampDriverNSThreat from '../templates/colorramp_targetedwatershed_threat.html';
-import ColorRampDriverNSFishAndWildlife from '../templates/colorramp_targetedwatershed_fishandwildlife.html';
-
-
 // scss
 import '../css/maplayers_list.scss';
 
 import {
-  googleAnalyticsEvent
+  googleAnalyticsEvent,
+  numberToWord,
+  getLegendHtml
 } from './utilitys';
 
 const store = new Store({});
@@ -54,24 +21,6 @@ window.$ = require('jquery');
 window.Popper = require('popper.js');
 
 window.jQuery = window.$;
-
-// hide all popups on clickoutside
-// $('html').on('click', function(e) {
-//   if (typeof $(e.target).data('tooltip') == 'undefined') {
-//     $('.tooltip').tooltip('hide');
-//   }
-// });
-
-// $("html").on("click", function (e) {
-//     var elems = $(e.target);
-//       if (elems[0].className.indexOf("tooltip") == -1) {
-//           $(".tooltip").each(function () {
-//               $(this).tooltip("hide");
-//           });
-//       }
-// });
-// templates
-// import layer_checkboxTemplate from '../templates/layer_checkbox.html'
 
 /**
  * MapLayersList Component
@@ -174,7 +123,7 @@ export class MapLayersList extends Component {
   }
 
   static toggleRegionsLayers(mapComponent) {
-    //  get the region
+    // get the region
     const region = store.getStateItem('region');
     const activeNav = store.getStateItem('activeNav');
 
@@ -596,154 +545,6 @@ export class MapLayersList extends Component {
     return elem.querySelector('.layer-legend');
   }
 
-  // Returns the HTML for a specified legend type
-  //
-  // @param type | String
-  // @return String
-  static getLegendHtml(type) {
-    switch (type) {
-      case 'hub':
-        return ColorRampHub;
-      case 'asset':
-        return ColorRampAsset;
-      case 'threat':
-        return ColorRampThreat;
-      case 'exposure':
-        return ColorRampExposure;
-      case 'terrestrial':
-        return ColorRampTerrestrial;
-      case 'fishandwildlife':
-        return ColorRampFishAndWildlife;
-      case 'aquatic':
-        return ColorRampAquatic;
-      case 'driver-asset':
-        return ColorRampDriverAsset;
-      case 'popdensity':
-        return ColorRampPopDensity;
-      case 'socvuln':
-        return ColorRampSocVuln;
-      case 'socvulnislands':
-        return ColorRampSocVulnIslands;
-      case 'critfac':
-        return ColorRampCritFac;
-      case 'critfac-pr':
-        return ColorRampCritFacPR;
-      case 'critinfra':
-        return ColorRampCritInfra;
-      case 'drainage':
-        return ColorRampDrainage;
-      case 'erosion':
-        return ColorRampErosion;
-      case 'floodprone':
-        return ColorRampFloodProne;
-      case 'slr':
-        return ColorRampSLR;
-      case 'stormsurge':
-        return ColorRampStormSurge;
-      case 'geostress':
-        return ColorRampGeoStress;
-      case 'slope':
-        return ColorRampSlopefrom;
-      case 'driver-threat':
-        return ColorRampDriverThreat;
-      case 'ns-hub':
-        return ColorRampDriverNSHub;
-      case 'ns-exposure':
-        return ColorRampDriverNSExposure;
-      case 'ns-asset':
-        return ColorRampDriverNSAsset;
-      case 'ns-threat':
-        return ColorRampDriverNSThreat;
-      case 'ns-fishandwildlife':
-        return ColorRampDriverNSFishAndWildlife;
-      case 'pr_hub':
-        return ColorRampHub;
-      case 'pr_asset':
-        return ColorRampAsset;
-      case 'pr_threat':
-        return ColorRampThreat;
-      case 'pr_exposure':
-        return ColorRampExposure;
-      case 'pr_fishandwildlife':
-        return ColorRampFishAndWildlife;
-      case 'pr_terrestrial':
-        return ColorRampTerrestrialIslands;
-      case 'pr_aquatic':
-        return ColorRampAquatic;
-      case 'pr_driver-asset':
-        return ColorRampMarineIslands;
-      case 'pr_popdensity':
-        return ColorRampPopDensity;
-      case 'pr_socvuln':
-        return ColorRampSocVulnIslands;
-      case 'pr_critfac':
-        return ColorRampCritFacPR;
-      case 'pr_critinfra':
-        return ColorRampCritInfraPR;
-      case 'pr_drainage':
-        return ColorRampDrainage;
-      case 'pr_erosion':
-        return ColorRampErosion;
-      case 'pr_floodprone':
-        return ColorRampFloodProne;
-      case 'pr_slr':
-        return ColorRampSLR;
-      case 'pr_stormsurge':
-        return ColorRampStormSurge;
-      case 'pr_geostress':
-        return ColorRampGeoStress;
-      case 'pr_slope':
-        return ColorRampSlopefrom;
-      case 'pr_driver-threat':
-        return ColorRampDriverThreat;
-      case 'pr_landslides':
-        return ColorRampDriverLandslidesPR;
-      case 'pr_tsunami':
-        return ColorRampDriverTsunamiPR;
-      case 'usvi_hub':
-        return ColorRampHub;
-      case 'usvi_asset':
-        return ColorRampAsset;
-      case 'usvi_threat':
-        return ColorRampThreat;
-      case 'usvi_exposure':
-        return ColorRampExposure;
-      case 'usvi_fishandwildlife':
-        return ColorRampFishAndWildlife;
-      case 'usvi_terrestrial':
-        return ColorRampTerrestrialIslands;
-      case 'usvi_aquatic':
-        return ColorRampMarineIslands;
-      case 'usvi_driver-asset':
-        return ColorRampDriverAsset;
-      case 'usvi_popdensity':
-        return ColorRampPopDensity;
-      case 'usvi_socvuln':
-        return ColorRampSocVulnIslands;
-      case 'usvi_critfac':
-        return ColorRampCritFac;
-      case 'usvi_critinfra':
-        return ColorRampCritInfra;
-      case 'usvi_drainage':
-        return ColorRampDrainage;
-      case 'usvi_erosion':
-        return ColorRampErosion;
-      case 'usvi_floodprone':
-        return ColorRampFloodProne;
-      case 'usvi_slr':
-        return ColorRampSLR;
-      case 'usvi_stormsurge':
-        return ColorRampStormSurge;
-      case 'usvi_geostress':
-        return ColorRampGeoStress;
-      case 'usvi_slope':
-        return ColorRampSlopefrom;
-      case 'usvi_driver-threat':
-      default:
-        return '';
-    }
-  }
-
   // Gets the HTML wrapper of a layers description
   //
   // @param elem | DOM Element
@@ -804,14 +605,51 @@ export class MapLayersList extends Component {
   // @param layerProps | Object
   static addLegendHTML(layerProps) {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
-    if (layerElem) {
-      MapLayersList.getLegendWrapper(layerElem).innerHTML =
-          MapLayersList.getLegendHtml(layerProps.legend);
-      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
-      MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
-      MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
-    }
 
+    if (layerElem) {
+      // get the legend html based on the number of breaks supports 1-10 breaks
+      MapLayersList.getLegendWrapper(layerElem).innerHTML =
+          getLegendHtml(layerProps.chartLegendValues);
+
+      // get the color palette for layer, each layer can have its own
+      const colorPalette = layerProps.chartCSSColor;
+
+      // iterate the color palette for layer so we can assing apporaite css color to element
+      Object.keys(colorPalette).forEach((color) => {
+        // convert the color number to number word 2 - two
+        // this is how html elments are named.
+        const colorlueWord = numberToWord(Number(color));
+
+        // get the element based on the color word
+        const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
+
+        // if the element exists add css color values
+        if (valueELem) {
+          // set background based on mapconfig values
+          valueELem.style.background = colorPalette[color];
+
+          // set font color
+          valueELem.style.color = '#000';
+
+          // // last color tends to be to dark for dark font
+          // if (parseInt(color) >= layerProps.chartLegendValues ) {
+          //   valueELem.style.color = '#fff';
+          // }
+          // hide legend numbers for now will anyone notice?
+          valueELem.style.color = 'transparent';
+
+          // add classes for region, chartCSSSelector, and source in case we want to find it later
+          valueELem.classList.add(layerProps.chartCSSSelector);
+          valueELem.classList.add(layerProps.region);
+          valueELem.classList.add(layerProps.source);
+        }
+
+        // set attributes for popups
+        MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
+        MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
+        MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
+      });
+    }
     const legendElem = document.getElementById(`legend-${layerProps.id}`);
     if (legendElem) {
       legendElem.setAttribute('title', `Legend for ${layerProps.label}`);

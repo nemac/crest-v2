@@ -24,6 +24,7 @@ import {
   checkValidObject,
   spinnerOff,
   spinnerOn,
+  formatChartData,
   googleAnalyticsEvent
 } from './utilitys';
 
@@ -179,6 +180,19 @@ export class Explore extends Component {
     this.mapComponent.map.addEventListener('zonalstatsend', (e) => {
       Explore.zonalStatsHandler();
     });
+
+    // TODO Add pagination listner to explore scroll bar
+    const exploreScrollElem = document.getElementById('explore-holder');
+    if (exploreScrollElem) {
+      exploreScrollElem.addEventListener('scroll', () => {
+        if (exploreScrollElem.scrollTop + exploreScrollElem.clientHeight >=
+          exploreScrollElem.scrollHeight) {
+          // add load more TODO Add pagination draw next set
+          const exploreNextPageEvent = new CustomEvent('explore-next-page');
+          window.dispatchEvent(exploreNextPageEvent);
+        }
+      });
+    }
 
     this.mapComponent.map.addEventListener('retreives3end', (e) => {
       spinnerOff();
@@ -706,7 +720,18 @@ export class Explore extends Component {
     toggleAllLongZonalsOff();
     const pathclass = e.target.options.className;
     const name = pathclass.replace('path--USERAREA-', '');
-    viewLongZonalStatsFromShape(name);
+    // TODO pagination needs to draw charts drawZonalStatsFromAPI incase its not rendered yet
+    // due to pagination
+    // const region = store.getStateItem('region');
+    // Get and Limit Clikced shape will need properties.mean
+    //      from one of shapes useraereas, hubs, natureserve hubs
+    // then pass to:
+    // //   drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
+    // //     name,
+    // //     this.mapComponent.map,
+    // //     region);
+    // // }
+    viewLongZonalStatsFromShape(name); // add draw here
   }
 
   bufferArea(unbufferedGeoJSON) {
@@ -771,6 +796,19 @@ export class Explore extends Component {
         Explore.clickShape(e);
       }
     });
+
+    // get current region so we can insert it as property attribute
+    const region = store.getStateItem('region');
+
+    // add region when user shape
+    if (bufferedGeoJSON.properties) {
+      bufferedGeoJSON.properties.region = region;
+    }
+
+    // add region when upload shapefle
+    if (bufferedGeoJSON.features) {
+      bufferedGeoJSON.features[0].properties.region = region;
+    }
 
     // add buffered area to store
     store.setStoreItem('userarea_buffered', bufferedGeoJSON);
@@ -845,6 +883,7 @@ export class Explore extends Component {
       if (checkobj.call(currentshapes, key)) {
         const rawpostdata = currentshapes[key][2].userarea_buffered;
         const { name } = currentshapes[key][0];
+        // const { region } = currentshapes[key][4];
 
         let postdata = '';
 
@@ -875,9 +914,12 @@ export class Explore extends Component {
 
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
+          const region = ZonalStatsJson.features[0].properties.region.toString().trim();
+          // TO DO add pagination ???
           drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
             name,
-            this.mapComponent.map);
+            this.mapComponent.map,
+            region);
         }
       }
     }
@@ -1045,6 +1087,7 @@ export class Explore extends Component {
     } else {
       store.setStoreItem('NatureServeHubIntersectionJson', json);
     }
+    formatChartData();
   }
 
   // renders the shapes from the user areas state object
@@ -1153,6 +1196,7 @@ export class Explore extends Component {
     } else {
       store.setStoreItem('HubIntersectionJson', json);
     }
+    formatChartData();
   }
 
   // renders the shapes from the user areas state object
@@ -1282,9 +1326,11 @@ export class Explore extends Component {
 
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
+      const region = ZonalStatsJson.features[0].properties.region.toString().trim();
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
         name,
-        this.mapComponent.map);
+        this.mapComponent.map,
+        region);
     }
 
     this.mapComponent.map.fireEvent('zonalstatsend');
@@ -1559,6 +1605,7 @@ export class Explore extends Component {
     }
 
     store.setStoreItem('HubIntersectionJson', newshapes);
+    formatChartData();
     this.drawHubsFromStateObject();
     this.drawZonalStatsForStoredHubs();
     Explore.sortHubsByHubScore();
@@ -1616,6 +1663,7 @@ export class Explore extends Component {
     }
 
     store.setStoreItem('NatureServeHubIntersectionJson', newshapes);
+    formatChartData();
     this.drawNatureServeHubsFromStateObject();
     this.drawZonalStatsForStoredNatureServeHubs();
     Explore.sortNatureServeHubsByHubScore();
@@ -1675,12 +1723,13 @@ export class Explore extends Component {
     spinnerOn();
 
     const currentshapes = store.getStateItem('userareas');
-
+    formatChartData();
     Object.keys(currentshapes).forEach((key) => {
       const { name } = currentshapes[key][0];
       const { userarea } = currentshapes[key][1];
       const buffered = currentshapes[key][2].userarea_buffered;
       const zonal = currentshapes[key][3].zonalstatsjson;
+      // const { region } = currentshapes[key][4];
 
       if (checkValidObject(userarea)) {
         // convert geoJson to leaflet layer
@@ -1742,7 +1791,9 @@ export class Explore extends Component {
         this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
-          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent);
+          const region = zonal.features[0].properties.region.toString().trim();
+          // / TO DO add pagination ???
+          drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent, region);
         }
 
         Explore.enableShapeExistsButtons();
@@ -1750,7 +1801,6 @@ export class Explore extends Component {
 
         return layer;
       }
-
       return null;
     });
 
@@ -1816,6 +1866,7 @@ export class Explore extends Component {
     store.removeStateItem('userareas');
     store.removeStateItem('zonalstatsjson');
     Explore.resetshapescounter();
+    formatChartData();
   }
 
   static removeUserAreas() {
@@ -1827,11 +1878,13 @@ export class Explore extends Component {
   static removeExistingHubs() {
     store.removeStateItem('HubIntersectionJson');
     store.removeStateItem('savedhubs');
+    formatChartData();
   }
 
   static removeExistingNatureServeHubs() {
     store.removeStateItem('NatureServeHubIntersectionJson');
     store.removeStateItem('savedNatureServehubs');
+    formatChartData();
   }
 
   static clearDetailsHolder() {
@@ -2122,7 +2175,7 @@ export class Explore extends Component {
       newname = `${this.defaultAreaName}${shapecount}`;
     }
 
-    // labels nees a sec so it's placed on the correct location
+    // labels need a sec so it's placed on the correct location
     setTimeout(() => { layer.bindTooltip(newname, this.labelOptions); }, 50);
   }
 
@@ -2178,6 +2231,10 @@ export class Explore extends Component {
       const geojson = layer.toGeoJSON();
       // update store
       store.setStoreItem('lastaction', 'draw area');
+      // get current region so we can insert it as property attribute
+      const region = store.getStateItem('region');
+      geojson.properties.region = region;
+
       store.setStoreItem('userarea', geojson);
 
       switch (activeNav) {
@@ -2222,6 +2279,8 @@ export class Explore extends Component {
           // }
           break;
       }
+      // convert to chart data
+      formatChartData();
     });
   }
 
@@ -2232,6 +2291,8 @@ export class Explore extends Component {
     this.drawAreaGroup.removeLayer(bufferedLayer);
     const userareacount = store.getStateItem('userareacount');
     store.setStoreItem('userareacount', userareacount - 1);
+    // convert to chart data
+    formatChartData();
   }
 
   static resetshapescounter() {
@@ -2255,17 +2316,21 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('userareas');
     const shapecount = store.getStateItem('userareacount');
     const name = `${this.defaultAreaName}${shapecount}`;
+    const region = store.getStateItem('region');
     const newshape = {
       [`userarea${shapecount}`]: [
         { name },
         { userarea: store.getStateItem('userarea') },
         { userarea_buffered: store.getStateItem('userarea_buffered') },
-        { zonalstatsjson: store.getStateItem('zonalstatsjson') }
+        { zonalstatsjson: store.getStateItem('zonalstatsjson') },
+        { region }
       ]
     };
 
     const newshapes = { ...currentshapes, ...newshape };
     store.setStoreItem('userareas', newshapes);
+    // convert to chart data
+    formatChartData();
     return name;
   }
 
@@ -2455,12 +2520,15 @@ export class Explore extends Component {
       featuresReady.push(...features);
     }
     const activeNav = store.getStateItem('activeNav');
+    const region = store.getStateItem('region');
+
     if (activeNav) {
       switch (activeNav) {
         case 'main-nav-map-searchhubs':
           Explore.removeExistingHubs();
           this.drawAreaGroup.clearLayers();
           for (let i = 0; i < featuresReady.length; i += 1) {
+            featuresReady[i].properties.region = region;
             store.setStoreItem('userarea', featuresReady[i]);
             await this.getHubsZonal();
           }
@@ -2476,6 +2544,7 @@ export class Explore extends Component {
           Explore.removeExistingNatureServeHubs();
           this.drawAreaGroup.clearLayers();
           for (let i = 0; i < featuresReady.length; i += 1) {
+            featuresReady[i].properties.region = region;
             store.setStoreItem('userarea', featuresReady[i]);
             await this.getNatureServeHubsZonal();
           }
@@ -2517,7 +2586,10 @@ export class Explore extends Component {
     const NatureServeHubs = store.getStateItem('NatureServeHubIntersectionJson');
     for (let i = 0; i < NatureServeHubs.length; i += 1) {
       const name = `${NatureServeHubs[i].properties.mean.TARGET_FID}`.toString().trim();
-      drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map);
+      // TODO add region to stored hub shapes or add on the fly with turf?
+      // const region = NatureServeHubs[i].features[0].properties.region.toString().trim();
+      drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map, 'targetedwatershed');
+      // TO DO add pagination ???
     }
   }
 
@@ -2525,7 +2597,11 @@ export class Explore extends Component {
     const hubs = store.getStateItem('HubIntersectionJson');
     for (let i = 0; i < hubs.length; i += 1) {
       const name = `${hubs[i].properties.mean.TARGET_FID}`.toString().trim();
-      drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map);
+      // TODO add region to stored hub shapes or add on the fly with turf?
+      // const region = hubs[i].features[0].properties.region.toString().trim();
+      drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map, 'continental_us');
+      // TO DO add pagination ???
+      // if (i>10) { return null}
     }
   }
 
@@ -2547,17 +2623,19 @@ export class Explore extends Component {
 
   static sortHubsByHubScore() {
     const hubs = store.getStateItem('HubIntersectionJson');
-    const HubIntersectionJsonSorted = hubs.sort((a, b) => {
-      if (a.properties.mean.hubs > b.properties.mean.hubs) {
-        return -1;
-      }
-      if (a.properties.mean.hubs < b.properties.mean.hubs) {
-        return 1;
-      }
-      // a must be equal to b
-      return 0;
-    });
-    store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
+    if (checkValidObject(hubs)) {
+      const HubIntersectionJsonSorted = hubs.sort((a, b) => {
+        if (a.properties.mean.hubs > b.properties.mean.hubs) {
+          return -1;
+        }
+        if (a.properties.mean.hubs < b.properties.mean.hubs) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+      store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
+    }
   }
 
   static async extractFeaturesFromFileset(files) {
@@ -2566,7 +2644,6 @@ export class Explore extends Component {
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
     const features = [];
-
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
       let geojsonFromShpfiles;
@@ -2613,6 +2690,12 @@ export class Explore extends Component {
     const newLayer = L.geoJson(feature);
 
     store.setStoreItem('lastaction', 'upload_shape');
+
+    // add region to geojson regions
+    const region = store.getStateItem('region');
+    const geojson = newLayer.toGeoJSON();
+    geojson.features[0].properties.region = region;
+
     store.setStoreItem('userarea', newLayer.toGeoJSON());
 
     const bufferedLayer = this.bufferArea(newLayer.toGeoJSON());
@@ -2627,7 +2710,6 @@ export class Explore extends Component {
       await this.getZonal();
     } catch (e) {
       // TODO: Display a message to the user
-      // console.log('rollback uploaded feature');
       this.rollbackUserArea(newLayer, bufferedLayer);
       store.setStoreItem('working_zonalstats', false);
       spinnerOff();
