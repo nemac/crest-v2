@@ -498,9 +498,13 @@ function returnSimpleButtonElementId(element) {
 function ZoomGeoJSON(zoomlayer, mapComponent) {
   const zoomBounds = zoomlayer.getBounds();
   if (mapComponent.map) {
-    mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+    // flyToBounds is glithy
+    // mapComponent.map.flyToBounds(zoomBounds.pad(0.2));
+    mapComponent.map.fitBounds(zoomBounds);
   } else {
-    mapComponent.flyToBounds(zoomBounds.pad(0.2));
+    // flyToBounds is glithy
+    // mapComponent.flyToBounds(zoomBounds.pad(0.2));
+    mapComponent.fitBounds(zoomBounds);
   }
 }
 
