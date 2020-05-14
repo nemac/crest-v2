@@ -2644,7 +2644,6 @@ export class Explore extends Component {
     const otherFiles = files.filter(file => shpfileFiles.indexOf(file) === -1);
     const shpfileBundles = Explore.bundleShpfileFiles(shpfileFiles);
     const features = [];
-
     if (shpfileBundles.length) {
       const bundleToProcess = shpfileBundles[0];
       let geojsonFromShpfiles;
