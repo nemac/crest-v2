@@ -181,6 +181,17 @@ export class Explore extends Component {
       Explore.zonalStatsHandler();
     });
 
+    // TODO Add pagination listner to explore scroll bar
+    const exploreScrollElem = document.getElementById('explore-holder');
+    if (exploreScrollElem) {
+      exploreScrollElem.addEventListener('scroll', () => {
+        if (exploreScrollElem.scrollTop + exploreScrollElem.clientHeight >=
+          exploreScrollElem.scrollHeight) {
+          // add load more TODO Add pagination draw next set
+        }
+      });
+    }
+
     this.mapComponent.map.addEventListener('retreives3end', (e) => {
       spinnerOff();
     });
@@ -707,7 +718,18 @@ export class Explore extends Component {
     toggleAllLongZonalsOff();
     const pathclass = e.target.options.className;
     const name = pathclass.replace('path--USERAREA-', '');
-    viewLongZonalStatsFromShape(name);
+    // TODO pagination needs to draw charts drawZonalStatsFromAPI incase its not rendered yet
+    // due to pagination
+    // const region = store.getStateItem('region');
+    // Get and Limit Clikced shape will need properties.mean
+    //      from one of shapes useraereas, hubs, natureserve hubs
+    // then pass to:
+    // //   drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
+    // //     name,
+    // //     this.mapComponent.map,
+    // //     region);
+    // // }
+    viewLongZonalStatsFromShape(name); // add draw here
   }
 
   bufferArea(unbufferedGeoJSON) {
@@ -891,6 +913,7 @@ export class Explore extends Component {
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
           const region = ZonalStatsJson.features[0].properties.region.toString().trim();
+          // TO DO add pagination ???
           drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
             name,
             this.mapComponent.map,
@@ -1768,6 +1791,7 @@ export class Explore extends Component {
 
         if (checkValidObject(zonal.features)) {
           const region = zonal.features[0].properties.region.toString().trim();
+          // / TO DO add pagination ???
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent, region);
         }
 
