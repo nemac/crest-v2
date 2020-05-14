@@ -891,7 +891,7 @@ function drawMapInfoStatsHandler() {
 
   // leaflet popup takes a second to render, chartjs needs to be rendered
   // to draw on the canvas and resize so timeout needed
-  setTimeout(() => makeBasicBarChart(document, chartSelector, chartdata), 750);
+  setTimeout(() => makeBasicBarChart(document, chartSelector, chartdata), 50);
   return null;
 }
 
@@ -902,6 +902,7 @@ function drawMapInfoStats() {
 
   // add listener for leaflets open popup
   window.addEventListener('leafletpopupopen', drawMapInfoStatsHandler);
+  window.addEventListener('mapinfo-data-ready', drawMapInfoStatsHandler);
 }
 
 // Creates the entire short zonal stats block of html
