@@ -1,4 +1,4 @@
-  import L from 'leaflet';
+import L from 'leaflet';
 import ZonalWrapper from '../templates/zonal_wrapper.html';
 import ZonalLong from '../templates/zonal_long.html';
 import ZonalShort from '../templates/zonal_short.html';
@@ -6,13 +6,13 @@ import ZonalButtons from '../templates/zonal_buttons.html';
 
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
+import { bindZonalExportHandler } from './zonalFileExporter';
 
 import {
   checkValidObject,
   googleAnalyticsEvent,
   groupByDriver,
   numberToWord,
-  formatChartData,
   makeBasicBarChart,
   formatMapInfoChartData,
   getLegendHtml
@@ -21,7 +21,6 @@ import {
 const { zoomRegions } = mapConfig;
 const { TMSLayers } = mapConfig;
 
-import { bindZonalExportHandler } from './zonalFileExporter';
 // required for bootstrap
 window.$ = require('jquery');
 // required for tooltip, popup...
@@ -241,6 +240,32 @@ function getZonalWrapper(elem) {
   const wrapperelem = document.querySelector(selector);
   return wrapperelem;
 }
+
+// limits charts to the current regions
+function toggleRegionCharts() {
+  const region = store.getStateItem('region');
+  const notInRegionInfo = zoomRegions.filter(regions => regions.region !== region);
+  const inRegionInfo = zoomRegions.filter(regions => regions.region === region);
+
+  notInRegionInfo.forEach((theRegion) => {
+    const notThisRegionElems = document.querySelectorAll(`.zonal-stats-wrapper.region-${theRegion.region}`);
+    notThisRegionElems.forEach((notThisRegionElem) => {
+      if (notThisRegionElem) {
+        notThisRegionElem.classList.add('d-none');
+      }
+    });
+  });
+
+  inRegionInfo.forEach((theRegion) => {
+    const inThisRegionElems = document.querySelectorAll(`.zonal-stats-wrapper.region-${theRegion.region}`);
+    inThisRegionElems.forEach((inThisRegionElem) => {
+      if (inThisRegionElem) {
+        inThisRegionElem.classList.remove('d-none');
+      }
+    });
+  });
+}
+
 // Click handler to trigger the dismiss of the long zonal stats
 function dismissZonalClickHandler(e) {
   // ga event action, category, label
@@ -790,47 +815,6 @@ function zonalLabelMouseOutHandler(e) {
   }
 }
 
-// This function finds the scaled position of a value from [0,100]
-// It does the addition of scale and division by scaleGroups since the value falls into one of
-// multiple ranges and so it needs to put the scaled value into the correct area.
-//
-// @param val - float
-// @param rangeMin - int
-// @param rangeMax - int
-// @param scale - int. [0,scaleGroups - 1]
-// @param scaleGroups - int. Number of groups the value could be scaled for. [1,]
-// TODO ADD TO MAPCONFIG nodata value overide
-function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
-  let valOveride = val;
-  // no data overide
-  if (val === '255') {
-    valOveride = 0;
-  }
-  if (val === '255.0') {
-    valOveride = 0;
-  }
-  if (val === '128') {
-    valOveride = 0;
-  }
-  if (val === '128.0') {
-    valOveride = 0;
-  }
-  let position = (valOveride - rangeMin) / (rangeMax - rangeMin); // [0,1]
-  position += scale; // [0,scaleGroups]
-  position = (position / scaleGroups) * 100; // [0, 100]
-  if (position === 100) {
-    position = 99;
-  }
-  return position;
-}
-
-// Returns a position formatted as a percentage
-// @param position | float
-// @return String
-function formatPosition(position) {
-  return `${position}%`;
-}
-
 // Builds the inner HTML for the long zonal stats
 // @param DOM Element | wrapper
 function buildLongStatsHtml(wrapper) {
@@ -838,88 +822,73 @@ function buildLongStatsHtml(wrapper) {
   const innerWrapper = wrapper;
   // const region = store.getStateItem('region');
   innerWrapper.innerHTML = ZonalLong;
-
-  const { TMSLayers } = mapConfig;
-  const inputData = TMSLayers.filter(layer => layer.chartSummary  );
+  const inputData = TMSLayers.filter(layer => layer.chartSummaryå);
 
   // iterate the layer props to assing apporaite thml
-   inputData.forEach((layerProps) => {
-     const layerElem = wrapper.querySelector(`.zonal-long-${layerProps.chartCSSSelector}-wrapper .zonal-long-table-wrapper`)
-     const roundedValueWord = numberToWord(layerProps.chartLegendValues);
+  inputData.forEach((layerProps) => {
+    const layerElem = wrapper.querySelector(`.zonal-long-${layerProps.chartCSSSelector}-wrapper .zonal-long-table-wrapper`);
 
-       if (layerElem) {
-         const legendHTML = getLegendHtml(layerProps.chartLegendValues);
-         layerElem.innerHTML = legendHTML;
+    if (layerElem) {
+      const legendHTML = getLegendHtml(layerProps.chartLegendValues);
+      layerElem.innerHTML = legendHTML;
 
-        // get the color palette for layer, each layer can have its own
-        const colorPalette = layerProps.chartCSSColor;
+      // get the color palette for layer, each layer can have its own
+      const colorPalette = layerProps.chartCSSColor;
 
-        // iterate the color palette for layer so we can assing apporaite css color to element
-        Object.keys(colorPalette).forEach((color) => {
+      // iterate the color palette for layer so we can assing apporaite css color to element
+      Object.keys(colorPalette).forEach((color) => {
+        // convert the color number to number word 2 - two
+        // this is how html elments are named.
+        const colorlueWord = numberToWord(Number(color));
+        // get the element based on the color word
+        const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
 
-          // convert the color number to number word 2 - two
-          // this is how html elments are named.
-          const colorlueWord = numberToWord(parseInt(color));
-          // get the element based on the color word
-          const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
+        // if the element exists add css color values
+        if (valueELem) {
+          // set background based on mapconfig values
+          valueELem.style.background = colorPalette[color];
 
-          // if the element exists add css color values
-          if (valueELem) {
-            // set background based on mapconfig values
-            valueELem.style.background = colorPalette[color];
+          // set font color
+          valueELem.style.color = '#000';
 
-            // set font color
-            valueELem.style.color = '#000';
-
-            // // last color tends to be to dark for dark font
-            // if (parseInt(color) >= layerProps.chartLegendValues ) {
-            //   valueELem.style.color = '#fff';
-            // }
-            // add classes for region, chartCSSSelector, and source in case we want to find it later
-            valueELem.classList.add(layerProps.chartCSSSelector);
-            valueELem.classList.add(layerProps.region);
-            valueELem.classList.add(layerProps.source);
-          }
-        })
-     }
-   });
-}
-
-// @return Array of summary data used in indentify (mapinfo) and intial zonal stats chart
-function getSummaryDataChartData(data, region) {
-  // filter the region layer list so we can get map configation values for all
-  // regions layers
-  const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
-
-  // filter the regions layers to the specifc layer so we can get map configation values
-  const layerInfo = layerRegionInfo.filter(layer => layer.chartSummary);
-
-  // if layerInfo empty array then exit nothing matches.
-  if (layerInfo.length === 0) {
-    return null;
-  }
-
-  const activeNav = store.getStateItem('activeNav');
-
-  // iterate over returned data and values and map it into a object array
-  // that only contains summary data or input data not driver data
-  const summmaryData = [];
-  Object.keys(data).map((key) => {
-
-    // check of data matches a driver
-    let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
-
-    // filter the regions layers to the specifc layer so we can get map configation values
-    if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
-      layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
-    }
-
-    // check of data matches a driver and add it to a new object araray that is key, value
-    if (layerInfoHasKey.length > 0 ) {
-      summmaryData.push({key, value: data[key] })
+          // // last color tends to be to dark for dark font
+          // if (parseInt(color) >= layerProps.chartLegendValues ) {
+          //   valueELem.style.color = '#fff';
+          // }
+          // add classes for region, chartCSSSelector, and source in case we want to find it later
+          valueELem.classList.add(layerProps.chartCSSSelector);
+          valueELem.classList.add(layerProps.region);
+          valueELem.classList.add(layerProps.source);
+        }
+      });
     }
   });
-  return summmaryData;
+}
+
+// event function to draw mapinfp (identify) stats
+function drawMapInfoStatsHandler() {
+  formatMapInfoChartData();
+  // get chart data for summary data
+  const activeNav = store.getStateItem('activeNav');
+  let chartName = 'mapinfo_nfwf';
+  let region = store.getStateItem('region');
+  let mapinfochartdata = store.getStateItem('mapinfochartdata');
+
+  // natureserve data in differ state key
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    chartName = 'mapinfo_ns';
+    region = 'targetedwatershed';
+    mapinfochartdata = store.getStateItem('mapinfonschartdata');
+  }
+
+  // filter chart data
+  const chartdata = mapinfochartdata.filter(data => data.name === chartName && data.groupname === 'summary' && data.region === region);
+  const chartSelector = '.leaflet-popup #mapInfo-chart.summary-chart';
+
+  // leaflet popup takes a second to render, chartjs needs to be rendered
+  // to draw on the canvas and resize so timeout needed
+  setTimeout(() => makeBasicBarChart(document, chartSelector, chartdata), 750);
+  return null;
 }
 
 // draw the mapinfo chart. This is the indentify click function
@@ -929,31 +898,6 @@ function drawMapInfoStats() {
 
   // add listener for leaflets open popup
   window.addEventListener('leafletpopupopen', drawMapInfoStatsHandler);
-}
-
-// event function to draw mapinfp (identify) stats
-function drawMapInfoStatsHandler(){
-  formatMapInfoChartData();
-  // get chart data for summary data
-  const activeNav = store.getStateItem('activeNav');
-  let chartName = 'mapinfo_nfwf';
-  let region = store.getStateItem('region')
-  let mapinfochartdata = store.getStateItem('mapinfochartdata');
-
-  // natureserve data in differ state key
-  if (activeNav === 'main-nav-map-searchNShubs') {
-    chartName= 'mapinfo_ns';
-    region = 'targetedwatershed';
-    mapinfochartdata = store.getStateItem('mapinfonschartdata');
-  }
-
-  // filter chart data
-  const chartdata = mapinfochartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
-  const chartSelector = `.leaflet-popup #mapInfo-chart.summary-chart`;
-
-  // leaflet popup takes a second to render, chartjs needs to be rendered to draw on the canvas and resize so timeout needed
-  setTimeout(()=> makeBasicBarChart(document, chartSelector, chartdata), 500);
-  return null;
 }
 
 // Creates the entire short zonal stats block of html
@@ -984,7 +928,7 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   // get chart data for summary data
   const chartName = stripUserArea(name);
   const configchartdata = store.getStateItem('configchartdata');
-  const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+  const chartdata = configchartdata.filter(configdata => configdata.name === chartName && configdata.groupname === 'summary' && configdata.region === region);
   const chartSelector = `.summary-chart.state${HTMLName}`;
   makeBasicBarChart(wrapper, chartSelector, chartdata);
 
@@ -1034,10 +978,6 @@ function drawShortZonalStats(data, name, mapComponent, region) {
   return wrapper;
 }
 
-function findRawValue(wrapper, key) {
-  return wrapper.querySelector(`.zonal-long-raw-value-${key}`);
-}
-
 function formatToThreePlaces(value) {
   return (Math.round(value * 1000) / 1000).toString();
 }
@@ -1049,25 +989,25 @@ function formatRawValue(value) {
 // renders data in a table format
 // only renders data that is available for the region it is from.
 function drawRawValue(wrapper, value) {
-  let tr = document.createElement("tr");
+  const tr = document.createElement('tr');
 
-  let th = document.createElement("th");
-  let label = document.createTextNode(value.label);
+  const th = document.createElement('th');
+  const label = document.createTextNode(value.label);
   th.appendChild(label);
 
-  let tdvalue = document.createElement("td");
-  let dataValue = document.createTextNode(formatRawValue(value.value));
+  const tdvalue = document.createElement('td');
+  const dataValue = document.createTextNode(formatRawValue(value.value));
   tdvalue.appendChild(dataValue);
 
-  let tdrange = document.createElement("td");
-  let range = document.createTextNode(value.range);
+  const tdrange = document.createElement('td');
+  const range = document.createTextNode(value.range);
   tdrange.appendChild(range);
 
   tr.appendChild(th);
   tr.appendChild(tdvalue);
   tr.appendChild(tdrange);
 
-  const elem = wrapper.querySelector('.table-rawdata .body-rawdata').appendChild(tr);
+  wrapper.querySelector('.table-rawdata .body-rawdata').appendChild(tr);
 }
 
 function populateRawTableRow(wrapper, value) {
@@ -1103,22 +1043,20 @@ function drawZonalButtons(HTMLName, name) {
 // the driver charts in the details, then dynamically uses the
 // chartInputName key from the mapconfig.js to create driver charts
 function makeDetailDriverCharts(wrapper, data, region, chartName) {
-  const activeNav = store.getStateItem('activeNav');
-
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
   const layerInfo = layerRegionInfo.filter(layer => layer.chartDriver);
   const driverGroups = groupByDriver(layerInfo, 'chartInputName');
 
   // iterate each group i.e. FishAndWildlife, assets, threats
-  driverGroups.map( driver => {
+  driverGroups.forEach((driver) => {
     const driverGroupName = driver[0].chartInputName;
     const driverGroupLabel = driver[0].chartInpuLabel;
 
-    const driverGroupArray = [];
-
     // filter data fro the group
     const configchartdata = store.getStateItem('configchartdata');
-    const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === driverGroupName &&  chartdata.region ===  region)
+    const chartdata = configchartdata.filter(configdata => configdata.name === chartName &&
+      configdata.groupname === driverGroupName &&
+      configdata.region === region);
 
     // make new html elements
     const HTMLName = makeHTMLName(chartName);
@@ -1138,7 +1076,7 @@ function makeDetailDriverCharts(wrapper, data, region, chartName) {
     const NewChartCanvasDiv = makeDiv();
     NewChartCanvasDiv.setAttribute('id', `driver-${driverGroupName}`);
     NewChartCanvasDiv.classList.add('chartjs-wrapper');
-    NewChartCanvasDiv.innerHTML = `<canvas id="" class="d-flex details-chart group-${driverGroupName}"></canvas>`
+    NewChartCanvasDiv.innerHTML = `<canvas id="" class="d-flex details-chart group-${driverGroupName}"></canvas>`;
 
     // ensire the the html element that holds the driver charts exists
     if (driverHolder) {
@@ -1152,13 +1090,14 @@ function makeDetailDriverCharts(wrapper, data, region, chartName) {
   });
 }
 
-function getDataForTables(data, region) {
+function getDataForTables(data, argRegion) {
   // filter the region layer list so we can get map configation values for all
   // regions layers
+  let region = argRegion;
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
   const activeNav = store.getStateItem('activeNav');
-  if (activeNav ===  'main-nav-map-searchNShubs') {
-    region = 'targetedwatershed'
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    region = 'targetedwatershed';
   }
   // if layerRegionInfo empty array then exit nothing matches.
   if (layerRegionInfo.length === 0) {
@@ -1168,26 +1107,25 @@ function getDataForTables(data, region) {
   // iterate over returned data and values and map it into a object array
   // that only contains summary data or input data not driver data
   const dataForTables = [];
-  Object.keys(data).map((key) => {
-
+  Object.keys(data).forEach((key) => {
     // check of data matches a driver
     let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
 
     // filter the regions layers to the specifc layer so we can get map configation values
-    if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+    if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-searchNShubs') {
       layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
     }
 
     // check of data matches a driver and add it to a new object araray that is key, value
-    if (layerInfoHasKey.length > 0 ) {
+    if (layerInfoHasKey.length > 0) {
       dataForTables.push({
-         key,
-         value: data[key],
-         cssselector: layerInfoHasKey[0].chartCSSSelector,
-         label: layerInfoHasKey[0].label,
-         range: `${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue  - 1}`,
-         source: layerInfoHasKey[0].source
-       })
+        key,
+        value: data[key],
+        cssselector: layerInfoHasKey[0].chartCSSSelector,
+        label: layerInfoHasKey[0].label,
+        range: `${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue - 1}`,
+        source: layerInfoHasKey[0].source
+      });
     }
   });
   return dataForTables;
@@ -1199,7 +1137,6 @@ function getDataForTables(data, region) {
 function drawLongZonalStats(data, name, region) {
   const HTMLName = makeHTMLName(name);
   const wrapper = makeDiv();
-  const activeNav = store.getStateItem('activeNav');
 
   wrapper.classList.add('zonal-long-wrapper');
   wrapper.setAttribute('id', `name-${HTMLName}`);
@@ -1213,12 +1150,12 @@ function drawLongZonalStats(data, name, region) {
   // get chart data for summary data
   const chartName = stripUserArea(name);
   const configchartdata = store.getStateItem('configchartdata');
-  const chartdata = configchartdata.filter(chartdata => chartdata.name === chartName && chartdata.groupname === 'summary' &&  chartdata.region ===  region)
+  const chartdata = configchartdata.filter(configdata => configdata.name === chartName && configdata.groupname === 'summary' && configdata.region === region);
   const chartSelector = `#name-${HTMLName} .summary-chart-details`;
   makeBasicBarChart(wrapper, chartSelector, chartdata);
 
   // make drivers charts will create drivers based on mapconfig
-  makeDetailDriverCharts(wrapper, data, region, chartName)
+  makeDetailDriverCharts(wrapper, data, region, chartName);
   return wrapper;
 }
 
@@ -1290,33 +1227,9 @@ function restoreGraphState() {
   return null;
 }
 
-function toggleRegionCharts() {
-  const region = store.getStateItem('region');
-  const notInRegionInfo = zoomRegions.filter(regions => regions.region !== region);
-  const inRegionInfo = zoomRegions.filter(regions => regions.region === region);
-
-  notInRegionInfo.map( region => {
-    const notThisRegionElems = document.querySelectorAll(`.zonal-stats-wrapper.region-${region.region}`);
-    notThisRegionElems.forEach( (notThisRegionElem) => {
-      if (notThisRegionElem) {
-        notThisRegionElem.classList.add('d-none');
-      }
-    });
-  });;
-
-  inRegionInfo.map( region => {
-    const inThisRegionElems = document.querySelectorAll(`.zonal-stats-wrapper.region-${region.region}`);
-    inThisRegionElems.forEach( (inThisRegionElem) => {
-      if (inThisRegionElem) {
-        inThisRegionElem.classList.remove('d-none');
-      }
-    });
-  });
-}
-
 // Draws and configures the entire zonal stats
 // @param data | Object - results of API
-function drawZonalStatsFromAPI(data, name, mapComponent, region='continental_us') {
+function drawZonalStatsFromAPI(data, name, mapComponent, region = 'continental_us') {
   const HTMLName = makeHTMLName(name);
 
   if (!document.getElementById('zonal-header')) {
@@ -1324,16 +1237,11 @@ function drawZonalStatsFromAPI(data, name, mapComponent, region='continental_us'
   }
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
-  // wrapper.classList.add(`zonal-stats-region-${region}`);
   wrapper.classList.add('h-100');
   wrapper.classList.add(`region-${region}`);
   wrapper.setAttribute('id', `zonal-stats-wrapper-${HTMLName}`);
-
   wrapper.appendChild(drawShortZonalStats(data, name, mapComponent, region));
   wrapper.appendChild(drawLongZonalStats(data, name, region));
-
-  // const child = document.getElementById('full-table-holder').childNodes[0];
-  // document.getElementById('full-table-holder').replaceChild(zonalStatTable(), child);
   document.getElementById('zonal-content').appendChild(wrapper);
 
   // initalize new tooltips

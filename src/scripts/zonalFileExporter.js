@@ -3,7 +3,7 @@ import { saveCsv } from './fileExporter';
 import { Store } from './store';
 import { mapConfig } from '../config/mapConfig';
 import {
-  googleAnalyticsEvent,
+  googleAnalyticsEvent
 } from './utilitys';
 
 const store = new Store({});
@@ -20,10 +20,10 @@ function getCSVName(name) {
 
   // filter the region layer list so we can get map configation values for all
   // regions layers
-  let  region =  store.getStateItem('region');
+  let region = store.getStateItem('region');
   const activeNav = store.getStateItem('activeNav');
-  if (activeNav ===  'main-nav-map-searchNShubs') {
-    region = 'targetedwatershed'
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    region = 'targetedwatershed';
   }
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
@@ -36,16 +36,17 @@ function getCSVName(name) {
   let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === name);
 
   // filter the regions layers to the specifc layer so we can get map configation values
-  if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+  if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-searchNShubs') {
     layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === name);
   }
 
   // check of data matches a driver and add it to a new object araray that is key, value
-  if (layerInfoHasKey.length > 0 ) {
+  if (layerInfoHasKey.length > 0) {
     const label = `${layerInfoHasKey[0].label}-data range (${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue - 1})`;
     // have to add underscore for some csv conversions and I don't know why
-    return label.replace(/ /g,"_");
+    return label.replace(/ /g, '_');
   }
+  return null;
 }
 
 // Implements a toString handler for each item in the array provided by getExportData to convert
@@ -103,15 +104,6 @@ function getZonalDataFromState(key) {
     .zonalstatsjson.features[0].properties.mean;
 }
 
-// Mines the state object for the data about a user defined zone from the API
-//
-// @param key | String - Will likely be an integer
-// @return Object
-function getZonalRegionFromState(key) {
-  return store.getStateItem('userareas')[`userarea${key}`][3]
-    .zonalstatsjson.features[0].properties.region;
-}
-
 // Mines the state object for the data about a hub from the API
 //
 // @param key | String - Will likely be a 5 digit integer
@@ -127,7 +119,6 @@ function getNatureServeHubDataFromState(key) {
       break;
     }
   }
-
   return data;
 }
 
@@ -158,29 +149,13 @@ function makeZonalNameFromKey(key) {
   return `Area-${key}`;
 }
 
-// Formats the key information about a hub into the format needed for the filename
-//
-// @param key | String
-// @return String
-function makeNatureServeHubNameFromKey(key) {
-  return `TargetedWaterShed-${key}`;
-}
-
-// Formats the key information about a hub into the format needed for the filename
-//
-// @param key | String
-// @return String
-function makeHubNameFromKey(key) {
-  return `Hub-${key}`;
-}
-
 function formatDataForTables(data) {
   // filter the region layer list so we can get map configation values for all
   // regions layers
-  let region =  store.getStateItem('region');
+  let region = store.getStateItem('region');
   const activeNav = store.getStateItem('activeNav');
-  if (activeNav ===  'main-nav-map-searchNShubs') {
-    region = 'targetedwatershed'
+  if (activeNav === 'main-nav-map-searchNShubs') {
+    region = 'targetedwatershed';
   }
   const layerRegionInfo = TMSLayers.filter(layers => layers.region === region);
 
@@ -192,26 +167,24 @@ function formatDataForTables(data) {
   // iterate over returned data and values and map it into a object array
   // that only contains summary data or input data not driver data
   const dataForTables = [];
-  Object.keys(data).map((key) => {
-
+  Object.keys(data).forEach((key) => {
     // check of data matches a driver
     let layerInfoHasKey = layerRegionInfo.filter(layer => layer.apikey === key);
-
     // filter the regions layers to the specifc layer so we can get map configation values
-    if (activeNav ===  'main-nav-map-searchhubs' || activeNav ===  'main-nav-map-searchNShubs') {
+    if (activeNav === 'main-nav-map-searchhubs' || activeNav === 'main-nav-map-searchNShubs') {
       layerInfoHasKey = layerRegionInfo.filter(layer => layer.hubsapikey === key);
     }
 
     // check of data matches a driver and add it to a new object araray that is key, value
-    if (layerInfoHasKey.length > 0 ) {
+    if (layerInfoHasKey.length > 0) {
       dataForTables.push({
-         key,
-         value: data[key],
-         cssselector: layerInfoHasKey[0].chartCSSSelector,
-         label: layerInfoHasKey[0].label,
-         range: `${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue  - 1}`,
-         source: layerInfoHasKey[0].source
-       })
+        key,
+        value: data[key],
+        cssselector: layerInfoHasKey[0].chartCSSSelector,
+        label: layerInfoHasKey[0].label,
+        range: `${layerInfoHasKey[0].chartMinValue} to ${layerInfoHasKey[0].chartMaxValue - 1}`,
+        source: layerInfoHasKey[0].source
+      });
     }
   });
   return dataForTables;
@@ -224,7 +197,7 @@ function handleZonalCsvExport(name) {
   const key = getZonalKeyFromName(name);
   const activeNav = store.getStateItem('activeNav');
   let data = {};
-  const region =  store.getStateItem('region');
+  const region = store.getStateItem('region');
 
   // state data depends on tab
   switch (activeNav) {
@@ -263,13 +236,10 @@ function handleZonalCsvExport(name) {
 // @param name | String - data object from state that is properties.mean
 function convertDataToCSV(data) {
   const items = data;
-  const region =  store.getStateItem('region');
   const replacer = (key, value) => (value === null ? '' : value);
   const header = Object.keys(items[0]);
   const downloadHeader = header.map(name => getCSVName(name));
-
   let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer).replace(/\\"/g, '""')).join(','));
-  const tempHeader = header.map(name => getCSVName(name));
 
   // push header to begining of array
   csv.unshift(downloadHeader.join(','));
@@ -279,8 +249,9 @@ function convertDataToCSV(data) {
 
 // filter geojson by the current region
 function regionFilter(feature) {
-  const region =  store.getStateItem('region');
-  if (feature.properties.region === region) return true
+  const region = store.getStateItem('region');
+  if (feature.properties.region === region) return true;
+  return false;
 }
 
 // Mines the state object for the data about all user defined zones from the API
@@ -290,12 +261,11 @@ function regionFilter(feature) {
 function getAllZonesFromState() {
   const zonaldata = [];
   const userareas = store.getStateItem('userareas');
-  let region =  store.getStateItem('region');
 
   Object.keys(userareas).forEach((key) => {
     const { name } = userareas[key][0];
-    const  zonalData = userareas[key][3].zonalstatsjson
-    const regionalData = L.geoJson(zonalData, {filter: regionFilter}).toGeoJSON();
+    const zonalData = userareas[key][3].zonalstatsjson;
+    const regionalData = L.geoJson(zonalData, { filter: regionFilter }).toGeoJSON();
     // limit to regional data, and make sure empty GeoJson is ignored
     if (regionalData.features[0]) {
       const data = { name, ...userareas[key][3].zonalstatsjson.features[0].properties.mean };

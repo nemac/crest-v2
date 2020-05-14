@@ -2656,7 +2656,7 @@ export class Explore extends Component {
 
     // add region to geojson regions
     const region = store.getStateItem('region');
-    const geojson = newLayer.toGeoJSON()
+    const geojson = newLayer.toGeoJSON();
     geojson.properties.region = region;
 
     store.setStoreItem('userarea', newLayer.toGeoJSON());

@@ -1,8 +1,11 @@
-import L from 'leaflet';
+// eslint comaplins about L. but its needed to process  mapconfig
+import L from 'leaflet'; // eslint-disable-line
+import Chart from 'chart.js';
+
+// import classes and configs
 import { Store } from './store';
 import { identifyConfig } from '../config/identifyConfig';
 import { mapConfig } from '../config/mapConfig';
-import Chart from 'chart.js';
 
 // Legend Templates
 import ColorRampTenBreaks from '../templates/colorramp_breaks_ten.html';
@@ -18,8 +21,6 @@ import ColorRampOneBreaks from '../templates/colorramp_breaks_one.html';
 
 const store = new Store({});
 const { TMSLayers } = mapConfig;
-const { zoomRegions } = mapConfig;
-
 
 // Parses the configuration of identify values and gets the requested configuration object
 // @param type | String - matches the layer key
@@ -167,21 +168,22 @@ export function getLegendHtml(maxValue) {
 // Reformats data for the drivers of inputs
 // @param data | Object - all data from the API
 // @return Array
-//  TODO add from mapconfig
 export function groupByDriver(collection, property) {
-    var i = 0, val, index,
-        values = [], result = [];
-    for (; i < collection.length; i++) {
-        val = collection[i][property];
-        index = values.indexOf(val);
-        if (index > -1)
-            result[index].push(collection[i]);
-        else {
-            values.push(val);
-            result.push([collection[i]]);
-        }
+  let val;
+  let index;
+  const values = [];
+  const result = [];
+  Object.keys(collection).forEach((prop) => {
+    val = collection[prop][property];
+    index = values.indexOf(val);
+    if (index > -1) {
+      result[index].push(collection[prop]);
+    } else {
+      values.push(val);
+      result.push([collection[prop]]);
     }
-    return result;
+  });
+  return result;
 }
 
 // ensure the object or variable is valid...
@@ -377,7 +379,7 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   if (val === '128.0') {
     valOveride = 0;
   }
-  let position = (valOveride - rangeMin) / ((rangeMax-1) - rangeMin); // [0,1]
+  let position = (valOveride - rangeMin) / ((rangeMax - 1) - rangeMin); // [0,1]
   position += scale; // [0,scaleGroups]
   position = (position / scaleGroups) * 100; // [0, 100]
   if (position === 100) {
@@ -386,7 +388,98 @@ function getValuePosition(val, rangeMin, rangeMax, scale, scaleGroups) {
   return position;
 }
 
-// prep mapinfo Identify Data
+// generic function for chartdata and identify data formating
+function chartDataReformat(allchartdata) {
+  const configchartdata = [];
+  // map the chart data object to transform labels and groups
+  allchartdata.forEach((area) => {
+    const regionLayers = TMSLayers.filter(layers => layers.region === area.region);
+
+    // get chart groups from mapConfig
+    const driverGroups = groupByDriver(regionLayers, 'chartInputName');
+
+    // iterate the the chart groups to ensure data is seperated by chart type
+    // all of this is dervived from mapConfig
+    Object.keys(driverGroups).forEach((group) => {
+      // get group name
+      const grouplayers = driverGroups[group];
+      const groupname = grouplayers[0].chartInputName;
+      const grouplabel = grouplayers[0].chartInpuLabel;
+      const totalChartValues = area.statistics.length - 1;
+      const values = [totalChartValues];
+      const hovervalues = [totalChartValues];
+      const labels = [totalChartValues];
+      const colors = [totalChartValues];
+
+      // iterate the zonal stats and remap values to mapconfig chart types
+      Object.keys(area.statistics).forEach((statisticskey) => {
+        let configlayer = grouplayers.filter(layer => layer.apikey === statisticskey);
+
+        // apikey match could is different for hubs will work on this later to make names consistent
+        if (area.source === 'nfwf_hubs' || area.source === 'mapinfo_ns') {
+          configlayer = grouplayers.filter(layer => layer.hubsapikey === statisticskey);
+        }
+
+        // ensure that the data exists if no data for the matches in config and return ignore this
+        // this can happent with hubs and id field
+        if (configlayer[0]) {
+          // get value convert NaN to 0
+          const value = checkNoData(area.statistics[statisticskey]) ? 0 :
+            (Math.round(area.statistics[statisticskey] * 100) / 100);
+
+          // get the percent translation of the actual value so we
+          // compare all the values on the chart
+          const height = getValuePosition(value,
+            configlayer[0].chartMinValue,
+            configlayer[0].chartMaxValue,
+            configlayer[0].chartScale,
+            configlayer[0].chartScaleGroups);
+
+          // get mapConfig data
+          const label = configlayer[0].chartLabel;
+
+          // get mapConfig colors
+          const color = configlayer[0].chartCSSColor[parseInt(area.statistics[statisticskey], 10)];
+
+          // get chart order
+          const orderValue = configlayer[0].chartOrder;
+
+          // push dat into data, label, color arrays most charting libraries
+          // need this use sort order for array positions - sorts data for charts
+          values[orderValue - 1] = height;
+          hovervalues[orderValue - 1] = value;
+          labels[orderValue - 1] = label;
+          colors[orderValue - 1] = color;
+        }
+      });
+
+      // get name, region, and source for chart json
+      const { name } = area.name;
+      const region = area.region;
+      const source = area.source;
+
+      //  create group chart data object
+      const data = {
+        name,
+        region,
+        source,
+        groupname,
+        grouplabel,
+        values,
+        hovervalues,
+        colors,
+        labels
+      };
+
+      // push group into into chart object
+      configchartdata.push(data);
+    });
+  });
+
+  return configchartdata;
+}
+
+// prepare mapinfo Identify Data for charting
 export function formatMapInfoChartData() {
   const activeNav = store.getStateItem('activeNav');
   //  get identify data from state
@@ -401,10 +494,14 @@ export function formatMapInfoChartData() {
     name = 'mapinfo_ns';
   }
 
-  let allchartdata = [];
-
+  const allchartdata = [];
   const statistics = Mapinfo;
-  const chartdata = { name, region, source, statistics};
+  const chartdata = {
+    name,
+    region,
+    source,
+    statistics
+  };
   allchartdata.push(chartdata);
 
   const mapinfochartdata = chartDataReformat(allchartdata);
@@ -416,87 +513,6 @@ export function formatMapInfoChartData() {
   }
 }
 
-// generic function for chartdata and identify data formating
-function chartDataReformat(allchartdata) {
-  let configchartdata = [];
-  // map the chart data object to transform labels and groups
-  allchartdata.map(area => {
-    const regionLayers = TMSLayers.filter(layers => layers.region === area.region);
-
-    // get chart groups from mapConfig
-    const driverGroups = groupByDriver(regionLayers, 'chartInputName');
-
-    // iterate the the chart groups to ensure data is seperated by chart type all of this is dervived from mapConfig
-    Object.keys(driverGroups).map((group) => {
-      // get group name
-      const grouplayers = driverGroups[group];
-      const groupname = grouplayers[0].chartInputName;
-      const grouplabel= grouplayers[0].chartInpuLabel;
-      const totalChartValues = area.statistics.length-1;
-      const values = [totalChartValues];
-      const hovervalues = [totalChartValues];
-      const labels = [totalChartValues];
-      const colors = [totalChartValues];
-
-
-      // iterate the zonal stats and remap values to mapconfig chart types
-      Object.keys(area.statistics).map((statisticskey) => {
-
-        let configlayer = grouplayers.filter(layer => layer.apikey === statisticskey);
-
-        // apikey match could is different for hubs will work on this later to make names consistent
-        if (area.source === 'nfwf_hubs' || area.source === 'mapinfo_ns') {
-          configlayer = grouplayers.filter(layer => layer.hubsapikey === statisticskey);
-        }
-
-        // ensure that the data exists if no data for the matches in config and return ignore this
-        // this can happent with hubs and id field
-        if (configlayer[0]) {
-
-          // get value convert NaN to 0
-          const value =  checkNoData(area.statistics[statisticskey]) ? 0 : (Math.round(area.statistics[statisticskey] * 100) / 100) ;
-
-          // get the percent translation of the actual value so we
-          // compare all the values on the chart
-          const height = getValuePosition(value,
-            configlayer[0].chartMinValue,
-            configlayer[0].chartMaxValue,
-            configlayer[0].chartScale,
-            configlayer[0].chartScaleGroups);
-
-          // get mapConfig data
-          const label = configlayer[0].chartLabel;
-
-          // get mapConfig colors
-          const color = configlayer[0].chartCSSColor[parseInt(area.statistics[statisticskey])];
-
-          // get chart order
-          const orderValue =  configlayer[0].chartOrder;
-
-          // push dat into data, label, color arrays most charting libraries need this use sort order for array positions - sorts data for charts
-          values[orderValue-1] = height;
-          hovervalues[orderValue-1] = value;
-          labels[orderValue-1] = label;
-          colors[orderValue-1] = color;
-        }
-      });
-
-      // get name, region, and source for chart json
-      const name = area.name;
-      const region = area.region;
-      const source = area.source;
-
-      //  create group chart data object
-      const data = { name, region, source, groupname, grouplabel, values, hovervalues, colors, labels };
-
-      // push group into into chart object
-      configchartdata.push(data);
-    })
-  });
-
-  return configchartdata;
-}
-
 // prep all userareas data for charting, and dump into the state
 export function formatChartData() {
   //  get user areas and uploaded shapefiles from state
@@ -505,26 +521,33 @@ export function formatChartData() {
   const HubIntersectionJson = store.getStateItem('HubIntersectionJson');
   //  get nature server hubs from state
   const NatureServeHubIntersectionJson = store.getStateItem('NatureServeHubIntersectionJson');
-
   // object to hold chart data
-  let allchartdata = []
+  const allchartdata = [];
 
+  // get user shapes
   if (checkValidObject(Currentshapes)) {
-    Object.keys(Currentshapes).map((currentshapekey) => {
-      const name = Currentshapes[currentshapekey][0].name
-      const source = 'zonalstats'
-      const statsJson = Currentshapes[currentshapekey][3].zonalstatsjson
-      const statistics = statsJson.features[0].properties.mean
+    Object.keys(Currentshapes).forEach((currentshapekey) => {
+      const name = Currentshapes[currentshapekey][0].name;
+      const source = 'zonalstats';
+      const statsJson = Currentshapes[currentshapekey][3].zonalstatsjson;
+      const statistics = statsJson.features[0].properties.mean;
       let region = 'continental_us';
 
       if (statsJson.features[0].properties.region) {
         region = statsJson.features[0].properties.region.toString().trim();
       }
 
-      const chartdata = { name, region, source, statistics};
+      const chartdata = {
+        name,
+        region,
+        source,
+        statistics
+      };
       allchartdata.push(chartdata);
     });
   }
+
+  // get hubs
   if (checkValidObject(HubIntersectionJson)) {
     HubIntersectionJson.forEach((feature) => {
       const userarea = feature;
@@ -540,12 +563,18 @@ export function formatChartData() {
           region = feature.properties.region.toString().trim();
         }
 
-        const chartdata = { name, region, source, statistics};
+        const chartdata = {
+          name,
+          region,
+          source,
+          statistics
+        };
         allchartdata.push(chartdata);
       }
     });
   }
 
+  // get nature serve hubs
   if (checkValidObject(NatureServeHubIntersectionJson)) {
     NatureServeHubIntersectionJson.forEach((feature) => {
       const userarea = feature;
@@ -561,7 +590,12 @@ export function formatChartData() {
           region = feature.properties.region.toString().trim();
         }
 
-        const chartdata = { name, region, source, statistics};
+        const chartdata = {
+          name,
+          region,
+          source,
+          statistics
+        };
         allchartdata.push(chartdata);
       }
     });
@@ -573,39 +607,36 @@ export function formatChartData() {
 
 // chartjs axis label function to wrap text, labels are too ling
 function chartjsWrapTextLabel(label) {
- if (/\s/.test(label)) {
-   return label.split(" ");
- } else {
-   return label;
- }
+  if (/\s/.test(label)) {
+    return label.split(' ');
+  }
+  return label;
 }
 
 // custom chartjs y axis labels high to low
 function chartjsYLabels(value, index, values) {
-      switch (value) {
-        case 0:
-          return 'Low';
-          break;
-        case 50:
-          return '';
-          break;
-        case 100:
-          return 'High';
-          break;
-        default:
-          return ''
-      }
-      return value;
+  let label = '';
+  switch (value) {
+    case 0:
+      label = 'Low';
+      break;
+    case 50:
+      label = '';
+      break;
+    case 100:
+      label = 'High';
+      break;
+    default:
+      label = '';
+  }
+  return label;
 }
 
 // custom charths tool tip label chart values are percent of total so
 // users can compare the actual values are not percents this makes
 // the tooltip the actual value
 function chartjsCustomToolTipLabel(chartdata) {
-  return function (tooltipItem, data) {
-    const label = data.datasets[tooltipItem.datasetIndex].label || '';
-    return chartdata[0].hovervalues[tooltipItem.index];
-  }
+  return (tooltipItem, data) => chartdata[0].hovervalues[tooltipItem.index];
 }
 
 // custom chartjs tool tip this needs work later
@@ -626,8 +657,8 @@ function chartjsCustomToolTip(tooltipModel) {
 
   // Hide if no tooltip
   if (tooltipModel.opacity === 0) {
-      tooltipEl.style.opacity = 0;
-      return;
+    tooltipEl.style.opacity = 0;
+    return;
   }
 
   function getBody(bodyItem) {
@@ -636,24 +667,22 @@ function chartjsCustomToolTip(tooltipModel) {
 
   // Set Text
   if (tooltipModel.body) {
-    let titleLines = tooltipModel.title || [];
-    let bodyLines = tooltipModel.body.map(getBody);
+    const titleLines = tooltipModel.title || [];
+    const bodyLines = tooltipModel.body.map(getBody);
     let innerHtml = '<thead>';
 
-    titleLines.forEach(function(title) {
-      innerHtml += '<tr><th>' + title + '</th></tr>';
+    titleLines.forEach((title) => {
+      innerHtml += `<tr><th>${title}</th></tr>`;
     });
     innerHtml += '</thead><tbody class="w-100">';
 
-    bodyLines.forEach(function(body, i) {
-      let colors = tooltipModel.labelColors[i];
-      const style = 'background:' + colors.backgroundColor;
+    bodyLines.forEach((body, i) => {
       const span = '<span class="chartjs-tooltip-body-text text-center justify-content-center align-items-center align-self-center w-100"></span>';
       innerHtml += `<tr class="w-100"><td class="w-100">${span}${body}</td></tr>`;
     });
     innerHtml += '</tbody>';
 
-    let tableRoot = tooltipEl.querySelector('table');
+    const tableRoot = tooltipEl.querySelector('table');
     tableRoot.innerHTML = innerHtml;
   }
 
@@ -666,17 +695,16 @@ function chartjsCustomToolTip(tooltipModel) {
   tooltipEl.style.color = tooltipModel.bodyFontColor;
 
   // tooltip.style
-  const canvas = this._chart.canvas;
   const accountForFontSize = 12;
   tooltipEl.style.opacity = 1;
   tooltipEl.style.position = 'absolute';
   tooltipEl.style.caretSize = 5;
-  tooltipEl.style.left = (position.left + tooltipModel.caretX) - (tooltipModel.width/2) + 'px';
-  tooltipEl.style.top = position.top - tooltipModel.height - (tooltipModel.yPadding*2) - (accountForFontSize) - tooltipEl.style.caretSize + tooltipModel.caretY + 'px';
+  tooltipEl.style.left = `${(position.left + tooltipModel.caretX) - (tooltipModel.width / 2)}px`;
+  tooltipEl.style.top = `${position.top - tooltipModel.height - (tooltipModel.yPadding * 2) - (accountForFontSize) - tooltipEl.style.caretSize + tooltipModel.caretY}px`;
   tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
-  tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
+  tooltipEl.style.fontSize = `${tooltipModel.bodyFontSize}px`;
   tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
-  tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
+  tooltipEl.style.padding = `${tooltipModel.yPadding}px`;
   tooltipEl.style.zIndex = 4444;
   tooltipEl.style.pointerEvents = 'none';
 }
@@ -685,12 +713,11 @@ function chartjsCustomToolTip(tooltipModel) {
 export function makeBasicBarChart(wrapper, selector, chartdata) {
   const fontDarkColor = '#1c1c20';
   const fontLightColor = '#e9ecef';
-  const fontSecondaryColor = '#999';
   const backgroundDarkColor = '#1c1c20';
   const backgroundLightColor = '#e9ecef';
   const backgroundSecondaryColor = '#999';
-  const fontFamily = 'Roboto';
-  const fontSize = 10
+  const chartFontFamily = 'Roboto';
+  const chartFontSize = 10;
 
   // escape error when chart selector not found
   if (!wrapper.querySelector(selector)) {
@@ -698,7 +725,7 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
     return null;
   }
   // probably need to pagging next ten etc
-  new Chart(wrapper.querySelector(selector), {
+  return new Chart(wrapper.querySelector(selector), {
     type: 'bar',
     data: {
       labels: chartdata[0].labels,
@@ -721,32 +748,31 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
             lineWidth: 0.0,
             zeroLineWidth: 1.5,
             zeroLineColor: backgroundSecondaryColor,
-            borderDash: [5, 5],
+            borderDash: [5, 5]
           },
           ticks: {
             reverse: false,
             fontColor: fontLightColor,
-            fontSize: fontSize,
-            lineWidth: 0,
+            fontSize: chartFontSize,
             color: backgroundLightColor,
             lineWidth: 0.25,
             borderDash: [2, 2],
             padding: 5,
             maxRotation: 0,
             minRotation: 0,
-            callback: chartjsWrapTextLabel,
+            callback: chartjsWrapTextLabel
           }
         }],
         yAxes: [{
           gridLines: {
-            beginAtZero:true,
+            beginAtZero: true,
             display: true,
             drawTicks: false,
             color: backgroundSecondaryColor,
             lineWidth: 0.25,
             zeroLineWidth: 1.5,
             zeroLineColor: backgroundSecondaryColor,
-            borderDash: [2, 2],
+            borderDash: [2, 2]
           },
           ticks: {
             fontColor: fontLightColor,
@@ -755,17 +781,17 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
             stepSize: 25,
             min: 0,
             max: 100,
-            callback: chartjsYLabels,
-          },
+            callback: chartjsYLabels
+          }
         }]
       },
       responsive: true,
       maintainAspectRatio: false,
-      fontFamily: fontFamily,
+      fontFamily: chartFontFamily,
       legend: { display: false },
       title: {
         display: false,
-        text:  chartdata[0].groupname,
+        text: chartdata[0].groupname
       },
       tooltips: {
         backgroundColor: backgroundLightColor,
@@ -775,16 +801,16 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
         enabled: false,
         titleAlign: 'center',
         bodyAlign: 'center',
-        bodyFontFamily: fontFamily,
-        fontFamily: fontFamily,
+        bodyFontFamily: chartFontFamily,
+        fontFamily: chartFontFamily,
         yAlign: 'bottom',
         xAlign: 'center',
         callbacks: {
-          label: chartjsCustomToolTipLabel(chartdata),
+          label: chartjsCustomToolTipLabel(chartdata)
           // title: () => {}
         },
         // uncomment later once I can work on this. position of tip is off.
-        custom: chartjsCustomToolTip,
+        custom: chartjsCustomToolTip
       }
     }
   });

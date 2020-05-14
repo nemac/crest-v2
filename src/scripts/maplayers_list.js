@@ -22,24 +22,6 @@ window.Popper = require('popper.js');
 
 window.jQuery = window.$;
 
-// hide all popups on clickoutside
-// $('html').on('click', function(e) {
-//   if (typeof $(e.target).data('tooltip') == 'undefined') {
-//     $('.tooltip').tooltip('hide');
-//   }
-// });
-
-// $("html").on("click", function (e) {
-//     var elems = $(e.target);
-//       if (elems[0].className.indexOf("tooltip") == -1) {
-//           $(".tooltip").each(function () {
-//               $(this).tooltip("hide");
-//           });
-//       }
-// });
-// templates
-// import layer_checkboxTemplate from '../templates/layer_checkbox.html'
-
 /**
  * MapLayersList Component
  * Render and control map layer control
@@ -623,22 +605,20 @@ export class MapLayersList extends Component {
   // @param layerProps | Object
   static addLegendHTML(layerProps) {
     const layerElem = MapLayersList.getLayerWrapper(layerProps.id);
-    const roundedValueWord = numberToWord(layerProps.chartLegendValues);
 
     if (layerElem) {
-
       // get the legend html based on the number of breaks supports 1-10 breaks
-      MapLayersList.getLegendWrapper(layerElem).innerHTML = getLegendHtml(layerProps.chartLegendValues);
+      MapLayersList.getLegendWrapper(layerElem).innerHTML =
+          getLegendHtml(layerProps.chartLegendValues);
 
       // get the color palette for layer, each layer can have its own
       const colorPalette = layerProps.chartCSSColor;
 
       // iterate the color palette for layer so we can assing apporaite css color to element
       Object.keys(colorPalette).forEach((color) => {
-
         // convert the color number to number word 2 - two
         // this is how html elments are named.
-        const colorlueWord = numberToWord(parseInt(color));
+        const colorlueWord = numberToWord(Number(color));
 
         // get the element based on the color word
         const valueELem = layerElem.querySelector(`.value-${colorlueWord}`);
@@ -665,7 +645,7 @@ export class MapLayersList extends Component {
         MapLayersList.getDescriptionWrapper(layerElem).setAttribute('data-content', layerProps.description);
         MapLayersList.getDescriptionWrapper(layerElem).setAttribute('title', layerProps.label);
         MapLayersList.setInitialLegendStatus(layerElem.getElementsByClassName('layer-legend-toggler')[0]);
-      })
+      });
     }
     const legendElem = document.getElementById(`legend-${layerProps.id}`);
     if (legendElem) {
