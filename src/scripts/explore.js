@@ -775,7 +775,16 @@ export class Explore extends Component {
 
     // get current region so we can insert it as property attribute
     const region = store.getStateItem('region');
-    bufferedGeoJSON.properties.region = region;
+
+    // add region when user shape
+    if (bufferedGeoJSON.properties) {
+      bufferedGeoJSON.properties.region = region;
+    }
+
+    // add region when upload shapefle
+    if (bufferedGeoJSON.features) {
+      bufferedGeoJSON.features[0].properties.region = region;
+    }
 
     // add buffered area to store
     store.setStoreItem('userarea_buffered', bufferedGeoJSON);
@@ -2587,17 +2596,19 @@ export class Explore extends Component {
 
   static sortHubsByHubScore() {
     const hubs = store.getStateItem('HubIntersectionJson');
-    const HubIntersectionJsonSorted = hubs.sort((a, b) => {
-      if (a.properties.mean.hubs > b.properties.mean.hubs) {
-        return -1;
-      }
-      if (a.properties.mean.hubs < b.properties.mean.hubs) {
-        return 1;
-      }
-      // a must be equal to b
-      return 0;
-    });
-    store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
+    if (checkValidObject(hubs)) {
+      const HubIntersectionJsonSorted = hubs.sort((a, b) => {
+        if (a.properties.mean.hubs > b.properties.mean.hubs) {
+          return -1;
+        }
+        if (a.properties.mean.hubs < b.properties.mean.hubs) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+      store.setStoreItem('HubIntersectionJson', HubIntersectionJsonSorted);
+    }
   }
 
   static async extractFeaturesFromFileset(files) {
@@ -2657,7 +2668,7 @@ export class Explore extends Component {
     // add region to geojson regions
     const region = store.getStateItem('region');
     const geojson = newLayer.toGeoJSON();
-    geojson.properties.region = region;
+    geojson.features[0].properties.region = region;
 
     store.setStoreItem('userarea', newLayer.toGeoJSON());
 
