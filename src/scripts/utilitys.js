@@ -511,8 +511,8 @@ export function formatMapInfoChartData() {
   } else {
     store.setStoreItem('mapinfochartdata', mapinfochartdata);
   }
-  const removeUserAreaEvent = new CustomEvent('mapinfo-data-ready');
-  window.dispatchEvent(removeUserAreaEvent);
+  const mapinfoDataReadyEvent = new CustomEvent('mapinfo-data-ready');
+  window.dispatchEvent(mapinfoDataReadyEvent);
 }
 
 // prep all userareas data for charting, and dump into the state

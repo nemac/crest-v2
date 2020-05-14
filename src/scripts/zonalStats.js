@@ -891,7 +891,7 @@ function drawMapInfoStatsHandler() {
 
   // leaflet popup takes a second to render, chartjs needs to be rendered
   // to draw on the canvas and resize so timeout needed
-  setTimeout(() => makeBasicBarChart(document, chartSelector, chartdata), 50);
+  setTimeout(() => makeBasicBarChart(document, chartSelector, chartdata), 250);
   return null;
 }
 

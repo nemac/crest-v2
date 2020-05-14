@@ -188,6 +188,8 @@ export class Explore extends Component {
         if (exploreScrollElem.scrollTop + exploreScrollElem.clientHeight >=
           exploreScrollElem.scrollHeight) {
           // add load more TODO Add pagination draw next set
+          const exploreNextPageEvent = new CustomEvent('explore-next-page');
+          window.dispatchEvent(exploreNextPageEvent);
         }
       });
     }
