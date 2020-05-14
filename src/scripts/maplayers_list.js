@@ -635,6 +635,9 @@ export class MapLayersList extends Component {
           // if (parseInt(color) >= layerProps.chartLegendValues ) {
           //   valueELem.style.color = '#fff';
           // }
+          // hide legend numbers for now will anyone notice?
+          valueELem.style.color = 'transparent';
+
           // add classes for region, chartCSSSelector, and source in case we want to find it later
           valueELem.classList.add(layerProps.chartCSSSelector);
           valueELem.classList.add(layerProps.region);
