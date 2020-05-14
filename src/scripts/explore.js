@@ -1724,7 +1724,6 @@ export class Explore extends Component {
 
     const currentshapes = store.getStateItem('userareas');
     formatChartData();
-
     Object.keys(currentshapes).forEach((key) => {
       const { name } = currentshapes[key][0];
       const { userarea } = currentshapes[key][1];
@@ -1802,7 +1801,6 @@ export class Explore extends Component {
 
         return layer;
       }
-
       return null;
     });
 

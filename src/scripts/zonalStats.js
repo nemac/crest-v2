@@ -15,6 +15,7 @@ import {
   numberToWord,
   makeBasicBarChart,
   formatMapInfoChartData,
+  hardSpinnerOff,
   getLegendHtml
 } from './utilitys';
 
@@ -826,7 +827,7 @@ function buildLongStatsHtml(wrapper) {
   const innerWrapper = wrapper;
   // const region = store.getStateItem('region');
   innerWrapper.innerHTML = ZonalLong;
-  const inputData = TMSLayers.filter(layer => layer.chartSummaryå);
+  const inputData = TMSLayers.filter(layer => layer.chartSummary);
 
   // iterate the layer props to assing apporaite thml
   inputData.forEach((layerProps) => {
@@ -871,7 +872,6 @@ function buildLongStatsHtml(wrapper) {
 
 // event function to draw mapinfp (identify) stats
 function drawMapInfoStatsHandler() {
-  formatMapInfoChartData();
   // get chart data for summary data
   const activeNav = store.getStateItem('activeNav');
   let chartName = 'mapinfo_nfwf';
@@ -891,18 +891,18 @@ function drawMapInfoStatsHandler() {
 
   // leaflet popup takes a second to render, chartjs needs to be rendered
   // to draw on the canvas and resize so timeout needed
-  setTimeout(() => makeBasicBarChart(document, chartSelector, chartdata), 250);
+  setTimeout(() => makeBasicBarChart(document, chartSelector, chartdata), 50);
+  hardSpinnerOff();
   return null;
 }
 
 // draw the mapinfo chart. This is the indentify click function
 function drawMapInfoStats() {
+  // add listener for leaflets open popup
+  window.addEventListener('mapinfo-data-ready', drawMapInfoStatsHandler);
+
   // reform identify data into chartjs data
   formatMapInfoChartData();
-
-  // add listener for leaflets open popup
-  window.addEventListener('leafletpopupopen', drawMapInfoStatsHandler);
-  window.addEventListener('mapinfo-data-ready', drawMapInfoStatsHandler);
 }
 
 // Creates the entire short zonal stats block of html

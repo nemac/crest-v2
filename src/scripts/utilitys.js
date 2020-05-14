@@ -262,11 +262,36 @@ export function checkworking() {
   return false;
 }
 
-
 // toggle spinner visibility off
 export function spinnerOff(source = '') {
   if (checkworking()) { return false; }
 
+  const el = document.getElementById('map-working');
+  const elHolder = document.querySelector('.leaflet-working');
+
+  // ensure elements and class names exists
+  if (el === undefined) { return false; }
+  if (el.className.baseVal === undefined) { return false; }
+  if (elHolder === undefined) { return false; }
+  if (elHolder.className === undefined) { return false; }
+
+  // update class for svg spinner
+  const elClassName = el.className.baseVal;
+  el.className.baseVal = elClassName.replace(' d-none', '');
+  el.className.baseVal += ' d-none';
+
+  // update class for div element that holds svg.  Do this so it dose not cover
+  // cover other map elements and panes
+  elHolder.className = elHolder.className.replace(' d-none', '');
+  elHolder.className = elHolder.className.replace('h-100', '');
+  elHolder.className = elHolder.className.replace('w-100', '');
+  elHolder.className += ' d-none';
+
+  return true;
+}
+
+// toggle spinner visibility off
+export function hardSpinnerOff(source = '') {
   const el = document.getElementById('map-working');
   const elHolder = document.querySelector('.leaflet-working');
 
