@@ -2565,6 +2565,7 @@ export class Explore extends Component {
       // TODO add region to stored hub shapes or add on the fly with turf?
       // const region = NatureServeHubs[i].features[0].properties.region.toString().trim();
       drawZonalStatsFromAPI(NatureServeHubs[i].properties.mean, name, this.mapComponent.map, 'targetedwatershed');
+      // TO DO add pagination ???
     }
   }
 
@@ -2575,6 +2576,7 @@ export class Explore extends Component {
       // TODO add region to stored hub shapes or add on the fly with turf?
       // const region = hubs[i].features[0].properties.region.toString().trim();
       drawZonalStatsFromAPI(hubs[i].properties.mean, name, this.mapComponent.map, 'continental_us');
+      // TO DO add pagination ???
     }
   }
 

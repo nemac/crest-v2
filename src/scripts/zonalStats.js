@@ -1178,7 +1178,6 @@ function restoreGraphState() {
     const activestate = graphstate[1];
     const elem = document.getElementById(elemid.replace('name-', 'name'));
     const path = document.querySelector(`.path${elemid.replace('name-', '')}`);
-
     const HTMLName = stripUserArea(elemid);
 
     switch (activestate) {
@@ -1254,8 +1253,8 @@ function drawZonalStatsFromAPI(data, name, mapComponent, region = 'continental_u
   iconelem.addEventListener('mouseout', zonalLabelMouseOutHandler);
   disableMainZonalButton();
 
-  restoreGraphState();
   toggleRegionCharts();
+  restoreGraphState();
 }
 
 export {
