@@ -328,6 +328,7 @@ export class MapLayersList extends Component {
     const defaultLayerList = document.getElementById('defaultLayerList');
     const puertoRicoLayerList = document.getElementById('puertoRicoLayerList');
     const usVirginIslandsLayerList = document.getElementById('usVirginIslandsLayerList');
+    const northernMarianaIslandsLayerList = document.getElementById('northernMarianaIslandsLayerList');
 
     // make sure region list are not displaying when targetedwatershed Nature Server data
     // nav is current location
@@ -335,6 +336,7 @@ export class MapLayersList extends Component {
       defaultLayerList.classList.add('d-none');
       puertoRicoLayerList.classList.add('d-none');
       usVirginIslandsLayerList.classList.add('d-none');
+      northernMarianaIslandsLayerList.classList.add('d-none');
       return null;
     }
 
@@ -343,21 +345,28 @@ export class MapLayersList extends Component {
         defaultLayerList.classList.remove('d-none');
         puertoRicoLayerList.classList.add('d-none');
         usVirginIslandsLayerList.classList.add('d-none');
+        northernMarianaIslandsLayerList.classList.add('d-none');
         MapLayersList.updateZoomRegionLabel('Contiental U.S.');
         break;
       case 'puerto_rico':
         defaultLayerList.classList.add('d-none');
         puertoRicoLayerList.classList.remove('d-none');
         usVirginIslandsLayerList.classList.add('d-none');
+        northernMarianaIslandsLayerList.classList.add('d-none');
         MapLayersList.updateZoomRegionLabel('Puerto Rico');
         break;
       case 'northern_mariana_islands':
+        defaultLayerList.classList.add('d-none');
+        puertoRicoLayerList.classList.add('d-none');
+        usVirginIslandsLayerList.classList.add('d-none');
+        northernMarianaIslandsLayerList.classList.remove('d-none');
         MapLayersList.updateZoomRegionLabel('Northern Mariana Islands');
         break;
       case 'us_virgin_islands':
         defaultLayerList.classList.add('d-none');
         puertoRicoLayerList.classList.add('d-none');
         usVirginIslandsLayerList.classList.remove('d-none');
+        northernMarianaIslandsLayerList.classList.add('d-none');
         MapLayersList.updateZoomRegionLabel('US Virgin Islands');
         break;
       case 'alaska':
