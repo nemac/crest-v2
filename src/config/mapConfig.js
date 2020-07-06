@@ -3334,9 +3334,9 @@ export var mapConfig = {
    {
      region: 'northern_mariana_islands',
      label: 'Northern Mariana Islands',
-     center: [ 16.088042, 148.425293],
-     extent: [ 142.95, 13.90, 149.95, 19.78 ],
-     zoom: 7
+     center: [14.650025687128652, 146.02752685546875],
+     extent: [ 144.87, 13.92, 147.27, 15.38 ],
+     zoom: 9
    },
    // {
    //   region: 'guam',
