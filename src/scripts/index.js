@@ -253,7 +253,7 @@ function addLandingListners() {
     });
   }
 
-  const elemStartUsingCRESTCONUS = document.getElementById('whatcando-btn-startusingCREST-conus');
+  const elemStartUsingCRESTCONUS = document.getElementById('landingpage-btn-conus');
   if (elemStartUsingCRESTCONUS) {
     const location = elemStartUsingCRESTCONUS.getAttribute('href');
     elemStartUsingCRESTCONUS.addEventListener('click', (e) => {
@@ -269,7 +269,7 @@ function addLandingListners() {
     });
   }
 
-  const elemStartUsingCRESTPuertoRico = document.getElementById('whatcando-btn-startusingCREST-puerto_rico');
+  const elemStartUsingCRESTPuertoRico = document.getElementById('landingpage-btn-northern_puerto_rico');
   if (elemStartUsingCRESTPuertoRico) {
     const location = elemStartUsingCRESTPuertoRico.getAttribute('href');
     elemStartUsingCRESTPuertoRico.addEventListener('click', (e) => {
@@ -285,7 +285,7 @@ function addLandingListners() {
     });
   }
 
-  const elemStartUsingCRESTUSVirginIslands = document.getElementById('whatcando-btn-startusingCREST-us_virgin_islands');
+  const elemStartUsingCRESTUSVirginIslands = document.getElementById('landingpage-btn-us_virgin_islands');
   if (elemStartUsingCRESTUSVirginIslands) {
     const location = elemStartUsingCRESTUSVirginIslands.getAttribute('href');
     elemStartUsingCRESTUSVirginIslands.addEventListener('click', (e) => {
@@ -301,7 +301,7 @@ function addLandingListners() {
     });
   }
 
-  const elemStartUsingCRESTNorthernMarianaIslands = document.getElementById('whatcando-btn-startusingCREST-northern_mariana_islands');
+  const elemStartUsingCRESTNorthernMarianaIslands = document.getElementById('landingpage-btn-northern_mariana_islands');
   if (elemStartUsingCRESTNorthernMarianaIslands) {
     const location = elemStartUsingCRESTNorthernMarianaIslands.getAttribute('href');
     elemStartUsingCRESTNorthernMarianaIslands.addEventListener('click', (e) => {

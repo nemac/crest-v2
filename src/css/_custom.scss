@@ -733,6 +733,62 @@ a.about-nav.active::before {
   }
 }
 
+.landingpage-container-fluid {
+  background-color: #232227;
+  color: $body-color;
+  .exploreregion-img {
+    width: 220px;
+    height: 189px;
+    border-radius: 10%;
+    margin-right: 10px;
+    background-clip: padding-box;
+  }
+}
+
+.landingpage-expoer-note {
+  font-style: italic;
+  font-size: .95rem;
+}
+
+.landingpage-tile-text {
+  margin-top: 15px;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.landingpage-sub-text {
+  margin-top: 15px;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.landingpage-region-row,
+.landingpage-explore-row {
+  .card-header {
+    min-height: 75px;
+  }
+  .card-body {
+    .btn {
+      min-height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.landingpage-explore-row {
+  .card-body {
+    .card-text {
+      min-height: 120px;
+    }
+  }
+  img {
+    // -webkit-filter: sepia(1);
+    // filter: sepia(1);
+  }
+}
 //landing page styles
 .landingpage-header {
   width: 100%;
@@ -744,6 +800,7 @@ a.about-nav.active::before {
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
 }
+
 
 #tab-main-nav-landingpage, #landingpage-holder{
   background-color: #232227; //new
@@ -1347,6 +1404,9 @@ background-color: $body-bg !important;
   padding: 4px 4px;
   border-width: 0px;
   @include box-shadow-mixin($box-shadow-default);
+  &:hover{
+    background: #adaeaf !important;
+    }
 }
 
 // explore styles
