@@ -30,7 +30,7 @@ export var navConfig = {
   {
     name: "examples",
     ref: "main-nav-map-examples",
-    text: "Case Studies",
+    text: "Examples",
     id: "main-nav-map-examples",
     href: "./#Examples"
   },
