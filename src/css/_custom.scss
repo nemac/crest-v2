@@ -743,6 +743,11 @@ a.about-nav.active::before {
     margin-right: 10px;
     background-clip: padding-box;
   }
+
+  .card-img, .card-img-top, .card-img-bottom {
+    // width: 50%;
+    // align-self: center;
+  }
 }
 
 .landingpage-expoer-note {
@@ -785,11 +790,8 @@ a.about-nav.active::before {
       min-height: 120px;
     }
   }
-  img {
-    // -webkit-filter: sepia(1);
-    // filter: sepia(1);
-  }
 }
+
 //landing page styles
 .landingpage-header {
   width: 100%;
@@ -805,7 +807,6 @@ a.about-nav.active::before {
 
 #tab-main-nav-landingpage, #landingpage-holder{
   background-color: #232227; //new
-  // $body-color;
   color: $body-bg;
   margin-left: unset !important;
   margin-right: unset !important;
