@@ -26,12 +26,12 @@ export var navConfig = {
       text: "About Fish and Wildlife",
       id: "about-nav-fishandwildlife",
       href: "./#About/"
-    },
-    {
-    name: "reports",
-    ref: "about-nav-reports",
-    text: "Reports",
-    id: "about-nav-reports",
-    href: "./#About/"
-  }]
+    }]
+  //   {
+  //   name: "reports",
+  //   ref: "about-nav-reports",
+  //   text: "Reports",
+  //   id: "about-nav-reports",
+  //   href: "./#About/"
+  // }
 }
