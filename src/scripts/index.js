@@ -253,6 +253,22 @@ function addLandingListners() {
     });
   }
 
+  const elemStartUsingCRESTCONUSIMG = document.getElementById('landingpage-btn-conus-img');
+  if (elemStartUsingCRESTCONUSIMG) {
+    const location = elemStartUsingCRESTCONUSIMG.getAttribute('href');
+    elemStartUsingCRESTCONUSIMG.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('continental_us');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
   const elemStartUsingCRESTCONUS = document.getElementById('landingpage-btn-conus');
   if (elemStartUsingCRESTCONUS) {
     const location = elemStartUsingCRESTCONUS.getAttribute('href');
@@ -269,7 +285,23 @@ function addLandingListners() {
     });
   }
 
-  const elemStartUsingCRESTPuertoRico = document.getElementById('landingpage-btn-northern_puerto_rico');
+  const elemStartUsingCRESTPuertoRicoIMG = document.getElementById('landingpage-btn-puerto_rico-img');
+  if (elemStartUsingCRESTPuertoRicoIMG) {
+    const location = elemStartUsingCRESTPuertoRicoIMG.getAttribute('href');
+    elemStartUsingCRESTPuertoRicoIMG.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('puerto_rico');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTPuertoRico = document.getElementById('landingpage-btn-puerto_rico');
   if (elemStartUsingCRESTPuertoRico) {
     const location = elemStartUsingCRESTPuertoRico.getAttribute('href');
     elemStartUsingCRESTPuertoRico.addEventListener('click', (e) => {
@@ -277,6 +309,22 @@ function addLandingListners() {
       const elemCREST = document.getElementById('main-nav-map');
       if (elemCREST) {
         setRegionsQuikLinkState('puerto_rico');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTUSVirginIslandsIMG = document.getElementById('landingpage-btn-us_virgin_islands-img');
+  if (elemStartUsingCRESTUSVirginIslandsIMG) {
+    const location = elemStartUsingCRESTUSVirginIslandsIMG.getAttribute('href');
+    elemStartUsingCRESTUSVirginIslandsIMG.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('us_virgin_islands');
         triggerZoomRegionQuikLink();
         elemCREST.click();
         setNavBars('main-nav-map');
@@ -301,6 +349,7 @@ function addLandingListners() {
     });
   }
 
+
   const elemStartUsingCRESTNorthernMarianaIslands = document.getElementById('landingpage-btn-northern_mariana_islands');
   if (elemStartUsingCRESTNorthernMarianaIslands) {
     const location = elemStartUsingCRESTNorthernMarianaIslands.getAttribute('href');
@@ -317,6 +366,21 @@ function addLandingListners() {
     });
   }
 
+  const elemStartUsingCRESTNorthernMarianaIslandsIMG = document.getElementById('landingpage-btn-northern_mariana_islands-img');
+  if (elemStartUsingCRESTNorthernMarianaIslandsIMG) {
+    const location = elemStartUsingCRESTNorthernMarianaIslandsIMG.getAttribute('href');
+    elemStartUsingCRESTNorthernMarianaIslandsIMG.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('northern_mariana_islands');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
 
   const elemStartUsingRP = document.getElementById('whatcando-btn-reslinceprojects');
   if (elemStartUsingRP) {
