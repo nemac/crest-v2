@@ -914,7 +914,13 @@ export class Explore extends Component {
 
         currentshapes[key][3].zonalstatsjson = ZonalStatsJson;
         if (checkValidObject(ZonalStatsJson.features)) {
-          const region = ZonalStatsJson.features[0].properties.region.toString().trim();
+          let region = 'continental_us';
+          // ensures links prior to regions still work
+          if (ZonalStatsJson.features[0].properties.region) {
+            region = ZonalStatsJson.features[0].properties.region.toString().trim();
+          }
+
+          // const region = ZonalStatsJson.features[0].properties.region.toString().trim();
           // TO DO add pagination ???
           drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
             name,
@@ -1326,7 +1332,12 @@ export class Explore extends Component {
 
     store.setStoreItem('working_zonalstats', false);
     if (checkValidObject(ZonalStatsJson.features)) {
-      const region = ZonalStatsJson.features[0].properties.region.toString().trim();
+      let region = 'continental_us';
+      // ensures links prior to regions still work
+      if (ZonalStatsJson.features[0].properties.region) {
+        region = ZonalStatsJson.features[0].properties.region.toString().trim();
+      }
+
       drawZonalStatsFromAPI(ZonalStatsJson.features[0].properties.mean,
         name,
         this.mapComponent.map,
@@ -1791,7 +1802,12 @@ export class Explore extends Component {
         this.addUserAreaLabel(bufferedLayer, name);
 
         if (checkValidObject(zonal.features)) {
-          const region = zonal.features[0].properties.region.toString().trim();
+          let region = 'continental_us';
+          // ensures links prior to regions still work
+          if (zonal.features[0].properties.region) {
+            region = zonal.features[0].properties.region.toString().trim();
+          }
+
           // / TO DO add pagination ???
           drawZonalStatsFromAPI(zonal.features[0].properties.mean, name, this.mapComponent, region);
         }
