@@ -710,6 +710,13 @@ a.about-nav.active::before {
 //end of making of styles
 
 // download styles
+.download-data {
+  .download-icon {
+    display: inline-block;
+    width: 20px;
+  }
+}
+
 .download-layer-name {
   height: 30px;
   @media screen and (max-width: 500px) {
