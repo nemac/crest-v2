@@ -1239,6 +1239,7 @@ function drawZonalStatsFromAPI(data, name, mapComponent, region = 'continental_u
   if (!document.getElementById('zonal-header')) {
     document.getElementById('zonal-area-wrapper').innerHTML = ZonalWrapper;
   }
+  console.log('drawZonalStatsFromAPI', region )
   const wrapper = makeDiv();
   wrapper.classList.add('zonal-stats-wrapper');
   wrapper.classList.add('h-100');
