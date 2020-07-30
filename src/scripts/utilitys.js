@@ -846,23 +846,22 @@ export function makeBasicBarChart(wrapper, selector, chartdata) {
 // add google event tags for downloads.
 export function addDownloadGoogleEvents() {
   const downloadIds = [
-    'download-hubs',
-    'download-exposure',
-    'download-assets',
-    'download-threats',
-    'download-aquatic',
-    'download-terrestrial',
-    'download-populationdensity',
-    'download-socialvulnerability',
-    'download-criticalfacilities',
-    'download-criticalinfrastructure',
-    'download-drainage',
-    'download-erosion',
-    'download-floodproneareas',
-    'download-sealevelrise',
-    'download-stromsurge',
-    'download-geostressor',
-    'download-slope'
+    'download-conus-data',
+    'download-conus-report',
+    'download-puerto-rico-data-eng',
+    'download-puerto-rico-data-esp',
+    'download-puerto-rico-report',
+    'download-virgin-islands-data',
+    'download-virgin-islands-repoprt',
+    'download-northern-mariana-islands-data',
+    'download-northern-mariana-islands-report',
+    'download-regional-report',
+    'download-cape-fear-data',
+    'download-charleston-harbor-data',
+    'download-download-delaware-bay-data',
+    'download-narragansett-bay-data',
+    'download-portland-maine-data',
+    'download-san-francisco-bay-data'
   ];
 
   downloadIds.forEach((id) => {
@@ -876,12 +875,15 @@ export function addDownloadGoogleEvents() {
   });
 
   const watersheds = [
-    'whatcando-btn-reslinceprojects',
-    'whatcando-btn-analyzesites',
-    'whatcando-btn-learnmore',
-    'whatcando-btn-targetedwatershed',
-    'whatcando-btn-finalreport',
-    'whatcando-btn-startusingCREST'
+    'landingpage-btn-conus',
+    'landingpage-btn-northern_mariana_islands',
+    'landingpage-btn-puerto_rico',
+    'landingpage-btn-us_virgin_islands',
+    'landingpage-not-sure',
+    'landingpage-analyze-projets',
+    'landingpage-search-hubs',
+    'landingpage-download-reports',
+    'landingpage-about'
   ];
 
   watersheds.forEach((id) => {
