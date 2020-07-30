@@ -24,6 +24,7 @@ export class ZonalStatsAPI {
   constructor(url = apiEndpoint, path = zonalStatsPath) {
     this.url = url + path;
     this.cancelToken = CancelToken.source();
+    this.seedLambda();
   }
 
   makeConfigObj(postdata) {
@@ -41,6 +42,18 @@ export class ZonalStatsAPI {
       }
     };
     return axiosConfig;
+  }
+
+  // seeds zonal stats lambda so its ready for requests
+  seedLambda() {
+    const seedpostdata = {"type": "FeatureCollection","features": [{"type":"Feature","properties":{"region":"continental_us"},"geometry":{"type":"Polygon","coordinates":[[[-82.554037,35.594925],[-82.553758,35.594785999999985],[-82.553973,35.594715999999984],[-82.554037,35.594925]]]}}]} // eslint-disable-line
+    const axiosConfig = this.makeConfigObj(seedpostdata);
+    const region = 'continental_us';
+    try {
+      return post(`${this.url}?region=${region}`, seedpostdata, axiosConfig);
+    } catch (err) {
+      return err;
+    }
   }
 
   async getZonalStatsSummary(postdata) {

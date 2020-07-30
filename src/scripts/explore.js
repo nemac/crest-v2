@@ -227,37 +227,6 @@ export class Explore extends Component {
     Explore.addUDrawShapeToolTip();
   }
 
-  async seedLambda() {
-    //   // identify
-    //   seedIdentifyAPI = new IdentifyAPI();
-    //
-    //   // zonal stats
-    //   seedZonalStatsAPI = new ZonalStatsAPI();
-    // send to seed zonal stats
-    const seedpostdata = {
-      type: 'Feature',
-      properties:
-      {
-        region: 'us_virgin_islands'
-      },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [-64.756505, 18.245491999999985],
-            [-64.754617, 18.243699000000007],
-            [-64.757192, 18.24239499999999],
-            [-64.756505, 18.245491999999985]
-          ]
-        ]
-      }
-    };
-
-    this.ZonalStatsAPI.getZonalStatsSummary(seedpostdata);
-    //   // StoreShapesAPI
-    //   seedStoreShapesAPI = new StoreShapesAPI();
-  }
-
   addZoomLinks() {
     const activeNav = store.getStateItem('activeNav');
     if (activeNav === 'main-nav-map-searchNShubs') {

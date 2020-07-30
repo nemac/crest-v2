@@ -42,6 +42,17 @@ export class IdentifyAPI {
       }
       this.url = this.apiEndpoint + this.path;
     });
+
+    this.seedLambda();
+  }
+
+  // seeds zonal stats lambda so its ready for requests
+  seedLambda() {
+    try {
+      return get(`${this.url}/identify?region=continental_us&lat=35.598763798687706&lng=-82.55397252738477`);
+    } catch (err) {
+      return err;
+    }
   }
 
   async httpGet(queryString = '') {
