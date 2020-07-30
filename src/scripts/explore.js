@@ -132,7 +132,6 @@ export class Explore extends Component {
 
     this.ZonalStatsAPI = new ZonalStatsAPI();
 
-
     this.DefaultMessageText = 'Zoom in to an area to explore the data, click <button class="btn btn-light btn-explore-info" title="description" ' +
                                'role="button" aria-label="description"><i class="fas fa-search"></i></button> to search by place or address, or click ' +
                                '<button class="btn btn-light btn-explore-info" title="description" role="button" aria-label="description"> ' +
@@ -226,6 +225,29 @@ export class Explore extends Component {
     this.addZoomLinks();
     Explore.addUploadShapeToolTip();
     Explore.addUDrawShapeToolTip();
+  }
+
+  async seedLambda() {
+    //   // identify
+    //   seedIdentifyAPI = new IdentifyAPI();
+    //
+    //   // zonal stats
+    //   seedZonalStatsAPI = new ZonalStatsAPI();
+    // send to seed zonal stats
+    const seedpostdata = {
+      "type":"Feature",
+      "properties":
+      {
+        "region":"us_virgin_islands"
+      },
+      "geometry": {
+        "type":"Polygon",
+        "coordinates":[[[-64.756505,18.245491999999985],[-64.754617,18.243699000000007],[-64.757192,18.24239499999999],[-64.756505,18.245491999999985]]]
+      }
+    }
+    const ZonalStatsJson = this.ZonalStatsAPI.getZonalStatsSummary(seedpostdata);
+    //   // StoreShapesAPI
+    //   seedStoreShapesAPI = new StoreShapesAPI();
   }
 
   addZoomLinks() {
