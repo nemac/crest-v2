@@ -1,9 +1,10 @@
 // config file for search by hubs or should I do resliecen project.
-//   field mappings are field in hubs data on AGOL: field it should be mapped to for chart
+//   field mappings are field in hubs data on AGOL: field degined in mapconfig hubsapikey
 //   we use a filter to get region singled out
 const config = [
   {
     fieldMaps: {
+      hubs: 'hubs',
       exposure: 'exposure',
       asset: 'asset',
       aquatic: 'aquatic',
@@ -27,21 +28,22 @@ const config = [
   ,
   {
     fieldMaps: {
+      hubs: 'hubs',
       exposure: 'exposure',
       asset: 'asset',
-      marine: 'aquatic',
-      terrestri: 'terrestri',
+      marine: 'marine',
+      terrestri: 'terrestrial',
       crit_infra: 'crit_infra',
       crit_fac: 'crit_facilities',
       pop_dens: 'pop_density',
       soc_vuln: 'social_vuln',
-      impermeabl: 'drainage',
+      impermeabl: 'impermeable',
       erosion: 'erosion',
-      landslides: 'geostress',
+      landslides: 'landslides',
       floodprone: 'floodprone_areas',
       slr: 'sea_level_rise',
       slope: 'slope',
-      stormsurge: 'stormsurge',
+      stormsurge: 'storm_surge',
       wildlife: 'wildlife',
       tsunami: 'tsunami'
     },
@@ -51,35 +53,52 @@ const config = [
   },
   {
     fieldMaps: {
-      terrestri: 'terrestri',
+      hubs: 'hubs',
+      exposure: 'exposure',
+      asset: 'asset',
+      marine: 'marine',
+      terrestri: 'terrestrial',
+      crit_infra: 'crit_infra',
       crit_fac: 'crit_facilities',
       pop_dens: 'pop_density',
       soc_vuln: 'social_vuln',
+      impermeabl: 'impermeable',
+      erosion: 'erosion',
+      landslides: 'landslides',
       floodprone: 'floodprone_areas',
-      marine: 'aquatic',
-      impermeabl: 'drainage',
-      wildlife: 'wildlife',
-      slr: 'slr'
+      slr: 'sea_level_rise',
+      slope: 'slope',
+      stormsurge: 'storm_surge',
+      wildlife: 'wildlife'
     },
     region: 'us_virgin_islands',
     queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/USVI_hubs_staging_072920/FeatureServer/0/query`,
-    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hubs', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'landslides', 'slr', 'low_areas', 'stormsurge']
+    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rank', 'hubs', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'stormsurge', 'wildlife'  ]
   },
   {
     fieldMaps: {
-      terrestri: 'terrestri',
+      hubs: 'hubs',
+      exposure: 'exposure',
+      asset: 'asset',
+      marine: 'marine',
+      terrestri: 'terrestrial',
+      crit_infra: 'crit_infra',
       crit_fac: 'crit_facilities',
       pop_dens: 'pop_density',
       soc_vuln: 'social_vuln',
+      impermeabl: 'impermeable',
+      erosion: 'erosion',
+      landslides: 'landslides',
       floodprone: 'floodprone_areas',
-      marine: 'aquatic',
-      impermeabl: 'drainage',
-      wildlife: 'wildlife',
-      slr: 'slr'
+      slr: 'sea_level_rise',
+      slope: 'slope',
+      stormsurge: 'storm_surge',
+      wildlife: 'wildlife'
     },
     region: 'northern_mariana_islands',
     queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/CNMI_hubs_staging_072920/FeatureServer/0/query`,
-    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hubs', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'landslides', 'slr', 'low_areas', 'stormsurge']
+    // agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rank', 'hubs', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'stormsurge', 'wildlife'  ]
+    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rank', 'hubs', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'wildlife'  ]
   },
 ];
 
