@@ -2943,8 +2943,8 @@ export var mapConfig = {
       id: "CNMI_StormSurgeTMS",
       layer: "Storm Surge TMS",
       label: "Storm Surge",
-      apikey: 'storm_surge',
-      hubsapikey: 'storm_surge',
+      apikey: 'wave_flooding',
+      hubsapikey: 'wave_flooding',
       chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {

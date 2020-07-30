@@ -95,12 +95,12 @@ const config = [
       floodprone: 'floodprone_areas',
       slr: 'sea_level_rise',
       slope: 'slope',
-      stormsurge: 'storm_surge',
+      wave_flood: 'wave_flooding',
       wildlife: 'wildlife'
     },
     region: 'northern_mariana_islands',
     queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/CNMI_hubs_staging_073020/FeatureServer/0/query`,
-    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'wildlife'  ]
+    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'wildlife', 'wave_flood'  ]
   },
 ];
 
