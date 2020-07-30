@@ -1,5 +1,6 @@
 // config file for search by hubs or should I do resliecen project.
-//   field mappings are field in hubs data on AGOL: field degined in mapconfig hubsapikey
+//   field mappings designed to map the AGOL fields to the fields designed to mapConfig fields specicially hubsapikey
+//   are field in hubs data on AGOL agolOutFields: field degined in mapconfig hubsapikey
 //   we use a filter to get region singled out
 const config = [
   {
