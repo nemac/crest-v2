@@ -31,7 +31,7 @@ const config = [
   ,
   {
     fieldMaps: {
-      hub_rank: 'hubs',
+      hub_rnk: 'hubs',
       exposure: 'exposure',
       asset: 'asset',
       marine: 'marine',
@@ -51,12 +51,12 @@ const config = [
       tsunami: 'tsunami'
     },
     region: 'puerto_rico',
-    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/Puerto_Rico_hubs_staging_072920/FeatureServer/0/query`,
-    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rank', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'landslides', 'slr', 'low_areas', 'stormsurge', 'tsunami', 'wildlife'  ]
+    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/PR_hubs_staging_073020/FeatureServer/0/query`,
+    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'landslides', 'slr', 'low_areas', 'stormsurge', 'tsunami', 'wildlife'  ]
   },
   {
     fieldMaps: {
-      hub_rank: 'hubs',
+      hub_rnk: 'hubs',
       exposure: 'exposure',
       asset: 'asset',
       marine: 'marine',
@@ -75,12 +75,12 @@ const config = [
       wildlife: 'wildlife'
     },
     region: 'us_virgin_islands',
-    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/USVI_hubs_staging_072920/FeatureServer/0/query`,
-    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rank', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'stormsurge', 'wildlife'  ]
+    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/USVI_hubs_staging_073020/FeatureServer/0/query`,
+    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'stormsurge', 'wildlife'  ]
   },
   {
     fieldMaps: {
-      hub_rank: 'hubs',
+      hub_rnk: 'hubs',
       exposure: 'exposure',
       asset: 'asset',
       marine: 'marine',
@@ -99,8 +99,8 @@ const config = [
       wildlife: 'wildlife'
     },
     region: 'northern_mariana_islands',
-    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/CNMI_hubs_staging_072920/FeatureServer/0/query`,
-    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rank', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'wildlife'  ]
+    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/CNMI_hubs_staging_073020/FeatureServer/0/query`,
+    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'erosion', 'floodprone', 'slr', 'low_areas', 'wildlife'  ]
   },
 ];
 
