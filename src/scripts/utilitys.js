@@ -949,7 +949,7 @@ export function addMissingStateItems() {
       CONUS_FloodProneAreasTMS: false,
       CONUS_FishAndWildlifeTMS: false,
 
-      PR_HubsTMS: false,
+      PR_HubsTMS: true,
       PR_ExposureTMS: false,
       PR_AssetsTMS: false,
       PR_ThreatsTMS: false,
@@ -970,7 +970,7 @@ export function addMissingStateItems() {
       PR_LandslideIndexTiles: false,
       PR_TsunamiIndexTiles: false,
 
-      USVI_HubsTMS: false,
+      USVI_HubsTMS: true,
       USVI_ExposureTMS: false,
       USVI_AssetsTMS: false,
       USVI_ThreatsTMS: false,
@@ -987,7 +987,26 @@ export function addMissingStateItems() {
       USVI_GeoStressTMS: false,
       USVI_SlopeTMS: false,
       USVI_FloodProneAreasTMS: false,
-      USVI_FishAndWildlifeTMS: false
+      USVI_FishAndWildlifeTMS: false,
+
+      CNMI_HubsTMS: true,
+      CNMI_ExposureTMS: false,
+      CNMI_AssetsTMS: false,
+      CNMI_ThreatsTMS: false,
+      CNMI_AquaticTMS: false,
+      CNMI_TerrestrialTMS: false,
+      CNMI_PopDensityTMS: false,
+      CNMI_SocVulnTMS: false,
+      CNMI_CriticalFacilitiesTMS: false,
+      CNMI_CriticalInfrastructureTMS: false,
+      CNMI_DraingeTMS: false,
+      CNMI_ErosionTMS: false,
+      CNMI_SLRTMS: false,
+      CNMI_StormSurgeTMS: false,
+      CNMI_GeoStressTMS: false,
+      CNMI_SlopeTMS: false,
+      CNMI_FloodProneAreasTMS: false,
+      CNMI_FishAndWildlifeTMS: false
     });
   }
 
