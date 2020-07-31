@@ -412,10 +412,14 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 1,
+      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#0084a8', // 5
+        1: '#0084a8',
+        2: '#0084a8',
+        3: '#0084a8',
+        4: '#0084a8',
+        5: '#0084a8', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -1190,11 +1194,14 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 2,
+      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#9EBBD7', // 3
-        2: '#0084A8', // 5
+        2: '#9EBBD7', // 3
+        3: '#9EBBD7', // 3
+        4: '#0084A8', // 5
+        5: '#0084A8', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -2007,10 +2014,14 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 1,
+      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#0084a8', // 5
+        1: '#0084a8',
+        2: '#0084a8',
+        3: '#0084a8',
+        4: '#0084a8',
+        5: '#0084a8', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -2739,10 +2750,14 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 1,
+      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#0084a8', // 5
+        1: '#0084a8',
+        2: '#0084a8',
+        3: '#0084a8',
+        4: '#0084a8',
+        5: '#0084a8', // 5
       },
       chartDriver: true,
       chartSummary: false,
