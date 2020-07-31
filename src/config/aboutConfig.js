@@ -7,13 +7,6 @@ export var navConfig = {
       href: "./#About/"
     },
     {
-      name: "hubs",
-      ref: "about-nav-hubs",
-      text: "About Resilience Hubs",
-      id: "about-nav-hubs",
-      href: "./#About/"
-    },
-    {
       name: "exposure",
       ref: "about-nav-exposure",
       text: "About Community Exposure",
@@ -25,6 +18,13 @@ export var navConfig = {
       ref: "about-nav-fishandwildlife",
       text: "About Fish and Wildlife",
       id: "about-nav-fishandwildlife",
+      href: "./#About/"
+    },
+    {
+      name: "hubs",
+      ref: "about-nav-hubs",
+      text: "About Resilience Hubs",
+      id: "about-nav-hubs",
       href: "./#About/"
     }]
   //   {
