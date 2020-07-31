@@ -2957,10 +2957,10 @@ export var mapConfig = {
     {
       id: "CNMI_StormSurgeTMS",
       layer: "Storm Surge TMS",
-      label: "Storm Surge",
+      label: "Wave-Driven Flooding",
       apikey: 'wave_flooding',
       hubsapikey: 'wave_flooding',
-      chartLabel: 'Storm Surge',
+      chartLabel: 'Wave-Driven Flooding',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
