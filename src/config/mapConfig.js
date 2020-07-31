@@ -2992,7 +2992,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "CNMI_stormsurge",
-      description: "Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high, with low being a 5-foot surge and high being a 1-foot surge. As a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values.",
+      description: "Based on historical nearshore wave time series, significant wave heights associated with the 10-, 50, 100, and 500-year storm return periods were ranked according to probability of occurrence, where a 10-year return period is given a higher rank than a 500-year return period.",
       source: 'regional',
       region: 'northern_mariana_islands'
     },
