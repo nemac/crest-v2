@@ -555,8 +555,6 @@ a.about-nav.active::before {
 }
 
 .about-main-text, .about-tool-text {
-    margin: $margin;
-    padding: $padding15;
     a {
       color: #17a2b8 !important;
       text-decoration: underline;
@@ -1141,11 +1139,6 @@ a.about-nav.active::before {
 
 #about-main {
   margin-left: 15px;
-}
-
-.about-main-text, .about-tool-text {
-    margin: $margin;
-    padding: $padding15;
 }
 
 .about-tool-text {
