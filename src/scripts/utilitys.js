@@ -881,6 +881,7 @@ export function addDownloadGoogleEvents() {
     'landingpage-btn-northern_mariana_islands',
     'landingpage-btn-puerto_rico',
     'landingpage-btn-us_virgin_islands',
+    'landingpage-btn-hawaii',
     'landingpage-not-sure',
     'landingpage-analyze-projets',
     'landingpage-search-hubs',
