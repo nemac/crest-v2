@@ -1371,7 +1371,7 @@ export var mapConfig = {
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#E9ECEF',
+        1: '#99b9d9',
         2: '#99b9d9',
         3: '#4095c3',
         4: '#027976',
