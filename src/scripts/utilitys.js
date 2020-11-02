@@ -223,9 +223,9 @@ export function spinnerOn() {
   // cover other map elements and panes
   elHolder.className = elHolder.className.replace(' d-none', '');
   elHolder.className = elHolder.className.replace('h-100', '');
-  elHolder.className = elHolder.className.replace('w-100', '');
+  elHolder.className = elHolder.className.replace('w-50', '');
   elHolder.className += ' h-100';
-  elHolder.className += ' w-100';
+  elHolder.className += ' w-50';
 
   return true;
 }
