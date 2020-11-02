@@ -1145,7 +1145,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "HI_popdensity",
-      description: "A ranking of population density by census block groups based on the 2016 American Community Survey. Areas are ranked from low to high using the ratio of people per square kilometer.",
+      description: "A ranking of population density by census block groups based on the 2018 American Community Survey 5-year estimates. Areas are ranked from low to high based on the ratio of people per square kilometer.",
       source: 'regional',
       region: 'hawaii'
     },
@@ -1187,7 +1187,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "HI_socvuln",
-      description: "Communities that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN dataset. Census blocks above the 80th percentile are ranked from low to high, depicting areas of lower median incomes and minority populations.",
+      description: "Communities that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN dataset. Census blocks are ranked from low to high, depicting areas of lower median incomes and minority populations.  ",
       source: 'regional',
       region: 'hawaii'
     },
@@ -1399,17 +1399,17 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "HI_slr",
-      description: "NOAA’s sea level rise scenarios ranked from low to high, with low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.",
+      description: "Sea Level Rise Exposure Areas data from Tetra Tech, Inc. and the University of Hawai'i Coastal Geology Group were ranked from low to high, with low being a 3.2-foot scenario and high being a 0.5-foot scenario. These ranks are used to suggest the more imminent threat of a 0.5-foot rise in sea level versus a 3.2-foot rise that may eventually occur.",
       source: 'regional',
       region: 'hawaii'
     },
     {
       id: "HI_StormSurgeTMS",
       layer: "Storm Surge TMS",
-      label: "Wave-Driven Flooding",
+      label: "Storm Surge",
       apikey: 'storm_surge',
       hubsapikey: 'storm_surge',
-      chartLabel: 'Wave-Driven Flooding',
+      chartLabel: 'Storm Surge',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -1565,7 +1565,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "HI_landslides",
-      description: "Shows landslide susceptibility in Hawaii, including slopes that exceed fifty percent. A higher rank indicates higher susceptibilitys.",
+      description: "Shows landslide susceptibility in Hawai'i, including steep slopes where landslides may begin. The input is ranked using categories of “very high”, “high”, and “moderate”.",
       source: 'regional',
       region: 'hawaii'
     },
@@ -1576,12 +1576,11 @@ export var mapConfig = {
       apikey: 'tsunami',
       hubsapikey: 'tsunami',
       chartLabel: 'Tsunami',
-      chartLegendValues: 3,
+      chartLegendValues: 2,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#414488',
         2: '#2A798F',
-        3: '#49006A',
       },
       chartDriver: true,
       chartSummary: false,
@@ -1589,7 +1588,7 @@ export var mapConfig = {
       chartInputName: 'threat',
       chartInpuLabel: 'Threats Inputs',
       chartCSSSelector: 'tsunami',
-      chartMaxValue: 3,
+      chartMaxValue: 2,
       chartMinValue: 0,
       chartScale: 0,
       chartScaleGroups: 1,
@@ -1605,7 +1604,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "HI_tsunami",
-      description: "Represents the potential inundation height above the ground from a tsunami in Hawaii. A higher rank indicates a higher inundation depth.",
+      description: "Tsunami evacuation zones in Hawai'i, including the Tsunami Evacuation Zone and Extreme Tsunami Evacuation Zone.",
       source: 'regional',
       region: 'hawaii'
     },
@@ -4193,7 +4192,7 @@ export var mapConfig = {
    // },
    {
      region: 'hawaii',
-     label: 'Hawaii',
+     label: 'Hawai\'i',
      center: [ 21.08872447557743, 204.9689626693726],
      extent: [-166.09, 13.77,   -140.36, 26.78],
      zoom: 6

@@ -263,7 +263,7 @@ export class MapLayersList extends Component {
     document.getElementById('zoomregion-hawaii').addEventListener('click', (e) => {
       const region = zoomRegions.filter(regions => regions.region === 'hawaii');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
-      MapLayersList.updateZoomRegionLabel('hawaii');
+      MapLayersList.updateZoomRegionLabel('Hawai\'i');
       const navChangeEvent = new CustomEvent('regionChanged');
       window.dispatchEvent(navChangeEvent);
 
@@ -384,7 +384,7 @@ export class MapLayersList extends Component {
         usVirginIslandsLayerList.classList.add('d-none');
         northernMarianaIslandsLayerList.classList.add('d-none');
         hawaiiLayerList.classList.remove('d-none');
-        MapLayersList.updateZoomRegionLabel('Hawaii');
+        MapLayersList.updateZoomRegionLabel('Hawai\'i');
         break;
       case 'guam':
         MapLayersList.updateZoomRegionLabel('Guam');
