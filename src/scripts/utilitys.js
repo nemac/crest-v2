@@ -222,10 +222,10 @@ export function spinnerOn() {
   // update class for div element that holds svg.  Do this so it dose not cover
   // cover other map elements and panes
   elHolder.className = elHolder.className.replace(' d-none', '');
-  elHolder.className = elHolder.className.replace('h-100', '');
-  elHolder.className = elHolder.className.replace('w-50', '');
-  elHolder.className += ' h-100';
-  elHolder.className += ' w-50';
+  elHolder.className = elHolder.className.replace('h-10', '');
+  elHolder.className = elHolder.className.replace('w-10', '');
+  elHolder.className += ' h-10';
+  elHolder.className += ' w-10';
 
   return true;
 }
