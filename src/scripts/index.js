@@ -11,8 +11,8 @@ import {
   checkValidObject,
   addMissingStateItems,
   addDownloadGoogleEvents,
-  formatChartData,
-  askForHelp
+  formatChartData
+  // askForHelp
 } from './utilitys';
 
 // import extended components
@@ -537,7 +537,7 @@ if (checkValidObject(theStartNav)) {
   }
 }
 
-askForHelp();
+// askForHelp();
 //
 // function eventsaddtest() {
 //   // need dom to be updated so timeout.
