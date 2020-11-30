@@ -318,6 +318,38 @@ function addLandingListners() {
     });
   }
 
+  const elemStartUsingCRESTHawaiiIMG = document.getElementById('landingpage-btn-hawaii-img');
+  if (elemStartUsingCRESTHawaiiIMG) {
+    const location = elemStartUsingCRESTHawaiiIMG.getAttribute('href');
+    elemStartUsingCRESTHawaiiIMG.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('hawaii');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTHawaii = document.getElementById('landingpage-btn-hawaii');
+  if (elemStartUsingCRESTHawaii) {
+    const location = elemStartUsingCRESTHawaii.getAttribute('href');
+    elemStartUsingCRESTHawaii.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('hawaii');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
   const elemStartUsingCRESTUSVirginIslandsIMG = document.getElementById('landingpage-btn-us_virgin_islands-img');
   if (elemStartUsingCRESTUSVirginIslandsIMG) {
     const location = elemStartUsingCRESTUSVirginIslandsIMG.getAttribute('href');
