@@ -1964,7 +1964,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "AS_popdensity",
-      description: "A ranking of population density by estates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.",
+      description: "A ranking of population density by estimates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.",
       source: 'regional',
       region: 'american_samoa'
     },
@@ -2005,7 +2005,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "AS_socvuln",
-      description: "Estates are ranked from low to high, depicting areas of lower median incomes and minority populations based on 2010 Decennial Census Data and guidance from USEPA EJSCREEN methodology.",
+      description: "Estimates are ranked from low to high, depicting areas of high poverty, vulnerable housing characteristics, and personal disruption due to climate change according to data from the 2010 Decennial Census.",
       source: 'regional',
       region: 'american_samoa'
     },
@@ -2266,7 +2266,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "AS_stormsurge",
-      description: "Based on historical nearshore wave time series, significant wave heights associated with the 10-, 50, 100, and 500-year storm return periods were ranked according to probability of occurrence, where a 10-year return period is given a higher rank than a 500-year return period.",
+      description: "Areas are ranked according to probability of wave driven flooding, where a 10-year return period is given a higher rank than a 500-year return period.",
       source: 'regional',
       region: 'american_samoa'
     },
@@ -2390,7 +2390,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "AS_tsunami",
-      description: "Tsunami evacuation zones in Hawai'i, including the Tsunami Evacuation Zone and Extreme Tsunami Evacuation Zone.",
+      description: "Represents the maximum extent of inundation due to tsunami.",
       source: 'regional',
       region: 'american_samoa'
     },
