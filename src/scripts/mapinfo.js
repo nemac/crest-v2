@@ -343,7 +343,7 @@ export class MapInfo extends Component {
 
     // build the map info (identify) data
     MapInfo.buildMapInfoConent(RemapedIdentifyJson, doc, region);
-
+    
     // bind the html to the leaflet marker and open as leaflet popup
     const popup = this.bindPopup(this.marker, doc);
 
