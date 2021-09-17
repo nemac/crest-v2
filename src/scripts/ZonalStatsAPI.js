@@ -62,6 +62,7 @@ export class ZonalStatsAPI {
     while (numAttempts < maxAttempts) {
       try {
         const region = store.getStateItem('region');
+        console.log(`${this.url}?region=${region}`, postdata)
         const response = await post(`${this.url}?region=${region}`, postdata, axiosConfig);
         if (response.status === 200 && response.data) {
           return response.data;
