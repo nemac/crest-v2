@@ -29,6 +29,7 @@ import {
 } from './utilitys';
 
 import {
+  zonalStatsNotAbleToRender,
   drawZonalStatsFromAPI,
   toggleMouseHighLightsOn,
   toggleLabelHighLightsOn,
@@ -87,6 +88,7 @@ export class Explore extends Component {
     this.hasShareURL = hasShareURL;
     this.theStartNav = theStartNav;
     this.caseStudies = new CaseStudies(this.mapComponent, this);
+    this.HubsDrawLimit = 50;
 
     const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
     if (hasShapeButtonElem) {
@@ -1212,6 +1214,13 @@ export class Explore extends Component {
     const currentshapes = store.getStateItem('HubIntersectionJson');
 
     if (!checkValidObject(currentshapes)) {
+      store.setStoreItem('working_drawlayers', false);
+      spinnerOff();
+      return null;
+    }
+
+    // limit shapes drawn causing issues with hexes
+    if (currentshapes.length > this.HubsDrawLimit) {
       store.setStoreItem('working_drawlayers', false);
       spinnerOff();
       return null;
@@ -2610,6 +2619,15 @@ export class Explore extends Component {
 
   drawZonalStatsForStoredHubs() {
     const hubs = store.getStateItem('HubIntersectionJson');
+
+    // limit shapes drawn causing issues with hexes
+    if (hubs.length > this.HubsDrawLimit) {
+      const name = `${hubs[0].properties.mean.TARGET_FID}`.toString().trim();
+      const region = `${hubs[0].properties.region}`.toString().trim();
+      zonalStatsNotAbleToRender(name, region);
+      return null;
+    }
+
     for (let i = 0; i < hubs.length; i += 1) {
       const name = `${hubs[i].properties.mean.TARGET_FID}`.toString().trim();
       const region = `${hubs[i].properties.region}`.toString().trim();
@@ -2620,6 +2638,7 @@ export class Explore extends Component {
       // TO DO add pagination ???
       // if (i>10) { return null}
     }
+    return null;
   }
 
 

@@ -382,7 +382,6 @@ function addLandingListners() {
     });
   }
 
-
   const elemStartUsingCRESTNorthernMarianaIslands = document.getElementById('landingpage-btn-northern_mariana_islands');
   if (elemStartUsingCRESTNorthernMarianaIslands) {
     const location = elemStartUsingCRESTNorthernMarianaIslands.getAttribute('href');
@@ -407,6 +406,38 @@ function addLandingListners() {
       const elemCREST = document.getElementById('main-nav-map');
       if (elemCREST) {
         setRegionsQuikLinkState('northern_mariana_islands');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTAmericanSamoa = document.getElementById('landingpage-btn-american_samoa');
+  if (elemStartUsingCRESTAmericanSamoa) {
+    const location = elemStartUsingCRESTAmericanSamoa.getAttribute('href');
+    elemStartUsingCRESTAmericanSamoa.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('american_samoa');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTAmericanSamoaIMG = document.getElementById('landingpage-btn-american_samoa-img');
+  if (elemStartUsingCRESTAmericanSamoaIMG) {
+    const location = elemStartUsingCRESTAmericanSamoaIMG.getAttribute('href');
+    elemStartUsingCRESTAmericanSamoaIMG.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('american_samoa');
         triggerZoomRegionQuikLink();
         elemCREST.click();
         setNavBars('main-nav-map');

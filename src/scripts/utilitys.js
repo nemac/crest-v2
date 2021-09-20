@@ -857,6 +857,8 @@ export function addDownloadGoogleEvents() {
     'download-virgin-islands-repoprt',
     'download-northern-mariana-islands-data',
     'download-northern-mariana-islands-report',
+    'downloadamerican_samoa-data',
+    'download-american_samoa-report',
     'download-regional-report',
     'download-cape-fear-data',
     'download-charleston-harbor-data',
@@ -879,6 +881,7 @@ export function addDownloadGoogleEvents() {
   const watersheds = [
     'landingpage-btn-conus',
     'landingpage-btn-northern_mariana_islands',
+    'landingpage-btn-american_samoa',
     'landingpage-btn-puerto_rico',
     'landingpage-btn-us_virgin_islands',
     'landingpage-btn-hawaii',
@@ -1030,7 +1033,26 @@ export function addMissingStateItems() {
       CNMI_GeoStressTMS: false,
       CNMI_SlopeTMS: false,
       CNMI_FloodProneAreasTMS: false,
-      CNMI_FishAndWildlifeTMS: false
+      CNMI_FishAndWildlifeTMS: false,
+
+      AS_HubsTMS: true,
+      AS_ExposureTMS: false,
+      AS_AssetsTMS: false,
+      AS_ThreatsTMS: false,
+      AS_AquaticTMS: false,
+      AS_TerrestrialTMS: false,
+      AS_PopDensityTMS: false,
+      AS_SocVulnTMS: false,
+      AS_CriticalFacilitiesTMS: false,
+      AS_CriticalInfrastructureTMS: false,
+      AS_DraingeTMS: false,
+      AS_ErosionTMS: false,
+      AS_SLRTMS: false,
+      AS_WaveDrivenFloodingIndexTiles: false,
+      AS_GeoStressTMS: false,
+      AS_SlopeTMS: false,
+      AS_TsunamiIndexTiles: false,
+      AS_FishAndWildlifeTMS: false
     });
   }
 
