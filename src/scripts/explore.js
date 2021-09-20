@@ -1222,7 +1222,6 @@ export class Explore extends Component {
     // limit shapes drawn causing issues with hexes
     if (currentshapes.length > this.HubsDrawLimit) {
       store.setStoreItem('working_drawlayers', false);
-      console.log('to many hubs to draw')
       spinnerOff();
       return null;
     }
@@ -2623,9 +2622,9 @@ export class Explore extends Component {
 
     // limit shapes drawn causing issues with hexes
     if (hubs.length > this.HubsDrawLimit) {
+      const name = `${hubs[0].properties.mean.TARGET_FID}`.toString().trim();
       const region = `${hubs[0].properties.region}`.toString().trim();
       zonalStatsNotAbleToRender(name, region);
-      console.log('to many hubs to draw');
       return null;
     }
 
@@ -2639,6 +2638,7 @@ export class Explore extends Component {
       // TO DO add pagination ???
       // if (i>10) { return null}
     }
+    return null;
   }
 
 
