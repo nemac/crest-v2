@@ -8,6 +8,7 @@ import { identifyConfig } from '../config/identifyConfig';
 import { mapConfig } from '../config/mapConfig';
 
 // Legend Templates
+import ColorRampFifteenBreaks from '../templates/colorramp_breaks_fifteen.html';
 import ColorRampTenBreaks from '../templates/colorramp_breaks_ten.html';
 import ColorRampNineBreaks from '../templates/colorramp_breaks_nine.html';
 import ColorRampEightBreaks from '../templates/colorramp_breaks_eight.html';
@@ -142,6 +143,8 @@ export function numberToWord(number) {
 // @return String
 export function getLegendHtml(maxValue) {
   switch (maxValue) {
+    case 15:
+      return ColorRampFifteenBreaks;
     case 10:
       return ColorRampTenBreaks;
     case 9:
