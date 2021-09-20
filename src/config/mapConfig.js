@@ -2066,13 +2066,13 @@ export var mapConfig = {
         3: '#CCD1D2', // 3
         4: '#355C59', // 5
         5: '#355C59', // 5
-        6: '#E8B16D', // 8
+        6: '#355C59', // 5
         7: '#E8B16D', // 8
         8: '#E8B16D', // 8
-        9: '#AD3541', // 10
+        9: '#E8B16D', // 8
         10: '#AD3541', // 10
-        11: '#7B1733', // 15
-        12: '#7B1733', // 15
+        11: '#AD3541', // 10
+        12: '#AD3541', // 10
         13: '#7B1733', // 15
         14: '#7B1733', // 15
         15: '#7B1733', // 15
@@ -2110,14 +2110,15 @@ export var mapConfig = {
       apikey: 'impermeable',
       hubsapikey: 'impermeable',
       chartLabel: 'Impermeable Soils',
-      chartLegendValues: 5,
+      chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#F0F0F0',
-        2: '#BDBDBD', // 3
+        1: '#F0F0F0', // 1
+        2: '#F0F0F0', // 1
         3: '#BDBDBD', // 3
-        4: '#636363', // 5
+        4: '#BDBDBD', // 3
         5: '#636363', // 5
+        6: '#636363', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -2125,7 +2126,7 @@ export var mapConfig = {
       chartInputName: 'threat',
       chartInpuLabel: 'Threats Inputs',
       chartCSSSelector: 'drainage',
-      chartMaxValue: 6,
+      chartMaxValue: 7,
       chartMinValue: 0,
       chartScale: 0,
       chartScaleGroups: 1,
@@ -2361,12 +2362,13 @@ export var mapConfig = {
       apikey: 'tsunami',
       hubsapikey: 'tsunami',
       chartLabel: 'Tsunami',
-      chartLegendValues: 3,
+      chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#E9ECEF',
         2: '#E9ECEF',
         3: '#2171b5',
+        4: '#2171b5',
       },
       chartDriver: true,
       chartSummary: false,
@@ -2374,7 +2376,7 @@ export var mapConfig = {
       chartInputName: 'threat',
       chartInpuLabel: 'Threats Inputs',
       chartCSSSelector: 'tsunami',
-      chartMaxValue: 4,
+      chartMaxValue: 5,
       chartMinValue: 0,
       chartScale: 0,
       chartScaleGroups: 1,
