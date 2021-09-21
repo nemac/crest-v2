@@ -1198,7 +1198,7 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
+      chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#9EBBD7', // 3
@@ -1206,6 +1206,7 @@ export var mapConfig = {
         3: '#9EBBD7', // 3
         4: '#0084A8', // 5
         5: '#0084A8', // 5
+        6: '#0084A8', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -1213,7 +1214,7 @@ export var mapConfig = {
       chartInputName: 'asset',
       chartInpuLabel: 'Comunity Assets Inputs',
       chartCSSSelector: 'critical-facilities',
-      chartMaxValue: 6,
+      chartMaxValue: 7,
       chartMinValue: 0,
       chartScale: 0,
       chartScaleGroups: 1,
@@ -2805,7 +2806,7 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
+      chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#9EBBD7', // 3
@@ -2813,6 +2814,7 @@ export var mapConfig = {
         3: '#9EBBD7', // 3
         4: '#0084A8', // 5
         5: '#0084A8', // 5
+        6: '#0084A8', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -2820,7 +2822,7 @@ export var mapConfig = {
       chartInputName: 'asset',
       chartInpuLabel: 'Comunity Assets Inputs',
       chartCSSSelector: 'critical-facilities',
-      chartMaxValue: 6,
+      chartMaxValue: 7,
       chartMinValue: 0,
       chartScale: 0,
       chartScaleGroups: 1,
@@ -3625,7 +3627,7 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
+      chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#0084a8',
@@ -3633,6 +3635,7 @@ export var mapConfig = {
         3: '#0084a8',
         4: '#0084a8',
         5: '#0084a8', // 5
+        6: '#0084A8', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -3640,7 +3643,7 @@ export var mapConfig = {
       chartInputName: 'asset',
       chartInpuLabel: 'Comunity Assets Inputs',
       chartCSSSelector: 'critical-facilities',
-      chartMaxValue: 6,
+      chartMaxValue: 7,
       chartMinValue: 0,
       chartScale: 0,
       chartScaleGroups: 1,
@@ -4361,7 +4364,7 @@ export var mapConfig = {
       apikey: 'crit_facilities',
       hubsapikey: 'crit_facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
+      chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#9EBBD7', // 3
@@ -4369,6 +4372,7 @@ export var mapConfig = {
         3: '#9EBBD7', // 3
         4: '#0084A8', // 5
         5: '#0084A8', // 5
+        6: '#0084A8', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -4376,7 +4380,7 @@ export var mapConfig = {
       chartInputName: 'asset',
       chartInpuLabel: 'Comunity Assets Inputs',
       chartCSSSelector: 'critical-facilities',
-      chartMaxValue: 6,
+      chartMaxValue: 7,
       chartMinValue: 0,
       chartScale: 0,
       chartScaleGroups: 1,
