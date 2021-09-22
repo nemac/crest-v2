@@ -446,7 +446,7 @@ function addLandingListners() {
     });
   }
 
-  const elemStartUsingCRESTGuam= document.getElementById('landingpage-btn-guam');
+  const elemStartUsingCRESTGuam = document.getElementById('landingpage-btn-guam');
   if (elemStartUsingCRESTGuam) {
     const location = elemStartUsingCRESTGuam.getAttribute('href');
     elemStartUsingCRESTGuam.addEventListener('click', (e) => {

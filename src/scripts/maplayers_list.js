@@ -251,7 +251,7 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Guam');
       const navChangeEvent = new CustomEvent('regionChanged');
-       window.dispatchEvent(navChangeEvent);
+      window.dispatchEvent(navChangeEvent);
 
       // set region to US Guam
       store.setStoreItem('region', 'guam');
