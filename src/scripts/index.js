@@ -446,6 +446,38 @@ function addLandingListners() {
     });
   }
 
+  const elemStartUsingCRESTGuam = document.getElementById('landingpage-btn-guam');
+  if (elemStartUsingCRESTGuam) {
+    const location = elemStartUsingCRESTGuam.getAttribute('href');
+    elemStartUsingCRESTGuam.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('guam');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
+  const elemStartUsingCRESTGuamIMG = document.getElementById('landingpage-btn-guam-img');
+  if (elemStartUsingCRESTGuamIMG) {
+    const location = elemStartUsingCRESTGuamIMG.getAttribute('href');
+    elemStartUsingCRESTGuamIMG.addEventListener('click', (e) => {
+      e.preventDefault();
+      const elemCREST = document.getElementById('main-nav-map');
+      if (elemCREST) {
+        setRegionsQuikLinkState('guam');
+        triggerZoomRegionQuikLink();
+        elemCREST.click();
+        setNavBars('main-nav-map');
+        router.navigate(location);
+      }
+    });
+  }
+
   const elemStartUsingRP = document.getElementById('whatcando-btn-reslinceprojects');
   if (elemStartUsingRP) {
     const location = elemStartUsingRP.getAttribute('href');

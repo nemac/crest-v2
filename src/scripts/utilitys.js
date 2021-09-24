@@ -860,7 +860,8 @@ export function addDownloadGoogleEvents() {
     'download-virgin-islands-repoprt',
     'download-northern-mariana-islands-data',
     'download-northern-mariana-islands-report',
-    'downloadamerican_samoa-data',
+    'download-american_samoa-data',
+    'download-guam-data',
     'download-american_samoa-report',
     'download-regional-report',
     'download-cape-fear-data',
@@ -885,6 +886,7 @@ export function addDownloadGoogleEvents() {
     'landingpage-btn-conus',
     'landingpage-btn-northern_mariana_islands',
     'landingpage-btn-american_samoa',
+    'landingpage-btn-guam',
     'landingpage-btn-puerto_rico',
     'landingpage-btn-us_virgin_islands',
     'landingpage-btn-hawaii',
@@ -1055,7 +1057,28 @@ export function addMissingStateItems() {
       AS_GeoStressTMS: false,
       AS_SlopeTMS: false,
       AS_TsunamiIndexTiles: false,
-      AS_FishAndWildlifeTMS: false
+      AS_FishAndWildlifeTMS: false,
+
+      GU_HubsTMS: true,
+      GU_ExposureTMS: false,
+      GU_AssetsTMS: false,
+      GU_ThreatsTMS: false,
+      GU_AquaticTMS: false,
+      GU_TerrestrialTMS: false,
+      GU_PopDensityTMS: false,
+      GU_SocVulnTMS: false,
+      GU_CriticalFacilitiesTMS: false,
+      GU_CriticalInfrastructureTMS: false,
+      GU_DraingeTMS: false,
+      GU_ErosionTMS: false,
+      GU_SLRTMS: false,
+      GU_WaveDrivenFloodingIndexTiles: false,
+      GU_GeoStressTMS: false,
+      GU_SlopeTMS: false,
+      GU_TsunamiIndexTiles: false,
+      GU_FishAndWildlifeTMS: false,
+      GU_WaveExposureTiles: false,
+      GU_LandslideIndexTiles: false
     });
   }
 

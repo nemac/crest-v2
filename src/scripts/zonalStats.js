@@ -1067,7 +1067,6 @@ function makeDetailDriverCharts(wrapper, data, region, chartName) {
     const HTMLName = makeHTMLName(chartName);
     const driverHolder = wrapper.querySelector(`#name-${HTMLName} #driver-charts-holder`);
 
-
     // make title div to hold chart title
     const NewTitleDiv = makeDiv();
     NewTitleDiv.setAttribute('id', `driver-title-${driverGroupName}`);
