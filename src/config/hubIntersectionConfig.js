@@ -170,11 +170,11 @@ const config = [
       slope: 'slope',
       wildlife: 'wildlife',
       tsunami: 'tsunami',
-      wave_flood: 'wave_flooding',
+      wave_fld: 'wave_flooding',
     },
     region: 'american_samoa',
-    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/NFWF_CREST_hubs_hexes_stats_09172021/FeatureServer/0/query`,
-    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'floodprone', 'slr','slope', 'tsunami', 'wildlife', 'wave_flood', 'erosion'  ]
+    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/CREST_American_Samoa_Hub_Statistics/FeatureServer/0/query`,
+    agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'floodprone', 'slr','slope', 'tsunami', 'wildlife', 'wave_fld', 'erosion'  ]
   },
   {
     fieldMaps: {

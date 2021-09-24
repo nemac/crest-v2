@@ -2275,7 +2275,7 @@ export var mapConfig = {
       layer: "Slope TMS",
       label: "Areas of Low Slope",
       apikey: 'slope',
-      hubsapikey: 'low_areas',
+      hubsapikey: 'slope',
       chartLabel: 'Areas of Low Slope',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -2364,8 +2364,8 @@ export var mapConfig = {
       chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#E9ECEF',
-        2: '#E9ECEF',
+        1: '#2171b5',
+        2: '#2171b5',
         3: '#2171b5',
         4: '#2171b5',
       },
