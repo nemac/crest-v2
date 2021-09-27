@@ -82,7 +82,7 @@ export class MapLayersList extends Component {
       MapLayersList.toggleRegionLayerList();
       MapLayersList.toggleRegionsLayers(props.mapComponent);
     });
-
+    
     // run at startup to capture region in current state
     MapLayersList.toggleRegionLayerList();
   }
@@ -250,11 +250,11 @@ export class MapLayersList extends Component {
       const region = zoomRegions.filter(regions => regions.region === 'guam');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Guam');
+
+        // set region to US Guam
+      store.setStoreItem('region', 'guam');
       const navChangeEvent = new CustomEvent('regionChanged');
       window.dispatchEvent(navChangeEvent);
-
-      // set region to US Guam
-      store.setStoreItem('region', 'guam');
 
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'guam');
@@ -278,11 +278,12 @@ export class MapLayersList extends Component {
       const region = zoomRegions.filter(regions => regions.region === 'hawaii');
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Hawai\'i');
-      const navChangeEvent = new CustomEvent('regionChanged');
-      window.dispatchEvent(navChangeEvent);
 
       // set region to hawaii
       store.setStoreItem('region', 'hawaii');
+
+      const navChangeEvent = new CustomEvent('regionChanged');
+      window.dispatchEvent(navChangeEvent);
 
       // ga event action, category, label
       googleAnalyticsEvent('click', 'zoomregion', 'hawaii');
@@ -359,6 +360,7 @@ export class MapLayersList extends Component {
       guamLayerList.classList.add('d-none');
       return null;
     }
+
     switch (region) {
       case 'continental_us':
         defaultLayerList.classList.remove('d-none');
