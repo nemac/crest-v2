@@ -82,7 +82,7 @@ export class MapLayersList extends Component {
       MapLayersList.toggleRegionLayerList();
       MapLayersList.toggleRegionsLayers(props.mapComponent);
     });
-    
+
     // run at startup to capture region in current state
     MapLayersList.toggleRegionLayerList();
   }
@@ -251,7 +251,7 @@ export class MapLayersList extends Component {
       MapLayersList.zoomToRegion(mapComponent, region[0]);
       MapLayersList.updateZoomRegionLabel('Guam');
 
-        // set region to US Guam
+      // set region to US Guam
       store.setStoreItem('region', 'guam');
       const navChangeEvent = new CustomEvent('regionChanged');
       window.dispatchEvent(navChangeEvent);
