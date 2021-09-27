@@ -2112,12 +2112,12 @@ export var mapConfig = {
       chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#F0F0F0', // 1
-        2: '#F0F0F0', // 1
-        3: '#BDBDBD', // 3
-        4: '#BDBDBD', // 3
-        5: '#636363', // 5
-        6: '#636363', // 5
+        1: '#447604', // 1
+        2: '#447604', // 1
+        3: '#DCE9F2', // 3
+        4: '#DCE9F2', // 3
+        5: '#553555', // 5
+        6: '#553555', // 5
       },
       chartDriver: true,
       chartSummary: false,
@@ -5197,12 +5197,12 @@ export var mapConfig = {
       chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#F0F0F0', // 1
-        2: '#F0F0F0', // 1
-        3: '#BDBDBD', // 3
-        4: '#BDBDBD', // 3
-        5: '#636363', // 5
-        6: '#636363', // 5
+        1: '#447604', // 1
+        2: '#447604', // 1
+        3: '#DCE9F2', // 3
+        4: '#DCE9F2', // 3
+        5: '#553555', // 5
+        6: '#553555', // 5
       },
       chartDriver: true,
       chartSummary: false,
