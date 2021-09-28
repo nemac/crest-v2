@@ -333,7 +333,6 @@ export class Explore extends Component {
     });
   }
 
-
   // generic do thing functon for empty blocks
   //  only using this is a place holder
   static doNothing() {

@@ -260,7 +260,8 @@ export class Map extends Component {
         tileSize: layer.tileSize,
         transparent: layer.transparent,
         zIndex: layer.zIndex,
-        maxNativeZoom: layer.maxNativeZoom
+        maxNativeZoom: layer.maxNativeZoom,
+        detectRetina: true
       });
 
       // Current leaflet layer object
@@ -269,7 +270,7 @@ export class Map extends Component {
       };
 
       // add all tile load handlers
-      Map.handleAlllTileHanlders(tileLayer);
+      Map.handleAlllTileHandlers(tileLayer);
 
       // set inital display status
       const mapDisplayLayersObj = { [layer.id]: false };
@@ -309,7 +310,7 @@ export class Map extends Component {
       };
 
       // add all tile load handlers
-      Map.handleAlllTileHanlders(tileLayer);
+      Map.handleAlllTileHandlers(tileLayer);
 
       // set inital display status
       const mapDisplayLayersObj = { [layer.id]: false };
@@ -375,7 +376,7 @@ export class Map extends Component {
 
   // add handler for loading for tile layer
   // @param { Object } - tileLayer the leaflet tile layer to we adding a handler for
-  static handleAlllTileHanlders(tileLayer) {
+  static handleAlllTileHandlers(tileLayer) {
     // add seperate map layer handlers
     Map.handleWMSLoad(tileLayer);
     Map.handleWMSUnload(tileLayer);
@@ -526,6 +527,30 @@ export class Map extends Component {
       this.saveZoomAndMapPosition();
       store.saveAction('zoomend');
       this.hideLabelsZooomOut();
+
+      // very hacky way to git rid of fuzzy hex hubs
+      // definetly need to fix this
+      const currentRegion = store.getStateItem('region');
+      switch (currentRegion) {
+        case 'american_samoa': {
+          const layerToggleElement1 = document.getElementById('AS_HubsTMS-toggle');
+          Map.setLayerStatus('AS_HubsTMS');
+          if (layerToggleElement1) layerToggleElement1.checked = !layerToggleElement1.checked;
+          Map.setLayerStatus('AS_HubsTMS');
+          if (layerToggleElement1) layerToggleElement1.checked = !layerToggleElement1.checked;
+          break;
+        }
+        case 'guam': {
+          const layerToggleElement2 = document.getElementById('GU_HubsTMS-toggle');
+          Map.setLayerStatus('GU_HubsTMS');
+          if (layerToggleElement2) layerToggleElement2.checked = !layerToggleElement2.checked;
+          Map.setLayerStatus('GU_HubsTMS');
+          if (layerToggleElement2) layerToggleElement2.checked = !layerToggleElement2.checked;
+          break;
+        }
+        default:
+          break;
+      }
     });
   }
 
