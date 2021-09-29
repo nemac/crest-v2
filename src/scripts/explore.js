@@ -227,6 +227,34 @@ export class Explore extends Component {
     this.addZoomLinks();
     Explore.addUploadShapeToolTip();
     Explore.addUDrawShapeToolTip();
+    Explore.regionBasedDataLimits();
+
+    // change region is state changes
+    window.addEventListener('regionChanged', (e) => {
+      Explore.regionBasedDataLimits();
+    });
+  }
+
+  static regionBasedDataLimits() {
+    // hacky way to get region based data limitation messages
+    const region = store.getStateItem('region');
+    const regionLimitationsHolder = document.getElementById('region-limitations');
+    if (regionLimitationsHolder) {
+      const regionLimitationsMessage = document.getElementById('region-limitation-message');
+      if (regionLimitationsMessage) {
+        regionLimitationsHolder.classList.remove('d-none');
+        switch (region) {
+          case 'american_samoa':
+            regionLimitationsHolder.classList.remove('d-none');
+            regionLimitationsMessage.innerHTML = 'Before planning any resilience projects in American Samoa, it is important to first consult local matai, or chiefs, to explore opportunities in areas governed by traditional land-tenure.';
+            break;
+          default:
+            regionLimitationsHolder.classList.add('d-none');
+            regionLimitationsMessage.innerHTML = '';
+            break;
+        }
+      }
+    }
   }
 
   addZoomLinks() {
