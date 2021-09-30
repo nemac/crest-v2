@@ -1797,7 +1797,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "AS_threat",
-      description: "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.",
+      description: "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs. The Threat Index results are conservative and should be interpreted with caution due to ongoing post seismic land subsidence, which is expected to exacerbate sea level rise coastal flooding in the region",
       source: 'regional',
       region: 'american_samoa'
     },
