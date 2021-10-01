@@ -533,19 +533,31 @@ export class Map extends Component {
       const currentRegion = store.getStateItem('region');
       switch (currentRegion) {
         case 'american_samoa': {
-          const layerToggleElement1 = document.getElementById('AS_HubsHexTMS-toggle');
+          const layerToggleElement1a = document.getElementById('AS_HubsHexTMS-toggle');
           Map.setLayerStatus('AS_HubsHexTMS');
-          if (layerToggleElement1) layerToggleElement1.checked = !layerToggleElement1.checked;
+          if (layerToggleElement1a) layerToggleElement1a.checked = !layerToggleElement1a.checked;
           Map.setLayerStatus('AS_HubsHexTMS');
-          if (layerToggleElement1) layerToggleElement1.checked = !layerToggleElement1.checked;
+          if (layerToggleElement1a) layerToggleElement1a.checked = !layerToggleElement1a.checked;
+
+          const layerToggleElement1b = document.getElementById('AS_HubsTMS-toggle');
+          Map.setLayerStatus('AS_HubsTMS');
+          if (layerToggleElement1b) layerToggleElement1b.checked = !layerToggleElement1b.checked;
+          Map.setLayerStatus('AS_HubsTMS');
+          if (layerToggleElement1b) layerToggleElement1b.checked = !layerToggleElement1b.checked;
           break;
         }
         case 'guam': {
-          const layerToggleElement2 = document.getElementById('GU_HubsHexTMS-toggle');
+          const layerToggleElement2a = document.getElementById('GU_HubsHexTMS-toggle');
           Map.setLayerStatus('GU_HubsHexTMS');
-          if (layerToggleElement2) layerToggleElement2.checked = !layerToggleElement2.checked;
+          if (layerToggleElement2a) layerToggleElement2a.checked = !layerToggleElement2a.checked;
           Map.setLayerStatus('GU_HubsHexTMS');
-          if (layerToggleElement2) layerToggleElement2.checked = !layerToggleElement2.checked;
+          if (layerToggleElement2a) layerToggleElement2a.checked = !layerToggleElement2a.checked;
+
+          const layerToggleElement2b = document.getElementById('GU_HubsTMS-toggle');
+          Map.setLayerStatus('GU_HubsTMS');
+          if (layerToggleElement2b) layerToggleElement2b.checked = !layerToggleElement2b.checked;
+          Map.setLayerStatus('GU_HubsTMS');
+          if (layerToggleElement2b) layerToggleElement2b.checked = !layerToggleElement2b.checked;
           break;
         }
         default:
