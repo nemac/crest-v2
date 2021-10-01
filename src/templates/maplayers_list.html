@@ -68,10 +68,10 @@
               <img src="../images/zoomregion-alaska.png" alt="Zoom to a region Alaska" class="zoomregion-img align-self-center" />
               <span class="list-label-name align-self-center">Alaska</span>
             </button> -->
-            <button title="Zoom to a region American Samoa" aria-label="Zoom to a American Samoa" id="zoomregion-as" type="button" class="list-group-item list-group-item-action">
+            <!-- <button title="Zoom to a region American Samoa" aria-label="Zoom to a American Samoa" id="zoomregion-as" type="button" class="list-group-item list-group-item-action">
               <img src="../images/zoomregion-as.png" alt="Zoom to a region American Samoa" class="zoomregion-img align-self-center" />
               <span class="list-label-name align-self-center">American Samoa</span>
-            </button>
+            </button> -->
             <button title="Zoom to a region Continental U.S" aria-label="Zoom to a region Continental U.S" id="zoomregion-cus" type="button" class="list-group-item list-group-item-action">
               <img src="../images/zoomregion-cus.png" alt="Zoom to a region Continental U.S" class="zoomregion-img  align-self-center" />
               <span class="list-label-name align-self-center">Continental U.S</span>
@@ -2324,7 +2324,7 @@
                       <div class="layer-legend"></div>
                     </div>
                   </div>
-                                    
+
                   <div ref="LayerInput" id="AS_DrainageTMS-layerToggle" class="custom-control custom-checkbox">
                     <div class="layer-toggle-wrapper">
                       <input title="Impermeable Soils Density Layer" aria-label="Toggle Impermeable Soils Layer" ref="AS_DrainageTMS-toggle" type="checkbox" class="custom-control-input" id="AS_DrainageTMS-toggle">
@@ -2483,6 +2483,24 @@
                   <span title="View Legend" aria-label="View Legend" id="legend-GU_HubsTMS" class="float-right text-center layer-legend-toggler closed">
                     <i title="Show Legend" aria-label="Show Legend" id="show-legend-GU_HubsTMS" class="fas fa-angle-down d-none"></i>
                     <i title="Hide Legend" aria-label="Hide Legend" id="hide-legend-GU_HubsTMS" class="fas fa-angle-up d-none"></i>
+                  </span>
+
+                </div>
+                <div class="layer-legend-wrapper closed">
+                  <div class="layer-legend"></div>
+                </div>
+              </div>
+
+              <div ref="LayerInput" id="GU_HubsHexTMS-layerToggle" class="custom-control custom-checkbox">
+                <div class="layer-toggle-wrapper">
+                  <input title="Toggle Resilience Hexagonal Grid (GUAM)" aria-label="Toggle Resilience Hexagonal Grid (GUAM)" ref="GU_HubsHexTMS-toggle" type="checkbox" class="custom-control-input" id="GU_HubsHexTMS-toggle">
+                  <label title="Toggle Resilience Hexagonal Grid (GUAM)" aria-label="Toggle Resilience Hexagonal Grid (GUAM)" ref="GU_HubsHexTMS-label" class="custom-control-label" for="GU_HubsHexTMS-toggle" id="GU_HubsHexTMS-label">Resilience Hexagonal Grid</label>
+                  <span title="" aria-label="Show layer description" class="float-right text-center layer-description-text" data-trigger="focus hover" data-toggle="popover" data-placement="bottom" role="button" tabindex="-1"  >
+                    <i title="" aria-label="Show layer description" class="fas fa-info"></i>
+                  </span>
+                  <span title="View Legend" aria-label="View Legend" id="legend-GU_HubsHexTMS" class="float-right text-center layer-legend-toggler closed">
+                    <i title="Show Legend" aria-label="Show Legend" id="show-legend-GU_HubsHexTMS" class="fas fa-angle-down d-none"></i>
+                    <i title="Hide Legend" aria-label="Hide Legend" id="hide-legend-GU_HubsHexTMS" class="fas fa-angle-up d-none"></i>
                   </span>
 
                 </div>
