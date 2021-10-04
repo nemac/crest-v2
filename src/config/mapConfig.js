@@ -50,7 +50,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'continental_us'
     },
@@ -836,7 +836,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "HI_hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'hawaii'
     },
@@ -1656,7 +1656,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "AS_hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'american_samoa'
     },
@@ -1703,7 +1703,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "AS_hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Shows variation in Resilience Hub rankings using a 10-acre (4-hectare) hexagonal grid. Highest-ranking hexagons represent areas within Resilience Hub boundaries that may be suitable for resilience-building efforts.",
       source: 'regional',
       region: 'american_samoa'
     },
@@ -2489,7 +2489,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "pr_hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'puerto_rico'
     },
@@ -3310,7 +3310,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "usvi_hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'us_virgin_islands'
     },
@@ -4047,7 +4047,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "CNMI_hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'northern_mariana_islands'
     },
@@ -4786,7 +4786,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "GU_hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'regional',
       region: 'guam'
     },
@@ -4833,7 +4833,7 @@ export var mapConfig = {
       maxNativeZoom: 14,
       tms: false,
       legend: "GU_hubhex",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Shows variation in Resilience Hub rankings using a 10-acre (4-hectare) hexagonal grid. Highest-ranking hexagons represent areas within Resilience Hub boundaries that may be suitable for resilience-building efforts.",
       source: 'regional',
       region: 'guam'
     },
@@ -5694,7 +5694,7 @@ export var mapConfig = {
       maxNativeZoom: 13,
       tms: false,
       legend: "ns-hub",
-      description: "Areas of open lands and protected space that are most suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
+      description: "Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.",
       source: 'targetedwatershed',
       region: 'targetedwatershed'
     },
