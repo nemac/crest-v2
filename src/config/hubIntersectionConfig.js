@@ -199,7 +199,7 @@ const config = [
       landslides: 'landslides'
     },
     region: 'guam',
-    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/gu_hubs_hexes_dissolve_stats_092821_fix/FeatureServer/0/query`,
+    queryUrl: `https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/CREST_Guam_Hubs_10042021/FeatureServer/0/query`,
     agolOutFields: [ 'TARGET_FID','exposure', 'asset', 'threat', 'marine', 'terrestri', 'hub_rnk', 'crit_infra', 'crit_fac', 'pop_dens', 'soc_vuln', 'impermeabl', 'floodprone', 'slr','slope', 'tsunami', 'wildlife', 'wave_fld', 'erosion' , 'wave_exp', 'landslides' ]
   }
 ];

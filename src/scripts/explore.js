@@ -88,7 +88,7 @@ export class Explore extends Component {
     this.hasShareURL = hasShareURL;
     this.theStartNav = theStartNav;
     this.caseStudies = new CaseStudies(this.mapComponent, this);
-    this.HubsDrawLimit = 50;
+    this.HubsDrawLimit = 100;
 
     const hasShapeButtonElem = document.getElementById('hasshape-button-holder');
     if (hasShapeButtonElem) {
