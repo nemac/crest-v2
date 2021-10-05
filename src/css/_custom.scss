@@ -355,6 +355,10 @@ a.nav-link {
     margin: 0px;
 }
 
+.region-limitation-message-tooltip {
+  font-size: 1.25rem;
+}
+
 .leaflet-editing-icon {
   max-width: 10px;
   max-height: 10px;
@@ -2735,6 +2739,7 @@ p.not-found {
 .tooltip {
     z-index: 10000;
     overflow: hidden;
+    opacity: 1.0 !important;
 
     .tooltip-inner {
         @media screen and (min-width: 993px) {

@@ -239,6 +239,8 @@ export class Explore extends Component {
     // hacky way to get region based data limitation messages
     const region = store.getStateItem('region');
     const regionLimitationsHolder = document.getElementById('region-limitations');
+    // const regionLimitationsTT = document.getElementById('region-limitation-message-tooltip');
+
     if (regionLimitationsHolder) {
       const regionLimitationsMessage = document.getElementById('region-limitation-message');
       if (regionLimitationsMessage) {
@@ -255,6 +257,12 @@ export class Explore extends Component {
         }
       }
     }
+
+    $(() => {
+      $('#region-limitations [data-toggle="tooltip"]').tooltip({
+        trigger: 'hover focus'
+      });
+    });
   }
 
   addZoomLinks() {
