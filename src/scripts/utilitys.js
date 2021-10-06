@@ -1041,6 +1041,7 @@ export function addMissingStateItems() {
       CNMI_FishAndWildlifeTMS: false,
 
       AS_HubsTMS: true,
+      AS_HubsHexTMS: false,
       AS_ExposureTMS: false,
       AS_AssetsTMS: false,
       AS_ThreatsTMS: false,
@@ -1060,6 +1061,7 @@ export function addMissingStateItems() {
       AS_FishAndWildlifeTMS: false,
 
       GU_HubsTMS: true,
+      GU_HubsHexTMS: false,
       GU_ExposureTMS: false,
       GU_AssetsTMS: false,
       GU_ThreatsTMS: false,
