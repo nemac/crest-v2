@@ -28,12 +28,6 @@ import {
   googleAnalyticsEvent
 } from './utilitys';
 
-// Downloaded esri-leaflet-vector to utils directory so the package works with webpack es6
-// Must update manually since there are custom changes to the component!
-// vector layers not used yet will need to uncomment later
-// See github issue https://github.com/Esri/esri-leaflet-vector/issues/31 from tgirgin23
-// import * as vector from '../vendor/esri/esri-leaflet-vector/EsriLeafletVector';
-
 // templates
 import mapTemplate from '../templates/map.html';
 
@@ -261,6 +255,7 @@ export class Map extends Component {
         transparent: layer.transparent,
         zIndex: layer.zIndex,
         maxNativeZoom: layer.maxNativeZoom,
+        modifyScrollWheel: false,
         detectRetina: true
       });
 
@@ -527,42 +522,25 @@ export class Map extends Component {
       this.saveZoomAndMapPosition();
       store.saveAction('zoomend');
       this.hideLabelsZooomOut();
+      this.forceMapReRender();
 
-      // very hacky way to git rid of fuzzy hex hubs
-      // definetly need to fix this
-      const currentRegion = store.getStateItem('region');
-      switch (currentRegion) {
-        case 'american_samoa': {
-          const layerToggleElement1a = document.getElementById('AS_HubsHexTMS-toggle');
-          Map.setLayerStatus('AS_HubsHexTMS');
-          if (layerToggleElement1a) layerToggleElement1a.checked = !layerToggleElement1a.checked;
-          Map.setLayerStatus('AS_HubsHexTMS');
-          if (layerToggleElement1a) layerToggleElement1a.checked = !layerToggleElement1a.checked;
+      const layers = store.getStateItem('mapLayerDisplayStatus');
+      const region = store.getStateItem('region');
+      const { TMSLayers } = mapConfig;
 
-          const layerToggleElement1b = document.getElementById('AS_HubsTMS-toggle');
-          Map.setLayerStatus('AS_HubsTMS');
-          if (layerToggleElement1b) layerToggleElement1b.checked = !layerToggleElement1b.checked;
-          Map.setLayerStatus('AS_HubsTMS');
-          if (layerToggleElement1b) layerToggleElement1b.checked = !layerToggleElement1b.checked;
-          break;
+      // filter the layers based on current source
+      Object.keys(layers).forEach((layerName) => {
+        const asource = TMSLayers.filter(TMSlayer => (
+          TMSlayer.id === layerName && TMSlayer.region === region
+        ));
+
+        // force redraw very hacky way to get rid of fuzzy edges may cause some
+        // performance issues.
+        if (layers[layerName] && asource.length > 0) {
+          const layer = this.overlayMaps[layerName];
+          layer.redraw();
         }
-        case 'guam': {
-          const layerToggleElement2a = document.getElementById('GU_HubsHexTMS-toggle');
-          Map.setLayerStatus('GU_HubsHexTMS');
-          if (layerToggleElement2a) layerToggleElement2a.checked = !layerToggleElement2a.checked;
-          Map.setLayerStatus('GU_HubsHexTMS');
-          if (layerToggleElement2a) layerToggleElement2a.checked = !layerToggleElement2a.checked;
-
-          const layerToggleElement2b = document.getElementById('GU_HubsTMS-toggle');
-          Map.setLayerStatus('GU_HubsTMS');
-          if (layerToggleElement2b) layerToggleElement2b.checked = !layerToggleElement2b.checked;
-          Map.setLayerStatus('GU_HubsTMS');
-          if (layerToggleElement2b) layerToggleElement2b.checked = !layerToggleElement2b.checked;
-          break;
-        }
-        default:
-          break;
-      }
+      });
     });
   }
 
@@ -695,7 +673,7 @@ export class Map extends Component {
     if (!checkValidObject(value)) {
       return value;
     }
-    this.map.setZoom(value);
+    this.map.setZoom(Math.round(value));
     return value;
   }
 
