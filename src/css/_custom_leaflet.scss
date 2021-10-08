@@ -4,4 +4,10 @@
   height: inherit;
   width: inherit;
   // min-height: 205px;
+  // image-rendering: auto;
+  // image-rendering: crisp-edges;
+  image-rendering: pixelated !important;
+
+  /* Safari seems to support, but seems deprecated and does the same thing as the others. */
+  image-rendering: -webkit-optimize-contrast;
 }
