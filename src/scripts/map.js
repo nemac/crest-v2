@@ -119,21 +119,38 @@ export class Map extends Component {
 
   // force map render and setup
   forceMapReRender() {
-    // this ensures the map is full setup.
-    // we have issues becuase the map height is 100% and is
-    // explicitly set
-    // L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
-    // this.map.invalidateSize(true);
-    // const elems = document.querySelectorAll('.leaflet-layer');
-    // elems.forEach((elem) => {
-    //   if (elem) {
-    //     elem.classList.add('d-none');
-    //     elem.classList.remove('d-none');
-    //   }
-    // });
+    this.map.invalidateSize(true);
+    this.delayedRedraw();
+  }
+
+  delayedRedraw() {
     setTimeout(() => {
+      // const layers = store.getStateItem('mapLayerDisplayStatus');
+      // const region = store.getStateItem('region');
+      // const { TMSLayers } = mapConfig;
+      //
+      // // filter the layers based on current source
+      // Object.keys(layers).forEach((layerName) => {
+      //   const asource = TMSLayers.filter(TMSlayer => (
+      //     TMSlayer.id === layerName && TMSlayer.region === region
+      //   ));
+      //
+      //   // force redraw very hacky way to get rid of fuzzy edges may cause some
+      //   // performance issues.
+      //   if (layers[layerName] && asource.length > 0) {
+      //     const layer = this.overlayMaps[layerName];
+      //     layer.redraw();
+      //   }
+      // });
+      // const elems = document.querySelectorAll('.leaflet-layer');
+      // elems.forEach((elem) => {
+      //   if (elem) {
+      //     elem.classList.add('d-none');
+      //     elem.classList.remove('d-none');
+      //   }
+      // });
       this.map.invalidateSize(true);
-    }, 10);
+    }, 5);
   }
 
   // change esri basemap
