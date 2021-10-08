@@ -1,6 +1,8 @@
 // dependencies
 import L from 'leaflet';
 import { basemapLayer } from 'esri-leaflet';
+import { vectorBasemapLayer } from 'esri-leaflet-vector';
+
 // may need feature layer latter if store the user generated shapefiles, drawon
 // user drawn shapes somehere else if so add this
 // import { basemapLayer, featureLayer } from 'esri-leaflet';
@@ -32,7 +34,7 @@ import {
 import mapTemplate from '../templates/map.html';
 
 const store = new Store({});
-
+const ESRIKey = 'AAPKea0958f6b555447c85233aa3e6898b90ax38K-GuSQxkmM-ERbR3fpg0PieG_npASlI8R8xxaRaEhJnaRHkntYoQ';
 /**
  * Leaflet Map Component
  * Render map items, and provide user interactivity.
@@ -136,7 +138,7 @@ export class Map extends Component {
       this.map.removeLayer(this.basemapLabels);
     }
 
-    this.basemap = basemapLayer(basemapname);
+    this.basemap = vectorBasemapLayer(basemapname,{apikey: ESRIKey});
     this.basemapLabels = Map.addBaseMapLabels(basemapname);
     this.basemap.addTo(this.map);
 
@@ -191,10 +193,10 @@ export class Map extends Component {
     if (basemap === 'Oceans' ||
         basemap === 'DarkGray' ||
         basemap === 'Terrain') {
-      return basemapLayer(`${basemap}Labels`);
+      return vectorBasemapLayer(`${basemap}Labels`,{apikey: ESRIKey});
     }
     if (basemap.includes('Imagery')) {
-      return basemapLayer('ImageryLabels');
+      return vectorBasemapLayer('ImageryLabels',{apikey: ESRIKey});
     }
     return '';
   }
@@ -209,7 +211,7 @@ export class Map extends Component {
      */
 
     const basemap = mapConfig.ESRIVectorBasemap.name;
-    this.basemap = basemapLayer(basemap);
+    this.basemap = vectorBasemapLayer(basemap,{apikey: ESRIKey});
     this.basemapLabels = Map.addBaseMapLabels(basemap);
 
     this.basemap.addTo(this.map);
