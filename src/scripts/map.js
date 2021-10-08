@@ -77,7 +77,6 @@ export class Map extends Component {
 
     // force map re-render
     this.forceMapReRender();
-    this.forceMapReRender();
 
     this.addWmsLayers();
     this.addTileLayers();
@@ -125,12 +124,13 @@ export class Map extends Component {
     // explicitly set
     // L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
     this.map.invalidateSize();
-    this.map.invalidateSize();
-    this.map.invalidateSize();
-    this.map.invalidateSize();
-    this.map.invalidateSize();
-    this.map.invalidateSize();
-    this.map.invalidateSize();
+    const elems = document.querySelectorAll('.leaflet-layer');
+    elems.forEach((elem) => {
+      if (elem) {
+        elem.classList.add('d-none');
+        elem.classList.remove('d-none');
+      }
+    });
   }
 
   // change esri basemap
@@ -409,6 +409,7 @@ export class Map extends Component {
       this.saveZoomAndMapPosition();
       store.saveAction('moveend');
       this.hideLabelsZooomOut();
+      this.forceMapReRender();
       // uncomment to get console of center and extent helpful for region extents
       // console.log('center',  [this.map.getCenter().wrap().lng,
       //   this.map.getCenter().wrap().lat] )
