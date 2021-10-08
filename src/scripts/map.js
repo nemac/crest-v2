@@ -125,23 +125,23 @@ export class Map extends Component {
 
   delayedRedraw() {
     setTimeout(() => {
-      // const layers = store.getStateItem('mapLayerDisplayStatus');
-      // const region = store.getStateItem('region');
-      // const { TMSLayers } = mapConfig;
-      //
-      // // filter the layers based on current source
-      // Object.keys(layers).forEach((layerName) => {
-      //   const asource = TMSLayers.filter(TMSlayer => (
-      //     TMSlayer.id === layerName && TMSlayer.region === region
-      //   ));
-      //
-      //   // force redraw very hacky way to get rid of fuzzy edges may cause some
-      //   // performance issues.
-      //   if (layers[layerName] && asource.length > 0) {
-      //     const layer = this.overlayMaps[layerName];
-      //     layer.redraw();
-      //   }
-      // });
+      const layers = store.getStateItem('mapLayerDisplayStatus');
+      const region = store.getStateItem('region');
+      const { TMSLayers } = mapConfig;
+
+      // filter the layers based on current source
+      Object.keys(layers).forEach((layerName) => {
+        const asource = TMSLayers.filter(TMSlayer => (
+          TMSlayer.id === layerName && TMSlayer.region === region
+        ));
+
+        // force redraw very hacky way to get rid of fuzzy edges may cause some
+        // performance issues.
+        if (layers[layerName] && asource.length > 0) {
+          const layer = this.overlayMaps[layerName];
+          layer.redraw();
+        }
+      });
       // const elems = document.querySelectorAll('.leaflet-layer');
       // elems.forEach((elem) => {
       //   if (elem) {
