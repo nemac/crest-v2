@@ -123,7 +123,14 @@ export class Map extends Component {
     // this ensures the map is full setup.
     // we have issues becuase the map height is 100% and is
     // explicitly set
-    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
+    // L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
+    this.map.invalidateSize();
+    this.map.invalidateSize();
+    this.map.invalidateSize();
+    this.map.invalidateSize();
+    this.map.invalidateSize();
+    this.map.invalidateSize();
+    this.map.invalidateSize();
   }
 
   // change esri basemap
