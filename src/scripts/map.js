@@ -123,7 +123,7 @@ export class Map extends Component {
     // we have issues becuase the map height is 100% and is
     // explicitly set
     // L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
-    this.map.invalidateSize();
+    this.map.invalidateSize(true);
     const elems = document.querySelectorAll('.leaflet-layer');
     elems.forEach((elem) => {
       if (elem) {
@@ -131,6 +131,7 @@ export class Map extends Component {
         elem.classList.remove('d-none');
       }
     });
+    this.map.invalidateSize(true);
   }
 
   // change esri basemap
