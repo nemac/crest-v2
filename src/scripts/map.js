@@ -123,15 +123,17 @@ export class Map extends Component {
     // we have issues becuase the map height is 100% and is
     // explicitly set
     // L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
-    this.map.invalidateSize(true);
-    const elems = document.querySelectorAll('.leaflet-layer');
-    elems.forEach((elem) => {
-      if (elem) {
-        elem.classList.add('d-none');
-        elem.classList.remove('d-none');
-      }
-    });
-    this.map.invalidateSize(true);
+    // this.map.invalidateSize(true);
+    // const elems = document.querySelectorAll('.leaflet-layer');
+    // elems.forEach((elem) => {
+    //   if (elem) {
+    //     elem.classList.add('d-none');
+    //     elem.classList.remove('d-none');
+    //   }
+    // });
+    setTimeout(() => {
+      this.map.invalidateSize(true);
+    }, 10);
   }
 
   // change esri basemap
@@ -401,6 +403,22 @@ export class Map extends Component {
     this.map.zoomOut(1);
     this.map.zoomIn(1);
     return true;
+  }
+
+  // map move end map handler
+  // https://leafletjs.com/reference-1.3.0.html#map-moveend
+  mapMoveReadyHandler() {
+    this.map.on('moveend', (event) => {
+      this.saveZoomAndMapPosition();
+      store.saveAction('moveend');
+      this.hideLabelsZooomOut();
+      this.forceMapReRender();
+      // uncomment to get console of center and extent helpful for region extents
+      // console.log('center',  [this.map.getCenter().wrap().lng,
+      //   this.map.getCenter().wrap().lat] )
+      // console.log('mapBBox',
+      //   this.map.wrapLatLngBounds(this.map.getBounds()).toBBoxString().split(',').map(x => +x))
+    });
   }
 
   // map move end map handler
