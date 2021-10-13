@@ -129,7 +129,8 @@ export class Map extends Component {
       const region = store.getStateItem('region');
       const { TMSLayers } = mapConfig;
 
-      // filter the layers based on current source
+      // filter the layers based on current source hacky way to deal with
+      // fuzy edges loops all layers and then only does action if the region matches
       Object.keys(layers).forEach((layerName) => {
         const asource = TMSLayers.filter(TMSlayer => (
           TMSlayer.id === layerName && TMSlayer.region === region
@@ -286,6 +287,7 @@ export class Map extends Component {
         transparent: layer.transparent,
         zIndex: layer.zIndex,
         maxNativeZoom: layer.maxNativeZoom,
+        // maxNativeZoom: 13,
         modifyScrollWheel: false,
         detectRetina: true
       });
