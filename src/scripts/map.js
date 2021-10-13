@@ -286,8 +286,8 @@ export class Map extends Component {
         tileSize: layer.tileSize,
         transparent: layer.transparent,
         zIndex: layer.zIndex,
-        maxNativeZoom: layer.maxNativeZoom,
-        // maxNativeZoom: 13,
+        // maxNativeZoom: layer.maxNativeZoom,
+        maxNativeZoom: 13,
         modifyScrollWheel: false,
         detectRetina: true
       });
