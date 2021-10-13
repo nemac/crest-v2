@@ -142,6 +142,10 @@ export class Map extends Component {
           layer.redraw();
         }
       });
+
+      // alternate hacky way to get rid of of fuzzy edges by
+      // by turning of dispaly of leaflet dom element - not clear it works
+      // for everyone
       // const elems = document.querySelectorAll('.leaflet-layer');
       // elems.forEach((elem) => {
       //   if (elem) {
@@ -281,7 +285,7 @@ export class Map extends Component {
         tileSize: layer.tileSize,
         transparent: layer.transparent,
         zIndex: layer.zIndex,
-        maxNativeZoom: 13, // layer.maxNativeZoom,
+        maxNativeZoom: layer.maxNativeZoom,
         modifyScrollWheel: false,
         detectRetina: true
       });
@@ -564,27 +568,11 @@ export class Map extends Component {
   mapZoomEndHandler() {
     this.map.on('zoomend', (event) => {
       this.saveZoomAndMapPosition();
+      // const value = this.map.getZoom();
+      // console.log('setMapZoom', value)
       store.saveAction('zoomend');
       this.hideLabelsZooomOut();
       this.forceMapReRender();
-
-      // const layers = store.getStateItem('mapLayerDisplayStatus');
-      // const region = store.getStateItem('region');
-      // const { TMSLayers } = mapConfig;
-      //
-      // // filter the layers based on current source
-      // Object.keys(layers).forEach((layerName) => {
-      //   const asource = TMSLayers.filter(TMSlayer => (
-      //     TMSlayer.id === layerName && TMSlayer.region === region
-      //   ));
-      //
-      //   // force redraw very hacky way to get rid of fuzzy edges may cause some
-      //   // performance issues.
-      //   if (layers[layerName] && asource.length > 0) {
-      //     const layer = this.overlayMaps[layerName];
-      //     layer.redraw();
-      //   }
-      // });
     });
   }
 
@@ -717,7 +705,8 @@ export class Map extends Component {
     if (!checkValidObject(value)) {
       return value;
     }
-    this.map.setZoom(Math.round(value));
+    this.map.setZoom(value);
+    // console.log('setMapZoom', value)
     return value;
   }
 
