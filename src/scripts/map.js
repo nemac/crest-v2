@@ -54,7 +54,7 @@ export class Map extends Component {
 
     // Initialize Leaflet map
     // Workaround for detectRetina (https://github.com/Leaflet/Leaflet/issues/6059)
-    mapConfig.maxZoom = L.Browser.retina ? mapConfig.maxZoom-1 : mapConfig.maxZoom
+    mapConfig.maxZoom = L.Browser.retina ? mapConfig.maxZoom - 1 : mapConfig.maxZoom;
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
     // not sure why but something changed and I can no longer use maptions for inital zoom
@@ -290,7 +290,7 @@ export class Map extends Component {
         zIndex: layer.zIndex,
         modifyScrollWheel: false,
         // See https://github.com/Leaflet/Leaflet/issues/6059
-        maxNativeZoom: L.Browser.retina ? layer.maxNativeZoom-1 : layer.maxNativeZoom,
+        maxNativeZoom: L.Browser.retina ? layer.maxNativeZoom - 1 : layer.maxNativeZoom,
         detectRetina: true
       });
 
