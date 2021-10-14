@@ -53,6 +53,8 @@ export class Map extends Component {
     this.restoreStateStore = store.getState();
 
     // Initialize Leaflet map
+    // Workaround for detectRetina (https://github.com/Leaflet/Leaflet/issues/6059)
+    mapConfig.maxZoom = L.Browser.retina ? mapConfig.maxZoom - 1 : mapConfig.maxZoom;
     this.map = L.map(this.refs.mapContainer, mapConfig.mapOptions);
 
     // not sure why but something changed and I can no longer use maptions for inital zoom
@@ -129,7 +131,8 @@ export class Map extends Component {
       const region = store.getStateItem('region');
       const { TMSLayers } = mapConfig;
 
-      // filter the layers based on current source
+      // filter the layers based on current source hacky way to deal with
+      // fuzy edges loops all layers and then only does action if the region matches
       Object.keys(layers).forEach((layerName) => {
         const asource = TMSLayers.filter(TMSlayer => (
           TMSlayer.id === layerName && TMSlayer.region === region
@@ -285,8 +288,9 @@ export class Map extends Component {
         tileSize: layer.tileSize,
         transparent: layer.transparent,
         zIndex: layer.zIndex,
-        maxNativeZoom: layer.maxNativeZoom,
         modifyScrollWheel: false,
+        // See https://github.com/Leaflet/Leaflet/issues/6059
+        maxNativeZoom: L.Browser.retina ? layer.maxNativeZoom - 1 : layer.maxNativeZoom,
         detectRetina: true
       });
 
