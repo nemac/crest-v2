@@ -5956,8 +5956,7 @@ export var mapConfig = {
   mapOptions: {
     // center: [ 32.7765, -79.9311 ],
     zoom: 4,
-    // maxZoom: 16,
-    maxZoom: 13,
+    maxZoom: 16,
     minZoom: 4,
     crs: L.CRS.EPSG3857,
     worldCopyJump: true
