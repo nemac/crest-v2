@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified yet\" && exit 0",
     "test-debug": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --inspect-brk",
-    "start": "./node_modules/.bin/webpack-dev-server --host 0.0.0.0",
+    "start": "./node_modules/.bin/webpack-dev-server",
     "build-css": "node-sass --include-path scss scss/main.scss   public/css/main.css",
     "build": "webpack",
     "lint": "eslint ./src/scripts"
