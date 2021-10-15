@@ -121,43 +121,10 @@ export class Map extends Component {
 
   // force map render and setup
   forceMapReRender() {
-    this.map.invalidateSize(true);
-    this.delayedRedraw();
-  }
-
-  delayedRedraw() {
-    setTimeout(() => {
-      const layers = store.getStateItem('mapLayerDisplayStatus');
-      const region = store.getStateItem('region');
-      const { TMSLayers } = mapConfig;
-
-      // filter the layers based on current source hacky way to deal with
-      // fuzy edges loops all layers and then only does action if the region matches
-      Object.keys(layers).forEach((layerName) => {
-        const asource = TMSLayers.filter(TMSlayer => (
-          TMSlayer.id === layerName && TMSlayer.region === region
-        ));
-
-        // force redraw very hacky way to get rid of fuzzy edges may cause some
-        // performance issues.
-        if (layers[layerName] && asource.length > 0) {
-          const layer = this.overlayMaps[layerName];
-          layer.redraw();
-        }
-      });
-
-      // alternate hacky way to get rid of of fuzzy edges by
-      // by turning of dispaly of leaflet dom element - not clear it works
-      // for everyone
-      // const elems = document.querySelectorAll('.leaflet-layer');
-      // elems.forEach((elem) => {
-      //   if (elem) {
-      //     elem.classList.add('d-none');
-      //     elem.classList.remove('d-none');
-      //   }
-      // });
-      this.map.invalidateSize(true);
-    }, 5);
+    // this ensures the map is full setup.
+    // we have issues becuase the map height is 100% and is
+    // explicitly set
+    L.Util.requestAnimFrame(this.map.invalidateSize, this.map, !1, this.map._container);
   }
 
   // change esri basemap
