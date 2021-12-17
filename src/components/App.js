@@ -5,10 +5,10 @@ import Leaflet from './LeafletMap';
 export default function App() {
   return (
     <div className="App">
-      <h1>Welcome to React Router!</h1>
+      <h1>Crest V2!</h1>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="leaflet" element={<Home />} />
+        <Route path="leaflet" element={<Leaflet />} />
       </Routes>
     </div>
   );
@@ -17,12 +17,8 @@ export default function App() {
 function Home() {
   return (
     <>
-      <main>
-        <h2>Welcome to the homepage!</h2>
-        <p>You can do this, I believe in you.</p>
-      </main>
       <nav>
-        <Link to="/about">About</Link>
+        <Link to="/leaflet">Leaflet</Link>
       </nav>
     </>
   );
