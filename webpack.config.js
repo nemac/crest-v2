@@ -13,52 +13,23 @@ const PATH_DIST = path.join(__dirname, './dist');
 // `webpack --env.a = b` sets env.a = 'b'
 // https://webpack.js.org/configuration/configuration-types#exporting-a-function
 module.exports = {
-    // Tell Webpack to do some optimizations for our environment (development
-    // or production). Webpack will enable certain plugins and set
-    // `process.env.NODE_ENV` according to the environment we specify.
-    // https://webpack.js.org/configuration/mode
-    mode: 'production',
-
-    // Configuration options for Webpack DevServer, an Express web server that
-    // aids with development. It provides live reloading out of the box and can
-    // be configured to do a lot more.
+    entry: ['./src/index'],
+    output: {
+      path: PATH_DIST,
+      filename: 'js/[name].[hash].js',
+    },
     devServer: {
-      // The dev server will serve content from this directory.
       contentBase: PATH_DIST,
-
-      // Specify a host. (Defaults to 'localhost'.)
       host: 'localhost',
-
-      // Specify a port number on which to listen for requests.
       port: 8080,
-
-      // When using the HTML5 History API (you'll probably do this with React
-      // later), index.html should be served in place of 404 responses.
       historyApiFallback: true,
-
-      // Show a full-screen overlay in the browser when there are compiler
-      // errors or warnings.
       overlay: {
         errors: true,
         warnings: true,
       },
-    },
-
-    // The point or points to enter the application. This is where Webpack will
-    // start. We generally have one entry point per HTML page. For single-page
-    // applications, this means one entry point. For traditional multi-page apps,
-    // we may have multiple entry points.
-    // https://webpack.js.org/concepts#entry
-    entry: [
-      path.join(PATH_SOURCE, './index.js'),
-    ],
-
-    // Tell Webpack where to emit the bundles it creates and how to name them.
-    // https://webpack.js.org/concepts#output
-    // https://webpack.js.org/configuration/output#output-filename
-    output: {
-      path: PATH_DIST,
-      filename: 'js/[name].[hash].js',
+      resolve: {
+        extensions: ['.js', '.jsx'],
+      },
     },
 
     // Determine how the different types of modules will be treated.
