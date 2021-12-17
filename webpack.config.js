@@ -27,11 +27,10 @@ module.exports = {
         errors: true,
         warnings: true,
       },
-      resolve: {
-        extensions: ['.js', '.jsx'],
-      },
     },
-
+    resolve: {
+      extensions: ['.js', '.jsx'],
+    },
     // Determine how the different types of modules will be treated.
     // https://webpack.js.org/configuration/module
     // https://webpack.js.org/concepts#loaders
