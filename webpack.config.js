@@ -2,10 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+//const webpack = require('webpack');
 
 // We'll refer to our source and dist paths frequently, so let's store them here
-const PATH_SOURCE = path.join(__dirname, './src');
-const PATH_DIST = path.join(__dirname, './dist');
+//const PATH_SOURCE = path.join(__dirname, './src');
+//const PATH_DIST = path.join(__dirname, './dist');
 
 // If we export a function, it will be passed two parameters, the first
 // of which is the webpack command line environment option `--env`.
@@ -13,31 +14,38 @@ const PATH_DIST = path.join(__dirname, './dist');
 // `webpack --env.a = b` sets env.a = 'b'
 // https://webpack.js.org/configuration/configuration-types#exporting-a-function
 module.exports = {
-    entry: ['./src/index'],
+    entry: {
+      main: path.resolve(__dirname, './src/index.js')
+      //['./src/index'],
+    },
     output: {
-      path: PATH_DIST,
-      filename: 'js/[name].[hash].js',
+      //path: PATH_DIST,
+      path: path.resolve(__dirname, './dist'),
+      //filename: 'js/[name].[hash].js',
+      filename: '[name].bundle.js'
     },
     devServer: {
-      contentBase: PATH_DIST,
-      host: 'localhost',
+      //static: PATH_DIST,
+      static: path.resolve(__dirname, './dist'),
+      compress: true,
+      //host: 'localhost',
       port: 8080,
-      historyApiFallback: true,
-      overlay: {
+      //historyApiFallback: true,
+      /*overlay: {
         errors: true,
         warnings: true,
-      },
+      },*/
     },
-    resolve: {
+    /*resolve: {
       extensions: ['.js', '.jsx'],
-    },
+    },*/
     // Determine how the different types of modules will be treated.
     // https://webpack.js.org/configuration/module
     // https://webpack.js.org/concepts#loaders
     module: {
       rules: [
         {
-          test: /\.(js|jsx)$/, // Apply this rule to files ending in .js
+          test: /\.(js|jsx)$/,
           use: { // Use the following loader and options
             loader: 'babel-loader',
             // We can pass options to both babel-loader and Babel. This option object
@@ -65,12 +73,11 @@ module.exports = {
       // bundles using <script> tags. The file will be placed in `output.path`.
       // https://github.com/jantimon/html-webpack-plugin
       new HtmlWebpackPlugin({
-        template: path.join(PATH_SOURCE, './index.html'),
-      }),
+        //template: path.join(PATH_SOURCE, './index.html'),
+        template: path.resolve(__dirname, './src/index.html')
 
-      // This plugin will delete all files inside `output.path` (the dist directory),
-      // but the directory itself will be kept.
-      // https://github.com/johnagan/clean-webpack-plugin
+      }),
+      //new webpack.HotModuleReplacementPlugin(),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
         filename:  path.join('css/style.[name].css'),
