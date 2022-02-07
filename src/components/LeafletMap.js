@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Leaflet() { 
+export default function LeafletMap() {
   const centerPosition = [35.5951, -82.5515];
   const classes = useStyles();
   return (

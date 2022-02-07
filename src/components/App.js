@@ -1,50 +1,51 @@
 import * as React from 'react';
-import { Routes, Route, Link } from "react-router-dom";
-import Leaflet from './LeafletMap';
-import Box from '@mui/material/Box';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
+import { Routes, Route, NavLink } from "react-router-dom";
+import { makeStyles } from '@mui/styles';
+import Home from '../pages/Home'
+import ResilienceProject from '../pages/ResilienceProject';
+import AnalyzeProjectSites from '../pages/AnalyzeProjectSites'
+import Examples from '../pages/Examples'
+import DataAndReports from '../pages/DataAndReports'
+import About from '../pages/About'
 
-/*export default function App () {
-  
-
-  return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Age"
-        >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
-  )
-}*/
+/*
+Just some simple css at the moment to demonstrate react router. I imagine we'll
+get rid of this when we're ready to actually code some CSS in
+*/
+const useStyles = makeStyles((theme) => ({
+  reactRouterNavLink: {
+    padding: '0 20px 0 0',
+  }
+}));
 
 export default function App() {
   return (
     <div className="App">
+      <ReactRouter/>
       <h1>Crest V2!</h1>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="leaflet" element={<Leaflet />} />
+        <Route path="ResilienceProject" element={<ResilienceProject />} />
+        <Route path="/AnalyzeProjectSites" element={<AnalyzeProjectSites />} />
+        <Route path="/Examples" element={<Examples />} />
+        <Route path="/DataAndReports" element={<DataAndReports />} />
+        <Route path="/About" element={<About />} />
       </Routes>
     </div>
   );
 }
 
-function Home() {
+function ReactRouter() {
+  const classes = useStyles();
   return (
     <>
       <nav>
-        <Link to="/leaflet">Leaflet</Link>
+        <NavLink to="/" className = {classes.reactRouterNavLink} >Home</NavLink>
+        <NavLink to="/ResilienceProject" className = {classes.reactRouterNavLink}>Where Should I do a Resilience Project?</NavLink>
+        <NavLink to="/AnalyzeProjectSites" className = {classes.reactRouterNavLink}>Analyze Project Sites</NavLink>
+        <NavLink to="/Examples" className = {classes.reactRouterNavLink}>Examples</NavLink>
+        <NavLink to="/DataAndReports" className = {classes.reactRouterNavLink}>Data & Reports</NavLink>
+        <NavLink to="/About" className = {classes.reactRouterNavLink}>About</NavLink>
       </nav>
     </>
   );
