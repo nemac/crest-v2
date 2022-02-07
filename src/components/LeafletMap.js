@@ -1,27 +1,68 @@
-import * as React from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { makeStyles } from '@mui/styles';
-import { MapContainer, TileLayer, Circle, FeatureGroup } from 'react-leaflet';
+import { MapContainer, TileLayer} from 'react-leaflet';
+import { mapConfig } from '../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
   leafletContainer: {
-    height: '400px',
-    width:'80%'
+    height: '600px',
+    width:'60%'
   }
 }));
 
-export default function LeafletMap() {
-  const centerPosition = [35.5951, -82.5515];
-  const classes = useStyles();
+const regions = mapConfig.regions;
+
+function RegionSelect({ map }) {
+  const handleRegionChange = (e) => {
+    localStorage.setItem("center", JSON.stringify(regions[e.target.value].mapProperties.center))
+    localStorage.setItem("extent", JSON.stringify(regions[e.target.value].mapProperties.extent))
+    localStorage.setItem("zoom", JSON.stringify(regions[e.target.value].mapProperties.zoom))
+    map.setView(regions[e.target.value].mapProperties.center, regions[e.target.value].mapProperties.zoom)
+  }
   return (
-    <MapContainer className = {classes.leafletContainer} center={centerPosition} zoom={13} scrollWheelZoom={true}>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossOrigin=""/>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-    </MapContainer>
+    <select onChange={e => handleRegionChange(e)}>
+      {
+        regions.map((element, key) => <option key={key} value={key}>{element.label}</option>)
+      };
+    </select>
+  )
+}
+
+export default function LeafletMap() {
+  const classes = useStyles();
+
+  var savedCenter = localStorage.getItem("center")
+  var center = savedCenter ? JSON.parse(savedCenter) : [ -14.314288224896458, -169.71405029296875]
+  var savedExtent = localStorage.getItem("extent")
+  var extent = savedExtent ? JSON.parse(savedExtent) : [ -170.88, -14.71, -168.92, -13.90]
+  var savedZoom = localStorage.getItem("zoom")
+  var zoom = savedZoom ? JSON.parse(savedZoom) : 9
+  const [map, setMap] = useState(null);
+  const displayMap = useMemo(
+    () => (
+      <MapContainer className = {classes.leafletContainer} 
+        center={center} 
+        zoom={zoom} 
+        scrollWheelZoom={true}
+        bounds={extent}
+        whenCreated={setMap}
+      >
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossOrigin=""/>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+      </MapContainer>
+    ),
+    [],
+  )
+  return (
+    <div>
+      {map ? <RegionSelect map={map} />: null}
+      {displayMap}
+    </div>
   )
 }
