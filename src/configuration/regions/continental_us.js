@@ -1,6 +1,6 @@
-export var conusConfig = {
+export var continentalUSConfig = {
   label: 'Continental U.S',
-  region: 'conus',
+  region: 'continental_us',
   mapProperties: {
     label: 'Continental U.S',
     center: [ 40.979898, -81.474609 ],
