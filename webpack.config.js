@@ -22,7 +22,8 @@ module.exports = {
       //path: PATH_DIST,
       path: path.resolve(__dirname, './dist'),
       //filename: 'js/[name].[hash].js',
-      filename: '[name].bundle.js'
+      filename: '[name].bundle.js',
+      publicPath: '/'
     },
     devServer: {
       //static: PATH_DIST,
@@ -30,6 +31,7 @@ module.exports = {
       compress: true,
       //host: 'localhost',
       port: 8080,
+      historyApiFallback: true,
       //historyApiFallback: true,
       /*overlay: {
         errors: true,
