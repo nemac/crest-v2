@@ -14,9 +14,6 @@ const regions = mapConfig.regions;
 
 function RegionSelect({ map }) {
   const handleRegionChange = (e) => {
-    localStorage.setItem("center", JSON.stringify(regions[e.target.value].mapProperties.center))
-    localStorage.setItem("extent", JSON.stringify(regions[e.target.value].mapProperties.extent))
-    localStorage.setItem("zoom", JSON.stringify(regions[e.target.value].mapProperties.zoom))
     map.setView(regions[e.target.value].mapProperties.center, regions[e.target.value].mapProperties.zoom)
   }
   return (
@@ -31,12 +28,9 @@ function RegionSelect({ map }) {
 export default function LeafletMap() {
   const classes = useStyles();
 
-  var savedCenter = localStorage.getItem("center")
-  var center = savedCenter ? JSON.parse(savedCenter) : [ -14.314288224896458, -169.71405029296875]
-  var savedExtent = localStorage.getItem("extent")
-  var extent = savedExtent ? JSON.parse(savedExtent) : [ -170.88, -14.71, -168.92, -13.90]
-  var savedZoom = localStorage.getItem("zoom")
-  var zoom = savedZoom ? JSON.parse(savedZoom) : 9
+  var center = [ -14.314288224896458, -169.71405029296875]
+  var extent = [ -170.88, -14.71, -168.92, -13.90]
+  var zoom = 9
   const [map, setMap] = useState(null);
   const displayMap = useMemo(
     () => (

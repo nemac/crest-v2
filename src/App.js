@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { Routes, Route, Link } from "react-router-dom";
 import { makeStyles } from '@mui/styles';
-import Home from '../pages/Home'
-import ResilienceProject from '../pages/ResilienceProject';
-import AnalyzeProjectSites from '../pages/AnalyzeProjectSites'
-import Examples from '../pages/Examples'
-import DataAndReports from '../pages/DataAndReports'
-import About from '../pages/About'
-import CrestContext, { crestContext } from '../context/Context';
+import Home from './pages/Home'
+import ResilienceProject from './pages/ResilienceProject';
+import AnalyzeProjectSites from './pages/AnalyzeProjectSites'
+import Examples from './pages/Examples'
+import DataAndReports from './pages/DataAndReports'
+import About from './pages/About'
 
 /*
 Just some simple css at the moment to demonstrate react router. I imagine we'll
@@ -37,6 +36,7 @@ export default function App() {
 }
 
 function ReactRouter() {
+  const data = { counter: 0 }
   const classes = useStyles();
   return (
     <>
@@ -44,7 +44,12 @@ function ReactRouter() {
         <Link to="/" className = {classes.reactRouterLink} >Home</Link>
         <Link to="/ResilienceProject" className = {classes.reactRouterLink}>Where Should I do a Resilience Project?</Link>
         <Link to="/AnalyzeProjectSites" className = {classes.reactRouterLink}>Analyze Project Sites</Link>
-        <Link to="/Examples" className = {classes.reactRouterLink}>Examples</Link>
+        <Link className = {classes.reactRouterLink} 
+          to="/Examples"
+          state={{ data }} 
+        >
+          Examples
+        </Link>
         <Link to="/DataAndReports" className = {classes.reactRouterLink}>Data & Reports</Link>
         <Link to="/About" className = {classes.reactRouterLink}>About</Link>
       </nav>
