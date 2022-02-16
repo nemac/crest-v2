@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { MapContainer, TileLayer} from 'react-leaflet';
-import { mapConfig } from '../configuration/config';
+import { mapConfig } from '../../configuration/config';
+import { BasicSelect } from './basicSelect';
+import { useSelector, useDispatch } from 'react-redux'
+import { changeRegionValue } from './regionSelectSlice';
+import { changeZoom, changeCenter } from './mapPropertiesSlice'
+
 
 const useStyles = makeStyles((theme) => ({
   leafletContainer: {
@@ -12,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 
 const regions = mapConfig.regions;
 
-function RegionSelect({ map }) {
+/*function RegionSelect({ map }) {
+  
   const handleRegionChange = (e) => {
     map.setView(regions[e.target.value].mapProperties.center, regions[e.target.value].mapProperties.zoom)
   }
@@ -23,14 +29,28 @@ function RegionSelect({ map }) {
       };
     </select>
   )
-}
+}*/
 
 export default function LeafletMap() {
+  const dispatch = useDispatch()
+  const selectedRegion = useSelector((state) => state.selectedRegion.value)
+  const zoom = useSelector((state) => state.mapProperties.zoom)
+  const center = useSelector((state) => state.mapProperties.center)
+
   const classes = useStyles();
 
-  var center = [ -14.314288224896458, -169.71405029296875]
-  var extent = [ -170.88, -14.71, -168.92, -13.90]
-  var zoom = 9
+  const handleRegionSelectChange = (event) => {
+    // Update map with new center and zoom
+    map.setView(regions[event.target.value].mapProperties.center, 
+                regions[event.target.value].mapProperties.zoom)
+    
+    // Update redux store with new region, zoom, and center
+    dispatch(changeRegionValue(event.target.value))
+    dispatch(changeZoom(regions[event.target.value].mapProperties.zoom))
+    dispatch(changeCenter(regions[event.target.value].mapProperties.center))
+  }
+
+  var extent = regions[1].mapProperties.extent // conus - TODO: I hate this how can I fix this?
   const [map, setMap] = useState(null);
   const displayMap = useMemo(
     () => (
@@ -55,8 +75,9 @@ export default function LeafletMap() {
   )
   return (
     <div>
-      {map ? <RegionSelect map={map} />: null}
+      {map ? <BasicSelect defaultValue={selectedRegion} values={regions} onChange={handleRegionSelectChange}/>: null}
       {displayMap}
     </div>
   )
+  //<RegionSelect map={map}
 }
