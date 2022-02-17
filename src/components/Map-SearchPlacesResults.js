@@ -8,15 +8,16 @@ Child Components
   - map.js
 
 Libs
+  - leaflet
   - esrileaflet geocoding or something like that
 
 API
-  - leaflet
+  - esrileaflet geocoding or something like that
 
 State needed
   - Not sure yet
 
 Props
-  - search text 
+  - search text
   - Not sure yet
 */
