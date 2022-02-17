@@ -1,7 +1,6 @@
 /*
 Purpose
-  when a user searchs for a location this will appear to allow the user to search
-  auto complete may needs some stlye overides that are not Reach but css has to be done this way...
+  After a user searches and finds a location they need to be able to get zonal statics around the area
 
   will require a esri leaflet plugin think its called geocodeone
 
@@ -14,10 +13,13 @@ Libs
 
 API
   - esrileaflet geocoding or something like that
+  - zonal stats
 
 State needed
+  - search location
   - Not sure yet
 
 Props
+  - search location
   - Not sure yet
 */
