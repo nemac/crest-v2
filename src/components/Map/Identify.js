@@ -6,6 +6,10 @@ Purpose
 
     is a leaflet button so needs access to leaflet object can be a challenge in React
 
+    handle errors:
+      - Nothing returned
+      - HTTP Error
+      
 Child Components
   - None
 

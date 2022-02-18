@@ -10,6 +10,11 @@ Purpose
 
   is a leaflet button so needs access to leaflet object can be a challenge in React
 
+ handle errors:
+    - Area is too big or too big to process
+    - Area is not within any assessment
+    - probably others
+     
 Child Components
   - map.js
 

@@ -1,10 +1,11 @@
 /*
 Purpose
   Shows chart when the user does analyze project site. Type of chart
-  
+
   - format data for the chart from Zonal stats API JSON / GEOJSON
   - handle all the charts
     - details, inputs, and summary chart
+
 
 Child Components
   - AnalyzeArea-ChartActionButtons.js
@@ -24,5 +25,6 @@ State needed
 
 Props
   - GEOJSON data (to get properies aka attributes)
+  - if details add export button
   - Not sure yet
 */
