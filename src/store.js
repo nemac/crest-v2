@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import counterReducer from "./components/counter/counterSlice"
-import regionSelectReducer from "./components/map/regionSelectSlice"
-import mapPropertiesReducer from "./components/map/mapPropertiesSlice";
+import counterReducer from "./reducers/counterSlice"
+import regionSelectReducer from "./reducers/regionSelectSlice"
+import mapPropertiesReducer from "./reducers/mapPropertiesSlice";
 import { loadState } from './localStorage'
 
 const reducers = combineReducers({

@@ -4,8 +4,8 @@ import { MapContainer, TileLayer} from 'react-leaflet';
 import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { useSelector, useDispatch } from 'react-redux'
-import { changeRegionValue } from './regionSelectSlice';
-import { changeZoom, changeCenter } from './mapPropertiesSlice'
+import { changeRegionValue } from '../../reducers/regionSelectSlice';
+import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,10 +32,12 @@ const regions = mapConfig.regions;
 }*/
 
 export default function LeafletMap() {
+  const [map, setMap] = useState(null);
   const dispatch = useDispatch()
   const selectedRegion = useSelector((state) => state.selectedRegion.value)
   const zoom = useSelector((state) => state.mapProperties.zoom)
   const center = useSelector((state) => state.mapProperties.center)
+  const extent = regions[1].mapProperties.extent // conus - TODO: I hate this how can I fix this?
 
   const classes = useStyles();
 
@@ -50,8 +52,6 @@ export default function LeafletMap() {
     dispatch(changeCenter(regions[event.target.value].mapProperties.center))
   }
 
-  var extent = regions[1].mapProperties.extent // conus - TODO: I hate this how can I fix this?
-  const [map, setMap] = useState(null);
   const displayMap = useMemo(
     () => (
       <MapContainer className = {classes.leafletContainer} 

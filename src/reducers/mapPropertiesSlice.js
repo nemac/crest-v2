@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mapConfig } from '../../configuration/config';
+import { mapConfig } from '../configuration/config';
 
 const regions = mapConfig.regions
 
