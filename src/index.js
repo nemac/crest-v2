@@ -5,16 +5,9 @@ import App from "./App";
 import { store } from './store'
 import { Provider } from 'react-redux'
 import { saveState } from './localStorage'
-import { debounce } from "debounce";
 
 // here we subscribe to the store changes
-store.subscribe(
-  // we use debounce to save the state once each 800ms
-  // for better performances in case multiple changes occur in a short time
-  debounce(() => {
-    saveState(store.getState());
-  }, 500)
-);
+store.subscribe(() => { saveState(store.getState()) });
 
 ReactDOM.render(
   <Provider store={store}>
