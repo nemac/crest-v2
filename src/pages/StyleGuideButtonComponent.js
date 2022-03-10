@@ -27,7 +27,7 @@ export default function StyleGuideButtonComponent(props) {
        </Grid>
      </Grid>
 
-     <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={1} pt={0}>
+     <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
        <Grid item xs={1}>
          &nbsp;
        </Grid>

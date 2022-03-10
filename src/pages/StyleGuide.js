@@ -312,7 +312,7 @@ export default function StyleGuide() {
 
 
 
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={1} pt={0}>
+        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
           <Grid item xs={1}>
             &nbsp;
           </Grid>
@@ -344,15 +344,6 @@ export default function StyleGuide() {
                 language={'jsx'}
                 showLineNumbers={false} />
             </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={3} px={3} pt={1}>
-          <Grid item xs={1}>
-            &nbsp;
-          </Grid>
-          <Grid item xs={11}>
-            <Divider />
           </Grid>
         </Grid>
 
