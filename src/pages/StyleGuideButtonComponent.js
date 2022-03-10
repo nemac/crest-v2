@@ -12,7 +12,7 @@ import { makeStyles } from '@mui/styles';
 
 
 export default function StyleGuideButtonComponent(props) {
- const { title, themeName, codeBlock } = props;
+ const { title, themeName, codeBlock, blockBackgroundColor } = props;
  return (
    <div>
 
@@ -27,18 +27,26 @@ export default function StyleGuideButtonComponent(props) {
        </Grid>
      </Grid>
 
-     <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
+     <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={1} pt={0}>
        <Grid item xs={1}>
          &nbsp;
        </Grid>
-       <Grid item xs={1}>
-         <Button color={themeName}>Button</Button>
-       </Grid>
-       <Grid item xs={1}>
-         <Button variant="contained" color={themeName}>Button</Button>
-       </Grid>
-       <Grid item xs={1}>
-         <Button variant="outlined" color={themeName}>Button</Button>
+       <Grid item xs={3} pl={0}>
+         <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: blockBackgroundColor}}>
+
+           <Grid container justifyContent="start" alignItems="start">
+             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
+               <Button color={themeName}>Button</Button>
+             </Grid>
+             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
+               <Button variant="contained" color={themeName}>Button</Button>
+             </Grid>
+             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
+               <Button variant="outlined" color={themeName}>Button</Button>
+             </Grid>
+           </Grid>
+
+         </Paper>
        </Grid>
        <Grid item xs={8}>
          &nbsp;

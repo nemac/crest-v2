@@ -6,9 +6,17 @@ custom MUI theme for CREST based on components and colors defined in the figma
 design document https://www.figma.com/file/TCrt1Fgs9CnKeQH1NLB4aQ/CREST---Color?node-id=0%3A1
 */
 
+
+
 const CustomTheme = createTheme({
   palette: {
     mode: 'dark',
+    text: {
+      primary: '#ffffff',
+      CRESTLightText: '#ffffff',
+      CRESTMedText: '#F8F9FA',
+      CRESTDarkText: '#000000',
+    },
     background: {
       default: '#323232',
       paper: '#0a0a0a',
@@ -38,15 +46,26 @@ const CustomTheme = createTheme({
       light: '#93a9be',
       contrastText: '#000000'
     },
-
-    CRESTBorderColor: {
-      main: '#555555',
+    CRESTLight: {
+      main: '#F8F9FA',
+      dark: '#c5c6c7',
+      light: '#ffffff',
+      contrastText: '#000000'
     },
-    mapLayerListButton: {
+    CRESTDark: {
+      main: '#000000',
+      dark: '#000000',
+      light: '#2c2c2c',
+      contrastText: '#fff'
+    },
+    CRESTDarkAlt: {
       main: '#444444',
       dark: '#6f6f6f',
       light: '#1d1d1d',
       contrastText: '#fff'
+    },
+    CRESTBorderColor: {
+      main: '#555555',
     },
   },
   components: {
@@ -68,7 +87,6 @@ const CustomTheme = createTheme({
       styleOverrides: {
         root: {
           borderColor: '#555555',
-          padding: '20px',
         }
       }
     },
