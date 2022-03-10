@@ -61,11 +61,20 @@ const CustomTheme = createTheme({
     CRESTDarkAlt: {
       main: '#444444',
       dark: '#6f6f6f',
-      light: '#1d1d1d',
+      light: '#818181',
       contrastText: '#fff'
     },
     CRESTBorderColor: {
       main: '#555555',
+      dark: '#2c2c2c',
+      light: '#1d1d1d',
+      contrastText: '#fff'
+    },
+    CRESTLightBorderColor: {
+      main: '#2c2c2c',
+      dark: '#000000',
+      light: '#555555',
+      contrastText: '#fff'
     },
   },
   components: {

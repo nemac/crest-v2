@@ -10,13 +10,13 @@ import Typography from '@mui/material/Typography';
 import { CodeBlock, a11yDark } from "react-code-blocks";
 import { makeStyles } from '@mui/styles';
 
+export default function StyleGuideIconComponent(props) {
+ const { title, themeName, SelectedIconName, UnselectedIconName, selectedIcon, unSelectedIcon, blockBackgroundColor } = props;
 
-export default function StyleGuideButtonComponent(props) {
- const { title, themeName, blockBackgroundColor } = props;
+ const codeBlock = `import { ${SelectedIconName}, ${UnselectedIconName} } from '@mui/icons-material;'
 
- const codeBlock = `<Button color="${themeName}">Button</Button>
- <Button variant="contained" color="${themeName}">Button</Button>
- <Button variant="outlined" color="${themeName}">Button</Button>`
+ <${SelectedIconName} />
+ <${UnselectedIconName} />`;
 
  return (
    <div>
@@ -37,17 +37,18 @@ export default function StyleGuideButtonComponent(props) {
          &nbsp;
        </Grid>
        <Grid item xs={3} pl={0}>
-         <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: blockBackgroundColor}}>
+         <Paper variant="outlined" square={false} sx={{padding: '20px',backgroundColor: 'CRESTGridBackground.dark'}}>
 
-           <Grid container justifyContent="start" alignItems="start">
-             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
-               <Button color={themeName}>Button</Button>
+           <Grid container direction="row" spacing={3} justifyContent="center" alignItems="center">
+             <Grid item xs={6} >
+               <Box alignItems="center" display="flex">
+                 {unSelectedIcon} &nbsp;Unselected Icon
+               </Box>
              </Grid>
-             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
-               <Button variant="contained" color={themeName}>Button</Button>
-             </Grid>
-             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
-               <Button variant="outlined" color={themeName}>Button</Button>
+             <Grid item xs={6}>
+               <Box alignItems="center" display="flex">
+                 {selectedIcon} &nbsp;Selected Icon
+               </Box>
              </Grid>
            </Grid>
 
@@ -77,5 +78,3 @@ export default function StyleGuideButtonComponent(props) {
    </div>
  )
 }
-
-

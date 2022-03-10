@@ -11,6 +11,17 @@ import { CodeBlock, a11yDark } from "react-code-blocks";
 import { makeStyles } from '@mui/styles';
 import Divider from '@mui/material/Divider';
 import StyleGuideButtonComponent from './StyleGuideButtonComponent';
+import StyleGuideIconComponent from './StyleGuideIconComponent';
+import StyleGuideBackgroundComponent from './StyleGuideBackgroundComponent';
+
+import {
+  Ballot,
+  BallotOutlined,
+  Layers,
+  LayersOutlined,
+  LibraryAdd,
+  LibraryAddOutlined,
+} from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
   block: {
@@ -18,48 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const codeBlockButtonCTA = `<Button color="CRESTCta">Button</Button>
-<Button variant="contained" color="CRESTCta">Button</Button>
-<Button variant="outlined" color="CRESTCta">Button</Button>`
-
-const codeBlockButtonPrimary = `<Button color="CRESTPrimary">Button</Button>
-<Button variant="contained" color="CRESTPrimary">Button</Button>
-<Button variant="outlined" color="CRESTPrimary">Button</Button>`
-
-const codeBlockButtonSecondary = `<Button color="CRESTSecondary">Button</Button>
-<Button variant="contained" color="CRESTSecondary">Button</Button>
-<Button variant="outlined" color="CRESTSecondary">Button</Button>`
-
-const codeBlockButtonCRESTDark = `<Button color="CRESTDarkAlt">Button</Button>
-<Button variant="contained" color="CRESTDarkAlt">Button</Button>
-<Button variant="outlined" color="CRESTDarkAlt">Button</Button>`
-
 const codeBlockLink = `<Link href="#" >Link</Link>`
-
-const codeBlockDefaultBG = `<Box >
-  <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: 'CRESTGridBackground.main'}} >
-    Default Background
-  </Paper>
-</Box>`
-
-const codeBlockDarkBG = `<Box >
-  <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: 'CRESTGridBackground.dark'}} >
-    Default Background
-  </Paper>
-</Box>`
-
-const codeBlockDarkAltBG = `<Box >
-  <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: 'CRESTDarkAlt.main'}} >
-    Dark Background Alternate
-  </Paper>
-</Box>`
-
-const codeBlocklightBG = `<Box >
-  <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: 'CRESTLight.main', color: 'CRESTLight.contrastText', borderColor: 'CRESTLight.dark'}} >
-    Light Background
-  </Paper>
-</Box>`
-
 
 
 export default function StyleGuide() {
@@ -81,174 +51,37 @@ export default function StyleGuide() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Typography variant="h6" gutterBottom>
-            Default Background and text
-          </Typography>
-        </Grid>
-      </Grid>
+      <StyleGuideBackgroundComponent
+        title="Default Background"
+        gridBackgroundColor='CRESTGridBackground.main'
+        gridTextColor='CRESTGridBackground.contrastText'
+        blockBackgroundColor='CRESTGridBackground.main'
+        gridBorderColor="CRESTBorderColor.main"
+      />
 
-      <Grid container spacing={3} justifyContent="center" alignItems="center" pb={1} px={3} pt={0}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={3}>
-          <Box >
-            <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: 'CRESTGridBackground.main'}} >
-              Default Background
-            </Paper>
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          &nbsp;
-        </Grid>
-      </Grid>
+      <StyleGuideBackgroundComponent
+        title="Dark Background"
+        gridBackgroundColor='CRESTGridBackground.dark'
+        gridTextColor='CRESTGridBackground.contrastText'
+        blockBackgroundColor='CRESTGridBackground.dark'
+        gridBorderColor="CRESTBorderColor.main"
+      />
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Box>
-            <CodeBlock
-              theme={a11yDark}
-              text={codeBlockDefaultBG}
-              language={'jsx'}
-              showLineNumbers={false} />
-          </Box>
-        </Grid>
-      </Grid>
+      <StyleGuideBackgroundComponent
+        title="Dark Background Alternate"
+        gridBackgroundColor='CRESTDarkAlt.main'
+        gridTextColor='CRESTDarkAlt.contrastText'
+        blockBackgroundColor='CRESTDarkAlt.main'
+        gridBorderColor="CRESTBorderColor.main"
+      />
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Typography variant="h6" gutterBottom>
-            Dark Background and text
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3} justifyContent="center" alignItems="center" pb={1} px={3} pt={0}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={3}>
-          <Box >
-            <Paper variant="outlined" square={false} sx={{padding: '20px',backgroundColor: 'CRESTGridBackground.dark'}} >
-              Dark Background
-            </Paper>
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          &nbsp;
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Box>
-            <CodeBlock
-              theme={a11yDark}
-              text={codeBlockDarkBG}
-              language={'jsx'}
-              showLineNumbers={false} />
-          </Box>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Typography variant="h6" gutterBottom>
-            Dark Background Alternate and text
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3} justifyContent="center" alignItems="center" pb={1} px={3} pt={0}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={3}>
-          <Box >
-            <Paper variant="outlined" square={false} sx={{padding: '20px',backgroundColor: 'CRESTDarkAlt.main'}} >
-              Dark Background Alternate
-            </Paper>
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          &nbsp;
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Box>
-            <CodeBlock
-              theme={a11yDark}
-              text={codeBlockDefaultBG}
-              language={'jsx'}
-              showLineNumbers={false} />
-          </Box>
-        </Grid>
-      </Grid>
-
-
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Typography variant="h6" gutterBottom>
-            Light Background and text
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3} justifyContent="center" alignItems="center" pb={1} px={3} pt={0}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={3}>
-          <Box >
-            <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: 'CRESTLight.main', color: 'CRESTLight.contrastText', borderColor: 'CRESTLight.dark'}} >
-              Light Background
-            </Paper>
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          &nbsp;
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-        <Grid item xs={1}>
-          &nbsp;
-        </Grid>
-        <Grid item xs={11}>
-          <Box>
-            <CodeBlock
-              theme={a11yDark}
-              text={codeBlocklightBG}
-              language={'jsx'}
-              showLineNumbers={false} />
-          </Box>
-        </Grid>
-      </Grid>
+      <StyleGuideBackgroundComponent
+        title="Light Background"
+        gridBackgroundColor='CRESTLight.main'
+        gridTextColor='CRESTLight.contrastText'
+        blockBackgroundColor='CRESTLight.main'
+        gridBorderColor="CRESTLightBorderColor.main"
+      />
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
         <Grid item xs={12}>
@@ -262,29 +95,25 @@ export default function StyleGuide() {
       <StyleGuideButtonComponent
         title="Call to action button"
         themeName="CRESTCta"
-        codeBlock={codeBlockButtonCTA}
-        blockBackgroundColor={'CRESTGridBackground.main'}
+        blockBackgroundColor='CRESTGridBackground.dark'
       />
 
       <StyleGuideButtonComponent
         title="Primary button"
         themeName="CRESTPrimary"
-        codeBlock={codeBlockButtonPrimary}
-        blockBackgroundColor={'CRESTGridBackground.main'}
+        blockBackgroundColor='CRESTGridBackground.dark'
       />
 
       <StyleGuideButtonComponent
         title="Secondary button"
         themeName="CRESTSecondary"
-        codeBlock={codeBlockButtonSecondary}
-        blockBackgroundColor={'CRESTGridBackground.main'}
+        blockBackgroundColor='CRESTGridBackground.dark'
       />
 
       <StyleGuideButtonComponent
         title="Dark button"
         themeName="CRESTDarkAlt"
-        codeBlock={codeBlockButtonCRESTDark}
-        blockBackgroundColor={'CRESTGridBackground.dark'}
+        blockBackgroundColor='CRESTGridBackground.dark'
       />
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
@@ -295,7 +124,6 @@ export default function StyleGuide() {
           <Divider />
         </Grid>
       </Grid>
-
 
       <div>
 
@@ -317,7 +145,7 @@ export default function StyleGuide() {
             &nbsp;
           </Grid>
           <Grid item xs={3} pl={0}>
-            <Paper variant="outlined" square={false} sx={{padding: '20px',backgroundColor: 'CRESTGridBackground.main'}}>
+            <Paper variant="outlined" square={false} sx={{padding: '20px',backgroundColor: 'CRESTGridBackground.dark'}}>
 
               <Grid container spacing={3} justifyContent="start" alignItems="start">
                 <Grid item xs={12}>
@@ -348,6 +176,43 @@ export default function StyleGuide() {
         </Grid>
 
       </div>
+
+
+      <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
+        <Grid item xs={12}>
+          <Typography variant="h3" component="div" gutterBottom>
+            Icons
+          </Typography>
+          <Divider />
+        </Grid>
+      </Grid>
+
+      <StyleGuideIconComponent
+        title="Add Area"
+        SelectedIconName="LibraryAdd"
+        UnselectedIconName="LibraryAddOutlined"
+        selectedIcon={<LibraryAdd />}
+        unSelectedIcon={<LibraryAddOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Legend"
+        SelectedIconName="Ballot"
+        UnselectedIconName="BallotOutlined"
+        selectedIcon={<Ballot />}
+        unSelectedIcon={<BallotOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Map Layers"
+        SelectedIconName="Layers"
+        UnselectedIconName="LayersOutlined"
+        selectedIcon={<Layers />}
+        unSelectedIcon={<LayersOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
 
     </div>
   )
