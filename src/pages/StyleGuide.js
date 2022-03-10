@@ -21,6 +21,8 @@ import {
   LayersOutlined,
   LibraryAdd,
   LibraryAddOutlined,
+  FileUpload,
+  FileUploadOutlined,
 } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,15 +38,15 @@ export default function StyleGuide() {
   const classes = useStyles({});
   return (
     <div>
-      <Box p={3}>
-        <Typography variant="h2" component="div" gutterBottom>
-          CREST Style Guide
+      <Box p={3} mt={3}>
+        <Typography variant="h3" component="div" gutterBottom>
+          CREST MUI based Style Guide
         </Typography>
       </Box>
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
         <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
+          <Typography variant="h4" component="div" gutterBottom>
             Backgrounds and associated text
           </Typography>
           <Divider />
@@ -214,6 +216,14 @@ export default function StyleGuide() {
         blockBackgroundColor='CRESTGridBackground.main'
       />
 
+      <StyleGuideIconComponent
+        title="Upload a shapefile"
+        SelectedIconName="FileUpload"
+        UnselectedIconName="FileUploadOutlined"
+        selectedIcon={<FileUpload />}
+        unSelectedIcon={<FileUploadOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
     </div>
   )
 }
