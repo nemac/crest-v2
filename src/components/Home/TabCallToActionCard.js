@@ -1,6 +1,6 @@
 /*
 Purpose
-  On the home page at the botton we have a few call to actions to jump to an a tab,
+  On the home page at the bottom we have a few call to actions to jump to a tab,
   along with why you would want to go to the tab (Tab description)
 
 Child Components
