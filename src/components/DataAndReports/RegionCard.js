@@ -1,6 +1,6 @@
 /*
 Purpose
-  hold each regions data and assement report section
+  hold each regions data and assessment report section
   we may want to use a config or set config files
 
 Child Components
