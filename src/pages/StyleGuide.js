@@ -92,7 +92,7 @@ export default function StyleGuide() {
     <div>
       <Box p={3} mt={3}>
         <Typography variant="h3" component="div" gutterBottom>
-          CREST MUI based Style Guide
+          CREST MUI based Style Guide Version 1.0
         </Typography>
       </Box>
 
