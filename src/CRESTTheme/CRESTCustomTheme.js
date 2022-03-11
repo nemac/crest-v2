@@ -76,6 +76,18 @@ const CustomTheme = createTheme({
       light: '#555555',
       contrastText: '#fff'
     },
+    CRESTExampleCurrentSteps: {
+      main: '#858585',
+      dark: '#585858',
+      light: '#C4C4C4',
+      contrastText: '#000000'
+    },
+    CRESTExampleOtherSteps: {
+      main: '#ffffff',
+      dark: '#858585',
+      light: '#C4C4C4',
+      contrastText: '#000000'
+    },
   },
   components: {
     MuiLink: {

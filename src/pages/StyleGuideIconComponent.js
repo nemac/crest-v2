@@ -11,14 +11,15 @@ import { CodeBlock, a11yDark } from "react-code-blocks";
 import { makeStyles } from '@mui/styles';
 
 export default function StyleGuideIconComponent(props) {
- const { title, themeName, SelectedIconName, UnselectedIconName, selectedIcon, unSelectedIcon, blockBackgroundColor, flip } = props;
+ const { title, themeName, SelectedIconName, UnselectedIconName, selectedIcon, unSelectedIcon, blockBackgroundColor, flip, color } = props;
 
  const transformDeg = flip ? 'rotate(-180deg)' : 'rotate(0)';
+ const colorAdd = color ? `color="${color}"` : ''
  const flipText = flip ? `sx={{transform: '${transformDeg}}}'` : '';
  const codeBlock = `import { ${UnselectedIconName}, ${SelectedIconName} } from '@mui/icons-material;'
 
- <${UnselectedIconName} />
- <${SelectedIconName} ${flipText} />`;
+ <${UnselectedIconName} ${colorAdd} />
+ <${SelectedIconName} ${colorAdd} ${flipText} />`;
 
  return (
    <div>

@@ -17,27 +17,64 @@ import StyleGuideBackgroundComponent from './StyleGuideBackgroundComponent';
 import {
   Addchart,
   AddchartOutlined,
+  ArrowCircleLeft,
+  ArrowCircleLeftOutlined,
+  ArrowCircleRight,
+  ArrowCircleRightOutlined,
   ArrowDropDownCircle,
   Ballot,
   BallotOutlined,
   CameraAlt,
   CameraAltOutlined,
+  Cancel,
+  CancelOutlined,
+  CenterFocusStrong,
+  CenterFocusStrongOutlined,
+  CheckBox,
+  CheckBoxOutlined,
+  CheckBoxOutlineBlank,
+  DeleteForever,
+  DeleteForeverOutlined,
+  DisabledByDefault,
+  DisabledByDefaultOutlined,
+  FastRewind,
+  FastRewindOutlined,
+  FileDownload,
+  FileDownloadOutlined,
   FileUpload,
   FileUploadOutlined,
-  LayersClear,
-  LayersClearOutlined,
+  FilterNone,
+  FilterNoneOutlined,
+  GridView,
+  GridViewRounded,
   Help,
   HelpOutlineOutlined,
   Info,
   InfoOutlined,
+  LayersClear,
+  LayersClearOutlined,
   Layers,
   LayersOutlined,
   LibraryAdd,
   LibraryAddOutlined,
+  Map,
+  MapOutlined,
+  Menu,
+  MenuOutlined,
+  MoreHoriz,
+  MoreHorizOutlined,
+  PictureAsPdf,
+  PictureAsPdfOutlined,
+  Polyline,
+  PolylineOutlined,
   Search,
   SearchOutlined,
   Share,
   ShareOutlined,
+  Sort,
+  SortOutlined,
+  ToggleOff,
+  ToggleOn,
 } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
@@ -98,6 +135,22 @@ export default function StyleGuide() {
         gridTextColor='CRESTLight.contrastText'
         blockBackgroundColor='CRESTLight.main'
         gridBorderColor="CRESTLightBorderColor.main"
+      />
+
+      <StyleGuideBackgroundComponent
+        title="Examples Current Step"
+        gridBackgroundColor='CRESTExampleCurrentSteps.main'
+        gridTextColor='CRESTExampleCurrentSteps.contrastText'
+        blockBackgroundColor='CRESTExampleCurrentSteps.main'
+        gridBorderColor="CRESTExampleCurrentSteps.light"
+      />
+
+      <StyleGuideBackgroundComponent
+        title="Examples Other Steps"
+        gridBackgroundColor='CRESTExampleOtherSteps.main'
+        gridTextColor='CRESTExampleOtherSteps.contrastText'
+        blockBackgroundColor='CRESTExampleOtherSteps.dark'
+        gridBorderColor="CRESTExampleOtherSteps.main"
       />
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
@@ -214,6 +267,24 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
+        title="Change Basemap"
+        SelectedIconName="GridView"
+        UnselectedIconName="GridViewRounded"
+        selectedIcon={<GridView />}
+        unSelectedIcon={<GridViewRounded />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Change Region"
+        SelectedIconName="FilterNone"
+        UnselectedIconName="FilterNoneOutlined"
+        selectedIcon={<FilterNone />}
+        unSelectedIcon={<FilterNoneOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
         title="Clear"
         SelectedIconName="LayersClear"
         UnselectedIconName="LayersClear"
@@ -223,6 +294,16 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
+        title="Close Modal"
+        SelectedIconName="Cancel"
+        UnselectedIconName="CancelOutlined"
+        selectedIcon={<Cancel />}
+        unSelectedIcon={<CancelOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+
+      <StyleGuideIconComponent
         title="Close/Minimize Open/Maximize"
         SelectedIconName="ArrowDropDownCircle"
         UnselectedIconName="ArrowDropDownCircle"
@@ -230,6 +311,62 @@ export default function StyleGuide() {
         unSelectedIcon={<ArrowDropDownCircle />}
         blockBackgroundColor='CRESTGridBackground.main'
         flip={true}
+      />
+
+      <StyleGuideIconComponent
+        title="Data Download"
+        SelectedIconName="FileDownload"
+        UnselectedIconName="FileDownloadOutlined"
+        selectedIcon={<FileDownload />}
+        unSelectedIcon={<FileDownloadOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Download Assesssment"
+        SelectedIconName="PictureAsPdf"
+        UnselectedIconName="PictureAsPdfOutlined"
+        selectedIcon={<PictureAsPdf />}
+        unSelectedIcon={<PictureAsPdfOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+        flip={true}
+      />
+
+      <StyleGuideIconComponent
+        title="Error Wrong Descrption"
+        SelectedIconName="DisabledByDefault"
+        UnselectedIconName="DisabledByDefaultOutlined"
+        selectedIcon={<DisabledByDefault color="error"/>}
+        unSelectedIcon={<DisabledByDefaultOutlined color="error"/>}
+        blockBackgroundColor='CRESTGridBackground.main'
+        color="error"
+      />
+      <StyleGuideIconComponent
+        title="Error Correct Descrption"
+        SelectedIconName="CheckBox"
+        UnselectedIconName="CheckBoxOutlined"
+        selectedIcon={<CheckBox color="success"/>}
+        unSelectedIcon={<CheckBoxOutlined color="success"/>}
+        blockBackgroundColor='CRESTGridBackground.main'
+        color="success"
+      />
+
+      <StyleGuideIconComponent
+        title="Example Previous"
+        SelectedIconName="ArrowCircleLeft"
+        UnselectedIconName="ArrowCircleLeftOutlined"
+        selectedIcon={<ArrowCircleLeft />}
+        unSelectedIcon={<ArrowCircleLeftOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Example Next"
+        SelectedIconName="ArrowCircleRight"
+        UnselectedIconName="ArrowCircleRightOutlined"
+        selectedIcon={<ArrowCircleRight />}
+        unSelectedIcon={<ArrowCircleRightOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
       />
 
       <StyleGuideIconComponent
@@ -260,6 +397,24 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
+        title="Graph-Table Toggle"
+        SelectedIconName="ToggleOn"
+        UnselectedIconName="ToggleOff"
+        selectedIcon={<ToggleOn />}
+        unSelectedIcon={<ToggleOff />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Menu - Main Menu for Small Screen Only"
+        SelectedIconName="Menu"
+        UnselectedIconName="MenuOutlined"
+        selectedIcon={<Menu />}
+        unSelectedIcon={<MenuOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
         title="More Information"
         SelectedIconName="Info"
         UnselectedIconName="InfoOutlined"
@@ -278,11 +433,47 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
-        title="Map Layers"
+        title="Map Layers Icon"
         SelectedIconName="Layers"
         UnselectedIconName="LayersOutlined"
         selectedIcon={<Layers />}
         unSelectedIcon={<LayersOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Map - go to map view in examples"
+        SelectedIconName="Map"
+        UnselectedIconName="MapOutlined"
+        selectedIcon={<Map />}
+        unSelectedIcon={<MapOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Map Layer Toggle"
+        SelectedIconName="CheckBox"
+        UnselectedIconName="CheckBoxOutlineBlank"
+        selectedIcon={<CheckBox />}
+        unSelectedIcon={<CheckBoxOutlineBlank />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="More - Less (with graphs)"
+        SelectedIconName="MoreHoriz"
+        UnselectedIconName="MoreHorizOutlined"
+        selectedIcon={<MoreHoriz />}
+        unSelectedIcon={<MoreHorizOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Remove - Remove All"
+        SelectedIconName="DeleteForever"
+        UnselectedIconName="DeleteForeverOutlined"
+        selectedIcon={<DeleteForever />}
+        unSelectedIcon={<DeleteForeverOutlined />}
         blockBackgroundColor='CRESTGridBackground.main'
       />
 
@@ -296,6 +487,15 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
+        title="Search Location Collapse Box"
+        SelectedIconName="FastRewind"
+        UnselectedIconName="FastRewindOutlined"
+        selectedIcon={<FastRewind />}
+        unSelectedIcon={<FastRewindOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
         title="Share Map"
         SelectedIconName="Share"
         UnselectedIconName="ShareOutlined"
@@ -305,11 +505,38 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
+        title="Sketch Area"
+        SelectedIconName="Polyline"
+        UnselectedIconName="PolylineOutlined"
+        selectedIcon={<Polyline />}
+        unSelectedIcon={<PolylineOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Sort Data"
+        SelectedIconName="Sort"
+        UnselectedIconName="SortOutlined"
+        selectedIcon={<Sort />}
+        unSelectedIcon={<SortOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
         title="Upload a shapefile"
         SelectedIconName="FileUpload"
         UnselectedIconName="FileUploadOutlined"
         selectedIcon={<FileUpload />}
         unSelectedIcon={<FileUploadOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Zoom"
+        SelectedIconName="CenterFocusStrong"
+        UnselectedIconName="CenterFocusStrongOutlined"
+        selectedIcon={<CenterFocusStrong />}
+        unSelectedIcon={<CenterFocusStrongOutlined />}
         blockBackgroundColor='CRESTGridBackground.main'
       />
 
