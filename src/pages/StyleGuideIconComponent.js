@@ -11,12 +11,14 @@ import { CodeBlock, a11yDark } from "react-code-blocks";
 import { makeStyles } from '@mui/styles';
 
 export default function StyleGuideIconComponent(props) {
- const { title, themeName, SelectedIconName, UnselectedIconName, selectedIcon, unSelectedIcon, blockBackgroundColor } = props;
+ const { title, themeName, SelectedIconName, UnselectedIconName, selectedIcon, unSelectedIcon, blockBackgroundColor, flip } = props;
 
- const codeBlock = `import { ${SelectedIconName}, ${UnselectedIconName} } from '@mui/icons-material;'
+ const transformDeg = flip ? 'rotate(-180deg)' : 'rotate(0)';
+ const flipText = flip ? `sx={{transform: '${transformDeg}}}'` : '';
+ const codeBlock = `import { ${UnselectedIconName}, ${SelectedIconName} } from '@mui/icons-material;'
 
- <${SelectedIconName} />
- <${UnselectedIconName} />`;
+ <${UnselectedIconName} />
+ <${SelectedIconName} ${flipText} />`;
 
  return (
    <div>
@@ -37,17 +39,23 @@ export default function StyleGuideIconComponent(props) {
          &nbsp;
        </Grid>
        <Grid item xs={3} pl={0}>
-         <Paper variant="outlined" square={false} sx={{padding: '20px',backgroundColor: 'CRESTGridBackground.dark'}}>
+         <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: 'CRESTGridBackground.dark'}}>
 
            <Grid container direction="row" spacing={3} justifyContent="center" alignItems="center">
              <Grid item xs={6} >
-               <Box alignItems="center" display="flex">
-                 {unSelectedIcon} &nbsp;Unselected Icon
+               <Box alignItems="center" justifyContent="center" display="flex">
+                 {unSelectedIcon}
+               </Box>
+               <Box alignItems="center" justifyContent="center" display="flex" pt={0.5}>
+                 Unselected
                </Box>
              </Grid>
              <Grid item xs={6}>
-               <Box alignItems="center" display="flex">
-                 {selectedIcon} &nbsp;Selected Icon
+               <Box alignItems="center" justifyContent="center" display="flex" >
+                 {selectedIcon}
+               </Box>
+               <Box alignItems="center" justifyContent="center" display="flex" pt={0.5}>
+                 Selected
                </Box>
              </Grid>
            </Grid>

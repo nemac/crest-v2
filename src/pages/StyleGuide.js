@@ -15,14 +15,29 @@ import StyleGuideIconComponent from './StyleGuideIconComponent';
 import StyleGuideBackgroundComponent from './StyleGuideBackgroundComponent';
 
 import {
+  Addchart,
+  AddchartOutlined,
+  ArrowDropDownCircle,
   Ballot,
   BallotOutlined,
+  CameraAlt,
+  CameraAltOutlined,
+  FileUpload,
+  FileUploadOutlined,
+  LayersClear,
+  LayersClearOutlined,
+  Help,
+  HelpOutlineOutlined,
+  Info,
+  InfoOutlined,
   Layers,
   LayersOutlined,
   LibraryAdd,
   LibraryAddOutlined,
-  FileUpload,
-  FileUploadOutlined,
+  Search,
+  SearchOutlined,
+  Share,
+  ShareOutlined,
 } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
@@ -199,6 +214,61 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
+        title="Clear"
+        SelectedIconName="LayersClear"
+        UnselectedIconName="LayersClear"
+        selectedIcon={<LayersClear />}
+        unSelectedIcon={<LayersClear />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Close/Minimize Open/Maximize"
+        SelectedIconName="ArrowDropDownCircle"
+        UnselectedIconName="ArrowDropDownCircle"
+        selectedIcon={<ArrowDropDownCircle sx={{transform: 'rotate(-180deg)'}}/>}
+        unSelectedIcon={<ArrowDropDownCircle />}
+        blockBackgroundColor='CRESTGridBackground.main'
+        flip={true}
+      />
+
+      <StyleGuideIconComponent
+        title="Export"
+        SelectedIconName="CameraAlt"
+        UnselectedIconName="CameraAlt"
+        selectedIcon={<CameraAlt />}
+        unSelectedIcon={<CameraAlt />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Get statistcs/charts for location"
+        SelectedIconName="Addchart"
+        UnselectedIconName="AddchartOutline"
+        selectedIcon={<Addchart />}
+        unSelectedIcon={<AddchartOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Help"
+        SelectedIconName="Help"
+        UnselectedIconName="HelpOutlineOutlined"
+        selectedIcon={<Help />}
+        unSelectedIcon={<HelpOutlineOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="More Information"
+        SelectedIconName="Info"
+        UnselectedIconName="InfoOutlined"
+        selectedIcon={<Info />}
+        unSelectedIcon={<InfoOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
         title="Legend"
         SelectedIconName="Ballot"
         UnselectedIconName="BallotOutlined"
@@ -217,6 +287,24 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
+        title="Search Location"
+        SelectedIconName="Search"
+        UnselectedIconName="SearchOutlined"
+        selectedIcon={<Search />}
+        unSelectedIcon={<SearchOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title="Share Map"
+        SelectedIconName="Share"
+        UnselectedIconName="ShareOutlined"
+        selectedIcon={<Share />}
+        unSelectedIcon={<ShareOutlined />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
         title="Upload a shapefile"
         SelectedIconName="FileUpload"
         UnselectedIconName="FileUploadOutlined"
@@ -224,6 +312,7 @@ export default function StyleGuide() {
         unSelectedIcon={<FileUploadOutlined />}
         blockBackgroundColor='CRESTGridBackground.main'
       />
+
     </div>
   )
 }
