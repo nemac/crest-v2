@@ -6,7 +6,7 @@ Purpose
    - more/less (more proivdes all the detailed charts, less and the default is the summary map)
    - export (the map to png/svg)
    - zoom (zoom/pan the map to the area)
-   - Remove Area (removs the area from the map)
+   - Remove Area (removes the area from the map)
 
    Do we need to decide of the button action happens here?
 
