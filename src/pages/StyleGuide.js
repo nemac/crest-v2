@@ -10,9 +10,9 @@ import Typography from '@mui/material/Typography';
 import { CodeBlock, a11yDark } from "react-code-blocks";
 import { makeStyles } from '@mui/styles';
 import Divider from '@mui/material/Divider';
-import StyleGuideButtonComponent from './StyleGuideButtonComponent';
-import StyleGuideIconComponent from './StyleGuideIconComponent';
-import StyleGuideBackgroundComponent from './StyleGuideBackgroundComponent';
+import StyleGuideButtonComponent from '../components/StyleGuide/StyleGuideButtonComponent';
+import StyleGuideIconComponent from '../components/StyleGuide/StyleGuideIconComponent';
+import StyleGuideBackgroundComponent from '../components/StyleGuide/StyleGuideBackgroundComponent';
 
 import {
   Addchart,
