@@ -1,6 +1,6 @@
 /*
 Purpose
-  The component holds all the chart and action buttons. This should be the summary chart only.
+  The component holds all of the chart and action buttons. This should be the summary chart only.
 
   There are four buttons which include
     - Sort (sorts data from high to low or low to high. sort will display a menu to choose sort order and sort field)
