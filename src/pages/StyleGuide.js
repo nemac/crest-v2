@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const codeBlockLink = `<Link href="#" >Link</Link>`
-
+const codeBlockDivider = `<Divider />`
 
 export default function StyleGuide() {
   const classes = useStyles({});
@@ -189,6 +189,68 @@ export default function StyleGuide() {
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
         <Grid item xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
+            Divider
+          </Typography>
+          <Divider />
+        </Grid>
+      </Grid>
+
+      <div>
+
+        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
+          <Grid item xs={1}>
+            &nbsp;
+          </Grid>
+          <Grid item xs={11}>
+            <Typography variant="h6" gutterBottom>
+              Default Divider (color set in styleOverrides)
+            </Typography>
+          </Grid>
+        </Grid>
+
+
+
+        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
+          <Grid item xs={1}>
+            &nbsp;
+          </Grid>
+          <Grid item xs={3} pl={0}>
+            <Paper variant="outlined" square={false} sx={{padding: '20px',backgroundColor: 'CRESTGridBackground.dark'}}>
+
+              <Grid container spacing={3} justifyContent="start" alignItems="start">
+                <Grid item xs={12}>
+                    <Divider />
+                </Grid>
+              </Grid>
+
+            </Paper>
+          </Grid>
+          <Grid item xs={8}>
+            &nbsp;
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
+          <Grid item xs={1}>
+            &nbsp;
+          </Grid>
+          <Grid item xs={11}>
+            <Box>
+              <CodeBlock
+                theme={a11yDark}
+                text={codeBlockDivider}
+                language={'jsx'}
+                showLineNumbers={false} />
+            </Box>
+          </Grid>
+        </Grid>
+
+      </div>
+
+
+      <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
+        <Grid item xs={12}>
+          <Typography variant="h3" component="div" gutterBottom>
             Links
           </Typography>
           <Divider />
@@ -203,7 +265,7 @@ export default function StyleGuide() {
           </Grid>
           <Grid item xs={11}>
             <Typography variant="h6" gutterBottom>
-              Default Link
+              Default Link (color set in styleOverrides)
             </Typography>
           </Grid>
         </Grid>
