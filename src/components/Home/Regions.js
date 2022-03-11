@@ -1,6 +1,6 @@
 /*
 Purpose
-  On the home page a plave to hold all the region cards
+  On the home page a place to hold all the region cards
 
   may want this driven by a config too it will already be there mostly
 
