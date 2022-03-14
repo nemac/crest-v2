@@ -36,3 +36,12 @@ Props
   - Not sure yet
 
 */
+
+import React from 'react';
+import MapCard from "./MapCard";
+
+export default function Map() {
+  return(
+    <MapCard/>
+  )
+}

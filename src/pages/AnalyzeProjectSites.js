@@ -1,11 +1,11 @@
 import * as React from 'react';
-import LeafletMap from '../components/map/LeafletMap';
+import Map from '../components/Map/Map';
 
 export default function AnalyzeProjectSite() {
   return (
     <div>
       Welcome to the Analyze Project Sites page of Crest V2
-      <LeafletMap/>
+      <Map/>
     </div>
   )
 }
