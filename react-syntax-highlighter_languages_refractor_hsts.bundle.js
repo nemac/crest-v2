@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrest_v2=self.webpackChunkcrest_v2||[]).push([[3140],{1850:e=>{function a(e){e.languages.hsts={directive:{pattern:/\b(?:max-age=|includeSubDomains|preload)/,alias:"keyword"},safe:{pattern:/\d{8,}/,alias:"selector"},unsafe:{pattern:/\d{1,7}/,alias:"function"}}}e.exports=a,a.displayName="hsts",a.aliases=[]}}]);
