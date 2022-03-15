@@ -12,7 +12,7 @@ API
   - None
 
 State needed
-  - Region
+  - Not sure yet
 
 Props
   - Tab Name
@@ -21,3 +21,27 @@ Props
   - Not sure yet
   - config?
 */
+import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import TabCallToActionCard from "./TabCallToActionCard";
+
+export default function TabCallToActions() {
+  return (
+    <Grid container spacing={2} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
+
+      <Grid item xs={12} sm={12} md={3}>
+        <TabCallToActionCard />
+      </Grid>
+      <Grid item xs={12} sm={12} md={3}>
+        <TabCallToActionCard />
+      </Grid>
+      <Grid item xs={12} sm={12} md={3}>
+        <TabCallToActionCard />
+      </Grid>
+      <Grid item xs={12} sm={12} md={3}>
+        <TabCallToActionCard />
+      </Grid>
+
+    </Grid>
+  )
+}
