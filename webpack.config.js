@@ -23,7 +23,7 @@ module.exports = {
       path: path.resolve(__dirname, './dist'),
       //filename: 'js/[name].[hash].js',
       filename: '[name].bundle.js',
-      publicPath: '/'
+      publicPath: '/crest-v2/'
     },
     devServer: {
       //static: PATH_DIST,
