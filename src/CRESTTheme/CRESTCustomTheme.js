@@ -94,7 +94,6 @@ const CustomTheme = createTheme({
       styleOverrides: {
         root: {
           color: '#17A2B8',
-          padding: '20px',
           fontWeight: '500',
           textDecorationColor: '#17A2B8',
           '&:hover': {

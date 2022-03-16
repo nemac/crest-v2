@@ -66,7 +66,17 @@ module.exports = {
             "sass-loader",
             "postcss-loader"
           ]
-        } 
+        },
+        {
+          test: /\.(gif|jpe?g|png)$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              name: "assets/images/[name].[hash:8].[ext]"
+            }
+          }
+        },
       ],
     },
 
