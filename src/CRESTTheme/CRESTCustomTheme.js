@@ -124,17 +124,42 @@ const CustomTheme = createTheme({
         }
       }
     },
-    MuiTab: {
+    MuiList: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#323232',
+        },
+      }
+    },
+    MuiListItem: {
       styleOverrides: {
         root: {
           color: '#FFFFFF',
+          backgroundColor: '#000000',
+          textTransform: 'capitalize',
+          "&:hover": {
+            backgroundColor: '#444444',
+            color: '#FFFFFF',
+            textTransform: 'capitalize',
+          },
+          "&.Mui-selected": {
+            color: '#FFFFFF',
+            backgroundColor: '#444444',
+            textTransform: 'capitalize',
+          }
+        },
+      }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#F8F9FA',
           textTransform: 'capitalize',
           "&:hover": {
             backgroundColor: '#6f6f6f',
           },
           "&.Mui-selected": {
             color: "#60d4ea",
-            backgroundColor: '#444444',
             textTransform: 'capitalize',
           }
         },

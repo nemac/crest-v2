@@ -53,7 +53,10 @@ export default function NavBar(props) {
   // get breakpoint for small screens so we can make menu appear on side
   // also add show or hide the tabs
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  // define the nav bar tabs
+  const tabs = {};
 
   return (
       <Paper square={false} elevation={3} sx={{backgroundColor: 'CRESTGridBackground.dark', color: 'CRESTGridBackground.contrastText', borderColor: 'CRESTBorderColor.main'}} >

@@ -22,9 +22,7 @@ import { Routes, Route, Link as RouterLink } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import LinkTab from '@mui/material/Tab';
-import Paper from '@mui/material/Paper';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 
@@ -60,7 +58,7 @@ export default function NavBarTabs(props) {
 
   return (
     < >
-    <Grid item xs={0} sm={0.75}>
+    <Grid item xs={0} sm={0.75} sx={{ display: { xs: 'none', lg: 'flex' } }}>
       <Box p={1} justifyContent='center' alignItems='center'>
         <img src={logo} className={classes.NFWFLogoImageStyle} />
       </Box>
