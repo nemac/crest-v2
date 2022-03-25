@@ -392,7 +392,6 @@ export default function StyleGuide() {
         selectedIcon={<PictureAsPdf />}
         unSelectedIcon={<PictureAsPdfOutlined />}
         blockBackgroundColor='CRESTGridBackground.main'
-        flip={true}
       />
 
       <StyleGuideIconComponent
