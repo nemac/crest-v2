@@ -12,7 +12,9 @@ API
   - Not sure yet
 
 State needed
-  - More or less?
+  openMenu state for if menu is open or not.
+  what menu is currently selected
+  - Not sure yet
 
 Props
 - Not sure yet
@@ -40,13 +42,55 @@ import {
   useTheme
 } from '@mui/styles';
 
-// style for pointer in menu headings
-const useStyles = makeStyles({
-  Pointer: {
+// style for menu
+const useStyles = makeStyles((theme) => ({
+  appTitle: {
+    fontSize: '1rem',
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(0),
+  },
+  navTitle: {
+    fontSize: '1rem',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  navControlIcon: {
+    fontSize: '1.20rem',
+  },
+  navItemClick: {
     cursor: 'pointer',
+    backgroundColor: theme.palette.CRESTGridBackground.main
+  },
+  navItemDark: {
+    backgroundColor: theme.palette.CRESTDark.main
+  },
+  navPaperFirst: {
+    padding: '6px 6px 3px 6px',
+    backgroundColor: theme.palette.CRESTGridBackground.main
+  },
+  navPaper: {
+    padding: '3px 6px 3px 6px',
+    backgroundColor: theme.palette.CRESTGridBackground.main
+  },
+  navMenuListItem: {
+    color: '#FFFFFF',
+    backgroundColor: '#000000',
+    textTransform: 'capitalize',
+    textTransform: 'capitalize',
+    boxShadow: 3,
+    padding: '12px',
+    "&:hover": {
+      backgroundColor: '#444444',
+      color: '#FFFFFF',
+      textTransform: 'capitalize',
+    },
+    "&.Mui-selected": {
+      color: '#FFFFFF',
+      backgroundColor: '#444444',
+      textTransform: 'capitalize',
+    }
   }
-});
-
+}));
 
 // add assability
 function a11yProps(index) {
@@ -57,10 +101,14 @@ function a11yProps(index) {
 }
 
 export default function NavBarTabsSmallScreens(props) {
-  const { currentTab, data, handleClickNavTab } = props;  // just here for testing decrement/increment
-  const [openMenu, setOpenMenu] = React.useState(true);
+  const { currentTab, data, handleClickNavTab } = props;
+
+  // react state for open menu
+  const [openMenu, setOpenMenu] = React.useState(false);
   const classes = useStyles();
 
+  // handles click of hamburger menu and collapse icon
+  // actually collapses the menu -
   const handleMenuClick = () => {
     setOpenMenu(!openMenu);
   };
@@ -70,15 +118,15 @@ export default function NavBarTabsSmallScreens(props) {
     <Grid item xs={12} >
       <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} >
 
-        <Grid item xs={12} onClick={handleMenuClick} className={classes.Pointer} sx={{backgroundColor: 'CRESTGridBackground.main'}}>
-          <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} pb={1} sx={{backgroundColor: 'CRESTDark.main'}}>
-            <Grid item xs={11} sx={{backgroundColor: 'CRESTDark.main'}}>
-              <Typography variant='h6' component='div' px={1} pt={1} align="left" gutterBottom>
+        <Grid item xs={12} onClick={handleMenuClick} className={classes.navItemClick} >
+          <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} pb={1} className={classes.navItemDark}>
+            <Grid item xs={11} className={classes.navItemDark}>
+              <Typography variant='h6' component='div' px={1} pt={1} align="left" gutterBottom className={classes.appTitle}>
                 Coastal Resilience Evaluation and Siting Tool
               </Typography>
             </Grid>
-            <Grid item xs={1} sx={{backgroundColor: 'CRESTDark.main'}}>
-              <Typography variant='h6' component='div' px={1} pt={1} mb={0} align="left" gutterBottom>
+            <Grid item xs={1} className={classes.navItemDark}>
+              <Typography variant='h6' component='div' px={0} pt={2} mb={0} align="left" gutterBottom>
                 <MenuOutlined fontSize='medium' />
               </Typography>
             </Grid>
@@ -88,21 +136,19 @@ export default function NavBarTabsSmallScreens(props) {
         <Grid item xs={12}>
           <Collapse in={openMenu} timeout="auto" unmountOnExit sx={{backgroundColor: 'CRESTGridBackground.main'}}>
 
-            <Grid container spacing={0} justifyContent='center' alignItems='center' px={0.75} pt={1} pb={0} onClick={handleMenuClick} className={classes.Pointer} sx={{backgroundColor: 'CRESTGridBackground.main'}}>
-              <Grid item xs={11} sx={{backgroundColor: 'CRESTDark.main'}}>
-                <Typography variant='h7' component='div' px={3} pt={1} align="left" gutterBottom>
+            <Grid container spacing={0} justifyContent='center' alignItems='center' px={0.75} pt={1} pb={0} onClick={handleMenuClick} className={classes.navItemClick}>
+              <Grid item xs={11} className={classes.navItemDark}>
+                <Typography variant='h6' component='div' px={1} align="left" className={classes.navTitle}>
                   Navigation menu
                 </Typography>
               </Grid>
-              <Grid item xs={1} sx={{backgroundColor: 'CRESTDark.main'}}>
-                <Box mr={1} >
-                  <Typography variant='h7' component='div' m={0} pt={1} align="left" gutterBottom>
-                    <ArrowDropDownCircle fontSize='medium' sx={{transform: 'rotate(-180deg)'}}  />
-                  </Typography>
-                </Box>
+              <Grid item xs={1} className={classes.navItemDark}>
+                <Typography variant='h6' component='div' px={1} align="left" className={classes.navTitle}>
+                  <ArrowDropDownCircle sx={{transform: 'rotate(-180deg)'}} className={classes.navControlIcon} />
+                </Typography>
               </Grid>
-              <Grid item xs={12} sx={{backgroundColor: 'CRESTDark.main'}}>
-                <Typography variant='h7' component='div' pb={0} mb={0} align="left" gutterBottom>
+              <Grid item xs={12} className={classes.navItemDark}>
+                <Typography variant='h7' component='div' px={0} pb={0} mb={0} align="left" gutterBottom>
                   <Divider sx={{borderColor: 'CRESTPrimary.main'}}/>
                 </Typography>
               </Grid>
@@ -113,9 +159,9 @@ export default function NavBarTabsSmallScreens(props) {
               aria-label="CREST Nabigation Tabs"
               sx={{paddingTop: '0px'}} >
 
-              <Paper square={false} elevation={0} sx={{padding: '6px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main'}} >
+              <Paper square={false} elevation={0} className={classes.navPaperFirst} >
                 <ListItem
-                  sx={{ boxShadow: 3, padding: '12px' }}
+                  className={classes.navMenuListItem}
                   selected={currentTab === "Home"}
                   onClick={(event) => handleClickNavTab(event, "Home" )}
                   to='/' {...a11yProps(0)}
@@ -123,9 +169,9 @@ export default function NavBarTabsSmallScreens(props) {
                 </ListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} sx={{padding: '3px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main'}} >
+              <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
-                  sx={{ boxShadow: 3, padding: '12px' }}
+                  className={classes.navMenuListItem}
                   selected={currentTab === "ResilienceProject"}
                   onClick={(event) => handleClickNavTab(event, "ResilienceProject" )}
                   to='/ResilienceProject'
@@ -134,9 +180,9 @@ export default function NavBarTabsSmallScreens(props) {
                 </ListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} sx={{padding: '3px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main'}} >
+              <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
-                  sx={{ boxShadow: 3, padding: '12px' }}
+                  className={classes.navMenuListItem}
                   selected={currentTab === "AnalyzeProjectSites"}
                   onClick={(event) => handleClickNavTab(event, "AnalyzeProjectSites" )}
                   to='/AnalyzeProjectSites' {...a11yProps(2)}
@@ -144,9 +190,9 @@ export default function NavBarTabsSmallScreens(props) {
                 </ListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} sx={{padding: '3px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main'}} >
+              <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
-                  sx={{ boxShadow: 3, padding: '12px' }}
+                  className={classes.navMenuListItem}
                   selected={currentTab === "Examples"}
                   onClick={(event) => handleClickNavTab(event, "Examples" )}
                   to='/Examples'
@@ -156,9 +202,9 @@ export default function NavBarTabsSmallScreens(props) {
                 </ListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} sx={{padding: '3px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main'}} >
+              <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
-                  sx={{ boxShadow: 3, padding: '12px' }}
+                  className={classes.navMenuListItem}
                   selected={currentTab === "DataAndReports"}
                   onClick={(event) => handleClickNavTab(event, "DataAndReports" )}
                   to='/DataAndReports'
@@ -168,9 +214,9 @@ export default function NavBarTabsSmallScreens(props) {
                 </ListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} sx={{padding: '3px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main'}} >
+              <Paper square={false} elevation={0} className={classes.navPaper}  >
                 <ListItem
-                  sx={{ boxShadow: 3, padding: '12px' }}
+                  className={classes.navMenuListItem}
                   selected={currentTab === "About"}
                   onClick={(event) => handleClickNavTab(event, "About" )}
                   to='/About'
@@ -180,9 +226,9 @@ export default function NavBarTabsSmallScreens(props) {
                 </ListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} sx={{padding: '3px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main'}} >
+              <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
-                  sx={{ boxShadow: 3, padding: '12px' }}
+                  className={classes.navMenuListItem}
                   selected={currentTab === "StyleGuide"}
                   onClick={(event) => handleClickNavTab(event, "StyleGuide" )}
                   to='/StyleGuide'

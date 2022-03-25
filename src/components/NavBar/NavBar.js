@@ -14,7 +14,7 @@ API
   - Not sure yet
 
 State needed
-  - Current or active tab
+  - Current or active tab TODO: move to redux
   - Not sure yet
 
 Props
@@ -43,7 +43,9 @@ import NFWFLogoImage from '/Users/daveism/GitHub/crest-v2/src/assets/images/NFWF
 
 export default function NavBar(props) {
   const { data } = props;  // just here for testing decrement/increment
-  const [ currentTab, setCurrentTab] = React.useState('Home'); // TODO: needs persist
+  // current active tag
+  // TODO: needs persist in redux
+  const [ currentTab, setCurrentTab] = React.useState('Home');
 
   // change state for tab TODO needs persist
   const handleClickNavTab= (event, newValue) => {
