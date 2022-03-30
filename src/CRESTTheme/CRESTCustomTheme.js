@@ -31,7 +31,7 @@ const CustomTheme = createTheme({
     CRESTCta: {
       main: '#17A2B8',
       dark: '#007388',
-      light: '#360d4ea',
+      light: '#60d4ea',
       contrastText: '#fff'
     },
     CRESTPrimary: {
@@ -117,6 +117,47 @@ const CustomTheme = createTheme({
         }
       }
     },
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          backgroundColor: '#60d4ea',
+        }
+      }
+    },
+    // MuiListItem: {
+    //   styleOverrides: {
+    //     root: {
+    //       color: '#FFFFFF',
+    //       backgroundColor: '#000000',
+    //       textTransform: 'capitalize',
+    //       "&:hover": {
+    //         backgroundColor: '#444444',
+    //         color: '#FFFFFF',
+    //         textTransform: 'capitalize',
+    //       },
+    //       "&.Mui-selected": {
+    //         color: '#FFFFFF',
+    //         backgroundColor: '#444444',
+    //         textTransform: 'capitalize',
+    //       }
+    //     },
+    //   }
+    // },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#F8F9FA',
+          textTransform: 'capitalize',
+          "&:hover": {
+            backgroundColor: '#6f6f6f',
+          },
+          "&.Mui-selected": {
+            color: "#60d4ea",
+            textTransform: 'capitalize',
+          }
+        },
+      }
+    }
   }
 });
 
