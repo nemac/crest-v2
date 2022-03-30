@@ -27,6 +27,8 @@ import DataAndReportsCard from "./DataAndReportsCard";
 
 // sample config to create all the cards
 // TODO add config file to store all links and names
+//      iterate through json config to automate
+//      config should be imported from config directory
 const sampleRegionConfig = {
   sampleName: 'Name 1'
 }
@@ -44,6 +46,7 @@ export default function DataAndReportsCardHolder(props) {
           NativeLanguageLink={'https://www.google.com/'}
           EnglishLink={'https://www.google.com/'}/>
       </Grid>
+
       <Grid item xs={12}>
         <DataAndReportsCard
           regionName={'Continental United States (CONUS)'}
@@ -51,6 +54,7 @@ export default function DataAndReportsCardHolder(props) {
           dataLink={'https://www.google.com/'}
           EnglishLink={'https://www.google.com/'}/>
       </Grid>
+
       <Grid item xs={12}>
         <DataAndReportsCard
           regionName={'Guam'}
@@ -58,6 +62,7 @@ export default function DataAndReportsCardHolder(props) {
           dataLink={'https://www.google.com/'}
           EnglishLink={'https://www.google.com/'}/>
       </Grid>
+
       <Grid item xs={12}>
         <DataAndReportsCard
           regionName={'Hawai\'i'}
