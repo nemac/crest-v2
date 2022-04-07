@@ -85,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
 
 const codeBlockLink = `<Link href="#" >Link</Link>`
 const codeBlockDivider = `<Divider />`
+// standard grid padding px={1.5} py={0.75} 12 and 6 pixels
 
 export default function StyleGuide() {
   const classes = useStyles({});
@@ -391,7 +392,6 @@ export default function StyleGuide() {
         selectedIcon={<PictureAsPdf />}
         unSelectedIcon={<PictureAsPdfOutlined />}
         blockBackgroundColor='CRESTGridBackground.main'
-        flip={true}
       />
 
       <StyleGuideIconComponent
