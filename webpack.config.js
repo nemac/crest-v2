@@ -48,6 +48,7 @@ module.exports = {
       rules: [
         {
           test: /\.(js|jsx)$/,
+          include: path.resolve(__dirname, 'src'),
           use: { // Use the following loader and options
             loader: 'babel-loader',
             // We can pass options to both babel-loader and Babel. This option object
@@ -59,6 +60,7 @@ module.exports = {
         },
         {
           test: /\.s?css$/,
+          include: path.resolve(__dirname, 'src'),
           exclude: /node_modules/,
           use: [
             MiniCssExtractPlugin.loader,
