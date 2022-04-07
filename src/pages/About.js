@@ -1,63 +1,112 @@
 import * as React from 'react';
-import { Counter } from '../components/counter/Counter';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 
-/*export default function About() {
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
   return (
-    <div>
-      Welcome to the About page of Crest V2
-      <Counter/>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
     </div>
-  )
-}*/
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
-  leafletContainer: {
-    height: '600px',
-    width:'60%'
+  title: {
+    padding: theme.spacing(2.5),
+    backgroundColor: theme.palette.CRESTGridBackground.main,
+    color: theme.palette.CRESTGridBackground.contrastText,
+    borderColor: theme.palette.CRESTBorderColor.main
+  },
+  TabPanels: {
+    width: '100%',
+    backgroundColor: theme.palette.CRESTDark.main,
   }
 }));
 
-import { useState } from 'react'
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvents,
-} from 'react-leaflet'
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
 
-function LocationMarker() {
-  const [position, setPosition] = useState(null)
-  const map = useMapEvents({
-    click() {
-      map.locate()
-    },
-    locationfound(e) {
-      setPosition(e.latlng)
-      map.flyTo(e.latlng, map.getZoom())
-    },
-  })
-
-  return position === null ? null : (
-    <Marker position={position}>
-      <Popup>You are here</Popup>
-    </Marker>
-  )
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
 }
 
+
 export default function About() {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+      setValue(newValue);
+  };
+
   const classes = useStyles();
   return (
-    <MapContainer className = {classes.leafletContainer} center={{ lat: 51.505, lng: -0.09 }} zoom={13}>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossOrigin=""/>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <LocationMarker />
-    </MapContainer>
+    <div>
+
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} py={0.75}>
+        <Grid item xs={12}>
+          <Box>
+            <Paper square={false} elevation={0} className={classes.title} >
+              <Typography variant="h4" component="div" align="center" gutterBottom>
+                Regional Coastal Resilience Assessment Data Downloads and Reports
+              </Typography>
+            </Paper>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} py={0.75} >
+        <Grid item xs={12} >
+          <Box className={classes.TabPanels}>
+             <Box px={2}>
+               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                 <Tab label="About CREST" {...a11yProps(0)} />
+                 <Tab label="About Community Exposure" {...a11yProps(1)} />
+                 <Tab label="About Fish and Wildlife" {...a11yProps(2)} />
+                 <Tab label="About Resilience Hubs" {...a11yProps(3)} />
+               </Tabs>
+             </Box>
+             <TabPanel value={value} index={0}>
+               About CREST
+             </TabPanel>
+             <TabPanel value={value} index={1}>
+               About the Community Exposure Index
+             </TabPanel>
+             <TabPanel value={value} index={2}>
+               About the Fish and Wildlife Index
+             </TabPanel>
+             <TabPanel value={value} index={3}>
+               About the Resilience Hubs
+             </TabPanel>
+           </Box>
+        </Grid>
+      </Grid>
+
+
+    </div>
   )
 }
