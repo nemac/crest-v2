@@ -26,6 +26,47 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// sample configs to create all the cards
+// TODO config should be imported from config directory
+const sampleRegionConfig = [
+  {
+    regionName: 'American Somoa',
+    datFileSize: '100 MB',
+    dataLink: 'https://www.google.com/',
+    NativeLanguageText: 'Amerika Samoa Su’esu’ega o Malosi Gafataulima i Nofoaga Tumatāfaga',
+    NativeLanguageLink: 'https://www.google.com/',
+    EnglishLink: 'https://www.google.com/'
+  },
+  {
+    regionName: 'Continental United States (CONUS)',
+    datFileSize: '15 GB',
+    dataLink: 'https://www.google.com/',
+    EnglishLink: 'https://www.google.com/'
+  },
+  {
+    regionName: 'Guam',
+    datFileSize: '10 MB',
+    dataLink: 'https://www.google.com/',
+    EnglishLink: 'https://www.google.com/'
+  },
+  {
+    regionName: 'Hawai\'i',
+    datFileSize: '25 MB',
+    dataLink: 'https://www.google.com/',
+    EnglishLink: 'https://www.google.com/'
+  }
+];
+
+const sampleTargetedWatershedConfig = [
+  {
+    regionName: 'Cape Fear Watershed',
+    datFileSize: '122 MB',
+    dataLink: 'https://www.google.com/',
+    NativeLanguageLink: 'https://www.google.com/',
+    EnglishLink: 'https://www.google.com/'
+  },
+];
+
 export default function DataAndReports() {
   const classes = useStyles();
 
@@ -46,7 +87,25 @@ export default function DataAndReports() {
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
         <Grid item xs={12}>
-          <DataAndReportsCardHolder />
+          <DataAndReportsCardHolder cardConfig={sampleRegionConfig} />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={6} pb={0.75}>
+        <Grid item xs={12}>
+          <Box>
+            <Paper square={false} elevation={0} className={classes.title} >
+              <Typography variant="h4" component="div" align="center" gutterBottom>
+                Targeted Watershed Assessment Data Downloads
+              </Typography>
+            </Paper>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
+        <Grid item xs={12}>
+          <DataAndReportsCardHolder cardConfig={sampleTargetedWatershedConfig} />
         </Grid>
       </Grid>
 
