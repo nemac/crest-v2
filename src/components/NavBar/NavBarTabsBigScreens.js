@@ -30,7 +30,7 @@ import {
 } from '@mui/styles';
 
 // fix this can get the reference right I think I am special
-import NFWFLogoImage from '/Users/daveism/GitHub/crest-v2/src/assets/images/NFWF_logo_navbar.png';
+import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
 
 // style for logo image
 const useStyles = makeStyles({
