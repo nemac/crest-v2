@@ -39,7 +39,7 @@ import NavBarTabsSmallScreens from './NavBarTabsSmallScreens';
 import NavBarTabsBigScreens from './NavBarTabsBigScreens';
 
 // fix this can get the reference right I think I am special
-import NFWFLogoImage from '/Users/daveism/GitHub/crest-v2/src/assets/images/NFWF_logo_navbar.png';
+import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
 
 export default function NavBar(props) {
   const { data } = props;  // just here for testing decrement/increment
