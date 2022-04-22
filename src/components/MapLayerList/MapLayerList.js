@@ -39,17 +39,25 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import LayersIcon from '@mui/icons-material/Layers';
 import { mapConfig } from '../../configuration/config';
+import { toggleVisible } from '../../reducers/mapLayerVisibleSlice';
 
 
 
 const regions = mapConfig.regions;
 
 export default function MapLayerList() {
+  // Read in Selected region and separate layers and charts
+  const dispatch = useDispatch()
   const selectedRegion = useSelector((state) => state.selectedRegion.value)
   const regionLayers = regions[selectedRegion].layerList
   const chartsInputs = regions[selectedRegion].chartInputs
-  const [layerListVisible, toggleVisible] = useState(true)
+  // Create state for layer list visibility
+  const layerListVisible = useSelector((state) => state.mapLayerListVisible.visible)
+  // const [layerListVisible, toggleVisible] = useState(true)
 
+  /* Iterate through every label containing target chart and create an array of labels
+  This logic could be moved into LayerGroup.js
+  */
   const get_chart_layers = (targetChartLabel) => {
     var chartLayers = Array();
     regionLayers.map((layer) => {
@@ -66,18 +74,10 @@ export default function MapLayerList() {
     }
   }
 
-  const render_layer = (layerLabel) => {
-    return (
-      <AccordionDetails>
-        <Typography>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox defaultUnchecked />} label={layerLabel} />
-          </FormGroup>
-        </Typography>
-      </AccordionDetails>
-    )
-  }
-
+  /*build an accordion for target chart input. If chart is summary, 
+  no typography is used.  Then render an entry for each label in the chart.
+  This logic could be moved to LayerGroup.js
+  */
   const render_accordion = (chartInputLabel) => {
     var chartLayerList = get_chart_layers(chartInputLabel);
     var isSummary = (chartInputLabel == "Summary");
@@ -104,6 +104,24 @@ export default function MapLayerList() {
     }
 
   }
+
+/*Build an accordion detail entry with check box for each label
+TODO: implement toggleLayer() to toggle the layer on the map.
+This logic could be moved to Layer.js
+*/
+  const render_layer = (layerLabel) => {
+    return (
+      <AccordionDetails>
+        <Typography>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox defaultUnchecked />} label={layerLabel} />
+          </FormGroup>
+        </Typography>
+      </AccordionDetails>
+    )
+  }
+  
+  //Rendered Map Layer List
   if (layerListVisible) {
     return (
       <div>
@@ -116,7 +134,7 @@ export default function MapLayerList() {
               borderColor: 'CRESTBorderColor.main'
             }} >
             Map Layers
-            <Button variant='outlined' endIcon={<LayersIcon />} onClick={() => { toggleVisible(!layerListVisible); }} />
+            <Button variant='outlined' endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }} />
             <br />{chartsInputs.map(item => render_accordion(item['ChartInputLabel']))}
           </Paper>
         </Box>
@@ -136,7 +154,7 @@ export default function MapLayerList() {
               borderColor: 'CRESTBorderColor.main'
             }} >
               Map Layers
-            <Button variant='outlined' endIcon={<LayersIcon />} onClick={() => { toggleVisible(!layerListVisible); }}/>
+            <Button variant='outlined' endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }}/>
 
           </Paper>
         </Box>

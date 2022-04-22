@@ -7,7 +7,7 @@ export default function ResilienceProject() {
     <div>
       Welcome to the Where Should I Do a Resilience Project page of Crest V2
       <Map/>
-      <MapLayerList layerListVisible={true}/> {/*hard-coding to true for now*/}
+      <MapLayerList/>
     </div>
   )
 }

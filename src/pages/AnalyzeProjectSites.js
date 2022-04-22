@@ -7,7 +7,7 @@ export default function AnalyzeProjectSite() {
     <div>
       Welcome to the Analyze Project Sites page of Crest V2
       <Map/>
-      <MapLayerList layerListVisible={true}/> {/*hard-coding to true for now*/}
+      <MapLayerList/>
     </div>
   )
 }

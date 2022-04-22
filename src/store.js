@@ -3,12 +3,14 @@ import { combineReducers } from "redux";
 import counterReducer from "./reducers/counterSlice"
 import regionSelectReducer from "./reducers/regionSelectSlice"
 import mapPropertiesReducer from "./reducers/mapPropertiesSlice";
+import mapLayerListVisibleReducer from "./reducers/mapLayerVisibleSlice";
 import { loadState } from './localStorage'
 
 const reducers = combineReducers({
   counter: counterReducer,
   selectedRegion: regionSelectReducer,
   mapProperties: mapPropertiesReducer,
+  mapLayerListVisible: mapLayerListVisibleReducer,
 });
 
 export const store = configureStore({
