@@ -36,10 +36,6 @@ Props
 */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { renderToStaticMarkup } from "react-dom/server"
-import Identify from './Identify';
-import { InfoOutlined, Info } from '@mui/icons-material';
-import SearchIcon from '@mui/icons-material/Search';
 import { makeStyles } from '@mui/styles';
 import { Marker, MapContainer, MapConsumer, TileLayer, useMap, useMapEvents} from 'react-leaflet';
 import L, { divIcon } from "leaflet";
@@ -52,8 +48,8 @@ import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice'
 
 const useStyles = makeStyles((theme) => ({
   leafletContainer: {
-    'height': '600px',
-    'width':'60%'
+    height: '600px',
+    width:'60%'
   }
 }));
 
@@ -98,7 +94,7 @@ export default function MapCard() {
         scrollWheelZoom={true}
         bounds={extent}
         whenCreated={setMap}
-      > 
+      >
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
           crossOrigin=""/>
