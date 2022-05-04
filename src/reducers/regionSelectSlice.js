@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { mapConfig } from '../configuration/config';
+
+const regions = mapConfig.regions
 
 export const regionSelectSlice = createSlice({
   name: 'selectedRegion',
   initialState: {
-    // nothing at the moment
+    value: regions['Continental U.S'].label // Continental US
   },
   reducers: {
-    changeRegionValue: (state, action) => {
+    changeRegion: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It 
       // doesn't actually mutate the state because it uses the Immer library, 
       // which detects changes to a "draft state" and produces a brand new
@@ -17,6 +20,6 @@ export const regionSelectSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { changeRegionValue } = regionSelectSlice.actions
+export const { changeRegion } = regionSelectSlice.actions
 
 export default regionSelectSlice.reducer

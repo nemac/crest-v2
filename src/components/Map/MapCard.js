@@ -36,19 +36,24 @@ Props
 */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { renderToStaticMarkup } from "react-dom/server"
+import Identify from './Identify';
+import { InfoOutlined, Info } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
 import { makeStyles } from '@mui/styles';
-import { MapContainer, TileLayer} from 'react-leaflet';
+import { Marker, MapContainer, MapConsumer, TileLayer, useMap, useMapEvents} from 'react-leaflet';
+import L, { divIcon } from "leaflet";
 import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { useSelector, useDispatch } from 'react-redux'
-import { changeRegionValue } from '../../reducers/regionSelectSlice';
+import { changeRegion } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice'
 
 
 const useStyles = makeStyles((theme) => ({
   leafletContainer: {
-    height: '600px',
-    width:'60%'
+    'height': '600px',
+    'width':'60%'
   }
 }));
 
@@ -60,8 +65,7 @@ export default function MapCard() {
   const selectedRegion = useSelector((state) => state.selectedRegion.value)
   const zoom = useSelector((state) => state.mapProperties.zoom)
   const center = useSelector((state) => state.mapProperties.center)
-  const extent = regions[1].mapProperties.extent // conus - TODO: I hate this how can I fix this?
-
+  const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
   const classes = useStyles();
 
   const handleRegionSelectChange = (event) => {
@@ -70,9 +74,20 @@ export default function MapCard() {
                 regions[event.target.value].mapProperties.zoom)
     
     // Update redux store with new region, zoom, and center
-    dispatch(changeRegionValue(event.target.value))
+    dispatch(changeRegion(regions[event.target.value].label))
     dispatch(changeZoom(regions[event.target.value].mapProperties.zoom))
     dispatch(changeCenter(regions[event.target.value].mapProperties.center))
+  }
+
+  const MapEventsComponent = () => {
+    const map = useMap();
+    const mapEvents = useMapEvents({
+      moveend: () => { // this covers both zoom and center
+        dispatch(changeZoom(map.getZoom()))
+        dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]))
+      }
+    });
+    return null
   }
 
   const displayMap = useMemo(
@@ -83,7 +98,7 @@ export default function MapCard() {
         scrollWheelZoom={true}
         bounds={extent}
         whenCreated={setMap}
-      >
+      > 
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
           crossOrigin=""/>
@@ -92,15 +107,16 @@ export default function MapCard() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <MapEventsComponent/>
       </MapContainer>
     ),
     [],
   )
+
   return (
     <div>
-      {map ? <BasicSelect defaultValue={selectedRegion} values={regions} onChange={handleRegionSelectChange}/>: null}
+      {map ? <BasicSelect defaultValue={selectedRegion} values={Object.keys(regions)} onChange={handleRegionSelectChange}/>: null}
       {displayMap}
     </div>
   )
-  //<RegionSelect map={map}
 }
