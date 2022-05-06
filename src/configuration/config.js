@@ -7,13 +7,13 @@ import { puertoRicoConfig } from './regions/puertoRico'
 import { usVirginIslandsConfig } from './regions/usVirginIslands'
 
 export var mapConfig = {
-  regions: [
-    americanSamoaConfig,
-    continentalUSConfig,
-    guamConfig,
-    hawaiiConfig,
-    northernMarianaIslandsConfig,
-    puertoRicoConfig,
-    usVirginIslandsConfig
-  ],
+  regions: {
+    'American Samoa': americanSamoaConfig,
+    'Continental U.S': continentalUSConfig,
+    'Guam': guamConfig,
+    'Hawai\'i': hawaiiConfig,
+    'Northern Mariana Islands': northernMarianaIslandsConfig,
+    'Puerto Rico': puertoRicoConfig,
+    'US Virgin Islands': usVirginIslandsConfig
+  },
 }

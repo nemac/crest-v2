@@ -1,15 +1,5 @@
 import * as React from 'react';
-import { Counter } from '../components/counter/Counter';
 import { makeStyles } from '@mui/styles';
-
-/*export default function About() {
-  return (
-    <div>
-      Welcome to the About page of Crest V2
-      <Counter/>
-    </div>
-  )
-}*/
 
 const useStyles = makeStyles((theme) => ({
   leafletContainer: {
