@@ -8,7 +8,8 @@
   "scripts": {
     "deploy": "gh-pages -d dist",
     "start": "webpack serve --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "deployS3": "aws s3 sync dist/ s3://crest-v2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.10",
