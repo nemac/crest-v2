@@ -76,8 +76,7 @@ export default function MapCard() {
   }
 
   const MapEventsComponent = () => {
-    const map = useMap();
-    const mapEvents = useMapEvents({
+    const map = useMapEvents({
       moveend: () => { // this covers both zoom and center
         dispatch(changeZoom(map.getZoom()))
         dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]))
