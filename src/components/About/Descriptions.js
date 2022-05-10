@@ -25,19 +25,28 @@ import { Routes, Route, Link as RouterLink } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { makeStyles } from '@mui/styles';
 
 import DescriptionCard from "./DescriptionCard";
 import AboutComunityExposureImage from '../../assets/images/about_comunity_exposure.png';
 import AboutComunityFishAndWildlifeImage from '../../assets/images/about_fish_and_wildlife.png';
 import AboutComunityResilienceHubsImage from '../../assets/images/about_resilience_hubs.png';
 
+const useStyles = makeStyles((theme) => ({
+  item: {
+    item: { display: "flex", flexDirection: "column" }
+  }
+}));
+
 
 export default function Descriptions() {
+  const classes = useStyles();
+
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="start" px={3} py={0.75}>
+    <Grid container spacing={2} justify="space-between" alignItems="stretch" px={3} py={0.75} >
 
 
-      <Grid item xs={12} sm={12} md={6} >
+      <Grid item xs={12} sm={12} md={6} lg={4} className={classes.item}>
         <DescriptionCard
           descriptionImage={AboutComunityExposureImage}
           descriptionTitle={'About Community Exposure'}
@@ -47,7 +56,7 @@ export default function Descriptions() {
           </Typography>
         </DescriptionCard>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} >
+      <Grid item xs={12} sm={12} md={6} lg={4} className={classes.item}>
         <DescriptionCard
           descriptionImage={AboutComunityFishAndWildlifeImage}
           descriptionTitle={'About Fish and Wildlife'}
@@ -60,7 +69,7 @@ export default function Descriptions() {
           </Typography>
         </DescriptionCard>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} >
+      <Grid item xs={12} sm={12} md={6} lg={4} className={classes.item}>
         <DescriptionCard
           descriptionImage={AboutComunityResilienceHubsImage}
           descriptionTitle={'About Resilience Hubs'}

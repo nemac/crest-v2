@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
   AboutImageStyle: {
     maxWidth: '100%',
     height: 'auto'
+  },
+  descriptionBox: {
+    height: '100%'
   }
 }));
 
@@ -48,8 +51,8 @@ export default function DescriptionCard(props) {
   const classes = useStyles();
 
   return (
-    <Box  py={0.75} >
-      <Paper variant="outlined" square={false} sx={{minHeight: '800px'}}>
+    <Box  py={0.75} className={classes.descriptionBox} >
+      <Paper variant="outlined" square={false} sx={{minHeight: '800px', height: '100%'}}>
         <Typography variant="h5" component="div" align="start" px={3} py={1} gutterBottom>
           {descriptionTitle}
         </Typography>
