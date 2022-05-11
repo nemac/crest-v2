@@ -12,7 +12,8 @@
     "deploy": "gh-pages -d dist",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production",
-    "test": "jest --env=jsdom"
+    "test": "jest --env=jsdom",
+    "test:watch": "jest --env=jsdom --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.16.10",
