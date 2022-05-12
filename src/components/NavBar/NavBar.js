@@ -38,7 +38,6 @@ import Typography from '@mui/material/Typography';
 import NavBarTabsSmallScreens from './NavBarTabsSmallScreens';
 import NavBarTabsBigScreens from './NavBarTabsBigScreens';
 
-// fix this can get the reference right I think I am special
 import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
 
 export default function NavBar(props) {

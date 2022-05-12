@@ -24,6 +24,8 @@ import Grid from '@mui/material/Grid';
 import LinkTab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
+import a11yProps from  '../../utility/a11yProps';
+
 import {
   makeStyles,
   useTheme
@@ -41,14 +43,6 @@ const useStyles = makeStyles({
     minWidth: '45px',
   }
 });
-
-// add assability
-function a11yProps(index) {
-  return {
-    id: `crest-tab-${index}`,
-    'aria-controls': `crest-tabpanel-${index}`,
-  };
-}
 
 export default function NavBarTabs(props) {
   const { currentTab, data, handleClickNavTab, logo } = props;  // just here for testing decrement/increment
@@ -77,13 +71,13 @@ export default function NavBarTabs(props) {
             onChange={handleClickNavTab}
             aria-label="CREST Nabigation Tabs"
             >
-            <LinkTab value="Home" to='/' {...a11yProps(0)} component={RouterLink}  label="Home" />
-            <LinkTab value="ResilienceProject" to='/ResilienceProject' {...a11yProps(1)} component={RouterLink} label="Where Should I do a Resilience Project?" />
-            <LinkTab value="AnalyzeProjectSites" to='/AnalyzeProjectSites' {...a11yProps(2)} component={RouterLink}label="Analyze Project Sites" />
-            <LinkTab value="Examples" to='/Examples' {...a11yProps(3)} component={RouterLink} state={{ data }} label="Examples" />
-            <LinkTab value="DataAndReports" to='/DataAndReports' {...a11yProps(0)} component={RouterLink}label="Data & Reports" />
-            <LinkTab value="About" to='/About' {...a11yProps(4)} component={RouterLink} label="About" />
-            <LinkTab value="StyleGuide" to='/StyleGuide' {...a11yProps(5)} component={RouterLink}label="Style Guide" />
+            <LinkTab value="Home" to='/' {...a11yProps(0, 'crest-tab')} component={RouterLink}  label="Home" />
+            <LinkTab value="ResilienceProject" to='/ResilienceProject' {...a11yProps(1, 'crest-tab')} component={RouterLink} label="Where Should I do a Resilience Project?" />
+            <LinkTab value="AnalyzeProjectSites" to='/AnalyzeProjectSites' {...a11yProps(2, 'crest-tab')} component={RouterLink}label="Analyze Project Sites" />
+            <LinkTab value="Examples" to='/Examples' {...a11yProps(3, 'crest-tab')} component={RouterLink} state={{ data }} label="Examples" />
+            <LinkTab value="DataAndReports" to='/DataAndReports' {...a11yProps(0, 'crest-tab')} component={RouterLink}label="Data & Reports" />
+            <LinkTab value="About" to='/About' {...a11yProps(4, 'crest-tab')} component={RouterLink} label="About" />
+            <LinkTab value="StyleGuide" to='/StyleGuide' {...a11yProps(5, 'crest-tab')} component={RouterLink}label="Style Guide" />
           </Tabs>
         </Grid>
       </Grid>
