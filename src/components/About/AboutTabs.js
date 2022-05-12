@@ -88,10 +88,10 @@ export default function AboutTabs (props) {
         <Box className={classes.TabPanels}>
            <Box px={2} className={classes.TabHeading}>
              <Tabs value={value} onChange={handleChange} aria-label="about page tabs" className={classes.TabHeading}>
-               <Tab label="About CREST" {...a11yProps(0)} className={classes.Tabs}/>
-               <Tab label="About Community Exposure" {...a11yProps(1)} className={classes.Tabs}/>
-               <Tab label="About Fish and Wildlife" {...a11yProps(2)} className={classes.Tabs}/>
-               <Tab label="About Resilience Hubs" {...a11yProps(3)} className={classes.Tabs}/>
+               <Tab label="About CREST" {...a11yProps(0, 'about-tab')} className={classes.Tabs}/>
+               <Tab label="About Community Exposure" {...a11yProps(1, 'about-tab')} className={classes.Tabs}/>
+               <Tab label="About Fish and Wildlife" {...a11yProps(2, 'about-tab')} className={classes.Tabs}/>
+               <Tab label="About Resilience Hubs" {...a11yProps(3, 'about-tab')} className={classes.Tabs}/>
              </Tabs>
            </Box>
            <AboutTabPannel value={value} index={0} className={classes.AboutTabPanel}>

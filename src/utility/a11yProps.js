@@ -1,9 +1,7 @@
-// what else do we need to add to this
-// TODO need to update othe components to include this.
-
-export default function a11yProps(index) {
+// TODO: what else do we need to add to this
+export default function a11yProps(index, name) {
   return {
-    id: `about-tab-index-${index}`,
-    'aria-controls': `about-tab-index-${index}`,
+    id: `${name}-${index}`,
+    'aria-controls': `${name}-${index}`
   };
 }
