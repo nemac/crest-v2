@@ -53,7 +53,13 @@ export default function AboutResilienceHubs(props) {
       </Grid>
     </Grid>
     <Typography variant="body" component="div" px={3} py={1} gutterBottom>
-      Resilience Hubs are areas of open space or habitat where resilience projects may have the greatest potential to benefit both human community resilience and fish and wildlife. The Hubs combine information about natural open spaces, flooding threats, community assets, and fish and wildlife resources. As the primary output of the Regional Coastal Resilience Assessments, Resilience Hubs are common to all regions. However, the methods used to develop Resilience Hubs do vary regionally, with significant methodological enhancements made in Puerto Rico, the U.S. Virgin Islands, and the Northern Mariana Islands. For details, review the <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>
+      Resilience Hubs are areas of open space or habitat where resilience projects may have the greatest
+      potential to benefit both human community resilience and fish and wildlife. The Hubs combine information
+      about natural open spaces, flooding threats, community assets, and fish and wildlife resources.
+      As the primary output of the Regional Coastal Resilience Assessments, Resilience Hubs are common to all regions.
+      However, the methods used to develop Resilience Hubs do vary regionally, with significant methodological enhancements
+      made in Puerto Rico, the U.S. Virgin Islands, and the Northern Mariana Islands. For details, review the
+      <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>
     </Typography>
     </div>
   )

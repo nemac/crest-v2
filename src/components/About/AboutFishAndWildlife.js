@@ -53,10 +53,22 @@ export default function AboutFishAndWildlife(props) {
         </Grid>
       </Grid>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
-        The Fish and Wildlife Index identifies areas on the landscape where species and their habitats are located, helping to understand areas where implementing nature-based solutions are likely to benefit federal- or state-designated species of concern. While the Regional Coastal Resilience Assessments consistently combine species data to create a single Fish and Wildlife Index, methods vary between the continental U.S. (CONUS) and other regional assessments. In CONUS, a Terrestrial and Aquatic Index are combined based principally on rarity-weighted richness. Importantly, in CONUS, the Aquatic Index includes both freshwater and marine species, but focuses almost exclusively on very shallow, nearshore areas.
+        The Fish and Wildlife Index identifies areas on the landscape where species and their habitats are located,
+        helping to understand areas where implementing nature-based solutions are likely to benefit federal- or state-designated species of concern.
+        While the Regional Coastal Resilience Assessments consistently combine species data to create a single Fish and Wildlife Index,
+        methods vary between the continental U.S. (CONUS) and other regional assessments. In CONUS, a Terrestrial and Aquatic Index
+        are combined based principally on rarity-weighted richness. Importantly, in CONUS, the Aquatic Index includes both
+        freshwater and marine species, but focuses almost exclusively on very shallow, nearshore areas.
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
-        Implementing significant enhancements to the Fish and Wildlife Index methods, regional assessments in Puerto Rico, the U.S. Virgin Islands, and the Northern Mariana Islands combine Terrestrial and Marine Indices. Unlike CONUS, the Terrestrial Index attempts to identify suitable habitat based on the habitat preferences of major taxonomic groups  (e.g., birds, reptiles, mammals, amphibians, and freshwater fishes and invertebrates). The Marine Index considers habitat to a 30-meter depth contour, utilizing the best available data to identify marine habitat types capable of supporting significant biodiversity (e.g., coral reefs, mangroves, and seagrass beds). CREST automatically displays the results for each region based on the method applied. For details, review the <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>.
+        Implementing significant enhancements to the Fish and Wildlife Index methods, regional assessments in Puerto Rico,
+        the U.S. Virgin Islands, and the Northern Mariana Islands combine Terrestrial and Marine Indices. Unlike CONUS,
+        the Terrestrial Index attempts to identify suitable habitat based on the habitat preferences of major taxonomic groups
+        (e.g., birds, reptiles, mammals, amphibians, and freshwater fishes and invertebrates). The Marine Index considers
+        habitat to a 30-meter depth contour, utilizing the best available data to identify marine habitat types capable of
+        supporting significant biodiversity (e.g., coral reefs, mangroves, and seagrass beds). CREST automatically displays the
+        results for each region based on the method applied. For details, review the
+        <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>.
       </Typography>
     </div>
   )

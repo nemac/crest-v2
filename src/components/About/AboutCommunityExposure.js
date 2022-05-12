@@ -53,7 +53,13 @@ export default function AboutCommunityExposure(props) {
         </Grid>
       </Grid>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
-        The Community Exposure Index explores the relationship between potential flooding threats and the presence of community assets by combining two composite indices: the Threat Index and the Community Asset Index. The Threat Index utilizes landscape characteristics and flood-related data. The Community Asset Index helps to understand where critical infrastructure, facilities, and population are concentrated on the landscape. Together, these indices combine to identify areas where community assets overlap with flood threats, also known as exposure.While individual data inputs vary regionally, the Regional Coastal Resilience Assessments utilize standardized methods to calculate the Community Exposure Index. For details, review the <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>
+        The Community Exposure Index explores the relationship between potential flooding threats and the presence of
+        community assets by combining two composite indices: the Threat Index and the Community Asset Index. The Threat
+        Index utilizes landscape characteristics and flood-related data. The Community Asset Index helps to understand where
+        critical infrastructure, facilities, and population are concentrated on the landscape. Together, these indices combine to
+        identify areas where community assets overlap with flood threats, also known as exposure.While individual data inputs
+        vary regionally, the Regional Coastal Resilience Assessments utilize standardized methods to calculate the Community Exposure Index.
+        For details, review the <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>
       </Typography>
     </div>
   )
