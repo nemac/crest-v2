@@ -14,6 +14,7 @@
     "build": "webpack --mode production",
     "test": "jest --env=jsdom",
     "test:watch": "jest --env=jsdom --watch"
+    "deployS3": "aws s3 sync dist/ s3://crest-v2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.10",
