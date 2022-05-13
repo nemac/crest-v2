@@ -1,5 +1,5 @@
 /*
-The component holds the all detailed and summnary charts and action buttons. 
+The component holds the all detailed and summnary charts and action buttons.
 
 Child Components
 - AnalyzeArea-ChartActionButtons.js
