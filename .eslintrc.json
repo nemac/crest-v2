@@ -1,9 +1,16 @@
 {
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base",
+  "plugin:react/recommended"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "env": {
     "browser": true,
     "jquery": true
   },
+  "ignorePatterns": ["*.test*.js"],
   "rules": {
     "comma-dangle": ["error", "never"],
     "no-underscore-dangle": ["off"],

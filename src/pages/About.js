@@ -1,63 +1,24 @@
 import * as React from 'react';
-import { Counter } from '../components/counter/Counter';
-import { makeStyles } from '@mui/styles';
 
-/*export default function About() {
+import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/styles';
+
+import AboutTabs from '../components/About/AboutTabs';
+import AboutCards from '../components/About/AboutCards';
+import AboutFooter from '../components/About/AboutFooter';
+
+export default function About (props) {
+  // get breakpoint for small screens so we can force cards on small screen and tabs on larger screens
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
-    <div>
-      Welcome to the About page of Crest V2
-      <Counter/>
-    </div>
-  )
-}*/
+    <Box px={{ xs: 0, md: 3}} py={0.75} >
+      
+      {isSmallScreen ? ( <AboutCards /> ) : ( <AboutTabs /> )}
 
-const useStyles = makeStyles((theme) => ({
-  leafletContainer: {
-    height: '600px',
-    width:'60%'
-  }
-}));
-
-import { useState } from 'react'
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvents,
-} from 'react-leaflet'
-
-function LocationMarker() {
-  const [position, setPosition] = useState(null)
-  const map = useMapEvents({
-    click() {
-      map.locate()
-    },
-    locationfound(e) {
-      setPosition(e.latlng)
-      map.flyTo(e.latlng, map.getZoom())
-    },
-  })
-
-  return position === null ? null : (
-    <Marker position={position}>
-      <Popup>You are here</Popup>
-    </Marker>
-  )
-}
-
-export default function About() {
-  const classes = useStyles();
-  return (
-    <MapContainer className = {classes.leafletContainer} center={{ lat: 51.505, lng: -0.09 }} zoom={13}>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossOrigin=""/>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <LocationMarker />
-    </MapContainer>
+      <AboutFooter />
+    </Box>
   )
 }

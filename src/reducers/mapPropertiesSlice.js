@@ -6,8 +6,8 @@ const regions = mapConfig.regions
 export const mapPropertiesSlice = createSlice({
   name: 'mapProperties',
   initialState: {
-    zoom: regions[1].mapProperties.zoom, // conus - TODO: I hate this how can I fix this?
-    center: regions[1].mapProperties.center // conus - TODO: I hate this how can I fix this? 
+    zoom: regions['Continental U.S'].mapProperties.zoom, // conus - TODO: I hate this how can I fix this?
+    center: regions['Continental U.S'].mapProperties.center // conus - TODO: I hate this how can I fix this? 
   },
   reducers: {
     changeZoom: (state, action) => {
