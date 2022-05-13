@@ -33,51 +33,50 @@ import AboutCrest from './AboutCrest';
 import AboutCommunityExposure from './AboutCommunityExposure';
 import AboutFishAndWildlife from './AboutFishAndWildlife';
 import AboutResilienceHubs from './AboutResilienceHubs';
-import a11yProps from  '../../utility/a11yProps';
+import a11yProps from '../../utility/a11yProps';
 
 const useStyles = makeStyles((theme) => ({
   TabPanels: {
     width: '100%',
-    backgroundColor: theme.palette.CRESTDark.main,
+    backgroundColor: theme.palette.CRESTDark.main
   },
   TabHeading: {
-    backgroundColor: theme.palette.CRESTGridBackground.main,
+    backgroundColor: theme.palette.CRESTGridBackground.main
   },
   Tabs: {
     marginLeft: theme.spacing(1),
     borderTopLeftRadius: '4px',
     borderTopRightRadius: '4px',
     backgroundColor: theme.palette.CRESTDarkAlt.main,
-    "&:hover": {
-      backgroundColor: theme.palette.CRESTGridBackground.dark,
+    '&:hover': {
+      backgroundColor: theme.palette.CRESTGridBackground.dark
     },
     '&.Mui-selected': {
-      backgroundColor: theme.palette.CRESTGridBackground.dark,
       backgroundColor: theme.palette.CRESTGridBackground.dark,
       borderColor: theme.palette.CRESTBorderColor.main,
       border: 1,
       borderStyle: 'solid',
-      "&:hover": {
-        backgroundColor: theme.palette.CRESTDarkAlt.main,
+      '&:hover': {
+        backgroundColor: theme.palette.CRESTDarkAlt.main
       }
     },
     item: {
-      item: { display: "flex", flexDirection: "column" }
+      item: { display: 'flex', flexDirection: 'column' }
     }
   },
   AboutTabPanel: {
     backgroundColor: theme.palette.CRESTGridBackground.dark,
     borderColor: theme.palette.CRESTBorderColor.main,
     border: 1,
-    borderStyle: 'solid',
+    borderStyle: 'solid'
   }
 }));
 
-export default function AboutTabs (props) {
+export default function AboutTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-      setValue(newValue);
+    setValue(newValue);
   };
 
   const classes = useStyles();
@@ -112,5 +111,5 @@ export default function AboutTabs (props) {
          </Box>
       </Grid>
     </Grid>
-  )
+  );
 }

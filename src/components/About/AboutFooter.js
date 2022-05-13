@@ -19,7 +19,6 @@ Props
 */
 import * as React from 'react';
 
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 import { makeStyles } from '@mui/styles';
@@ -29,11 +28,11 @@ import NFWFAboutLogoImage from '../../assets/images/nfwf_logo_white.png';
 
 const useStyles = makeStyles((theme) => ({
   AboutLogoImageStyle: {
-    maxHeight: '64px',
-  },
+    maxHeight: '64px'
+  }
 }));
 
-export default function AboutFooter (props) {
+export default function AboutFooter(props) {
   const classes = useStyles();
 
   return (
@@ -45,5 +44,5 @@ export default function AboutFooter (props) {
         <img src={NEMACAboutLogoImage} className={classes.AboutLogoImageStyle} />
       </Grid>
     </Grid>
-  )
+  );
 }
