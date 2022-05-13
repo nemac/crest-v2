@@ -67,7 +67,7 @@ export default function AboutFishAndWildlife(props) {
         (e.g., birds, reptiles, mammals, amphibians, and freshwater fishes and invertebrates). The Marine Index considers
         habitat to a 30-meter depth contour, utilizing the best available data to identify marine habitat types capable of
         supporting significant biodiversity (e.g., coral reefs, mangroves, and seagrass beds). CREST automatically displays the
-        results for each region based on the method applied. For details, review the
+        results for each region based on the method applied. For details, review the&nbsp;
         <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>.
       </Typography>
     </div>

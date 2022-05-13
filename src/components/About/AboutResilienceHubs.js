@@ -58,7 +58,7 @@ export default function AboutResilienceHubs(props) {
       about natural open spaces, flooding threats, community assets, and fish and wildlife resources.
       As the primary output of the Regional Coastal Resilience Assessments, Resilience Hubs are common to all regions.
       However, the methods used to develop Resilience Hubs do vary regionally, with significant methodological enhancements
-      made in Puerto Rico, the U.S. Virgin Islands, and the Northern Mariana Islands. For details, review the
+      made in Puerto Rico, the U.S. Virgin Islands, and the Northern Mariana Islands. For details, review the&nbsp;
       <Link value="DataAndReports" to='/DataAndReports' component={RouterLink} >final reports</Link>
     </Typography>
     </div>
