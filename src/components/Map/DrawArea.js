@@ -1,7 +1,8 @@
 /*
 Purpose
   Draws an area on the map
-  will also make the leaflet draw menu appear or we need to create a new one that mimics the figma designated
+  will also make the leaflet draw menu appear or we need to
+  create a new one that mimics the figma designated
   this will be a custome component
   we may need to add child for the drawing actions which include:
     - finish
