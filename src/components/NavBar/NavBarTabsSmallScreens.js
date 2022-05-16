@@ -40,6 +40,7 @@ import a11yProps from '../../utility/a11yProps';
 const useStyles = makeStyles((theme) => ({
   appTitle: {
     fontSize: '1rem',
+    paddingLeft: theme.spacing(1),
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(0)
   },
