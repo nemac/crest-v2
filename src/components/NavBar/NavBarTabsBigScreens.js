@@ -31,14 +31,15 @@ import { makeStyles } from '@mui/styles';
 import a11yProps from '../../utility/a11yProps';
 
 // style for logo image
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   NFWFLogoImageStyle: {
+    marginLeft: theme.spacing(1),
     height: 'auto',
     width: '100%',
     maxWidth: '65px',
     minWidth: '45px'
   }
-});
+}));
 
 export default function NavBarTabs(props) {
   const { currentTab, handleClickNavTab, logo } = props;

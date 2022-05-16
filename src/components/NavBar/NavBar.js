@@ -36,7 +36,6 @@ import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
 
 const useStyles = makeStyles((theme) => ({
   CardBackground: {
-    padding: '20px',
     backgroundColor: theme.palette.CRESTGridBackground.dark,
     color: theme.palette.CRESTGridBackground.contrastText,
     borderColor: theme.palette.CRESTBorderColor.main
