@@ -1,13 +1,16 @@
 /*
 Purpose
-  There are two types of groups the drivers and the main layers, for lack of not knowing what to call them.
+  There are two types of groups the drivers and the main layers,
+  for lack of not knowing what to call them.
   The drivers, in this case, will need to be collapsible
 
-  This will change when regions change 
+  This will change when regions change
 
-  might be able to merge this with MapLayerList-LayerGroup have collapsible as true and as sub menue for background color change
+  might be able to merge this with MapLayerList-LayerGroup
+  have collapsible as true and as sub menue for background color change
 
-  has only the layers that are grouped with the main layer such as which can change for different layers
+  has only the layers that are grouped with the main layer
+  such as which can change for different layers
   Community Asset Inputs
     - Critical Facilities
     - Critical Infrastructure
