@@ -14,7 +14,7 @@ Purpose
     - Area is too big or too big to process
     - Area is not within any assessment
     - probably others
-     
+
 Child Components
   - map.js
 

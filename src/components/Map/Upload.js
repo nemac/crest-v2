@@ -9,7 +9,7 @@ Purpose
   - One or more areas are too big to process
   - Shapefile has invalid geometry probably a self-intersection
   - Shapefile has multiple shapes should we treat them as one area or as separate?
-  - Shapefile has multi-shape polygons should we treat them as one area or as separate?  
+  - Shapefile has multi-shape polygons should we treat them as one area or as separate?
 
   // TODO: need to add these to sperate component.js files for each action
 Child Components
