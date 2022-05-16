@@ -208,7 +208,7 @@ export default function NavBarTabsSmallScreens(props) {
                   to='/About'
                   {...a11yProps(4)}
                   component={RouterLink}
-                  abel="About" >About
+                  label="About" >About
                 </ListItem>
               </Paper>
 
