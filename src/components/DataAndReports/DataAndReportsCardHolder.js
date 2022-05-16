@@ -33,16 +33,14 @@ export default function DataAndReportsCardHolder(props) {
   return (
     <Grid container spacing={1} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
 
-      {cardConfig.map(cardData => (
-        <Grid item xs={12} key={cardData.regionName}>
-          <DataAndReportsCard
-            regionName={cardData.regionName}
-            dataFileSize={cardData.dataFileSize}
-            NativeLanguageText={cardData.NativeLanguageText}
-            dataLink={cardData.dataLink}
-            EnglishLink={cardData.EnglishLink}/>
-        </Grid>
-      ))}
+      {cardConfig.map((cardData) => <Grid item xs={12} key={cardData.regionName}>
+            <DataAndReportsCard
+              regionName={cardData.regionName}
+              dataFileSize={cardData.dataFileSize}
+              NativeLanguageText={cardData.NativeLanguageText}
+              dataLink={cardData.dataLink}
+              EnglishLink={cardData.EnglishLink}/>
+          </Grid>)}
 
     </Grid>
   );
