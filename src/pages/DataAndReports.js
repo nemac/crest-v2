@@ -11,9 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import {
-  makeStyles
-} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 import DataAndReportsCardHolder from '../components/DataAndReports/DataAndReportsCardHolder';
 
@@ -31,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const sampleRegionConfig = [
   {
     regionName: 'American Somoa',
-    datFileSize: '100 MB',
+    dataFileSize: '100 MB',
     dataLink: 'https://www.google.com/',
     NativeLanguageText: 'Amerika Samoa Su’esu’ega o Malosi Gafataulima i Nofoaga Tumatāfaga',
     NativeLanguageLink: 'https://www.google.com/',
@@ -39,19 +37,19 @@ const sampleRegionConfig = [
   },
   {
     regionName: 'Continental United States (CONUS)',
-    datFileSize: '15 GB',
+    dataFileSize: '15 GB',
     dataLink: 'https://www.google.com/',
     EnglishLink: 'https://www.google.com/'
   },
   {
     regionName: 'Guam',
-    datFileSize: '10 MB',
+    dataFileSize: '10 MB',
     dataLink: 'https://www.google.com/',
     EnglishLink: 'https://www.google.com/'
   },
   {
     regionName: 'Hawai\'i',
-    datFileSize: '25 MB',
+    dataFileSize: '25 MB',
     dataLink: 'https://www.google.com/',
     EnglishLink: 'https://www.google.com/'
   }
@@ -60,7 +58,7 @@ const sampleRegionConfig = [
 const sampleTargetedWatershedConfig = [
   {
     regionName: 'Cape Fear Watershed',
-    datFileSize: '122 MB',
+    dataFileSize: '122 MB',
     dataLink: 'https://www.google.com/',
     NativeLanguageLink: 'https://www.google.com/',
     EnglishLink: 'https://www.google.com/'
