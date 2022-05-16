@@ -23,31 +23,33 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
-import { Routes, Route, Link as RouterLink } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import Tabs from '@mui/material/Tabs';
-import LinkTab from '@mui/material/Tab';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/styles';
-import Typography from '@mui/material/Typography';
+import { makeStyles, useTheme } from '@mui/styles';
 
 import NavBarTabsSmallScreens from './NavBarTabsSmallScreens';
 import NavBarTabsBigScreens from './NavBarTabsBigScreens';
 
 import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
 
+const useStyles = makeStyles((theme) => ({
+  CardBackground: {
+    padding: '20px',
+    backgroundColor: theme.palette.CRESTGridBackground.dark,
+    color: theme.palette.CRESTGridBackground.contrastText,
+    borderColor: theme.palette.CRESTBorderColor.main
+  }
+}));
+
 export default function NavBar(props) {
-  const { data } = props;  // just here for testing decrement/increment
   // current active tag
   // TODO: needs persist in redux
-  const [ currentTab, setCurrentTab] = React.useState('Home');
+  const [currentTab, setCurrentTab] = React.useState('Home');
 
   // change state for tab TODO needs persist
-  const handleClickNavTab= (event, newValue) => {
+  const handleClickNavTab = (event, newValue) => {
     setCurrentTab(newValue);
   };
 
@@ -55,30 +57,26 @@ export default function NavBar(props) {
   // also add show or hide the tabs
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-
-  // define the nav bar tabs
-  const tabs = {};
+  const classes = useStyles();
 
   return (
-      <Paper square={false} elevation={3} sx={{backgroundColor: 'CRESTGridBackground.dark', color: 'CRESTGridBackground.contrastText', borderColor: 'CRESTBorderColor.main'}} >
+      <Paper square={false} elevation={3} className={classes.CardBackground} >
         <Grid container spacing={0} justifyContent='center' alignItems='center'>
 
               {isSmallScreen ? (
                 <NavBarTabsSmallScreens
                   handleClickNavTab={handleClickNavTab}
                   currentTab={currentTab}
-                  data={data}
                   logo={NFWFLogoImage}
                 />
               ) : (
                 <NavBarTabsBigScreens
                   handleClickNavTab={handleClickNavTab}
                   currentTab={currentTab}
-                  data={data}
                   logo={NFWFLogoImage}
                 />
               )}
         </Grid>
       </Paper>
-  )
+  );
 }

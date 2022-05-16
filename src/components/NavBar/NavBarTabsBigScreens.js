@@ -18,21 +18,17 @@ Props
 - Not sure yet
 */
 import * as React from 'react';
-import { Routes, Route, Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LinkTab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import a11yProps from  '../../utility/a11yProps';
+import { makeStyles } from '@mui/styles';
 
-import {
-  makeStyles,
-  useTheme
-} from '@mui/styles';
-
-// fix this can get the reference right I think I am special
-import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
+import a11yProps from '../../utility/a11yProps';
 
 // style for logo image
 const useStyles = makeStyles({
@@ -40,12 +36,12 @@ const useStyles = makeStyles({
     height: 'auto',
     width: '100%',
     maxWidth: '65px',
-    minWidth: '45px',
+    minWidth: '45px'
   }
 });
 
 export default function NavBarTabs(props) {
-  const { currentTab, data, handleClickNavTab, logo } = props;  // just here for testing decrement/increment
+  const { currentTab, handleClickNavTab, logo } = props;
   const classes = useStyles();
 
   return (
@@ -71,10 +67,10 @@ export default function NavBarTabs(props) {
             onChange={handleClickNavTab}
             aria-label="CREST Nabigation Tabs"
             >
-            <LinkTab value="Home" to='/' {...a11yProps(0, 'crest-tab')} component={RouterLink}  label="Home" />
+            <LinkTab value="Home" to='/' {...a11yProps(0, 'crest-tab')} component={RouterLink} label="Home" />
             <LinkTab value="ResilienceProject" to='/ResilienceProject' {...a11yProps(1, 'crest-tab')} component={RouterLink} label="Where Should I do a Resilience Project?" />
             <LinkTab value="AnalyzeProjectSites" to='/AnalyzeProjectSites' {...a11yProps(2, 'crest-tab')} component={RouterLink}label="Analyze Project Sites" />
-            <LinkTab value="Examples" to='/Examples' {...a11yProps(3, 'crest-tab')} component={RouterLink} state={{ data }} label="Examples" />
+            <LinkTab value="Examples" to='/Examples' {...a11yProps(3, 'crest-tab')} component={RouterLink} label="Examples" />
             <LinkTab value="DataAndReports" to='/DataAndReports' {...a11yProps(0, 'crest-tab')} component={RouterLink}label="Data & Reports" />
             <LinkTab value="About" to='/About' {...a11yProps(4, 'crest-tab')} component={RouterLink} label="About" />
             <LinkTab value="StyleGuide" to='/StyleGuide' {...a11yProps(5, 'crest-tab')} component={RouterLink}label="Style Guide" />
@@ -83,5 +79,11 @@ export default function NavBarTabs(props) {
       </Grid>
     </Grid>
     < />
-  )
+  );
 }
+
+NavBarTabs.propTypes = {
+  currentTab: PropTypes.string.isRequired,
+  handleClickNavTab: PropTypes.func.isRequired,
+  logo: PropTypes.string.isRequired
+};

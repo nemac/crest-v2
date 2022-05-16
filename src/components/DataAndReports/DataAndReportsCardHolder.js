@@ -49,5 +49,5 @@ export default function DataAndReportsCardHolder(props) {
 }
 
 DataAndReportsCardHolder.propTypes = {
-  cardConfig: PropTypes.object.isRequired
+  cardConfig: PropTypes.array.isRequired
 };
