@@ -1,24 +1,25 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
+
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { CodeBlock, a11yDark } from "react-code-blocks";
-import { makeStyles } from '@mui/styles';
-
+import { CodeBlock, a11yDark } from 'react-code-blocks';
 
 export default function StyleGuideButtonComponent(props) {
- const { title, themeName, blockBackgroundColor } = props;
+  const {
+    title,
+    themeName,
+    blockBackgroundColor
+  } = props;
 
- const codeBlock = `<Button color="${themeName}">Button</Button>
- <Button variant="contained" color="${themeName}">Button</Button>
- <Button variant="outlined" color="${themeName}">Button</Button>`
+  const codeBlock = `<Button color="${themeName}">Button</Button>
+  <Button variant="contained" color="${themeName}">Button</Button>
+  <Button variant="outlined" color="${themeName}">Button</Button>`;
 
- return (
+  return (
    <div>
 
      <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
@@ -37,16 +38,23 @@ export default function StyleGuideButtonComponent(props) {
          &nbsp;
        </Grid>
        <Grid item xs={3} pl={0}>
-         <Paper variant="outlined" square={false} sx={{padding: '20px', backgroundColor: blockBackgroundColor}}>
+         <Paper
+           variant="outlined"
+           square={false}
+           sx={{
+             padding: '20px',
+             backgroundColor:
+             blockBackgroundColor
+           }}>
 
            <Grid container justifyContent="start" alignItems="start">
-             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
+             <Grid item xs={4} sx={{ backgroundColor: blockBackgroundColor }}>
                <Button color={themeName}>Button</Button>
              </Grid>
-             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
+             <Grid item xs={4} sx={{ backgroundColor: blockBackgroundColor }}>
                <Button variant="contained" color={themeName}>Button</Button>
              </Grid>
-             <Grid item xs={4} sx={{backgroundColor: blockBackgroundColor}}>
+             <Grid item xs={4} sx={{ backgroundColor: blockBackgroundColor }}>
                <Button variant="outlined" color={themeName}>Button</Button>
              </Grid>
            </Grid>
@@ -73,9 +81,12 @@ export default function StyleGuideButtonComponent(props) {
        </Grid>
      </Grid>
 
-
    </div>
- )
+  );
 }
 
-
+StyleGuideButtonComponent.propTypes = {
+  title: PropTypes.string.isRequired,
+  themeName: PropTypes.string.isRequired,
+  blockBackgroundColor: PropTypes.string.isRequired
+};
