@@ -207,7 +207,7 @@ export default function NavBarTabsSmallScreens(props) {
                   onClick={(event) => handleClickNavTab(event, 'About')}
                   to='/About'
                   {...a11yProps(4)}
-                  component={RouterLink} l
+                  component={RouterLink}
                   abel="About" >About
                 </ListItem>
               </Paper>
