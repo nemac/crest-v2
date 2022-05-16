@@ -7,5 +7,5 @@ export default function AnalyzeProjectSite() {
       Welcome to the Analyze Project Sites page of Crest V2
       <Map/>
     </div>
-  )
+  );
 }

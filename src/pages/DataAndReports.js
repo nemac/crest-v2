@@ -1,14 +1,7 @@
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
-import { InfoOutlined, Info } from '@mui/icons-material';
-import Link from '@mui/material/Link';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
@@ -62,7 +55,7 @@ const sampleTargetedWatershedConfig = [
     dataLink: 'https://www.google.com/',
     NativeLanguageLink: 'https://www.google.com/',
     EnglishLink: 'https://www.google.com/'
-  },
+  }
 ];
 
 export default function DataAndReports() {
@@ -108,5 +101,5 @@ export default function DataAndReports() {
       </Grid>
 
     </div>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export default function Examples() {
-  return(
+  return (
     <div>
       Welcome to the Examples page of Crest V2
     </div>
-  )
+  );
 }
