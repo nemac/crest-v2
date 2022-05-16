@@ -22,8 +22,9 @@ export default function StyleGuideIconComponent(props) {
   const colorAdd = color ? `color="${color}"` : '';
   const flipText = flip ? `sx={{transform: '${transformDeg}'}}` : '';
   const codeBlock = `import { ${UnselectedIconName}, ${SelectedIconName} } from '@mui/icons-material';
-    <${UnselectedIconName} ${colorAdd} />
-    <${SelectedIconName} ${colorAdd} ${flipText} />`;
+
+  <${UnselectedIconName} ${colorAdd} />
+  <${SelectedIconName} ${colorAdd} ${flipText} />`;
 
   return (
    <div>
