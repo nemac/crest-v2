@@ -13,8 +13,8 @@ export const loadState = () => {
 export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem('state', serializedState); 
+    localStorage.setItem('state', serializedState);
   } catch (err) {
-    console.log('Failed to write ' + state + ' to local storage')
+    console.log(`Failed to write ${state} to local storage`); // eslint-disable-line no-console
   }
 };
