@@ -28,8 +28,13 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 
-export default function AboutTabPannel (props) {
-  const { children, value, index, ...other } = props;
+export default function AboutTabPannel(props) {
+  const {
+    children,
+    value,
+    index,
+    ...other
+  } = props;
 
   return (
     <div
@@ -51,5 +56,5 @@ export default function AboutTabPannel (props) {
 AboutTabPannel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
 };

@@ -1,6 +1,7 @@
 /*
 Purpose
-  After a user searches and finds a location they need to be able to get zonal statics around the area
+  After a user searches and finds a location they
+  need to be able to get zonal statics around the area
 
   will require a esri leaflet plugin I think its called geocodeone
 

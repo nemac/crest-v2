@@ -6,7 +6,6 @@ Purpose
   - handle all the charts
     - details, inputs, and summary chart
 
-
 Child Components
   - AnalyzeArea-ChartActionButtons.js
 

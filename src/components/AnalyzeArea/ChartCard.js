@@ -2,7 +2,7 @@
 Purpose
   The component holds the summary chart and action buttons. This should be the summary chart only
   when user hovers overs will need to highlight the shape on the map
-  
+
 Child Components
   - AnalyzeArea-ChartActionButtons.js
   - AnalyzeArea-Chart.js

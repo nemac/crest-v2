@@ -25,37 +25,29 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { makeStyles } from '@mui/styles';
 
 import AboutCrest from './AboutCrest';
 import AboutCommunityExposure from './AboutCommunityExposure';
 import AboutFishAndWildlife from './AboutFishAndWildlife';
 import AboutResilienceHubs from './AboutResilienceHubs';
 
-export default function AboutTabs (props) {
-  const [value, setValue] = React.useState(0);
-
-  // handle tab click
-  const handleChange = (event, newValue) => {
-      setValue(newValue);
-  };
-
+export default function AboutTabs(props) {
   return (
     <div>
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={2} py={1} >
         <Grid item xs={12} >
-          <Box  py={0.75} >
-            <Paper variant="outlined" square={false} sx={{minHeight: '800px', height: '100%'}}>
+          <Box py={0.75} >
+            <Paper variant="outlined" square={false} sx={{ minHeight: '800px', height: '100%' }}>
               <AboutCrest />
             </Paper>
           </Box>
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={2} py={1}  >
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={2} py={1} >
         <Grid item xs={12} >
-          <Box  py={0.75} >
-            <Paper variant="outlined" square={false} sx={{minHeight: '800px', height: '100%'}}>
+          <Box py={0.75} >
+            <Paper variant="outlined" square={false} sx={{ minHeight: '800px', height: '100%' }}>
               <AboutCommunityExposure />
             </Paper>
           </Box>
@@ -64,8 +56,8 @@ export default function AboutTabs (props) {
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={2} pt={1} >
         <Grid item xs={12} >
-          <Box  py={0.75} >
-            <Paper variant="outlined" square={false} sx={{minHeight: '800px', height: '100%'}}>
+          <Box py={0.75} >
+            <Paper variant="outlined" square={false} sx={{ minHeight: '800px', height: '100%' }}>
               <AboutFishAndWildlife />
             </Paper>
           </Box>
@@ -74,13 +66,13 @@ export default function AboutTabs (props) {
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={2} py={1} >
         <Grid item xs={12} >
-          <Box  py={0.75} >
-            <Paper variant="outlined" square={false} sx={{minHeight: '800px', height: '100%'}}>
+          <Box py={0.75} >
+            <Paper variant="outlined" square={false} sx={{ minHeight: '800px', height: '100%' }}>
               <AboutResilienceHubs />
             </Paper>
           </Box>
         </Grid>
       </Grid>
     </div>
-  )
+  );
 }

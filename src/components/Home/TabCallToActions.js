@@ -23,7 +23,7 @@ Props
 */
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
-import TabCallToActionCard from "./TabCallToActionCard";
+import TabCallToActionCard from './TabCallToActionCard';
 
 export default function TabCallToActions() {
   return (
@@ -43,5 +43,5 @@ export default function TabCallToActions() {
       </Grid>
 
     </Grid>
-  )
+  );
 }

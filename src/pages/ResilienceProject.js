@@ -7,5 +7,5 @@ export default function ResilienceProject() {
       Welcome to the Where Should I Do a Resilience Project page of Crest V2
       <Map/>
     </div>
-  )
+  );
 }

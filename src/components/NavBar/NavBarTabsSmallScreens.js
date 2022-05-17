@@ -20,42 +20,37 @@ Props
 - Not sure yet
 */
 import * as React from 'react';
-import { Routes, Route, Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
-
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-
 import Paper from '@mui/material/Paper';
-import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { MenuOutlined, Menu, ArrowDropDownCircle } from '@mui/icons-material';
+import { MenuOutlined, ArrowDropDownCircle } from '@mui/icons-material';
 
-import {
-  makeStyles,
-  useTheme
-} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
+
+import a11yProps from '../../utility/a11yProps';
 
 // style for menu
 const useStyles = makeStyles((theme) => ({
   appTitle: {
     fontSize: '1rem',
+    paddingLeft: theme.spacing(1),
     paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(0),
+    paddingBottom: theme.spacing(0)
   },
   navTitle: {
     fontSize: '1rem',
     paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
   },
   navControlIcon: {
-    fontSize: '1.20rem',
+    fontSize: '1.20rem'
   },
   navItemClick: {
     cursor: 'pointer',
@@ -76,32 +71,23 @@ const useStyles = makeStyles((theme) => ({
     color: '#FFFFFF',
     backgroundColor: '#000000',
     textTransform: 'capitalize',
-    textTransform: 'capitalize',
     boxShadow: 3,
     padding: '12px',
-    "&:hover": {
+    '&:hover': {
       backgroundColor: '#444444',
       color: '#FFFFFF',
-      textTransform: 'capitalize',
+      textTransform: 'capitalize'
     },
-    "&.Mui-selected": {
+    '&.Mui-selected': {
       color: '#FFFFFF',
       backgroundColor: '#444444',
-      textTransform: 'capitalize',
+      textTransform: 'capitalize'
     }
   }
 }));
 
-// add assability
-function a11yProps(index) {
-  return {
-    id: `crest-tab-${index}`,
-    'aria-controls': `crest-tabpanel-${index}`,
-  };
-}
-
 export default function NavBarTabsSmallScreens(props) {
-  const { currentTab, data, handleClickNavTab } = props;
+  const { currentTab, handleClickNavTab } = props;
 
   // react state for open menu
   const [openMenu, setOpenMenu] = React.useState(false);
@@ -134,7 +120,7 @@ export default function NavBarTabsSmallScreens(props) {
         </Grid>
 
         <Grid item xs={12}>
-          <Collapse in={openMenu} timeout="auto" unmountOnExit sx={{backgroundColor: 'CRESTGridBackground.main'}}>
+          <Collapse in={openMenu} timeout="auto" unmountOnExit sx={{ backgroundColor: 'CRESTGridBackground.main' }}>
 
             <Grid container spacing={0} justifyContent='center' alignItems='center' px={0.75} pt={1} pb={0} onClick={handleMenuClick} className={classes.navItemClick}>
               <Grid item xs={11} className={classes.navItemDark}>
@@ -144,12 +130,12 @@ export default function NavBarTabsSmallScreens(props) {
               </Grid>
               <Grid item xs={1} className={classes.navItemDark}>
                 <Typography variant='h6' component='div' px={1} align="left" className={classes.navTitle}>
-                  <ArrowDropDownCircle sx={{transform: 'rotate(-180deg)'}} className={classes.navControlIcon} />
+                  <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }} className={classes.navControlIcon} />
                 </Typography>
               </Grid>
               <Grid item xs={12} className={classes.navItemDark}>
                 <Typography variant='h7' component='div' px={0} pb={0} mb={0} align="left" gutterBottom>
-                  <Divider sx={{borderColor: 'CRESTPrimary.main'}}/>
+                  <Divider sx={{ borderColor: 'CRESTPrimary.main' }}/>
                 </Typography>
               </Grid>
             </Grid>
@@ -157,13 +143,13 @@ export default function NavBarTabsSmallScreens(props) {
             <List
               value={currentTab}
               aria-label="CREST Nabigation Tabs"
-              sx={{paddingTop: '0px'}} >
+              sx={{ paddingTop: '0px' }} >
 
               <Paper square={false} elevation={0} className={classes.navPaperFirst} >
                 <ListItem
                   className={classes.navMenuListItem}
-                  selected={currentTab === "Home"}
-                  onClick={(event) => handleClickNavTab(event, "Home" )}
+                  selected={currentTab === 'Home'}
+                  onClick={(event) => handleClickNavTab(event, 'Home')}
                   to='/' {...a11yProps(0)}
                   component={RouterLink}>Home
                 </ListItem>
@@ -172,8 +158,8 @@ export default function NavBarTabsSmallScreens(props) {
               <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
                   className={classes.navMenuListItem}
-                  selected={currentTab === "ResilienceProject"}
-                  onClick={(event) => handleClickNavTab(event, "ResilienceProject" )}
+                  selected={currentTab === 'ResilienceProject'}
+                  onClick={(event) => handleClickNavTab(event, 'ResilienceProject')}
                   to='/ResilienceProject'
                   {...a11yProps(1)}
                   component={RouterLink}>Where Should I do a Resilience Project?
@@ -183,8 +169,8 @@ export default function NavBarTabsSmallScreens(props) {
               <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
                   className={classes.navMenuListItem}
-                  selected={currentTab === "AnalyzeProjectSites"}
-                  onClick={(event) => handleClickNavTab(event, "AnalyzeProjectSites" )}
+                  selected={currentTab === 'AnalyzeProjectSites'}
+                  onClick={(event) => handleClickNavTab(event, 'AnalyzeProjectSites')}
                   to='/AnalyzeProjectSites' {...a11yProps(2)}
                   component={RouterLink}>Analyze Project Sites
                 </ListItem>
@@ -193,20 +179,20 @@ export default function NavBarTabsSmallScreens(props) {
               <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
                   className={classes.navMenuListItem}
-                  selected={currentTab === "Examples"}
-                  onClick={(event) => handleClickNavTab(event, "Examples" )}
+                  selected={currentTab === 'Examples'}
+                  onClick={(event) => handleClickNavTab(event, 'Examples')}
                   to='/Examples'
                   {...a11yProps(3)}
-                  component={RouterLink}
-                  state={{ data }}>Examples
+                  component={RouterLink}>
+                  Examples
                 </ListItem>
               </Paper>
 
               <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
                   className={classes.navMenuListItem}
-                  selected={currentTab === "DataAndReports"}
-                  onClick={(event) => handleClickNavTab(event, "DataAndReports" )}
+                  selected={currentTab === 'DataAndReports'}
+                  onClick={(event) => handleClickNavTab(event, 'DataAndReports')}
                   to='/DataAndReports'
                   {...a11yProps(0)}
                   component={RouterLink}
@@ -214,23 +200,23 @@ export default function NavBarTabsSmallScreens(props) {
                 </ListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} className={classes.navPaper}  >
+              <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
                   className={classes.navMenuListItem}
-                  selected={currentTab === "About"}
-                  onClick={(event) => handleClickNavTab(event, "About" )}
+                  selected={currentTab === 'About'}
+                  onClick={(event) => handleClickNavTab(event, 'About')}
                   to='/About'
                   {...a11yProps(4)}
-                  component={RouterLink} l
-                  abel="About" >About
+                  component={RouterLink}
+                  label="About" >About
                 </ListItem>
               </Paper>
 
               <Paper square={false} elevation={0} className={classes.navPaper} >
                 <ListItem
                   className={classes.navMenuListItem}
-                  selected={currentTab === "StyleGuide"}
-                  onClick={(event) => handleClickNavTab(event, "StyleGuide" )}
+                  selected={currentTab === 'StyleGuide'}
+                  onClick={(event) => handleClickNavTab(event, 'StyleGuide')}
                   to='/StyleGuide'
                   {...a11yProps(5)}
                   component={RouterLink}
@@ -244,5 +230,11 @@ export default function NavBarTabsSmallScreens(props) {
       </Grid>
     </Grid>
     < />
-  )
+  );
 }
+
+NavBarTabsSmallScreens.propTypes = {
+  currentTab: PropTypes.string.isRequired,
+  handleClickNavTab: PropTypes.func.isRequired,
+  logo: PropTypes.string.isRequired
+};

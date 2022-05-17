@@ -1,13 +1,9 @@
 import { createTheme } from '@mui/material/styles';
-import { green, purple } from '@mui/material/colors';
 
 /*
 custom MUI theme for CREST based on components and colors defined in the figma
 design document https://www.figma.com/file/TCrt1Fgs9CnKeQH1NLB4aQ/CREST---Color?node-id=0%3A1
 */
-
-
-
 const CustomTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -15,7 +11,7 @@ const CustomTheme = createTheme({
       primary: '#ffffff',
       CRESTLightText: '#ffffff',
       CRESTMedText: '#F8F9FA',
-      CRESTDarkText: '#000000',
+      CRESTDarkText: '#000000'
     },
     background: {
       default: '#323232',
@@ -87,7 +83,7 @@ const CustomTheme = createTheme({
       dark: '#858585',
       light: '#C4C4C4',
       contrastText: '#000000'
-    },
+    }
   },
   components: {
     MuiLink: {
@@ -98,67 +94,48 @@ const CustomTheme = createTheme({
           textDecorationColor: '#17A2B8',
           '&:hover': {
             color: '#007388',
-            textDecorationColor: '#007388',
-          },
+            textDecorationColor: '#007388'
+          }
         }
       }
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderColor: '#555555',
+          borderColor: '#555555'
         }
       }
     },
     MuiDivider: {
       styleOverrides: {
         root: {
-          borderColor: '#555555',
+          borderColor: '#555555'
         }
       }
     },
     MuiTabs: {
       styleOverrides: {
         indicator: {
-          backgroundColor: '#60d4ea',
+          backgroundColor: '#60d4ea'
         }
       }
     },
-    // MuiListItem: {
-    //   styleOverrides: {
-    //     root: {
-    //       color: '#FFFFFF',
-    //       backgroundColor: '#000000',
-    //       textTransform: 'capitalize',
-    //       "&:hover": {
-    //         backgroundColor: '#444444',
-    //         color: '#FFFFFF',
-    //         textTransform: 'capitalize',
-    //       },
-    //       "&.Mui-selected": {
-    //         color: '#FFFFFF',
-    //         backgroundColor: '#444444',
-    //         textTransform: 'capitalize',
-    //       }
-    //     },
-    //   }
-    // },
     MuiTab: {
       styleOverrides: {
         root: {
           color: '#F8F9FA',
           textTransform: 'capitalize',
-          "&:hover": {
-            backgroundColor: '#6f6f6f',
+          '&:hover': {
+            backgroundColor: '#6f6f6f'
           },
-          "&.Mui-selected": {
-            color: "#60d4ea",
-            textTransform: 'capitalize',
+          '&.Mui-selected': {
+            color: '#60D4EA',
+            textTransform: 'capitalize'
           }
-        },
+        }
       }
     }
   }
 });
 
-export default CustomTheme
+export default CustomTheme;

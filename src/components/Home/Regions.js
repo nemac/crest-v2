@@ -22,7 +22,7 @@ Props
 */
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
-import RegionCard from "./RegionCard";
+import RegionCard from './RegionCard';
 
 export default function Regions() {
   return (
@@ -53,7 +53,7 @@ export default function Regions() {
       <Grid item xs={12} sm={12} md={6} lg={3}>
         <RegionCard />
       </Grid>
-      
+
     </Grid>
-  )
+  );
 }

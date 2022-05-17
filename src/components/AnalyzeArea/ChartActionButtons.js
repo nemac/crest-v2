@@ -1,7 +1,7 @@
 /*
 Purpose
-  The component holds all the action buttons for each chart/area. Each chart are the zonal set of statistics for an Area
-  the user-designated on the map.
+  The component holds all the action buttons for each chart/area. Each chart are the zonal
+  set of statistics for an Area the user-designated on the map.
 
   The button is one of the following:
    - more/less (more provides all the detailed charts, less and the default is the summary map)
