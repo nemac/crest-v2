@@ -1,4 +1,4 @@
-export var northernMarianaIslandsConfig = {
+export const northernMarianaIslandsConfig = {
   label: 'Northern Mariana Islands',
   region: 'northern_mariana_islands',
   mapProperties: {
@@ -766,4 +766,4 @@ export var northernMarianaIslandsConfig = {
 
       ]
   
-}
+};

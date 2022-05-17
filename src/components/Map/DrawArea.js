@@ -1,7 +1,8 @@
 /*
 Purpose
   Draws an area on the map
-  will also make the leaflet draw menu appear or we need to create a new one that mimics the figma designated
+  will also make the leaflet draw menu appear or we need to
+  create a new one that mimics the figma designated
   this will be a custome component
   we may need to add child for the drawing actions which include:
     - finish
@@ -14,7 +15,7 @@ Purpose
     - Area is too big or too big to process
     - Area is not within any assessment
     - probably others
-     
+
 Child Components
   - map.js
 

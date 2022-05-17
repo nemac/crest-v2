@@ -1,4 +1,4 @@
-export var continentalUSConfig = {
+export const continentalUSConfig = {
   label: 'Continental U.S',
   region: 'continental_us',
   mapProperties: {

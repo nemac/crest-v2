@@ -1,11 +1,13 @@
 /*
 Purpose
-  There are two types of groups the drivers and the main layers, for lack of not knowing what to call them.
+  There are two types of groups the drivers and the main layers,
+  for lack of not knowing what to call them.
   The main, in this case, is static
 
-  this will change when regions change 
+  this will change when regions change
 
-  might be able to merge this with MapLayerList-LayerGroup have collapsible as true and as sub menue for background color change
+  might be able to merge this with MapLayerList-LayerGroup have
+  collapsible as true and as sub menue for background color change
 
   Community Exposure Index
     - Community Exposure Index
@@ -13,7 +15,6 @@ Purpose
   Community Asset and Threat Indices
     - Community Asset Index
     - Threat Index
-
 
   we should probably use a config as we did in v1
 

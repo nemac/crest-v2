@@ -1,7 +1,7 @@
 /*
 Purpose
   HOLDS all the map layers and change basemap/region
-  this will change when regions change 
+  this will change when regions change
 
 Child Components
   - MapLayerList-ChangeItemMenu.js
@@ -11,7 +11,6 @@ Child Components
   - MapLayerList-LayerDescription.js
   - MapLayerList-DriverGroup.js
   - MapLayerList-LayerGroup.js
-
 
 Libs
   - leaflet

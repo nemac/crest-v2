@@ -8,12 +8,12 @@ import { loadState } from './localStorage'
 const reducers = combineReducers({
   selectedRegion: regionSelectReducer,
   mapProperties: mapPropertiesReducer,
-  mapLayerListVisible: mapLayerListVisibleReducer,
+  mapLayerListVisible: mapLayerListVisibleReducer
 });
 
 export const store = configureStore({
   devTools: true, // prob should turn off in prod
   reducer: reducers,
   // here we restore previously persisted state
-  preloadedState: loadState(),
-})
+  preloadedState: loadState()
+});

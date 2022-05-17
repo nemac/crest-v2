@@ -9,5 +9,5 @@ export default function ResilienceProject() {
       <Map/>
       <MapLayerList/>
     </div>
-  )
+  );
 }

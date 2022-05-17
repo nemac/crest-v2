@@ -22,27 +22,30 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import DataAndReportsCard from "./DataAndReportsCard";
+import PropTypes from 'prop-types';
 
+import Grid from '@mui/material/Grid';
+import DataAndReportsCard from './DataAndReportsCard';
 
 export default function DataAndReportsCardHolder(props) {
   const { cardConfig } = props;
 
   return (
     <Grid container spacing={1} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
-    
-      {cardConfig.map(cardData => (
-        <Grid item xs={12} key={cardData.regionName}>
-          <DataAndReportsCard
-            regionName={cardData.regionName}
-            datFileSize={cardData.datFileSize}
-            NativeLanguageText={cardData.NativeLanguageText}
-            dataLink={cardData.dataLink}
-            EnglishLink={cardData.EnglishLink}/>
-        </Grid>
-      ))}
+
+      {cardConfig.map((cardData) => <Grid item xs={12} key={cardData.regionName}>
+            <DataAndReportsCard
+              regionName={cardData.regionName}
+              dataFileSize={cardData.dataFileSize}
+              NativeLanguageText={cardData.NativeLanguageText}
+              dataLink={cardData.dataLink}
+              EnglishLink={cardData.EnglishLink}/>
+          </Grid>)}
 
     </Grid>
-  )
+  );
 }
+
+DataAndReportsCardHolder.propTypes = {
+  cardConfig: PropTypes.array.isRequired
+};

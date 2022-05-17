@@ -7,7 +7,6 @@ Purpose
     - export exports the map to png/svg
     - map layers opens the map layer list
 
-
 Child Components
   - Map-ActionButton.js
 

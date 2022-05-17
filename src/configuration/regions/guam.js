@@ -1,4 +1,4 @@
-export var guamConfig = {
+export const guamConfig = {
   label: 'Guam',
   region: 'guam',
   mapProperties: {
@@ -941,4 +941,4 @@ export var guamConfig = {
         },
       ]
   
-}
+};

@@ -1,4 +1,4 @@
-export var puertoRicoConfig = {
+export const puertoRicoConfig = {
   label: 'Puerto Rico',
   region: 'puerto_rico',
   mapProperties: {
@@ -848,4 +848,4 @@ export var puertoRicoConfig = {
         },
       ]
   
-}
+};

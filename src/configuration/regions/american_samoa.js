@@ -1,4 +1,4 @@
-export var americanSamoaConfig = {
+export const americanSamoaConfig = {
   label: 'American Samoa',
   region: 'american_samoa',
   mapProperties: {
@@ -857,4 +857,4 @@ export var americanSamoaConfig = {
         },
       ]
   
-}
+};

@@ -1,4 +1,4 @@
-export var usVirginIslandsConfig = {
+export const usVirginIslandsConfig = {
   label: 'US Virgin Islands',
   region: 'usVirginIslands',
   mapProperties: {
@@ -765,4 +765,4 @@ export var usVirginIslandsConfig = {
         },
       ]
   
-}
+};

@@ -1,4 +1,4 @@
-export var hawaiiConfig = {
+export const hawaiiConfig = {
   label: 'Hawai\'i',
   region: 'hawaii',
   mapProperties: {
@@ -846,4 +846,4 @@ export var hawaiiConfig = {
         }
       ]
   
-}
+};

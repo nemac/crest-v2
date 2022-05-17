@@ -1,6 +1,7 @@
 /*
 Purpose
-  when a user searchs for a location this will appear to display the matches (to what the user types)
+  when a user searchs for a location this will a
+  ppear to display the matches (to what the user types)
 
   will require a esri leaflet plugin think its called geocode
 
