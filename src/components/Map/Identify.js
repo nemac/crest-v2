@@ -9,7 +9,7 @@ Purpose
     handle errors:
       - Nothing returned
       - HTTP Error
-      
+
 Child Components
   - None
 

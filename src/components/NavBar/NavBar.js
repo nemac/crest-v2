@@ -38,7 +38,11 @@ const useStyles = makeStyles((theme) => ({
   CardBackground: {
     backgroundColor: theme.palette.CRESTGridBackground.dark,
     color: theme.palette.CRESTGridBackground.contrastText,
-    borderColor: theme.palette.CRESTBorderColor.main
+    borderColor: theme.palette.CRESTBorderColor.main,
+    minHeight: '115px',
+    [theme.breakpoints.down('md')]: {
+      minHeight: '56px'
+    }
   }
 }));
 
@@ -59,7 +63,7 @@ export default function NavBar(props) {
   const classes = useStyles();
 
   return (
-      <Paper square={false} elevation={3} className={classes.CardBackground} >
+      <Paper square={false} elevation={3} className={classes.CardBackground} px={0} pb={0.75} >
         <Grid container spacing={0} justifyContent='center' alignItems='center'>
 
               {isSmallScreen ? (
