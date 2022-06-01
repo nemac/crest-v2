@@ -61,17 +61,17 @@ const useStyles = makeStyles((theme) => ({
 
 const regions = mapConfig.regions;
 
-// selector named functions for lint rules makes it easier to re-ruse if needed.
+// selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
-const selecteZoomSelector = (state) => state.mapProperties.zoom;
-const selecteCenterSelector = (state) => state.mapProperties.center;
+const selectedZoomSelector = (state) => state.mapProperties.zoom;
+const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function MapCard() {
   const [map, setMap] = useState(null);
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
-  const zoom = useSelector(selecteZoomSelector);
-  const center = useSelector(selecteCenterSelector);
+  const zoom = useSelector(selectedZoomSelector);
+  const center = useSelector(selectedCenterSelector);
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
   const classes = useStyles();
 

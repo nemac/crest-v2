@@ -34,17 +34,17 @@ const regions = mapConfig.regions;
   }
 */
 
-// selector named functions for lint rules makes it easier to re-ruse if needed.
+// selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
-const selecteZoomSelector = (state) => state.mapProperties.zoom;
-const selecteCenterSelector = (state) => state.mapProperties.center;
+const selecteCenterSelector = (state) => state.mapProperties.zoom;
+const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function LeafletMap() {
   const [map, setMap] = useState(null);
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
-  const zoom = useSelector(selecteZoomSelector);
-  const center = useSelector(selecteCenterSelector);
+  const zoom = useSelector(selecteCenterSelector);
+  const center = useSelector(selectedCenterSelector);
   const extent = regions[1].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
 
   const classes = useStyles();
