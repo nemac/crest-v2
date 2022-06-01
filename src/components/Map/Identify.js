@@ -25,3 +25,12 @@ State needed
 Props
   - Not sure yet
 */
+import React from 'react';
+
+export default function Identify(){
+  return(
+    <div>
+      TODO: Insert Identify Functionality Here
+    </div>
+  )
+}

@@ -45,7 +45,9 @@ import {
   // useMap,
   useMapEvents
 } from 'react-leaflet';
-// import L, { divIcon } from 'leaflet';
+import L, { divIcon } from 'leaflet';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import InfoIcon from '@mui/icons-material/Info';
 import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { changeRegion } from '../../reducers/regionSelectSlice';
@@ -56,6 +58,11 @@ const useStyles = makeStyles((theme) => ({
   leafletContainer: {
     height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
     width: 'calc(100% - 1px)'
+  },
+  identifySelected: {
+    'leaflet-grab': {
+      cursor: 'crosshair'
+    }
   }
 }));
 
@@ -68,11 +75,12 @@ const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function MapCard() {
   const [map, setMap] = useState(null);
-  const dispatch = useDispatch();
-  const selectedRegion = useSelector(selectedRegionSelector);
-  const zoom = useSelector(selectedZoomSelector);
-  const center = useSelector(selectedCenterSelector);
-  const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
+  const [center, setCenter] = useState(useSelector((state) => state.mapProperties.center))
+  const dispatch = useDispatch()
+  const selectedRegion = useSelector((state) => state.selectedRegion.value)
+  const zoom = useSelector((state) => state.mapProperties.zoom)
+  //const center = useSelector((state) => state.mapProperties.center)
+  const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
   const classes = useStyles();
 
   const handleRegionSelectChange = (event) => {
@@ -91,16 +99,92 @@ export default function MapCard() {
   const MapEventsComponent = () => {
     const mapForMoveEndEvents = useMapEvents({
       moveend: () => { // this covers both zoom and center
-        dispatch(changeZoom(mapForMoveEndEvents.getZoom()));
+        dispatch(changeZoom(map.getZoom()))
         dispatch(
           changeCenter(
             [mapForMoveEndEvents.getCenter().lat, mapForMoveEndEvents.getCenter().lng]
           )
         );
-      }
+      },
+      locationfound(e) {
+        setCenter(e.latlng)
+        map.flyTo(e.latlng, map.getZoom())
+      },
     });
     return null;
-  };
+  }
+
+  const infoIconSelected = renderToStaticMarkup(
+    <InfoIcon />
+  );
+
+  const infoIconUnselected = renderToStaticMarkup(
+    <InfoOutlinedIcon />
+  );
+
+  const ShowIdentifyPopups = ({ identifyPopups }) => {
+    console.log(identifyPopups)
+    return <Popup 
+        position={identifyPopups}
+    >
+      {Identify()}
+    </Popup>
+    /*return identifyPopups.map((identifyPopup, index) => {
+      return <Popup 
+        key={index}
+        uniceid={index}
+        position={identifyPopup}
+      >
+        {Identify()}
+      </Popup>
+    })*/
+  }
+
+  const IdentifyPopups = () => {
+    const [identifyPopup, setIdentifyPopup] = useState([]);
+    const map = useMap();
+    map.on('click', (e) =>{
+      console.log('test')
+      const { lat, lng } = e.latlng;
+      setIdentifyPopup([lat, lng])
+      //setIdentifyPopup(pop => [...pop, [lat, lng]]);
+    });
+    return identifyPopup.length > 0 ? (
+      <ShowIdentifyPopups
+        identifyPopups={identifyPopup}
+      />
+    ) : null
+  }
+
+  const IdentifyButton = () => {
+    const map = useMap();
+    const customController = L.Control.extend({
+      options: {
+        position: "topleft"
+      },
+
+      onAdd: function () {
+        const button = L.DomUtil.create("button");
+        button.innerHTML = infoIconUnselected
+        L.DomEvent.disableClickPropagation(button);
+        button.onclick = () => {
+          // if-else changes icon to be selected or not selected
+          if (button.innerHTML === infoIconUnselected) {
+            button.innerHTML = infoIconSelected
+            map.on('click', Identify);
+          } else {
+          map.off('click', Identify);
+            button.innerHTML = infoIconUnselected
+          }
+          //map.locate()
+        }
+        return button;
+      }
+    })
+
+    map.addControl(new customController());
+    return null;
+  }
 
   const displayMap = useMemo(
     () => (
@@ -119,6 +203,8 @@ export default function MapCard() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapEventsComponent/>
+        <IdentifyButton/>
+        <IdentifyPopups/>
       </MapContainer>
     ),
     [center, classes.leafletContainer, extent, zoom]
