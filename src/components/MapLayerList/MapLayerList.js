@@ -39,6 +39,8 @@ import Paper from '@mui/material/Paper';
 import LayersIcon from '@mui/icons-material/Layers';
 import { mapConfig } from '../../configuration/config';
 import { toggleVisible } from '../../reducers/mapLayerVisibleSlice';
+import { Layer } from './Layer';
+
 
 
 
@@ -90,7 +92,8 @@ export default function MapLayerList() {
           >
             <Typography>{chartInputLabel}</Typography>
           </AccordionSummary>
-          {chartLayerList.map(layer => render_layer(layer))}
+          {/* {chartLayerList.map(layer => render_layer(layer))} */}
+          {chartLayerList.map(layer => <Layer layerLabel={layer}/>)}
         </Accordion>
       );
     }
@@ -110,6 +113,7 @@ This logic could be moved to Layer.js
 */
   const render_layer = (layerLabel) => {
     return (
+      // <Layer layerLabel />
       <AccordionDetails>
         <Typography>
           <FormGroup>

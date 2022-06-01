@@ -1,27 +1,28 @@
-/*
-Purpose
-  individual layer controls vissibility of layer on the map
+import React, { useState } from 'react'
+import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
 
-Child Components
-  - maybe map.js
-  - MapLayerList-LayerLegend.js
-  - MapLayerList-LayerDescription.js
 
-Libs
-  - leaflet
+export function Layer(layerLabel) {
 
-API
-  - Not sure yet
+    const initialChecked = {
+        isChecked: true
+    }
 
-State needed
-  - layer vissibility
-  - legend vissibility
+    const [checked, setChecked] = useState(initialChecked)
 
-Props
-  - layer name
-  - layer Description
-  - layer legend
-  - layer vissibility
-  - layer legend vissibility
-  - Not sure yet
-*/
+    return (
+        <div>
+            <AccordionDetails>
+                <Typography>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox isChecked />} label={layerLabel} />
+                    </FormGroup>
+                </Typography>
+            </AccordionDetails>
+        </div>
+    )
+}
