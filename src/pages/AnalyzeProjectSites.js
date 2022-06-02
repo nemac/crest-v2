@@ -1,13 +1,8 @@
 import * as React from 'react';
-import Map from '../components/Map/Map';
-import MapLayerList from '../components/MapLayerList/MapLayerList'
+import MapHolder from '../components/Map/MapHolder';
 
 export default function AnalyzeProjectSite() {
   return (
-    <div>
-      Welcome to the Analyze Project Sites page of Crest V2
-      <Map/>
-      <MapLayerList/>
-    </div>
+    <MapHolder/>
   );
 }

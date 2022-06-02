@@ -1,7 +1,8 @@
 /*
 Purpose
   The leaflet map
-  will need interactions between map and charts hovers and clicks on shapes open and higlight each other
+  will need interactions between map and charts hovers and
+    clicks on shapes open and higlight each other
     shape and chart
 
 Child Components
@@ -38,10 +39,10 @@ Props
 */
 
 import React from 'react';
-import MapCard from "./MapCard";
+import MapCard from './MapCard';
 
 export default function Map() {
-  return(
+  return (
     <MapCard/>
-  )
+  );
 }

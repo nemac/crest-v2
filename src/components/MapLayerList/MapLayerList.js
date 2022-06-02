@@ -40,6 +40,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import { mapConfig } from '../../configuration/config';
 import { toggleVisible } from '../../reducers/mapLayerVisibleSlice';
 import { Layer } from './Layer';
+import LayerGroup from './LayerGroup';
 
 
 
@@ -82,28 +83,34 @@ export default function MapLayerList() {
   const render_accordion = (chartInputLabel) => {
     var chartLayerList = get_chart_layers(chartInputLabel);
     var isSummary = (chartInputLabel == "Summary");
-    if (!isSummary) {
-      return (
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>{chartInputLabel}</Typography>
-          </AccordionSummary>
-          {/* {chartLayerList.map(layer => render_layer(layer))} */}
-          {chartLayerList.map(layer => <Layer layerLabel={layer}/>)}
-        </Accordion>
-      );
-    }
-    else {
-      return (
-        <Accordion defaultExpanded>
-          {chartLayerList.map(layer => render_layer(layer))}
-        </Accordion>
-      );
-    }
+    return (
+      <div>
+        <LayerGroup isSummary={isSummary} chartInputLabel={chartInputLabel} chartLayerList={chartLayerList} />
+      </div>
+    )
+
+    // if (!isSummary) {
+    //   return (
+    //     <Accordion>
+    //       <AccordionSummary
+    //         expandIcon={<ExpandMoreIcon />}
+    //         aria-controls="panel1a-content"
+    //         id="panel1a-header"
+    //       >
+    //         <Typography>{chartInputLabel}</Typography>
+    //       </AccordionSummary>
+    //       {/* {chartLayerList.map(layer => render_layer(layer))} */}
+    //       {/* {chartLayerList.map(layer => <Layer layerLabel={layer}/>)} */}
+    //     </Accordion>
+    //   );
+    // }
+    // else {
+    //   return (
+    //     <Accordion defaultExpanded>
+    //       {chartLayerList.map(layer => render_layer(layer))}
+    //     </Accordion>
+    //   );
+    // }
 
   }
 
@@ -117,7 +124,7 @@ This logic could be moved to Layer.js
       <AccordionDetails>
         <Typography>
           <FormGroup>
-            <FormControlLabel control={<Checkbox defaultUnchecked />} label={layerLabel} />
+            <FormControlLabel control={<Checkbox checked={false} />} label={layerLabel} />
           </FormGroup>
         </Typography>
       </AccordionDetails>
@@ -131,13 +138,13 @@ This logic could be moved to Layer.js
         <Box>
           <Paper variant="outlined" square={false} sx={
             {
-              width: 350, padding: '20px',
+              padding: '20px',
               backgroundColor: 'CRESTGridBackground.main',
               color: 'CRESTGridBackground.contrastText',
               borderColor: 'CRESTBorderColor.main'
             }} >
             Map Layers
-            <Button variant='outlined' endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }} />
+            <Button endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }} />
             <br />{chartsInputs.map(item => render_accordion(item['ChartInputLabel']))}
           </Paper>
         </Box>
@@ -150,14 +157,13 @@ This logic could be moved to Layer.js
         <Box >
           <Paper variant="outlined" square={false} sx={
             {
-              width: 350,
               padding: '20px',
               backgroundColor: 'CRESTGridBackground.main',
               color: 'CRESTGridBackground.contrastText',
               borderColor: 'CRESTBorderColor.main'
             }} >
               Map Layers
-            <Button variant='outlined' endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }}/>
+            <Button endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }}/>
 
           </Paper>
         </Box>

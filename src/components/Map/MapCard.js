@@ -34,66 +34,82 @@ Props
   - Not sure yet
 
 */
-
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import { Marker, MapContainer, MapConsumer, TileLayer, useMap, useMapEvents} from 'react-leaflet';
-import L, { divIcon } from "leaflet";
+import {
+  // Marker,
+  MapContainer,
+  // MapConsumer,
+  TileLayer,
+  // useMap,
+  useMapEvents
+} from 'react-leaflet';
+// import L, { divIcon } from 'leaflet';
 import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
-import { useSelector, useDispatch } from 'react-redux'
 import { changeRegion } from '../../reducers/regionSelectSlice';
-import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice'
-
+import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
+import Boxforlayout from './BoxForLayouts';
 
 const useStyles = makeStyles((theme) => ({
   leafletContainer: {
-    height: '600px',
-    width:'60%'
+    height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
+    width: 'calc(100% - 1px)'
   }
 }));
 
 const regions = mapConfig.regions;
 
+// selector named functions for lint rules makes it easier to re-use if needed.
+const selectedRegionSelector = (state) => state.selectedRegion.value;
+const selectedZoomSelector = (state) => state.mapProperties.zoom;
+const selectedCenterSelector = (state) => state.mapProperties.center;
+
 export default function MapCard() {
   const [map, setMap] = useState(null);
-  const dispatch = useDispatch()
-  const selectedRegion = useSelector((state) => state.selectedRegion.value)
-  const zoom = useSelector((state) => state.mapProperties.zoom)
-  const center = useSelector((state) => state.mapProperties.center)
-  const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
+  const dispatch = useDispatch();
+  const selectedRegion = useSelector(selectedRegionSelector);
+  const zoom = useSelector(selectedZoomSelector);
+  const center = useSelector(selectedCenterSelector);
+  const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
   const classes = useStyles();
 
   const handleRegionSelectChange = (event) => {
     // Update map with new center and zoom
-    map.setView(regions[event.target.value].mapProperties.center, 
-                regions[event.target.value].mapProperties.zoom)
-    
+    map.setView(
+      regions[event.target.value].mapProperties.center,
+      regions[event.target.value].mapProperties.zoom
+    );
+
     // Update redux store with new region, zoom, and center
-    dispatch(changeRegion(regions[event.target.value].label))
-    dispatch(changeZoom(regions[event.target.value].mapProperties.zoom))
-    dispatch(changeCenter(regions[event.target.value].mapProperties.center))
-  }
+    dispatch(changeRegion(regions[event.target.value].label));
+    dispatch(changeZoom(regions[event.target.value].mapProperties.zoom));
+    dispatch(changeCenter(regions[event.target.value].mapProperties.center));
+  };
 
   const MapEventsComponent = () => {
-    const map = useMapEvents({
+    const mapForMoveEndEvents = useMapEvents({
       moveend: () => { // this covers both zoom and center
-        dispatch(changeZoom(map.getZoom()))
-        dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]))
+        dispatch(changeZoom(mapForMoveEndEvents.getZoom()));
+        dispatch(
+          changeCenter(
+            [mapForMoveEndEvents.getCenter().lat, mapForMoveEndEvents.getCenter().lng]
+          )
+        );
       }
     });
-    return null
-  }
+    return null;
+  };
 
   const displayMap = useMemo(
     () => (
-      <MapContainer className = {classes.leafletContainer} 
-        center={center} 
-        zoom={zoom} 
+      <MapContainer className = {classes.leafletContainer}
+        center={center}
+        zoom={zoom}
         scrollWheelZoom={true}
         bounds={extent}
-        whenCreated={setMap}
-      >
+        whenCreated={setMap}>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
           crossOrigin=""/>
@@ -105,13 +121,21 @@ export default function MapCard() {
         <MapEventsComponent/>
       </MapContainer>
     ),
-    [],
-  )
+    [center, classes.leafletContainer, extent, zoom]
+  );
 
   return (
-    <div>
-      {map ? <BasicSelect defaultValue={selectedRegion} values={Object.keys(regions)} onChange={handleRegionSelectChange}/>: null}
+    <div style={{ height: '100%' }}>
+      {map ? <BasicSelect
+                defaultValue={selectedRegion}
+                values={Object.keys(regions)}
+                onChange={handleRegionSelectChange}/> : null}
       {displayMap}
+      <Boxforlayout
+        boxHeight={'64px'} >
+        Map Action buttons - add area, export, map layers, this is a place holder
+        for the actual component
+      </Boxforlayout>
     </div>
-  )
+  );
 }

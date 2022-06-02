@@ -19,8 +19,10 @@ export default function App() {
   return (
     <ThemeProvider theme={CustomTheme}>
       <CssBaseline/>
-      <div className='App'>
-        <ReactRouter/>
+      <div className='App' style={{ height: '100%' }}>
+        <Box px={0} pb={0.75}>
+          <NavBar />
+        </Box>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='ResilienceProject' element={<ResilienceProject />} />
@@ -32,16 +34,5 @@ export default function App() {
         </Routes>
       </div>
     </ThemeProvider>
-  );
-}
-
-// TODO this needs work just a place holder for now and act more like the a nav bar app bar in mui
-// probably needs a component one that we missed
-function ReactRouter() {
-  const data = { counter: 0 };
-  return (
-      <Box px={0} pb={0.75}>
-        <NavBar state={{ data }}/>
-      </Box>
   );
 }
