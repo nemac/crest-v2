@@ -36,13 +36,15 @@ Props
 */
 import React, { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import ReactDOMServer from 'react-dom/server';
 import { makeStyles } from '@mui/styles';
 import {
   // Marker,
   MapContainer,
   // MapConsumer,
+  Popup,
   TileLayer,
-  // useMap,
+  useMap,
   useMapEvents
 } from 'react-leaflet';
 import L, { divIcon } from 'leaflet';
@@ -52,6 +54,7 @@ import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { changeRegion } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
+import Identify from './Identify';
 import Boxforlayout from './BoxForLayouts';
 
 const useStyles = makeStyles((theme) => ({
@@ -81,6 +84,7 @@ export default function MapCard() {
   const zoom = useSelector((state) => state.mapProperties.zoom)
   //const center = useSelector((state) => state.mapProperties.center)
   const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
+  var ReactDOMServer = require('react-dom/server');
   const classes = useStyles();
 
   const handleRegionSelectChange = (event) => {
@@ -99,26 +103,22 @@ export default function MapCard() {
   const MapEventsComponent = () => {
     const mapForMoveEndEvents = useMapEvents({
       moveend: () => { // this covers both zoom and center
-        dispatch(changeZoom(map.getZoom()))
+        dispatch(changeZoom(mapForMoveEndEvents.getZoom()))
         dispatch(
           changeCenter(
             [mapForMoveEndEvents.getCenter().lat, mapForMoveEndEvents.getCenter().lng]
           )
         );
       },
-      locationfound(e) {
-        setCenter(e.latlng)
-        map.flyTo(e.latlng, map.getZoom())
-      },
     });
     return null;
   }
 
-  const infoIconSelected = renderToStaticMarkup(
+  const infoIconSelected = ReactDOMServer.renderToStaticMarkup(
     <InfoIcon />
   );
 
-  const infoIconUnselected = renderToStaticMarkup(
+  const infoIconUnselected = ReactDOMServer.renderToStaticMarkup(
     <InfoOutlinedIcon />
   );
 
@@ -144,16 +144,15 @@ export default function MapCard() {
     const [identifyPopup, setIdentifyPopup] = useState([]);
     const map = useMap();
     map.on('click', (e) =>{
-      console.log('test')
+      console.log('test');
       const { lat, lng } = e.latlng;
-      setIdentifyPopup([lat, lng])
-      //setIdentifyPopup(pop => [...pop, [lat, lng]]);
+      setIdentifyPopup([...identifyPopup, [lat, lng]]);
     });
-    return identifyPopup.length > 0 ? (
+    /*return identifyPopup.length > 0 ? (
       <ShowIdentifyPopups
         identifyPopups={identifyPopup}
       />
-    ) : null
+    ) : null*/ return null
   }
 
   const IdentifyButton = () => {
@@ -191,7 +190,7 @@ export default function MapCard() {
       <MapContainer className = {classes.leafletContainer}
         center={center}
         zoom={zoom}
-        scrollWheelZoom={true}
+        scrollWheelZoom={false}
         bounds={extent}
         whenCreated={setMap}>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -202,8 +201,6 @@ export default function MapCard() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <MapEventsComponent/>
-        <IdentifyButton/>
         <IdentifyPopups/>
       </MapContainer>
     ),
