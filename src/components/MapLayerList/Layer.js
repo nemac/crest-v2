@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types';
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
@@ -9,13 +10,12 @@ export default function Layer(props) {
   const { layerLabel } = props;
 
   const initialChecked = {
-    isChecked: true
+    isChecked: false
   }
 
   const [checked, setChecked] = useState(initialChecked)
 
   return (
-    <div>
       <AccordionDetails>
         <Typography>
           <FormGroup>
@@ -23,6 +23,9 @@ export default function Layer(props) {
           </FormGroup>
         </Typography>
       </AccordionDetails>
-    </div>
   )
 }
+
+Layer.propTypes = {
+  layerLabel: PropTypes.string.isRequired,
+};

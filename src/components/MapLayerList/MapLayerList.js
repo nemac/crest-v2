@@ -84,57 +84,13 @@ export default function MapLayerList() {
     var chartLayerList = get_chart_layers(chartInputLabel);
     var isSummary = (chartInputLabel == "Summary");
     return (
-      <div>
         <LayerGroup isSummary={isSummary} chartInputLabel={chartInputLabel} chartLayerList={chartLayerList} />
-      </div>
-    )
-
-    // if (!isSummary) {
-    //   return (
-    //     <Accordion>
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel1a-content"
-    //         id="panel1a-header"
-    //       >
-    //         <Typography>{chartInputLabel}</Typography>
-    //       </AccordionSummary>
-    //       {/* {chartLayerList.map(layer => render_layer(layer))} */}
-    //       {/* {chartLayerList.map(layer => <Layer layerLabel={layer}/>)} */}
-    //     </Accordion>
-    //   );
-    // }
-    // else {
-    //   return (
-    //     <Accordion defaultExpanded>
-    //       {chartLayerList.map(layer => render_layer(layer))}
-    //     </Accordion>
-    //   );
-    // }
-
-  }
-
-/*Build an accordion detail entry with check box for each label
-TODO: implement toggleLayer() to toggle the layer on the map.
-This logic could be moved to Layer.js
-*/
-  const render_layer = (layerLabel) => {
-    return (
-      // <Layer layerLabel />
-      <AccordionDetails>
-        <Typography>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox checked={false} />} label={layerLabel} />
-          </FormGroup>
-        </Typography>
-      </AccordionDetails>
     )
   }
   
   //Rendered Map Layer List
   if (layerListVisible) {
     return (
-      <div>
         <Box>
           <Paper variant="outlined" square={false} sx={
             {
@@ -148,12 +104,10 @@ This logic could be moved to Layer.js
             <br />{chartsInputs.map(item => render_accordion(item['ChartInputLabel']))}
           </Paper>
         </Box>
-      </div>
     )
   }
   else {
     return (
-      <div>
         <Box >
           <Paper variant="outlined" square={false} sx={
             {
@@ -167,7 +121,6 @@ This logic could be moved to Layer.js
 
           </Paper>
         </Box>
-      </div>
     )
   }
 }

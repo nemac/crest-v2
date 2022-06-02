@@ -59,7 +59,6 @@ export default function LayerGroup(props) {
         >
           <Typography>{chartInputLabel}</Typography>
         </AccordionSummary>
-        {/* {chartLayerList.map(layer => render_layer(layer))} */}
         {chartLayerList.map(layer => <Layer layerLabel={layer}/>)}
       </Accordion>
     );
@@ -73,14 +72,9 @@ export default function LayerGroup(props) {
   }
 
 }
+
 LayerGroup.propTypes = {
   isSummary: PropTypes.bool.isRequired,
   chartInputLabel: PropTypes.string.isRequired,
   chartLayerList: PropTypes.array.isRequired
 };
-//   return (
-//     <div>LayerGroup
-      
-//     </div>
-//   )
-// }
