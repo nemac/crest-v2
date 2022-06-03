@@ -9,11 +9,7 @@ export default function Layer(props) {
 
   const { layerLabel } = props;
 
-  const initialChecked = {
-    isChecked: false
-  }
-
-  const [checked, setChecked] = useState(initialChecked)
+  const [checked, setChecked] = useState(false)
 
   return (
       <AccordionDetails>

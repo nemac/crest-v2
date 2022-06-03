@@ -27,19 +27,12 @@ Props
 */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import LayersIcon from '@mui/icons-material/Layers';
 import { mapConfig } from '../../configuration/config';
 import { toggleVisible } from '../../reducers/mapLayerVisibleSlice';
-import { Layer } from './Layer';
 import LayerGroup from './LayerGroup';
 
 
