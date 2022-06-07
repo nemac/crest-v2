@@ -122,12 +122,13 @@ export default function MapCard() {
     <InfoOutlinedIcon />
   );
 
-  const ShowIdentifyPopups = ({ identifyPopups }) => {
-    console.log(identifyPopups)
+  const ShowIdentifyPopup = ({ coordinates }) => {
+    const lat = coordinates[0];
+    const lng = coordinates[1];
     return <Popup 
-        position={identifyPopups}
+        position={coordinates}
     >
-      {Identify()}
+      {Identify(lat, lng, selectedRegion)}
     </Popup>
     /*return identifyPopups.map((identifyPopup, index) => {
       return <Popup 
@@ -141,18 +142,18 @@ export default function MapCard() {
   }
 
   const IdentifyPopups = () => {
-    const [identifyPopup, setIdentifyPopup] = useState([]);
+    const [coordinates, setCoordinates] = useState([]);
     const map = useMap();
-    map.on('click', (e) =>{
-      console.log('test');
+    map.once('click', e => {
       const { lat, lng } = e.latlng;
-      setIdentifyPopup([...identifyPopup, [lat, lng]]);
+      setCoordinates([lat, lng]);
+      //setIdentifyPopup([...identifyPopup, [lat, lng]]);
     });
-    /*return identifyPopup.length > 0 ? (
-      <ShowIdentifyPopups
-        identifyPopups={identifyPopup}
+    return coordinates.length > 0 ? (
+      <ShowIdentifyPopup
+        coordinates={coordinates}
       />
-    ) : null*/ return null
+    ) : null
   }
 
   const IdentifyButton = () => {
@@ -202,6 +203,7 @@ export default function MapCard() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <IdentifyPopups/>
+        <MapEventsComponent/>
       </MapContainer>
     ),
     [center, classes.leafletContainer, extent, zoom]

@@ -1,6 +1,6 @@
 export const usVirginIslandsConfig = {
   label: 'US Virgin Islands',
-  region: 'usVirginIslands',
+  regionName: 'usVirginIslands',
   mapProperties: {
     label: 'US Virgin Islands',
     center: [18.01530387941711, -64.49111938476564],

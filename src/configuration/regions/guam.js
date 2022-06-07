@@ -1,6 +1,6 @@
 export const guamConfig = {
   label: 'Guam',
-  region: 'guam',
+  regionName: 'guam',
   mapProperties: {
     label: 'Guam',
     center: [13.45908, 145.129395],

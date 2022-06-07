@@ -1,6 +1,6 @@
 export const americanSamoaConfig = {
   label: 'American Samoa',
-  region: 'american_samoa',
+  regionName: 'american_samoa',
   mapProperties: {
     label: 'American Samoa',
     center: [-14.314288224896458, -169.71405029296875],
