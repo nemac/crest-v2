@@ -36,6 +36,7 @@ export default function Identify(lat, lng, selectedRegion){
   const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
 
   const fetchData = async () => {
+    setIsLoaded(false);
     await fetch(fetchPoint)
     .then(response => {
       return response.json()
@@ -48,7 +49,7 @@ export default function Identify(lat, lng, selectedRegion){
 
   useEffect(() => {
     fetchData();
-  }, [items])
+  }, [lat, lng])
 
   if (!isLoaded) {
     return (

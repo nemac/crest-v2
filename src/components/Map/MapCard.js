@@ -167,13 +167,16 @@ export default function MapCard() {
         const button = L.DomUtil.create("button");
         button.innerHTML = infoIconUnselected
         L.DomEvent.disableClickPropagation(button);
-        button.onclick = () => {
+        button.onclick = (e) => {
           // if-else changes icon to be selected or not selected
           if (button.innerHTML === infoIconUnselected) {
             button.innerHTML = infoIconSelected
-            map.on('click', Identify);
+            map.once('click', e => {
+              const { lat, lng } = e.latlng;
+              console.log(lat, lng);
+            });
           } else {
-          map.off('click', Identify);
+            map.off('click');
             button.innerHTML = infoIconUnselected
           }
           //map.locate()
@@ -202,7 +205,7 @@ export default function MapCard() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <IdentifyPopups/>
+        <IdentifyButton/>
         <MapEventsComponent/>
       </MapContainer>
     ),
