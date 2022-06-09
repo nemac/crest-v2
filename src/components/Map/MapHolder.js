@@ -29,6 +29,7 @@ import Grid from '@mui/material/Grid';
 import MapCard from './MapCard';
 import MapActionCard from './MapActionCard';
 import Boxforlayout from './BoxForLayouts';
+import AnalyzeAreaHolder from '../AnalyzeArea/AnalyzeAreaHolder';
 
 const useStyles = makeStyles((theme) => ({
   threeColumnHolder: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: '1px'
   },
   contentmapBox: {
-    // height: '100%',
+    height: '100%',
     padding: theme.spacing(0),
     backgroundColor: theme.palette.CRESTGridBackground.dark,
     borderColor: theme.palette.CRESTBorderColor.main,
@@ -82,23 +83,21 @@ export default function MapHolder(props) {
 
        {/* Data (graph/chart/table, action buttons) */}
       <Grid item
-        xs={12} sm={12} md={4} lg={3}
+        xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
         className={classes.threeColumnHolder}>
         <MapActionCard />
-        <Boxforlayout
+        <AnalyzeAreaHolder
           boxHeight={'calc(100% - 258px)'}
-          boxMarginTop={'8px'}>
-          Graphs/Data/Messages, this is a place holder for the actual component
-        </Boxforlayout>
+          boxMarginTop={'8px'} />
       </Grid>
 
       {/* Map */}
      <Grid item
-       xs={12} sm={12} md={5} lg={7}
+       xs={12} sm={12} md={5} lg={6.25} xl={7}
        order={{ xs: 1, sm: 1, md: 2 }}
        className={classes.threeColumnHolder}>
-       <Box className={classes.contentmapBox} style={{ height: '100%' }}>
+       <Box className={classes.contentmapBox} >
          <MapCard />
        </Box>
      </Grid>
