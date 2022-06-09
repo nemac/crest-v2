@@ -50,7 +50,8 @@ import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { changeRegion } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
-import Boxforlayout from './BoxForLayouts';
+import ActionButtons from './ActionButtons';
+// import Boxforlayout from './BoxForLayouts';
 
 const useStyles = makeStyles((theme) => ({
   leafletContainer: {
@@ -131,11 +132,7 @@ export default function MapCard() {
                 values={Object.keys(regions)}
                 onChange={handleRegionSelectChange}/> : null}
       {displayMap}
-      <Boxforlayout
-        boxHeight={'64px'} >
-        Map Action buttons - add area, export, map layers, this is a place holder
-        for the actual component
-      </Boxforlayout>
+      <ActionButtons />
     </div>
   );
 }
