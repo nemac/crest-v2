@@ -27,6 +27,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 import MapCard from './MapCard';
+import MapActionCard from './MapActionCard';
 import Boxforlayout from './BoxForLayouts';
 import MapLayerList from '../MapLayerList/MapLayerList'
 
@@ -82,16 +83,12 @@ export default function MapHolder(props) {
 
        {/* Data (graph/chart/table, action buttons) */}
       <Grid item
-        xs={12} sm={12} md={4} lg={4}
+        xs={12} sm={12} md={4} lg={3}
         order={{ xs: 3, sm: 3, md: 1 }}
         className={classes.threeColumnHolder}>
+        <MapActionCard />
         <Boxforlayout
-          boxHeight={'200px'} >
-          Map Actions - sketch, upload, search, this is a place holder for the
-          actual component
-        </Boxforlayout>
-        <Boxforlayout
-          boxHeight={'calc(100% - 208px)'}
+          boxHeight={'calc(100% - 258px)'}
           boxMarginTop={'8px'}>
           Graphs/Data/Messages, this is a place holder for the actual component
         </Boxforlayout>
@@ -99,7 +96,7 @@ export default function MapHolder(props) {
 
       {/* Map */}
      <Grid item
-       xs={12} sm={12} md={5} lg={6}
+       xs={12} sm={12} md={5} lg={7}
        order={{ xs: 1, sm: 1, md: 2 }}
        className={classes.threeColumnHolder}>
        <Box className={classes.contentmapBox} style={{ height: '100%' }}>
