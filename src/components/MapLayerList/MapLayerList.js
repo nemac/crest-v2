@@ -32,7 +32,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import LayersIcon from '@mui/icons-material/Layers';
 import { mapConfig } from '../../configuration/config';
-import { toggleVisible } from '../../reducers/mapLayerVisibleSlice';
+import { toggleVisible } from '../../reducers/mapLayerListSlice';
 import LayerGroup from './LayerGroup';
 
 
@@ -47,17 +47,17 @@ export default function MapLayerList() {
   const regionLayers = regions[selectedRegion].layerList
   const chartsInputs = regions[selectedRegion].chartInputs
   // Create state for layer list visibility
-  const layerListVisible = useSelector((state) => state.mapLayerListVisible.visible)
+  const layerListVisible = useSelector((state) => state.mapLayerList.visible)
   // const [layerListVisible, toggleVisible] = useState(true)
 
   /* Iterate through every label containing target chart and create an array of labels
   This logic could be moved into LayerGroup.js
   */
   const get_chart_layers = (targetChartLabel) => {
-    var chartLayers = Array();
+    var chartLayers = [];
     regionLayers.map((layer) => {
       if (layer.ChartInputLabel == targetChartLabel) {
-        chartLayers.push(layer.label);
+        chartLayers.push(layer);
       }
     })
 

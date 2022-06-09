@@ -48,6 +48,7 @@ import {
 // import L, { divIcon } from 'leaflet';
 import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
+import  ActiveTileLayers  from './ActiveTileLayers'
 import { changeRegion } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
 import ActionButtons from './ActionButtons';
@@ -119,6 +120,7 @@ export default function MapCard() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <ActiveTileLayers/>
         <MapEventsComponent/>
       </MapContainer>
     ),

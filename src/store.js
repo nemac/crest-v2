@@ -2,13 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import regionSelectReducer from "./reducers/regionSelectSlice"
 import mapPropertiesReducer from "./reducers/mapPropertiesSlice";
-import mapLayerListVisibleReducer from "./reducers/mapLayerVisibleSlice";
+import mapLayerListReducer from "./reducers/mapLayerListSlice";
 import { loadState } from './localStorage'
 
 const reducers = combineReducers({
   selectedRegion: regionSelectReducer,
   mapProperties: mapPropertiesReducer,
-  mapLayerListVisible: mapLayerListVisibleReducer
+  mapLayerList: mapLayerListReducer
 });
 
 export const store = configureStore({
