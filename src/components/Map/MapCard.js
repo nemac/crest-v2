@@ -54,6 +54,7 @@ import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { changeRegion } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
+import LeafletMapContainer from './LeafletMapContainer';
 import Identify from './Identify';
 import Boxforlayout from './BoxForLayouts';
 
@@ -101,12 +102,13 @@ export default function MapCard() {
   };
 
   const MapEventsComponent = () => {
+    const map = useMap();
     const mapForMoveEndEvents = useMapEvents({
       moveend: () => { // this covers both zoom and center
-        dispatch(changeZoom(mapForMoveEndEvents.getZoom()))
+        dispatch(changeZoom(map.getZoom()))
         dispatch(
           changeCenter(
-            [mapForMoveEndEvents.getCenter().lat, mapForMoveEndEvents.getCenter().lng]
+            [map.getCenter().lat, map.getCenter().lng]
           )
         );
       },
@@ -189,27 +191,24 @@ export default function MapCard() {
     return null;
   }
 
-  const displayMap = useMemo(
-    () => (
-      <MapContainer className = {classes.leafletContainer}
-        center={center}
-        zoom={zoom}
-        scrollWheelZoom={false}
-        bounds={extent}
-        whenCreated={setMap}>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossOrigin=""/>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <IdentifyButton/>
-        <MapEventsComponent/>
-      </MapContainer>
-    ),
-    [center, classes.leafletContainer, extent, zoom]
+  const displayMap = (
+    <MapContainer className = {classes.leafletContainer}
+      center={center}
+      zoom={zoom}
+      scrollWheelZoom={false}
+      bounds={extent}
+      whenCreated={setMap}>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossOrigin=""/>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <IdentifyPopups/>
+      <MapEventsComponent/>
+    </MapContainer>
   );
 
   return (

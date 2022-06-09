@@ -35,7 +35,7 @@ export default function Identify(lat, lng, selectedRegion){
   const endPoint = betaIdentifyEndpoint
   const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
 
-  const fetchData = async () => {
+  /*const fetchData = async () => {
     setIsLoaded(false);
     await fetch(fetchPoint)
     .then(response => {
@@ -67,32 +67,10 @@ export default function Identify(lat, lng, selectedRegion){
         )}
       </ul>
     </div>
+  )*/
+  return (
+    <div>
+      Hello World
+    </div>
   )
-  /*fetch(endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName)
-  .then(res => res.json())
-  .then(
-    (result) => {
-      setIsLoaded(true);
-      setItems(result);
-    },
-    (error) => {
-      setIsLoaded(true);
-      setError(error);
-    }
-  )
-  if (error) {
-    return <div>Error: {error.message}</div>
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <div>
-        {console.log(items)}
-        {console.log(fetchPoint)}
-        {items.map(item => (
-          <p>{item.exposure}</p>
-        ))}
-      </div>
-    );
-  }*/
 }
