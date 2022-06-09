@@ -2,6 +2,7 @@ import React, { useState }from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
 import { mapConfig } from '../../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,13 +20,14 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function LeafletMapContainer(props) {
+  const { children } = props;
+  const classes = useStyles();
   const [map, setMap] = useState(null);
   const [center, setCenter] = useState(useSelector((state) => state.mapProperties.center))
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
   const selectedRegion = useSelector((state) => state.selectedRegion.value)
   const zoom = useSelector((state) => state.mapProperties.zoom)
   const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
-  const classes = useStyles();
 
   return (
     <MapContainer className = {classes.leafletMapContainer}
@@ -42,8 +44,11 @@ export default function LeafletMapContainer(props) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {props}
+      {children}
     </MapContainer>
   )
+}
 
+LeafletMapContainer.propTypes = {
+  children: PropTypes.node
 }

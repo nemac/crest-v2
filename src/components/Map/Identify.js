@@ -35,7 +35,7 @@ export default function Identify(lat, lng, selectedRegion){
   const endPoint = betaIdentifyEndpoint
   const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
 
-  /*const fetchData = async () => {
+  const fetchData = async () => {
     setIsLoaded(false);
     await fetch(fetchPoint)
     .then(response => {
@@ -66,11 +66,6 @@ export default function Identify(lat, lng, selectedRegion){
           <li key={item}>{item} : {items[item]}</li>
         )}
       </ul>
-    </div>
-  )*/
-  return (
-    <div>
-      Hello World
     </div>
   )
 }
