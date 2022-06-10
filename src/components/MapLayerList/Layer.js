@@ -30,11 +30,9 @@ export default function Layer(props) {
 
   return (
       <AccordionDetails>
-        <Typography>
           <FormGroup>
             <FormControlLabel control={<Checkbox checked={checked} onClick={() => handleClick(checked)} />} label={layerData.label} />
           </FormGroup>
-        </Typography>
       </AccordionDetails>
   )
 }
