@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { addLayer, removeLayer } from '../../reducers/mapLayerListSlice';
-import { map } from 'leaflet';
 
 
 

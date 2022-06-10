@@ -34,6 +34,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import { mapConfig } from '../../configuration/config';
 import { toggleVisible } from '../../reducers/mapLayerListSlice';
 import LayerGroup from './LayerGroup';
+import DriverGroup from './DriverGroup';
 
 
 
@@ -76,9 +77,15 @@ export default function MapLayerList() {
   const render_accordion = (chartInputLabel) => {
     var chartLayerList = get_chart_layers(chartInputLabel);
     var isSummary = (chartInputLabel == "Summary");
-    return (
-        <LayerGroup key={chartInputLabel} isSummary={isSummary} chartInputLabel={chartInputLabel} chartLayerList={chartLayerList} />
-    )
+    if (isSummary) {
+      return (
+        <LayerGroup key={chartInputLabel} chartInputLabel={chartInputLabel} chartLayerList={chartLayerList} />
+      )
+    } else {
+      return (
+        <DriverGroup key={chartInputLabel} chartInputLabel={chartInputLabel} chartLayerList={chartLayerList} />
+      )
+    }
   }
   
   //Rendered Map Layer List
