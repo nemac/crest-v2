@@ -7,6 +7,6 @@ export default function ActiveTileLayers() {
     const activeTileURLS = useSelector((state) => state.mapLayerList.activeLayerList)
 
   return (
-      activeTileURLS.map(layer => <TileLayer key={layer.label} url={layer.url}/>)
+      activeTileURLS.map(layer => <TileLayer key={layer.label} url={layer.url} attribution={layer.attribution} opacity={layer.opacity}/>)
   )
 }
