@@ -29,6 +29,7 @@ import React, { useEffect, useState } from 'react';
 import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
 
 export default function Identify(lat, lng, selectedRegion){
+  console.log(lat, lng, selectedRegion)
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState({});
