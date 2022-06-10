@@ -27,14 +27,13 @@ Props
 */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import LayersIcon from '@mui/icons-material/Layers';
 import { mapConfig } from '../../configuration/config';
 import { toggleVisible } from '../../reducers/mapLayerListSlice';
 import LayerGroup from './LayerGroup';
 import DriverGroup from './DriverGroup';
+import Grid from '@mui/material/Grid';
+import { ArrowDropDownCircle } from '@mui/icons-material';
 
 
 
@@ -91,36 +90,19 @@ export default function MapLayerList() {
   //Rendered Map Layer List
   if (layerListVisible) {
     return (
-        <Box>
-          <Paper variant="outlined" square={false} sx={
-            {
-              padding: '20px',
-              backgroundColor: 'CRESTGridBackground.main',
-              color: 'CRESTGridBackground.contrastText',
-              borderColor: 'CRESTBorderColor.main'
-            }} >
-            Map Layers
-            <Button endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }} />
+            <Grid>
+              Map Layers
+            <Button endIcon={<ArrowDropDownCircle />} onClick={() => { dispatch(toggleVisible()); }} />
             <br />{chartsInputs.map(item => render_accordion(item['ChartInputLabel']))}
-          </Paper>
-        </Box>
+            </Grid>
     )
   }
   else {
     return (
-        <Box >
-          <Paper variant="outlined" square={false} sx={
-            {
-              padding: '20px',
-              backgroundColor: 'CRESTGridBackground.main',
-              color: 'CRESTGridBackground.contrastText',
-              borderColor: 'CRESTBorderColor.main'
-            }} >
+            <Grid>
               Map Layers
-            <Button endIcon={<LayersIcon />} onClick={() => { dispatch(toggleVisible()); }}/>
-
-          </Paper>
-        </Box>
+            <Button endIcon={<ArrowDropDownCircle/>} onClick={() => { dispatch(toggleVisible()); }}/>
+            </Grid>
     )
   }
 }
