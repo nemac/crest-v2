@@ -25,7 +25,7 @@ export default function Layer(props) {
     if (!checked) {
       dispatch(addLayer(layerData)) ;
     } else {
-      dispatch(removeLayer(layerLabel)) ;
+      dispatch(removeLayer(layerData)) ;
     }
     setChecked(!checked) ;   
   }

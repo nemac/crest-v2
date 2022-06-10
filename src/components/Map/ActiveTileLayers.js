@@ -5,6 +5,7 @@ import { TileLayer } from 'react-leaflet'
 export default function ActiveTileLayers() {
 
     const activeTileURLS = useSelector((state) => state.mapLayerList.activeLayerTiles)
+    console.log(activeTileURLS)
   return (
       activeTileURLS.map(url => <TileLayer url={url}/>)
   )

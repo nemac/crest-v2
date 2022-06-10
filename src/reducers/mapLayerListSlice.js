@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 export const mapLayerListSlice = createSlice({
   name: 'mapLayerList',
@@ -12,14 +12,6 @@ export const mapLayerListSlice = createSlice({
       state.visible = !state.visible
     },
     addLayer: (state, action) => {
-      // console.log(typeof state.activeLayerList)
-      console.log('inside dispatch')
-      console.log('payload:')
-      console.log(action.payload)
-      console.log('payload.label')
-      console.log(action.payload.label)
-      console.log('payload.url')
-      console.log(action.payload.url)
       state.activeLayerList.push(action.payload.label) ;
       state.activeLayerTiles.push(action.payload.url) ;
 
