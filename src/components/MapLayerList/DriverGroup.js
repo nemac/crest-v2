@@ -51,11 +51,22 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import Layer from './Layer'
+import { toggleCollapsed } from '../../reducers/mapLayerListSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 export default function DriverGroup(props) {
+  const dispatch = useDispatch() ;
   const { chartInputLabel, chartLayerList } = props
+  const expandedCharts = useSelector((state) => state.mapLayerList.expandedCharts)
+  const isExpanded = expandedCharts.includes(chartInputLabel) ;
+
+  const onClick = () => {
+    dispatch(toggleCollapsed(chartInputLabel))
+  }
+
   return (
-    <Accordion>
+    <Accordion expanded={isExpanded} onChange={onClick}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
