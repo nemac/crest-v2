@@ -77,7 +77,7 @@ export default function MapLayerList() {
     var chartLayerList = get_chart_layers(chartInputLabel);
     var isSummary = (chartInputLabel == "Summary");
     return (
-        <LayerGroup isSummary={isSummary} chartInputLabel={chartInputLabel} chartLayerList={chartLayerList} />
+        <LayerGroup key={chartInputLabel} isSummary={isSummary} chartInputLabel={chartInputLabel} chartLayerList={chartLayerList} />
     )
   }
   

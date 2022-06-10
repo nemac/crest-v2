@@ -40,5 +40,5 @@ export default function Layer(props) {
 }
 
 Layer.propTypes = {
-  layerData: PropTypes.array.isRequired,
+  layerData: PropTypes.object.isRequired,
 };

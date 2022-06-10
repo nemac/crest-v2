@@ -59,14 +59,14 @@ export default function LayerGroup(props) {
         >
           <Typography>{chartInputLabel}</Typography>
         </AccordionSummary>
-        {chartLayerList.map(layer => <Layer layerData={layer}/>)}
+        {chartLayerList.map(layer => <Layer key={layer.label} layerData={layer}/>)}
       </Accordion>
     );
   }
   else {
     return (
       <Accordion defaultExpanded>
-        {chartLayerList.map(layer => <Layer layerData={layer}/>)}
+        {chartLayerList.map(layer => <Layer key={layer.label} layerData={layer}/>)}
       </Accordion>
     );
   }
