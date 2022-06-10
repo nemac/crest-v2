@@ -1,25 +1,23 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const mapLayerListSlice = createSlice({
   name: 'mapLayerList',
   initialState: {
     visible: true,
-    activeLayerList: [],
-    activeLayerTiles: []
+    activeLayerList: []
   },
   reducers: {
     toggleVisible: (state) => {
       state.visible = !state.visible
     },
     addLayer: (state, action) => {
-      state.activeLayerList.push(action.payload.label) ;
-      state.activeLayerTiles.push(action.payload.url) ;
+      state.activeLayerList.push(action.payload) ;
 
     },
     removeLayer: (state, action) => {
-      let i = state.activeLayerList.indexOf(action.payload.label) ;
+      const activeLayerLabels = state.activeLayerList.map(layer => layer.label)
+      let i = activeLayerLabels.indexOf(action.payload.label) ;
       state.activeLayerList.splice(i, 1) ;
-      state.activeLayerTiles.splice(i,1) ;
     }
   },
 });

@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 import { TileLayer } from 'react-leaflet'
 
 export default function ActiveTileLayers() {
-
-    const activeTileURLS = useSelector((state) => state.mapLayerList.activeLayerTiles)
-    console.log(activeTileURLS)
+    
+    const activeTileURLS = useSelector((state) => state.mapLayerList.activeLayerList)
+    
   return (
-      activeTileURLS.map(url => <TileLayer url={url}/>)
+      activeTileURLS.map(layer => <TileLayer url={layer.url}/>)
   )
 }
