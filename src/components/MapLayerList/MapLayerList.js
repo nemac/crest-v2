@@ -25,9 +25,9 @@ Props
   - map layer list visible/open
   - probably missing things and not sure we want props passsed down form here
 */
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import Button from '@mui/material/Button';
+import { IconButton } from '@mui/material/';
 import { mapConfig } from '../../configuration/config';
 import { toggleVisible } from '../../reducers/mapLayerListSlice';
 import LayerGroup from './LayerGroup';
@@ -92,7 +92,9 @@ export default function MapLayerList() {
     return (
             <Grid>
               Map Layers
-            <Button endIcon={<ArrowDropDownCircle />} onClick={() => { dispatch(toggleVisible()); }} />
+            <IconButton onClick={() => { dispatch(toggleVisible()); }} >
+            <ArrowDropDownCircle />
+            </IconButton>
             <br />{chartsInputs.map(item => render_accordion(item['ChartInputLabel']))}
             </Grid>
     )
@@ -101,7 +103,9 @@ export default function MapLayerList() {
     return (
             <Grid>
               Map Layers
-            <Button endIcon={<ArrowDropDownCircle/>} onClick={() => { dispatch(toggleVisible()); }}/>
+              <IconButton onClick={() => { dispatch(toggleVisible()); }} >
+            <ArrowDropDownCircle />
+            </IconButton>
             </Grid>
     )
   }

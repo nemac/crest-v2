@@ -4,6 +4,7 @@ import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import { addLayer, removeLayer } from '../../reducers/mapLayerListSlice';
+import LayerDescription from './LayerDescription'
 
 
 
@@ -30,6 +31,7 @@ export default function Layer(props) {
       <AccordionDetails>
           <FormGroup>
             <FormControlLabel control={<Checkbox checked={checked} onClick={() => handleClick(checked)} />} label={layerData.label} />
+            <LayerDescription layerName={layerData.label} layerDescription={layerData.description} />
           </FormGroup>
       </AccordionDetails>
   )

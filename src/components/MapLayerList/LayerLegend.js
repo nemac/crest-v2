@@ -22,3 +22,11 @@ Props
   - layer legend color
   - Not sure yet
 */
+
+import React from 'react'
+
+export default function LayerLegend Place hO() {
+  return (
+    <div>LayerLegend Place Holder</div>
+  )
+}
