@@ -34,7 +34,7 @@ Props
   - Not sure yet
 
 */
-import React, { useMemo, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactDOMServer from 'react-dom/server';
 import { makeStyles } from '@mui/styles';
@@ -50,12 +50,14 @@ import {
 import L, { divIcon } from 'leaflet';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InfoIcon from '@mui/icons-material/Info';
-import { mapConfig } from '../../configuration/config';
+import { Button } from '@mui/material'
+import Control from 'react-leaflet-custom-control';
+import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { changeRegion } from '../../reducers/regionSelectSlice';
-import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
+import { changeZoom, changeCenter, changeIdentifyCoordinates, changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
-import Identify from './Identify';
+import Identify, { IdentifyAPI } from './Identify';
 import Boxforlayout from './BoxForLayouts';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,11 +65,6 @@ const useStyles = makeStyles((theme) => ({
     height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
     width: 'calc(100% - 1px)'
   },
-  identifySelected: {
-    'leaflet-grab': {
-      cursor: 'crosshair'
-    }
-  }
 }));
 
 const regions = mapConfig.regions;
@@ -78,11 +75,15 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function MapCard() {
+  const identifyIsLoaded = useSelector((state) => state.mapProperties.identifyIsLoaded);
+  const identifyItems = useSelector((state) => state.mapProperties.identifyResults);
+  const identifyCoordinates = useSelector((state) => state.mapProperties.identifyCoordinates);
   const [map, setMap] = useState(null);
-  const [center, setCenter] = useState(useSelector((state) => state.mapProperties.center))
+  const [center, setCenter] = useState(useSelector((state) => state.mapProperties.center, () => true))
   const dispatch = useDispatch()
   const selectedRegion = useSelector((state) => state.selectedRegion.value)
-  const zoom = useSelector((state) => state.mapProperties.zoom)
+  const zoom = useSelector((state) => state.mapProperties.zoom, () => true)
+  const endPoint = betaIdentifyEndpoint
   //const center = useSelector((state) => state.mapProperties.center)
   const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
   var ReactDOMServer = require('react-dom/server');
@@ -112,6 +113,11 @@ export default function MapCard() {
           )
         );
       },
+      popupclose: () => {
+        dispatch(changeIdentifyCoordinates(null));
+        dispatch(changeIdentifyIsLoaded(false));
+        dispatch(changeIdentifyResults(null));
+      }
     });
     return null;
   }
@@ -124,23 +130,29 @@ export default function MapCard() {
     <InfoOutlinedIcon />
   );
 
-  const ShowIdentifyPopup = ({ coordinates }) => {
-    const lat = coordinates[0];
-    const lng = coordinates[1];
-    return <Popup 
-        position={coordinates}
-    >
-      {Identify(lat, lng, selectedRegion)}
-    </Popup>
-    /*return identifyPopups.map((identifyPopup, index) => {
-      return <Popup 
-        key={index}
-        uniceid={index}
-        position={identifyPopup}
-      >
-        {Identify()}
+  const ShowIdentifyPopup = () => {
+    console.log(identifyCoordinates)
+    if (!identifyCoordinates) {
+      return null
+    }
+
+    if (!identifyIsLoaded) {
+      return (
+        <Popup position={identifyCoordinates} autoPan={false}>
+          Loading...
+        </Popup>
+      )
+    }
+  
+    return (
+      <Popup position={identifyCoordinates} autoPan={false}>
+        <ul>
+          {Object.keys(identifyItems).map(item => 
+            <li key={item}>{item} : {identifyItems[item]}</li>
+          )}
+        </ul>
       </Popup>
-    })*/
+    )
   }
 
   const IdentifyPopups = () => {
@@ -149,7 +161,6 @@ export default function MapCard() {
     map.once('click', e => {
       const { lat, lng } = e.latlng;
       setCoordinates([lat, lng]);
-      //setIdentifyPopup([...identifyPopup, [lat, lng]]);
     });
     return coordinates.length > 0 ? (
       <ShowIdentifyPopup
@@ -158,14 +169,14 @@ export default function MapCard() {
     ) : null
   }
 
-  const IdentifyButton = () => {
+  /*const IdentifyButton = () => {
     const map = useMap();
     const customController = L.Control.extend({
       options: {
         position: "topleft"
       },
 
-      onAdd: function () {
+      onAdd: function (map) {
         const button = L.DomUtil.create("button");
         button.innerHTML = infoIconUnselected
         L.DomEvent.disableClickPropagation(button);
@@ -189,12 +200,43 @@ export default function MapCard() {
 
     map.addControl(new customController());
     return null;
+  }*/
+
+  const fetchData = async (fetchPoint) => {
+    dispatch(changeIdentifyIsLoaded(false));
+    await fetch(fetchPoint)
+    .then(response => {
+      return response.json()
+    })
+    .then(data =>{
+      dispatch(changeIdentifyIsLoaded(true));
+      dispatch(changeIdentifyResults(data));
+    })
+  }
+
+  const clickHandler = () => {
+    map.getContainer().style.cursor = 'crosshair';
+    map.once('click', e => {
+      dispatch(changeIdentifyCoordinates([e.latlng.lat, e.latlng.lng]));
+      const lat=e.latlng.lat
+      const lng = e.latlng.lng
+      map.getContainer().style.cursor = 'grab';
+      const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
+      fetchData(fetchPoint)
+    })
   }
 
   const displayMap = (
-    <LeafletMapContainer>
-      <IdentifyPopups/>
+    <LeafletMapContainer center={center} zoom={zoom} whenCreated={setMap}>
+      <Control prepend='true' position='topleft'>
+        <Button 
+          color="primary"
+          onClick={clickHandler}>
+          <InfoIcon />
+        </Button>
+      </Control>
       <MapEventsComponent/>
+      <ShowIdentifyPopup/>
     </LeafletMapContainer>
   );
 

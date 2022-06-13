@@ -8,8 +8,8 @@ import { mapConfig } from '../../configuration/config';
 const useStyles = makeStyles((theme) => ({
   leafletMapContainer: {
     height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
-    width: 'calc(100% - 1px)'
-  },
+    width: 'calc(100% - 1px)',
+  }
 }));
 
 const regions = mapConfig.regions;
@@ -20,13 +20,11 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function LeafletMapContainer(props) {
-  const { children } = props;
+  const { children, center, zoom, whenCreated } = props;
   const classes = useStyles();
   const [map, setMap] = useState(null);
-  const [center, setCenter] = useState(useSelector((state) => state.mapProperties.center))
   //const dispatch = useDispatch()
   const selectedRegion = useSelector((state) => state.selectedRegion.value)
-  const zoom = useSelector((state) => state.mapProperties.zoom)
   const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
 
   return (
@@ -35,7 +33,7 @@ export default function LeafletMapContainer(props) {
       zoom={zoom}
       scrollWheelZoom={false}
       bounds={extent}
-      whenCreated={setMap}>
+      whenCreated={whenCreated}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossOrigin=""/>
@@ -50,5 +48,9 @@ export default function LeafletMapContainer(props) {
 }
 
 LeafletMapContainer.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  center: PropTypes.array.isRequired,
+  zoom: PropTypes.number.isRequired,
+  whenCreated: PropTypes.func
+
 }

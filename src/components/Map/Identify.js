@@ -28,6 +28,20 @@ Props
 import React, { useEffect, useState } from 'react';
 import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
 
+export const IdentifyAPI = (lat, lng, selectedRegion) => {
+  const endPoint = betaIdentifyEndpoint
+  const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
+  const fetchData = async () => {
+    return await fetch(fetchPoint)
+    .then(response => {
+      return response.json()
+    })
+    .then(data =>{
+      console.log(data)
+    })
+  }
+}
+
 export default function Identify(lat, lng, selectedRegion){
   console.log(lat, lng, selectedRegion)
   const [error, setError] = useState(null);

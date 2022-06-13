@@ -7,9 +7,8 @@ import LeafletMapContainer from '../components/Map/LeafletMapContainer';
 
 export default function CodeTest() {
   return (
-    <LeafletMapContainer>
-      <Marker position={[ 42.382894009614034, -82.85888671875001 ]}> Hello World</Marker>
-      <Marker position={[ 35.382894009614034, -82.85888671875001 ]}> Hello World</Marker>
-    </LeafletMapContainer>
+   <div>
+     Hello World
+   </div>
   )
 }
