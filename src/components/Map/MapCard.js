@@ -54,7 +54,7 @@ import { BasicSelect } from './basicSelect';
 import { changeRegion } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter, changeIdentifyCoordinates, changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
-import Identify, { IdentifyAPI } from './Identify';
+import ShowIdentifyPopup, { IdentifyAPI } from './Identify';
 import Boxforlayout from './BoxForLayouts';
 
 const useStyles = makeStyles((theme) => ({
@@ -120,7 +120,7 @@ export default function MapCard() {
     return null;
   }
 
-  const ShowIdentifyPopup = () => {
+  /*const ShowIdentifyPopup = () => {
     if (!identifyCoordinates) {
       return null
     }
@@ -142,7 +142,7 @@ export default function MapCard() {
         </ul>
       </Popup>
     )
-  }
+  }*/
 
   const fetchData = async (fetchPoint) => {
     dispatch(changeIdentifyIsLoaded(false));
@@ -162,10 +162,10 @@ export default function MapCard() {
       const coordinates = e.latlng
       dispatch(changeIdentifyCoordinates([coordinates.lat, coordinates.lng]));
       IdentifyAPI(dispatch, coordinates, selectedRegion);
-      const lat=coordinates.lat
-      const lng = coordinates.lng
       map.getContainer().style.cursor = 'grab';
-      const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
+      //const lat=coordinates.lat
+      //const lng = coordinates.lng
+      //const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
       //fetchData(fetchPoint)
     })
   }
@@ -180,7 +180,11 @@ export default function MapCard() {
         </Button>
       </Control>
       <MapEventsComponent/>
-      <ShowIdentifyPopup/>
+      <ShowIdentifyPopup
+        identifyCoordinates = {identifyCoordinates}
+        identifyIsLoaded = {identifyIsLoaded}
+        identifyItems = {identifyItems}
+      />
     </LeafletMapContainer>
   );
 

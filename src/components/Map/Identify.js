@@ -26,8 +26,8 @@ Props
   - Not sure yet
 */
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeIdentifyCoordinates, changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
+import { changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
+import { Popup } from 'react-leaflet';
 import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
 
 //const dispatch = useDispatch;
@@ -52,7 +52,33 @@ export const IdentifyAPI = async (dispatch, coordinates, selectedRegion) => {
   })
 }
 
-export default function Identify(props){
+export default function ShowIdentifyPopup(props) {
+  const { identifyCoordinates, identifyIsLoaded, identifyItems } = props;
+
+  if (!identifyCoordinates) {
+    return null
+  }
+
+  if (!identifyIsLoaded) {
+    return (
+      <Popup position={identifyCoordinates} autoPan={false}>
+        Loading...
+      </Popup>
+    )
+  }
+
+  return (
+    <Popup position={identifyCoordinates} autoPan={false}>
+      <ul>
+        {Object.keys(identifyItems).map(item => 
+          <li key={item}>{item} : {identifyItems[item]}</li>
+        )}
+      </ul>
+    </Popup>
+  )
+}
+
+/*export default function Identify(props){
   const { identifyIsLoaded, identifyItems, coordinates, selectedRegion } = props;
   dispatch(changeIdentifyCoordinates([coordinates.lat, coordinates.lng]));
   // uncomment the endpoint you want to use and comment out the other
@@ -95,4 +121,4 @@ export default function Identify(props){
       </ul>
     </div>
   )
-}
+}*/
