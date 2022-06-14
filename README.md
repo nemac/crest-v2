@@ -4,5 +4,8 @@
 
 Node 16 Long Term Support (LTS)
 
+## GH Pages
+https://nemac.github.io/crest-v2/
+
 ## S3 Static Page
 http://crest-v2.s3-website-us-east-1.amazonaws.com/
