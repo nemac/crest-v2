@@ -36,7 +36,6 @@ Props
 */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ReactDOMServer from 'react-dom/server';
 import { makeStyles } from '@mui/styles';
 import {
   // Marker,
@@ -47,8 +46,6 @@ import {
   useMap,
   useMapEvents
 } from 'react-leaflet';
-import L, { divIcon } from 'leaflet';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InfoIcon from '@mui/icons-material/Info';
 import { Button } from '@mui/material'
 import Control from 'react-leaflet-custom-control';
@@ -79,15 +76,14 @@ export default function MapCard() {
   const identifyItems = useSelector((state) => state.mapProperties.identifyResults);
   const identifyCoordinates = useSelector((state) => state.mapProperties.identifyCoordinates);
   const [map, setMap] = useState(null);
+
+  // setting property to () => true for both center and zoom ensures that value is only read from store once 
   const [center, setCenter] = useState(useSelector((state) => state.mapProperties.center, () => true))
+  const zoom = useSelector((state) => state.mapProperties.zoom, () => true)
+
   const dispatch = useDispatch()
   const selectedRegion = useSelector((state) => state.selectedRegion.value)
-  const zoom = useSelector((state) => state.mapProperties.zoom, () => true)
   const endPoint = betaIdentifyEndpoint
-  //const center = useSelector((state) => state.mapProperties.center)
-  const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
-  var ReactDOMServer = require('react-dom/server');
-  const classes = useStyles();
 
   const handleRegionSelectChange = (event) => {
     // Update map with new center and zoom
@@ -102,10 +98,11 @@ export default function MapCard() {
     dispatch(changeCenter(regions[event.target.value].mapProperties.center));
   };
 
+  // This component exists solely for the useMapEvents hook
   const MapEventsComponent = () => {
     const map = useMap();
-    const mapForMoveEndEvents = useMapEvents({
-      moveend: () => { // this covers both zoom and center
+    useMapEvents({
+      moveend: () => { // This covers both zoom and center. Send updated zoom and center to redux when moveend event occurs.
         dispatch(changeZoom(map.getZoom()))
         dispatch(
           changeCenter(
@@ -113,7 +110,8 @@ export default function MapCard() {
           )
         );
       },
-      popupclose: () => {
+      popupclose: () => { // Reset all redux popup state when popup is closed.
+        console.log('popup closed');
         dispatch(changeIdentifyCoordinates(null));
         dispatch(changeIdentifyIsLoaded(false));
         dispatch(changeIdentifyResults(null));
@@ -122,16 +120,7 @@ export default function MapCard() {
     return null;
   }
 
-  const infoIconSelected = ReactDOMServer.renderToStaticMarkup(
-    <InfoIcon />
-  );
-
-  const infoIconUnselected = ReactDOMServer.renderToStaticMarkup(
-    <InfoOutlinedIcon />
-  );
-
   const ShowIdentifyPopup = () => {
-    console.log(identifyCoordinates)
     if (!identifyCoordinates) {
       return null
     }
@@ -155,53 +144,6 @@ export default function MapCard() {
     )
   }
 
-  const IdentifyPopups = () => {
-    const [coordinates, setCoordinates] = useState([]);
-    const map = useMap();
-    map.once('click', e => {
-      const { lat, lng } = e.latlng;
-      setCoordinates([lat, lng]);
-    });
-    return coordinates.length > 0 ? (
-      <ShowIdentifyPopup
-        coordinates={coordinates}
-      />
-    ) : null
-  }
-
-  /*const IdentifyButton = () => {
-    const map = useMap();
-    const customController = L.Control.extend({
-      options: {
-        position: "topleft"
-      },
-
-      onAdd: function (map) {
-        const button = L.DomUtil.create("button");
-        button.innerHTML = infoIconUnselected
-        L.DomEvent.disableClickPropagation(button);
-        button.onclick = (e) => {
-          // if-else changes icon to be selected or not selected
-          if (button.innerHTML === infoIconUnselected) {
-            button.innerHTML = infoIconSelected
-            map.once('click', e => {
-              const { lat, lng } = e.latlng;
-              console.log(lat, lng);
-            });
-          } else {
-            map.off('click');
-            button.innerHTML = infoIconUnselected
-          }
-          //map.locate()
-        }
-        return button;
-      }
-    })
-
-    map.addControl(new customController());
-    return null;
-  }*/
-
   const fetchData = async (fetchPoint) => {
     dispatch(changeIdentifyIsLoaded(false));
     await fetch(fetchPoint)
@@ -214,15 +156,17 @@ export default function MapCard() {
     })
   }
 
-  const clickHandler = () => {
+  const identifyClickHandler = () => {
     map.getContainer().style.cursor = 'crosshair';
     map.once('click', e => {
-      dispatch(changeIdentifyCoordinates([e.latlng.lat, e.latlng.lng]));
-      const lat=e.latlng.lat
-      const lng = e.latlng.lng
+      const coordinates = e.latlng
+      dispatch(changeIdentifyCoordinates([coordinates.lat, coordinates.lng]));
+      IdentifyAPI(dispatch, coordinates, selectedRegion);
+      const lat=coordinates.lat
+      const lng = coordinates.lng
       map.getContainer().style.cursor = 'grab';
       const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
-      fetchData(fetchPoint)
+      //fetchData(fetchPoint)
     })
   }
 
@@ -231,7 +175,7 @@ export default function MapCard() {
       <Control prepend='true' position='topleft'>
         <Button 
           color="primary"
-          onClick={clickHandler}>
+          onClick={identifyClickHandler}>
           <InfoIcon />
         </Button>
       </Control>

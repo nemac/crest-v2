@@ -26,47 +26,59 @@ Props
   - Not sure yet
 */
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeIdentifyCoordinates, changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
 import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
 
-export const IdentifyAPI = (lat, lng, selectedRegion) => {
-  const endPoint = betaIdentifyEndpoint
+//const dispatch = useDispatch;
+
+export const IdentifyAPI = async (dispatch, coordinates, selectedRegion) => {
+  // uncomment the endpoint you want to use and comment out the other
+  const endPoint = betaIdentifyEndpoint;
+  //const endpoint = prodIdentifyEndpoint;
+  const lat = coordinates.lat
+  const lng = coordinates.lng
   const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
-  const fetchData = async () => {
-    return await fetch(fetchPoint)
-    .then(response => {
-      return response.json()
-    })
-    .then(data =>{
-      console.log(data)
-    })
-  }
+
+  dispatch(changeIdentifyIsLoaded(false));
+  return await fetch(fetchPoint)  
+  .then(response => {
+    return response.json()
+  })
+  .then(data =>{
+    console.log(data)
+    dispatch(changeIdentifyIsLoaded(true));
+    dispatch(changeIdentifyResults(data));
+  })
 }
 
-export default function Identify(lat, lng, selectedRegion){
-  console.log(lat, lng, selectedRegion)
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState({});
-  const endPoint = betaIdentifyEndpoint
+export default function Identify(props){
+  const { identifyIsLoaded, identifyItems, coordinates, selectedRegion } = props;
+  dispatch(changeIdentifyCoordinates([coordinates.lat, coordinates.lng]));
+  // uncomment the endpoint you want to use and comment out the other
+  const endPoint = betaIdentifyEndpoint;
+  //const endpoint = prodIdentifyEndpoint;
+  // fetchPoint will look similar to: 
+  //https://rlwk45u34h.execute-api.us-east-1.amazonaws.com/beta/identify/?lat=32.819580976242975&lng=-80.11869138513946&region=continental_us
   const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
 
   const fetchData = async () => {
-    setIsLoaded(false);
+    dispatch(changeIdentifyIsLoaded(false));
     await fetch(fetchPoint)
     .then(response => {
       return response.json()
     })
     .then(data =>{
-      setIsLoaded(true);
-      setItems(data);
+      dispatch(changeIdentifyIsLoaded(true));
+      dispatch(changeIdentifyResults(data));
     })
   }
 
-  useEffect(() => {
-    fetchData();
-  }, [lat, lng])
+  //useEffect(() => {
+   // fetchData();
+  //}, [lat, lng])
 
-  if (!isLoaded) {
+  if (!identifyIsLoaded) {
     return (
       <div>
         Loading...
@@ -77,8 +89,8 @@ export default function Identify(lat, lng, selectedRegion){
   return (
     <div>
       <ul>
-        {Object.keys(items).map(item => 
-          <li key={item}>{item} : {items[item]}</li>
+        {Object.keys(identifyItems).map(item => 
+          <li key={item}>{item} : {identifyItems[item]}</li>
         )}
       </ul>
     </div>
