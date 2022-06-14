@@ -22,13 +22,15 @@ Props
   - collapsed (boolean) (to handle collapsing menu for small screen size)
   - Not sure yet
 */
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { makeStyles, useTheme } from '@mui/styles';
 
+import { changeActiveTab } from '../../reducers/NavBarSlice';
 import NavBarTabsSmallScreens from './NavBarTabsSmallScreens';
 import NavBarTabsBigScreens from './NavBarTabsBigScreens';
 
@@ -46,14 +48,30 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// selector named functions for lint rules makes it easier to re-use if needed.
+const NavBarSelector = (state) => state.navBar;
+
 export default function NavBar(props) {
-  // current active tag
-  // TODO: needs persist in redux
-  const [currentTab, setCurrentTab] = React.useState('Home');
+  // redux store for the active tab
+  const dispatch = useDispatch();
+  const navBar = useSelector(NavBarSelector);
+
+  // set active tab for page refreshes and copy past of url
+  useEffect(() => {
+    // get patch to check if path is different from state.
+    // this will happen when a user copy and pastes or uses a shareurl
+    // the tool will need to change the the tab accordingly
+    const locationPath = window.location.pathname.replace('/', '');
+
+    if (!navBar || navBar !== locationPath) {
+      dispatch(changeActiveTab(locationPath));
+    }
+  }, [dispatch, navBar]);
 
   // change state for tab TODO needs persist
   const handleClickNavTab = (event, newValue) => {
-    setCurrentTab(newValue);
+    // update redux store with tab
+    dispatch(changeActiveTab(newValue));
   };
 
   // get breakpoint for small screens so we can make menu appear on side
@@ -69,13 +87,11 @@ export default function NavBar(props) {
               {isSmallScreen ? (
                 <NavBarTabsSmallScreens
                   handleClickNavTab={handleClickNavTab}
-                  currentTab={currentTab}
                   logo={NFWFLogoImage}
                 />
               ) : (
                 <NavBarTabsBigScreens
                   handleClickNavTab={handleClickNavTab}
-                  currentTab={currentTab}
                   logo={NFWFLogoImage}
                 />
               )}
