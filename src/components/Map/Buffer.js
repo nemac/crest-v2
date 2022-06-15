@@ -46,10 +46,10 @@ export default function Buffer(props) {
         variant="text"
         color="CRESTPrimary"
         fullWidth={true}
-        aria-label={'Include a Buffer to Understand Nearby Impacts'}
+        aria-label={'Include a Buffer for Nearby Impacts'}
         className={classes.actionButton}
         startIcon={<CheckBox />}>
-        Include a Buffer to Understand Nearby Impacts
+        Include a Buffer for Nearby Impacts
       </Button>
     </Box>
   );

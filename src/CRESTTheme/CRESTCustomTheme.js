@@ -18,6 +18,12 @@ const CustomTheme = createTheme({
       paper: '#0a0a0a',
       contrastText: '#fff'
     },
+    CRESTBlack: {
+      main: '#000000',
+      dark: '#000000',
+      light: '#000000',
+      contrastText: '#000000'
+    },
     CRESTGridBackground: {
       main: '#323232',
       dark: '#0a0a0a',
@@ -86,6 +92,29 @@ const CustomTheme = createTheme({
     }
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          scrollbarWidth: 'thin',
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            width: '12px'
+          },
+          '&::-webkit-scrollbar-track, & *::-webkit-scrollbar-track': {
+            background: '#0A0A0A'
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            backgroundColor: '#F8F9FA',
+            borderRadius: '4px'
+          },
+          '&::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-thumb:focus, &::-webkit-scrollbar-thumb:active': {
+            background: '#F8F9FA'
+          },
+          '& *::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:active': {
+            background: '#F8F9FA'
+          }
+        }
+      }
+    },
     MuiLink: {
       styleOverrides: {
         root: {
