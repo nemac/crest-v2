@@ -1,6 +1,6 @@
 export const northernMarianaIslandsConfig = {
   label: 'Northern Mariana Islands',
-  region: 'northern_mariana_islands',
+  regionName: 'northern_mariana_islands',
   mapProperties: {
     label: 'Northern Mariana Islands',
     center: [14.650025687128652, 146.02752685546875],

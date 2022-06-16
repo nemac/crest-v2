@@ -1,6 +1,6 @@
 export const continentalUSConfig = {
   label: 'Continental U.S',
-  region: 'continental_us',
+  regionName: 'continental_us',
   mapProperties: {
     label: 'Continental U.S',
     center: [40.979898, -81.474609],

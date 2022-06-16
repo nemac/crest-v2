@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import ResilienceProject from './pages/ResilienceProject';
 import StyleGuide from './pages/StyleGuide';
 import NavBar from './components/NavBar/NavBar';
+import CodeTest from './pages/CodeTest'; // CAN DELETE THIS WHEN READY FOR PRODUCTION. BE SURE TO DELETE ROUTE BELOW TOO
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path='/DataAndReports' element={<DataAndReports />} />
           <Route path='/About' element={<About />} />
           <Route path='/StyleGuide' element={<StyleGuide />} />
+          <Route path='/CodeTest' element={<CodeTest />} />
         </Routes>
       </div>
     </ThemeProvider>

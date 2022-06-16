@@ -6,11 +6,14 @@ import { northernMarianaIslandsConfig } from './regions/northern_mariana_islands
 import { puertoRicoConfig } from './regions/puertoRico';
 import { usVirginIslandsConfig } from './regions/usVirginIslands';
 
+export const betaIdentifyEndpoint = 'https://rlwk45u34h.execute-api.us-east-1.amazonaws.com/beta/identify/';
+export const prodIdentifyEndpoint = 'https://c5pbxj0fe6.execute-api.us-east-1.amazonaws.com/prod/identify/';
 export const mapConfig = {
   regions: {
     'American Samoa': americanSamoaConfig,
     'Continental U.S': continentalUSConfig,
-    Guam: guamConfig,
+    // eslint-disable-next-line quote-props
+    'Guam': guamConfig,
     'Hawai\'i': hawaiiConfig,
     'Northern Mariana Islands': northernMarianaIslandsConfig,
     'Puerto Rico': puertoRicoConfig,
