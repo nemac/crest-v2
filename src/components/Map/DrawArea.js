@@ -32,3 +32,39 @@ State needed
 Props
   - Not sure yet
 */
+import * as React from 'react';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+import {
+  PolylineOutlined
+  // Polyline
+} from '@mui/icons-material';
+
+const useStyles = makeStyles((theme) => ({
+  actionButton: {
+    height: theme.spacing(4.5),
+    textTransform: 'none',
+    justifyContent: 'start'
+  }
+}));
+
+// just a place holder needs props passed in and image etc
+export default function DrawArea(props) {
+  const classes = useStyles();
+
+  return (
+    <Box p={0.75} >
+      <Button
+        variant="contained"
+        color="CRESTPrimary"
+        fullWidth={true}
+        aria-label={'Sketch an Area'}
+        className={classes.actionButton}
+        startIcon={<PolylineOutlined />}>
+        Sketch an Area
+      </Button>
+    </Box>
+  );
+}

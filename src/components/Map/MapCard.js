@@ -48,8 +48,9 @@ import {
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
 import ShowIdentifyPopup from './Identify';
-import Boxforlayout from './BoxForLayouts';
 import { mapConfig } from '../../configuration/config';
+import ActionButtons from './ActionButtons';
+// import Boxforlayout from './BoxForLayouts';
 
 const regions = mapConfig.regions;
 
@@ -133,11 +134,7 @@ export default function MapCard() {
                 values={Object.keys(regions)}
                 onChange={handleRegionSelectChange}/> : null}
       {displayMap}
-      <Boxforlayout
-        boxHeight={'64px'} >
-        Map Action buttons - add area, export, map layers, this is a place holder
-        for the actual component
-      </Boxforlayout>
+      <ActionButtons />
     </div>
   );
 }
