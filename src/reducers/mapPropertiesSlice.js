@@ -20,18 +20,21 @@ export const mapPropertiesSlice = createSlice({
       state.center = action.payload;
     },
     changeIdentifyCoordinates: (state, action) => {
-      state.identifyCoordinates = action.payload
+      state.identifyCoordinates = action.payload;
     },
     changeIdentifyResults: (state, action) => {
-      state.identifyResults = action.payload
+      state.identifyResults = action.payload;
     },
     changeIdentifyIsLoaded: (state, action) => {
-      state.identifyIsLoaded = action.payload
+      state.identifyIsLoaded = action.payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { changeZoom, changeCenter, changeIdentifyCoordinates, changeIdentifyResults, changeIdentifyIsLoaded } = mapPropertiesSlice.actions;
+export const {
+  changeZoom, changeCenter, changeIdentifyCoordinates,
+  changeIdentifyResults, changeIdentifyIsLoaded
+} = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

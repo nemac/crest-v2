@@ -34,35 +34,22 @@ Props
   - Not sure yet
 
 */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@mui/styles';
-import {
-  // Marker,
-  MapContainer,
-  // MapConsumer,
-  Popup,
-  TileLayer,
-  useMap,
-  useMapEvents
-} from 'react-leaflet';
+import { useMapEvents } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
-import { Button } from '@mui/material'
+import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
-import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { changeRegion } from '../../reducers/regionSelectSlice';
-import { changeZoom, changeCenter, changeIdentifyCoordinates, changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
+import {
+  changeZoom, changeCenter, changeIdentifyCoordinates,
+  changeIdentifyResults, changeIdentifyIsLoaded
+} from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
-import ShowIdentifyPopup, { IdentifyAPI } from './Identify';
+import ShowIdentifyPopup from './Identify';
 import Boxforlayout from './BoxForLayouts';
-
-const useStyles = makeStyles((theme) => ({
-  leafletContainer: {
-    height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
-    width: 'calc(100% - 1px)'
-  },
-}));
+import { mapConfig } from '../../configuration/config';
 
 const regions = mapConfig.regions;
 
@@ -72,18 +59,14 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function MapCard() {
-  const identifyIsLoaded = useSelector((state) => state.mapProperties.identifyIsLoaded);
-  const identifyItems = useSelector((state) => state.mapProperties.identifyResults);
-  const identifyCoordinates = useSelector((state) => state.mapProperties.identifyCoordinates);
   const [map, setMap] = useState(null);
 
-  // setting property to () => true for both center and zoom ensures that value is only read from store once 
-  const [center, setCenter] = useState(useSelector((state) => state.mapProperties.center, () => true))
-  const zoom = useSelector((state) => state.mapProperties.zoom, () => true)
+  // setting "() => true" for both center and zoom ensures that value is only read from store once
+  const center = useSelector(selectedCenterSelector, () => true);
+  const zoom = useSelector(selectedZoomSelector, () => true);
 
-  const dispatch = useDispatch()
-  const selectedRegion = useSelector((state) => state.selectedRegion.value)
-  const endPoint = betaIdentifyEndpoint
+  const dispatch = useDispatch();
+  const selectedRegion = useSelector(selectedRegionSelector);
 
   const handleRegionSelectChange = (event) => {
     // Update map with new center and zoom
@@ -100,10 +83,9 @@ export default function MapCard() {
 
   // This component exists solely for the useMapEvents hook
   const MapEventsComponent = () => {
-    const map = useMap();
     useMapEvents({
-      moveend: () => { // This covers both zoom and center. Send updated zoom and center to redux when moveend event occurs.
-        dispatch(changeZoom(map.getZoom()))
+      moveend: () => { // Send updated zoom and center to redux when moveend event occurs.
+        dispatch(changeZoom(map.getZoom()));
         dispatch(
           changeCenter(
             [map.getCenter().lat, map.getCenter().lng]
@@ -111,69 +93,27 @@ export default function MapCard() {
         );
       },
       popupclose: () => { // Reset all redux popup state when popup is closed.
-        console.log('popup closed');
         dispatch(changeIdentifyCoordinates(null));
         dispatch(changeIdentifyIsLoaded(false));
         dispatch(changeIdentifyResults(null));
       }
     });
     return null;
-  }
-
-  /*const ShowIdentifyPopup = () => {
-    if (!identifyCoordinates) {
-      return null
-    }
-
-    if (!identifyIsLoaded) {
-      return (
-        <Popup position={identifyCoordinates} autoPan={false}>
-          Loading...
-        </Popup>
-      )
-    }
-  
-    return (
-      <Popup position={identifyCoordinates} autoPan={false}>
-        <ul>
-          {Object.keys(identifyItems).map(item => 
-            <li key={item}>{item} : {identifyItems[item]}</li>
-          )}
-        </ul>
-      </Popup>
-    )
-  }*/
-
-  const fetchData = async (fetchPoint) => {
-    dispatch(changeIdentifyIsLoaded(false));
-    await fetch(fetchPoint)
-    .then(response => {
-      return response.json()
-    })
-    .then(data =>{
-      dispatch(changeIdentifyIsLoaded(true));
-      dispatch(changeIdentifyResults(data));
-    })
-  }
+  };
 
   const identifyClickHandler = () => {
     map.getContainer().style.cursor = 'crosshair';
-    map.once('click', e => {
-      const coordinates = e.latlng
-      dispatch(changeIdentifyCoordinates([coordinates.lat, coordinates.lng]));
-      IdentifyAPI(dispatch, coordinates, selectedRegion);
+    map.once('click', (e) => {
+      const coordinates = e.latlng;
+      dispatch(changeIdentifyCoordinates({ lat: coordinates.lat, lng: coordinates.lng }));
       map.getContainer().style.cursor = 'grab';
-      //const lat=coordinates.lat
-      //const lng = coordinates.lng
-      //const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
-      //fetchData(fetchPoint)
-    })
-  }
+    });
+  };
 
   const displayMap = (
     <LeafletMapContainer center={center} zoom={zoom} whenCreated={setMap}>
       <Control prepend='true' position='topleft'>
-        <Button 
+        <Button
           color="primary"
           onClick={identifyClickHandler}>
           <InfoIcon />
@@ -181,9 +121,7 @@ export default function MapCard() {
       </Control>
       <MapEventsComponent/>
       <ShowIdentifyPopup
-        identifyCoordinates = {identifyCoordinates}
-        identifyIsLoaded = {identifyIsLoaded}
-        identifyItems = {identifyItems}
+        selectedRegion = {selectedRegion}
       />
     </LeafletMapContainer>
   );

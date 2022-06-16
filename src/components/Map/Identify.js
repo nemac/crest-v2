@@ -25,38 +25,53 @@ State needed
 Props
   - Not sure yet
 */
-import React, { useEffect, useState } from 'react';
-import { changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
+import React, { useEffect } from 'react';
 import { Popup } from 'react-leaflet';
+import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
+// eslint-disable-next-line no-unused-vars
 import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
-
-//const dispatch = useDispatch;
 
 export const IdentifyAPI = async (dispatch, coordinates, selectedRegion) => {
   // uncomment the endpoint you want to use and comment out the other
   const endPoint = betaIdentifyEndpoint;
-  //const endpoint = prodIdentifyEndpoint;
-  const lat = coordinates.lat
-  const lng = coordinates.lng
-  const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
+  // const endpoint = prodIdentifyEndpoint;
+  const lat = coordinates.lat;
+  const lng = coordinates.lng;
+  const fetchPoint = `${endPoint}?lat=${lat}&lng=${lng}&region=${mapConfig.regions[selectedRegion].regionName}`;
 
   dispatch(changeIdentifyIsLoaded(false));
-  return await fetch(fetchPoint)  
-  .then(response => {
-    return response.json()
-  })
-  .then(data =>{
-    console.log(data)
-    dispatch(changeIdentifyIsLoaded(true));
-    dispatch(changeIdentifyResults(data));
-  })
-}
+  await fetch(fetchPoint)
+    .then((response) => (
+      response.json()
+    ))
+    .then((data) => {
+      dispatch(changeIdentifyIsLoaded(true));
+      dispatch(changeIdentifyResults(data));
+    });
+};
 
 export default function ShowIdentifyPopup(props) {
-  const { identifyCoordinates, identifyIsLoaded, identifyItems } = props;
+  const { selectedRegion } = props;
+  const dispatch = useDispatch();
+  const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
+  const identifyIsLoadedSelector = (state) => state.mapProperties.identifyIsLoaded;
+  const identifyCoordinatesSelector = (state) => state.mapProperties.identifyCoordinates;
+  // identifyItems is items in order to shorten it for the .map function below. Yay linter errors.
+  const items = useSelector(identifyItemsSelector);
+  const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
+  const identifyCoordinates = useSelector(identifyCoordinatesSelector);
+
+  useEffect(() => {
+    if (!identifyCoordinates) {
+      return;
+    }
+    IdentifyAPI(dispatch, identifyCoordinates, selectedRegion);
+  }, [dispatch, identifyCoordinates, selectedRegion]);
 
   if (!identifyCoordinates) {
-    return null
+    return null;
   }
 
   if (!identifyIsLoaded) {
@@ -64,61 +79,18 @@ export default function ShowIdentifyPopup(props) {
       <Popup position={identifyCoordinates} autoPan={false}>
         Loading...
       </Popup>
-    )
+    );
   }
 
   return (
     <Popup position={identifyCoordinates} autoPan={false}>
       <ul>
-        {Object.keys(identifyItems).map(item => 
-          <li key={item}>{item} : {identifyItems[item]}</li>
-        )}
+        {Object.keys(items).map((item) => <li key={item}>{item} : {items[item]}</li>)}
       </ul>
     </Popup>
-  )
+  );
 }
 
-/*export default function Identify(props){
-  const { identifyIsLoaded, identifyItems, coordinates, selectedRegion } = props;
-  dispatch(changeIdentifyCoordinates([coordinates.lat, coordinates.lng]));
-  // uncomment the endpoint you want to use and comment out the other
-  const endPoint = betaIdentifyEndpoint;
-  //const endpoint = prodIdentifyEndpoint;
-  // fetchPoint will look similar to: 
-  //https://rlwk45u34h.execute-api.us-east-1.amazonaws.com/beta/identify/?lat=32.819580976242975&lng=-80.11869138513946&region=continental_us
-  const fetchPoint = endPoint+"?lat="+lat+"&lng="+lng+"&region="+mapConfig.regions[selectedRegion].regionName
-
-  const fetchData = async () => {
-    dispatch(changeIdentifyIsLoaded(false));
-    await fetch(fetchPoint)
-    .then(response => {
-      return response.json()
-    })
-    .then(data =>{
-      dispatch(changeIdentifyIsLoaded(true));
-      dispatch(changeIdentifyResults(data));
-    })
-  }
-
-  //useEffect(() => {
-   // fetchData();
-  //}, [lat, lng])
-
-  if (!identifyIsLoaded) {
-    return (
-      <div>
-        Loading...
-      </div>
-    )
-  }
-
-  return (
-    <div>
-      <ul>
-        {Object.keys(identifyItems).map(item => 
-          <li key={item}>{item} : {identifyItems[item]}</li>
-        )}
-      </ul>
-    </div>
-  )
-}*/
+ShowIdentifyPopup.propTypes = {
+  selectedRegion: PropTypes.string
+};

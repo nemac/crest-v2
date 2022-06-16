@@ -32,7 +32,7 @@ export default function App() {
           <Route path='/DataAndReports' element={<DataAndReports />} />
           <Route path='/About' element={<About />} />
           <Route path='/StyleGuide' element={<StyleGuide />} />
-          <Route path='/CodeTest' element={<CodeTest />} /> 
+          <Route path='/CodeTest' element={<CodeTest />} />
         </Routes>
       </div>
     </ThemeProvider>

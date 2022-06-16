@@ -1,14 +1,13 @@
-// This is just for code testing snippet purposes. 
+// This is just for code testing snippet purposes.
 // Can delete when ready for production
-import React, { useState, useEffect } from 'react';
-import { Marker, Popup } from 'react-leaflet';
-import LeafletMapContainer from '../components/Map/LeafletMapContainer';
-
+import React from 'react';
+// import { Marker, Popup } from 'react-leaflet';
+// import LeafletMapContainer from '../components/Map/LeafletMapContainer';
 
 export default function CodeTest() {
   return (
    <div>
      Hello World
    </div>
-  )
+  );
 }

@@ -1,6 +1,5 @@
-import React, { useState }from 'react';
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import { mapConfig } from '../../configuration/config';
@@ -8,24 +7,18 @@ import { mapConfig } from '../../configuration/config';
 const useStyles = makeStyles((theme) => ({
   leafletMapContainer: {
     height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
-    width: 'calc(100% - 1px)',
+    width: 'calc(100% - 1px)'
   }
 }));
 
 const regions = mapConfig.regions;
 
-// selector named functions for lint rules makes it easier to re-use if needed.
-const selectedRegionSelector = (state) => state.selectedRegion.value;
-const selectedZoomSelector = (state) => state.mapProperties.zoom;
-const selectedCenterSelector = (state) => state.mapProperties.center;
-
 export default function LeafletMapContainer(props) {
-  const { children, center, zoom, whenCreated } = props;
+  const {
+    children, center, zoom, whenCreated
+  } = props;
   const classes = useStyles();
-  const [map, setMap] = useState(null);
-  //const dispatch = useDispatch()
-  const selectedRegion = useSelector((state) => state.selectedRegion.value)
-  const extent = regions['Continental U.S'].mapProperties.extent // conus - TODO: I hate this how can I fix this?
+  const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
 
   return (
     <MapContainer className = {classes.leafletMapContainer}
@@ -44,7 +37,7 @@ export default function LeafletMapContainer(props) {
       />
       {children}
     </MapContainer>
-  )
+  );
 }
 
 LeafletMapContainer.propTypes = {
@@ -52,5 +45,4 @@ LeafletMapContainer.propTypes = {
   center: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
   whenCreated: PropTypes.func
-
-}
+};
