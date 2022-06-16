@@ -9,7 +9,7 @@ import { loadState } from './localStorage';
 const reducers = combineReducers({
   selectedRegion: regionSelectReducer,
   mapProperties: mapPropertiesReducer,
-  mapLayerList: mapLayerListReducer
+  mapLayerList: mapLayerListReducer,
   navBar: NavBarReducer
 
 });
