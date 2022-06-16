@@ -48,7 +48,7 @@ import {
 // import L, { divIcon } from 'leaflet';
 import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
-import  ActiveTileLayers  from './ActiveTileLayers'
+import ActiveTileLayers from './ActiveTileLayers';
 import { changeRegion } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
 import ActionButtons from './ActionButtons';

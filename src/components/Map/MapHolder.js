@@ -29,7 +29,7 @@ import Grid from '@mui/material/Grid';
 import MapCard from './MapCard';
 import MapActionCard from './MapActionCard';
 import Boxforlayout from './BoxForLayouts';
-import MapLayerList from '../MapLayerList/MapLayerList'
+import MapLayerList from '../MapLayerList/MapLayerList';
 
 const useStyles = makeStyles((theme) => ({
   threeColumnHolder: {

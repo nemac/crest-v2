@@ -44,26 +44,26 @@ Props
   - list of layers in group
   - Not sure yet
 */
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
-import Layer from './Layer'
-import { toggleCollapsed } from '../../reducers/mapLayerListSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Layer from './Layer';
+import { toggleCollapsed } from '../../reducers/mapLayerListSlice';
 
 export default function DriverGroup(props) {
-  const dispatch = useDispatch() ;
-  const { chartInputLabel, chartLayerList } = props
-  const expandedCharts = useSelector((state) => state.mapLayerList.expandedCharts)
-  const isExpanded = expandedCharts.includes(chartInputLabel) ;
+  const dispatch = useDispatch();
+  const { chartInputLabel, chartLayerList } = props;
+  const expandedChartsSelector = (state) => state.mapLayerList.expandedCharts;
+  const expandedCharts = useSelector(expandedChartsSelector);
+  const isExpanded = expandedCharts.includes(chartInputLabel);
 
   const onClick = () => {
-    dispatch(toggleCollapsed(chartInputLabel))
-  }
+    dispatch(toggleCollapsed(chartInputLabel));
+  };
 
   return (
     <Accordion expanded={isExpanded} onChange={onClick}>
@@ -74,12 +74,12 @@ export default function DriverGroup(props) {
         >
           <Typography>{chartInputLabel}</Typography>
         </AccordionSummary>
-        {chartLayerList.map(layer => <Layer key={layer.label} layerData={layer}/>)}
+        {chartLayerList.map((layer) => <Layer key={layer.id} lData={layer}/>)}
       </Accordion>
-  )
+  );
 }
 
 DriverGroup.propTypes = {
   chartInputLabel: PropTypes.string.isRequired,
   chartLayerList: PropTypes.array.isRequired
-}
+};

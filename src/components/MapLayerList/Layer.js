@@ -1,42 +1,39 @@
-import React, { useState } from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { useDispatch, useSelector } from 'react-redux';
-import { addLayer, removeLayer } from '../../reducers/mapLayerListSlice';
-import LayerDescription from './LayerDescription'
-
-
-
+import { toggleLayer } from '../../reducers/mapLayerListSlice';
+import LayerDescription from './LayerDescription';
+import LayerLegend from './LayerLegend';
 
 export default function Layer(props) {
+  const { lData } = props;
+  const dispatch = useDispatch();
+  const layerListSelector = (state) => state.mapLayerList.activeLayerList;
+  const activeLayerList = useSelector(layerListSelector);
+  const checked = lData.id in activeLayerList;
 
-  const { layerData } = props ;
-  const dispatch = useDispatch() ;
-
-  const activeLayerList = useSelector((state) => state.mapLayerList.activeLayerList).map(layer => layer.label)
-  const defaultChecked = activeLayerList.includes(layerData.label)
-  const [checked, setChecked] = useState(defaultChecked) ;
-
-  const handleClick = (checked) => {
-    if (!checked) {
-      dispatch(addLayer(layerData)) ;
-    } else {
-      dispatch(removeLayer(layerData)) ;
-    }
-    setChecked(!checked) ;   
-  }
+  const handleClick = () => {
+    dispatch(toggleLayer(lData));
+  };
 
   return (
-      <AccordionDetails>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox checked={checked} onClick={() => handleClick(checked)} />} label={layerData.label} />
-            <LayerDescription layerName={layerData.label} layerDescription={layerData.description} />
-          </FormGroup>
-      </AccordionDetails>
-  )
+    <AccordionDetails>
+      <Checkbox checked={checked} onClick={() => handleClick()} />
+      {lData.label}
+      <LayerDescription layerName={lData.label} layerDescription={lData.description} />
+      <LayerLegend layer={lData} />
+      {/* <FormGroup>
+        <FormControlLabel control={
+        <Checkbox checked={checked} onClick={() => handleClick(checked)} />} label={lData.label} />
+        <LayerDescription layerName={lData.label} layerDescription={lData.description} />
+        <LayerLegend layer={lData} />
+      </FormGroup> */}
+    </AccordionDetails>
+  );
 }
 
 Layer.propTypes = {
-  layerData: PropTypes.object.isRequired,
+  lData: PropTypes.object.isRequired
 };

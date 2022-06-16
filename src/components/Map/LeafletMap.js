@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer } from 'react-leaflet';
 import { mapConfig } from '../../configuration/config';
 import { BasicSelect } from './basicSelect';
 import { changeRegionValue } from '../../reducers/regionSelectSlice';

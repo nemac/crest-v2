@@ -39,22 +39,21 @@ Props
   - Not sure yet
 */
 
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 import Accordion from '@mui/material/Accordion';
-import Layer from './Layer'
+import Layer from './Layer';
 
 export default function LayerGroup(props) {
-  const {chartInputLabel, chartLayerList} = props ;
+  const { chartLayerList } = props;
 
-    return (
-      <Accordion defaultExpanded>
-        {chartLayerList.map(layer => <Layer key={layer.label} layerData={layer}/>)}
-      </Accordion>
-    );
-  }
+  return (
+    <Accordion defaultExpanded>
+      {chartLayerList.map((layer) => <Layer key={layer.label} lData={layer} />)}
+    </Accordion>
+  );
+}
 
 LayerGroup.propTypes = {
-  chartInputLabel: PropTypes.string.isRequired,
   chartLayerList: PropTypes.array.isRequired
 };

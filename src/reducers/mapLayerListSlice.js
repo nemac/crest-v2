@@ -1,37 +1,50 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const mapLayerListSlice = createSlice({
   name: 'mapLayerList',
   initialState: {
     visible: true,
-    activeLayerList: [],
-    expandedCharts: []
+    activeLayerList: {},
+    expandedCharts: [],
+    displayedLegends: {}
   },
   reducers: {
     toggleVisible: (state) => {
-      state.visible = !state.visible
+      state.visible = !state.visible;
     },
-    addLayer: (state, action) => {
-      state.activeLayerList.push(action.payload) ;
-
-    },
-    removeLayer: (state, action) => {
-      const activeLayerLabels = state.activeLayerList.map(layer => layer.label)
-      let i = activeLayerLabels.indexOf(action.payload.label) ;
-      state.activeLayerList.splice(i, 1) ;
+    toggleLayer: (state, action) => {
+      const layer = action.payload;
+      const layerId = layer.id;
+      if (layerId in state.activeLayerList) {
+        delete state.activeLayerList[layerId];
+      } else {
+        state.activeLayerList[layerId] = layer;
+      }
     },
     toggleCollapsed: (state, action) => {
       if (state.expandedCharts.includes(action.payload)) {
-        let i = state.expandedCharts.indexOf(action.payload) ;
-        state.expandedCharts.splice(i,1) ;
-      }else {
-        state.expandedCharts.push(action.payload) ;
+        const i = state.expandedCharts.indexOf(action.payload);
+        state.expandedCharts.splice(i, 1);
+      } else {
+        state.expandedCharts.push(action.payload);
+      }
+    },
+    toggleLegend: (state, action) => {
+      const layer = action.payload;
+      const layerId = layer.id;
+      if (layerId in state.displayedLegends) {
+        delete state.displayedLegends[layerId];
+      } else {
+        state.displayedLegends[layerId] = layer;
       }
     }
-  },
+
+  }
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleVisible, addLayer, removeLayer, toggleCollapsed } = mapLayerListSlice.actions
+export const {
+  toggleVisible, toggleLayer, toggleCollapsed, toggleLegend
+} = mapLayerListSlice.actions;
 
-export default mapLayerListSlice.reducer
+export default mapLayerListSlice.reducer;
