@@ -34,32 +34,24 @@ Props
   - Not sure yet
 
 */
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@mui/styles';
-import {
-  // Marker,
-  MapContainer,
-  // MapConsumer,
-  TileLayer,
-  // useMap,
-  useMapEvents
-} from 'react-leaflet';
-// import L, { divIcon } from 'leaflet';
-import { mapConfig } from '../../configuration/config';
+import { useMapEvents } from 'react-leaflet';
+import InfoIcon from '@mui/icons-material/Info';
+import { Button } from '@mui/material';
+import Control from 'react-leaflet-custom-control';
 import { BasicSelect } from './basicSelect';
 import ActiveTileLayers from './ActiveTileLayers';
 import { changeRegion } from '../../reducers/regionSelectSlice';
-import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
+import {
+  changeZoom, changeCenter, changeIdentifyCoordinates,
+  changeIdentifyResults, changeIdentifyIsLoaded
+} from '../../reducers/mapPropertiesSlice';
+import LeafletMapContainer from './LeafletMapContainer';
+import ShowIdentifyPopup from './Identify';
+import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
 // import Boxforlayout from './BoxForLayouts';
-
-const useStyles = makeStyles((theme) => ({
-  leafletContainer: {
-    height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
-    width: 'calc(100% - 1px)'
-  }
-}));
 
 const regions = mapConfig.regions;
 
@@ -70,12 +62,13 @@ const selectedCenterSelector = (state) => state.mapProperties.center;
 
 export default function MapCard() {
   const [map, setMap] = useState(null);
+
+  // setting "() => true" for both center and zoom ensures that value is only read from store once
+  const center = useSelector(selectedCenterSelector, () => true);
+  const zoom = useSelector(selectedZoomSelector, () => true);
+
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
-  const zoom = useSelector(selectedZoomSelector);
-  const center = useSelector(selectedCenterSelector);
-  const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
-  const classes = useStyles();
 
   const handleRegionSelectChange = (event) => {
     // Update map with new center and zoom
@@ -90,41 +83,50 @@ export default function MapCard() {
     dispatch(changeCenter(regions[event.target.value].mapProperties.center));
   };
 
+  // This component exists solely for the useMapEvents hook
   const MapEventsComponent = () => {
-    const mapForMoveEndEvents = useMapEvents({
-      moveend: () => { // this covers both zoom and center
-        dispatch(changeZoom(mapForMoveEndEvents.getZoom()));
+    useMapEvents({
+      moveend: () => { // Send updated zoom and center to redux when moveend event occurs.
+        dispatch(changeZoom(map.getZoom()));
         dispatch(
           changeCenter(
-            [mapForMoveEndEvents.getCenter().lat, mapForMoveEndEvents.getCenter().lng]
+            [map.getCenter().lat, map.getCenter().lng]
           )
         );
+      },
+      popupclose: () => { // Reset all redux popup state when popup is closed.
+        dispatch(changeIdentifyCoordinates(null));
+        dispatch(changeIdentifyIsLoaded(false));
+        dispatch(changeIdentifyResults(null));
       }
     });
     return null;
   };
 
-  const displayMap = useMemo(
-    () => (
-      <MapContainer className = {classes.leafletContainer}
-        center={center}
-        zoom={zoom}
-        scrollWheelZoom={true}
-        bounds={extent}
-        whenCreated={setMap}>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossOrigin=""/>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <ActiveTileLayers/>
-        <MapEventsComponent/>
-      </MapContainer>
-    ),
-    [center, classes.leafletContainer, extent, zoom]
+  const identifyClickHandler = () => {
+    map.getContainer().style.cursor = 'crosshair';
+    map.once('click', (e) => {
+      const coordinates = e.latlng;
+      dispatch(changeIdentifyCoordinates({ lat: coordinates.lat, lng: coordinates.lng }));
+      map.getContainer().style.cursor = 'grab';
+    });
+  };
+
+  const displayMap = (
+    <LeafletMapContainer center={center} zoom={zoom} whenCreated={setMap}>
+      <Control prepend='true' position='topleft'>
+        <Button
+          color="primary"
+          onClick={identifyClickHandler}>
+          <InfoIcon />
+        </Button>
+      </Control>
+      <ActiveTileLayers/>
+      <MapEventsComponent/>
+      <ShowIdentifyPopup
+        selectedRegion = {selectedRegion}
+      />
+    </LeafletMapContainer>
   );
 
   return (

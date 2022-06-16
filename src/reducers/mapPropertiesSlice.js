@@ -7,7 +7,10 @@ export const mapPropertiesSlice = createSlice({
   name: 'mapProperties',
   initialState: {
     zoom: regions['Continental U.S'].mapProperties.zoom, // conus - TODO: I hate this how can I fix this?
-    center: regions['Continental U.S'].mapProperties.center // conus - TODO: I hate this how can I fix this?
+    center: regions['Continental U.S'].mapProperties.center, // conus - TODO: I hate this how can I fix this?
+    identifyCoordinates: null,
+    identifyResults: null,
+    identifyIsLoaded: false
   },
   reducers: {
     changeZoom: (state, action) => {
@@ -15,11 +18,23 @@ export const mapPropertiesSlice = createSlice({
     },
     changeCenter: (state, action) => {
       state.center = action.payload;
+    },
+    changeIdentifyCoordinates: (state, action) => {
+      state.identifyCoordinates = action.payload;
+    },
+    changeIdentifyResults: (state, action) => {
+      state.identifyResults = action.payload;
+    },
+    changeIdentifyIsLoaded: (state, action) => {
+      state.identifyIsLoaded = action.payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { changeZoom, changeCenter } = mapPropertiesSlice.actions;
+export const {
+  changeZoom, changeCenter, changeIdentifyCoordinates,
+  changeIdentifyResults, changeIdentifyIsLoaded
+} = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

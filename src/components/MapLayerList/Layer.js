@@ -22,8 +22,8 @@ export default function Layer(props) {
     <AccordionDetails>
       <Checkbox checked={checked} onClick={() => handleClick()} />
       {lData.label}
-      <LayerDescription layerName={lData.label} layerDescription={lData.description} />
       <LayerLegend layer={lData} />
+      <LayerDescription layerName={lData.label} layerDescription={lData.description} />
       {/* <FormGroup>
         <FormControlLabel control={
         <Checkbox checked={checked} onClick={() => handleClick(checked)} />} label={lData.label} />

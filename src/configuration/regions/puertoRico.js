@@ -1,6 +1,6 @@
 export const puertoRicoConfig = {
   label: 'Puerto Rico',
-  region: 'puerto_rico',
+  regionName: 'puerto_rico',
   mapProperties: {
     label: 'Puerto Rico',
     center: [18.219772120864576, -66.11643075942995],

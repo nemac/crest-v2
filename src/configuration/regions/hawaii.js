@@ -1,6 +1,6 @@
 export const hawaiiConfig = {
   label: 'Hawai\'i',
-  region: 'hawaii',
+  regionName: 'hawaii',
   mapProperties: {
     label: 'Hawai\'i',
     center: [21.08872447557743, 204.9689626693726],
