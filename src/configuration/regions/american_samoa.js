@@ -33,6 +33,7 @@ export const americanSamoaConfig = {
       chartLabel: 'Resilience Hubs',
       chartLegendValues: 10,
       ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubs',
       chartCSSColor: {
         0: '#E9ECEF',
@@ -60,6 +61,7 @@ export const americanSamoaConfig = {
       chartLabel: 'Resilience Hexagonal Grid',
       chartLegendValues: 10,
       ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubsHex',
       chartCSSColor: {
         0: '#E9ECEF',
@@ -100,6 +102,7 @@ export const americanSamoaConfig = {
         10: '#633319'
       },
       ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Community Exposure Index',
       chartCSSSelector: 'exposure',
       url: 'https://tiles.resilientcoasts.org/AS_ExposureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -127,6 +130,7 @@ export const americanSamoaConfig = {
         10: '#090991'
       },
       ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Community Asset and Threat Indices',
       chartCSSSelector: 'asset',
       url: 'https://tiles.resilientcoasts.org/AS_AssetsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -154,6 +158,7 @@ export const americanSamoaConfig = {
         10: '#c40a0a'
       },
       ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Community Asset and Threat Indices',
       chartCSSSelector: 'threat',
       url: 'https://tiles.resilientcoasts.org/AS_ThreatsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -178,6 +183,7 @@ export const americanSamoaConfig = {
         6: '#7E33A8'
       },
       ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'fishandwildlife',
       url: 'https://tiles.resilientcoasts.org/AS_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
