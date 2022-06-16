@@ -17,8 +17,9 @@ State needed
 Props
 - Not sure yet
 */
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -38,24 +39,37 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: '65px',
     minWidth: '45px'
+  },
+  TitleHolder: {
+    marginLeft: theme.spacing(0.5),
+    [theme.breakpoints.between('md', 'lg')]: {
+      marginLeft: theme.spacing(2)
+    }
   }
 }));
 
-export default function NavBarTabs(props) {
-  const { currentTab, handleClickNavTab, logo } = props;
+// selector named functions for lint rules makes it easier to re-use if needed.
+const NavBarSelector = (state) => state.navBar;
+
+export default function NavBarTabsBigScreens(props) {
+  const { handleClickNavTab, logo } = props;
   const classes = useStyles();
+
+  const navBar = useSelector(NavBarSelector);
 
   return (
     < >
-    <Grid item xs={0} sm={0.75} sx={{ display: { xs: 'none', lg: 'flex' } }}>
+    <Grid item xs={0} sm={0.75} sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Box p={1} justifyContent='center' alignItems='center'>
-        <img src={logo} className={classes.NFWFLogoImageStyle} />
+        <RouterLink to="/">
+          <img src={logo} className={classes.NFWFLogoImageStyle} />
+        </RouterLink>
       </Box>
     </Grid>
     <Grid item xs={12} sm={11.25}>
       <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} py={0.75}>
         <Grid item xs={12}>
-          <Typography variant='h5' component='div' px={1} gutterBottom>
+          <Typography variant='h5' component='div' px={1} gutterBottom className={classes.TitleHolder}>
             Coastal Resilience Evaluation and Siting Tool (CREST)
           </Typography>
         </Grid>
@@ -64,7 +78,7 @@ export default function NavBarTabs(props) {
             orientation="horizontal"
             variant="scrollable"
             allowScrollButtonsMobile={true}
-            value={currentTab}
+            value={navBar.activeTab}
             onChange={handleClickNavTab}
             aria-label="CREST Nabigation Tabs"
             >
@@ -83,8 +97,7 @@ export default function NavBarTabs(props) {
   );
 }
 
-NavBarTabs.propTypes = {
-  currentTab: PropTypes.string.isRequired,
+NavBarTabsBigScreens.propTypes = {
   handleClickNavTab: PropTypes.func.isRequired,
   logo: PropTypes.string.isRequired
 };

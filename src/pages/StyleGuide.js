@@ -18,6 +18,7 @@ import {
   ArrowDropDownCircle,
   Ballot,
   BallotOutlined,
+  BarChart,
   CameraAlt,
   // CameraAltOutlined,
   Cancel,
@@ -67,6 +68,7 @@ import {
   ShareOutlined,
   Sort,
   SortOutlined,
+  TableChart,
   ToggleOff,
   ToggleOn
 } from '@mui/icons-material';
@@ -448,6 +450,24 @@ export default function StyleGuide() {
         UnselectedIconName='ToggleOff'
         selectedIcon={<ToggleOn />}
         unSelectedIcon={<ToggleOff />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title='Toggle to Table Alt'
+        SelectedIconName='TableChart'
+        UnselectedIconName='TableChart'
+        selectedIcon={<TableChart />}
+        unSelectedIcon={<TableChart />}
+        blockBackgroundColor='CRESTGridBackground.main'
+      />
+
+      <StyleGuideIconComponent
+        title='Toggle to Chart Alt'
+        SelectedIconName='BarChart'
+        UnselectedIconName='BarChart'
+        selectedIcon={<BarChart />}
+        unSelectedIcon={<BarChart />}
         blockBackgroundColor='CRESTGridBackground.main'
       />
 
