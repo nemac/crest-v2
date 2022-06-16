@@ -42,7 +42,7 @@ export default function LayerLegend(props) {
       <IconButton onClick={() => { dispatch(toggleLegend(layer)); }} >
         <ArrowDropDownCircle />
       </IconButton>
-      <h3>LEGEND HERE</h3>
+      <h3>I am LEGEND</h3>
       </div>
     );
   }
