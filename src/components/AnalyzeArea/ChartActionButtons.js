@@ -26,8 +26,9 @@ State needed
 Props
   - Not sure yet
 */
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
@@ -39,6 +40,7 @@ import {
   CenterFocusStrong
 } from '@mui/icons-material';
 
+import { changeMore } from '../../reducers/analyzeAreaSlice';
 import ChartActionButton from './ChartActionButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,24 +54,37 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ChartActionButtons(props) {
-  const classes = useStyles();
+// selector named functions for lint rules makes it easier to re-use if needed.
+const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
-  const {
-    moreOnClick,
-    exportOnClick,
-    zoomOnClick,
-    removeOnClick,
-    isMore
-  } = props;
+export default function ChartActionButtons(props) {
+  const { areaName } = props;
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+
+  // handle state change more charts or more details charts
+  const handleMoreOnClick = () => {
+    dispatch(changeMore(areaName));
+  };
+
+  // place holder for later wanted to add a click handler for graph or Table
+  // TODO add exportOnClick, zoomOnClick, removeOnClick
+  // TODO removeOnClick will also have to remove redux state for more/less
+  // TODO this will also need to clear all the save results
+  //      from the store (from add areas) when its completed
+  const handleGenericClick = (event) => {
+    event.stopPropagation();
+    console.log('clicked'); // eslint-disable-line no-console
+  };
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" p={0} className={classes.contentBox}>
       <Grid item xs={3} >
         <ChartActionButton
-          buttonLabel={isMore ? 'Less' : 'More'}
-          buttonName={isMore ? 'Less' : 'More'}
-          onClick={moreOnClick}>
+          buttonLabel={analyzeAreaState.isMore[areaName] ? 'Less' : 'More'}
+          buttonName={analyzeAreaState.isMore[areaName] ? 'Less' : 'More'}
+          onClick={handleMoreOnClick}>
           <MoreHorizOutlined />
         </ChartActionButton>
       </Grid>
@@ -77,7 +92,7 @@ export default function ChartActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={exportOnClick}>
+          onClick={handleGenericClick}>
           <CameraAlt />
         </ChartActionButton>
       </Grid>
@@ -85,7 +100,7 @@ export default function ChartActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Zoom'}
           buttonName={'Zoom'}
-          onClick={zoomOnClick}>
+          onClick={handleGenericClick}>
           <CenterFocusStrong />
         </ChartActionButton>
       </Grid>
@@ -93,7 +108,7 @@ export default function ChartActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Remove'}
           buttonName={'Remove'}
-          onClick={removeOnClick}>
+          onClick={handleGenericClick}>
           <DeleteForever />
         </ChartActionButton>
       </Grid>
@@ -102,9 +117,5 @@ export default function ChartActionButtons(props) {
 }
 
 ChartActionButtons.propTypes = {
-  moreOnClick: PropTypes.func.isRequired,
-  exportOnClick: PropTypes.func.isRequired,
-  zoomOnClick: PropTypes.func.isRequired,
-  removeOnClick: PropTypes.func.isRequired,
-  isMore: PropTypes.bool.isRequired
+  areaName: PropTypes.string.isRequired
 };

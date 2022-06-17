@@ -25,7 +25,7 @@ State needed
 Props
   - Not sure yet
 */
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
