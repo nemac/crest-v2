@@ -1,33 +1,23 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Accordion from '@mui/material/Accordion';
-import Layer from './Layer';
+import SubGroup from './SubGroup';
 
 export default function LayerGroup(props) {
   const { chartLayerList } = props;
-  const subHeadings = [];
   const subListings = {};
   chartLayerList.forEach((layer) => {
-    if (!subHeadings.includes(layer.ChartInputSubHeading)) {
-      subHeadings.push(layer.ChartInputSubHeading);
+    if (!(layer.ChartInputSubHeading in subListings)) {
       subListings[layer.ChartInputSubHeading] = [layer];
     } else {
       subListings[layer.ChartInputSubHeading].push(layer);
     }
   });
-  const buildSubListings = (subHeading) => (
-    subListings[subHeading].map((layer) => <Layer key={layer.id} lData={layer} />)
-  );
-  const buildSubGroup = (subHeading) => (
-    <Fragment>
-    <h4>{subHeading}</h4>
-    {buildSubListings(subHeading)}
-    </Fragment>
-  );
 
   return (
     <Accordion defaultExpanded>
-      {subHeadings.map((subHeading) => buildSubGroup(subHeading))}
+      {/* eslint-disable-next-line max-len */}
+      {Object.entries(subListings).map(([head, list]) => <SubGroup key={head} subHeading={head} subLayers={list} />)}
     </Accordion>
   );
 }
