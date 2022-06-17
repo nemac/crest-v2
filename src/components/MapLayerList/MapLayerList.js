@@ -47,7 +47,6 @@ export default function MapLayerList() {
   const chartsInputs = regions[selectedRegion].chartInputs;
   // Create state for layer list visibility
   const layerListVisible = useSelector(listVisibleSelector);
-  // const [layerListVisible, toggleVisible] = useState(true)
 
   /* Iterate through every label containing target chart and create an array of labels
   This logic could be moved into LayerGroup.js
