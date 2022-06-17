@@ -54,6 +54,13 @@ import ActionButtons from './ActionButtons';
 
 const regions = mapConfig.regions;
 
+/*
+TODO:
+1. tab switching removes the identify popup.
+2. Clicking on the map removes popup.
+FIX THESE!!!!
+*/
+
 // selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
