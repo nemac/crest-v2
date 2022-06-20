@@ -6,7 +6,7 @@ export default function SubGroup(props) {
   const { subHeading, subLayers } = props;
 
   const buildSubListings = () => (
-    subLayers.map((layer) => <Layer key={layer.id} lData={layer} />)
+    subLayers.map((layer) => <Layer key={layer.id} layerData={layer} />)
   );
 
   return (
