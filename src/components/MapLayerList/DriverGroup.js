@@ -28,7 +28,7 @@ export default function DriverGroup(props) {
         >
           <Typography>{chartInputLabel}</Typography>
         </AccordionSummary>
-        {chartLayerList.map((layer) => <Layer key={layer.id} lData={layer}/>)}
+        {chartLayerList.map((layer) => <Layer key={layer.id} layerData={layer}/>)}
       </Accordion>
   );
 }
