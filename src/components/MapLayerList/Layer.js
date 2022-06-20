@@ -8,26 +8,26 @@ import LayerDescription from './LayerDescription';
 import LayerLegend from './LayerLegend';
 
 export default function Layer(props) {
-  const { lData } = props;
+  const { layerData } = props;
   const dispatch = useDispatch();
   const layerListSelector = (state) => state.mapLayerList.activeLayerList;
   const activeLayerList = useSelector(layerListSelector);
-  const checked = lData.id in activeLayerList;
+  const checked = layerData.id in activeLayerList;
 
   const handleClick = () => {
-    dispatch(toggleLayer(lData));
+    dispatch(toggleLayer(layerData));
   };
 
   return (
     <AccordionDetails>
       <Checkbox checked={checked} onClick={() => handleClick()} />
-      {lData.label}
-      <LayerLegend layer={lData} />
-      <LayerDescription layerName={lData.label} layerDescription={lData.description} />
+      {layerData.label}
+      <LayerLegend layer={layerData} />
+      <LayerDescription layerName={layerData.label} layerDescription={layerData.description} />
     </AccordionDetails>
   );
 }
 
 Layer.propTypes = {
-  lData: PropTypes.object.isRequired
+  layerData: PropTypes.object.isRequired
 };
