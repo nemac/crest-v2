@@ -28,7 +28,7 @@ export default function LayerDescription(props) {
   const open = Boolean(anchorEl);
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
+    <ClickAwayListener onClickAway={anchorEl === null ? () => {} : handleClickAway}>
       <IconButton
         variant='contained'
         aria-owns={open ? 'mouse-over-popover' : undefined}
@@ -53,7 +53,7 @@ export default function LayerDescription(props) {
             vertical: 'top',
             horizontal: 'left'
           }}
-          onClose={handlePopoverClose}
+          onClose={handleClickAway}
           disableRestoreFocus
         >
           <h3>{layerName}</h3>
