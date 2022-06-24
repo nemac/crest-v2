@@ -29,6 +29,7 @@ import Grid from '@mui/material/Grid';
 import MapCard from './MapCard';
 import MapActionCard from './MapActionCard';
 import Boxforlayout from './BoxForLayouts';
+import MapLayerList from '../MapLayerList/MapLayerList';
 import AnalyzeAreaHolder from '../AnalyzeArea/AnalyzeAreaHolder';
 
 const useStyles = makeStyles((theme) => ({
@@ -109,7 +110,7 @@ export default function MapHolder(props) {
         className={classes.threeColumnHolder}>
         <Boxforlayout
           boxHeight={'100%'} >
-          Map Layer List, this is a place holder for the actual component
+          <MapLayerList/>
         </Boxforlayout>
       </Grid>
 
