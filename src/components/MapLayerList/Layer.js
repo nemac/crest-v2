@@ -1,27 +1,33 @@
-/*
-Purpose
-  individual layer controls vissibility of layer on the map
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Checkbox } from '@mui/material';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLayer } from '../../reducers/mapLayerListSlice';
+import LayerDescription from './LayerDescription';
+import LayerLegend from './LayerLegend';
 
-Child Components
-  - maybe map.js
-  - MapLayerList-LayerLegend.js
-  - MapLayerList-LayerDescription.js
+export default function Layer(props) {
+  const { layerData } = props;
+  const dispatch = useDispatch();
+  const layerListSelector = (state) => state.mapLayerList.activeLayerList;
+  const activeLayerList = useSelector(layerListSelector);
+  const checked = layerData.id in activeLayerList;
 
-Libs
-  - leaflet
+  const handleClick = () => {
+    dispatch(toggleLayer(layerData));
+  };
 
-API
-  - Not sure yet
+  return (
+    <AccordionDetails>
+      <Checkbox checked={checked} onClick={() => handleClick()} />
+      {layerData.label}
+      <LayerLegend layer={layerData} />
+      <LayerDescription layerName={layerData.label} layerDescription={layerData.description} />
+    </AccordionDetails>
+  );
+}
 
-State needed
-  - layer vissibility
-  - legend vissibility
-
-Props
-  - layer name
-  - layer Description
-  - layer legend
-  - layer vissibility
-  - layer legend vissibility
-  - Not sure yet
-*/
+Layer.propTypes = {
+  layerData: PropTypes.object.isRequired
+};

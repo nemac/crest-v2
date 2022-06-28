@@ -41,6 +41,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
 import { BasicSelect } from './basicSelect';
+import ActiveTileLayers from './ActiveTileLayers';
 import { changeRegion } from '../../reducers/regionSelectSlice';
 import {
   changeZoom, changeCenter, changeIdentifyCoordinates,
@@ -120,6 +121,7 @@ export default function MapCard() {
           <InfoIcon />
         </Button>
       </Control>
+      <ActiveTileLayers/>
       <MapEventsComponent/>
       <ShowIdentifyPopup
         selectedRegion = {selectedRegion}
