@@ -23,6 +23,7 @@ import { useSelector } from 'react-redux';
 
 import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import LinkTab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -73,7 +74,7 @@ export default function NavBarTabsBigScreens(props) {
             Coastal Resilience Evaluation and Siting Tool (CREST)
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={10}>
           <Tabs
             orientation="horizontal"
             variant="scrollable"
@@ -89,8 +90,10 @@ export default function NavBarTabsBigScreens(props) {
             <LinkTab value="DataAndReports" to='/DataAndReports' {...a11yProps(0, 'crest-tab')} component={RouterLink}label="Data & Reports" />
             <LinkTab value="About" to='/About' {...a11yProps(4, 'crest-tab')} component={RouterLink} label="About" />
             <LinkTab value="StyleGuide" to='/StyleGuide' {...a11yProps(5, 'crest-tab')} component={RouterLink}label="Style Guide" />
-            <button onClick={() => { console.log('clearing local storage'); localStorage.clear(); } }>Clear Local Storage</button>
           </Tabs>
+        </Grid>
+        <Grid item xs={2} px={5}>
+          <Button variant="contained" color="CRESTPrimary" onClick={() => { console.log('clearing local storage'); localStorage.clear(); } }>Clear Local Storage</Button>
         </Grid>
       </Grid>
     </Grid>
