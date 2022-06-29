@@ -28,7 +28,7 @@ Props
   - if details add export button
   - Not sure yet
 */
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@mui/styles';
