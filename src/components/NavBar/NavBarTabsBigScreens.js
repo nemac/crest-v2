@@ -89,7 +89,6 @@ export default function NavBarTabsBigScreens(props) {
             <LinkTab value="DataAndReports" to='/DataAndReports' {...a11yProps(0, 'crest-tab')} component={RouterLink}label="Data & Reports" />
             <LinkTab value="About" to='/About' {...a11yProps(4, 'crest-tab')} component={RouterLink} label="About" />
             <LinkTab value="StyleGuide" to='/StyleGuide' {...a11yProps(5, 'crest-tab')} component={RouterLink}label="Style Guide" />
-            <button onClick={() => { console.log('clearing local storage'); localStorage.clear(); } }>Clear Local Storage</button>
           </Tabs>
         </Grid>
       </Grid>
