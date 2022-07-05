@@ -38,6 +38,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
+import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
 import { BasicSelect } from './basicSelect';
@@ -60,8 +61,23 @@ const selectedRegionSelector = (state) => state.selectedRegion.value;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
+const useStyles = makeStyles((theme) => ({
+  leafletButton: {
+    color: '#000000',
+    minHeight: '30px',
+    minWidth: '30px',
+    width: '30px',
+    height: '30px',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#F4F4F4'
+    }
+  }
+}));
+
 export default function MapCard() {
   const [map, setMap] = useState(null);
+  const classes = useStyles();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
@@ -116,8 +132,9 @@ export default function MapCard() {
     <LeafletMapContainer center={center} zoom={zoom} whenCreated={setMap}>
       <Control prepend='true' position='topleft'>
         <Button
-          color="primary"
-          onClick={identifyClickHandler}>
+          variant="contained"
+          onClick={identifyClickHandler}
+          className={classes.leafletButton}>
           <InfoIcon />
         </Button>
       </Control>
