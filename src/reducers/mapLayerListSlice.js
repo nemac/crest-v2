@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const mapLayerListSlice = createSlice({
   name: 'mapLayerList',
   initialState: {
+    // TODO add defaults for Resilience hubs
     visible: true,
     activeLayerList: {},
     expandedCharts: [],

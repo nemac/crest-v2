@@ -3,7 +3,7 @@ export const americanSamoaConfig = {
   regionName: 'american_samoa',
   mapProperties: {
     label: 'American Samoa',
-    center: [-14.314288224896458, -169.71405029296875],
+    center: [-14.31, -170.25],
     extent: [-170.88, -14.71, -168.92, -13.90],
     zoom: 9
   },
@@ -13,16 +13,16 @@ export const americanSamoaConfig = {
       ChartInputLabel: 'Summary'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'asset',
       ChartInputLabel: 'Comunity Assets Inputs'
     },
     {
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs'
+    },
+    {
+      chartInputName: 'fishandwildlife',
+      ChartInputLabel: 'Fish and Wildlife Inputs'
     }
   ],
   layerList: [
@@ -51,6 +51,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_HubsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.',
       region: 'american_samoa'
     },
@@ -79,6 +80,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_HubsHexIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Shows variation in Resilience Hub rankings using a 10-acre (4-hectare) hexagonal grid. Highest-ranking hexagons represent areas within Resilience Hub boundaries that may be suitable for resilience-building efforts.',
       region: 'american_samoa'
     },
@@ -107,6 +109,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_ExposureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'The product of the Asset and Threat Indices, which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.',
       region: 'american_samoa'
     },
@@ -135,6 +138,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_AssetsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape.',
       region: 'american_samoa'
     },
@@ -163,6 +167,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_ThreatsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs. The Threat Index results are conservative and should be interpreted with caution due to ongoing post seismic land subsidence, which is expected to exacerbate sea level rise coastal flooding in the region',
       region: 'american_samoa'
     },
@@ -188,6 +193,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Identifies valuable habitat for species of concern in both the terrestrial and marine environments. Higher values indicate more valuable habitat areas for both.',
       region: 'american_samoa'
     },
@@ -209,6 +215,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_AquaticIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Higher values identify habitat areas that are most valuable for providing protection to nearby coastal communities and for the protection of marine species.',
       region: 'american_samoa'
     },
@@ -230,6 +237,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_TerrestrialIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Higher values identify habitat areas that are suitable to the most species of concern for that region, based on habitat preferences and potential threats identified by the IUCN Red List.',
       region: 'american_samoa'
     },
@@ -252,6 +260,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_PopDensityIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'A ranking of population density by estimates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.',
       region: 'american_samoa'
     },
@@ -271,6 +280,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_SocVulnIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Estimates are ranked from low to high, depicting areas of high poverty, vulnerable housing characteristics, and personal disruption due to climate change according to data from the 2010 Decennial Census.',
       region: 'american_samoa'
     },
@@ -293,6 +303,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Facilities such as schools, hospitals, and police and fire stations that are important to recovery efforts when a community is faced with a flood-related event. All facilities are given the same presence rank.',
       region: 'american_samoa'
     },
@@ -325,6 +336,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Infrastructure in and around communities that are integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines, among others. High values suggest areas where multiple infrastructure overlap.',
       region: 'american_samoa'
     },
@@ -348,6 +360,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_DraingeIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Those areas with poor water drainage potential, including both less-porous soils and areas with high-intensity development. High values suggest that areas contain soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation events.',
       region: 'american_samoa'
     },
@@ -370,6 +383,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_ErosionIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest that areas carry an increased potential for erosion due to flooding or heavy precipitation events.',
       region: 'american_samoa'
     },
@@ -392,6 +406,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_SLRIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'NOAA’s sea level rise scenarios ranked from low to high, with low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.',
       region: 'american_samoa'
     },
@@ -413,6 +428,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_WaveDrivenFloodingIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Areas are ranked according to probability of wave driven flooding, where a 10-year return period is given a higher rank than a 500-year return period.',
       region: 'american_samoa'
     },
@@ -435,6 +451,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_SlopeIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'The percent rise of the elevation of the landscape, given values from low to high. High values indicate those areas that are very low lying and more likely to retain water and flood.',
       region: 'american_samoa'
     },
@@ -457,6 +474,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain.',
       region: 'american_samoa'
     },
@@ -478,6 +496,7 @@ export const americanSamoaConfig = {
       url: 'https://tiles.resilientcoasts.org/AS_TsunamiIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
+      maxNativeZoom: 14,
       description: 'Represents the maximum extent of inundation due to tsunami.',
       region: 'american_samoa'
     }

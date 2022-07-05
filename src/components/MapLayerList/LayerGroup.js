@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Accordion from '@mui/material/Accordion';
+import Box from '@mui/material/Box';
 import SubGroup from './SubGroup';
 
 export default function LayerGroup(props) {
@@ -15,10 +15,10 @@ export default function LayerGroup(props) {
   });
 
   return (
-    <Accordion defaultExpanded>
+    <Box px={0.5}>
       {/* eslint-disable-next-line max-len */}
       {Object.entries(subListings).map(([head, list]) => <SubGroup key={head} subHeading={head} subLayers={list} />)}
-    </Accordion>
+    </Box>
   );
 }
 

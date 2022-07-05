@@ -1,35 +1,81 @@
 import React from 'react';
-import { IconButton } from '@mui/material/';
-import { useDispatch, useSelector } from 'react-redux';
-import { ArrowDropDownCircle } from '@mui/icons-material';
-import PropTypes from 'prop-types';
-import { toggleLegend } from '../../reducers/mapLayerListSlice';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  legendHolder: {
+    transition: 'all 0.75s ease',
+    willChange: 'transform',
+    padding: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  low: {
+    fontSize: '1rem',
+    display: 'flex',
+    justifyContent: 'start'
+  },
+  high: {
+    fontSize: '1rem',
+    display: 'flex',
+    justifyContent: 'end'
+  },
+  legend: {
+    height: '48px'
+  },
+  legendBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#000000'
+  },
+  legendIsNotRreal: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontWeight: 600
+  }
+}));
 
 export default function LayerLegend(props) {
-  const { layer } = props;
-  const layerLegendsSelector = (state) => state.mapLayerList.displayedLegends;
-  const displayedLegends = useSelector(layerLegendsSelector);
-  const dispatch = useDispatch();
+  const classes = useStyles();
 
-  if (layer.id in displayedLegends) {
-    return (
-      <div>
-      <IconButton onClick={() => { dispatch(toggleLegend(layer)); }} >
-        <ArrowDropDownCircle />
-      </IconButton>
-      <h3>I am LEGENDs placeholder.</h3>
-      </div>
-    );
-  }
   return (
-    <div>
-    <IconButton onClick={() => { dispatch(toggleLegend(layer)); }} >
-      <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }} />
-    </IconButton>
-    </div>
+    <Box m={1.5}>
+      <Grid container spacing={0}>
+        <Grid item xs={2} className={classes.low}>
+          Low
+        </Grid>
+        <Grid item xs={8} className={classes.legendIsNotRreal}>
+          This not the real legend
+        </Grid>
+        <Grid item xs={2} className={classes.high}>
+          High
+        </Grid>
+        <Grid item xs={12} className={classes.legendHolder}>
+
+          {/* this is where the code generated legend goes this
+            is just a example of what will be here */}
+
+            <Grid container spacing={0} m={0} p={0} className={classes.legend}>
+              <Grid item xs={3} sx={{ backgroundColor: '#fef0d9' }} className={classes.legendBox}>
+                1
+              </Grid>
+              <Grid item xs={3} sx={{ backgroundColor: '#fdcc8a' }} className={classes.legendBox}>
+                2
+              </Grid>
+              <Grid item xs={3} sx={{ backgroundColor: '#fc8d59' }} className={classes.legendBox}>
+                3
+              </Grid>
+              <Grid item xs={3} sx={{ backgroundColor: '#d7301f' }} className={classes.legendBox}>
+                4
+              </Grid>
+
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
   );
 }
-
-LayerLegend.propTypes = {
-  layer: PropTypes.object.isRequired
-};

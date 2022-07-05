@@ -10,7 +10,8 @@ export const mapPropertiesSlice = createSlice({
     center: regions['Continental U.S'].mapProperties.center, // conus - TODO: I hate this how can I fix this?
     identifyCoordinates: null,
     identifyResults: null,
-    identifyIsLoaded: false
+    identifyIsLoaded: false,
+    basemap: 'Dark Gray'
   },
   reducers: {
     changeZoom: (state, action) => {
@@ -27,6 +28,9 @@ export const mapPropertiesSlice = createSlice({
     },
     changeIdentifyIsLoaded: (state, action) => {
       state.identifyIsLoaded = action.payload;
+    },
+    changeBasemap: (state, action) => {
+      state.basemap = action.payload;
     }
   }
 });
@@ -34,7 +38,7 @@ export const mapPropertiesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded
+  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

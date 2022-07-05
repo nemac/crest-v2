@@ -3,7 +3,7 @@ export const guamConfig = {
   regionName: 'guam',
   mapProperties: {
     label: 'Guam',
-    center: [13.45908, 145.129395],
+    center: [13.45, 144.8],
     extent: [144.33, 13.20, 145.88, 13.79],
     zoom: 10
   },
@@ -13,16 +13,16 @@ export const guamConfig = {
       ChartInputLabel: 'Summary'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'asset',
       ChartInputLabel: 'Comunity Assets Inputs'
     },
     {
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs'
+    },
+    {
+      chartInputName: 'fishandwildlife',
+      ChartInputLabel: 'Fish and Wildlife Inputs'
     }
   ],
   layerList:
@@ -54,6 +54,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.',
         region: 'guam'
       },
@@ -84,6 +85,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Shows variation in Resilience Hub rankings using a 10-acre (4-hectare) hexagonal grid. Highest-ranking hexagons represent areas within Resilience Hub boundaries that may be suitable for resilience-building efforts.',
         region: 'guam'
       },
@@ -114,6 +116,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'The product of the Asset and Threat Indices, which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.',
         region: 'guam'
       },
@@ -144,6 +147,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape.',
         region: 'guam'
       },
@@ -174,6 +178,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.',
         region: 'guam'
       },
@@ -201,6 +206,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Identifies valuable habitat for species of concern in both the terrestrial and marine environments. Higher values indicate more valuable habitat areas for both.',
         region: 'guam'
       },
@@ -224,6 +230,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Higher values identify habitat areas that are most valuable for providing protection to nearby coastal communities and for the protection of marine species.',
         region: 'guam'
       },
@@ -247,6 +254,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Higher values identify habitat areas that are suitable to the most species of concern for that region, based on habitat preferences and potential threats identified by the IUCN Red List.',
         region: 'guam'
       },
@@ -271,6 +279,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'A ranking of population density by estimates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.',
         region: 'guam'
       },
@@ -294,6 +303,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Estimates are ranked from low to high, depicting areas of high poverty, vulnerable housing characteristics, and personal disruption due to climate change according to data from the 2010 Decennial Census.',
         region: 'guam'
       },
@@ -318,6 +328,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Facilities such as schools, hospitals, and police and fire stations that are important to recovery efforts when a community is faced with a flood-related event. All facilities are given the same presence rank.',
         region: 'guam'
       },
@@ -352,6 +363,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Infrastructure in and around communities that are integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines, among others. High values suggest areas where multiple infrastructure overlap.',
         region: 'guam'
       },
@@ -377,6 +389,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Those areas with poor water drainage potential, including both less-porous soils and areas with high-intensity development. High values suggest that areas contain soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation events.',
         region: 'guam'
       },
@@ -401,6 +414,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest that areas carry an increased potential for erosion due to flooding or heavy precipitation events.',
         region: 'guam'
       },
@@ -425,6 +439,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'NOAA’s sea level rise scenarios ranked from low to high, with low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.',
         region: 'guam'
       },
@@ -448,6 +463,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Areas are ranked according to probability of wave driven flooding, where a 10-year return period is given a higher rank than a 500-year return period.',
         region: 'guam'
       },
@@ -472,6 +488,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'The percent rise of the elevation of the landscape, given values from low to high. High values indicate those areas that are very low lying and more likely to retain water and flood.',
         region: 'guam'
       },
@@ -496,6 +513,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain.',
         region: 'guam'
       },
@@ -517,6 +535,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Represents the maximum extent of inundation due to tsunami.',
         region: 'guam'
       },
@@ -541,6 +560,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Average daily wave energy along Guam’s shoreline, ranked from low to high. Wave energy is calculated from average wind direction, wind speed and fetch length along the wind bearing.',
         region: 'guam'
       },
@@ -564,6 +584,7 @@ export const guamConfig = {
         attribution: 'NFWF 2020',
         format: 'image/png',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Shows landslide susceptibility in Guam, where a higher rank indicates higher susceptibility.',
         region: 'guam'
       }
