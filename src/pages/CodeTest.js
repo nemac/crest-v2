@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 function Counter(props) {
@@ -6,6 +5,7 @@ function Counter(props) {
     count: [count, setCount]
   } = {
     count: useState(0),
+    // eslint-disable-next-line react/prop-types
     ...(props.state || {})
   };
 

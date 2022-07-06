@@ -1,5 +1,10 @@
 import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  FeatureGroup
+} from 'react-leaflet';
+import { EditControl } from 'react-leaflet-draw';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import { mapConfig } from '../../configuration/config';
@@ -35,6 +40,15 @@ export default function LeafletMapContainer(props) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <FeatureGroup>
+        <EditControl
+          position='topright'
+          draw={{
+            rectangle: false,
+            circle: false
+          }}
+        />
+      </FeatureGroup>
       {children}
     </MapContainer>
   );
