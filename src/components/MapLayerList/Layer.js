@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   layerHolder: {
     minHeight: '36px',
     height: 'auto',
-    padding: `${theme.spacing(0.5)} ${theme.spacing(0)} ${theme.spacing(0.5)} ${theme.spacing(0)}`,
+    padding: `${theme.spacing(0)} ${theme.spacing(0)} ${theme.spacing(0)} ${theme.spacing(0)}`,
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center'
