@@ -96,7 +96,7 @@ export default function MapHolder(props) {
 
       {/* Map */}
      <Grid item
-       xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.5 : 8.25} xl={layerListVisible ? 6.25 : 9}
+       xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.25 : 8.25} xl={layerListVisible ? 6.25 : 9}
        order={{ xs: 1, sm: 1, md: 2 }}
        className={classes.threeColumnHolder}>
        <Box className={classes.contentmapBox} >
@@ -106,7 +106,7 @@ export default function MapHolder(props) {
 
      {/* Layer List */}
       <Grid item
-        xs={12} sm={12} md={3.5} lg={2.75} xl={2.75}
+        xs={12} sm={12} md={3.5} lg={3} xl={2.75}
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
         className={classes.threeColumnHolder}>

@@ -27,10 +27,12 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.02857em',
     width: '100%',
     cursor: 'pointer',
-    height: '36px'
+    minHeight: '36px',
+    height: 'auto'
   },
   layerHolder: {
-    height: '36px',
+    minHeight: '36px',
+    height: 'auto',
     padding: `${theme.spacing(0.5)} ${theme.spacing(0)} ${theme.spacing(0.5)} ${theme.spacing(0)}`,
     display: 'flex',
     flexWrap: 'nowrap',
