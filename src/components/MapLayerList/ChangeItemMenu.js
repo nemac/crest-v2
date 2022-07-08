@@ -162,7 +162,7 @@ export default function ChangeItemMenu(props) {
             </Grid>
           </Grid>
       ))
-    };
+    }
     </Grid>
   );
 }
