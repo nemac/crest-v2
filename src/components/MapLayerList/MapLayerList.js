@@ -145,8 +145,8 @@ export default function MapLayerList() {
 
   // get summary charts configs
   const chartSummaryInputs = chartsInputs.filter((data) => {
-    const sumnmaryValues = data.chartInputName === 'summary';
-    return sumnmaryValues;
+    const summaryValues = data.chartInputName === 'summary';
+    return summaryValues;
   });
 
   // get driver charts configs
