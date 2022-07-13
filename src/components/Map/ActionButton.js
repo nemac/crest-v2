@@ -62,7 +62,8 @@ export default function ActionButton(props) {
   const {
     children,
     buttonLabel,
-    buttonName
+    buttonName,
+    onClick
   } = props;
 
   return (
@@ -72,7 +73,8 @@ export default function ActionButton(props) {
         color="CRESTPrimary"
         fullWidth={true}
         aria-label={buttonName}
-        className={classes.actionButton}>
+        className={classes.actionButton}
+        onClick={onClick}>
         <Box component="div" className={classes.button} pt={0.5}>{children}</Box>
         <Box component="div" sclassName={classes.button} pb={0.5}>{buttonLabel}</Box>
       </Button>
@@ -83,5 +85,6 @@ export default function ActionButton(props) {
 ActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   buttonLabel: PropTypes.string.isRequired,
-  buttonName: PropTypes.string.isRequired
+  buttonName: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 };

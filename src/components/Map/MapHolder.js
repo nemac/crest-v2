@@ -19,8 +19,8 @@ Props
   - Not sure yet
 
 */
-import * as React from 'react';
-// import PropTypes from 'prop-types';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -28,7 +28,6 @@ import Grid from '@mui/material/Grid';
 
 import MapCard from './MapCard';
 import MapActionCard from './MapActionCard';
-import Boxforlayout from './BoxForLayouts';
 import MapLayerList from '../MapLayerList/MapLayerList';
 import AnalyzeAreaHolder from '../AnalyzeArea/AnalyzeAreaHolder';
 
@@ -44,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   contentBox: {
-    // height: '100%',
     padding: theme.spacing(1),
     backgroundColor: theme.palette.CRESTGridBackground.dark,
     borderColor: theme.palette.CRESTBorderColor.main,
@@ -71,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
 export default function MapHolder(props) {
   const classes = useStyles();
 
+  const listVisibleSelector = (state) => state.mapLayerList.visible;
+  const layerListVisible = useSelector(listVisibleSelector);
+
   return (
     <Grid container
       spacing={0}
@@ -95,7 +96,7 @@ export default function MapHolder(props) {
 
       {/* Map */}
      <Grid item
-       xs={12} sm={12} md={5} lg={6.25} xl={7}
+       xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.25 : 8.25} xl={layerListVisible ? 6.25 : 9}
        order={{ xs: 1, sm: 1, md: 2 }}
        className={classes.threeColumnHolder}>
        <Box className={classes.contentmapBox} >
@@ -105,13 +106,11 @@ export default function MapHolder(props) {
 
      {/* Layer List */}
       <Grid item
-        xs={12} sm={12} md={3} lg={2}
+        xs={12} sm={12} md={3.5} lg={3} xl={2.75}
+        sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
         className={classes.threeColumnHolder}>
-        <Boxforlayout
-          boxHeight={'100%'} >
-          <MapLayerList/>
-        </Boxforlayout>
+        <MapLayerList/>
       </Grid>
 
       {/* Adds bottom padding for small screens this is hacky need another way to handle this */}

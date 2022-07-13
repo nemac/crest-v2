@@ -3,7 +3,7 @@ export const northernMarianaIslandsConfig = {
   regionName: 'northern_mariana_islands',
   mapProperties: {
     label: 'Northern Mariana Islands',
-    center: [14.650025687128652, 146.02752685546875],
+    center: [14.67, 145.5],
     extent: [144.87, 13.92, 147.27, 15.38],
     zoom: 9
   },
@@ -13,16 +13,16 @@ export const northernMarianaIslandsConfig = {
       ChartInputLabel: 'Summary'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'asset',
       ChartInputLabel: 'Comunity Assets Inputs'
     },
     {
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs'
+    },
+    {
+      chartInputName: 'fishandwildlife',
+      ChartInputLabel: 'Fish and Wildlife Inputs'
     }
   ],
   layerList:
@@ -53,6 +53,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_HubsIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.',
         region: 'northern_mariana_islands'
       },
@@ -82,6 +83,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_ExposureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'The product of the Asset and Threat Indices, which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.',
         region: 'northern_mariana_islands'
       },
@@ -111,6 +113,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_AssetsIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape.',
         region: 'northern_mariana_islands'
       },
@@ -140,6 +143,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_ThreatsIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.',
         region: 'northern_mariana_islands'
       },
@@ -166,6 +170,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Identifies valuable habitat for species of concern in both the terrestrial and marine environments. Higher values indicate more valuable habitat areas for both.',
         region: 'northern_mariana_islands'
       },
@@ -188,6 +193,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_AquaticIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Higher values identify habitat areas that are most valuable for providing protection to nearby coastal communities and for the protection of marine species.',
         region: 'northern_mariana_islands'
       },
@@ -210,6 +216,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_TerrestrialIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Higher values identify habitat areas that are suitable to the most species of concern for that region, based on habitat preferences and potential threats identified by the IUCN Red List.',
         region: 'northern_mariana_islands'
       },
@@ -233,6 +240,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_PopDensityIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'A ranking of population density by estates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.',
         region: 'northern_mariana_islands'
       },
@@ -256,6 +264,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Estates are ranked from low to high, depicting areas of lower median incomes and minority populations based on 2010 Decennial Census Data and guidance from USEPA EJSCREEN methodology.',
         region: 'northern_mariana_islands'
       },
@@ -280,6 +289,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Facilities such as schools, hospitals, and police and fire stations that are important to recovery efforts when a community is faced with a flood-related event. All facilities are given the same presence rank.',
         region: 'northern_mariana_islands'
       },
@@ -304,6 +314,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Infrastructure in and around communities that are integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines, among others. High values suggest areas where multiple infrastructure overlap.',
         region: 'northern_mariana_islands'
       },
@@ -327,6 +338,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_DraingeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Those areas with poor water drainage potential, including both less-porous soils and areas with high-intensity development. High values suggest that areas contain soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation events.',
         region: 'northern_mariana_islands'
       },
@@ -350,6 +362,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_ErosionIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest that areas carry an increased potential for erosion due to flooding or heavy precipitation events.',
         region: 'northern_mariana_islands'
       },
@@ -373,6 +386,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_SLRIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'NOAA’s sea level rise scenarios ranked from low to high, with low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.',
         region: 'northern_mariana_islands'
       },
@@ -396,6 +410,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_StormSurgeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Based on historical nearshore wave time series, significant wave heights associated with the 10-, 50, 100, and 500-year storm return periods were ranked according to probability of occurrence, where a 10-year return period is given a higher rank than a 500-year return period.',
         region: 'northern_mariana_islands'
       },
@@ -419,6 +434,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_SlopeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'The percent rise of the elevation of the landscape, given values from low to high. High values indicate those areas that are very low lying and more likely to retain water and flood.',
         region: 'northern_mariana_islands'
       },
@@ -442,6 +458,7 @@ export const northernMarianaIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/CNMI_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain.',
         region: 'northern_mariana_islands'
       }

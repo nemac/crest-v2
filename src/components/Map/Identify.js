@@ -140,7 +140,7 @@ export default function ShowIdentifyPopup(props) {
             <Grid container spaceing={2} justifyContent="start" alignItems="start" pt={1.5}>
               <Grid item xs={12}>
                 <Typography variant="h6" component="div" align="center" gutterBottom>
-                  Loading..
+                  Loading...
                 </Typography>
               </Grid>
             </Grid>
