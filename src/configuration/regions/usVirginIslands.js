@@ -3,7 +3,7 @@ export const usVirginIslandsConfig = {
   regionName: 'usVirginIslands',
   mapProperties: {
     label: 'US Virgin Islands',
-    center: [18.01530387941711, -64.49111938476564],
+    center: [18.02, -64.70],
     extent: [-65.13508888306899, 17.627008270947076, -64.25480934205336, 18.46267598832466],
     zoom: 10
   },
@@ -13,16 +13,16 @@ export const usVirginIslandsConfig = {
       ChartInputLabel: 'Summary'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'asset',
       ChartInputLabel: 'Comunity Assets Inputs'
     },
     {
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs'
+    },
+    {
+      chartInputName: 'fishandwildlife',
+      ChartInputLabel: 'Fish and Wildlife Inputs'
     }
   ],
   layerList:
@@ -53,6 +53,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_HubsIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Areas of open lands and protected space that may be suitable for resilience-building efforts. Hubs are ranked by priority, given the level of exposure that nearby assets have to flood-related threats and the presence and abundance of fish and wildlife species within and surrounding the Hub.',
         region: 'us_virgin_islands'
       },
@@ -82,6 +83,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_ExposureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'The product of the Asset and Threat Indices, which suggests areas on the landscape where community assets are potentially exposed to flood-related threats.',
         region: 'us_virgin_islands'
       },
@@ -111,6 +113,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_AssetsIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Index of community assets critical to the recovery of an area and human population. High values suggest areas with a higher, cumulative prevalence of community assets on the landscape.',
         region: 'us_virgin_islands'
       },
@@ -140,6 +143,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_ThreatsIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.',
         region: 'us_virgin_islands'
       },
@@ -166,6 +170,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Identifies valuable habitat for species of concern in both the terrestrial and marine environments. Higher values indicate more valuable habitat areas for both.',
         region: 'us_virgin_islands'
       },
@@ -188,6 +193,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_AquaticIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Higher values identify habitat areas that are most valuable for providing protection to nearby coastal communities and for the protection of marine species.',
         region: 'us_virgin_islands'
       },
@@ -210,6 +216,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_TerrestrialIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Higher values identify habitat areas that are suitable to the most species of concern for that region, based on habitat preferences and potential threats identified by the IUCN Red List.',
         region: 'us_virgin_islands'
       },
@@ -233,6 +240,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_PopDensityIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'A ranking of population density by estates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.',
         region: 'us_virgin_islands'
       },
@@ -256,6 +264,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Estates are ranked from low to high, depicting areas of lower median incomes and minority populations based on 2010 Decennial Census Data and guidance from USEPA EJSCREEN methodology.',
         region: 'us_virgin_islands'
       },
@@ -280,6 +289,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Facilities such as schools, hospitals, and police and fire stations that are important to recovery efforts when a community is faced with a flood-related event. All facilities are given the same presence rank.',
         region: 'us_virgin_islands'
       },
@@ -304,6 +314,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Infrastructure in and around communities that are integral to a community’s ability to recover from a flood event, including primary highways, power plants, and rail lines, among others. High values suggest areas where multiple infrastructure overlap.',
         region: 'us_virgin_islands'
       },
@@ -327,6 +338,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_DraingeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Those areas with poor water drainage potential, including both less-porous soils and areas with high-intensity development. High values suggest that areas contain soils with poor drainage potential and/or a prevalence of developed, impervious surfaces that may pool during flooding or heavy precipitation events.',
         region: 'us_virgin_islands'
       },
@@ -350,6 +362,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_ErosionIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Those areas that contain soil characteristics that have a high susceptibility of soil particle detachment by water. This may include areas that have high silt content or migratory systems such as beaches and dunes. High values suggest that areas carry an increased potential for erosion due to flooding or heavy precipitation events.',
         region: 'us_virgin_islands'
       },
@@ -373,6 +386,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_SLRIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'NOAA’s sea level rise scenarios ranked from low to high, with low being a 5-foot scenario and high being a 1-foot scenario. These ranks are used to suggest the more imminent threat of a 1-foot rise in sea level versus a 5-foot rise that may eventually occur.',
         region: 'us_virgin_islands'
       },
@@ -396,6 +410,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_StormSurgeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Based on the impacts from modeled hurricane storm categories, storm surge is ranked from low to high, with low being a 5-foot surge and high being a 1-foot surge. As a 1-foot surge is more likely to occur than a 5-foot surge, areas within the 1-foot designation are ranked with higher values.',
         region: 'us_virgin_islands'
       },
@@ -419,6 +434,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_SlopeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'The percent rise of the elevation of the landscape, given values from low to high. High values indicate those areas that are very low lying and more likely to retain water and flood.',
         region: 'us_virgin_islands'
       },
@@ -442,6 +458,7 @@ export const usVirginIslandsConfig = {
         url: 'https://tiles.resilientcoasts.org/USVI_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
+        maxNativeZoom: 14,
         description: 'Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain.',
         region: 'us_virgin_islands'
       }

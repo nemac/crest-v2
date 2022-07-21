@@ -8,6 +8,6 @@ export default function ActiveTileLayers() {
 
   return (
     // eslint-disable-next-line max-len
-    Object.values(layerList).map((lyr) => <TileLayer key={lyr.id} url={lyr.url} attribution={lyr.attribution} opacity={lyr.opacity}/>)
+    Object.values(layerList).map((lyr) => <TileLayer key={lyr.id} url={lyr.url} attribution={lyr.attribution} opacity={lyr.opacity} maxNativeZoom={lyr.maxNativeZoom}/>)
   );
 }

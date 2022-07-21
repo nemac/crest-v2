@@ -13,7 +13,6 @@ const reducers = combineReducers({
   AnalyzeArea: AnalyzeAreaReducer,
   mapLayerList: mapLayerListReducer,
   navBar: NavBarReducer
-
 });
 
 export const setupStore = (preloadedState) => configureStore({

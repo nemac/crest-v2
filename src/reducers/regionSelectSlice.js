@@ -6,6 +6,7 @@ const regions = mapConfig.regions;
 export const regionSelectSlice = createSlice({
   name: 'selectedRegion',
   initialState: {
+    userInitiated: false,
     value: regions['Continental U.S'].label // Continental US
   },
   reducers: {
@@ -15,11 +16,14 @@ export const regionSelectSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.value = action.payload;
+    },
+    regionUserInitiated: (state, action) => {
+      state.userInitiated = action.payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { changeRegion } = regionSelectSlice.actions;
+export const { changeRegion, regionUserInitiated } = regionSelectSlice.actions;
 
 export default regionSelectSlice.reducer;

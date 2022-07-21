@@ -6,7 +6,7 @@ import { mapConfig } from '../../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
   leafletMapContainer: {
-    height: 'calc(100% - 100px)', // TODO: this will need to be adjusted when we move the region selector to the map layer list (will 64px height of map actions)
+    height: 'calc(100% - 64px)',
     width: 'calc(100% - 1px)'
   }
 }));
@@ -24,7 +24,8 @@ export default function LeafletMapContainer(props) {
     <MapContainer className = {classes.leafletMapContainer}
       center={center}
       zoom={zoom}
-      scrollWheelZoom={false}
+      doubleClickZoom={true}
+      scrollWheelZoom={true}
       bounds={extent}
       whenCreated={whenCreated}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"

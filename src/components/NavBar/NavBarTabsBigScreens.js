@@ -93,7 +93,7 @@ export default function NavBarTabsBigScreens(props) {
           </Tabs>
         </Grid>
         <Grid item xs={2} px={5}>
-          <Button variant="contained" color="CRESTPrimary" onClick={() => { console.log('clearing local storage'); localStorage.clear(); } }>Clear Local Storage</Button>
+          <Button variant="contained" color="CRESTPrimary" onClick={() => { localStorage.clear(); } }>Clear Local Storage</Button>
         </Grid>
       </Grid>
     </Grid>
