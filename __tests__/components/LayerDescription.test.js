@@ -1,6 +1,8 @@
 import React from 'react';
-import { render,cleanup, fireEvent, screen  } from '../setup/testUtils';
+import { render } from '../setup/testUtils';
 import LayerDescription from '../../src/components/MapLayerList/LayerDescription';
+import { ExpandCircleDownOutlined } from '@mui/icons-material';
+import { screen, cleanup, fireEvent } from '@testing-library/react';
 
 describe('LayerDescription', () => {
     beforeEach(() => {
@@ -11,12 +13,13 @@ describe('LayerDescription', () => {
     })
     it('renders', () => {
     })
-    it('displays the right name', () => {
-        fireEvent.click(screen.getByRole('button'))
-        // console.log(screen.debug());
+    it('displays the right title', async () => {
+        fireEvent.mouseEnter(screen.getByRole('button'));
+        expect(await screen.findByText('test')).toBeDefined();
     })
-    it('displays the right description', () => {
-
+    it('displays the right description', async () => {
+        fireEvent.mouseEnter(screen.getByRole('button'));
+        expect(await screen.findByText('this is a test')).toBeDefined();
     })
 })
 
