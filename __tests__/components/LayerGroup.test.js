@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, cleanup, fireEvent } from '@testing-library/react';
+import { screen, cleanup } from '@testing-library/react';
 import { render } from '../setup/testUtils';
 import { mapConfig } from '../../src/configuration/config';
 import LayerGroup from '../../src/components/MapLayerList/LayerGroup';
