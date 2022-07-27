@@ -31,4 +31,4 @@ jobs:
         git remote set-url origin https://${{ secrets.GH_ACTION_TOKEN }}@github.com/nemac/crest-v2.git
         npm install --legacy-peer-deps
         npm run build
-        aws s3 sync ./public/ s3://crest-v2 --delete
+        aws s3 sync ./dist/ s3://crest-v2 --delete
