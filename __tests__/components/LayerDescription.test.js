@@ -14,11 +14,11 @@ describe('LayerDescription', () => {
     });
     it('displays the right title', async () => {
         fireEvent.mouseEnter(screen.getByRole('button'));
-        expect(await screen.findByText('test')).toBeDefined();
+        expect(await screen.findByText('test')).toBeInTheDocument();
     });
     it('displays the right description', async () => {
         fireEvent.mouseEnter(screen.getByRole('button'));
-        expect(await screen.findByText('this is a test')).toBeDefined();
+        expect(await screen.findByText('this is a test')).toBeInTheDocument();
     });
 })
 
