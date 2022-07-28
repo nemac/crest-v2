@@ -54,6 +54,9 @@ export default function LayerLegend(props) {
         <Grid item xs={2} className={classes.low}>
           Low
         </Grid>
+        <Grid item xs={8} className={classes.legendIsNotRreal}>
+
+        </Grid>
         <Grid item xs={2} className={classes.high}>
           High
         </Grid>
