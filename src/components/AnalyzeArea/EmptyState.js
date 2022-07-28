@@ -20,7 +20,7 @@ Props
   - Not sure yet
 */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Box from '@mui/material/Box';
@@ -28,6 +28,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 
+import { changeEmptyState } from '../../reducers/analyzeAreaSlice';
 import ChartActionButton from './ChartActionButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,8 +54,16 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function EmptyState(props) {
-  const { onClick } = props;
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+
+  // to do this will also need to clear all the save results
+  // from the store (from add areas) when its completed
+  const handleClick = (event) => {
+    event.stopPropagation();
+    dispatch(changeEmptyState());
+  };
 
   return (
     <Box variant="outlined" square={false} className={classes.CardBackground} >
@@ -79,7 +88,7 @@ export default function EmptyState(props) {
           <ChartActionButton
             buttonLabel={'View Chart UI'}
             buttonName={'View Chart UI'}
-            onClick={onClick}>
+            onClick={handleClick}>
             <BarChartIcon />
           </ChartActionButton>
         </Grid>
@@ -90,7 +99,3 @@ export default function EmptyState(props) {
     </Box>
   );
 }
-
-EmptyState.propTypes = {
-  onClick: PropTypes.func.isRequired
-};

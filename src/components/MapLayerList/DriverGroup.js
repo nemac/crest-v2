@@ -1,46 +1,88 @@
-/*
-Purpose
-  There are two types of groups the drivers and the main layers,
-  for lack of not knowing what to call them.
-  The drivers, in this case, will need to be collapsible
+import React from 'react';
+import PropTypes from 'prop-types';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ArrowDropDownCircle from '@mui/icons-material/ArrowDropDownCircle';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import { makeStyles } from '@mui/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import Layer from './Layer';
+import { toggleCollapsed } from '../../reducers/mapLayerListSlice';
 
-  This will change when regions change
+const useStyles = makeStyles((theme) => ({
+  drivers: {
+    backgroundColor: theme.palette.CRESTDarkAlt.main,
+    color: theme.palette.CRESTDarkAlt.contrastText,
+    marginTop: theme.spacing(1),
+    borderRadius: theme.spacing(0.5)
+  },
+  driverHeader: {
+    height: '46px',
+    minHeight: '46px',
+    '& [class$="MuiAccordionSummary-content"]': {
+      margin: theme.spacing(0.5)
+    },
+    '&:hover': {
+      backgroundColor: '#6f6f6f',
+      borderRadius: theme.spacing(0.5)
+    }
+  },
+  subHeading: {
+    fontWeight: '500',
+    fontSize: '1rem',
+    letterSpacing: '0.02857em'
+  },
+  darkDivder: {
+    borderColor: '#FFFFFF'
+  },
+  driverAccordion: {
+    paddong: theme.spacing(0)
+  }
+}));
 
-  might be able to merge this with MapLayerList-LayerGroup
-  have collapsible as true and as sub menue for background color change
+export default function DriverGroup(props) {
+  const { chartInputLabel, chartLayerList } = props;
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const expandedChartsSelector = (state) => state.mapLayerList.expandedCharts;
+  const expandedCharts = useSelector(expandedChartsSelector);
+  const isExpanded = expandedCharts.includes(chartInputLabel);
 
-  has only the layers that are grouped with the main layer
-  such as which can change for different layers
-  Community Asset Inputs
-    - Critical Facilities
-    - Critical Infrastructure
-    - etc
+  const onClick = () => {
+    dispatch(toggleCollapsed(chartInputLabel));
+  };
 
-  Threat Inputs
-    - Areas of Low Slope
-    - etc
+  return (
+    <Accordion
+      expanded={isExpanded}
+      onChange={onClick}
+      className={classes.drivers}
+      disableGutters={true}>
+        <AccordionSummary
+          expandIcon={<ArrowDropDownCircle />}
+          aria-controls="panel1a-content"
+          id="panel1a-header" sx={{ height: '36px' }}
+          className={classes.driverHeader}>
+          <Box className={classes.subHeading}>{chartInputLabel}</Box>
+        </AccordionSummary>
+        <Grid container spacing={0} justifyContent="center" alignItems="center" >
+          <Grid item xs={12} >
+            <Divider variant="middle" className={classes.darkDivder}/>
+          </Grid>
+        </Grid>
+        <AccordionDetails className={classes.driverAccordion}>
+          <Box p={0.5}>
+             { chartLayerList.map((layer) => <Layer key={layer.id} layerData={layer}/>) }
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+  );
+}
 
-  we should probably use a config as we did in v1
-
-Child Components
-  - MapLayerList-Layer.js
-  - MapLayerList-LayerLegend.js
-  - MapLayerList-LayerDescription.js
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - Collapsed or not
-  - list of layers in group
-  - Not sure yet
-
-Props
-  - group name
-  - collapsed or not
-  - list of layers in group
-  - Not sure yet
-*/
+DriverGroup.propTypes = {
+  chartInputLabel: PropTypes.string.isRequired,
+  chartLayerList: PropTypes.array.isRequired
+};

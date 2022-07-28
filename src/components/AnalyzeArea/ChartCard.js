@@ -20,8 +20,9 @@ State needed
 Props
   - Not sure yet
 */
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import Grid from '@mui/material/Grid';
 
@@ -29,25 +30,16 @@ import ChartSummary from './ChartSummary';
 import ChartDetails from './ChartDetails';
 import ChartActionButtons from './ChartActionButtons';
 
+// selector named functions for lint rules makes it easier to re-use if needed.
+const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+
 export default function ChartCard(props) {
   const { areaName } = props;
-  const [isMore, setisMore] = useState(false);
-
-  // handle state change Graph/Table
-  const handleSummaryChartMoreClick = (newValue) => {
-    setisMore(!isMore);
-    console.log(`clicked more ${isMore}`); // eslint-disable-line no-console
-  };
-
-  // place holder for later wanted to add a click handler for graph or tqble
-  const handleGenericClick = (event) => {
-    event.stopPropagation();
-    console.log('clicked'); // eslint-disable-line no-console
-  };
+  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
-        {isMore ? (
+        {analyzeAreaState.isMore[areaName] ? (
 
           <div style={{ width: '100%' }}>
             <Grid item xs={12} >
@@ -55,13 +47,7 @@ export default function ChartCard(props) {
             </Grid>
 
             <Grid item xs={12} >
-              <ChartActionButtons
-                isMore={isMore}
-                moreOnClick={handleSummaryChartMoreClick}
-                exportOnClick={handleGenericClick}
-                zoomOnClick={handleGenericClick}
-                removeOnClick={handleGenericClick}
-                />
+              <ChartActionButtons areaName={areaName}/>
             </Grid>
           </div>
 
@@ -73,13 +59,7 @@ export default function ChartCard(props) {
             </Grid>
 
             <Grid item xs={12} >
-              <ChartActionButtons
-                isMore={isMore}
-                moreOnClick={handleSummaryChartMoreClick}
-                exportOnClick={handleGenericClick}
-                zoomOnClick={handleGenericClick}
-                removeOnClick={handleGenericClick}
-                />
+              <ChartActionButtons areaName={areaName}/>
             </Grid>
           </div>
         )}

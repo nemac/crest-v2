@@ -24,21 +24,22 @@ State needed
 Props
   - Not sure yet
 */
-import * as React from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Grid from '@mui/material/Grid';
-
 import {
   CameraAlt,
-  // LayersOutlined,
+  LayersOutlined,
   Layers,
   // LibraryAddOutlined,
   LibraryAdd
 } from '@mui/icons-material';
-
 import { makeStyles } from '@mui/styles';
-
 import ActionButton from './ActionButton';
+import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
+
+const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 const useStyles = makeStyles((theme) => ({
   contentGrid: {
@@ -54,6 +55,20 @@ const useStyles = makeStyles((theme) => ({
 // just a place holder needs props passed in and image etc
 export default function ActionButtons() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const layerListVisible = useSelector(listVisibleSelector);
+
+  const mapLayerVisiblityOnClick = () => {
+    dispatch(toggleMapLayerVisibility());
+  };
+
+  // place holder for later wanted to add a click handler for graph or Table
+  // TODO add addarea toggle
+  // TODO export
+  const handleGenericClick = (event) => {
+    event.stopPropagation();
+    console.log('clicked'); // eslint-disable-line no-console
+  };
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" className={classes.contentGrid}>
@@ -61,22 +76,25 @@ export default function ActionButtons() {
       <Grid item xs={4}>
         <ActionButton
           buttonLabel={'Add Area'}
-          buttonName={'Add Area'}>
+          buttonName={'Add Area'}
+          onClick={handleGenericClick}>
           <LibraryAdd />
         </ActionButton>
       </Grid>
       <Grid item xs={4}>
         <ActionButton
           buttonLabel={'Export'}
-          buttonName={'Export'}>
+          buttonName={'Export'}
+          onClick={handleGenericClick}>
           <CameraAlt />
         </ActionButton>
       </Grid>
       <Grid item xs={4}>
         <ActionButton
           buttonLabel={'Map Layers'}
-          buttonName={'Map Layers'}>
-          <Layers />
+          buttonName={'Map Layers'}
+          onClick={mapLayerVisiblityOnClick}>
+          {layerListVisible ? <Layers /> : <LayersOutlined /> }
         </ActionButton>
       </Grid>
 

@@ -34,6 +34,7 @@ Props
 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
@@ -65,16 +66,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// selector named functions for lint rules makes it easier to re-use if needed.
+const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+
 export default function ChartHeaderActionButtons(props) {
   const classes = useStyles();
   const {
     handleSortClick,
     handleGraphOrTableClick,
     HandleRemoveAllClick,
-    handleGenericClick,
-    isItAGraph,
-    isSortASC
+    handleGenericClick
   } = props;
+
+  // get the redux state for analyze area
+  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
   return (
     <Grid container spacing={0} p={0} mt={1} mb={1} className={classes.contentBox}>
@@ -90,7 +95,7 @@ export default function ChartHeaderActionButtons(props) {
           buttonLabel={'Sort'}
           buttonName={'Sort'}
           onClick={handleSortClick}>
-          {isSortASC ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
+          {analyzeAreaState.isSortASC ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
         </ChartHeaderActionButton>
       </Grid>
       <Grid item xs={3}>
@@ -103,10 +108,10 @@ export default function ChartHeaderActionButtons(props) {
       </Grid>
       <Grid item xs={3}>
         <ChartHeaderActionButton
-          buttonLabel={isItAGraph ? 'Table' : 'Chart'}
-          buttonName={isItAGraph ? 'Table' : 'Chart'}
+          buttonLabel={analyzeAreaState.isItAGraph ? 'Table' : 'Chart'}
+          buttonName={analyzeAreaState.isItAGraph ? 'Table' : 'Chart'}
           onClick={handleGraphOrTableClick}>
-          {isItAGraph ? (<TableChart />) : (<BarChart />)}
+          {analyzeAreaState.isItAGraph ? (<TableChart />) : (<BarChart />)}
         </ChartHeaderActionButton>
       </Grid>
       <Grid item xs={3}>
@@ -125,7 +130,5 @@ ChartHeaderActionButtons.propTypes = {
   handleSortClick: PropTypes.func.isRequired,
   handleGraphOrTableClick: PropTypes.func.isRequired,
   handleGenericClick: PropTypes.func.isRequired,
-  HandleRemoveAllClick: PropTypes.func.isRequired,
-  isItAGraph: PropTypes.bool.isRequired,
-  isSortASC: PropTypes.bool.isRequired
+  HandleRemoveAllClick: PropTypes.func.isRequired
 };

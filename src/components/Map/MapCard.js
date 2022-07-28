@@ -34,14 +34,15 @@ Props
   - Not sure yet
 
 */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
+import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
-import { BasicSelect } from './basicSelect';
-import { changeRegion } from '../../reducers/regionSelectSlice';
+import ActiveTileLayers from './ActiveTileLayers';
+import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
   changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded
@@ -63,31 +64,73 @@ FIX THESE!!!!
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
+const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
+const listVisibleSelector = (state) => state.mapLayerList.visible;
+
+const useStyles = makeStyles((theme) => ({
+  leafletButton: {
+    color: '#000000',
+    minHeight: '30px',
+    minWidth: '30px',
+    width: '30px',
+    height: '30px',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#F4F4F4'
+    }
+  }
+}));
 
 export default function MapCard() {
   const [map, setMap] = useState(null);
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
-
-  const dispatch = useDispatch();
+  const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
+  const userInitiatedRegion = useSelector(userInitiatedSelector);
 
-  const handleRegionSelectChange = (event) => {
-    // Update map with new center and zoom
-    map.setView(
-      regions[event.target.value].mapProperties.center,
-      regions[event.target.value].mapProperties.zoom
-    );
+  const handleRegionChange = useCallback((regionName, user) => {
+    // catch bad region
+    if (!regions[regionName]) return null;
 
-    // Update redux store with new region, zoom, and center
-    dispatch(changeRegion(regions[event.target.value].label));
-    dispatch(changeZoom(regions[event.target.value].mapProperties.zoom));
-    dispatch(changeCenter(regions[event.target.value].mapProperties.center));
-  };
+    // check for user changing region as opposed to
+    //  state update on refresh
+    if (!user) return null;
+
+    // ensure map has been instantiated
+    if (map) {
+      // zoom ot region locations
+      map.setView(
+        regions[regionName].mapProperties.center,
+        regions[regionName].mapProperties.zoom
+      );
+
+      // Update redux store with new region, zoom, and center
+      dispatch(changeRegion(regions[regionName].label));
+      dispatch(changeZoom(regions[regionName].mapProperties.zoom));
+      dispatch(changeCenter(regions[regionName].mapProperties.center));
+      dispatch(regionUserInitiated(false));
+    }
+    return null;
+  }, [map, dispatch]);
+
+  useEffect(() => {
+    if (map) {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 10);
+    }
+  }, [map, layerListVisible]);
+
+  useEffect(() => {
+    handleRegionChange(selectedRegion, userInitiatedRegion);
+  }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
 
   // This component exists solely for the useMapEvents hook
   const MapEventsComponent = () => {
@@ -118,29 +161,23 @@ export default function MapCard() {
     });
   };
 
-  const displayMap = (
-    <LeafletMapContainer center={center} zoom={zoom} whenCreated={setMap}>
-      <Control prepend='true' position='topleft'>
-        <Button
-          color="primary"
-          onClick={identifyClickHandler}>
-          <InfoIcon />
-        </Button>
-      </Control>
-      <MapEventsComponent/>
-      <ShowIdentifyPopup
-        selectedRegion = {selectedRegion}
-      />
-    </LeafletMapContainer>
-  );
-
   return (
     <div style={{ height: '100%' }}>
-      {map ? <BasicSelect
-                defaultValue={selectedRegion}
-                values={Object.keys(regions)}
-                onChange={handleRegionSelectChange}/> : null}
-      {displayMap}
+      <LeafletMapContainer center={center} zoom={zoom} whenCreated={setMap}>
+        <Control prepend='true' position='topleft'>
+          <Button
+            variant="contained"
+            onClick={identifyClickHandler}
+            className={classes.leafletButton}>
+            <InfoIcon />
+          </Button>
+        </Control>
+        <ActiveTileLayers/>
+        <MapEventsComponent/>
+        <ShowIdentifyPopup
+          selectedRegion = {selectedRegion}
+        />
+      </LeafletMapContainer>
       <ActionButtons />
     </div>
   );

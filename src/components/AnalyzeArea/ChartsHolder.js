@@ -30,13 +30,18 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
 
+import {
+  changeEmptyState,
+  changeGraphTable,
+  changeSortDirection
+} from '../../reducers/analyzeAreaSlice';
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
@@ -140,15 +145,18 @@ const chartData = [
   }
 ];
 
+// selector named functions for lint rules makes it easier to re-use if needed.
+const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+
 export default function ChartsHolder(props) {
   const classes = useStyles();
-  const [isItAGraph, setisItAGraph] = useState(true);
-  const [isSortASC, setisSortASC] = useState(true);
-  const { onClick } = props;
+
+  const dispatch = useDispatch();
+  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
   // handle state change Graph/Table
   const handleGraphOrTableClick = (newValue) => {
-    setisItAGraph(!isItAGraph);
+    dispatch(changeGraphTable());
   };
 
   // handle state change sort
@@ -156,7 +164,16 @@ export default function ChartsHolder(props) {
     // TODO will need to change this to add a menu to pick index
     //   aka Community Exposure, Resilience Hubs to sort by
     //   will need to keep the user generated areas together as a group
-    setisSortASC(!isSortASC);
+    dispatch(changeSortDirection());
+  };
+
+  // TODO this will also need to clear all the save results
+  // from the store (from add areas) when its completed
+  const HandleRemoveAllClick = (event) => {
+    event.stopPropagation();
+    // TODO this will also need to clear all the save results
+    // from the store (from add areas) when its completed
+    dispatch(changeEmptyState());
   };
 
   // place holder for adding specfic click events
@@ -172,13 +189,11 @@ export default function ChartsHolder(props) {
         <ChartHeaderActionButtons
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
-          HandleRemoveAllClick={onClick}
-          handleGenericClick={handleGenericClick}
-          isItAGraph={isItAGraph}
-          isSortASC={isSortASC} />
+          HandleRemoveAllClick={HandleRemoveAllClick}
+          handleGenericClick={handleGenericClick} />
       </Grid>
 
-      {isItAGraph ? (
+      {analyzeAreaState.isItAGraph ? (
         <Grid item xs={12} className={classes.contentBox}>
           <Box>
             {chartData.map((dataRow) => {
@@ -198,7 +213,3 @@ export default function ChartsHolder(props) {
     </Grid>
   );
 }
-
-ChartsHolder.propTypes = {
-  onClick: PropTypes.func.isRequired
-};

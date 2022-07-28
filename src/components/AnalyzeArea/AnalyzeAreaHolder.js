@@ -23,31 +23,28 @@ State needed
 Props
   - Not sure yet
 */
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 
 import EmptyState from './EmptyState';
 import ChartsHolder from './ChartsHolder';
 
+// selector named functions for lint rules makes it easier to re-use if needed.
+const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+
 export default function AnalyzeAreaHolder(props) {
   const { boxHeight, boxMarginTop } = props;
-  const [isEmptyState, setIsEmptyState] = useState(true);
-
-  // place holder for adding specfic click events
-  const handleEmptyStateClick = (event) => {
-    event.stopPropagation();
-    setIsEmptyState(!isEmptyState);
-    console.log('clicked'); // eslint-disable-line no-console
-  };
+  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
   return (
     <Box style={{ height: boxHeight, marginTop: boxMarginTop }}>
-      {isEmptyState ? (
-        <EmptyState onClick={handleEmptyStateClick}å/>
+      {analyzeAreaState.isEmptyState ? (
+        <EmptyState />
       ) : (
-        <ChartsHolder onClick={handleEmptyStateClick} boxHeight={boxHeight}/>
+        <ChartsHolder boxHeight={boxHeight}/>
       )}
     </Box>
   );
