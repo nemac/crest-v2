@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
@@ -40,16 +42,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LayerLegend(props) {
+  const { layer } = props;
   const classes = useStyles();
+  const colorChart = layer.chartCSSColor;
+  const chartIndices = Object.keys(colorChart);
+  const maxLegendWidth = 12;
 
   return (
     <Box m={1.5}>
       <Grid container spacing={0}>
         <Grid item xs={2} className={classes.low}>
           Low
-        </Grid>
-        <Grid item xs={8} className={classes.legendIsNotRreal}>
-          This not the real legend
         </Grid>
         <Grid item xs={2} className={classes.high}>
           High
@@ -60,18 +63,9 @@ export default function LayerLegend(props) {
             is just a example of what will be here */}
 
             <Grid container spacing={0} m={0} p={0} className={classes.legend}>
-              <Grid item xs={3} sx={{ backgroundColor: '#fef0d9' }} className={classes.legendBox}>
-                1
-              </Grid>
-              <Grid item xs={3} sx={{ backgroundColor: '#fdcc8a' }} className={classes.legendBox}>
-                2
-              </Grid>
-              <Grid item xs={3} sx={{ backgroundColor: '#fc8d59' }} className={classes.legendBox}>
-                3
-              </Grid>
-              <Grid item xs={3} sx={{ backgroundColor: '#d7301f' }} className={classes.legendBox}>
-                4
-              </Grid>
+              {chartIndices.map((index) => <Grid item xs={maxLegendWidth / chartIndices.length}
+              key={layer.id.concat('-', index)} sx={{ backgroundColor: colorChart[index] }}
+              className={classes.legendBox}>{index}</Grid>)}
 
             </Grid>
           </Grid>
@@ -79,3 +73,7 @@ export default function LayerLegend(props) {
       </Box>
   );
 }
+
+LayerLegend.propTypes = {
+  layer: PropTypes.object.isRequired
+};
