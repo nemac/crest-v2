@@ -18,10 +18,8 @@ describe('DriverGroup', () => {
     cleanup();
   });
   it('renders', () => {
-  });
-  it('displays correct group title', () => {
     expect(screen.getByText(testInputLabel)).toBeInTheDocument();
-  })
+  });
   it('updates the store on click', () => {
     expect(store.getState().mapLayerList.expandedCharts).toHaveLength(0);
     fireEvent.click(screen.getByText(testInputLabel));

@@ -6,7 +6,8 @@ import SubGroup from '../../src/components/MapLayerList/SubGroup';
 
 const regions = mapConfig.regions;
 const testLayerList = regions['American Samoa'].layerList;
-const testSubHeading = 'Test SubHeading'
+const testSubHeading = 'Test SubHeading';
+const testLayer = testLayerList[0];
 
 describe('LayerGroup', () => {
   beforeEach(() => {
@@ -16,12 +17,7 @@ describe('LayerGroup', () => {
     cleanup();
   });
   it('renders', () => {
-  });
-  it('displays sub heading', () => {
     expect(screen.getByText(testSubHeading)).toBeInTheDocument();
-  })
-  it('displays layers', () => {
-      expect(screen.getByText(testLayerList[0].label)).toBeInTheDocument();
-  })
-
+    expect(screen.getByText(testLayer.label)).toBeInTheDocument();
+  });
 });

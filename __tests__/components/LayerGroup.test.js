@@ -6,6 +6,7 @@ import LayerGroup from '../../src/components/MapLayerList/LayerGroup';
 
 const regions = mapConfig.regions;
 const testLayerList = regions['American Samoa'].layerList;
+const testLayer = testLayerList[0];
 
 describe('LayerGroup', () => {
   beforeEach(() => {
@@ -15,10 +16,7 @@ describe('LayerGroup', () => {
     cleanup();
   });
   it('renders', () => {
+    expect(screen.getAllByText(testLayer.label)).toHaveLength(2);
   });
-  it('displays layers', () => {
-      // This checks that both the subheading and Layer exist for 'Resilience Hubs'
-      expect(screen.getAllByText(testLayerList[0].label)).toHaveLength(2);
-  })
 
 });
