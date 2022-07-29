@@ -12,8 +12,6 @@ describe('Layer', () => {
         cleanup();
     });
     it('renders', () => {   
-        console.log(screen.getByText('Map Layers'));
-        console.log(screen.getAllByRole('button')[0]);
     });
     it('toggles visibility and updates store', () => {
         //TODO Still don't know how to implement visibility tests... everything seems always visible no matter what
