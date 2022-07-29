@@ -15,6 +15,11 @@ const reducers = combineReducers({
   navBar: NavBarReducer
 });
 
+export const setupStore = (preloadedState) => configureStore({
+  reducer: reducers,
+  preloadedState
+});
+
 export const store = configureStore({
   devTools: true, // prob should turn off in prod
   reducer: reducers,
