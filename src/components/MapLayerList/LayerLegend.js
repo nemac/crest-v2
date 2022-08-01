@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LayerLegend(props) {
   const { layer } = props;
   const classes = useStyles();
-  const colorChart = layer.chartCSSColor;
+  const colorChart = Object.values(layer.chartCSSColor).slice(1);
   const colors = Array.from(new Set(Object.values(colorChart)));
   const maxLegendWidth = 12;
 
