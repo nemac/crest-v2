@@ -45,7 +45,7 @@ export default function LayerLegend(props) {
   const { layer } = props;
   const classes = useStyles();
   const colorChart = layer.chartCSSColor;
-  const chartIndices = Object.keys(colorChart);
+  const colors = Array.from(new Set(Object.values(colorChart)));
   const maxLegendWidth = 12;
 
   return (
@@ -66,9 +66,9 @@ export default function LayerLegend(props) {
             is just a example of what will be here */}
 
             <Grid container spacing={0} m={0} p={0} className={classes.legend}>
-              {chartIndices.map((index) => <Grid item xs={maxLegendWidth / chartIndices.length}
-              key={layer.id.concat('-', index)} sx={{ backgroundColor: colorChart[index] }}
-              className={classes.legendBox}>{index}</Grid>)}
+              {colors.map((color) => <Grid item xs={maxLegendWidth / colors.length}
+              key={layer.id.concat('-', color)} sx={{ backgroundColor: color }}
+              className={classes.legendBox}>{}</Grid>)}
 
             </Grid>
           </Grid>
