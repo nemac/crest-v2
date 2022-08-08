@@ -8,7 +8,6 @@ import { mapConfig } from '../../src/configuration/config';
 const regions = mapConfig.regions;
 const testLayerList = regions['American Samoa'].layerList;
 const testLayer = testLayerList[0];
-const colorKeys = Object.keys(testLayer.chartCSSColor)
 
 describe('LayerLegend', () => {
     beforeEach(() => {
@@ -20,7 +19,6 @@ describe('LayerLegend', () => {
     it('renders', () => {
         expect(screen.getByText('Low')).toBeInTheDocument();
         expect(screen.getByText('High')).toBeInTheDocument();
-        colorKeys.map(index => expect(screen.getByText(index)).toBeInTheDocument());
     });
 })
 
