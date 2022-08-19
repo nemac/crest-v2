@@ -15,7 +15,7 @@ const regions = mapConfig.regions;
 
 export default function LeafletMapContainer(props) {
   const {
-    children, center, zoom, whenCreated
+    children, center, zoom, innerRef
   } = props;
   const classes = useStyles();
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
@@ -28,7 +28,7 @@ export default function LeafletMapContainer(props) {
       scrollWheelZoom={true}
       bounds={extent}
       closePopupOnClick={false}
-      whenCreated={whenCreated}>
+      ref={innerRef}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossOrigin=""/>
@@ -46,5 +46,5 @@ LeafletMapContainer.propTypes = {
   children: PropTypes.node,
   center: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
-  whenCreated: PropTypes.func
+  innerRef: PropTypes.func
 };
