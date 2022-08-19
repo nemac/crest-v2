@@ -35,7 +35,11 @@ import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 
-import { changeIdentifyResults, changeIdentifyIsLoaded } from '../../reducers/mapPropertiesSlice';
+import { 
+  changeIdentifyCoordinates,
+  changeIdentifyResults,
+  changeIdentifyIsLoaded
+} from '../../reducers/mapPropertiesSlice';
 // eslint-disable-next-line no-unused-vars
 import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
 
@@ -107,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ShowIdentifyPopup(props) {
-  const { selectedRegion } = props;
+  const { selectedRegion, map } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
@@ -125,6 +129,13 @@ export default function ShowIdentifyPopup(props) {
     IdentifyAPI(dispatch, identifyCoordinates, selectedRegion);
   }, [dispatch, identifyCoordinates, selectedRegion]);
 
+  const closePopups = () => {
+    map.closePopup();
+    dispatch(changeIdentifyIsLoaded(false));
+    dispatch(changeIdentifyResults(null));
+    dispatch(changeIdentifyCoordinates(null));
+  };
+
   if (!identifyCoordinates) {
     return null;
   }
@@ -132,9 +143,15 @@ export default function ShowIdentifyPopup(props) {
   if (!identifyIsLoaded) {
     return (
         <div>
-          <Popup position={identifyCoordinates} autoPan={false} className={classes.indentifyPopup}>
+          <Popup
+            position={identifyCoordinates}
+            autoPan={false}
+            className={classes.indentifyPopup}
+            closeButton={false}
+          >
             <Typography variant="h6" component="div" align="center" gutterBottom>
               Map Information
+              <button onClick={closePopups}>Close</button>
             </Typography>
             <Divider />
             <Grid container spaceing={2} justifyContent="start" alignItems="start" pt={1.5}>
@@ -157,9 +174,15 @@ export default function ShowIdentifyPopup(props) {
 
   return (
     <div>
-      <Popup position={identifyCoordinates} autoPan={false} className={classes.indentifyPopup}>
+      <Popup
+        position={identifyCoordinates}
+        autoPan={false}
+        closeButton={false}
+        className={classes.indentifyPopup}
+      >
         <Typography variant="h6" component="div" align="center" gutterBottom>
           Map Information
+          <button onClick={closePopups}>Close</button>
         </Typography>
         <Divider />
         <Grid container spaceing={2} pt={2} alignItems="center" justifyContent="center">
