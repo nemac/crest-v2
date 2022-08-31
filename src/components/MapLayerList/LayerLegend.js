@@ -31,12 +31,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    fontSize: 12,
     color: '#ffffff'
   },
   legendBoxDark: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    fontSize: 12,
     color: '#000000'
   },
   legendIsNotRreal: {
@@ -46,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600
   }
 }));
-
 
 export default function LayerLegend(props) {
   const { layer } = props;
@@ -61,8 +62,11 @@ export default function LayerLegend(props) {
   const colorChartMin = Object.fromEntries(colorMinEntries);
   const colorChartMax = Object.fromEntries(colorMaxEntries);
   const colorRangeEntries = Object.values(layer.chartCSSColor).slice(1).map((color) => {
-    const range = ''.concat(colorChartMin[color]).concat('-').concat(colorChartMax[color]);
-    return [color, range];
+    if (colorChartMin[color] !== colorChartMax[color]) {
+      const range = ''.concat(colorChartMin[color]).concat('-').concat(colorChartMax[color]);
+      return [color, range];
+    }
+    return [color, colorChartMax[color]];
   });
   const colorChartRange = Object.fromEntries(colorRangeEntries);
   let colorChartValues = Object();
@@ -105,8 +109,8 @@ export default function LayerLegend(props) {
 
           <Grid container spacing={0} m={0} p={0} className={classes.legend}>
             {colors.map((color) => <Grid item xs={maxLegendWidth / colors.length}
-                key={layer.id.concat('-', color)} sx={{ backgroundColor: color }}
-                className={pickCSSBasedOnBgColor(color)}>{colorChartValues[color]}</Grid>)}
+              key={layer.id.concat('-', color)} sx={{ backgroundColor: color }}
+              className={pickCSSBasedOnBgColor(color)}>{colorChartValues[color]}</Grid>)}
           </Grid>
         </Grid>
       </Grid>
