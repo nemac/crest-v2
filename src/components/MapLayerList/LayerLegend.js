@@ -27,7 +27,13 @@ const useStyles = makeStyles((theme) => ({
   legend: {
     height: '48px'
   },
-  legendBox: {
+  legendBoxLight: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#ffffff'
+  },
+  legendBoxDark: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -41,12 +47,44 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 export default function LayerLegend(props) {
   const { layer } = props;
   const classes = useStyles();
   const colorChart = Object.values(layer.chartCSSColor).slice(1);
+  const colorMaxEntries = Object.entries(layer.chartCSSColor).slice(1).map(
+    ([key, value]) => [value, key]
+  );
+  const colorMinEntries = Object.entries(layer.chartCSSColor).slice(1).reverse().map(
+    ([key, value]) => [value, key]
+  );
+  const colorChartMin = Object.fromEntries(colorMinEntries);
+  const colorChartMax = Object.fromEntries(colorMaxEntries);
+  const colorRangeEntries = Object.values(layer.chartCSSColor).slice(1).map((color) => {
+    const range = ''.concat(colorChartMin[color]).concat('-').concat(colorChartMax[color]);
+    return [color, range];
+  });
+  const colorChartRange = Object.fromEntries(colorRangeEntries);
+  let colorChartValues = Object();
   const colors = Array.from(new Set(Object.values(colorChart)));
+  colorChartValues = colors.length === colorChart.length ? colorChartMax : colorChartRange;
   const maxLegendWidth = 12;
+
+  function pickCSSBasedOnBgColor(bgColor) {
+    const color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
+    const r = parseInt(color.substring(0, 2), 16); // hexToR
+    const g = parseInt(color.substring(2, 4), 16); // hexToG
+    const b = parseInt(color.substring(4, 6), 16); // hexToB
+    const uicolors = [r / 255, g / 255, b / 255];
+    const c = uicolors.map((col) => {
+      if (col <= 0.03928) {
+        return col / 12.92;
+      }
+      return ((col + 0.055) / 1.055) ** 2.4;
+    });
+    const L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+    return (L > 0.12) ? classes.legendBoxDark : classes.legendBoxLight;
+  }
 
   return (
     <Box m={1.5}>
@@ -65,15 +103,14 @@ export default function LayerLegend(props) {
           {/* this is where the code generated legend goes this
             is just a example of what will be here */}
 
-            <Grid container spacing={0} m={0} p={0} className={classes.legend}>
-              {colors.map((color) => <Grid item xs={maxLegendWidth / colors.length}
-              key={layer.id.concat('-', color)} sx={{ backgroundColor: color }}
-              className={classes.legendBox}>{}</Grid>)}
-
-            </Grid>
+          <Grid container spacing={0} m={0} p={0} className={classes.legend}>
+            {colors.map((color) => <Grid item xs={maxLegendWidth / colors.length}
+                key={layer.id.concat('-', color)} sx={{ backgroundColor: color }}
+                className={pickCSSBasedOnBgColor(color)}>{colorChartValues[color]}</Grid>)}
           </Grid>
         </Grid>
-      </Box>
+      </Grid>
+    </Box>
   );
 }
 
