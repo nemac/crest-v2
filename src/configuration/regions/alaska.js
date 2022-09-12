@@ -403,8 +403,6 @@ export const alaskaConfig = {
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#FB6A4A', // 3
-        2: '#FB6A4A', // 3
         3: '#FB6A4A', // 3
         4: '#DE2D26',
         5: '#A50F15'
