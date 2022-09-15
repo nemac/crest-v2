@@ -281,7 +281,7 @@ export const usVirginIslandsConfig = {
           3: '#0084a8',
           4: '#0084a8',
           5: '#0084a8', // 5
-          6: '#0084A8' // 5
+          6: '#0084a8' // 5
         },
         chartInputName: 'asset',
         ChartInputLabel: 'Comunity Assets Inputs',
