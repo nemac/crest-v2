@@ -10,6 +10,15 @@ import { alaskaConfig } from './regions/alaska';
 export const betaIdentifyEndpoint = 'https://rlwk45u34h.execute-api.us-east-1.amazonaws.com/beta/identify/';
 export const prodIdentifyEndpoint = 'https://c5pbxj0fe6.execute-api.us-east-1.amazonaws.com/prod/identify/';
 export const mapConfig = {
+  basemaps: {
+    'Dark Gray': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png',
+    // eslint-disable-next-line quote-props
+    'Imagery': 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
+    // eslint-disable-next-line quote-props
+    'Streets': 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    // eslint-disable-next-line quote-props
+    'Topographic': 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg'
+  },
   regions: {
     // eslint-disable-next-line quote-props
     'Alaska': alaskaConfig,
