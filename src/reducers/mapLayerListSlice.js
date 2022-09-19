@@ -33,13 +33,9 @@ export const mapLayerListSlice = createSlice({
     toggleLegend: (state, action) => {
       const layer = action.payload;
       const layerId = layer.id;
-      console.log('number of values:', layer.chartLegendValues);
-      console.log('colors', layer.chartCSSColor);
       if (layerId in state.displayedLegends) {
-        console.log('removed');
         delete state.displayedLegends[layerId];
       } else {
-        console.log('added');
         state.displayedLegends[layerId] = layer;
       }
     }

@@ -349,11 +349,11 @@ export const americanSamoaConfig = {
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#447604', // 1
-        2: '#447604', // 1
+        // 2: '#447604', // 1
         3: '#DCE9F2', // 3
-        4: '#DCE9F2', // 3
-        5: '#553555', // 5
-        6: '#553555' // 5
+        // 4: '#DCE9F2', // 3
+        5: '#553555' // 5
+        // 6: '#553555' // 5
       },
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'drainage',
