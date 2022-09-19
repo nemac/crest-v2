@@ -35,7 +35,7 @@ import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 
-import { 
+import {
   changeIdentifyCoordinates,
   changeIdentifyResults,
   changeIdentifyIsLoaded
@@ -46,7 +46,7 @@ import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../con
 export const IdentifyAPI = async (dispatch, coordinates, selectedRegion) => {
   // uncomment the endpoint you want to use and comment out the other
   const endPoint = betaIdentifyEndpoint;
-  // const endpoint = prodIdentifyEndpoint;
+  // const endPoint = prodIdentifyEndpoint;
   const lat = coordinates.lat;
   const lng = coordinates.lng;
   const fetchPoint = `${endPoint}?lat=${lat}&lng=${lng}&region=${mapConfig.regions[selectedRegion].regionName}`;
