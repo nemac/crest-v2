@@ -22,7 +22,8 @@ Props
   - Region CTA name
 */
 
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -30,6 +31,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   CardBackground: {
@@ -48,29 +50,52 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // just a place holder needs props passed in and image etc
-export default function RegionCard() {
+export default function RegionCard(props) {
   const classes = useStyles();
+  const {
+    regionName,
+    regionImage,
+    onClick
+  } = props;
+
+  const regionClick = (value) => {
+    onClick(value);
+  };
 
   return (
     <Box>
       <Paper variant="outlined" square={false} className={classes.CardBackground} >
         <Typography variant="h6" component="div" align="center" gutterBottom>
-          Region
+          {regionName}
         </Typography>
         <Divider />
         <Grid container justifyContent="center" alignItems="center" pt={1.5}>
           <Grid item xs={12}>
             <Box className={classes.regionImageBox} >
-              Region Map (image)
+              <img src={regionImage} style={{ maxWidth: '50%', alignSelf: 'center' }} />
             </Box>
           </Grid>
         </Grid>
         <Grid container justifyContent="center" alignItems="center" pt={1.5}>
           <Grid item xs={12}>
-            <Button variant="contained" color="CRESTCta" fullWidth={true}>Region</Button>
+            <Button
+              variant="contained"
+              color="CRESTCta"
+              fullWidth={true}
+              to='/AnalyzeProjectSites'
+              component={RouterLink}
+              onClick={(event) => { regionClick(regionName); }}>
+              {regionName}
+            </Button>
           </Grid>
         </Grid>
       </Paper>
     </Box>
   );
 }
+
+RegionCard.propTypes = {
+  regionName: PropTypes.string.isRequired,
+  regionImage: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
+};
