@@ -11,13 +11,13 @@ export const betaIdentifyEndpoint = 'https://rlwk45u34h.execute-api.us-east-1.am
 export const prodIdentifyEndpoint = 'https://c5pbxj0fe6.execute-api.us-east-1.amazonaws.com/prod/identify/';
 export const mapConfig = {
   basemaps: {
-    'Dark Gray': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png',
+    'Dark Gray': 'ArcGIS:DarkGray',
     // eslint-disable-next-line quote-props
-    'Imagery': 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
+    'Imagery': 'ArcGIS:Imagery',
     // eslint-disable-next-line quote-props
-    'Streets': 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'Streets': 'ArcGIS:Streets',
     // eslint-disable-next-line quote-props
-    'Topographic': 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg'
+    'Topographic': 'ArcGIS:Topographic'
   },
   regions: {
     // eslint-disable-next-line quote-props

@@ -34,9 +34,12 @@ Props
   - Not sure yet
 
 */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState, useEffect, useCallback, useRef
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
+import { vectorBasemapLayer } from 'esri-leaflet-vector';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
@@ -54,6 +57,7 @@ import ActionButtons from './ActionButtons';
 // import Boxforlayout from './BoxForLayouts';
 
 const regions = mapConfig.regions;
+const basemaps = mapConfig.basemaps;
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -61,6 +65,7 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
+const baseMapSelector = (state) => state.mapProperties.basemap;
 
 const useStyles = makeStyles((theme) => ({
   leafletButton: {
@@ -80,6 +85,7 @@ export default function MapCard() {
   const [map, setMap] = useState(null);
   const classes = useStyles();
   const dispatch = useDispatch();
+  const basemapRef = useRef(null);
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
@@ -87,6 +93,21 @@ export default function MapCard() {
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
+  const selectedBasemap = useSelector(baseMapSelector);
+
+  const handleBasemapChange = useCallback((basemapName) => {
+    if (basemapRef.current !== null) {
+      basemapRef.current.remove(map);
+    }
+    if (map) {
+      const newBasemap = vectorBasemapLayer(basemaps[basemapName], {
+        apikey: 'AAPK19aa44a23e4c4a7788b37541444c07denQmRCIZSmoomcyzoK3i3ko37EDOjKQcz9ui0gt3KdWAk6c2N4fPW9jEBF0__3R7o',
+        pane: 'mapPane'
+      });
+      newBasemap.addTo(map);
+      basemapRef.current = newBasemap;
+    }
+  }, [map, basemapRef]);
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region
@@ -124,6 +145,10 @@ export default function MapCard() {
   useEffect(() => {
     handleRegionChange(selectedRegion, userInitiatedRegion);
   }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
+
+  useEffect(() => {
+    handleBasemapChange(selectedBasemap);
+  }, [selectedBasemap, handleBasemapChange]);
 
   // This component exists solely for the useMapEvents hook
   const MapEventsComponent = () => {
@@ -166,10 +191,10 @@ export default function MapCard() {
             <InfoIcon />
           </Button>
         </Control>
-        <ActiveTileLayers/>
-        <MapEventsComponent/>
+        <ActiveTileLayers />
+        <MapEventsComponent />
         <ShowIdentifyPopup
-          selectedRegion = {selectedRegion}
+          selectedRegion={selectedRegion}
         />
       </LeafletMapContainer>
       <ActionButtons />
