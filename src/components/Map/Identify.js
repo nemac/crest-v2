@@ -25,6 +25,12 @@ State needed
 Props
   - Not sure yet
 */
+
+// TODO:
+// 1. style custom close button
+// 2. Figure out why closing identify popup causes TypeError: el is null in firefox
+//    and why it causes TypeError: Cannot read properties of null (reading '_leaflet_disable_click')
+
 import React, { useEffect } from 'react';
 import { Popup, CircleMarker } from 'react-leaflet';
 import { useSelector, useDispatch } from 'react-redux';
@@ -244,5 +250,6 @@ export default function ShowIdentifyPopup(props) {
 }
 
 ShowIdentifyPopup.propTypes = {
-  selectedRegion: PropTypes.string
+  selectedRegion: PropTypes.string,
+  map: PropTypes.object
 };
