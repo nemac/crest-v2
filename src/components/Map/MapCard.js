@@ -51,6 +51,7 @@ import LeafletMapContainer from './LeafletMapContainer';
 import ShowIdentifyPopup from './Identify';
 import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
+import { UpdateRedux } from './ShareMap';
 // import Boxforlayout from './BoxForLayouts';
 
 const regions = mapConfig.regions;
@@ -68,6 +69,17 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '30px',
     minWidth: '30px',
     width: '30px',
+    height: '30px',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#F4F4F4'
+    }
+  },
+  shareButton: {
+    color: '#000000',
+    minHeight: '30px',
+    minWidth: '60px',
+    width: '60px',
     height: '30px',
     backgroundColor: '#FFFFFF',
     '&:hover': {
@@ -155,6 +167,10 @@ export default function MapCard() {
     });
   };
 
+  const shareMapHandler = () => {
+    console.log('imma sharing my map');
+  };
+
   return (
     <div style={{ height: '100%' }}>
       <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
@@ -164,6 +180,14 @@ export default function MapCard() {
             onClick={identifyClickHandler}
             className={classes.leafletButton}>
             <InfoIcon />
+          </Button>
+        </Control>
+        <Control prepend='true' position='bottomleft'>
+          <Button
+            variant="contained"
+            onClick={shareMapHandler}
+            className={classes.shareButton}>
+            SHARE
           </Button>
         </Control>
         <ActiveTileLayers/>
