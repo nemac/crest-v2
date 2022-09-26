@@ -150,9 +150,9 @@ export default function MapCard() {
       },
       popupclose: () => { // Reset all redux popup state when popup is closed.
         console.log('popup closed');
-        dispatch(changeIdentifyCoordinates(null));
-        dispatch(changeIdentifyIsLoaded(false));
-        dispatch(changeIdentifyResults(null));
+        //dispatch(changeIdentifyCoordinates(null));
+        //dispatch(changeIdentifyIsLoaded(false));
+        //dispatch(changeIdentifyResults(null));
       }
     });
     return null;
@@ -194,7 +194,9 @@ export default function MapCard() {
         <MapEventsComponent/>
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
-        />
+          map = {map}
+        >
+        </ShowIdentifyPopup>
       </LeafletMapContainer>
       <ActionButtons />
     </div>
