@@ -7,8 +7,8 @@ import { puertoRicoConfig } from './regions/puertoRico';
 import { usVirginIslandsConfig } from './regions/usVirginIslands';
 import { alaskaConfig } from './regions/alaska';
 
-export const betaIdentifyEndpoint = 'https://rlwk45u34h.execute-api.us-east-1.amazonaws.com/beta/identify/';
-export const prodIdentifyEndpoint = 'https://c5pbxj0fe6.execute-api.us-east-1.amazonaws.com/prod/identify/';
+export const betaIdentifyEndpoint = 'https://api.resilientcoasts.org/beta/identify/';
+export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identify/';
 export const mapConfig = {
   regions: {
     // eslint-disable-next-line quote-props
