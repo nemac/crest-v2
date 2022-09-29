@@ -83,15 +83,17 @@ export const UpdateRedux = (jsonData, dispatch) => {
   dispatch(replaceActiveLayerList(jsonData.mapLayerList.activeLayerList));
 };
 
-export async function HaveShareUrlAndUpdateRedux(shareUrl, setShareUrlComplete) {
+async function fetchShareUrl(fetchUrl) {
+  const response = await fetch(fetchUrl);
+  const json = await response.json();
+  return json;
+}
+
+export function HaveShareUrlAndUpdateRedux(shareUrl, setShareUrlComplete) {
   const dispatch = useDispatch();
   const fetchUrl = endpoint.concat('?shareUrl=').concat(shareUrl);
-  await fetch(fetchUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not OK');
-      }
-      UpdateRedux(response.json, dispatch);
-      setShareUrlComplete(true);
-    });
+  fetchShareUrl(fetchUrl).then((json) => {
+    UpdateRedux(json, dispatch);
+    setShareUrlComplete(true);
+  });
 }
