@@ -9,6 +9,9 @@ import { alaskaConfig } from './regions/alaska';
 
 export const betaIdentifyEndpoint = 'https://api.resilientcoasts.org/beta/identify/';
 export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identify/';
+export const betaShareLinkEndpoint = 'https://api.resilientcoasts.org/beta/share-link';
+export const prodShareLinkEndpoint = 'https://api.resilientcoasts.org/prod/share-link';
+
 export const mapConfig = {
   regions: {
     // eslint-disable-next-line quote-props

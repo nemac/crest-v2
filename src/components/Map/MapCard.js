@@ -44,14 +44,13 @@ import Control from 'react-leaflet-custom-control';
 import ActiveTileLayers from './ActiveTileLayers';
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
-  changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded
+  changeZoom, changeCenter, changeIdentifyCoordinates
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
 import ShowIdentifyPopup from './Identify';
 import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
-import { UpdateRedux } from './ShareMap';
+import { createShareURL } from './ShareMap';
 // import Boxforlayout from './BoxForLayouts';
 
 const regions = mapConfig.regions;
@@ -147,12 +146,6 @@ export default function MapCard() {
             [map.getCenter().lat, map.getCenter().lng]
           )
         );
-      },
-      popupclose: () => { // Reset all redux popup state when popup is closed.
-        console.log('popup closed');
-        //dispatch(changeIdentifyCoordinates(null));
-        //dispatch(changeIdentifyIsLoaded(false));
-        //dispatch(changeIdentifyResults(null));
       }
     });
     return null;
@@ -168,7 +161,9 @@ export default function MapCard() {
   };
 
   const shareMapHandler = () => {
-    console.log('imma sharing my map');
+    const shareUrl = createShareURL();
+    // TODO: GET RID OF ALERT
+    window.alert('your URL is: ' + shareUrl);
   };
 
   return (

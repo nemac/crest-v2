@@ -90,6 +90,7 @@ export default function NavBarTabsBigScreens(props) {
             <LinkTab value="DataAndReports" to='/DataAndReports' {...a11yProps(0, 'crest-tab')} component={RouterLink}label="Data & Reports" />
             <LinkTab value="About" to='/About' {...a11yProps(4, 'crest-tab')} component={RouterLink} label="About" />
             <LinkTab value="StyleGuide" to='/StyleGuide' {...a11yProps(5, 'crest-tab')} component={RouterLink}label="Style Guide" />
+            <LinkTab value="CodeTest" to='/CodeTest' {...a11yProps(6, 'crest-tab')} component={RouterLink}label="Code Test" />
           </Tabs>
         </Grid>
         <Grid item xs={2} px={5}>
