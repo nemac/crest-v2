@@ -20,7 +20,7 @@ export default function BasemapLayer(props) {
     }
     if (map) {
       const newBasemap = vectorBasemapLayer(basemaps[basemapName], {
-        apikey: 'AAPK19aa44a23e4c4a7788b37541444c07denQmRCIZSmoomcyzoK3i3ko37EDOjKQcz9ui0gt3KdWAk6c2N4fPW9jEBF0__3R7o',
+        apikey: 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By',
         pane: 'mapPane'
       });
       newBasemap.addTo(map);

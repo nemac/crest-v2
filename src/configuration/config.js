@@ -12,12 +12,9 @@ export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identi
 export const mapConfig = {
   basemaps: {
     'Dark Gray': 'ArcGIS:DarkGray',
-    // eslint-disable-next-line quote-props
-    'Imagery': 'ArcGIS:Imagery',
-    // eslint-disable-next-line quote-props
-    'Streets': 'ArcGIS:Streets',
-    // eslint-disable-next-line quote-props
-    'Topographic': 'ArcGIS:Topographic'
+    Imagery: 'ArcGIS:Imagery',
+    Streets: 'ArcGIS:Streets',
+    Topographic: 'ArcGIS:Topographic'
   },
   regions: {
     // eslint-disable-next-line quote-props
