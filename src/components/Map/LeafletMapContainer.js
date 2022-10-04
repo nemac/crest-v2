@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer } from 'react-leaflet';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import { mapConfig } from '../../configuration/config';
@@ -33,10 +33,6 @@ export default function LeafletMapContainer(props) {
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossOrigin=""/>
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
       {children}
     </MapContainer>
   );

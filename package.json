@@ -71,6 +71,7 @@
     "@reduxjs/toolkit": "^1.7.2",
     "@types/jest": "^27.5.2",
     "debounce": "^1.2.1",
+    "esri-leaflet-vector": "^4.0.0",
     "gh-pages": "^3.2.3",
     "jest-environment-jsdom": "^28.1.0",
     "leaflet": "^1.8.0",

@@ -10,6 +10,12 @@ import { alaskaConfig } from './regions/alaska';
 export const betaIdentifyEndpoint = 'https://api.resilientcoasts.org/beta/identify/';
 export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identify/';
 export const mapConfig = {
+  basemaps: {
+    'Dark Gray': 'ArcGIS:DarkGray',
+    Imagery: 'ArcGIS:Imagery',
+    Streets: 'ArcGIS:Streets',
+    Topographic: 'ArcGIS:Topographic'
+  },
   regions: {
     // eslint-disable-next-line quote-props
     'Alaska': alaskaConfig,
