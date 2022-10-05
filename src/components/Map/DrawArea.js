@@ -33,6 +33,7 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -41,6 +42,8 @@ import {
   PolylineOutlined
   // Polyline
 } from '@mui/icons-material';
+
+import { toggleSketchArea } from '../../reducers/mapPropertiesSlice';
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
@@ -53,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
 // just a place holder needs props passed in and image etc
 export default function DrawArea(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleSketchClick = () => {
+    dispatch(toggleSketchArea());
+  };
 
   return (
     <Box p={0.75} >
@@ -62,6 +70,7 @@ export default function DrawArea(props) {
         fullWidth={true}
         aria-label={'Sketch an Area'}
         className={classes.actionButton}
+        onClick={handleSketchClick}
         startIcon={<PolylineOutlined />}>
         Sketch an Area
       </Button>

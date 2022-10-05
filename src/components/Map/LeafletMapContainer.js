@@ -1,5 +1,12 @@
 import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  FeatureGroup,
+  Circle
+} from 'react-leaflet';
+import { EditControl } from 'react-leaflet-draw';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import { mapConfig } from '../../configuration/config';
@@ -17,8 +24,11 @@ export default function LeafletMapContainer(props) {
   const {
     children, center, zoom, innerRef
   } = props;
+  const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   const classes = useStyles();
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
+  const drawToolsEnabled = useSelector(sketchAreaSelector);
+
 
   return (
     <MapContainer className = {classes.leafletMapContainer}
@@ -37,6 +47,25 @@ export default function LeafletMapContainer(props) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      { drawToolsEnabled
+        ? <FeatureGroup>
+        <EditControl
+          position='topleft'
+          // onEdited={this._onEditPath}
+          // onCreated={this._onCreate}
+          // onDeleted={this._onDeleted}
+          draw={{
+            rectangle: false,
+            polyline: false,
+            circle: false,
+            marker: false,
+            circlemarker: false
+          }}
+        />
+        <Circle center={[51.51, -0.06]} radius={200} />
+      </FeatureGroup>
+        : null
+      }
       {children}
     </MapContainer>
   );
