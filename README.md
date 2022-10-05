@@ -10,4 +10,4 @@ https://nemac.github.io/crest-v2/
 ## S3 Static Page
 http://crest-v2.s3-website-us-east-1.amazonaws.com/
 
-Adding small text here to see if push to master triggers GH action
+Updating Readme to trigger build
