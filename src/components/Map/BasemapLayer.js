@@ -33,7 +33,7 @@ export default function BasemapLayer(props) {
   }, [selectedBasemap, handleBasemapChange]);
 
   return (
-        <div>BasemapLayer</div>
+        <div></div>
   );
 }
 
