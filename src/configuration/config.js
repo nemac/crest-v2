@@ -13,6 +13,12 @@ export const betaShareLinkEndpoint = 'https://api.resilientcoasts.org/beta/share
 export const prodShareLinkEndpoint = 'https://api.resilientcoasts.org/prod/share-link';
 
 export const mapConfig = {
+  basemaps: {
+    'Dark Gray': 'ArcGIS:DarkGray',
+    Imagery: 'ArcGIS:Imagery',
+    Streets: 'ArcGIS:Streets',
+    Topographic: 'ArcGIS:Topographic'
+  },
   regions: {
     // eslint-disable-next-line quote-props
     'Alaska': alaskaConfig,

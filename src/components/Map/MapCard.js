@@ -34,7 +34,9 @@ Props
   - Not sure yet
 
 */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState, useEffect, useCallback
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
@@ -42,6 +44,7 @@ import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
 import ActiveTileLayers from './ActiveTileLayers';
+import BasemapLayer from './BasemapLayer';
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
   changeZoom, changeCenter, changeIdentifyCoordinates
@@ -192,8 +195,9 @@ export default function MapCard() {
             SHARE
           </Button>
         </Control>
-        <ActiveTileLayers/>
-        <MapEventsComponent/>
+        <ActiveTileLayers />
+        <BasemapLayer map={map} />
+        <MapEventsComponent />
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
           map = {map}
