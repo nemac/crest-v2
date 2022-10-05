@@ -23,7 +23,7 @@ export const AnalyzeAreaSlice = createSlice({
       state.isSortASC = !state.isSortASC;
     },
     changeSortBy: (state, action) => {
-      state.isSortASC = action.payload;
+      state.sortBy = action.payload;
     }
   }
 });

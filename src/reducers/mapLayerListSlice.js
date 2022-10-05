@@ -38,6 +38,11 @@ export const mapLayerListSlice = createSlice({
       } else {
         state.displayedLegends[layerId] = layer;
       }
+    },
+    // This is used for loading share links and completely loading active layers from that
+    replaceActiveLayerList: (state, action) => {
+      const layerList = action.payload;
+      state.activeLayerList = layerList;
     }
 
   }
@@ -45,7 +50,7 @@ export const mapLayerListSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  toggleVisible, toggleLayer, toggleCollapsed, toggleLegend
+  toggleVisible, toggleLayer, toggleCollapsed, toggleLegend, replaceActiveLayerList
 } = mapLayerListSlice.actions;
 
 export default mapLayerListSlice.reducer;
