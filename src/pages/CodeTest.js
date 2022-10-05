@@ -1,17 +1,36 @@
 // This is just for code testing snippet purposes.
 // Can delete when ready for production
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import DialogPopup from '../components/All/DialogPopup';
 
 export default function CodeTest() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [a, setA] = React.useState(0);
+  const [error, setError] = React.useState(false);
 
-  const removeErrorParam = () => {
-    if (searchParams.has('error')) {
-      searchParams.delete('error');
-      setSearchParams(searchParams);
-    }
+  const handleErrorMessageClose = () => {
+    setError(false);
   };
-
-  return <button onClick={removeErrorParam}>Remove error param</button>;
+  if (a === 5) {
+    setError(true);
+    setA(0);
+  }
+  if (error) {
+    return (
+      <DialogPopup
+        contentMessage={'ERROR'}
+        buttonMessage='Okay'
+        onClose={handleErrorMessageClose}
+        open={error}
+      />
+    );
+  }
+  return (
+    <div>
+      <button onClick={() => setA(a + 1)}>
+        Increase
+      </button> <br></br>
+      Value of A: {a} <br></br>
+      Error: {error}
+    </div>
+  );
 }

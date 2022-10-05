@@ -51,6 +51,7 @@ import ShowIdentifyPopup from './Identify';
 import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
 import { createShareURL } from './ShareMap';
+import DialogPopup from '../All/DialogPopup';
 // import Boxforlayout from './BoxForLayouts';
 
 const regions = mapConfig.regions;
@@ -89,6 +90,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MapCard() {
   const [map, setMap] = useState(null);
+  const [shareLinkOpen, setShareLinkOpen] = useState(false);
+  let shareUrl = '';
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -160,10 +163,14 @@ export default function MapCard() {
     });
   };
 
+  const handleShareLinkClose = () => {
+    setShareLinkOpen(false);
+  };
+
   const shareMapHandler = () => {
-    const shareUrl = createShareURL();
-    // TODO: GET RID OF ALERT
-    window.alert('your URL is: ' + shareUrl);
+    shareUrl = createShareURL();
+    window.alert('Your Share URL is: ' + shareUrl);
+    setShareLinkOpen(true);
   };
 
   return (

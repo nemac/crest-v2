@@ -83,17 +83,30 @@ export const UpdateRedux = (jsonData, dispatch) => {
   dispatch(replaceActiveLayerList(jsonData.mapLayerList.activeLayerList));
 };
 
-async function fetchShareUrl(fetchUrl) {
+async function fetchShareUrl(fetchUrl, setHaveError) {
   const response = await fetch(fetchUrl);
+  if (!response.ok) {
+    setHaveError(true);
+    return null;
+  }
   const json = await response.json();
   return json;
 }
 
-export function HaveShareUrlAndUpdateRedux(shareUrl, setShareUrlComplete) {
+export function HaveShareUrlAndUpdateRedux(shareUrl, setShareUrlComplete, setHaveError) {
   const dispatch = useDispatch();
+  if (shareUrl.length !== 36) {
+    setHaveError(true);
+    return null;
+  }
   const fetchUrl = endpoint.concat('?shareUrl=').concat(shareUrl);
-  fetchShareUrl(fetchUrl).then((json) => {
-    UpdateRedux(json, dispatch);
+  fetchShareUrl(fetchUrl, setHaveError).then((json) => {
+    if (!json) {
+      setHaveError(true);
+    }
+    if (json) {
+      UpdateRedux(json, dispatch);
+    }
     setShareUrlComplete(true);
   });
 }

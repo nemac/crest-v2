@@ -26,7 +26,7 @@ export default function AnalyzeProjectSite() {
   if (shareUrl && !shareUrlComplete) {
     return (
       <div>
-        Loading - Hi dave please restyle me
+        Loading Share Link. We need to eventually style this.
       </div>
     );
   }
