@@ -47,13 +47,14 @@ import ActiveTileLayers from './ActiveTileLayers';
 import BasemapLayer from './BasemapLayer';
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
-  changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded
+  changeZoom, changeCenter, changeIdentifyCoordinates
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
 import ShowIdentifyPopup from './Identify';
 import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
+import { createShareURL } from './ShareMap';
+import DialogPopup from '../All/DialogPopup';
 // import Boxforlayout from './BoxForLayouts';
 
 const regions = mapConfig.regions;
@@ -76,11 +77,24 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#F4F4F4'
     }
+  },
+  shareButton: {
+    color: '#000000',
+    minHeight: '30px',
+    minWidth: '60px',
+    width: '60px',
+    height: '30px',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#F4F4F4'
+    }
   }
 }));
 
 export default function MapCard() {
   const [map, setMap] = useState(null);
+  const [shareLinkOpen, setShareLinkOpen] = useState(false);
+  let shareUrl = '';
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -138,12 +152,6 @@ export default function MapCard() {
             [map.getCenter().lat, map.getCenter().lng]
           )
         );
-      },
-      popupclose: () => { // Reset all redux popup state when popup is closed.
-        console.log('popup closed');
-        //dispatch(changeIdentifyCoordinates(null));
-        //dispatch(changeIdentifyIsLoaded(false));
-        //dispatch(changeIdentifyResults(null));
       }
     });
     return null;
@@ -158,6 +166,16 @@ export default function MapCard() {
     });
   };
 
+  const handleShareLinkClose = () => {
+    setShareLinkOpen(false);
+  };
+
+  const shareMapHandler = () => {
+    shareUrl = createShareURL();
+    window.alert('Your Share URL is: ' + shareUrl);
+    setShareLinkOpen(true);
+  };
+
   return (
     <div style={{ height: '100%' }}>
       <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
@@ -167,6 +185,14 @@ export default function MapCard() {
             onClick={identifyClickHandler}
             className={classes.leafletButton}>
             <InfoIcon />
+          </Button>
+        </Control>
+        <Control prepend='true' position='bottomleft'>
+          <Button
+            variant="contained"
+            onClick={shareMapHandler}
+            className={classes.shareButton}>
+            SHARE
           </Button>
         </Control>
         <ActiveTileLayers />

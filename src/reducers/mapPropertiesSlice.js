@@ -11,7 +11,8 @@ export const mapPropertiesSlice = createSlice({
     identifyCoordinates: null,
     identifyResults: null,
     identifyIsLoaded: false,
-    basemap: 'Dark Gray'
+    basemap: 'Dark Gray',
+    sketchArea: false
   },
   reducers: {
     changeZoom: (state, action) => {
@@ -31,6 +32,9 @@ export const mapPropertiesSlice = createSlice({
     },
     changeBasemap: (state, action) => {
       state.basemap = action.payload;
+    },
+    toggleSketchArea: (state) => {
+      state.sketchArea = !state.sketchArea;
     }
   }
 });
@@ -38,7 +42,7 @@ export const mapPropertiesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap
+  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;
