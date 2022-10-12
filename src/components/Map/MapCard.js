@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MapCard() {
   const [map, setMap] = useState(null);
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
-  let shareUrl = '';
+  const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -167,12 +167,12 @@ export default function MapCard() {
   };
 
   const handleShareLinkClose = () => {
+    // navigator.clipboard.writeText(shareUrl); THIS IS BROKEN ON HTTP
     setShareLinkOpen(false);
   };
 
   const shareMapHandler = () => {
-    shareUrl = createShareURL();
-    window.alert('Your Share URL is: ' + shareUrl);
+    setShareUrl(createShareURL());
     setShareLinkOpen(true);
   };
 
@@ -195,6 +195,12 @@ export default function MapCard() {
             SHARE
           </Button>
         </Control>
+        <DialogPopup
+          contentMessage={('Your Share URL is: ').concat(shareUrl)}
+          buttonMessage='Dismiss'
+          onClose={handleShareLinkClose}
+          open={shareLinkOpen}
+        />
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
