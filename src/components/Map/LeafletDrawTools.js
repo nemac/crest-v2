@@ -26,7 +26,6 @@ Props
 */
 
 import React from 'react';
-import { FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useSelector } from 'react-redux';
 
@@ -45,23 +44,22 @@ export default function LeafletDrawTools(props) {
 
   if (drawToolsEnabled) {
     return (
-      <FeatureGroup>
-        <EditControl
-          position='topleft'
-          onCreated={onCreated}
-          draw={{
-            polyline: false,
-            polygon: true,
-            rectangle: false,
-            circle: false,
-            marker: false,
-            circlemarker: false
-          }}
-          edit={{
-            edit: false
-          }}
-        />
-      </FeatureGroup>
+      <EditControl
+        position='topleft'
+        onCreated={onCreated}
+        draw={{
+          polyline: false,
+          polygon: true,
+          rectangle: false,
+          circle: false,
+          marker: false,
+          circlemarker: false
+        }}
+        edit={{
+          edit: false,
+          remove: false
+        }}
+      />
     );
   }
 }

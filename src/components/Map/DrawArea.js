@@ -33,7 +33,8 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as L from 'leaflet';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -56,10 +57,23 @@ const useStyles = makeStyles((theme) => ({
 // just a place holder needs props passed in and image etc
 export default function DrawArea(props) {
   const classes = useStyles();
+  // const { map } = props;
   const dispatch = useDispatch();
+  const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
+  // const drawToolsEnabled = useSelector(sketchAreaSelector);
+  // make draw tools false if for some reason its enabled from before
+  // if (drawToolsEnabled) {
+  //  dispatch(toggleSketchArea());
+  // }
 
   const handleSketchClick = () => {
     dispatch(toggleSketchArea());
+    /* let leafletDraw = new L.Draw.Polygon(props.map, {});
+    if (!drawToolsEnabled) {
+      leafletDraw.enable();
+    } else {
+      leafletDraw.enable(false);
+    } */
   };
 
   return (

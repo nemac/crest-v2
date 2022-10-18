@@ -62,8 +62,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // just a place holder needs props passed in and image etc
-export default function MapActionCard() {
+export default function MapActionCard(props) {
   const classes = useStyles();
+  const { map } = props;
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" className={classes.contentGrid}>
@@ -84,7 +85,7 @@ export default function MapActionCard() {
       </Grid>
 
       <Grid item xs={12}>
-        <DrawArea />
+        <DrawArea map={map}/>
       </Grid>
       <Grid item xs={12}>
         <Upload />

@@ -19,7 +19,7 @@ Props
   - Not sure yet
 
 */
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MapHolder(props) {
   const classes = useStyles();
+  const [map, setMap] = useState(null);
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
@@ -88,7 +89,7 @@ export default function MapHolder(props) {
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
         className={classes.threeColumnHolder}>
-        <MapActionCard />
+        <MapActionCard map={map}/>
         <AnalyzeAreaHolder
           boxHeight={'calc(100% - 258px)'}
           boxMarginTop={'8px'} />
@@ -100,7 +101,7 @@ export default function MapHolder(props) {
        order={{ xs: 1, sm: 1, md: 2 }}
        className={classes.threeColumnHolder}>
        <Box className={classes.contentmapBox} >
-         <MapCard />
+         <MapCard map={map} setMap={setMap}/>
        </Box>
      </Grid>
 

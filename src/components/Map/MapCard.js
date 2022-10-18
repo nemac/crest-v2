@@ -38,11 +38,13 @@ import React, {
   useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import { useMapEvents, FeatureGroup } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
+
+import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
 import BasemapLayer from './BasemapLayer';
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
@@ -91,8 +93,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MapCard() {
-  const [map, setMap] = useState(null);
+export default function MapCard(props) {
+  // const [map, setMap] = useState(null);
+  const {map, setMap} = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
@@ -195,6 +198,11 @@ export default function MapCard() {
             SHARE
           </Button>
         </Control>
+        <FeatureGroup>
+          <LeafletDrawTools
+            map={map}
+          />
+        </FeatureGroup>
         <DialogPopup
           contentMessage={('Your Share URL is: ').concat(shareUrl)}
           buttonMessage='Dismiss'

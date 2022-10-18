@@ -3,16 +3,12 @@ import { MapContainer } from 'react-leaflet';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 
-import LeafletDrawTools from './LeafletDrawTools';
 import { mapConfig } from '../../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
   leafletMapContainer: {
     height: 'calc(100% - 64px)',
     width: 'calc(100% - 1px)'
-  },
-  drawTools: {
-    visibility: 'hidden'
   }
 }));
 
@@ -39,7 +35,6 @@ export default function LeafletMapContainer(props) {
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossOrigin=""/>
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-      <LeafletDrawTools/>
       {children}
     </MapContainer>
   );
