@@ -43,6 +43,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
+import PropTypes from 'prop-types';
 
 import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
@@ -95,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MapCard(props) {
   // const [map, setMap] = useState(null);
-  const {map, setMap} = props;
+  const { map, setMap } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
@@ -222,3 +223,8 @@ export default function MapCard(props) {
     </div>
   );
 }
+
+MapCard.propTypes = {
+  map: PropTypes.object,
+  setMap: PropTypes.func
+};
