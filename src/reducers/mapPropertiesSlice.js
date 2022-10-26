@@ -42,7 +42,7 @@ export const mapPropertiesSlice = createSlice({
     },
     addNewFeatureToAnalyzedAreas: (state, action) => {
       // TODO: This just completely overwrites all polygons. Need to fix this.
-      state.analyzedAreas.features.push(action.payload)
+      state.analyzedAreas.features.push(action.payload);
     }
   }
 });
