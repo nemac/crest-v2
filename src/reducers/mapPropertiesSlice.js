@@ -12,7 +12,8 @@ export const mapPropertiesSlice = createSlice({
     identifyResults: null,
     identifyIsLoaded: false,
     basemap: 'Dark Gray',
-    sketchArea: false
+    sketchArea: false,
+    analyzedAreas: {}
   },
   reducers: {
     changeZoom: (state, action) => {
@@ -35,6 +36,10 @@ export const mapPropertiesSlice = createSlice({
     },
     toggleSketchArea: (state) => {
       state.sketchArea = !state.sketchArea;
+    },
+    updateAnalyzedAreas: (state, action) => {
+      // TODO: This just completely overwrites all polygons. Need to fix this.
+      state.analyzedAreas = action.payload;
     }
   }
 });
@@ -42,7 +47,8 @@ export const mapPropertiesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea
+  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
+  toggleSketchArea, updateAnalyzedAreas
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

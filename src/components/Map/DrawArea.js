@@ -34,7 +34,7 @@ Props
 */
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as L from 'leaflet';
+// import * as L from 'leaflet';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -59,8 +59,10 @@ export default function DrawArea(props) {
   const classes = useStyles();
   // const { map } = props;
   const dispatch = useDispatch();
-  const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
+  // const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   // const drawToolsEnabled = useSelector(sketchAreaSelector);
+  // const [leafletDraw, setLeafletDraw] = React.useState();
+  // const leafletDraw = new L.Draw.Polygon(props.map, {});
   // make draw tools false if for some reason its enabled from before
   // if (drawToolsEnabled) {
   //  dispatch(toggleSketchArea());
@@ -68,11 +70,14 @@ export default function DrawArea(props) {
 
   const handleSketchClick = () => {
     dispatch(toggleSketchArea());
-    /* let leafletDraw = new L.Draw.Polygon(props.map, {});
+    /* if (!leafletDraw) {
+      setLeafletDraw(new L.Draw.Polygon(props.map, {}));
+    }
     if (!drawToolsEnabled) {
       leafletDraw.enable();
     } else {
-      leafletDraw.enable(false);
+      console.log('disable');
+      leafletDraw.disable();
     } */
   };
 

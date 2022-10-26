@@ -25,17 +25,23 @@ Props
   - Not sure yet
 */
 
+import { featureGroup } from 'leaflet';
 import React from 'react';
 import { EditControl } from 'react-leaflet-draw';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { updateAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
 
 export default function LeafletDrawTools(props) {
+  const dispatch = useDispatch();
   const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   const drawToolsEnabled = useSelector(sketchAreaSelector);
+  const featureGroups = featureGroup();
 
-  const onCreated = () => {
-    // eslint-disable-next-line no-console
-    console.log('im created!');
+  const onCreated = (e) => {
+    // console.log(e);
+    featureGroups.addLayer(e.layer);
+    dispatch(updateAnalyzedAreas(featureGroups.toGeoJSON()));
   };
 
   if (!drawToolsEnabled) {
@@ -57,7 +63,8 @@ export default function LeafletDrawTools(props) {
         }}
         edit={{
           edit: false,
-          remove: false
+          remove: false,
+          featureGroup: featureGroups
         }}
       />
     );
