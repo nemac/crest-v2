@@ -30,7 +30,7 @@ import React from 'react';
 import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
+import { addNewFeatureToAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
 
 export default function LeafletDrawTools(props) {
   const dispatch = useDispatch();
@@ -41,7 +41,10 @@ export default function LeafletDrawTools(props) {
   const onCreated = (e) => {
     // console.log(e);
     featureGroups.addLayer(e.layer);
-    dispatch(updateAnalyzedAreas(featureGroups.toGeoJSON()));
+    const geoJsonFeatureGroups = featureGroups.toGeoJSON();
+    geoJsonFeatureGroups.features.forEach(
+      (feature) => dispatch(addNewFeatureToAnalyzedAreas(feature))
+    );
   };
 
   if (!drawToolsEnabled) {
