@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
+import { logRoles } from '@testing-library/react';
 
 const useStyles = makeStyles((theme) => ({
   legendHolder: {
@@ -58,36 +59,13 @@ export default function LayerLegend(props) {
   );
   const colorChartEntries = Object.fromEntries(colorEntries1);
   const colorEntries2 = Object.values(layer.chartCSSColor).slice(1).map( (color) =>
-    {return [color, colorChartEntries(color)];}
+    {return [color, colorChartEntries[color]];}
   ) 
   let colorChartValues = Object();
   colorChartValues = Object.fromEntries(colorEntries2);
   const colors = Array.from(new Set(Object.values(colorChart)));
   const maxLegendWidth = 12;
   const lightDarkThresh = 0.12;
-
-  /*Old Code, has the range problem, kept for review
-
-  const colorMaxEntries = Object.entries(layer.chartCSSColor).slice(1).map(
-    ([key, value]) => [value, key]
-  );
-  const colorMinEntries = Object.entries(layer.chartCSSColor).slice(1).reverse().map(
-    ([key, value]) => [value, key]
-  );
-  const colorChartMin = Object.fromEntries(colorMinEntries);
-  const colorChartMax = Object.fromEntries(colorMaxEntries);
-  const colorRangeEntries = Object.values(layer.chartCSSColor).slice(1).map((color) => {
-    if (colorChartMin[color] !== colorChartMax[color]) {
-      const range = ''.concat(colorChartMin[color]).concat('-').concat(colorChartMax[color]);
-      return [color, range];
-    }
-    return [color, colorChartMax[color]];
-  });
-  const colorChartRange = Object.fromEntries(colorRangeEntries);
-  let colorChartValues = Object();
-  const colors = Array.from(new Set(Object.values(colorChart)));
-  colorChartValues = colors.length === colorChart.length ? colorChartMax : colorChartRange;
-  */
 
   function pickCSSBasedOnBgColor(bgColor) {
     const color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
