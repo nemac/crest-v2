@@ -30,6 +30,7 @@ import React from 'react';
 import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { zonalStatsAPI } from '../../api/ZonalStats';
 import { addNewFeatureToAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
 
 export default function LeafletDrawTools(props) {
@@ -38,13 +39,24 @@ export default function LeafletDrawTools(props) {
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const featureGroups = featureGroup();
 
-  const onCreated = (e) => {
-    // console.log(e);
+  async function onCreated(e) {
+    // Add layer to feature group, convert to geojson, and call zonal stats
     featureGroups.addLayer(e.layer);
-    const geoJsonFeatureGroups = featureGroups.toGeoJSON();
-    geoJsonFeatureGroups.features.forEach(
+    const geojson = featureGroups.toGeoJSON();
+    zonalStatsAPI(geojson);
+
+    // add created polygon to redux/local storage using geojson from before
+    geojson.features.forEach(
       (feature) => dispatch(addNewFeatureToAnalyzedAreas(feature))
     );
+
+    // Removing layer so featureGroups does not just keep building up with more and more layers
+    featureGroups.removeLayer(e.layer);
+  }
+
+  const onDeleted = (e) => {
+    console.log(e);
+    console.log('deleted!');
   };
 
   if (!drawToolsEnabled) {
@@ -56,6 +68,7 @@ export default function LeafletDrawTools(props) {
       <EditControl
         position='topleft'
         onCreated={onCreated}
+        onDeleted={onDeleted}
         draw={{
           polyline: false,
           polygon: true,
@@ -66,7 +79,7 @@ export default function LeafletDrawTools(props) {
         }}
         edit={{
           edit: false,
-          remove: false,
+          remove: true,
           featureGroup: featureGroups
         }}
       />

@@ -11,6 +11,8 @@ export const betaIdentifyEndpoint = 'https://api.resilientcoasts.org/beta/identi
 export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identify/';
 export const betaShareLinkEndpoint = 'https://api.resilientcoasts.org/beta/share-link';
 export const prodShareLinkEndpoint = 'https://api.resilientcoasts.org/prod/share-link';
+export const betaZonalStatsEndpoint = 'https://api.resilientcoasts.org/beta/zonal_stats';
+export const prodZonalStatsEndpoint = 'https://api.resilientcoasts.org/prod/zonal_stats';
 
 export const mapConfig = {
   basemaps: {

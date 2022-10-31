@@ -38,7 +38,12 @@ import React, {
   useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents, FeatureGroup, GeoJSON } from 'react-leaflet';
+import {
+  useMapEvents,
+  FeatureGroup,
+  GeoJSON,
+  Polygon
+} from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
@@ -220,7 +225,6 @@ export default function MapCard(props) {
           map = {map}
         >
         </ShowIdentifyPopup>
-        <GeoJSON data={analyzedAreas.features}/>
       </LeafletMapContainer>
       <ActionButtons />
     </div>
