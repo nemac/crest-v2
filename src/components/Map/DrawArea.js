@@ -34,7 +34,8 @@ Props
 */
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import * as L from 'leaflet';
+import * as L from 'leaflet';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -59,9 +60,9 @@ export default function DrawArea(props) {
   const classes = useStyles();
   // const { map } = props;
   const dispatch = useDispatch();
-  // const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
-  // const drawToolsEnabled = useSelector(sketchAreaSelector);
-  // const [leafletDraw, setLeafletDraw] = React.useState();
+  const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
+  const drawToolsEnabled = useSelector(sketchAreaSelector);
+  const [leafletDraw, setLeafletDraw] = React.useState();
   // const leafletDraw = new L.Draw.Polygon(props.map, {});
   // make draw tools false if for some reason its enabled from before
   // if (drawToolsEnabled) {
@@ -70,15 +71,18 @@ export default function DrawArea(props) {
 
   const handleSketchClick = () => {
     dispatch(toggleSketchArea());
-    /* if (!leafletDraw) {
+    if (!leafletDraw) {
       setLeafletDraw(new L.Draw.Polygon(props.map, {}));
     }
     if (!drawToolsEnabled) {
+      // eslint-disable-next-line no-console
+      console.log('enabled!');
       leafletDraw.enable();
     } else {
-      console.log('disable');
+      // eslint-disable-next-line no-console
+      console.log('disabled!');
       leafletDraw.disable();
-    } */
+    }
   };
 
   return (
@@ -96,3 +100,7 @@ export default function DrawArea(props) {
     </Box>
   );
 }
+
+DrawArea.propTypes = {
+  map: PropTypes.object
+};

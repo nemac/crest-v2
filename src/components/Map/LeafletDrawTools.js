@@ -31,19 +31,24 @@ import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
-import { addNewFeatureToAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
+import { addNewFeatureToAnalyzedAreas, toggleSketchArea } from '../../reducers/mapPropertiesSlice';
 
 export default function LeafletDrawTools(props) {
   const dispatch = useDispatch();
   const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
+  const selectedRegionSelector = (state) => state.selectedRegion.value;
+  const selectedRegion = useSelector(selectedRegionSelector);
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const featureGroups = featureGroup();
 
   async function onCreated(e) {
+    // TODO: Should this be a hardcoded false or is toggle okay?
+    dispatch(toggleSketchArea());
+
     // Add layer to feature group, convert to geojson, and call zonal stats
     featureGroups.addLayer(e.layer);
     const geojson = featureGroups.toGeoJSON();
-    zonalStatsAPI(geojson);
+    zonalStatsAPI(geojson, selectedRegion);
 
     // add created polygon to redux/local storage using geojson from before
     geojson.features.forEach(
@@ -55,7 +60,9 @@ export default function LeafletDrawTools(props) {
   }
 
   const onDeleted = (e) => {
+    // eslint-disable-next-line no-console
     console.log(e);
+    // eslint-disable-next-line no-console
     console.log('deleted!');
   };
 

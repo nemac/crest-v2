@@ -40,9 +40,9 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useMapEvents,
-  FeatureGroup,
-  GeoJSON,
-  Polygon
+  FeatureGroup
+  // GeoJSON,
+  // Polygon
 } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
@@ -73,7 +73,7 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
-const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
+// const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 const useStyles = makeStyles((theme) => ({
   leafletButton: {
@@ -114,7 +114,7 @@ export default function MapCard(props) {
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
-  const analyzedAreas = useSelector(analyzedAreasSelector);
+  // const analyzedAreas = useSelector(analyzedAreasSelector);
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region
