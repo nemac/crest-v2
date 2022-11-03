@@ -35,6 +35,7 @@ import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 
 import ChartDetailsActionButtons from './ChartDetailsActionButtons';
+import ChartSummary from './ChartSummary';
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
@@ -65,6 +66,7 @@ export default function ChartDetails(props) {
     <div>
       <Box className={classes.contentBox} >
         Summary Chart {areaName}
+        <ChartSummary areaName={areaName} />
       </Box>
       <ChartDetailsActionButtons />
 

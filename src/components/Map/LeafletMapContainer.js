@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   MapContainer,
-  TileLayer,
   FeatureGroup,
   Circle
 } from 'react-leaflet';
@@ -29,7 +28,6 @@ export default function LeafletMapContainer(props) {
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
   const drawToolsEnabled = useSelector(sketchAreaSelector);
 
-
   return (
     <MapContainer className = {classes.leafletMapContainer}
       center={center}
@@ -43,8 +41,8 @@ export default function LeafletMapContainer(props) {
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossOrigin=""/>
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-      { drawToolsEnabled
-        ? <FeatureGroup>
+      { drawToolsEnabled ?
+        <FeatureGroup>
         <EditControl
           position='topleft'
           // onEdited={this._onEditPath}
@@ -59,8 +57,8 @@ export default function LeafletMapContainer(props) {
           }}
         />
         <Circle center={[51.51, -0.06]} radius={200} />
-      </FeatureGroup>
-        : null
+      </FeatureGroup> :
+        null
       }
       {children}
     </MapContainer>
