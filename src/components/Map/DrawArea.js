@@ -57,13 +57,18 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function DrawArea(props) {
+  const { map } = props;
+  const [leafletDraw, setLeafletDraw] = React.useState();
+  // have to wrap in use effect because map comes in null at first
+  React.useEffect(() => {
+    if (map) {
+      setLeafletDraw(new L.Draw.Polygon(map, {}));
+    }
+  }, [map]);
   const classes = useStyles();
-  // const { map } = props;
   const dispatch = useDispatch();
   const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   const drawToolsEnabled = useSelector(sketchAreaSelector);
-  const [leafletDraw, setLeafletDraw] = React.useState();
-  // const leafletDraw = new L.Draw.Polygon(props.map, {});
   // make draw tools false if for some reason its enabled from before
   // if (drawToolsEnabled) {
   //  dispatch(toggleSketchArea());
@@ -71,9 +76,6 @@ export default function DrawArea(props) {
 
   const handleSketchClick = () => {
     dispatch(toggleSketchArea());
-    if (!leafletDraw) {
-      setLeafletDraw(new L.Draw.Polygon(props.map, {}));
-    }
     if (!drawToolsEnabled) {
       // eslint-disable-next-line no-console
       console.log('enabled!');
@@ -87,7 +89,7 @@ export default function DrawArea(props) {
 
   return (
     <Box p={0.75} >
-      <Button
+      <Button>
         variant="contained"
         color="CRESTPrimary"
         fullWidth={true}
