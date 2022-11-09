@@ -65,7 +65,7 @@ export default function ChartDetails(props) {
   return (
     <div>
       <Box className={classes.contentBox} >
-        Summary Chart {areaName}
+        {/* Summary Chart {areaName} */}
         <ChartSummary areaName={areaName} />
       </Box>
       <ChartDetailsActionButtons />
