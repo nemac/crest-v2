@@ -89,14 +89,15 @@ export default function DrawArea(props) {
 
   return (
     <Box p={0.75} >
-      <Button>
+      <Button
         variant="contained"
         color="CRESTPrimary"
         fullWidth={true}
         aria-label={'Sketch an Area'}
         className={classes.actionButton}
         onClick={handleSketchClick}
-        startIcon={<PolylineOutlined />}>
+        startIcon={<PolylineOutlined />}
+      >
         Sketch an Area
       </Button>
     </Box>
