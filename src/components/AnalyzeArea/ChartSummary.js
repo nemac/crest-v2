@@ -38,8 +38,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  LabelList,
-  Label
+  Cell
 } from 'recharts';
 
 import { makeStyles } from '@mui/styles';
@@ -66,25 +65,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartSummary(props) {
   const classes = useStyles();
+  const barColors = [];
   const { areaName } = props;
   const chartData = [];
+  const summaryCharts = ['hubs', 'exposure', 'threat', 'asset', 'fishandwildlife'];
   const chartLabel = `Summary Chart ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
+  const region = regions[selectedRegion];
+  const layerList = region.layerList;
   const divStyle = {
     color: 'black'
   };
-  const getColor = (mean) => {
-    console.log(mean);
+  const getColor = (name, mean) => {
     const colorValue = Math.round(mean);
-    const region = regions[selectedRegion];
-    const selectedColor = regions[selectedRegion].layerList[0].chartCSSColor[colorValue];
-    console.log(selectedColor);
-    console.log(region);
-    console.log(colorValue);
+    const selectedColor = regions[selectedRegion].layerList.find((layer => layer.chartCSSSelector === name)).chartCSSColor[colorValue];
     return selectedColor;
   };
-  
+
+  const getLabel = (name) => {
+    return region.layerList.find((layer) => layer.chartCSSSelector === name).label;
+  };
 
   const sampleResult = {
     type: 'FeatureCollection',
@@ -99,7 +100,7 @@ export default function ChartSummary(props) {
           exposure: 9.268707482993197,
           asset: 4.447845804988662,
           threat: 5.087301587301587,
-          wildlife: 5.0,
+          fishandwildlife: 5.0,
           aquatic: 5.0,
           terrestrial: 3.0,
           hubs: 0.0,
@@ -119,35 +120,42 @@ export default function ChartSummary(props) {
       geometry: { type: 'Polygon', coordinates: [[[-80.01149654388428, 32.887677980874706], [-80.01911401748657, 32.88337138447869], [-80.01553058624268, 32.87764094428261], [-80.00417947769165, 32.882578515468], [-80.01149654388428, 32.887677980874706]]] }
     }]
   };
-  console.log(sampleResult.features[0].properties.mean);
-  for (const [key, value] of Object.entries(sampleResult.features[0].properties.mean)) {
-    if (['hubs', 'exposure', 'threat', 'asset', 'wildlife'].includes(key)) {
-      chartData.push({ name: key, mean: value });
+
+  Object.entries(sampleResult.features[0].properties.mean).forEach(([key, value]) => {
+    if (summaryCharts.includes(key)) {
+      chartData.push({ name: key, mean: value, label: getLabel(key) });
     }
-  }
-  const quickList = [{name: "hubs", mean: 4.5 }];
-  console.log(chartData);
+  });
+  chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
+
+  const quickList = [{ name: "hubs", mean: 4.5, layer: "Resilience Hubs" }];
+  // console.log(chartData);
 
   return (
     <Box className={classes.contentBox} >
       {/* Summary Chart {areaName} */}
       <ResponsiveContainer width="80%" height="40%">
-              <BarChart data={quickList}
-              width={500}
-              height={300}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5
-              }}>
-                <XAxis dataKey="name" style={{ fontSize: '8px' } }>
-                </XAxis>
-                <YAxis />
-                <Tooltip contentStyle={ divStyle } formatter={(value, name, props) => [value] } />
-                <Bar dataKey='mean' fill={getColor(4.5)} />
-              </BarChart>
-            </ResponsiveContainer>
+        <BarChart data={chartData}
+          width={500}
+          height={300}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5
+          }}>
+          <XAxis dataKey="name" style={{ fontSize: '8px' }} />
+          <YAxis />
+          <Tooltip contentStyle={divStyle} formatter={(value, name, props) => [value]} />
+          <Bar dataKey='mean' >
+            {
+              chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={barColors[index]} />
+              ))
+            }
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </Box>
   );
 }
