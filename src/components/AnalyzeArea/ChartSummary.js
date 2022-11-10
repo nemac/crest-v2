@@ -74,17 +74,41 @@ export default function ChartSummary(props) {
   const selectedRegion = useSelector(regionSelector);
   const region = regions[selectedRegion];
   const layerList = region.layerList;
+
   const divStyle = {
-    color: 'black'
+    color: 'black',
+    backgroundColor: 'white',
+    padding: '5px 0',
+    borderRadius: '6px'
   };
+
   const getColor = (name, mean) => {
     const colorValue = Math.round(mean);
-    const selectedColor = regions[selectedRegion].layerList.find((layer => layer.chartCSSSelector === name)).chartCSSColor[colorValue];
+    const selectedColor = layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    ).chartCSSColor[colorValue];
     return selectedColor;
   };
 
-  const getLabel = (name) => {
-    return region.layerList.find((layer) => layer.chartCSSSelector === name).label;
+  const getLabel = (name) => layerList.find(
+    ((layer) => layer.chartCSSSelector === name)).label;
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip" style={divStyle}>
+          <p className="label">{getLabel(label)}</p>
+          <h4 className="desc">{`${payload[0].value.toFixed(2)}`}</h4>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  CustomTooltip.propTypes = {
+    active: PropTypes.bool,
+    payload: PropTypes.array,
+    label: PropTypes.string
   };
 
   const sampleResult = {
@@ -103,7 +127,7 @@ export default function ChartSummary(props) {
           fishandwildlife: 5.0,
           aquatic: 5.0,
           terrestrial: 3.0,
-          hubs: 0.0,
+          hubs: 8.3,
           crit_infra: 0.1598639455782313,
           crit_facilities: 0.26077097505668934,
           pop_density: 1.2312925170068028,
@@ -128,12 +152,9 @@ export default function ChartSummary(props) {
   });
   chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
 
-  const quickList = [{ name: "hubs", mean: 4.5, layer: "Resilience Hubs" }];
-  // console.log(chartData);
-
   return (
     <Box className={classes.contentBox} >
-      {/* Summary Chart {areaName} */}
+      {/* {chartLabel} */}
       <ResponsiveContainer width="80%" height="40%">
         <BarChart data={chartData}
           width={500}
@@ -146,7 +167,7 @@ export default function ChartSummary(props) {
           }}>
           <XAxis dataKey="name" style={{ fontSize: '8px' }} />
           <YAxis />
-          <Tooltip contentStyle={divStyle} formatter={(value, name, props) => [value]} />
+          <Tooltip content={<CustomTooltip />} />
           <Bar dataKey='mean' >
             {
               chartData.map((entry, index) => (
