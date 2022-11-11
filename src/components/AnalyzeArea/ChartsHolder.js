@@ -82,66 +82,6 @@ const chartData = [
         range: FishandWildlifeRange
       }
     ]
-  },
-  {
-    areaName: 'Area 2',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 5,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 4,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 2,
-        range: FishandWildlifeRange
-      }
-    ]
-  },
-  {
-    areaName: 'Area 3',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 2,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 1,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 5,
-        range: FishandWildlifeRange
-      }
-    ]
-  },
-  {
-    areaName: 'Area 4',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 10,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 10,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 5,
-        range: FishandWildlifeRange
-      }
-    ]
   }
 ];
 
@@ -198,6 +138,7 @@ export default function ChartsHolder(props) {
           <Box>
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
+              // return <p>hi</p>;
               return <ChartCard key={name} areaName={name}/>;
             })}
           </Box>

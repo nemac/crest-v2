@@ -27,7 +27,7 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -106,7 +106,9 @@ export default function ChartSummary(props) {
     label: PropTypes.any
   };
 
-  useEffect(() => {
+  
+
+  const handleGetFeatureData = useCallback((feature) => {
     const getColor = (name, mean) => {
       const colorValue = Math.round(mean);
       const selectedColor = layerList.find(
@@ -115,27 +117,28 @@ export default function ChartSummary(props) {
       return selectedColor;
     };
 
+    if (feature && feature.features[0]) {
+      Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
+        if (summaryCharts.current.includes(key)) {
+          chartData.current.push({ name: key, mean: value });
+        }
+      });
+      chartData.current.map(({ name, mean }) => barColors.current.push(getColor(name, mean)));
+      console.log('bar colors');
+      console.log(barColors.current);
+      console.log('chart Data');
+      console.log(chartData.current);
+    }
+    else {
+      chartData.current = [];
+      barColors.current = [];
+    }
+  }, []);
+
+  useEffect(() => {
     console.log('useEffect triggered!');
-    const handleGetFeatureData = (feature) => {
-      if (feature && feature.features[0]) {
-        Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
-          if (summaryCharts.current.includes(key)) {
-            chartData.current.push({ name: key, mean: value });
-          }
-        });
-        chartData.current.map(({ name, mean }) => barColors.current.push(getColor(name, mean)));
-        console.log('bar colors');
-        console.log(barColors.current);
-        console.log('chart Data');
-        console.log(chartData.current);
-      }
-      else {
-        chartData.current = [];
-        barColors.current = [];
-      }
-    };
     handleGetFeatureData(selectedFeature);
-  }, [selectedFeature, barColors, chartData, summaryCharts, layerList]);
+  }, [selectedFeature, handleGetFeatureData]);
 
   return (
     <Box className={classes.contentBox} components='fieldset'>
