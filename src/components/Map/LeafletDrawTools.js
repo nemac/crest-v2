@@ -50,12 +50,18 @@ export default function LeafletDrawTools(props) {
     // // Add layer to feature group, convert to geojson, and call zonal stats
     featureGroups.addLayer(e.layer);
     const geojson = featureGroups.toGeoJSON();
+    geojson.properties = {};
+    geojson.properties.id = e.layer._leaflet_id; // so we can know the layer id of the drawn polygon
+    geojson.properties.mean = { blah: 1, moreblah: 2 };
     zonalStatsAPI(geojson, selectedRegion);
 
-    // // add created polygon to redux/local storage using geojson from before
-    // geojson.features.forEach(
-    //   (feature) => dispatch(addNewFeatureToAnalyzedAreas(feature))
-    // );
+    // add created polygon to redux/local storage using geojson from before
+    geojson.features.forEach((feature) => {
+      const funcFeat = feature;
+      funcFeat.properties.id = e.layer._leaflet_id; // so we can know the layer id polygon
+      funcFeat.properties.mean = { hubs: 1, exposure: 2, threat: 3, asset: 4, fishandwildlife: 5 };
+      dispatch(addNewFeatureToAnalyzedAreas(feature));
+    });
 
     // // Removing layer so featureGroups does not just keep building up with more and more layers
     featureGroups.removeLayer(e.layer);
