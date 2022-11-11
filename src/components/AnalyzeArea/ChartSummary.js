@@ -89,7 +89,7 @@ export default function ChartSummary(props) {
   ).label;
 
   const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length && selectedFeature && selectedFeature.length) {
+    if (active && payload && payload.length && selectedFeature) {
       return (
         <div className="custom-tooltip" style={divStyle}>
           <p className="label">{getLabel(label)}</p>
