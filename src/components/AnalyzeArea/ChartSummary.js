@@ -72,6 +72,8 @@ export default function ChartSummary(props) {
   const chartLabel = `Summary Chart ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
+  const featureSelector = (state) => state.mapProperties.analyzedAreas;
+  const selectedFeature = useSelector(featureSelector);
   const region = regions[selectedRegion];
   const layerList = region.layerList;
 
@@ -146,6 +148,7 @@ export default function ChartSummary(props) {
     }]
   };
 
+  // Object.entries(selectedFeature.features[0].properties.mean).forEach(([key, value]) => {
   Object.entries(sampleResult.features[0].properties.mean).forEach(([key, value]) => {
     if (summaryCharts.includes(key)) {
       chartData.push({ name: key, mean: value });
