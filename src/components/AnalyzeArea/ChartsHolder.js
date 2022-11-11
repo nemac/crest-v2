@@ -30,7 +30,7 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
@@ -62,35 +62,50 @@ const useStyles = makeStyles((theme) => ({
 const ResilienceRange = '1-10';
 const CommunityExposureRange = '1-10';
 const FishandWildlifeRange = '1-5';
-const chartData = [
-  {
-    areaName: 'Area 1',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 8,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 9,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 5,
-        range: FishandWildlifeRange
-      }
-    ]
-  }
-];
+
+// const chartData = [
+//   {
+//     areaName: 'Area 1',
+//     indexes: [
+//       {
+//         name: 'Resilience Hubs',
+//         value: 8,
+//         range: ResilienceRange
+//       },
+//       {
+//         name: 'Community Exposure',
+//         value: 9,
+//         range: CommunityExposureRange
+//       },
+//       {
+//         name: 'Fish and Wildlife',
+//         value: 5,
+//         range: FishandWildlifeRange
+//       }
+//     ]
+//   }
+// ];
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartsHolder(props) {
+  const featureSelector = (state) => state.mapProperties.analyzedAreas;
+  const selectedFeature = useSelector(featureSelector);
+  const featureList = selectedFeature.features;
+  const [chartData, setChartData] = useState([]);
   const classes = useStyles();
-
+  const handleFeatureUpdate = useCallback((features) => {
+    const tempData = [];
+    features.forEach((entry, index) => {
+      tempData.push(`Area ${index + 1}`);
+    });
+    setChartData(tempData);
+  }, []);
+  useEffect(() => {
+    handleFeatureUpdate(featureList);
+    // console.log(chartData.current);
+  }, [featureList, handleFeatureUpdate]);
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
@@ -138,8 +153,8 @@ export default function ChartsHolder(props) {
           <Box>
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
-              // return <p>hi</p>;
-              return <ChartCard key={name} areaName={name}/>;
+              console.log(name);
+              return <ChartCard key={name} areaName={name} />;
             })}
           </Box>
         </Grid>
