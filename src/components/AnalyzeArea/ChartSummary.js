@@ -27,7 +27,7 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -65,9 +65,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartSummary(props) {
   const classes = useStyles();
-  const barColors = useRef([]);
+  const [barColors, setBarColors] = useState([]);
   const { areaName } = props;
-  const chartData = useRef([]);
+  const [chartData, setChartData] = useState([]);
   const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'fishandwildlife']);
   const chartLabel = `Summary Chart ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
@@ -106,8 +106,6 @@ export default function ChartSummary(props) {
     label: PropTypes.any
   };
 
-  
-
   const handleGetFeatureData = useCallback((feature) => {
     const getColor = (name, mean) => {
       const colorValue = Math.round(mean);
@@ -118,22 +116,21 @@ export default function ChartSummary(props) {
     };
 
     if (feature && feature.features[0]) {
+      const tempColors = [];
+      const tempData = [];
       Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
         if (summaryCharts.current.includes(key)) {
-          chartData.current.push({ name: key, mean: value });
+          tempData.push({ name: key, mean: value });
         }
       });
-      chartData.current.map(({ name, mean }) => barColors.current.push(getColor(name, mean)));
-      console.log('bar colors');
-      console.log(barColors.current);
-      console.log('chart Data');
-      console.log(chartData.current);
+      tempData.map(({ name, mean }) => tempColors.push(getColor(name, mean)));
+      setChartData(tempData);
+      setBarColors(tempColors);
+    } else {
+      setChartData([]);
+      setBarColors([]);
     }
-    else {
-      chartData.current = [];
-      barColors.current = [];
-    }
-  }, []);
+  }, [layerList]);
 
   useEffect(() => {
     console.log('useEffect triggered!');
@@ -142,9 +139,8 @@ export default function ChartSummary(props) {
 
   return (
     <Box className={classes.contentBox} components='fieldset'>
-      {/* <legend>{chartLabel}</legend> */}
       <ResponsiveContainer width="100%" height="40%">
-        <BarChart data={chartData.current}
+        <BarChart data={chartData}
           width={500}
           height={300}
           margin={{
@@ -158,8 +154,8 @@ export default function ChartSummary(props) {
           <Tooltip content={<CustomTooltip />} />
           <Bar dataKey='mean' >
             {
-              chartData.current.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={barColors.current[index]} />
+              chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={barColors[index]} />
               ))
             }
           </Bar>
