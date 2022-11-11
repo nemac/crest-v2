@@ -111,7 +111,7 @@ export default function ChartSummary(props) {
   CustomTooltip.propTypes = {
     active: PropTypes.bool,
     payload: PropTypes.array,
-    label: PropTypes.string
+    label: PropTypes.any
   };
 
   const handleGetFeatureData = useCallback((feature) => {
