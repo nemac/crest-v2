@@ -40,9 +40,9 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useMapEvents,
-  FeatureGroup,
+  FeatureGroup
   // GeoJSON,
-  Polygon
+  // Polygon
 } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';

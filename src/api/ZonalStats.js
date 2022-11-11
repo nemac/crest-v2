@@ -11,21 +11,13 @@ export const zonalStatsAPI = async (geojson, selectedRegion) => {
   const regionQueryString = `?region=${mapConfig.regions[selectedRegion].regionName}`;
   endpoint += regionQueryString;
 
-  await fetch(endpoint, {
+  const response = await fetch(endpoint, {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(geojson)
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const actualData = data.features[0].properties.mean;
-      // eslint-disable-next-line no-console
-      console.log('Success:', actualData);
-    })
-    .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.error('Error:', error);
-    });
+  });
+  const data = await response.json();
+  return data;
 };

@@ -41,7 +41,7 @@ export default function LeafletDrawTools(props) {
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const featureGroups = featureGroup();
 
-  async function onCreated(e) {
+  function onCreated(e) {
     // TODO: Should this be a hardcoded false or is toggle okay?
     dispatch(toggleSketchArea());
     // const featureGroupie = props.featureGroupRef.current;
@@ -50,17 +50,22 @@ export default function LeafletDrawTools(props) {
     // // Add layer to feature group, convert to geojson, and call zonal stats
     featureGroups.addLayer(e.layer);
     const geojson = featureGroups.toGeoJSON();
-    geojson.properties = {};
-    geojson.properties.id = e.layer._leaflet_id; // so we can know the layer id of the drawn polygon
-    geojson.properties.mean = { blah: 1, moreblah: 2 };
-    zonalStatsAPI(geojson, selectedRegion);
+    const zonalStatsPromise = zonalStatsAPI(geojson, selectedRegion);
 
-    // add created polygon to redux/local storage using geojson from before
-    geojson.features.forEach((feature) => {
-      const funcFeat = feature;
-      funcFeat.properties.id = e.layer._leaflet_id; // so we can know the layer id polygon
-      funcFeat.properties.mean = { hubs: 1, exposure: 2, threat: 3, asset: 4, fishandwildlife: 5 };
-      dispatch(addNewFeatureToAnalyzedAreas(feature));
+    // Wait for promise to complete, enrich with id and mean, and then add polygon to redux
+    zonalStatsPromise.then((data) => {
+      const meanData = data.features[0].properties.mean;
+      console.log(meanData);
+      console.log('promise has completed: hubs: ' + meanData.hubs + ' exposure: ' + meanData.exposure 
+      + ' threat: ' + meanData.threat + ' asset: ' + meanData.asset + ' fishandwildlife: ' + meanData.fishandwildlife);
+      // add created polygon to redux/local storage using geojson from before
+      geojson.features.forEach((feature) => {
+        // make copy of feature and enrich it with leaflet id and mean results from zonal stats
+        const tempFeature = feature;
+        tempFeature.properties.id = e.layer._leaflet_id;
+        tempFeature.properties.mean = data.features[0].properties.mean;
+        dispatch(addNewFeatureToAnalyzedAreas(tempFeature));
+      });
     });
 
     // // Removing layer so featureGroups does not just keep building up with more and more layers
