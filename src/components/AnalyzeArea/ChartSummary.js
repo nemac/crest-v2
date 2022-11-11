@@ -91,7 +91,8 @@ export default function ChartSummary(props) {
   };
 
   const getLabel = (name) => layerList.find(
-    ((layer) => layer.chartCSSSelector === name)).label;
+    ((layer) => layer.chartCSSSelector === name)
+  ).label;
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -153,9 +154,9 @@ export default function ChartSummary(props) {
   chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
 
   return (
-    <Box className={classes.contentBox} >
-      {/* {chartLabel} */}
-      <ResponsiveContainer width="80%" height="40%">
+    <Box className={classes.contentBox} components='fieldset'>
+      {/* <legend>{chartLabel}</legend> */}
+      <ResponsiveContainer width="100%" height="40%">
         <BarChart data={chartData}
           width={500}
           height={300}
@@ -164,7 +165,8 @@ export default function ChartSummary(props) {
             right: 30,
             left: 20,
             bottom: 5
-          }}>
+          }}
+          title={chartLabel}>
           <XAxis dataKey="name" style={{ fontSize: '8px' }} />
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
