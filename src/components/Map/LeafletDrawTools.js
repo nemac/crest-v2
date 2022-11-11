@@ -43,14 +43,14 @@ export default function LeafletDrawTools(props) {
 
   async function onCreated(e) {
     // TODO: Should this be a hardcoded false or is toggle okay?
-    // dispatch(toggleSketchArea());
-    const featureGroupie = props.featureGroupRef.current;
-    featureGroupie.removeLayer(e.layer._leaflet_id);
+    dispatch(toggleSketchArea());
+    // const featureGroupie = props.featureGroupRef.current;
+    // featureGroupie.removeLayer(e.layer._leaflet_id);
 
     // // Add layer to feature group, convert to geojson, and call zonal stats
-    // featureGroups.addLayer(e.layer);
-    // const geojson = featureGroups.toGeoJSON();
-    // zonalStatsAPI(geojson, selectedRegion);
+    featureGroups.addLayer(e.layer);
+    const geojson = featureGroups.toGeoJSON();
+    zonalStatsAPI(geojson, selectedRegion);
 
     // // add created polygon to redux/local storage using geojson from before
     // geojson.features.forEach(
@@ -58,7 +58,7 @@ export default function LeafletDrawTools(props) {
     // );
 
     // // Removing layer so featureGroups does not just keep building up with more and more layers
-    // featureGroups.removeLayer(e.layer);
+    featureGroups.removeLayer(e.layer);
   }
 
   const onDeleted = (e) => {
