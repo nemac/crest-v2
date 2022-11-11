@@ -27,7 +27,7 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -148,7 +148,21 @@ export default function ChartSummary(props) {
     }]
   };
 
-  // Object.entries(selectedFeature.features[0].properties.mean).forEach(([key, value]) => {
+  const handleGetFeatureData = useCallback((selectedFeature) => {
+    if (selectedFeature) {
+      Object.entries(selectedFeature.features[0].properties.mean).forEach(([key, value]) => {
+        if (summaryCharts.includes(key)) {
+          chartData.push({ name: key, mean: value });
+        }
+      });
+      chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
+    }
+  }, [barColors, chartData, getColor, summaryCharts]);
+
+  useEffect(() => {
+    handleGetFeatureData(selectedFeature);
+  }, [selectedFeature, handleGetFeatureData]);
+
   Object.entries(sampleResult.features[0].properties.mean).forEach(([key, value]) => {
     if (summaryCharts.includes(key)) {
       chartData.push({ name: key, mean: value });
