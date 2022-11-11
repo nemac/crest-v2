@@ -59,32 +59,6 @@ const useStyles = makeStyles((theme) => ({
 
 // sample configs to create the charts should come from state/redux later
 // TODO config should be imported from config directory
-const ResilienceRange = '1-10';
-const CommunityExposureRange = '1-10';
-const FishandWildlifeRange = '1-5';
-
-// const chartData = [
-//   {
-//     areaName: 'Area 1',
-//     indexes: [
-//       {
-//         name: 'Resilience Hubs',
-//         value: 8,
-//         range: ResilienceRange
-//       },
-//       {
-//         name: 'Community Exposure',
-//         value: 9,
-//         range: CommunityExposureRange
-//       },
-//       {
-//         name: 'Fish and Wildlife',
-//         value: 5,
-//         range: FishandWildlifeRange
-//       }
-//     ]
-//   }
-// ];
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
@@ -96,11 +70,13 @@ export default function ChartsHolder(props) {
   const [chartData, setChartData] = useState([]);
   const classes = useStyles();
   const handleFeatureUpdate = useCallback((features) => {
-    const tempData = [];
-    features.forEach((entry, index) => {
-      tempData.push(`Area ${index + 1}`);
-    });
-    setChartData(tempData);
+    if (features) {
+      const tempData = [];
+      features.forEach((entry, index) => {
+        tempData.push({ areaName: `Area ${index + 1}`, areaIndex: index });
+      });
+      setChartData(tempData);
+    }
   }, []);
   useEffect(() => {
     handleFeatureUpdate(featureList);
