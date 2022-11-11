@@ -148,7 +148,7 @@ export default function ChartSummary(props) {
 
   Object.entries(sampleResult.features[0].properties.mean).forEach(([key, value]) => {
     if (summaryCharts.includes(key)) {
-      chartData.push({ name: key, mean: value, label: getLabel(key) });
+      chartData.push({ name: key, mean: value });
     }
   });
   chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
@@ -165,8 +165,7 @@ export default function ChartSummary(props) {
             right: 30,
             left: 20,
             bottom: 5
-          }}
-          title={chartLabel}>
+          }}>
           <XAxis dataKey="name" style={{ fontSize: '8px' }} />
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
