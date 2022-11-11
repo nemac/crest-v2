@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   MapContainer,
-  TileLayer,
   FeatureGroup,
   Circle
 } from 'react-leaflet';
@@ -29,9 +28,8 @@ export default function LeafletMapContainer(props) {
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
   const drawToolsEnabled = useSelector(sketchAreaSelector);
 
-
   return (
-    <MapContainer className = {classes.leafletMapContainer}
+    <MapContainer className={classes.leafletMapContainer}
       center={center}
       zoom={zoom}
       doubleClickZoom={true}
@@ -41,26 +39,26 @@ export default function LeafletMapContainer(props) {
       ref={innerRef}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossOrigin=""/>
+        crossOrigin="" />
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-      { drawToolsEnabled
-        ? <FeatureGroup>
-        <EditControl
-          position='topleft'
-          // onEdited={this._onEditPath}
-          // onCreated={this._onCreate}
-          // onDeleted={this._onDeleted}
-          draw={{
-            rectangle: false,
-            polyline: false,
-            circle: false,
-            marker: false,
-            circlemarker: false
-          }}
-        />
-        <Circle center={[51.51, -0.06]} radius={200} />
-      </FeatureGroup>
-        : null
+      {drawToolsEnabled ?
+        <FeatureGroup>
+          <EditControl
+            position='topleft'
+            // onEdited={this._onEditPath}
+            // onCreated={this._onCreate}
+            // onDeleted={this._onDeleted}
+            draw={{
+              rectangle: false,
+              polyline: false,
+              circle: false,
+              marker: false,
+              circlemarker: false
+            }}
+          />
+          <Circle center={[51.51, -0.06]} radius={200} />
+        </FeatureGroup> :
+        null
       }
       {children}
     </MapContainer>
