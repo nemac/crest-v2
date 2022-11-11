@@ -35,14 +35,22 @@ Props
 
 */
 import React, {
-  useState, useEffect, useCallback
+  useState, useEffect, useCallback, useRef
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import {
+  useMapEvents,
+  FeatureGroup,
+  // GeoJSON,
+  Polygon
+} from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
+import PropTypes from 'prop-types';
+
+import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
 import BasemapLayer from './BasemapLayer';
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
@@ -65,6 +73,7 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
+// const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 const useStyles = makeStyles((theme) => ({
   leafletButton: {
@@ -91,12 +100,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MapCard() {
-  const [map, setMap] = useState(null);
+export default function MapCard(props) {
+  // const [map, setMap] = useState(null);
+  const { map, setMap } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
-  let shareUrl = '';
+  const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
+  const featureGroupRef = useRef();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
@@ -104,6 +115,7 @@ export default function MapCard() {
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
+  // const analyzedAreas = useSelector(analyzedAreasSelector);
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region
@@ -167,12 +179,12 @@ export default function MapCard() {
   };
 
   const handleShareLinkClose = () => {
+    // navigator.clipboard.writeText(shareUrl); THIS IS BROKEN ON HTTP
     setShareLinkOpen(false);
   };
 
   const shareMapHandler = () => {
-    shareUrl = createShareURL();
-    window.alert('Your Share URL is: ' + shareUrl);
+    setShareUrl(createShareURL());
     setShareLinkOpen(true);
   };
 
@@ -195,6 +207,18 @@ export default function MapCard() {
             SHARE
           </Button>
         </Control>
+        <FeatureGroup ref={featureGroupRef}>
+          <LeafletDrawTools
+            map={map}
+            featureGroupRef={featureGroupRef}
+          />
+        </FeatureGroup>
+        <DialogPopup
+          contentMessage={('Your Share URL is: ').concat(shareUrl)}
+          buttonMessage='Dismiss'
+          onClose={handleShareLinkClose}
+          open={shareLinkOpen}
+        />
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
@@ -208,3 +232,8 @@ export default function MapCard() {
     </div>
   );
 }
+
+MapCard.propTypes = {
+  map: PropTypes.object,
+  setMap: PropTypes.func
+};
