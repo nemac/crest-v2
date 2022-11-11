@@ -114,43 +114,10 @@ export default function ChartSummary(props) {
     label: PropTypes.string
   };
 
-  const sampleResult = {
-    type: 'FeatureCollection',
-    name: 'test-ar',
-    features: [{
-      type: 'Feature',
-      properties:
-      {
-        id: null,
-        mean:
-        {
-          exposure: 9.268707482993197,
-          asset: 4.447845804988662,
-          threat: 5.087301587301587,
-          fishandwildlife: 5.0,
-          aquatic: 5.0,
-          terrestrial: 3.0,
-          hubs: 8.3,
-          crit_infra: 0.1598639455782313,
-          crit_facilities: 0.26077097505668934,
-          pop_density: 1.2312925170068028,
-          social_vuln: 1.7312925170068028,
-          drainage: 2.568027210884354,
-          erosion: 1.0,
-          floodprone_areas: 0.35374149659863946,
-          geostress: 0.0,
-          sea_level_rise: 0.0,
-          slope: 3.04421768707483,
-          storm_surge: 2.7063492063492065
-        }
-      },
-      geometry: { type: 'Polygon', coordinates: [[[-80.01149654388428, 32.887677980874706], [-80.01911401748657, 32.88337138447869], [-80.01553058624268, 32.87764094428261], [-80.00417947769165, 32.882578515468], [-80.01149654388428, 32.887677980874706]]] }
-    }]
-  };
-
-  const handleGetFeatureData = useCallback((selectedFeature) => {
-    if (selectedFeature) {
-      Object.entries(selectedFeature.features[0].properties.mean).forEach(([key, value]) => {
+  const handleGetFeatureData = useCallback((feature) => {
+    if (feature) {
+      console.log('inside of getFeatureData and feature is not null');
+      Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
         if (summaryCharts.includes(key)) {
           chartData.push({ name: key, mean: value });
         }
@@ -160,15 +127,9 @@ export default function ChartSummary(props) {
   }, [barColors, chartData, getColor, summaryCharts]);
 
   useEffect(() => {
+    console.log('useEffect triggered!');
     handleGetFeatureData(selectedFeature);
   }, [selectedFeature, handleGetFeatureData]);
-
-  Object.entries(sampleResult.features[0].properties.mean).forEach(([key, value]) => {
-    if (summaryCharts.includes(key)) {
-      chartData.push({ name: key, mean: value });
-    }
-  });
-  chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
 
   return (
     <Box className={classes.contentBox} components='fieldset'>
