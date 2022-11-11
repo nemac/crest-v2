@@ -25,7 +25,7 @@ Props
   - Not sure yet
 */
 
-import { featureGroup } from 'leaflet';
+import { featureGroup, L } from 'leaflet';
 import React from 'react';
 import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,20 +43,22 @@ export default function LeafletDrawTools(props) {
 
   async function onCreated(e) {
     // TODO: Should this be a hardcoded false or is toggle okay?
-    dispatch(toggleSketchArea());
+    // dispatch(toggleSketchArea());
+    const featureGroupie = props.featureGroupRef.current;
+    featureGroupie.removeLayer(e.layer._leaflet_id);
 
-    // Add layer to feature group, convert to geojson, and call zonal stats
-    featureGroups.addLayer(e.layer);
-    const geojson = featureGroups.toGeoJSON();
-    zonalStatsAPI(geojson, selectedRegion);
+    // // Add layer to feature group, convert to geojson, and call zonal stats
+    // featureGroups.addLayer(e.layer);
+    // const geojson = featureGroups.toGeoJSON();
+    // zonalStatsAPI(geojson, selectedRegion);
 
-    // add created polygon to redux/local storage using geojson from before
-    geojson.features.forEach(
-      (feature) => dispatch(addNewFeatureToAnalyzedAreas(feature))
-    );
+    // // add created polygon to redux/local storage using geojson from before
+    // geojson.features.forEach(
+    //   (feature) => dispatch(addNewFeatureToAnalyzedAreas(feature))
+    // );
 
-    // Removing layer so featureGroups does not just keep building up with more and more layers
-    featureGroups.removeLayer(e.layer);
+    // // Removing layer so featureGroups does not just keep building up with more and more layers
+    // featureGroups.removeLayer(e.layer);
   }
 
   const onDeleted = (e) => {

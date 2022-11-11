@@ -35,7 +35,7 @@ Props
 
 */
 import React, {
-  useState, useEffect, useCallback
+  useState, useEffect, useCallback, useRef
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -107,6 +107,7 @@ export default function MapCard(props) {
   const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
+  const featureGroupRef = useRef();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
@@ -206,9 +207,10 @@ export default function MapCard(props) {
             SHARE
           </Button>
         </Control>
-        <FeatureGroup>
+        <FeatureGroup ref={featureGroupRef}>
           <LeafletDrawTools
             map={map}
+            featureGroupRef={featureGroupRef}
           />
         </FeatureGroup>
         <DialogPopup
