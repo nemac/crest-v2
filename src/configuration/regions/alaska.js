@@ -34,6 +34,7 @@ export const alaskaConfig = {
       chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
+      chartCSSSelector: 'hubs',
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#f5f500',

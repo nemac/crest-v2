@@ -23,7 +23,7 @@ export default function LeafletMapContainer(props) {
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
 
   return (
-    <MapContainer className = {classes.leafletMapContainer}
+    <MapContainer className={classes.leafletMapContainer}
       center={center}
       zoom={zoom}
       doubleClickZoom={true}
