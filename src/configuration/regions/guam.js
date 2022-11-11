@@ -201,7 +201,7 @@ export const guamConfig = {
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Fish and Wildlife',
-        chartCSSSelector: 'fishandwildlife',
+        chartCSSSelector: 'wildlife',
         url: 'https://tiles.resilientcoasts.org/GU_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',

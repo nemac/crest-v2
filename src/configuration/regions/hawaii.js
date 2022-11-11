@@ -165,7 +165,7 @@ export const hawaiiConfig = {
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Fish and Wildlife',
-        chartCSSSelector: 'fishandwildlife',
+        chartCSSSelector: 'wildlife',
         label: 'Fish and Wildlife Index',
         url: 'https://tiles.resilientcoasts.org/HI_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',

@@ -68,7 +68,7 @@ export default function ChartSummary(props) {
   const [barColors, setBarColors] = useState([]);
   const { areaName , index} = props;
   const [chartData, setChartData] = useState([]);
-  const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'fishandwildlife']);
+  const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
   const chartLabel = `Summary Chart ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);

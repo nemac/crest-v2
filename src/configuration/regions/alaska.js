@@ -180,7 +180,7 @@ export const alaskaConfig = {
       chartLabel: 'Fish and Wildlife',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
-      chartCSSSelector: 'fishandwildlife',
+      chartCSSSelector: 'wildlife',
       chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',

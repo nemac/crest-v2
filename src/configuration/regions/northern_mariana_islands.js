@@ -166,7 +166,7 @@ export const northernMarianaIslandsConfig = {
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Fish and Wildlife',
-        chartCSSSelector: 'fishandwildlife',
+        chartCSSSelector: 'wildlife',
         url: 'https://tiles.resilientcoasts.org/CNMI_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,

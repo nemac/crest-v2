@@ -189,7 +189,7 @@ export const americanSamoaConfig = {
       },
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
-      chartCSSSelector: 'fishandwildlife',
+      chartCSSSelector: 'wildlife',
       url: 'https://tiles.resilientcoasts.org/AS_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
