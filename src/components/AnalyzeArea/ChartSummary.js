@@ -114,22 +114,26 @@ export default function ChartSummary(props) {
     label: PropTypes.any
   };
 
-  const handleGetFeatureData = useCallback((feature) => {
-    if (feature && feature.length) {
-      console.log('inside of getFeatureData and feature is not null');
-      Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
-        if (summaryCharts.includes(key)) {
-          chartData.push({ name: key, mean: value });
-        }
-      });
-      chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
-    }
-  }, [barColors, chartData, getColor, summaryCharts]);
+  
 
   useEffect(() => {
     console.log('useEffect triggered!');
+    const handleGetFeatureData = (feature) => {
+      console.log('pre-if');
+      if (feature) {
+        console.log('inside of getFeatureData and feature is not null');
+        Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
+          if (summaryCharts.includes(key)) {
+            chartData.push({ name: key, mean: value });
+          }
+        });
+        chartData.map(({ name, mean }) => barColors.push(getColor(name, mean)));
+        console.log('bar colors');
+        console.log(barColors);
+      }
+    };
     handleGetFeatureData(selectedFeature);
-  }, [selectedFeature, handleGetFeatureData]);
+  }, [selectedFeature, barColors, chartData, summaryCharts, getColor]);
 
   return (
     <Box className={classes.contentBox} components='fieldset'>
