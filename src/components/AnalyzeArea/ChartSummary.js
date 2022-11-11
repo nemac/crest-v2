@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ChartSummary(props) {
   const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
-  const { areaName } = props;
+  const { areaName , index} = props;
   const [chartData, setChartData] = useState([]);
   const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'fishandwildlife']);
   const chartLabel = `Summary Chart ${areaName}`;
@@ -118,7 +118,7 @@ export default function ChartSummary(props) {
     if (feature && feature.features[0]) {
       const tempColors = [];
       const tempData = [];
-      Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
+      Object.entries(feature.features[index].properties.mean).forEach(([key, value]) => {
         if (summaryCharts.current.includes(key) && !value.isNaN) {
           tempData.push({ name: key, mean: value });
         }
@@ -166,5 +166,6 @@ export default function ChartSummary(props) {
 }
 
 ChartSummary.propTypes = {
-  areaName: PropTypes.string.isRequired
+  areaName: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired
 };

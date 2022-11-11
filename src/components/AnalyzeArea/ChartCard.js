@@ -34,7 +34,7 @@ import ChartActionButtons from './ChartActionButtons';
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartCard(props) {
-  const { areaName } = props;
+  const { areaName, index } = props;
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
   return (
@@ -55,7 +55,7 @@ export default function ChartCard(props) {
 
           <div style={{ width: '100%' }}>
             <Grid item xs={12} >
-              <ChartSummary areaName={areaName}/>
+              <ChartSummary areaName={areaName} index={index}/>
             </Grid>
 
             <Grid item xs={12} >
@@ -69,5 +69,6 @@ export default function ChartCard(props) {
 }
 
 ChartCard.propTypes = {
-  areaName: PropTypes.string.isRequired
+  areaName: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired
 };

@@ -129,8 +129,9 @@ export default function ChartsHolder(props) {
           <Box>
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
+              const index = dataRow.areaIndex;
               console.log(name);
-              return <ChartCard key={name} areaName={name} />;
+              return <ChartCard key={name} areaName={name} index={index} />;
             })}
           </Box>
         </Grid>
