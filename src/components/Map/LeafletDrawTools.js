@@ -57,7 +57,7 @@ export default function LeafletDrawTools(props) {
       const meanData = data.features[0].properties.mean;
       console.log(meanData);
       console.log('promise has completed: hubs: ' + meanData.hubs + ' exposure: ' + meanData.exposure 
-      + ' threat: ' + meanData.threat + ' asset: ' + meanData.asset + ' fishandwildlife: ' + meanData.fishandwildlife);
+      + ' threat: ' + meanData.threat + ' asset: ' + meanData.asset + ' wildlife: ' + meanData.wildlife);
       // add created polygon to redux/local storage using geojson from before
       geojson.features.forEach((feature) => {
         // make copy of feature and enrich it with leaflet id and mean results from zonal stats
