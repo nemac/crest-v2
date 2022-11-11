@@ -115,7 +115,7 @@ export default function ChartSummary(props) {
   };
 
   const handleGetFeatureData = useCallback((feature) => {
-    if (feature) {
+    if (feature && feature.length) {
       console.log('inside of getFeatureData and feature is not null');
       Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
         if (summaryCharts.includes(key)) {
