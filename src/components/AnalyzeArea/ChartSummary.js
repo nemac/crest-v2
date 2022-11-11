@@ -68,7 +68,7 @@ export default function ChartSummary(props) {
   const barColors = useRef([]);
   const { areaName } = props;
   const chartData = useRef([]);
-  const summaryCharts = ['hubs', 'exposure', 'threat', 'asset', 'fishandwildlife'];
+  const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'fishandwildlife']);
   const chartLabel = `Summary Chart ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
@@ -117,17 +117,21 @@ export default function ChartSummary(props) {
 
     console.log('useEffect triggered!');
     const handleGetFeatureData = (feature) => {
-      console.log('pre-if');
       if (feature && feature.features[0]) {
-        console.log('inside of getFeatureData and feature is not null');
         Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
-          if (summaryCharts.includes(key)) {
+          if (summaryCharts.current.includes(key)) {
             chartData.current.push({ name: key, mean: value });
           }
         });
         chartData.current.map(({ name, mean }) => barColors.current.push(getColor(name, mean)));
         console.log('bar colors');
         console.log(barColors.current);
+        console.log('chart Data');
+        console.log(chartData.current);
+      }
+      else {
+        chartData.current = [];
+        barColors.current = [];
       }
     };
     handleGetFeatureData(selectedFeature);
