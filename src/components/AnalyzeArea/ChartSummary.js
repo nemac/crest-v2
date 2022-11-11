@@ -119,7 +119,7 @@ export default function ChartSummary(props) {
       const tempColors = [];
       const tempData = [];
       Object.entries(feature.features[0].properties.mean).forEach(([key, value]) => {
-        if (summaryCharts.current.includes(key)) {
+        if (summaryCharts.current.includes(key) && !value.isNaN) {
           tempData.push({ name: key, mean: value });
         }
       });
