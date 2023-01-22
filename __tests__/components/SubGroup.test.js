@@ -9,15 +9,25 @@ const testLayerList = regions['American Samoa'].layerList;
 const testSubHeading = 'Test SubHeading';
 const testLayer = testLayerList[0];
 
+//Done
 describe('LayerGroup', () => {
   beforeEach(() => {
-    render(<SubGroup subHeading={testSubHeading} subLayers={testLayerList} />).store;
+    render(<SubGroup subHeading={testSubHeading} subLayers={testLayerList}/>);
   });
   afterEach(() => {
     cleanup();
   });
-  it('renders', () => {
-    expect(screen.getByText(testSubHeading)).toBeInTheDocument();
-    expect(screen.getByText(testLayer.label)).toBeInTheDocument();
+
+  describe("Renders as expected", () => {
+
+    test("Screen as expected:", () => {
+      expect(screen.getByText(testSubHeading)).toBeInTheDocument();
+      expect(screen.getByText(testLayer.label)).toBeInTheDocument();
+    });
+
+    test("Methods as expected", () => {
+      expect(testLayerList.map).not.toBeNull();
+      expect(testLayerList.map.layerName).toEqual(testLayer.layerName);
+    })
   });
 });

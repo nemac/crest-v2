@@ -8,6 +8,7 @@ const regions = mapConfig.regions;
 const testLayerList = regions['American Samoa'].layerList;
 const testLayer = testLayerList[0];
 
+//Done
 describe('LayerLegend', () => {
 
     beforeEach(() => {
@@ -17,18 +18,17 @@ describe('LayerLegend', () => {
         cleanup();
     });
 
-    describe('Colours and format', () => {
+    describe('Colours and format as expected', () => {
 
         test('ColorChart not empty', () => {
             expect(testLayer.chartCSSLegends).not.toBeNull()
         })
 
         test('Function pickCSSBasedBgColor works', () => {
-            expect(testLayer.color).not.toBeNull()
-
+            expect(testLayer.color).not.toBeNull();
         })
 
-        it('Should render as expected', () => {
+        test('Screen as expected', () => {
             expect(screen.getByText('Low')).toBeInTheDocument();
             expect(screen.getByText('High')).toBeInTheDocument();
         });
