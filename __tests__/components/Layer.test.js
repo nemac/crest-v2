@@ -8,7 +8,7 @@ const regions = mapConfig.regions;
 const testLayer = regions['American Samoa'].layerList[0];
 let store;
 
-//done for now
+//Done for now
 describe('Layer', () => {
     beforeEach(() => {
         store =  render(<Layer layerData={testLayer}/>).store
