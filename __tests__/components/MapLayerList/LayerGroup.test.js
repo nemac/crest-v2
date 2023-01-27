@@ -15,8 +15,10 @@ describe('LayerGroup', () => {
   afterEach(() => {
     cleanup();
   });
-  it('renders', () => {
-    expect(screen.getAllByText(testLayer.label)).toHaveLength(2);
-  });
 
+  describe('Renders as expected:', () => {
+    test('Screen as expected:', () => {
+        expect(screen.getAllByText(testLayer.label)).toHaveLength(2);
+    });
+  });
 });

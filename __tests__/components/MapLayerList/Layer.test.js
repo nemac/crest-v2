@@ -1,7 +1,7 @@
 import React from 'react';
-import Layer from '../../src/components/MapLayerList/Layer'
-import { render, fireEvent, screen, cleanup } from '../setup/testUtils';
-import { mapConfig } from '../../src/configuration/config';
+import Layer from '../../../src/components/MapLayerList/Layer'
+import { render, fireEvent, screen, cleanup } from '../../setup/testUtils';
+import { mapConfig } from '../../../src/configuration/config';
 import { useDispatch, useSelector } from 'react-redux';
 
 const regions = mapConfig.regions;

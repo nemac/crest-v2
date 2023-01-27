@@ -1,7 +1,7 @@
 import React from 'react';
-import MapLayerList from '../../src/components/MapLayerList/MapLayerList'
-import { render, fireEvent, screen, cleanup } from '../setup/testUtils';
-import { mapConfig } from '../../src/configuration/config';
+import MapLayerList from '../../../src/components/MapLayerList/MapLayerList'
+import { render, fireEvent, screen, cleanup } from '../../setup/testUtils';
+import { mapConfig } from '../../../src/configuration/config';
 
 //Done
 const regions = mapConfig.regions;

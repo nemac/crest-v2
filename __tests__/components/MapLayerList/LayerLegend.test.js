@@ -1,8 +1,8 @@
 import React from 'react';
-import { render } from '../setup/testUtils';
-import LayerLegend from '../../src/components/MapLayerList/LayerLegend';
+import { render } from '../../setup/testUtils';
+import LayerLegend from '../../../src/components/MapLayerList/LayerLegend';
 import { screen, cleanup } from '@testing-library/react';
-import { mapConfig } from '../../src/configuration/config';
+import { mapConfig } from '../../../src/configuration/config';
 
 const regions = mapConfig.regions;
 const testLayerList = regions['American Samoa'].layerList;
