@@ -21,12 +21,10 @@ Props
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { makeStyles } from '@mui/styles';
-import {
-  // CheckBoxOutlineBlank,
-  CheckBox
-} from '@mui/icons-material';
+import Checkbox from '@mui/material/Checkbox';
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
@@ -42,15 +40,16 @@ export default function Buffer(props) {
 
   return (
     <Box p={0.75} >
-      <Button
-        variant="text"
-        color="CRESTPrimary"
-        fullWidth={true}
-        aria-label={'Include a Buffer for Nearby Impacts'}
-        className={classes.actionButton}
-        startIcon={<CheckBox />}>
-        Include a Buffer for Nearby Impacts
-      </Button>
+      <FormGroup>
+        <FormControlLabel
+          control={<Checkbox defaultChecked/>}
+          variant="text"
+          color="CRESTPrimary"
+          aria-label={'Include a Buffer for Nearby Impacts'}
+          label='Include a Buffer for Nearby Impacts'
+          className={classes.actionButton}
+        />
+      </FormGroup>
     </Box>
   );
 }

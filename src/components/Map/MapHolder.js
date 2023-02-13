@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MapHolder(props) {
   const classes = useStyles();
   const [map, setMap] = useState(null);
+  const [bufferCheckbox, setBufferCheckbox] = useState(true);
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
