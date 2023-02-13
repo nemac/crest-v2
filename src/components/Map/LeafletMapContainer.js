@@ -23,14 +23,17 @@ export default function LeafletMapContainer(props) {
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
 
   return (
-    <MapContainer className={classes.leafletMapContainer}
+    <MapContainer
+      className={classes.leafletMapContainer}
       center={center}
       zoom={zoom}
       doubleClickZoom={true}
       scrollWheelZoom={true}
       bounds={extent}
       closePopupOnClick={false}
-      ref={innerRef}>
+      ref={innerRef}
+      attributionControl={false}
+    >
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
       {children}
