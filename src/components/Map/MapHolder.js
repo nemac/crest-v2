@@ -70,6 +70,7 @@ export default function MapHolder(props) {
   const classes = useStyles();
   const [map, setMap] = useState(null);
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
+  const [chartRemoveButtonId, setChartRemoveButtonId] = useState([]);
   const leafletDrawFeatureGroupRef = useRef();
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
@@ -100,22 +101,25 @@ export default function MapHolder(props) {
           boxHeight={'calc(100% - 258px)'}
           boxMarginTop={'8px'}
           leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+          chartRemoveButtonId={chartRemoveButtonId}
         />
       </Grid>
 
       {/* Map */}
-     <Grid item
-       xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.25 : 8.25} xl={layerListVisible ? 6.25 : 9}
-       order={{ xs: 1, sm: 1, md: 2 }}
-       className={classes.threeColumnHolder}>
-       <Box className={classes.contentmapBox} >
-         <MapCard
-          map={map}
-          setMap={setMap}
-          leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-          bufferCheckbox={bufferCheckbox}/>
-       </Box>
-     </Grid>
+      <Grid item
+        xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.25 : 8.25} xl={layerListVisible ? 6.25 : 9}
+        order={{ xs: 1, sm: 1, md: 2 }}
+        className={classes.threeColumnHolder}>
+        <Box className={classes.contentmapBox} >
+          <MapCard
+            map={map}
+            setMap={setMap}
+            leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+            bufferCheckbox={bufferCheckbox}
+            setChartRemoveButtonId={setChartRemoveButtonId}
+          />
+        </Box>
+      </Grid>
 
      {/* Layer List */}
       <Grid item

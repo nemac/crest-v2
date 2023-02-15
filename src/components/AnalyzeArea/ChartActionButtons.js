@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartActionButtons(props) {
-  const { areaName } = props;
+  const { areaName, leafletDrawFeatureGroupRef, chartRemoveButtonId } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -76,6 +76,17 @@ export default function ChartActionButtons(props) {
   const handleGenericClick = (event) => {
     event.stopPropagation();
     console.log('clicked'); // eslint-disable-line no-console
+  };
+
+  const handleRemoveClick = (event) => {
+    event.stopPropagation();
+    const featureGroup = leafletDrawFeatureGroupRef.current;
+    // chartRemoveButtonId is a list of ids to remove since a buffer and the drawn layer can exist
+    chartRemoveButtonId.forEach((id) => {
+      featureGroup.removeLayer(id);
+    });
+    // TODO JEFF YOU NEED TO REMOVE THIS FROM STATE/REDUX TOO
+    console.log('remove click clicked'); // eslint-disable-line no-console
   };
 
   return (
@@ -108,7 +119,7 @@ export default function ChartActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Remove'}
           buttonName={'Remove'}
-          onClick={handleGenericClick}>
+          onClick={handleRemoveClick}>
           <DeleteForever />
         </ChartActionButton>
       </Grid>
@@ -117,5 +128,7 @@ export default function ChartActionButtons(props) {
 }
 
 ChartActionButtons.propTypes = {
-  areaName: PropTypes.string.isRequired
+  areaName: PropTypes.string.isRequired,
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  chartRemoveButtonId: PropTypes.array
 };

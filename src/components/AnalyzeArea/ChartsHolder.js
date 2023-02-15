@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartsHolder(props) {
-  const { leafletDrawFeatureGroupRef } = props;
+  const { leafletDrawFeatureGroupRef, chartRemoveButtonId } = props;
   const featureSelector = (state) => state.mapProperties.analyzedAreas;
   const selectedFeature = useSelector(featureSelector);
   const featureList = selectedFeature.features;
@@ -135,7 +135,15 @@ export default function ChartsHolder(props) {
               const name = dataRow.areaName;
               const index = dataRow.areaIndex;
               console.log(name);
-              return <ChartCard key={name} areaName={name} index={index} />;
+              return (
+                <ChartCard
+                  key={name}
+                  areaName={name}
+                  index={index}
+                  leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                  chartRemoveButtonId={chartRemoveButtonId}
+                />
+              );
             })}
           </Box>
         </Grid>
@@ -152,5 +160,6 @@ export default function ChartsHolder(props) {
 }
 
 ChartsHolder.propTypes = {
-  leafletDrawFeatureGroupRef: PropTypes.object
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  chartRemoveButtonId: PropTypes.array
 };

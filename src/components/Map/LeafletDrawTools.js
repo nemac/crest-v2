@@ -25,7 +25,7 @@ Props
   - Not sure yet
 */
 
-import React from 'react';
+import React, { useState } from 'react';
 import * as L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,25 +36,42 @@ import { zonalStatsAPI } from '../../api/ZonalStats';
 import { addNewFeatureToAnalyzedAreas, toggleSketchArea } from '../../reducers/mapPropertiesSlice';
 
 export default function LeafletDrawTools(props) {
-  const { bufferCheckbox, leafletDrawFeatureGroupRef } = props;
+  const {
+    bufferCheckbox,
+    leafletDrawFeatureGroupRef,
+    setChartRemoveButtonId
+  } = props;
+  const [areaNumber, setAreaNumber] = useState(1);
   const dispatch = useDispatch();
   const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   const selectedRegionSelector = (state) => state.selectedRegion.value;
-  const selectedRegion = useSelector(selectedRegionSelector);
+  // const featureSelector = (state) => state.mapProperties.analyzedAreas;
   const drawToolsEnabled = useSelector(sketchAreaSelector);
+  const selectedRegion = useSelector(selectedRegionSelector);
+  // const selectedFeature = useSelector(featureSelector);
 
   function onCreated(e) {
     // toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
-    let layerToAdd = e.layer;
+    // grab layer id and push it to the remove button id list
+    const drawnLayer = e.layer;
+    const drawnLayerId = L.stamp(drawnLayer);
+    let bufferLayer;
+    let bufferLayerId;
+    setChartRemoveButtonId([drawnLayerId]);
     // check if buffer checkbox is checked and if so, create a 1 km buffer using turf.js
     if (bufferCheckbox) {
-      layerToAdd = buffer(layerToAdd.toGeoJSON(), 1, { units: 'kilometers' });
-      layerToAdd = L.geoJSON(layerToAdd);
-      leafletDrawFeatureGroupRef.current.addLayer(layerToAdd);
-    } else { // otherwise just add the layer to the leaflet draw tools feature group
-      leafletDrawFeatureGroupRef.current.addLayer(layerToAdd);
+      bufferLayer = buffer(drawnLayer.toGeoJSON(), 1, { units: 'kilometers' });
+      bufferLayer = L.geoJSON(bufferLayer);
+      bufferLayerId = L.stamp(bufferLayer);
+      setChartRemoveButtonId([drawnLayerId, bufferLayerId]);
+      leafletDrawFeatureGroupRef.current.addLayer(bufferLayer);
     }
+
+    // TODO right now this is only going to add the buffer layer or the drawn layer
+    // Need to add both buffer layer and drawn layer but only do zonal on buffer OR drawn layer
+    const layerToAdd = bufferLayer || drawnLayer;
+    const layerToAddId = bufferLayerId || drawnLayerId;
 
     // Create dummy featureGroup, add to geojson, and call zonal stats.
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
@@ -69,9 +86,22 @@ export default function LeafletDrawTools(props) {
       geojson.features.forEach((feature) => {
         // make copy of feature and enrich it with leaflet id and mean results from zonal stats
         const tempFeature = feature;
-        tempFeature.properties.id = e.layer._leaflet_id;
+        // TODO JEFF - YOU NEED TO REWORK THIS AREA NUMBER THING AND THE setAreaNumber below.
+        // Right now area number resets to 1 on refresh and does not take into account anything
+        // in storage/redux
+        /* // look for most recent feature and increment based on that area number
+        const mostRecentFeature = selectedFeature.features[selectedFeature.features.length - 1];
+        console.log(mostRecentFeature);
+        if (mostRecentFeature) {
+          // areaName should be something like "Area 8" so this should return 8 and increment to 9
+          const newNum = parseInt(mostRecentFeature.properties.areaName.split('Area ')[1], 10) + 1;
+          setAreaNumber(newNum);
+        } */
+        tempFeature.properties.id = layerToAddId;
+        tempFeature.properties.areaName = `Area ${areaNumber}`;
         tempFeature.properties.mean = data.features[0].properties.mean;
         dispatch(addNewFeatureToAnalyzedAreas(tempFeature));
+        setAreaNumber(areaNumber + 1);
       });
     });
   }
@@ -112,5 +142,6 @@ export default function LeafletDrawTools(props) {
 
 LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
-  leafletDrawFeatureGroupRef: PropTypes.object
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  setChartRemoveButtonId: PropTypes.func
 };

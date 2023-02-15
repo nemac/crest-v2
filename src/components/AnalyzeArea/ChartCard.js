@@ -34,7 +34,12 @@ import ChartActionButtons from './ChartActionButtons';
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartCard(props) {
-  const { areaName, index } = props;
+  const {
+    areaName,
+    index,
+    leafletDrawFeatureGroupRef,
+    chartRemoveButtonId
+  } = props;
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
   return (
@@ -47,7 +52,11 @@ export default function ChartCard(props) {
             </Grid>
 
             <Grid item xs={12} >
-              <ChartActionButtons areaName={areaName}/>
+              <ChartActionButtons
+                areaName={areaName}
+                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                chartRemoveButtonId={chartRemoveButtonId}
+              />
             </Grid>
           </div>
 
@@ -59,7 +68,11 @@ export default function ChartCard(props) {
             </Grid>
 
             <Grid item xs={12} >
-              <ChartActionButtons areaName={areaName}/>
+              <ChartActionButtons
+                areaName={areaName}
+                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                chartRemoveButtonId={chartRemoveButtonId}
+              />
             </Grid>
           </div>
         )}
@@ -70,5 +83,7 @@ export default function ChartCard(props) {
 
 ChartCard.propTypes = {
   areaName: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  chartRemoveButtonId: PropTypes.array
 };
