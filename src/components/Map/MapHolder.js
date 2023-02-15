@@ -19,7 +19,7 @@ Props
   - Not sure yet
 
 */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
@@ -70,6 +70,7 @@ export default function MapHolder(props) {
   const classes = useStyles();
   const [map, setMap] = useState(null);
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
+  const leafletDrawFeatureGroupRef = useRef();
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
@@ -97,7 +98,9 @@ export default function MapHolder(props) {
         />
         <AnalyzeAreaHolder
           boxHeight={'calc(100% - 258px)'}
-          boxMarginTop={'8px'} />
+          boxMarginTop={'8px'}
+          leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+        />
       </Grid>
 
       {/* Map */}
@@ -106,7 +109,11 @@ export default function MapHolder(props) {
        order={{ xs: 1, sm: 1, md: 2 }}
        className={classes.threeColumnHolder}>
        <Box className={classes.contentmapBox} >
-         <MapCard map={map} setMap={setMap} bufferCheckbox={bufferCheckbox}/>
+         <MapCard
+          map={map}
+          setMap={setMap}
+          leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+          bufferCheckbox={bufferCheckbox}/>
        </Box>
      </Grid>
 

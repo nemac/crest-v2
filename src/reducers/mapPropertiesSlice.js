@@ -43,6 +43,9 @@ export const mapPropertiesSlice = createSlice({
     addNewFeatureToAnalyzedAreas: (state, action) => {
       // TODO: This just completely overwrites all polygons. Need to fix this.
       state.analyzedAreas.features.push(action.payload);
+    },
+    removeAllFeaturesFromAnalyzedAreas: (state) => {
+      state.analyzedAreas.features = []; // empty list should clear everything back to normal
     }
   }
 });
@@ -51,7 +54,7 @@ export const mapPropertiesSlice = createSlice({
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
-  toggleSketchArea, addNewFeatureToAnalyzedAreas
+  toggleSketchArea, addNewFeatureToAnalyzedAreas, removeAllFeaturesFromAnalyzedAreas
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

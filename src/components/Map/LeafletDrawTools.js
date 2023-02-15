@@ -36,7 +36,7 @@ import { zonalStatsAPI } from '../../api/ZonalStats';
 import { addNewFeatureToAnalyzedAreas, toggleSketchArea } from '../../reducers/mapPropertiesSlice';
 
 export default function LeafletDrawTools(props) {
-  const { bufferCheckbox, featureGroupRef } = props;
+  const { bufferCheckbox, leafletDrawFeatureGroupRef } = props;
   const dispatch = useDispatch();
   const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -51,9 +51,9 @@ export default function LeafletDrawTools(props) {
     if (bufferCheckbox) {
       layerToAdd = buffer(layerToAdd.toGeoJSON(), 1, { units: 'kilometers' });
       layerToAdd = L.geoJSON(layerToAdd);
-      featureGroupRef.current.addLayer(layerToAdd);
+      leafletDrawFeatureGroupRef.current.addLayer(layerToAdd);
     } else { // otherwise just add the layer to the leaflet draw tools feature group
-      featureGroupRef.current.addLayer(layerToAdd);
+      leafletDrawFeatureGroupRef.current.addLayer(layerToAdd);
     }
 
     // Create dummy featureGroup, add to geojson, and call zonal stats.
@@ -112,5 +112,5 @@ export default function LeafletDrawTools(props) {
 
 LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
-  featureGroupRef: PropTypes.object
+  leafletDrawFeatureGroupRef: PropTypes.object
 };

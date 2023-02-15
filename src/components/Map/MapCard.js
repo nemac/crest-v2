@@ -35,7 +35,7 @@ Props
 
 */
 import React, {
-  useState, useEffect, useCallback, useRef
+  useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -103,12 +103,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MapCard(props) {
   // const [map, setMap] = useState(null);
-  const { map, setMap, bufferCheckbox } = props;
+  const {
+    map,
+    setMap,
+    bufferCheckbox,
+    leafletDrawFeatureGroupRef
+  } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
-  const featureGroupRef = useRef();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
@@ -210,10 +214,10 @@ export default function MapCard(props) {
         </Control>
         <LayersControl position="topright">
           <LayersControl.Overlay checked name="leaflet-draw">
-            <FeatureGroup ref={featureGroupRef}>
+            <FeatureGroup ref={leafletDrawFeatureGroupRef}>
               <LeafletDrawTools
                 map={map}
-                featureGroupRef={featureGroupRef}
+                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
                 bufferCheckbox={bufferCheckbox}
               />
             </FeatureGroup>
@@ -242,5 +246,6 @@ export default function MapCard(props) {
 MapCard.propTypes = {
   bufferCheckbox: PropTypes.bool,
   map: PropTypes.object,
-  setMap: PropTypes.func
+  setMap: PropTypes.func,
+  leafletDrawFeatureGroupRef: PropTypes.object
 };

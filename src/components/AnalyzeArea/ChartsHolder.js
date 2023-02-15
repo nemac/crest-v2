@@ -32,6 +32,7 @@ Props
 */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -42,6 +43,7 @@ import {
   changeGraphTable,
   changeSortDirection
 } from '../../reducers/analyzeAreaSlice';
+import { removeAllFeaturesFromAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
@@ -64,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartsHolder(props) {
+  const { leafletDrawFeatureGroupRef } = props;
   const featureSelector = (state) => state.mapProperties.analyzedAreas;
   const selectedFeature = useSelector(featureSelector);
   const featureList = selectedFeature.features;
@@ -102,8 +105,9 @@ export default function ChartsHolder(props) {
   // from the store (from add areas) when its completed
   const HandleRemoveAllClick = (event) => {
     event.stopPropagation();
-    // TODO this will also need to clear all the save results
-    // from the store (from add areas) when its completed
+    // clear all layers from leaflet draw featureGroup and from state/redux
+    leafletDrawFeatureGroupRef.current.clearLayers();
+    dispatch(removeAllFeaturesFromAnalyzedAreas());
     dispatch(changeEmptyState());
   };
 
@@ -146,3 +150,7 @@ export default function ChartsHolder(props) {
     </Grid>
   );
 }
+
+ChartsHolder.propTypes = {
+  leafletDrawFeatureGroupRef: PropTypes.object
+};
