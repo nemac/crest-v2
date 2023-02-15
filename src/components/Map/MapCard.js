@@ -40,7 +40,8 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useMapEvents,
-  FeatureGroup
+  FeatureGroup,
+  LayersControl
   // GeoJSON,
   // Polygon
 } from 'react-leaflet';
@@ -102,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MapCard(props) {
   // const [map, setMap] = useState(null);
-  const { map, setMap } = props;
+  const { map, setMap, bufferCheckbox } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
@@ -207,12 +208,17 @@ export default function MapCard(props) {
             SHARE
           </Button>
         </Control>
-        <FeatureGroup ref={featureGroupRef}>
-          <LeafletDrawTools
-            map={map}
-            featureGroupRef={featureGroupRef}
-          />
-        </FeatureGroup>
+        <LayersControl position="topright">
+          <LayersControl.Overlay checked name="leaflet-draw">
+            <FeatureGroup ref={featureGroupRef}>
+              <LeafletDrawTools
+                map={map}
+                featureGroupRef={featureGroupRef}
+                bufferCheckbox={bufferCheckbox}
+              />
+            </FeatureGroup>
+          </LayersControl.Overlay>
+        </LayersControl>
         <DialogPopup
           contentMessage={('Your Share URL is: ').concat(shareUrl)}
           buttonMessage='Dismiss'
@@ -234,6 +240,7 @@ export default function MapCard(props) {
 }
 
 MapCard.propTypes = {
+  bufferCheckbox: PropTypes.bool,
   map: PropTypes.object,
   setMap: PropTypes.func
 };

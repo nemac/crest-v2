@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 // just a place holder needs props passed in and image etc
 export default function MapActionCard(props) {
   const classes = useStyles();
-  const { map } = props;
+  const { map, bufferCheckbox, setBufferCheckbox } = props;
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" className={classes.contentGrid}>
@@ -95,7 +95,7 @@ export default function MapActionCard(props) {
         <SearchCustom />
       </Grid>
       <Grid item xs={12}>
-        <Buffer />
+        <Buffer bufferCheckbox={bufferCheckbox} setBufferCheckbox={setBufferCheckbox}/>
       </Grid>
 
     </Grid>
@@ -103,5 +103,7 @@ export default function MapActionCard(props) {
 }
 
 MapActionCard.propTypes = {
-  map: PropTypes.object
+  bufferCheckbox: PropTypes.bool,
+  map: PropTypes.object,
+  setBufferCheckbox: PropTypes.func
 };

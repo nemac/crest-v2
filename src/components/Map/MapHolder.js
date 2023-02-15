@@ -90,7 +90,11 @@ export default function MapHolder(props) {
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
         className={classes.threeColumnHolder}>
-        <MapActionCard map={map}/>
+        <MapActionCard
+          map={map}
+          bufferCheckbox={bufferCheckbox}
+          setBufferCheckbox={setBufferCheckbox}
+        />
         <AnalyzeAreaHolder
           boxHeight={'calc(100% - 258px)'}
           boxMarginTop={'8px'} />
@@ -102,7 +106,7 @@ export default function MapHolder(props) {
        order={{ xs: 1, sm: 1, md: 2 }}
        className={classes.threeColumnHolder}>
        <Box className={classes.contentmapBox} >
-         <MapCard map={map} setMap={setMap}/>
+         <MapCard map={map} setMap={setMap} bufferCheckbox={bufferCheckbox}/>
        </Box>
      </Grid>
 

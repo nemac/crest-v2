@@ -19,6 +19,7 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function Buffer(props) {
+  const { bufferCheckbox, setBufferCheckbox } = props;
   const classes = useStyles();
 
   return (
@@ -48,8 +50,14 @@ export default function Buffer(props) {
           aria-label={'Include a Buffer for Nearby Impacts'}
           label='Include a Buffer for Nearby Impacts'
           className={classes.actionButton}
+          onClick={ () => { setBufferCheckbox(!bufferCheckbox); }}
         />
       </FormGroup>
     </Box>
   );
 }
+
+Buffer.propTypes = {
+  bufferCheckbox: PropTypes.bool,
+  setBufferCheckbox: PropTypes.func
+};
