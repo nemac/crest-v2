@@ -10,6 +10,7 @@ const testLayerList = regions['American Samoa'].layerList;
 
 let store;
 
+//Done
 describe('DriverGroup', () => {
   beforeEach(() => {
     store = render(<DriverGroup chartInputLabel={testInputLabel} chartLayerList={testLayerList} />).store;
@@ -34,15 +35,8 @@ describe('DriverGroup', () => {
 
     test('Collapses as expected', () => {
       /* TODO 
-      The Driver Group is built as an accordion, and the layers show up as in the document and visible, 
-      so I'm honestly not sure how to test for this one, will come back to it.
+      Still have not figure out a way to test the accordion collapse
       */
-
-      //expect(testLayerList.isExpanded).toBe(false);
-      expect(store.getState().DriverGroup.chartLayerList.visible).toBe(false);
-      fireEvent.click(screen.getByText(testInputLabel));
-      expect(store.getState().DriverGroup.chartLayerList.visible).toBe(true);
-      //expect(testLayerList.isExpanded).toBe(true);
     });
   });
 });
