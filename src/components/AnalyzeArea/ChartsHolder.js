@@ -64,19 +64,23 @@ const useStyles = makeStyles((theme) => ({
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const zonalStatsAnalyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 export default function ChartsHolder(props) {
   const { leafletDrawFeatureGroupRef, chartRemoveButtonId } = props;
-  const featureSelector = (state) => state.mapProperties.analyzedAreas;
-  const selectedFeature = useSelector(featureSelector);
-  const featureList = selectedFeature.features;
+  const zonalStatsAnalyzedAreas = useSelector(zonalStatsAnalyzedAreasSelector);
+  const featureList = zonalStatsAnalyzedAreas.features;
   const [chartData, setChartData] = useState([]);
   const classes = useStyles();
   const handleFeatureUpdate = useCallback((features) => {
     if (features) {
       const tempData = [];
       features.forEach((entry, index) => {
-        tempData.push({ areaName: `Area ${index + 1}`, areaIndex: index });
+        tempData.push({
+          areaName: entry.properties.areaName,
+          areaIndex: index,
+          zonalStatsData: entry.properties.mean
+        });
       });
       setChartData(tempData);
     }
@@ -134,12 +138,13 @@ export default function ChartsHolder(props) {
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
               const index = dataRow.areaIndex;
-              console.log(name);
+              const zonalStatsData = dataRow.zonalStatsData;
               return (
                 <ChartCard
                   key={name}
                   areaName={name}
                   index={index}
+                  zonalStatsData={zonalStatsData}
                   leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
                   chartRemoveButtonId={chartRemoveButtonId}
                 />

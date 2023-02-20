@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function DrawArea(props) {
-  const { map } = props;
+  const { map, disabled } = props;
   const [leafletDraw, setLeafletDraw] = React.useState();
   // have to wrap in use effect because map comes in null at first
   React.useEffect(() => {
@@ -77,16 +77,29 @@ export default function DrawArea(props) {
   const handleSketchClick = () => {
     dispatch(toggleSketchArea());
     if (!drawToolsEnabled) {
-      // eslint-disable-next-line no-console
-      console.log('enabled!');
       leafletDraw.enable();
     } else {
-      // eslint-disable-next-line no-console
-      console.log('disabled!');
       leafletDraw.disable();
     }
   };
 
+  if (!disabled) {
+    return (
+      <Box p={0.75} >
+        <Button
+          variant="contained"
+          color="CRESTPrimary"
+          fullWidth={true}
+          aria-label={'Sketch an Area'}
+          className={classes.actionButton}
+          onClick={handleSketchClick}
+          startIcon={<PolylineOutlined />}
+        >
+          Sketch an Area
+        </Button>
+      </Box>
+    );
+  }
   return (
     <Box p={0.75} >
       <Button
@@ -97,7 +110,7 @@ export default function DrawArea(props) {
         className={classes.actionButton}
         onClick={handleSketchClick}
         startIcon={<PolylineOutlined />}
-      >
+      disabled>
         Sketch an Area
       </Button>
     </Box>

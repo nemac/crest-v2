@@ -26,7 +26,7 @@ State needed
 Props
   - Not sure yet
 */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -41,6 +41,7 @@ import {
 } from '@mui/icons-material';
 
 import { changeMore } from '../../reducers/analyzeAreaSlice';
+import { removeFeatureFromAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
 import ChartActionButton from './ChartActionButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,12 +57,22 @@ const useStyles = makeStyles((theme) => ({
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+// Analyzed Areas Selector is a list of features stored in state that zonal stats has analyzed
+const AnalyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 export default function ChartActionButtons(props) {
   const { areaName, leafletDrawFeatureGroupRef, chartRemoveButtonId } = props;
+  const [removeIds, setRemoveIds] = useState(null);
   const classes = useStyles();
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+  const analyzedAreasState = useSelector(AnalyzedAreasSelector);
+
+  useEffect(() => {
+    if (!removeIds) {
+      setRemoveIds(chartRemoveButtonId);
+    }
+  }, [chartRemoveButtonId, removeIds]);
 
   // handle state change more charts or more details charts
   const handleMoreOnClick = () => {
@@ -82,11 +93,17 @@ export default function ChartActionButtons(props) {
     event.stopPropagation();
     const featureGroup = leafletDrawFeatureGroupRef.current;
     // chartRemoveButtonId is a list of ids to remove since a buffer and the drawn layer can exist
-    chartRemoveButtonId.forEach((id) => {
-      featureGroup.removeLayer(id);
+    removeIds.forEach((element) => {
+      featureGroup.removeLayer(element.id);
     });
     // TODO JEFF YOU NEED TO REMOVE THIS FROM STATE/REDUX TOO
-    console.log('remove click clicked'); // eslint-disable-line no-console
+    analyzedAreasState.features.forEach((feature, index) => {
+      console.log('all da features when clicking remove');
+      console.log(feature);
+      if (removeIds.includes(feature.properties.id)) {
+        dispatch(removeFeatureFromAnalyzedAreas(index));
+      }
+    });
   };
 
   return (

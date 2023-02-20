@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ChartSummary(props) {
   const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
-  const { areaName , index} = props;
+  const { areaName, index, zonalStatsData} = props;
   const [chartData, setChartData] = useState([]);
   const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
   const chartLabel = `Summary Chart ${areaName}`;
@@ -118,7 +118,8 @@ export default function ChartSummary(props) {
     if (feature && feature.features[0]) {
       const tempColors = [];
       const tempData = [];
-      Object.entries(feature.features[index].properties.mean).forEach(([key, value]) => {
+      //Object.entries(feature.features[index].properties.mean).forEach(([key, value]) => {
+      Object.entries(zonalStatsData).forEach(([key, value]) => {
         if (summaryCharts.current.includes(key) && !value.isNaN) {
           tempData.push({ name: key, mean: value });
         }
@@ -134,6 +135,7 @@ export default function ChartSummary(props) {
 
   useEffect(() => {
     console.log('useEffect triggered!');
+    console.log(selectedFeature);
     handleGetFeatureData(selectedFeature);
   }, [selectedFeature, handleGetFeatureData]);
 
@@ -149,7 +151,7 @@ export default function ChartSummary(props) {
             left: 20,
             bottom: 5
           }}>
-          <XAxis dataKey="name" style={{ fontSize: '8px' }} />
+          <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '14px' }} />
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           <Bar dataKey='mean' >
@@ -167,5 +169,6 @@ export default function ChartSummary(props) {
 
 ChartSummary.propTypes = {
   areaName: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  zonalStatsData: PropTypes.object
 };

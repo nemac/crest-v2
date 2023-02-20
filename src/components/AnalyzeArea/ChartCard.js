@@ -37,6 +37,7 @@ export default function ChartCard(props) {
   const {
     areaName,
     index,
+    zonalStatsData,
     leafletDrawFeatureGroupRef,
     chartRemoveButtonId
   } = props;
@@ -64,7 +65,7 @@ export default function ChartCard(props) {
 
           <div style={{ width: '100%' }}>
             <Grid item xs={12} >
-              <ChartSummary areaName={areaName} index={index}/>
+              <ChartSummary areaName={areaName} index={index} zonalStatsData={zonalStatsData}/>
             </Grid>
 
             <Grid item xs={12} >
@@ -84,6 +85,7 @@ export default function ChartCard(props) {
 ChartCard.propTypes = {
   areaName: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  zonalStatsData: PropTypes.object,
   leafletDrawFeatureGroupRef: PropTypes.object,
   chartRemoveButtonId: PropTypes.array
 };

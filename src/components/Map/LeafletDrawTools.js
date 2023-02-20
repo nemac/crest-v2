@@ -33,13 +33,18 @@ import PropTypes from 'prop-types';
 import buffer from '@turf/buffer';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
-import { addNewFeatureToAnalyzedAreas, toggleSketchArea } from '../../reducers/mapPropertiesSlice';
+import {
+  addNewFeatureToAnalyzedAreas,
+  toggleSketchArea,
+  addNewFeatureToDrawnLayers
+} from '../../reducers/mapPropertiesSlice';
 
 export default function LeafletDrawTools(props) {
   const {
     bufferCheckbox,
     leafletDrawFeatureGroupRef,
-    setChartRemoveButtonId
+    setChartRemoveButtonId,
+    setDrawAreaDisabled
   } = props;
   const [areaNumber, setAreaNumber] = useState(1);
   const dispatch = useDispatch();
@@ -51,25 +56,32 @@ export default function LeafletDrawTools(props) {
   // const selectedFeature = useSelector(featureSelector);
 
   function onCreated(e) {
+    setDrawAreaDisabled(true); // disable draw until zonal stats done below
     // toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
     // grab layer id and push it to the remove button id list
     const drawnLayer = e.layer;
     const drawnLayerId = L.stamp(drawnLayer);
+    const drawnLayerGeoJSON = drawnLayer.toGeoJSON();
+    drawnLayerGeoJSON.properties.id = drawnLayerId;
+    dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON)); // push drawn layer to redux
     let bufferLayer;
     let bufferLayerId;
-    setChartRemoveButtonId([drawnLayerId]);
+    let bufferLayerGeoJSON;
     // check if buffer checkbox is checked and if so, create a 1 km buffer using turf.js
     if (bufferCheckbox) {
-      bufferLayer = buffer(drawnLayer.toGeoJSON(), 1, { units: 'kilometers' });
-      bufferLayer = L.geoJSON(bufferLayer);
+      bufferLayerGeoJSON = buffer(drawnLayer.toGeoJSON(), 1, { units: 'kilometers' });
+      bufferLayer = L.geoJSON(bufferLayerGeoJSON);
       bufferLayerId = L.stamp(bufferLayer);
-      setChartRemoveButtonId([drawnLayerId, bufferLayerId]);
+      bufferLayerGeoJSON.properties.id = bufferLayerId;
+      dispatch(addNewFeatureToDrawnLayers(bufferLayerGeoJSON)); // push buffer layer to redux
+      setChartRemoveButtonId([{ id: bufferLayerId }, { id: drawnLayerId }]);
       leafletDrawFeatureGroupRef.current.addLayer(bufferLayer);
+    } else {
+      setChartRemoveButtonId([{ id: drawnLayerId }]);
     }
 
-    // TODO right now this is only going to add the buffer layer or the drawn layer
-    // Need to add both buffer layer and drawn layer but only do zonal on buffer OR drawn layer
+    // Determine which layer needs to be analyzed in zonal stats below
     const layerToAdd = bufferLayer || drawnLayer;
     const layerToAddId = bufferLayerId || drawnLayerId;
 
@@ -102,6 +114,7 @@ export default function LeafletDrawTools(props) {
         tempFeature.properties.mean = data.features[0].properties.mean;
         dispatch(addNewFeatureToAnalyzedAreas(tempFeature));
         setAreaNumber(areaNumber + 1);
+        setDrawAreaDisabled(false);
       });
     });
   }
@@ -143,5 +156,6 @@ export default function LeafletDrawTools(props) {
 LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
   leafletDrawFeatureGroupRef: PropTypes.object,
-  setChartRemoveButtonId: PropTypes.func
+  setChartRemoveButtonId: PropTypes.func,
+  setDrawAreaDisabled: PropTypes.func
 };

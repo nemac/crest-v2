@@ -16,6 +16,10 @@ export const mapPropertiesSlice = createSlice({
     analyzedAreas: {
       type: 'FeatureCollection',
       features: []
+    },
+    drawnLayers: {
+      type: 'FeatureCollection',
+      features: []
     }
   },
   reducers: {
@@ -41,8 +45,18 @@ export const mapPropertiesSlice = createSlice({
       state.sketchArea = !state.sketchArea;
     },
     addNewFeatureToAnalyzedAreas: (state, action) => {
-      // TODO: This just completely overwrites all polygons. Need to fix this.
+      /* analyzed areas ONLY includes buffer layer and drawn layer if no buffer
+       charts and tables are read from this table */
       state.analyzedAreas.features.push(action.payload);
+    },
+    addNewFeatureToDrawnLayers: (state, action) => {
+      /* drawn layers includes ALL layers including the buffer and the originally drawn layer
+       leaflet map pulls from this and needs both the buffer and the drawn layer */
+      state.drawnLayers.features.push(action.payload);
+    },
+    // using index passed in from action, remove that indexed element from feature list
+    removeFeatureFromAnalyzedAreas: (state, action) => {
+      state.analyzedAreas.features = state.analyzedAreas.features.slice(action);
     },
     removeAllFeaturesFromAnalyzedAreas: (state) => {
       state.analyzedAreas.features = []; // empty list should clear everything back to normal
@@ -54,7 +68,8 @@ export const mapPropertiesSlice = createSlice({
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
-  toggleSketchArea, addNewFeatureToAnalyzedAreas, removeAllFeaturesFromAnalyzedAreas
+  toggleSketchArea, addNewFeatureToAnalyzedAreas, removeAllFeaturesFromAnalyzedAreas,
+  removeFeatureFromAnalyzedAreas, addNewFeatureToDrawnLayers
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;
