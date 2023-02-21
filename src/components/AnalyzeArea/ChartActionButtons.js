@@ -41,7 +41,7 @@ import {
 } from '@mui/icons-material';
 
 import { changeMore } from '../../reducers/analyzeAreaSlice';
-import { removeFeatureFromZonalStatsAreas } from '../../reducers/mapPropertiesSlice';
+import { removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers } from '../../reducers/mapPropertiesSlice';
 import ChartActionButton from './ChartActionButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -93,14 +93,8 @@ export default function ChartActionButtons(props) {
     });
     // remove layer from drawn layers AND from zonal stats info in redux
     dispatch(removeFeatureFromZonalStatsAreas(areaIndex));
-    // TODO JEFF YOU NEED TO REMOVE THIS FROM STATE/REDUX TOO
-    /* analyzedAreasState.features.forEach((feature, index) => {
-      console.log('all da features when clicking remove');
-      console.log(feature);
-      if (removeIds.includes(feature.properties.id)) {
-        dispatch(removeFeatureFromZonalStatsAreas(index));
-      }
-    }); */
+    // drawn layer index SHOULD match up with zonal stats. If there are errors check this out
+    dispatch(removeFeatureFromDrawnLayers(areaIndex));
   };
 
   return (

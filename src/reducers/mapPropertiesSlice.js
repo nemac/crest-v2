@@ -64,7 +64,7 @@ export const mapPropertiesSlice = createSlice({
       state.zonalStatsAreas.features = []; // empty list should clear everything back to normal
     },
     removeFeatureFromDrawnLayers: (state, action) => {
-      state.zonalStatsAreas.features = [
+      state.drawnLayers.features = [
         ...state.drawnLayers.features.slice(0, action.payload),
         ...state.drawnLayers.features.slice(action.payload + 1)
       ];
@@ -80,7 +80,8 @@ export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
   toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
-  removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers
+  removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
+  removeAllFeaturesFromDrawnLayers
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

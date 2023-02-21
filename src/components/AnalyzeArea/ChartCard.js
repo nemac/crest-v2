@@ -91,5 +91,5 @@ ChartCard.propTypes = {
   areaIndex: PropTypes.number.isRequired,
   leafletIds: PropTypes.array,
   zonalStatsData: PropTypes.object,
-  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletDrawFeatureGroupRef: PropTypes.object
 };

@@ -43,7 +43,10 @@ import {
   changeGraphTable,
   changeSortDirection
 } from '../../reducers/analyzeAreaSlice';
-import { removeAllFeaturesFromZonalStatsAreas } from '../../reducers/mapPropertiesSlice';
+import {
+  removeAllFeaturesFromZonalStatsAreas,
+  removeAllFeaturesFromDrawnLayers
+} from '../../reducers/mapPropertiesSlice';
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
@@ -112,6 +115,7 @@ export default function ChartsHolder(props) {
     // clear all layers from leaflet draw featureGroup and from state/redux
     leafletDrawFeatureGroupRef.current.clearLayers();
     dispatch(removeAllFeaturesFromZonalStatsAreas());
+    dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(changeEmptyState());
   };
 
@@ -140,7 +144,6 @@ export default function ChartsHolder(props) {
               const index = dataRow.areaIndex;
               const leafletIds = dataRow.leafletIds;
               const zonalStatsData = dataRow.zonalStatsData;
-              console.log(dataRow);
               return (
                 <ChartCard
                   key={name}
@@ -167,5 +170,5 @@ export default function ChartsHolder(props) {
 }
 
 ChartsHolder.propTypes = {
-  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletDrawFeatureGroupRef: PropTypes.object
 };

@@ -25,7 +25,7 @@ Props
   - Not sure yet
 */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,11 +36,15 @@ import { zonalStatsAPI } from '../../api/ZonalStats';
 import {
   addNewFeatureToZonalStatsAreas,
   toggleSketchArea,
-  addNewFeatureToDrawnLayers
+  addNewFeatureToDrawnLayers,
+  removeAllFeaturesFromDrawnLayers,
+  removeAllFeaturesFromZonalStatsAreas
 } from '../../reducers/mapPropertiesSlice';
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
 
 export default function LeafletDrawTools(props) {
   const {
@@ -52,6 +56,46 @@ export default function LeafletDrawTools(props) {
   const dispatch = useDispatch();
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
+  const drawnLayersFromState = useSelector(drawnLayersSelector);
+  const zonalStatsAreas = useSelector(zonalStatsAreasSelector);
+  const bufferSize = 1;
+  const bufferUnits = 'kilometers';
+  const bufferStyle = {
+    color: '#99c3ff'
+  }
+
+  /* This useEffect runs once on startup and is responsible for creating layers from state
+     1. Copy drawn layer state to local variable and clear drawn layer and zonal stats state
+     2. Iterate through each drawn layer and add it and buffer layer (if exists) to map
+     3. Push new information back into drawn layer state (this is due to leaflet ids updating)
+     4. Update zonal stats state information with new leaflet ids */
+  useEffect(() => {
+    const features = drawnLayersFromState.features;
+    // doing this parse and stringify so I can have a modifiable object
+    const areasFeatures = JSON.parse(JSON.stringify(zonalStatsAreas.features));
+    dispatch(removeAllFeaturesFromDrawnLayers());
+    dispatch(removeAllFeaturesFromZonalStatsAreas());
+    features.forEach((feature, index) => {
+      const featureCopy = feature;
+      const zonalStatsFeature = areasFeatures[index]; // HUGE assumption that indexes match
+      let layer = L.geoJSON(feature);
+      const layerId = L.stamp(layer);
+      featureCopy.properties.leafletId = layerId;
+      const leafletIdsList = [layerId];
+      leafletDrawFeatureGroupRef.current.addLayer(layer);
+      dispatch(addNewFeatureToDrawnLayers(featureCopy));
+      if (feature.properties.buffer) {
+        layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
+        layer = L.geoJSON(layer, { style: bufferStyle });
+        const bufferLayerId = L.stamp(layer);
+        leafletIdsList.push(bufferLayerId);
+        leafletDrawFeatureGroupRef.current.addLayer(layer);
+      }
+      zonalStatsFeature.properties.leafletIds = leafletIdsList;
+      dispatch(addNewFeatureToZonalStatsAreas(zonalStatsFeature));
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   function onCreated(e) {
     setDrawAreaDisabled(true); // disable draw until zonal stats done below
@@ -68,8 +112,8 @@ export default function LeafletDrawTools(props) {
 
     // check if buffer checkbox is checked and if so, create a 1 km buffer using turf.js
     if (bufferCheckbox) {
-      layerToAnalyze = buffer(layerToAnalyze.toGeoJSON(), 1, { units: 'kilometers' });
-      layerToAnalyze = L.geoJSON(layerToAnalyze);
+      layerToAnalyze = buffer(layerToAnalyze.toGeoJSON(), bufferSize, { units: bufferUnits });
+      layerToAnalyze = L.geoJSON(layerToAnalyze, { style: bufferStyle });
       const bufferLayerId = L.stamp(layerToAnalyze);
       leafletIdsList.push(bufferLayerId);
       leafletDrawFeatureGroupRef.current.addLayer(layerToAnalyze); // add buffer layer to ref
