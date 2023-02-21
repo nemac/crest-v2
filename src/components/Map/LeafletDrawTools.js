@@ -34,68 +34,57 @@ import buffer from '@turf/buffer';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
 import {
-  addNewFeatureToAnalyzedAreas,
+  addNewFeatureToZonalStatsAreas,
   toggleSketchArea,
   addNewFeatureToDrawnLayers
 } from '../../reducers/mapPropertiesSlice';
+
+const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
+const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function LeafletDrawTools(props) {
   const {
     bufferCheckbox,
     leafletDrawFeatureGroupRef,
-    setChartRemoveButtonId,
     setDrawAreaDisabled
   } = props;
   const [areaNumber, setAreaNumber] = useState(1);
   const dispatch = useDispatch();
-  const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
-  const selectedRegionSelector = (state) => state.selectedRegion.value;
-  // const featureSelector = (state) => state.mapProperties.analyzedAreas;
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
-  // const selectedFeature = useSelector(featureSelector);
 
   function onCreated(e) {
     setDrawAreaDisabled(true); // disable draw until zonal stats done below
     // toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
-    // grab layer id and push it to the remove button id list
     const drawnLayer = e.layer;
-    const drawnLayerId = L.stamp(drawnLayer);
+    let layerToAnalyze = e.layer;
+    const leafletIdsList = [L.stamp(drawnLayer)];
     const drawnLayerGeoJSON = drawnLayer.toGeoJSON();
-    drawnLayerGeoJSON.properties.id = drawnLayerId;
-    dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON)); // push drawn layer to redux
-    let bufferLayer;
-    let bufferLayerId;
-    let bufferLayerGeoJSON;
+    drawnLayerGeoJSON.properties.leafletId = L.stamp(drawnLayer);
+    drawnLayerGeoJSON.properties.areaName = `Area ${areaNumber}`;
+    drawnLayerGeoJSON.properties.buffer = bufferCheckbox;
+    dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
+
     // check if buffer checkbox is checked and if so, create a 1 km buffer using turf.js
     if (bufferCheckbox) {
-      bufferLayerGeoJSON = buffer(drawnLayer.toGeoJSON(), 1, { units: 'kilometers' });
-      bufferLayer = L.geoJSON(bufferLayerGeoJSON);
-      bufferLayerId = L.stamp(bufferLayer);
-      bufferLayerGeoJSON.properties.id = bufferLayerId;
-      dispatch(addNewFeatureToDrawnLayers(bufferLayerGeoJSON)); // push buffer layer to redux
-      setChartRemoveButtonId([{ id: bufferLayerId }, { id: drawnLayerId }]);
-      leafletDrawFeatureGroupRef.current.addLayer(bufferLayer);
-    } else {
-      setChartRemoveButtonId([{ id: drawnLayerId }]);
+      layerToAnalyze = buffer(layerToAnalyze.toGeoJSON(), 1, { units: 'kilometers' });
+      layerToAnalyze = L.geoJSON(layerToAnalyze);
+      const bufferLayerId = L.stamp(layerToAnalyze);
+      leafletIdsList.push(bufferLayerId);
+      leafletDrawFeatureGroupRef.current.addLayer(layerToAnalyze); // add buffer layer to ref
     }
-
-    // Determine which layer needs to be analyzed in zonal stats below
-    const layerToAdd = bufferLayer || drawnLayer;
-    const layerToAddId = bufferLayerId || drawnLayerId;
 
     // Create dummy featureGroup, add to geojson, and call zonal stats.
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
     const dummyFeatureGroup = L.featureGroup();
-    dummyFeatureGroup.addLayer(layerToAdd);
-    const geojson = dummyFeatureGroup.toGeoJSON();
-    const zonalStatsPromise = zonalStatsAPI(geojson, selectedRegion);
+    dummyFeatureGroup.addLayer(layerToAnalyze);
+    const featureGroupGeoJSON = dummyFeatureGroup.toGeoJSON();
+    const zonalStatsPromise = zonalStatsAPI(featureGroupGeoJSON, selectedRegion);
 
-    // Wait for promise to complete, enrich with id and mean, and then add polygon to redux
+    // Wait for promise to complete, add returned zonal stats, and then add to redux
     zonalStatsPromise.then((data) => {
-      // add created polygon to redux/local storage using geojson from before
-      geojson.features.forEach((feature) => {
+      featureGroupGeoJSON.features.forEach((feature) => {
         // make copy of feature and enrich it with leaflet id and mean results from zonal stats
         const tempFeature = feature;
         // TODO JEFF - YOU NEED TO REWORK THIS AREA NUMBER THING AND THE setAreaNumber below.
@@ -109,10 +98,12 @@ export default function LeafletDrawTools(props) {
           const newNum = parseInt(mostRecentFeature.properties.areaName.split('Area ')[1], 10) + 1;
           setAreaNumber(newNum);
         } */
-        tempFeature.properties.id = layerToAddId;
+        tempFeature.properties.zonalStatsData = data.features[0].properties.mean;
         tempFeature.properties.areaName = `Area ${areaNumber}`;
-        tempFeature.properties.mean = data.features[0].properties.mean;
-        dispatch(addNewFeatureToAnalyzedAreas(tempFeature));
+        tempFeature.properties.leafletIds = leafletIdsList;
+        tempFeature.properties.drawnLayerGeoJSON = drawnLayer.toGeoJSON();
+        // dispatch(addNewFeatureToDrawnLayers(tempFeature));
+        dispatch(addNewFeatureToZonalStatsAreas(tempFeature));
         setAreaNumber(areaNumber + 1);
         setDrawAreaDisabled(false);
       });
@@ -156,6 +147,5 @@ export default function LeafletDrawTools(props) {
 LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
   leafletDrawFeatureGroupRef: PropTypes.object,
-  setChartRemoveButtonId: PropTypes.func,
   setDrawAreaDisabled: PropTypes.func
 };

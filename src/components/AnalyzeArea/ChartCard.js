@@ -36,10 +36,10 @@ const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 export default function ChartCard(props) {
   const {
     areaName,
-    index,
+    areaIndex,
+    leafletIds,
     zonalStatsData,
-    leafletDrawFeatureGroupRef,
-    chartRemoveButtonId
+    leafletDrawFeatureGroupRef
   } = props;
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
@@ -56,7 +56,6 @@ export default function ChartCard(props) {
               <ChartActionButtons
                 areaName={areaName}
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-                chartRemoveButtonId={chartRemoveButtonId}
               />
             </Grid>
           </div>
@@ -65,14 +64,19 @@ export default function ChartCard(props) {
 
           <div style={{ width: '100%' }}>
             <Grid item xs={12} >
-              <ChartSummary areaName={areaName} index={index} zonalStatsData={zonalStatsData}/>
+              <ChartSummary
+                areaName={areaName}
+                areaIndex={areaIndex}
+                zonalStatsData={zonalStatsData}
+              />
             </Grid>
 
             <Grid item xs={12} >
               <ChartActionButtons
                 areaName={areaName}
+                areaIndex={areaIndex}
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-                chartRemoveButtonId={chartRemoveButtonId}
+                leafletIds={leafletIds}
               />
             </Grid>
           </div>
@@ -84,8 +88,8 @@ export default function ChartCard(props) {
 
 ChartCard.propTypes = {
   areaName: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
+  areaIndex: PropTypes.number.isRequired,
+  leafletIds: PropTypes.array,
   zonalStatsData: PropTypes.object,
   leafletDrawFeatureGroupRef: PropTypes.object,
-  chartRemoveButtonId: PropTypes.array
 };

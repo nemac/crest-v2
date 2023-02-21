@@ -70,7 +70,6 @@ export default function MapHolder(props) {
   const classes = useStyles();
   const [map, setMap] = useState(null);
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
-  const [chartRemoveButtonId, setChartRemoveButtonId] = useState([]);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const leafletDrawFeatureGroupRef = useRef();
 
@@ -103,7 +102,6 @@ export default function MapHolder(props) {
           boxHeight={'calc(100% - 258px)'}
           boxMarginTop={'8px'}
           leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-          chartRemoveButtonId={chartRemoveButtonId}
         />
       </Grid>
 
@@ -118,8 +116,6 @@ export default function MapHolder(props) {
             setMap={setMap}
             leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
             bufferCheckbox={bufferCheckbox}
-            chartRemoveButtonId={chartRemoveButtonId}
-            setChartRemoveButtonId={setChartRemoveButtonId}
             setDrawAreaDisabled={setDrawAreaDisabled}
           />
         </Box>

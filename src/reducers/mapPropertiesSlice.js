@@ -13,7 +13,7 @@ export const mapPropertiesSlice = createSlice({
     identifyIsLoaded: false,
     basemap: 'Dark Gray',
     sketchArea: false,
-    analyzedAreas: {
+    zonalStatsAreas: {
       type: 'FeatureCollection',
       features: []
     },
@@ -44,22 +44,33 @@ export const mapPropertiesSlice = createSlice({
     toggleSketchArea: (state) => {
       state.sketchArea = !state.sketchArea;
     },
-    addNewFeatureToAnalyzedAreas: (state, action) => {
-      /* analyzed areas ONLY includes buffer layer and drawn layer if no buffer
-       charts and tables are read from this table */
-      state.analyzedAreas.features.push(action.payload);
+    addNewFeatureToZonalStatsAreas: (state, action) => {
+      // zonalStatsAreas is a list of the analyzed zonal stats along with other properties
+      // used for charts
+      state.zonalStatsAreas.features = [...state.zonalStatsAreas.features, action.payload];
     },
     addNewFeatureToDrawnLayers: (state, action) => {
-      /* drawn layers includes ALL layers including the buffer and the originally drawn layer
-       leaflet map pulls from this and needs both the buffer and the drawn layer */
-      state.drawnLayers.features.push(action.payload);
+      // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
+      // used to rebuild all of the layers on page refresh
+      state.drawnLayers.features = [...state.drawnLayers.features, action.payload];
     },
-    // using index passed in from action, remove that indexed element from feature list
-    removeFeatureFromAnalyzedAreas: (state, action) => {
-      state.analyzedAreas.features = state.analyzedAreas.features.slice(action);
+    removeFeatureFromZonalStatsAreas: (state, action) => {
+      state.zonalStatsAreas.features = [
+        ...state.zonalStatsAreas.features.slice(0, action.payload),
+        ...state.zonalStatsAreas.features.slice(action.payload + 1)
+      ];
     },
-    removeAllFeaturesFromAnalyzedAreas: (state) => {
-      state.analyzedAreas.features = []; // empty list should clear everything back to normal
+    removeAllFeaturesFromZonalStatsAreas: (state) => {
+      state.zonalStatsAreas.features = []; // empty list should clear everything back to normal
+    },
+    removeFeatureFromDrawnLayers: (state, action) => {
+      state.zonalStatsAreas.features = [
+        ...state.drawnLayers.features.slice(0, action.payload),
+        ...state.drawnLayers.features.slice(action.payload + 1)
+      ];
+    },
+    removeAllFeaturesFromDrawnLayers: (state) => {
+      state.drawnLayers.features = []; // empty list should clear everything back to normal
     }
   }
 });
@@ -68,8 +79,8 @@ export const mapPropertiesSlice = createSlice({
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
-  toggleSketchArea, addNewFeatureToAnalyzedAreas, removeAllFeaturesFromAnalyzedAreas,
-  removeFeatureFromAnalyzedAreas, addNewFeatureToDrawnLayers
+  toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
+  removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

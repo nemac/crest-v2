@@ -108,8 +108,6 @@ export default function MapCard(props) {
     setMap,
     bufferCheckbox,
     leafletDrawFeatureGroupRef,
-    chartRemoveButtonId,
-    setChartRemoveButtonId,
     setDrawAreaDisabled
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
@@ -222,8 +220,6 @@ export default function MapCard(props) {
                 map={map}
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
                 bufferCheckbox={bufferCheckbox}
-                chartRemoveButtonId={chartRemoveButtonId}
-                setChartRemoveButtonId={setChartRemoveButtonId}
                 setDrawAreaDisabled={setDrawAreaDisabled}
               />
             </FeatureGroup>
@@ -254,7 +250,5 @@ MapCard.propTypes = {
   map: PropTypes.object,
   setMap: PropTypes.func,
   leafletDrawFeatureGroupRef: PropTypes.object,
-  chartRemoveButtonId: PropTypes.array,
-  setChartRemoveButtonId: PropTypes.func,
   setDrawAreaDisabled: PropTypes.func
 };

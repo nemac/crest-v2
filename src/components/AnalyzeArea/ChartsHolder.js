@@ -43,7 +43,7 @@ import {
   changeGraphTable,
   changeSortDirection
 } from '../../reducers/analyzeAreaSlice';
-import { removeAllFeaturesFromAnalyzedAreas } from '../../reducers/mapPropertiesSlice';
+import { removeAllFeaturesFromZonalStatsAreas } from '../../reducers/mapPropertiesSlice';
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
@@ -64,12 +64,12 @@ const useStyles = makeStyles((theme) => ({
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
-const zonalStatsAnalyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
+const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
 
 export default function ChartsHolder(props) {
-  const { leafletDrawFeatureGroupRef, chartRemoveButtonId } = props;
-  const zonalStatsAnalyzedAreas = useSelector(zonalStatsAnalyzedAreasSelector);
-  const featureList = zonalStatsAnalyzedAreas.features;
+  const { leafletDrawFeatureGroupRef } = props;
+  const zonalStatsAreas = useSelector(zonalStatsAreasSelector);
+  const featureList = zonalStatsAreas.features;
   const [chartData, setChartData] = useState([]);
   const classes = useStyles();
   const handleFeatureUpdate = useCallback((features) => {
@@ -79,7 +79,8 @@ export default function ChartsHolder(props) {
         tempData.push({
           areaName: entry.properties.areaName,
           areaIndex: index,
-          zonalStatsData: entry.properties.mean
+          leafletIds: entry.properties.leafletIds,
+          zonalStatsData: entry.properties.zonalStatsData
         });
       });
       setChartData(tempData);
@@ -87,7 +88,6 @@ export default function ChartsHolder(props) {
   }, []);
   useEffect(() => {
     handleFeatureUpdate(featureList);
-    // console.log(chartData.current);
   }, [featureList, handleFeatureUpdate]);
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -111,7 +111,7 @@ export default function ChartsHolder(props) {
     event.stopPropagation();
     // clear all layers from leaflet draw featureGroup and from state/redux
     leafletDrawFeatureGroupRef.current.clearLayers();
-    dispatch(removeAllFeaturesFromAnalyzedAreas());
+    dispatch(removeAllFeaturesFromZonalStatsAreas());
     dispatch(changeEmptyState());
   };
 
@@ -138,15 +138,17 @@ export default function ChartsHolder(props) {
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
               const index = dataRow.areaIndex;
+              const leafletIds = dataRow.leafletIds;
               const zonalStatsData = dataRow.zonalStatsData;
+              console.log(dataRow);
               return (
                 <ChartCard
                   key={name}
                   areaName={name}
-                  index={index}
+                  areaIndex={index}
+                  leafletIds={leafletIds}
                   zonalStatsData={zonalStatsData}
                   leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-                  chartRemoveButtonId={chartRemoveButtonId}
                 />
               );
             })}
@@ -166,5 +168,4 @@ export default function ChartsHolder(props) {
 
 ChartsHolder.propTypes = {
   leafletDrawFeatureGroupRef: PropTypes.object,
-  chartRemoveButtonId: PropTypes.array
 };

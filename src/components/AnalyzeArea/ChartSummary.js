@@ -27,7 +27,12 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useCallback,
+  useState
+} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -66,14 +71,12 @@ const useStyles = makeStyles((theme) => ({
 export default function ChartSummary(props) {
   const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
-  const { areaName, index, zonalStatsData} = props;
+  const { areaName, areaIndex, zonalStatsData} = props;
   const [chartData, setChartData] = useState([]);
   const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
   const chartLabel = `Summary Chart ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
-  const featureSelector = (state) => state.mapProperties.analyzedAreas;
-  const selectedFeature = useSelector(featureSelector);
   const region = regions[selectedRegion];
   const layerList = region.layerList;
 
@@ -89,7 +92,7 @@ export default function ChartSummary(props) {
   ).label;
 
   const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length && Number.isFinite(payload[0].value) && selectedFeature) {
+    if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
         <div className="custom-tooltip" style={divStyle}>
           <p className="label">{getLabel(label)}</p>
@@ -106,38 +109,31 @@ export default function ChartSummary(props) {
     label: PropTypes.any
   };
 
-  const handleGetFeatureData = useCallback((feature) => {
-    const getColor = (name, mean) => {
-      const colorValue = Math.round(mean);
+  const handleGetZonalStatsData = useCallback((data) => {
+    const getColor = (name, value) => {
+      const colorValue = Math.round(value);
       const selectedColor = layerList.find(
         ((layer) => layer.chartCSSSelector === name)
       ).chartCSSColor[colorValue];
       return selectedColor;
     };
 
-    if (feature && feature.features[0]) {
-      const tempColors = [];
-      const tempData = [];
-      //Object.entries(feature.features[index].properties.mean).forEach(([key, value]) => {
-      Object.entries(zonalStatsData).forEach(([key, value]) => {
-        if (summaryCharts.current.includes(key) && !value.isNaN) {
-          tempData.push({ name: key, mean: value });
-        }
-      });
-      tempData.map(({ name, mean }) => tempColors.push(getColor(name, mean)));
-      setChartData(tempData);
-      setBarColors(tempColors);
-    } else {
-      setChartData([]);
-      setBarColors([]);
-    }
+    const tempColors = [];
+    const tempData = [];
+    Object.entries(data).forEach(([key, value]) => {
+      if (summaryCharts.current.includes(key) && !value.isNaN) {
+        tempData.push({ name: key, value });
+      }
+    });
+    tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
+    setChartData(tempData);
+    setBarColors(tempColors);
   }, [layerList]);
 
   useEffect(() => {
     console.log('useEffect triggered!');
-    console.log(selectedFeature);
-    handleGetFeatureData(selectedFeature);
-  }, [selectedFeature, handleGetFeatureData]);
+    handleGetZonalStatsData(zonalStatsData);
+  }, [zonalStatsData, handleGetZonalStatsData]);
 
   return (
     <Box className={classes.contentBox} components='fieldset'>
@@ -151,10 +147,10 @@ export default function ChartSummary(props) {
             left: 20,
             bottom: 5
           }}>
-          <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '14px' }} />
+          <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey='mean' >
+          <Bar dataKey='value' >
             {
               chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={barColors[index]} />
@@ -169,6 +165,6 @@ export default function ChartSummary(props) {
 
 ChartSummary.propTypes = {
   areaName: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
+  areaIndex: PropTypes.number.isRequired,
   zonalStatsData: PropTypes.object
 };
