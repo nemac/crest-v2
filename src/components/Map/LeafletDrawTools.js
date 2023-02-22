@@ -89,17 +89,21 @@ export default function LeafletDrawTools(props) {
      4. Update zonal stats state information with new leaflet ids */
   useEffect(() => {
     const features = drawnLayersFromState.features;
+    let areaNameAdjustment; // we will use this to determine what area name number we are on
     // doing this parse and stringify so I can have a modifiable object
     const areasFeatures = JSON.parse(JSON.stringify(zonalStatsAreas.features));
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(removeAllFeaturesFromZonalStatsAreas());
     features.forEach((feature, index) => {
       const featureCopy = feature;
+      const areaName = featureCopy.properties.areaName;
+      areaNameAdjustment = parseInt(areaName.split(' ')[1], 10); // should number of highest area in list
       const zonalStatsFeature = areasFeatures[index]; // HUGE assumption that indexes match
       let layer = L.geoJSON(feature);
       const layerId = L.stamp(layer);
       featureCopy.properties.leafletId = layerId;
       const leafletIdsList = [layerId];
+      layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
       leafletDrawFeatureGroupRef.current.addLayer(layer);
       dispatch(addNewFeatureToDrawnLayers(featureCopy));
       if (feature.properties.buffer) {
@@ -111,6 +115,8 @@ export default function LeafletDrawTools(props) {
       }
       zonalStatsFeature.properties.leafletIds = leafletIdsList;
       dispatch(addNewFeatureToZonalStatsAreas(zonalStatsFeature));
+      // bump area number up total length of features so no duplicate area names
+      setAreaNumber(areaNumber + areaNameAdjustment);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // purposefully using empty array '[]' so it only runs once on startup
@@ -126,7 +132,7 @@ export default function LeafletDrawTools(props) {
     const leafletIdsList = [L.stamp(drawnLayer)];
     const drawnLayerGeoJSON = drawnLayer.toGeoJSON();
     drawnLayerGeoJSON.properties.leafletId = L.stamp(drawnLayer);
-    drawnLayerGeoJSON.properties.areaName = `Area ${areaNumber}`;
+    drawnLayerGeoJSON.properties.areaName = areaName;
     drawnLayerGeoJSON.properties.buffer = bufferCheckbox;
     dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
 
