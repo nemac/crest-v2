@@ -26,6 +26,7 @@ Props
 */
 
 import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@mui/styles';
 import * as L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,12 +47,25 @@ const selectedRegionSelector = (state) => state.selectedRegion.value;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
 
+const useStyles = makeStyles((theme) => ({
+  // Feels a bit hacky that I had to tack !important on to everything to get the override
+  leafletTooltips: {
+    backgroundColor: 'transparent !important',
+    border: 'transparent !important',
+    color: '#FFFFFF !important',
+    'box-shadow': 'none !important',
+    fontSize: '1.5em',
+    fontWeight: 700
+  }
+}));
+
 export default function LeafletDrawTools(props) {
   const {
     bufferCheckbox,
     leafletDrawFeatureGroupRef,
     setDrawAreaDisabled
   } = props;
+  const classes = useStyles();
   const [areaNumber, setAreaNumber] = useState(1);
   const dispatch = useDispatch();
   const drawToolsEnabled = useSelector(sketchAreaSelector);
@@ -61,8 +75,12 @@ export default function LeafletDrawTools(props) {
   const bufferSize = 1;
   const bufferUnits = 'kilometers';
   const bufferStyle = {
-    color: '#99c3ff'
-  }
+    color: '#99c3ff',
+    '&:hover': {
+      color: '#ffc107',
+      'stroke-width': 5
+    }
+  };
 
   /* This useEffect runs once on startup and is responsible for creating layers from state
      1. Copy drawn layer state to local variable and clear drawn layer and zonal stats state
@@ -101,7 +119,9 @@ export default function LeafletDrawTools(props) {
     setDrawAreaDisabled(true); // disable draw until zonal stats done below
     // toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
+    const areaName = `Area ${areaNumber}`;
     const drawnLayer = e.layer;
+    drawnLayer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
     let layerToAnalyze = e.layer;
     const leafletIdsList = [L.stamp(drawnLayer)];
     const drawnLayerGeoJSON = drawnLayer.toGeoJSON();

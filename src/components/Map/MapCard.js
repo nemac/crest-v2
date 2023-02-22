@@ -170,6 +170,16 @@ export default function MapCard(props) {
             [map.getCenter().lat, map.getCenter().lng]
           )
         );
+      },
+      zoomend: () => {
+        const featureGroup = leafletDrawFeatureGroupRef.current;
+        featureGroup.eachLayer((layer) => {
+          if (map.getZoom() < 10) {
+            layer.closeTooltip();
+          } else {
+            layer.openTooltip();
+          }
+        });
       }
     });
     return null;
