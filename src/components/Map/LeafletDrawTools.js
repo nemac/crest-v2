@@ -63,7 +63,8 @@ export default function LeafletDrawTools(props) {
   const {
     bufferCheckbox,
     leafletDrawFeatureGroupRef,
-    setDrawAreaDisabled
+    setDrawAreaDisabled,
+    setTooLargeLayerOpen
   } = props;
   const classes = useStyles();
   const [areaNumber, setAreaNumber] = useState(1);
@@ -122,19 +123,19 @@ export default function LeafletDrawTools(props) {
   }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   function onCreated(e) {
+    // toggle sketch area off since new area was just created
+    dispatch(toggleSketchArea());
     // Doing a quick check up top to make sure that the newly drawn polygon isn't too big
     const drawnLayerBounds = e.layer.getBounds();
     const latDiff = Math.abs(drawnLayerBounds._southWest.lat - drawnLayerBounds._northEast.lat);
     const lngDiff = Math.abs(drawnLayerBounds._southWest.lng - drawnLayerBounds._northEast.lng);
     if ((latDiff || lngDiff >= 3) || (latDiff >= 2 && lngDiff >= 2)) {
-      // TODO need to do something other than console log
-      console.log('too big of a poly lat: ', latDiff, ' lng: ', lngDiff);
+      setTooLargeLayerOpen(true);
+      leafletDrawFeatureGroupRef.current.removeLayer(e.layer);
       return;
     }
 
     setDrawAreaDisabled(true); // disable draw until zonal stats done below
-    // toggle sketch area off since new area was just created
-    dispatch(toggleSketchArea());
     const areaName = `Area ${areaNumber}`;
     const drawnLayer = e.layer;
     drawnLayer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
@@ -216,5 +217,6 @@ export default function LeafletDrawTools(props) {
 LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
   leafletDrawFeatureGroupRef: PropTypes.object,
-  setDrawAreaDisabled: PropTypes.func
+  setDrawAreaDisabled: PropTypes.func,
+  setTooLargeLayerOpen: PropTypes.func
 };

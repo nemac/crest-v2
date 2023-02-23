@@ -49,6 +49,25 @@ const useStyles = makeStyles((theme) => ({
 // just a place holder needs props passed in and image etc
 export default function Upload(props) {
   const classes = useStyles();
+  const [file, setFile] = React.useState(null);
+
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  // This useEffect watches for the uploaded file
+  React.useEffect(() => {
+    if (!file) {
+      return;
+    }
+    // reject incoming file if the size is greater than 10 MB
+    if (file.size > 10000) {
+      console.log('file size too big');
+    }
+    setFile(null);
+  }, [file, setFile]);
 
   return (
     <Box p={0.75} >
@@ -58,8 +77,16 @@ export default function Upload(props) {
         fullWidth={true}
         aria-label={'Upload Shapefile'}
         className={classes.actionButton}
-        startIcon={<FileUploadOutlined />}>
+        component="label"
+        startIcon={<FileUploadOutlined />}
+      >
         Upload Shapefile
+        <input
+          type="file"
+          multiple={true}
+          accept=".zip, .shp, .dbf, .prj, .geojson, .json"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}/>
       </Button>
     </Box>
   );

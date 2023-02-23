@@ -111,6 +111,7 @@ export default function MapCard(props) {
     setDrawAreaDisabled
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
+  const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -199,6 +200,10 @@ export default function MapCard(props) {
     setShareLinkOpen(false);
   };
 
+  const handleTooLargeLayerClose = () => {
+    setTooLargeLayerOpen(false);
+  };
+
   const shareMapHandler = () => {
     setShareUrl(createShareURL());
     setShareLinkOpen(true);
@@ -231,6 +236,7 @@ export default function MapCard(props) {
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
                 bufferCheckbox={bufferCheckbox}
                 setDrawAreaDisabled={setDrawAreaDisabled}
+                setTooLargeLayerOpen={setTooLargeLayerOpen}
               />
             </FeatureGroup>
           </LayersControl.Overlay>
@@ -240,6 +246,12 @@ export default function MapCard(props) {
           buttonMessage='Dismiss'
           onClose={handleShareLinkClose}
           open={shareLinkOpen}
+        />
+        <DialogPopup
+          contentMessage={'Drawn layer is too big. Please draw a smaller one.'}
+          buttonMessage='Dismiss'
+          onClose={handleTooLargeLayerClose}
+          open={tooLargeLayerOpen}
         />
         <ActiveTileLayers />
         <BasemapLayer map={map} />
