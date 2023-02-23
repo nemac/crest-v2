@@ -29,6 +29,8 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -37,6 +39,8 @@ import {
   FileUploadOutlined
   // FileUpload
 } from '@mui/icons-material';
+
+import { uploadShapeFile } from '../../reducers/mapPropertiesSlice';
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
@@ -48,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function Upload(props) {
+  const { setTooLargeLayerOpen } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [file, setFile] = React.useState(null);
 
   const handleFileChange = (e) => {
@@ -64,10 +70,13 @@ export default function Upload(props) {
     }
     // reject incoming file if the size is greater than 10 MB
     if (file.size > 10000) {
-      console.log('file size too big');
+      setTooLargeLayerOpen(true);
+      setFile(null);
+      return;
     }
-    setFile(null);
-  }, [file, setFile]);
+    const s3TestLocation = 'https://nfwf-tool-user-shapes.s3.amazonaws.com/prod/000225eb73fc4eba9de3499cc135a93c';
+    dispatch(uploadShapeFile(s3TestLocation));
+  }, [file, setFile, dispatch, setTooLargeLayerOpen]);
 
   return (
     <Box p={0.75} >
@@ -91,3 +100,7 @@ export default function Upload(props) {
     </Box>
   );
 }
+
+Upload.propTypes = {
+  setTooLargeLayerOpen: PropTypes.func
+};

@@ -71,6 +71,7 @@ export default function MapHolder(props) {
   const [map, setMap] = useState(null);
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
+  const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const leafletDrawFeatureGroupRef = useRef();
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
@@ -97,6 +98,7 @@ export default function MapHolder(props) {
           bufferCheckbox={bufferCheckbox}
           setBufferCheckbox={setBufferCheckbox}
           drawAreaDisabled={drawAreaDisabled}
+          setTooLargeLayerOpen={setTooLargeLayerOpen}
         />
         <AnalyzeAreaHolder
           boxHeight={'calc(100% - 258px)'}
@@ -117,6 +119,8 @@ export default function MapHolder(props) {
             leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
             bufferCheckbox={bufferCheckbox}
             setDrawAreaDisabled={setDrawAreaDisabled}
+            tooLargeLayerOpen={tooLargeLayerOpen}
+            setTooLargeLayerOpen={setTooLargeLayerOpen}
           />
         </Box>
       </Grid>

@@ -108,10 +108,11 @@ export default function MapCard(props) {
     setMap,
     bufferCheckbox,
     leafletDrawFeatureGroupRef,
-    setDrawAreaDisabled
+    setDrawAreaDisabled,
+    tooLargeLayerOpen,
+    setTooLargeLayerOpen
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
-  const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -248,7 +249,7 @@ export default function MapCard(props) {
           open={shareLinkOpen}
         />
         <DialogPopup
-          contentMessage={'Drawn layer is too big. Please draw a smaller one.'}
+          contentMessage={'Layer is too large.'}
           buttonMessage='Dismiss'
           onClose={handleTooLargeLayerClose}
           open={tooLargeLayerOpen}
@@ -272,5 +273,7 @@ MapCard.propTypes = {
   map: PropTypes.object,
   setMap: PropTypes.func,
   leafletDrawFeatureGroupRef: PropTypes.object,
-  setDrawAreaDisabled: PropTypes.func
+  setDrawAreaDisabled: PropTypes.func,
+  tooLargeLayerOpen: PropTypes.bool,
+  setTooLargeLayerOpen: PropTypes.func
 };

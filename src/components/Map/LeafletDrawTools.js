@@ -34,6 +34,7 @@ import PropTypes from 'prop-types';
 import buffer from '@turf/buffer';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
+import { retreiveShapeFiles } from '../../api/retreiveShapeFile';
 import {
   addNewFeatureToZonalStatsAreas,
   toggleSketchArea,
@@ -46,6 +47,7 @@ const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
+const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFile;
 
 const useStyles = makeStyles((theme) => ({
   // Feels a bit hacky that I had to tack !important on to everything to get the override
@@ -73,6 +75,7 @@ export default function LeafletDrawTools(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const zonalStatsAreas = useSelector(zonalStatsAreasSelector);
+  const uploadedShapeFile = useSelector(uploadedShapeFileSelector);
   const bufferSize = 1;
   const bufferUnits = 'kilometers';
   const bufferStyle = {
@@ -121,6 +124,17 @@ export default function LeafletDrawTools(props) {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // purposefully using empty array '[]' so it only runs once on startup
+
+  // Watches for an uploaded shapefile and adds it as a layer to leaflet Draw feature group
+  useEffect(() => {
+    if (!uploadedShapeFile) {
+      return;
+    }
+    const retreiveShapeFilesPromise = retreiveShapeFiles(uploadedShapeFile);
+    retreiveShapeFilesPromise.then((data) => {
+      console.log(data);
+    });
+  }, [uploadedShapeFile]);
 
   function onCreated(e) {
     // toggle sketch area off since new area was just created

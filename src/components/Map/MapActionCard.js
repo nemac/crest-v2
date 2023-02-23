@@ -65,7 +65,13 @@ const useStyles = makeStyles((theme) => ({
 // just a place holder needs props passed in and image etc
 export default function MapActionCard(props) {
   const classes = useStyles();
-  const { map, bufferCheckbox, setBufferCheckbox, drawAreaDisabled } = props;
+  const {
+    map,
+    bufferCheckbox,
+    setBufferCheckbox,
+    drawAreaDisabled,
+    setTooLargeLayerOpen
+  } = props;
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" className={classes.contentGrid}>
@@ -89,7 +95,7 @@ export default function MapActionCard(props) {
         <DrawArea map={map} disabled={drawAreaDisabled}/>
       </Grid>
       <Grid item xs={12}>
-        <Upload />
+        <Upload setTooLargeLayerOpen={setTooLargeLayerOpen}/>
       </Grid>
       <Grid item xs={12}>
         <SearchCustom />
@@ -105,5 +111,7 @@ export default function MapActionCard(props) {
 MapActionCard.propTypes = {
   bufferCheckbox: PropTypes.bool,
   map: PropTypes.object,
-  setBufferCheckbox: PropTypes.func
+  setBufferCheckbox: PropTypes.func,
+  drawAreaDisabled: PropTypes.bool,
+  setTooLargeLayerOpen: PropTypes.func
 };

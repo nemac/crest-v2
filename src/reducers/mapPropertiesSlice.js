@@ -13,6 +13,7 @@ export const mapPropertiesSlice = createSlice({
     identifyIsLoaded: false,
     basemap: 'Dark Gray',
     sketchArea: false,
+    uploadedShapeFile: null,
     zonalStatsAreas: {
       type: 'FeatureCollection',
       features: []
@@ -71,6 +72,9 @@ export const mapPropertiesSlice = createSlice({
     },
     removeAllFeaturesFromDrawnLayers: (state) => {
       state.drawnLayers.features = []; // empty list should clear everything back to normal
+    },
+    uploadShapeFile: (state, action) => {
+      state.uploadedShapeFile = action.payload;
     }
   }
 });
@@ -81,7 +85,7 @@ export const {
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
   toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
   removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
-  removeAllFeaturesFromDrawnLayers
+  removeAllFeaturesFromDrawnLayers, uploadShapeFile
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;
