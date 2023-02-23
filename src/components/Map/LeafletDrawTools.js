@@ -122,6 +122,16 @@ export default function LeafletDrawTools(props) {
   }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   function onCreated(e) {
+    // Doing a quick check up top to make sure that the newly drawn polygon isn't too big
+    const drawnLayerBounds = e.layer.getBounds();
+    const latDiff = Math.abs(drawnLayerBounds._southWest.lat - drawnLayerBounds._northEast.lat);
+    const lngDiff = Math.abs(drawnLayerBounds._southWest.lng - drawnLayerBounds._northEast.lng);
+    if ((latDiff || lngDiff >= 3) || (latDiff >= 2 && lngDiff >= 2)) {
+      // TODO need to do something other than console log
+      console.log('too big of a poly lat: ', latDiff, ' lng: ', lngDiff);
+      return;
+    }
+
     setDrawAreaDisabled(true); // disable draw until zonal stats done below
     // toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
@@ -157,17 +167,6 @@ export default function LeafletDrawTools(props) {
       featureGroupGeoJSON.features.forEach((feature) => {
         // make copy of feature and enrich it with leaflet id and mean results from zonal stats
         const tempFeature = feature;
-        // TODO JEFF - YOU NEED TO REWORK THIS AREA NUMBER THING AND THE setAreaNumber below.
-        // Right now area number resets to 1 on refresh and does not take into account anything
-        // in storage/redux
-        /* // look for most recent feature and increment based on that area number
-        const mostRecentFeature = selectedFeature.features[selectedFeature.features.length - 1];
-        console.log(mostRecentFeature);
-        if (mostRecentFeature) {
-          // areaName should be something like "Area 8" so this should return 8 and increment to 9
-          const newNum = parseInt(mostRecentFeature.properties.areaName.split('Area ')[1], 10) + 1;
-          setAreaNumber(newNum);
-        } */
         tempFeature.properties.zonalStatsData = data.features[0].properties.mean;
         tempFeature.properties.areaName = `Area ${areaNumber}`;
         tempFeature.properties.leafletIds = leafletIdsList;
