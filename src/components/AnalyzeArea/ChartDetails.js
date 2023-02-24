@@ -72,29 +72,30 @@ export default function ChartDetails(props) {
           areaName={areaName}
           areaIndex={areaIndex}
           zonalStatsData={zonalStatsData}
+          chartType={'Summary Chart'}
         />
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex} />
 
       <Box className={classes.contentBox} >
         Fish and Wildlife Chart {areaName}
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
         Threat Inputs Chart {areaName}
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
         Community Assests Chart {areaName}
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
         Landcover Chart {areaName}
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
     </div>
   );
 }

@@ -70,10 +70,14 @@ const useStyles = makeStyles((theme) => ({
 export default function ChartSummary(props) {
   const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
-  const { areaName, areaIndex, zonalStatsData } = props;
+  const { areaName, areaIndex, zonalStatsData, chartType } = props; // should we pass a "type" in here?
   const [chartData, setChartData] = useState([]);
-  const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
-  const chartLabel = `Summary Chart ${areaName}`;
+  const chartValues = useRef({
+    'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
+    'Fish And Wildlife Chart': []
+  });
+  const summaryValues = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
+  const chartLabel = `${chartType} ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
   const region = regions[selectedRegion];
@@ -121,8 +125,9 @@ export default function ChartSummary(props) {
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
+    console.log(data);
     Object.entries(data).forEach(([key, value]) => {
-      if (summaryCharts.current.includes(key) && !value.isNaN) {
+      if (chartValues.current[chartType].includes(key) && !value.isNaN) {
         tempData.push({ name: key, value });
       }
     });
@@ -172,5 +177,6 @@ export default function ChartSummary(props) {
 ChartSummary.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
-  zonalStatsData: PropTypes.object
+  zonalStatsData: PropTypes.object,
+  chartType: PropTypes.string
 };
