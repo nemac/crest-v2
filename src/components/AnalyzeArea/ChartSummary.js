@@ -10,8 +10,7 @@ Child Components
   - AnalyzeArea-ChartActionButtons.js
 
 Libs
-  - chart.js
-  - Not sure yet
+  - recharts
 
 API
   - Zonal stats API JSON / GEOJSON
@@ -71,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ChartSummary(props) {
   const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
-  const { areaName, areaIndex, zonalStatsData} = props;
+  const { areaName, areaIndex, zonalStatsData } = props;
   const [chartData, setChartData] = useState([]);
   const summaryCharts = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
   const chartLabel = `Summary Chart ${areaName}`;
@@ -110,6 +109,7 @@ export default function ChartSummary(props) {
   };
 
   const handleGetZonalStatsData = useCallback((data) => {
+    // Bar Color is functional based on value comparison with config
     const getColor = (name, value) => {
       const colorValue = Math.round(value);
       const selectedColor = layerList.find(
@@ -118,13 +118,15 @@ export default function ChartSummary(props) {
       return selectedColor;
     };
 
-    const tempColors = [];
-    const tempData = [];
+    const tempColors = []; // Stores colors for data bars plotted
+    const tempData = []; // Stores data to be plotted
+    // This is the logic to build the chart for Summary charts
     Object.entries(data).forEach(([key, value]) => {
       if (summaryCharts.current.includes(key) && !value.isNaN) {
         tempData.push({ name: key, value });
       }
     });
+    // Match colors to data
     tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
     setChartData(tempData);
     setBarColors(tempColors);
