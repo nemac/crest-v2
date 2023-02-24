@@ -142,11 +142,15 @@ export default function ChartSummary(props) {
           width={500}
           height={300}
           margin={{
-            top: 5,
+            top: 25,
             right: 30,
             left: 20,
             bottom: 5
           }}>
+            <text x={400 / 2} y={10} fill="white" textAnchor="middle" dominantBaseline="central">
+            <tspan fontSize="14">{chartLabel}</tspan>
+        </text>
+
           <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
           <YAxis />
           <Tooltip content={<CustomTooltip />} />

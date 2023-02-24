@@ -45,42 +45,44 @@ export default function ChartCard(props) {
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
-        {analyzeAreaState.isMore[areaName] ? (
+      {analyzeAreaState.isMore[areaName] ? (
 
-          <div style={{ width: '100%' }}>
-            <Grid item xs={12} >
-              <ChartDetails areaName={areaName}/>
-            </Grid>
+        <div style={{ width: '100%' }}>
+          <Grid item xs={12} >
+            <ChartDetails areaName={areaName}
+              areaIndex={areaIndex}
+              zonalStatsData={zonalStatsData} />
+          </Grid>
 
-            <Grid item xs={12} >
-              <ChartActionButtons
-                areaName={areaName}
-                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-              />
-            </Grid>
-          </div>
+          <Grid item xs={12} >
+            <ChartActionButtons
+              areaName={areaName}
+              leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+            />
+          </Grid>
+        </div>
 
-        ) : (
+      ) : (
 
-          <div style={{ width: '100%' }}>
-            <Grid item xs={12} >
-              <ChartSummary
-                areaName={areaName}
-                areaIndex={areaIndex}
-                zonalStatsData={zonalStatsData}
-              />
-            </Grid>
+        <div style={{ width: '100%' }}>
+          <Grid item xs={12} >
+            <ChartSummary
+              areaName={areaName}
+              areaIndex={areaIndex}
+              zonalStatsData={zonalStatsData}
+            />
+          </Grid>
 
-            <Grid item xs={12} >
-              <ChartActionButtons
-                areaName={areaName}
-                areaIndex={areaIndex}
-                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-                leafletIds={leafletIds}
-              />
-            </Grid>
-          </div>
-        )}
+          <Grid item xs={12} >
+            <ChartActionButtons
+              areaName={areaName}
+              areaIndex={areaIndex}
+              leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+              leafletIds={leafletIds}
+            />
+          </Grid>
+        </div>
+      )}
 
     </Grid>
   );

@@ -60,13 +60,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartDetails(props) {
   const classes = useStyles();
-  const { areaName } = props;
+  const { areaName,
+    areaIndex,
+    zonalStatsData
+  } = props;
 
   return (
     <div>
       <Box className={classes.contentBox} >
-        Summary Chart {areaName}
-        <ChartSummary areaName={areaName} />
+        <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          zonalStatsData={zonalStatsData}
+        />
       </Box>
       <ChartDetailsActionButtons />
 
