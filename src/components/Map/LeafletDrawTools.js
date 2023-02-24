@@ -143,7 +143,7 @@ export default function LeafletDrawTools(props) {
     const drawnLayerBounds = e.layer.getBounds();
     const latDiff = Math.abs(drawnLayerBounds._southWest.lat - drawnLayerBounds._northEast.lat);
     const lngDiff = Math.abs(drawnLayerBounds._southWest.lng - drawnLayerBounds._northEast.lng);
-    if ((latDiff || lngDiff >= 3) || (latDiff >= 2 && lngDiff >= 2)) {
+    if ((latDiff >= 3 || lngDiff >= 3) || (latDiff >= 2 && lngDiff >= 2)) {
       setTooLargeLayerOpen(true);
       leafletDrawFeatureGroupRef.current.removeLayer(e.layer);
       return;
