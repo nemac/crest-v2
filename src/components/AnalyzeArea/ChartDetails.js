@@ -78,17 +78,32 @@ export default function ChartDetails(props) {
       <ChartDetailsActionButtons areaIndex={areaIndex} />
 
       <Box className={classes.contentBox} >
-        Fish and Wildlife Chart {areaName}
+      <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          zonalStatsData={zonalStatsData}
+          chartType={'Fish and Wildlife Inputs'}
+        />
       </Box>
       <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
-        Threat Inputs Chart {areaName}
+      <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          zonalStatsData={zonalStatsData}
+          chartType={'Threats Inputs'}
+        />
       </Box>
       <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
-        Community Assests Chart {areaName}
+      {/* <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          zonalStatsData={zonalStatsData}
+          chartType={'Community Assets Inputs'}
+        /> */}
       </Box>
       <ChartDetailsActionButtons areaIndex={areaIndex}/>
 

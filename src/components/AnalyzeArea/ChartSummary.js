@@ -74,7 +74,9 @@ export default function ChartSummary(props) {
   const [chartData, setChartData] = useState([]);
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
-    'Fish And Wildlife Chart': []
+    'Fish and Wildlife Inputs': ['aquatic', 'terrestrial'],
+    'Threats Inputs': ['pop_density', 'social_vuln', 'crit_facilities', 'crit_infra'],
+    'Comunity Assets Inputs': ['storm_surge', 'sea_level_rise', 'floodprone_areas', 'slope']
   });
   const summaryValues = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
   const chartLabel = `${chartType} ${areaName}`;
@@ -115,16 +117,23 @@ export default function ChartSummary(props) {
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
     const getColor = (name, value) => {
+      console.log('getting color:');
+      console.log(name);
+      console.log(value);
       const colorValue = Math.round(value);
+      console.log(colorValue);
       const selectedColor = layerList.find(
         ((layer) => layer.chartCSSSelector === name)
       ).chartCSSColor[colorValue];
+      console.log(selectedColor);
       return selectedColor;
     };
 
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
+    console.log(chartType);
+    console.log(chartValues.current);
     console.log(data);
     Object.entries(data).forEach(([key, value]) => {
       if (chartValues.current[chartType].includes(key) && !value.isNaN) {
