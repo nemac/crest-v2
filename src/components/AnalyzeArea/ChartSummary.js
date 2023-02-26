@@ -70,7 +70,11 @@ const useStyles = makeStyles((theme) => ({
 export default function ChartSummary(props) {
   const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
-  const { areaName, areaIndex, zonalStatsData, chartType } = props; // should we pass a "type" in here?
+  const {
+    areaName,
+    zonalStatsData,
+    chartType
+  } = props;
   const [chartData, setChartData] = useState([]);
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
@@ -97,6 +101,7 @@ export default function ChartSummary(props) {
   ).label;
 
   const CustomTooltip = ({ active, payload, label }) => {
+    // eslint-disable-next-line max-len
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
         <div className="custom-tooltip" style={divStyle}>
@@ -117,48 +122,31 @@ export default function ChartSummary(props) {
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
     const getColor = (name, value) => {
-      // console.log('getting color:');
-      // console.log(name);
-      // console.log(value);
       const colorValue = Math.round(value);
-      // console.log(colorValue);
       const selectedColor = layerList.find(
         ((layer) => layer.chartCSSSelector === name)
       ).chartCSSColor[colorValue];
-      // console.log(selectedColor);
       return selectedColor;
     };
 
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
-    // console.log(chartType);
-    // console.log(chartValues.current);
-    // console.log(data);
     Object.entries(data).forEach(([key, value]) => {
-      // console.log('checking value for key:');
-      // console.log(value);
-      // console.log('before');
-      // console.log(tempData);
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
         tempData.push({ name: key, value });
       }
     });
     if (tempData.length === 0) {
-      console.log(chartType);
-      console.log('NOTHING TO PLOT');
       dataToPlot.current = false;
     }
     // Match colors to data
-    // console.log('after');
-    // console.log(tempData);
     tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
     setChartData(tempData);
     setBarColors(tempColors);
-  }, [layerList]);
+  }, [layerList, chartType]);
 
   useEffect(() => {
-    console.log('useEffect triggered!');
     handleGetZonalStatsData(zonalStatsData);
   }, [zonalStatsData, handleGetZonalStatsData]);
 
@@ -199,7 +187,6 @@ export default function ChartSummary(props) {
 
 ChartSummary.propTypes = {
   areaName: PropTypes.string.isRequired,
-  areaIndex: PropTypes.number.isRequired,
   zonalStatsData: PropTypes.object,
   chartType: PropTypes.string
 };

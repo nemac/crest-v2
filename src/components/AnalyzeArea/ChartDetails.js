@@ -60,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartDetails(props) {
   const classes = useStyles();
-  const { areaName,
+  const {
+    areaName,
     areaIndex,
     zonalStatsData
   } = props;
@@ -116,5 +117,7 @@ export default function ChartDetails(props) {
 }
 
 ChartDetails.propTypes = {
-  areaName: PropTypes.string.isRequired
+  areaName: PropTypes.string.isRequired,
+  areaIndex: PropTypes.number.isRequired,
+  zonalStatsData: PropTypes.object.isRequired
 };
