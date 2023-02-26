@@ -78,7 +78,7 @@ export default function ChartSummary(props) {
     'Threats Inputs': ['pop_density', 'social_vuln', 'crit_facilities', 'crit_infra'],
     'Community Assets Inputs': ['storm_surge', 'sea_level_rise', 'floodprone_areas', 'slope']
   });
-  const summaryValues = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
+  const dataToPlot = useRef(true);
   const chartLabel = `${chartType} ${areaName}`;
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
@@ -117,37 +117,41 @@ export default function ChartSummary(props) {
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
     const getColor = (name, value) => {
-      console.log('getting color:');
-      console.log(name);
-      console.log(value);
+      // console.log('getting color:');
+      // console.log(name);
+      // console.log(value);
       const colorValue = Math.round(value);
-      console.log(colorValue);
+      // console.log(colorValue);
       const selectedColor = layerList.find(
         ((layer) => layer.chartCSSSelector === name)
       ).chartCSSColor[colorValue];
-      console.log(selectedColor);
+      // console.log(selectedColor);
       return selectedColor;
     };
 
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
-    console.log(chartType);
-    console.log(chartValues.current);
-    console.log(data);
+    // console.log(chartType);
+    // console.log(chartValues.current);
+    // console.log(data);
     Object.entries(data).forEach(([key, value]) => {
-      console.log('checking value for key:');
-      console.log(key);
-      console.log(value);
-      console.log('before');
-      console.log(tempData);
-      if (chartValues.current[chartType].includes(key) && !value.isNaN) {
+      // console.log('checking value for key:');
+      // console.log(value);
+      // console.log('before');
+      // console.log(tempData);
+      if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
         tempData.push({ name: key, value });
       }
     });
+    if (tempData.length === 0) {
+      console.log(chartType);
+      console.log('NOTHING TO PLOT');
+      dataToPlot.current = false;
+    }
     // Match colors to data
-    console.log('after');
-    console.log(tempData);
+    // console.log('after');
+    // console.log(tempData);
     tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
     setChartData(tempData);
     setBarColors(tempColors);
@@ -158,36 +162,39 @@ export default function ChartSummary(props) {
     handleGetZonalStatsData(zonalStatsData);
   }, [zonalStatsData, handleGetZonalStatsData]);
 
-  return (
-    <Box className={classes.contentBox} components='fieldset'>
-      <ResponsiveContainer width="100%" height="40%">
-        <BarChart data={chartData}
-          width={500}
-          height={300}
-          margin={{
-            top: 25,
-            right: 30,
-            left: 20,
-            bottom: 5
-          }}>
+  if (dataToPlot.current) {
+    return (
+      <Box className={classes.contentBox} components='fieldset'>
+        <ResponsiveContainer width="100%" height="40%">
+          <BarChart data={chartData}
+            width={500}
+            height={300}
+            margin={{
+              top: 25,
+              right: 30,
+              left: 20,
+              bottom: 5
+            }}>
             <text x={400 / 2} y={10} fill="white" textAnchor="middle" dominantBaseline="central">
-            <tspan fontSize="14">{chartLabel}</tspan>
-        </text>
+              <tspan fontSize="14">{chartLabel}</tspan>
+            </text>
 
-          <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
-          <YAxis />
-          <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey='value' >
-            {
-              chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={barColors[index]} />
-              ))
-            }
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </Box>
-  );
+            <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
+            <YAxis />
+            <Tooltip content={<CustomTooltip />} />
+            <Bar dataKey='value' >
+              {
+                chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={barColors[index]} />
+                ))
+              }
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </Box>
+    );
+  }
+  return <h3>{chartLabel} - No Data</h3>;
 }
 
 ChartSummary.propTypes = {
