@@ -14,7 +14,7 @@ export const alaskaConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -263,7 +263,7 @@ export const alaskaConfig = {
       layer: 'Social Vulnerability TMS',
       label: 'Social Vulnerability',
       chartLabel: 'Social Vulnerability',
-      ChartInputLabel: 'Comunity Assets Inputs',
+      ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'social_vuln',
       chartLegendValues: 3,
       chartCSSColor: {
@@ -284,7 +284,7 @@ export const alaskaConfig = {
       layer: 'Critical Facilities TMS',
       label: 'Critical Facilities',
       chartLabel: 'Critical Facilities',
-      ChartInputLabel: 'Comunity Assets Inputs',
+      ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_facilities',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -307,7 +307,7 @@ export const alaskaConfig = {
       layer: 'Critical Infrastructure TMS',
       label: 'Critical Infrastructure',
       chartLabel: 'Critical Infrastructure',
-      ChartInputLabel: 'Comunity Assets Inputs',
+      ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_infra',
       chartLegendValues: 5,
       chartCSSColor: {
@@ -330,8 +330,8 @@ export const alaskaConfig = {
       layer: 'Transporation Infrastructure TMS',
       label: 'Critical Transportation',
       chartLabel: 'Critical Transportation',
-      ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'transporation-infrastructure',
+      ChartInputLabel: 'Community Assets Inputs',
+      chartCSSSelector: 'transportation',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -443,7 +443,7 @@ export const alaskaConfig = {
       label: 'Areas of Low Slope',
       chartLabel: 'Areas of Low Slope',
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'lowlyingareas',
+      chartCSSSelector: 'low_areas',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',

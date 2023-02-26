@@ -14,7 +14,7 @@ export const americanSamoaConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -223,7 +223,7 @@ export const americanSamoaConfig = {
       id: 'AS_TerrestrialTMS',
       layer: 'Terrestrial TMS',
       label: 'Terrestrial Index',
-      chartLabel: 'Terrestrial',
+      chartLabel: 'terrestrial',
       chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -255,7 +255,7 @@ export const americanSamoaConfig = {
         4: '#2C8D7A',
         5: '#385A4C'
       },
-      ChartInputLabel: 'Comunity Assets Inputs',
+      ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'pop_density',
       url: 'https://tiles.resilientcoasts.org/AS_PopDensityIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -275,7 +275,7 @@ export const americanSamoaConfig = {
         1: '#88419D',
         2: '#88419D'
       },
-      ChartInputLabel: 'Comunity Assets Inputs',
+      ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'social_vuln',
       url: 'https://tiles.resilientcoasts.org/AS_SocVulnIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -298,7 +298,7 @@ export const americanSamoaConfig = {
         4: '#0084A8', // 5
         5: '#0084A8' // 5
       },
-      ChartInputLabel: 'Comunity Assets Inputs',
+      ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_facilities',
       url: 'https://tiles.resilientcoasts.org/AS_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -331,7 +331,7 @@ export const americanSamoaConfig = {
         14: '#7B1733', // 15
         15: '#7B1733' // 15
       },
-      ChartInputLabel: 'Comunity Assets Inputs',
+      ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_infra',
       url: 'https://tiles.resilientcoasts.org/AS_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -402,7 +402,7 @@ export const americanSamoaConfig = {
         5: '#014636'
       },
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'sea-level-rise',
+      chartCSSSelector: 'sea_level_rise',
       url: 'https://tiles.resilientcoasts.org/AS_SLRIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -424,7 +424,7 @@ export const americanSamoaConfig = {
         4: '#225EA8'
       },
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'wave-flooding',
+      chartCSSSelector: 'wave_flooding',
       url: 'https://tiles.resilientcoasts.org/AS_WaveDrivenFloodingIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,

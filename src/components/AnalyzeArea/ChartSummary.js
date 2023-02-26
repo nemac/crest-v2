@@ -79,8 +79,12 @@ export default function ChartSummary(props) {
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
     'Fish and Wildlife Inputs': ['aquatic', 'terrestrial'],
-    'Threats Inputs': ['pop_density', 'social_vuln', 'crit_facilities', 'crit_infra'],
-    'Community Assets Inputs': ['storm_surge', 'sea_level_rise', 'floodprone_areas', 'slope']
+    'Threats Inputs': [
+      'floodprone_areas', 'slope', 'sea_level_rise', 'low_areas', 'drainage',
+      'storm_surge', 'erosion', 'tsunami', 'permafrost', 'wave_flooding', 'geostress'],
+    'Community Assets Inputs': [
+      'pop_density', 'crit_infra', 'transportation',
+      'social_vuln', 'crit_facilities']
   });
   const dataToPlot = useRef(true);
   const chartLabel = `${chartType} ${areaName}`;
@@ -133,6 +137,7 @@ export default function ChartSummary(props) {
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
     Object.entries(data).forEach(([key, value]) => {
+      console.log(key);
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
         tempData.push({ name: key, value });
       }

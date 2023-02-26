@@ -14,7 +14,7 @@ export const continentalUSConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -228,7 +228,7 @@ export const continentalUSConfig = {
         layer: 'Population Density TMS',
         label: 'Population Density',
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
+        ChartInputLabel: 'Community Assets Inputs',
         chartLabel: 'Population Density',
         chartLegendValues: 5,
         chartCSSColor: {
@@ -260,7 +260,7 @@ export const continentalUSConfig = {
           3: '#3a1459'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
+        ChartInputLabel: 'Community Assets Inputs',
         chartCSSSelector: 'social_vuln',
         url: 'https://tiles.resilientcoasts.org/SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
@@ -284,7 +284,7 @@ export const continentalUSConfig = {
           5: '#0084a8' // 5
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
+        ChartInputLabel: 'Community Assets Inputs',
         chartCSSSelector: 'crit_facilities',
         url: 'https://tiles.resilientcoasts.org/CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
@@ -309,7 +309,7 @@ export const continentalUSConfig = {
           6: '#7b1733'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
+        ChartInputLabel: 'Community Assets Inputs',
         chartCSSSelector: 'crit_infra',
         url: 'https://tiles.resilientcoasts.org/CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',

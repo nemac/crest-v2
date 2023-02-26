@@ -14,7 +14,7 @@ export const hawaiiConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -235,7 +235,7 @@ export const hawaiiConfig = {
           5: '#385a4c'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
+        ChartInputLabel: 'Community Assets Inputs',
         chartCSSSelector: 'pop_density',
         url: 'https://tiles.resilientcoasts.org/HI_PopDensityIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
@@ -259,7 +259,7 @@ export const hawaiiConfig = {
           5: '#270B59'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
+        ChartInputLabel: 'Community Assets Inputs',
         chartCSSSelector: 'social_vuln',
         url: 'https://tiles.resilientcoasts.org/HI_SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
@@ -284,8 +284,8 @@ export const hawaiiConfig = {
           6: '#0084A8' // 5
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'crit-facilities',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_facilities',
         url: 'https://tiles.resilientcoasts.org/HI_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -311,8 +311,8 @@ export const hawaiiConfig = {
           8: '#7B1733'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'crit-infra',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_infra',
         url: 'https://tiles.resilientcoasts.org/HI_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
