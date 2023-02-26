@@ -256,7 +256,7 @@ export const americanSamoaConfig = {
         5: '#385A4C'
       },
       ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'population-density',
+      chartCSSSelector: 'pop_density',
       url: 'https://tiles.resilientcoasts.org/AS_PopDensityIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -276,7 +276,7 @@ export const americanSamoaConfig = {
         2: '#88419D'
       },
       ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'social-vulnerability',
+      chartCSSSelector: 'social_vuln',
       url: 'https://tiles.resilientcoasts.org/AS_SocVulnIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -299,7 +299,7 @@ export const americanSamoaConfig = {
         5: '#0084A8' // 5
       },
       ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'critical-facilities',
+      chartCSSSelector: 'crit_facilities',
       url: 'https://tiles.resilientcoasts.org/AS_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -332,7 +332,7 @@ export const americanSamoaConfig = {
         15: '#7B1733' // 15
       },
       ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'critical-infrastructure',
+      chartCSSSelector: 'crit_infra',
       url: 'https://tiles.resilientcoasts.org/AS_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -470,7 +470,7 @@ export const americanSamoaConfig = {
         5: '#3f007d'
       },
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'floodprone-areas',
+      chartCSSSelector: 'floodprone_areas',
       url: 'https://tiles.resilientcoasts.org/AS_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,

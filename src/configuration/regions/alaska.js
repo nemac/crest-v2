@@ -264,7 +264,7 @@ export const alaskaConfig = {
       label: 'Social Vulnerability',
       chartLabel: 'Social Vulnerability',
       ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'social-vulnerability',
+      chartCSSSelector: 'social_vuln',
       chartLegendValues: 3,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -285,7 +285,7 @@ export const alaskaConfig = {
       label: 'Critical Facilities',
       chartLabel: 'Critical Facilities',
       ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'critical-facilities',
+      chartCSSSelector: 'crit_facilities',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -308,7 +308,7 @@ export const alaskaConfig = {
       label: 'Critical Infrastructure',
       chartLabel: 'Critical Infrastructure',
       ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'critical-infrastructure',
+      chartCSSSelector: 'crit_infra',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -377,7 +377,7 @@ export const alaskaConfig = {
       label: 'Flood-prone Areas',
       chartLabel: 'Flood-prone Areas',
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'floodprone-areas',
+      chartCSSSelector: 'floodprone_areas',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',

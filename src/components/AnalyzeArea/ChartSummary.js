@@ -76,7 +76,7 @@ export default function ChartSummary(props) {
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
     'Fish and Wildlife Inputs': ['aquatic', 'terrestrial'],
     'Threats Inputs': ['pop_density', 'social_vuln', 'crit_facilities', 'crit_infra'],
-    'Comunity Assets Inputs': ['storm_surge', 'sea_level_rise', 'floodprone_areas', 'slope']
+    'Community Assets Inputs': ['storm_surge', 'sea_level_rise', 'floodprone_areas', 'slope']
   });
   const summaryValues = useRef(['hubs', 'exposure', 'threat', 'asset', 'wildlife']);
   const chartLabel = `${chartType} ${areaName}`;
@@ -136,11 +136,18 @@ export default function ChartSummary(props) {
     console.log(chartValues.current);
     console.log(data);
     Object.entries(data).forEach(([key, value]) => {
+      console.log('checking value for key:');
+      console.log(key);
+      console.log(value);
+      console.log('before');
+      console.log(tempData);
       if (chartValues.current[chartType].includes(key) && !value.isNaN) {
         tempData.push({ name: key, value });
       }
     });
     // Match colors to data
+    console.log('after');
+    console.log(tempData);
     tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
     setChartData(tempData);
     setBarColors(tempColors);

@@ -98,12 +98,12 @@ export default function ChartDetails(props) {
       <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
-      {/* <ChartSummary
+      <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
           zonalStatsData={zonalStatsData}
           chartType={'Community Assets Inputs'}
-        /> */}
+        />
       </Box>
       <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
