@@ -32,5 +32,19 @@ export const mapConfig = {
     'Northern Mariana Islands': northernMarianaIslandsConfig,
     'Puerto Rico': puertoRicoConfig,
     'US Virgin Islands': usVirginIslandsConfig
+  },
+  examplePolygonFeature: {
+    type: 'Feature',
+    geometry: {
+      type: 'Polygon',
+      coordinates: []
+    },
+    properties: {
+      areaName: null,
+      buffer: true,
+      leafletId: null, // this is the leaflet id of just the drawn layer
+      leafletIdsList: [], // List of leaflet ids to remove. Includes both drawn layer and buffer
+      zonalStatsData: {}
+    }
   }
 };

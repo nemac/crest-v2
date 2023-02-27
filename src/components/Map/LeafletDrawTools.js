@@ -92,9 +92,10 @@ export default function LeafletDrawTools(props) {
      3. Push new information back into drawn layer state (this is due to leaflet ids updating)
      4. Update zonal stats state information with new leaflet ids */
   useEffect(() => {
-    const features = drawnLayersFromState.features;
+    // make a deep copy of the features from state since I was getting read only errors otherwise
+    const features = JSON.parse(JSON.stringify(drawnLayersFromState.features));
     let areaNameAdjustment; // we will use this to determine what area name number we are on
-    // doing this parse and stringify so I can have a modifiable object
+    // make a deep copy of the features from state since I was getting read only errors otherwise
     const areasFeatures = JSON.parse(JSON.stringify(zonalStatsAreas.features));
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(removeAllFeaturesFromZonalStatsAreas());
@@ -126,15 +127,15 @@ export default function LeafletDrawTools(props) {
   }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   // Watches for an uploaded shapefile and adds it as a layer to leaflet Draw feature group
-  useEffect(() => {
-    if (!uploadedShapeFile) {
-      return;
-    }
-    const retreiveShapeFilesPromise = retreiveShapeFiles(uploadedShapeFile);
-    retreiveShapeFilesPromise.then((data) => {
-      console.log(data);
-    });
-  }, [uploadedShapeFile]);
+  // useEffect(() => {
+  //   if (!uploadedShapeFile) {
+  //     return;
+  //   }
+  //   const retreiveShapeFilesPromise = retreiveShapeFiles(uploadedShapeFile);
+  //   retreiveShapeFilesPromise.then((data) => {
+  //     console.log(data);
+  //   });
+  // }, [uploadedShapeFile]);
 
   function onCreated(e) {
     // toggle sketch area off since new area was just created
