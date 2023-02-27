@@ -14,7 +14,7 @@ export const alaskaConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -34,6 +34,7 @@ export const alaskaConfig = {
       chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
+      chartCSSSelector: 'hubs',
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#f5f500',
@@ -244,7 +245,7 @@ export const alaskaConfig = {
       chartLabel: 'Fish and Wildlife',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
-      chartCSSSelector: 'fishandwildlife',
+      chartCSSSelector: 'wildlife',
       chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -366,8 +367,8 @@ export const alaskaConfig = {
       layer: 'Social Vulnerability TMS',
       label: 'Social Vulnerability',
       chartLabel: 'Social Vulnerability',
-      ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'social-vulnerability',
+      ChartInputLabel: 'Community Assets Inputs',
+      chartCSSSelector: 'social_vuln',
       chartLegendValues: 3,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -393,8 +394,8 @@ export const alaskaConfig = {
       layer: 'Critical Facilities TMS',
       label: 'Critical Facilities',
       chartLabel: 'Critical Facilities',
-      ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'critical-facilities',
+      ChartInputLabel: 'Community Assets Inputs',
+      chartCSSSelector: 'crit_facilities',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -420,8 +421,8 @@ export const alaskaConfig = {
       layer: 'Critical Infrastructure TMS',
       label: 'Critical Infrastructure',
       chartLabel: 'Critical Infrastructure',
-      ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'critical-infrastructure',
+      ChartInputLabel: 'Community Assets Inputs',
+      chartCSSSelector: 'crit_infra',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -447,8 +448,8 @@ export const alaskaConfig = {
       layer: 'Transporation Infrastructure TMS',
       label: 'Critical Transportation',
       chartLabel: 'Critical Transportation',
-      ChartInputLabel: 'Comunity Assets Inputs',
-      chartCSSSelector: 'transporation-infrastructure',
+      ChartInputLabel: 'Community Assets Inputs',
+      chartCSSSelector: 'transportation',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -506,7 +507,7 @@ export const alaskaConfig = {
       label: 'Flood-prone Areas',
       chartLabel: 'Flood-prone Areas',
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'floodprone-areas',
+      chartCSSSelector: 'floodprone_areas',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
@@ -594,7 +595,7 @@ export const alaskaConfig = {
       label: 'Areas of Low Slope',
       chartLabel: 'Areas of Low Slope',
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'lowlyingareas',
+      chartCSSSelector: 'low_areas',
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',

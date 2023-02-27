@@ -29,6 +29,8 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -37,6 +39,8 @@ import {
   FileUploadOutlined
   // FileUpload
 } from '@mui/icons-material';
+
+import { uploadShapeFile } from '../../reducers/mapPropertiesSlice';
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
@@ -48,7 +52,31 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function Upload(props) {
+  const { setTooLargeLayerOpen } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [file, setFile] = React.useState(null);
+
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  // This useEffect watches for the uploaded file
+  React.useEffect(() => {
+    if (!file) {
+      return;
+    }
+    // reject incoming file if the size is greater than 10 MB
+    if (file.size > 10000) {
+      setTooLargeLayerOpen(true);
+      setFile(null);
+      return;
+    }
+    const s3TestLocation = 'https://nfwf-tool-user-shapes.s3.amazonaws.com/prod/000225eb73fc4eba9de3499cc135a93c';
+    dispatch(uploadShapeFile(s3TestLocation));
+  }, [file, setFile, dispatch, setTooLargeLayerOpen]);
 
   return (
     <Box p={0.75} >
@@ -58,9 +86,21 @@ export default function Upload(props) {
         fullWidth={true}
         aria-label={'Upload Shapefile'}
         className={classes.actionButton}
-        startIcon={<FileUploadOutlined />}>
+        component="label"
+        startIcon={<FileUploadOutlined />}
+      >
         Upload Shapefile
+        <input
+          type="file"
+          multiple={true}
+          accept=".zip, .shp, .dbf, .prj, .geojson, .json"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}/>
       </Button>
     </Box>
   );
 }
+
+Upload.propTypes = {
+  setTooLargeLayerOpen: PropTypes.func
+};

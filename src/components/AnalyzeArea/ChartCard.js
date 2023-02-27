@@ -32,22 +32,38 @@ import ChartActionButtons from './ChartActionButtons';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const selectedRegionSelector = (state) => state.selectedRegion.value;
+
 
 export default function ChartCard(props) {
-  const { areaName } = props;
+  const {
+    areaName,
+    areaIndex,
+    leafletIds,
+    zonalStatsData,
+    region,
+    leafletDrawFeatureGroupRef
+  } = props;
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
-
-  return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
+  const selectedRegion = useSelector(selectedRegionSelector);
+  if (region === selectedRegion) {
+    return (
+      <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
         {analyzeAreaState.isMore[areaName] ? (
 
           <div style={{ width: '100%' }}>
             <Grid item xs={12} >
-              <ChartDetails areaName={areaName}/>
+              <ChartDetails areaName={areaName}
+                areaIndex={areaIndex}
+                region={region}
+                zonalStatsData={zonalStatsData} />
             </Grid>
 
             <Grid item xs={12} >
-              <ChartActionButtons areaName={areaName}/>
+              <ChartActionButtons
+                areaName={areaName}
+                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+              />
             </Grid>
           </div>
 
@@ -55,19 +71,36 @@ export default function ChartCard(props) {
 
           <div style={{ width: '100%' }}>
             <Grid item xs={12} >
-              <ChartSummary areaName={areaName}/>
+              <ChartSummary
+                areaName={areaName}
+                areaIndex={areaIndex}
+                zonalStatsData={zonalStatsData}
+                chartRegion={region}
+                chartType={'Summary Chart'}
+              />
             </Grid>
 
             <Grid item xs={12} >
-              <ChartActionButtons areaName={areaName}/>
+              <ChartActionButtons
+                areaName={areaName}
+                areaIndex={areaIndex}
+                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                leafletIds={leafletIds}
+              />
             </Grid>
           </div>
         )}
 
-    </Grid>
-  );
+      </Grid>
+    );
+  }
 }
 
 ChartCard.propTypes = {
-  areaName: PropTypes.string.isRequired
+  areaName: PropTypes.string.isRequired,
+  areaIndex: PropTypes.number.isRequired,
+  leafletIds: PropTypes.array,
+  zonalStatsData: PropTypes.object,
+  region: PropTypes.string,
+  leafletDrawFeatureGroupRef: PropTypes.object
 };

@@ -14,7 +14,7 @@ export const continentalUSConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -227,7 +227,7 @@ export const continentalUSConfig = {
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Fish and Wildlife',
-        chartCSSSelector: 'fishandwildlife',
+        chartCSSSelector: 'wildlife',
         url: 'https://tiles.resilientcoasts.org/CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -305,7 +305,7 @@ export const continentalUSConfig = {
         layer: 'Population Density TMS',
         label: 'Population Density',
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
+        ChartInputLabel: 'Community Assets Inputs',
         chartLabel: 'Population Density',
         chartLegendValues: 5,
         chartCSSColor: {
@@ -316,6 +316,7 @@ export const continentalUSConfig = {
           4: '#2c8d7a',
           5: '#385a4c'
         },
+        chartCSSSelector: 'pop_density',
         chartCSSLegends: {
           0: '#E9ECEF',
           1: '#dfc878',
@@ -324,7 +325,6 @@ export const continentalUSConfig = {
           4: '#2c8d7a',
           5: '#385a4c'
         },
-        chartCSSSelector: 'population-density',
         url: 'https://tiles.resilientcoasts.org/PopDensityIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -351,8 +351,8 @@ export const continentalUSConfig = {
           3: '#3a1459'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'social-vulnerability',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'social_vuln',
         url: 'https://tiles.resilientcoasts.org/SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -379,8 +379,8 @@ export const continentalUSConfig = {
           5: '#0084a8' 
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-facilities',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_facilities',
         url: 'https://tiles.resilientcoasts.org/CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -413,8 +413,8 @@ export const continentalUSConfig = {
           6: '#7b1733'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-infrastructure',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_infra',
         url: 'https://tiles.resilientcoasts.org/CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -510,7 +510,7 @@ export const continentalUSConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'sea-level-rise',
+        chartCSSSelector: 'sea_level_rise',
         url: 'https://tiles.resilientcoasts.org/SLRIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -542,7 +542,7 @@ export const continentalUSConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'storm-surge',
+        chartCSSSelector: 'storm_surge',
         url: 'https://tiles.resilientcoasts.org/StormSurgeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -634,7 +634,7 @@ export const continentalUSConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'floodprone-areas',
+        chartCSSSelector: 'floodprone_areas',
         url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,

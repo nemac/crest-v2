@@ -30,8 +30,9 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -42,6 +43,10 @@ import {
   changeGraphTable,
   changeSortDirection
 } from '../../reducers/analyzeAreaSlice';
+import {
+  removeAllFeaturesFromZonalStatsAreas,
+  removeAllFeaturesFromDrawnLayers
+} from '../../reducers/mapPropertiesSlice';
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
@@ -59,98 +64,45 @@ const useStyles = makeStyles((theme) => ({
 
 // sample configs to create the charts should come from state/redux later
 // TODO config should be imported from config directory
-const ResilienceRange = '1-10';
-const CommunityExposureRange = '1-10';
-const FishandWildlifeRange = '1-5';
-const chartData = [
-  {
-    areaName: 'Area 1',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 8,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 9,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 5,
-        range: FishandWildlifeRange
-      }
-    ]
-  },
-  {
-    areaName: 'Area 2',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 5,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 4,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 2,
-        range: FishandWildlifeRange
-      }
-    ]
-  },
-  {
-    areaName: 'Area 3',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 2,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 1,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 5,
-        range: FishandWildlifeRange
-      }
-    ]
-  },
-  {
-    areaName: 'Area 4',
-    indexes: [
-      {
-        name: 'Resilience Hubs',
-        value: 10,
-        range: ResilienceRange
-      },
-      {
-        name: 'Community Exposure',
-        value: 10,
-        range: CommunityExposureRange
-      },
-      {
-        name: 'Fish and Wildlife',
-        value: 5,
-        range: FishandWildlifeRange
-      }
-    ]
-  }
-];
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
 
 export default function ChartsHolder(props) {
+  const { leafletDrawFeatureGroupRef } = props;
+  const drawnLayerAreas = useSelector(drawnLayerSelector);
+  // console.log('drawn layer');
+  // console.log(drawnLayerAreas);
+  // console.log('zonalstatsareas');
+  // console.log(zonalStatsAreas);
+  // console.log(leafletDrawFeatureGroupRef);
+  const featureList = drawnLayerAreas.features;
+  // const drawnLayerFeatures = drawnLayerAreas.features;
+  // console.log('feature list original');
+  // console.log(featureList);
+  // console.log('new feature list:');
+  // console.log(drawnLayerFeatures);
+  const [chartData, setChartData] = useState([]);
   const classes = useStyles();
-
+  const handleFeatureUpdate = useCallback((features) => {
+    if (features) {
+      const tempData = [];
+      features.forEach((entry, index) => {
+        tempData.push({
+          areaName: entry.properties.areaName,
+          areaIndex: index,
+          leafletIds: entry.properties.leafletIds,
+          region: entry.properties.region,
+          zonalStatsData: entry.properties.zonalStatsData
+        });
+      });
+      setChartData(tempData);
+    }
+  }, []);
+  useEffect(() => {
+    handleFeatureUpdate(featureList);
+  }, [featureList, handleFeatureUpdate]);
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
@@ -171,8 +123,10 @@ export default function ChartsHolder(props) {
   // from the store (from add areas) when its completed
   const HandleRemoveAllClick = (event) => {
     event.stopPropagation();
-    // TODO this will also need to clear all the save results
-    // from the store (from add areas) when its completed
+    // clear all layers from leaflet draw featureGroup and from state/redux
+    leafletDrawFeatureGroupRef.current.clearLayers();
+    dispatch(removeAllFeaturesFromZonalStatsAreas());
+    dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(changeEmptyState());
   };
 
@@ -198,7 +152,22 @@ export default function ChartsHolder(props) {
           <Box>
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
-              return <ChartCard key={name} areaName={name}/>;
+              const index = dataRow.areaIndex;
+              const leafletIds = dataRow.leafletIds;
+              const zonalStatsData = dataRow.zonalStatsData;
+              const thisRegion = dataRow.region;
+
+              return (
+                <ChartCard
+                  key={name}
+                  areaName={name}
+                  areaIndex={index}
+                  leafletIds={leafletIds}
+                  region={thisRegion}
+                  zonalStatsData={zonalStatsData}
+                  leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                />
+              );
             })}
           </Box>
         </Grid>
@@ -213,3 +182,7 @@ export default function ChartsHolder(props) {
     </Grid>
   );
 }
+
+ChartsHolder.propTypes = {
+  leafletDrawFeatureGroupRef: PropTypes.object
+};

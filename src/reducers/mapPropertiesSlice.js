@@ -12,7 +12,16 @@ export const mapPropertiesSlice = createSlice({
     identifyResults: null,
     identifyIsLoaded: false,
     basemap: 'Dark Gray',
-    sketchArea: false
+    sketchArea: false,
+    uploadedShapeFile: null,
+    zonalStatsAreas: {
+      type: 'FeatureCollection',
+      features: []
+    },
+    drawnLayers: {
+      type: 'FeatureCollection',
+      features: []
+    }
   },
   reducers: {
     changeZoom: (state, action) => {
@@ -35,6 +44,37 @@ export const mapPropertiesSlice = createSlice({
     },
     toggleSketchArea: (state) => {
       state.sketchArea = !state.sketchArea;
+    },
+    addNewFeatureToZonalStatsAreas: (state, action) => {
+      // zonalStatsAreas is a list of the analyzed zonal stats along with other properties
+      // used for charts
+      state.zonalStatsAreas.features = [...state.zonalStatsAreas.features, action.payload];
+    },
+    addNewFeatureToDrawnLayers: (state, action) => {
+      // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
+      // used to rebuild all of the layers on page refresh
+      state.drawnLayers.features = [...state.drawnLayers.features, action.payload];
+    },
+    removeFeatureFromZonalStatsAreas: (state, action) => {
+      state.zonalStatsAreas.features = [
+        ...state.zonalStatsAreas.features.slice(0, action.payload),
+        ...state.zonalStatsAreas.features.slice(action.payload + 1)
+      ];
+    },
+    removeAllFeaturesFromZonalStatsAreas: (state) => {
+      state.zonalStatsAreas.features = []; // empty list should clear everything back to normal
+    },
+    removeFeatureFromDrawnLayers: (state, action) => {
+      state.drawnLayers.features = [
+        ...state.drawnLayers.features.slice(0, action.payload),
+        ...state.drawnLayers.features.slice(action.payload + 1)
+      ];
+    },
+    removeAllFeaturesFromDrawnLayers: (state) => {
+      state.drawnLayers.features = []; // empty list should clear everything back to normal
+    },
+    uploadShapeFile: (state, action) => {
+      state.uploadedShapeFile = action.payload;
     }
   }
 });
@@ -42,7 +82,10 @@ export const mapPropertiesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea
+  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
+  toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
+  removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
+  removeAllFeaturesFromDrawnLayers, uploadShapeFile
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

@@ -33,7 +33,9 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as L from 'leaflet';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -55,13 +57,49 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function DrawArea(props) {
+  const { map, disabled } = props;
+  const [leafletDraw, setLeafletDraw] = React.useState();
+  // have to wrap in use effect because map comes in null at first
+  React.useEffect(() => {
+    if (map) {
+      setLeafletDraw(new L.Draw.Polygon(map, {}));
+    }
+  }, [map]);
   const classes = useStyles();
   const dispatch = useDispatch();
+  const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
+  const drawToolsEnabled = useSelector(sketchAreaSelector);
+  // make draw tools false if for some reason its enabled from before
+  // if (drawToolsEnabled) {
+  //  dispatch(toggleSketchArea());
+  // }
 
   const handleSketchClick = () => {
     dispatch(toggleSketchArea());
+    if (!drawToolsEnabled) {
+      leafletDraw.enable();
+    } else {
+      leafletDraw.disable();
+    }
   };
 
+  if (!disabled) {
+    return (
+      <Box p={0.75} >
+        <Button
+          variant="contained"
+          color="CRESTPrimary"
+          fullWidth={true}
+          aria-label={'Sketch an Area'}
+          className={classes.actionButton}
+          onClick={handleSketchClick}
+          startIcon={<PolylineOutlined />}
+        >
+          Sketch an Area
+        </Button>
+      </Box>
+    );
+  }
   return (
     <Box p={0.75} >
       <Button
@@ -71,9 +109,14 @@ export default function DrawArea(props) {
         aria-label={'Sketch an Area'}
         className={classes.actionButton}
         onClick={handleSketchClick}
-        startIcon={<PolylineOutlined />}>
+        startIcon={<PolylineOutlined />}
+      disabled>
         Sketch an Area
       </Button>
     </Box>
   );
 }
+
+DrawArea.propTypes = {
+  map: PropTypes.object
+};

@@ -14,7 +14,7 @@ export const northernMarianaIslandsConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -227,7 +227,7 @@ export const northernMarianaIslandsConfig = {
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Fish and Wildlife',
-        chartCSSSelector: 'fishandwildlife',
+        chartCSSSelector: 'wildlife',
         url: 'https://tiles.resilientcoasts.org/CNMI_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -318,8 +318,8 @@ export const northernMarianaIslandsConfig = {
           5: '#385a4c'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'population-density',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'pop_density',
         url: 'https://tiles.resilientcoasts.org/CNMI_PopDensityIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -350,8 +350,8 @@ export const northernMarianaIslandsConfig = {
           5: '#270B59'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'social-vulnerability',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'social_vuln',
         url: 'https://tiles.resilientcoasts.org/CNMI_SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -380,8 +380,8 @@ export const northernMarianaIslandsConfig = {
           5: '#0084A8'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-facilities',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_facilities',
         url: 'https://tiles.resilientcoasts.org/CNMI_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -414,8 +414,8 @@ export const northernMarianaIslandsConfig = {
           6: '#7b1733'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-infrastructure',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_infra',
         url: 'https://tiles.resilientcoasts.org/CNMI_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -511,7 +511,7 @@ export const northernMarianaIslandsConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'sea-level-rise',
+        chartCSSSelector: 'sea_level_rise',
         url: 'https://tiles.resilientcoasts.org/CNMI_SLRIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -543,7 +543,7 @@ export const northernMarianaIslandsConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'storm-surge',
+        chartCSSSelector: 'storm_surge',
         url: 'https://tiles.resilientcoasts.org/CNMI_StormSurgeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -607,7 +607,7 @@ export const northernMarianaIslandsConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'floodprone-areas',
+        chartCSSSelector: 'floodprone_areas',
         url: 'https://tiles.resilientcoasts.org/CNMI_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,

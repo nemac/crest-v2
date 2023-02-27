@@ -35,6 +35,7 @@ import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 
 import ChartDetailsActionButtons from './ChartDetailsActionButtons';
+import ChartSummary from './ChartSummary';
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
@@ -59,38 +60,70 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartDetails(props) {
   const classes = useStyles();
-  const { areaName } = props;
+  const {
+    areaName,
+    areaIndex,
+    region,
+    zonalStatsData
+  } = props;
 
   return (
     <div>
       <Box className={classes.contentBox} >
-        Summary Chart {areaName}
+        <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          chartRegion={region}
+          zonalStatsData={zonalStatsData}
+          chartType={'Summary Chart'}
+        />
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex} />
 
       <Box className={classes.contentBox} >
-        Fish and Wildlife Chart {areaName}
+      <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          chartRegion={region}
+          zonalStatsData={zonalStatsData}
+          chartType={'Fish and Wildlife Inputs'}
+        />
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
-        Threat Inputs Chart {areaName}
+      <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          chartRegion={region}
+          zonalStatsData={zonalStatsData}
+          chartType={'Threats Inputs'}
+        />
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
-        Community Assests Chart {areaName}
+      <ChartSummary
+          areaName={areaName}
+          areaIndex={areaIndex}
+          chartRegion={region}
+          zonalStatsData={zonalStatsData}
+          chartType={'Community Assets Inputs'}
+        />
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
 
       <Box className={classes.contentBox} >
         Landcover Chart {areaName}
       </Box>
-      <ChartDetailsActionButtons />
+      <ChartDetailsActionButtons areaIndex={areaIndex}/>
     </div>
   );
 }
 
 ChartDetails.propTypes = {
-  areaName: PropTypes.string.isRequired
+  areaName: PropTypes.string.isRequired,
+  areaIndex: PropTypes.number.isRequired,
+  region: PropTypes.string.isRequired,
+  zonalStatsData: PropTypes.object.isRequired
 };

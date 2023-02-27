@@ -81,15 +81,13 @@ export default function TableData(props) {
             </TableHead>
             <TableBody>
               {data.map((row) => (
-                  <React.Fragment key={row.areaName}>
-                  {row.indexes.map((index) => (
-                    <StyledTableRow key={`${row.areaName}-${index.name}`}>
-                      <TableCell align="left">{row.areaName}</TableCell>
-                      <TableCell align="left">{index.name}</TableCell>
-                      <TableCell align="left">{index.value}</TableCell>
-                      <TableCell align="left">{index.range}</TableCell>
-                    </StyledTableRow>
-                  ))}
+                <React.Fragment key={row.areaName}>
+                  <StyledTableRow key={`${row.areaName}-${row.name}`}>
+                    <TableCell align="left">{row.areaName}</TableCell>
+                    <TableCell align="left">{row.name}</TableCell>
+                    <TableCell align="left">{row.value}</TableCell>
+                    <TableCell align="left">{row.range}</TableCell>
+                  </StyledTableRow>
                 </React.Fragment>
               ))}
             </TableBody>

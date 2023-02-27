@@ -14,7 +14,7 @@ export const guamConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -275,7 +275,7 @@ export const guamConfig = {
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Fish and Wildlife',
-        chartCSSSelector: 'fishandwildlife',
+        chartCSSSelector: 'wildlife',
         url: 'https://tiles.resilientcoasts.org/GU_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',
@@ -369,8 +369,8 @@ export const guamConfig = {
           5: '#385A4C'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'population-density',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'pop_density',
         url: 'https://tiles.resilientcoasts.org/GU_PopDensityIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',
@@ -400,8 +400,8 @@ export const guamConfig = {
           4: '#88419D'
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'social-vulnerability',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'social_vuln',
         url: 'https://tiles.resilientcoasts.org/GU_SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',
@@ -429,8 +429,8 @@ export const guamConfig = {
           5: '#0084A8' 
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-facilities',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_facilities',
         url: 'https://tiles.resilientcoasts.org/GU_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',
@@ -472,8 +472,8 @@ export const guamConfig = {
           15: '#7B1733' 
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-infrastructure',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_infra',
         url: 'https://tiles.resilientcoasts.org/GU_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',
@@ -571,7 +571,7 @@ export const guamConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'sea-level-rise',
+        chartCSSSelector: 'sea_level_rise',
         url: 'https://tiles.resilientcoasts.org/GU_SLRIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',
@@ -668,7 +668,7 @@ export const guamConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'floodprone-areas',
+        chartCSSSelector: 'floodprone_areas',
         url: 'https://tiles.resilientcoasts.org/GU_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         format: 'image/png',

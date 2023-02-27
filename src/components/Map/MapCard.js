@@ -38,11 +38,20 @@ import React, {
   useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import {
+  useMapEvents,
+  FeatureGroup,
+  LayersControl
+  // GeoJSON,
+  // Polygon
+} from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
+import PropTypes from 'prop-types';
+
+import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
 import BasemapLayer from './BasemapLayer';
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
@@ -65,6 +74,7 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
+// const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 const useStyles = makeStyles((theme) => ({
   leafletButton: {
@@ -91,10 +101,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MapCard() {
-  const [map, setMap] = useState(null);
+export default function MapCard(props) {
+  // const [map, setMap] = useState(null);
+  const {
+    map,
+    setMap,
+    bufferCheckbox,
+    leafletDrawFeatureGroupRef,
+    setDrawAreaDisabled,
+    tooLargeLayerOpen,
+    setTooLargeLayerOpen
+  } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
-  let shareUrl = '';
+  const [shareUrl, setShareUrl] = useState('');
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -104,6 +123,7 @@ export default function MapCard() {
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
+  // const analyzedAreas = useSelector(analyzedAreasSelector);
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region
@@ -152,6 +172,16 @@ export default function MapCard() {
             [map.getCenter().lat, map.getCenter().lng]
           )
         );
+      },
+      zoomend: () => {
+        const featureGroup = leafletDrawFeatureGroupRef.current;
+        featureGroup.eachLayer((layer) => {
+          if (map.getZoom() < 10) {
+            layer.closeTooltip();
+          } else {
+            layer.openTooltip();
+          }
+        });
       }
     });
     return null;
@@ -167,12 +197,16 @@ export default function MapCard() {
   };
 
   const handleShareLinkClose = () => {
+    // navigator.clipboard.writeText(shareUrl); THIS IS BROKEN ON HTTP
     setShareLinkOpen(false);
   };
 
+  const handleTooLargeLayerClose = () => {
+    setTooLargeLayerOpen(false);
+  };
+
   const shareMapHandler = () => {
-    shareUrl = createShareURL();
-    window.alert('Your Share URL is: ' + shareUrl);
+    setShareUrl(createShareURL());
     setShareLinkOpen(true);
   };
 
@@ -195,6 +229,31 @@ export default function MapCard() {
             SHARE
           </Button>
         </Control>
+        <LayersControl position="topright">
+          <LayersControl.Overlay checked name="leaflet-draw">
+            <FeatureGroup ref={leafletDrawFeatureGroupRef}>
+              <LeafletDrawTools
+                map={map}
+                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                bufferCheckbox={bufferCheckbox}
+                setDrawAreaDisabled={setDrawAreaDisabled}
+                setTooLargeLayerOpen={setTooLargeLayerOpen}
+              />
+            </FeatureGroup>
+          </LayersControl.Overlay>
+        </LayersControl>
+        <DialogPopup
+          contentMessage={('Your Share URL is: ').concat(shareUrl)}
+          buttonMessage='Dismiss'
+          onClose={handleShareLinkClose}
+          open={shareLinkOpen}
+        />
+        <DialogPopup
+          contentMessage={'Layer is too large.'}
+          buttonMessage='Dismiss'
+          onClose={handleTooLargeLayerClose}
+          open={tooLargeLayerOpen}
+        />
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
@@ -208,3 +267,13 @@ export default function MapCard() {
     </div>
   );
 }
+
+MapCard.propTypes = {
+  bufferCheckbox: PropTypes.bool,
+  map: PropTypes.object,
+  setMap: PropTypes.func,
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  setDrawAreaDisabled: PropTypes.func,
+  tooLargeLayerOpen: PropTypes.bool,
+  setTooLargeLayerOpen: PropTypes.func
+};
