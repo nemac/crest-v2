@@ -33,7 +33,6 @@ import React, {
   useState
 } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
 import {
   ResponsiveContainer,
@@ -73,8 +72,10 @@ export default function ChartSummary(props) {
   const {
     areaName,
     zonalStatsData,
+    chartRegion,
     chartType
   } = props;
+  const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
@@ -88,9 +89,6 @@ export default function ChartSummary(props) {
   });
   const dataToPlot = useRef(true);
   const chartLabel = `${chartType} ${areaName}`;
-  const regionSelector = (state) => state.selectedRegion.value;
-  const selectedRegion = useSelector(regionSelector);
-  const region = regions[selectedRegion];
   const layerList = region.layerList;
 
   const divStyle = {
@@ -136,8 +134,9 @@ export default function ChartSummary(props) {
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
+    // Currently this is going to pull all data across all regions... need to simplify
+    // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
-      console.log(key);
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
         tempData.push({ name: key, value });
       }
@@ -193,5 +192,6 @@ export default function ChartSummary(props) {
 ChartSummary.propTypes = {
   areaName: PropTypes.string.isRequired,
   zonalStatsData: PropTypes.object,
+  chartRegion: PropTypes.string.isRequired,
   chartType: PropTypes.string
 };

@@ -39,6 +39,7 @@ export default function ChartCard(props) {
     areaIndex,
     leafletIds,
     zonalStatsData,
+    region,
     leafletDrawFeatureGroupRef
   } = props;
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -51,6 +52,7 @@ export default function ChartCard(props) {
           <Grid item xs={12} >
             <ChartDetails areaName={areaName}
               areaIndex={areaIndex}
+              region={region}
               zonalStatsData={zonalStatsData} />
           </Grid>
 
@@ -70,6 +72,7 @@ export default function ChartCard(props) {
               areaName={areaName}
               areaIndex={areaIndex}
               zonalStatsData={zonalStatsData}
+              chartRegion={region}
               chartType={'Summary Chart'}
             />
           </Grid>
@@ -94,5 +97,6 @@ ChartCard.propTypes = {
   areaIndex: PropTypes.number.isRequired,
   leafletIds: PropTypes.array,
   zonalStatsData: PropTypes.object,
+  region: PropTypes.string,
   leafletDrawFeatureGroupRef: PropTypes.object
 };

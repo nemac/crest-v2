@@ -67,12 +67,22 @@ const useStyles = makeStyles((theme) => ({
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
-const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
+const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
 
 export default function ChartsHolder(props) {
   const { leafletDrawFeatureGroupRef } = props;
-  const zonalStatsAreas = useSelector(zonalStatsAreasSelector);
-  const featureList = zonalStatsAreas.features;
+  const drawnLayerAreas = useSelector(drawnLayerSelector);
+  // console.log('drawn layer');
+  // console.log(drawnLayerAreas);
+  // console.log('zonalstatsareas');
+  // console.log(zonalStatsAreas);
+  // console.log(leafletDrawFeatureGroupRef);
+  const featureList = drawnLayerAreas.features;
+  // const drawnLayerFeatures = drawnLayerAreas.features;
+  // console.log('feature list original');
+  // console.log(featureList);
+  // console.log('new feature list:');
+  // console.log(drawnLayerFeatures);
   const [chartData, setChartData] = useState([]);
   const classes = useStyles();
   const handleFeatureUpdate = useCallback((features) => {
@@ -83,6 +93,7 @@ export default function ChartsHolder(props) {
           areaName: entry.properties.areaName,
           areaIndex: index,
           leafletIds: entry.properties.leafletIds,
+          region: entry.properties.region,
           zonalStatsData: entry.properties.zonalStatsData
         });
       });
@@ -144,12 +155,15 @@ export default function ChartsHolder(props) {
               const index = dataRow.areaIndex;
               const leafletIds = dataRow.leafletIds;
               const zonalStatsData = dataRow.zonalStatsData;
+              const thisRegion = dataRow.region;
+
               return (
                 <ChartCard
                   key={name}
                   areaName={name}
                   areaIndex={index}
                   leafletIds={leafletIds}
+                  region={thisRegion}
                   zonalStatsData={zonalStatsData}
                   leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
                 />

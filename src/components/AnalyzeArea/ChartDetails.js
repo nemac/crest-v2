@@ -63,6 +63,7 @@ export default function ChartDetails(props) {
   const {
     areaName,
     areaIndex,
+    region,
     zonalStatsData
   } = props;
 
@@ -72,6 +73,7 @@ export default function ChartDetails(props) {
         <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
+          chartRegion={region}
           zonalStatsData={zonalStatsData}
           chartType={'Summary Chart'}
         />
@@ -82,6 +84,7 @@ export default function ChartDetails(props) {
       <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
+          chartRegion={region}
           zonalStatsData={zonalStatsData}
           chartType={'Fish and Wildlife Inputs'}
         />
@@ -92,6 +95,7 @@ export default function ChartDetails(props) {
       <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
+          chartRegion={region}
           zonalStatsData={zonalStatsData}
           chartType={'Threats Inputs'}
         />
@@ -102,6 +106,7 @@ export default function ChartDetails(props) {
       <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
+          chartRegion={region}
           zonalStatsData={zonalStatsData}
           chartType={'Community Assets Inputs'}
         />
@@ -119,5 +124,6 @@ export default function ChartDetails(props) {
 ChartDetails.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
+  region: PropTypes.string.isRequired,
   zonalStatsData: PropTypes.object.isRequired
 };
