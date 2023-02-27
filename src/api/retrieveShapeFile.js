@@ -1,4 +1,4 @@
-export const retreiveShapeFiles = async (url) => {
+export const retrieveShapeFile = async (url) => {
   const response = await fetch(url, {
     method: 'GET',
     headers: {

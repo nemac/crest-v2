@@ -34,7 +34,7 @@ import PropTypes from 'prop-types';
 import buffer from '@turf/buffer';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
-import { retreiveShapeFiles } from '../../api/retreiveShapeFile';
+import { retrieveShapeFile } from '../../api/retrieveShapeFile';
 import {
   addNewFeatureToZonalStatsAreas,
   toggleSketchArea,
@@ -131,8 +131,8 @@ export default function LeafletDrawTools(props) {
   //   if (!uploadedShapeFile) {
   //     return;
   //   }
-  //   const retreiveShapeFilesPromise = retreiveShapeFiles(uploadedShapeFile);
-  //   retreiveShapeFilesPromise.then((data) => {
+  //   const retrieveShapeFilesPromise = retrieveShapeFile(uploadedShapeFile);
+  //   retrieveShapeFilesPromise.then((data) => {
   //     console.log(data);
   //   });
   // }, [uploadedShapeFile]);
