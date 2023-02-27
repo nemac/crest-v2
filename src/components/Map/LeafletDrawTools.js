@@ -160,7 +160,8 @@ export default function LeafletDrawTools(props) {
     drawnLayerGeoJSON.properties.leafletId = L.stamp(drawnLayer);
     drawnLayerGeoJSON.properties.areaName = areaName;
     drawnLayerGeoJSON.properties.buffer = bufferCheckbox;
-    dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
+    drawnLayerGeoJSON.properties.region = selectedRegion;
+    // dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
 
     // check if buffer checkbox is checked and if so, create a 1 km buffer using turf.js
     if (bufferCheckbox) {
@@ -168,6 +169,7 @@ export default function LeafletDrawTools(props) {
       layerToAnalyze = L.geoJSON(layerToAnalyze, { style: bufferStyle });
       const bufferLayerId = L.stamp(layerToAnalyze);
       leafletIdsList.push(bufferLayerId);
+      drawnLayerGeoJSON.properties.bufferLayerId = bufferLayerId;
       leafletDrawFeatureGroupRef.current.addLayer(layerToAnalyze); // add buffer layer to ref
     }
 
@@ -187,7 +189,11 @@ export default function LeafletDrawTools(props) {
         tempFeature.properties.areaName = `Area ${areaNumber}`;
         tempFeature.properties.leafletIds = leafletIdsList;
         tempFeature.properties.drawnLayerGeoJSON = drawnLayer.toGeoJSON();
+        drawnLayerGeoJSON.properties.zonalStatsData = data.features[0].properties.mean;
+        drawnLayerGeoJSON.properties.leafletIds = leafletIdsList;
+        console.log(drawnLayerGeoJSON);
         // dispatch(addNewFeatureToDrawnLayers(tempFeature));
+        dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
         dispatch(addNewFeatureToZonalStatsAreas(tempFeature));
         setAreaNumber(areaNumber + 1);
         setDrawAreaDisabled(false);
