@@ -18,5 +18,4 @@ describe('ChartDetails', () => {
         expect(screen.getAllByRole('button').length).toBeGreaterThan(0);
     })
   })
-
 })

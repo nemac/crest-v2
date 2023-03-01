@@ -19,7 +19,6 @@ describe('Layer', () => {
 
     describe('Render as expected', () => {
         test('Renders', () => {   
-            //const expected =  testLayer.label;
             expect(screen.getByRole('checkbox')).toBeInTheDocument();
             expect(screen.getByText(testLayer.label)).toBeInTheDocument();
             expect(testLayer.layerListSelector).not.toBe(null);
