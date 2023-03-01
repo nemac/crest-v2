@@ -15,6 +15,7 @@ export const betaUploadShapeEndpoint = 'https://api.resilientcoasts.org/beta/upl
 export const prodUploadShapeEndpoint = 'https://api.resilientcoasts.org/prod/upload_shape';
 export const betaZonalStatsEndpoint = 'https://api.resilientcoasts.org/beta/zonal_stats';
 export const prodZonalStatsEndpoint = 'https://api.resilientcoasts.org/prod/zonal_stats';
+export const s3ShapeFileBucket = 'https://nfwf-tool-user-shapes.s3.amazonaws.com/';
 
 export const mapConfig = {
   basemaps: {

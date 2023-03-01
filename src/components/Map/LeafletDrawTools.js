@@ -40,14 +40,15 @@ import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
   removeAllFeaturesFromDrawnLayers,
-  removeAllFeaturesFromZonalStatsAreas
+  removeAllFeaturesFromZonalStatsAreas,
+  s3ShapeFileURL
 } from '../../reducers/mapPropertiesSlice';
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
-const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFile;
+const uploadedShapeFileSelector = (state) => state.mapProperties.s3ShapeFileURL;
 
 const useStyles = makeStyles((theme) => ({
   // Feels a bit hacky that I had to tack !important on to everything to get the override
@@ -127,15 +128,17 @@ export default function LeafletDrawTools(props) {
   }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   // Watches for an uploaded shapefile and adds it as a layer to leaflet Draw feature group
-  // useEffect(() => {
-  //   if (!uploadedShapeFile) {
-  //     return;
-  //   }
-  //   const retrieveShapeFilesPromise = retrieveShapeFile(uploadedShapeFile);
-  //   retrieveShapeFilesPromise.then((data) => {
-  //     console.log(data);
-  //   });
-  // }, [uploadedShapeFile]);
+  useEffect(() => {
+    if (!uploadedShapeFile) {
+      return;
+    }
+    console.log('jeff am I getting here');
+    const retrieveShapeFilesPromise = retrieveShapeFile(uploadedShapeFile);
+    retrieveShapeFilesPromise.then((data) => {
+      console.log(data);
+      dispatch(s3ShapeFileURL(null)); // clear uploaded shape file from state
+    });
+  }, [uploadedShapeFile, dispatch]);
 
   function onCreated(e) {
     // toggle sketch area off since new area was just created
