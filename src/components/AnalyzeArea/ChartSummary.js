@@ -101,9 +101,6 @@ export default function ChartSummary(props) {
   const getLabel = (name) => layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).label;
-  const getNormValue = (name) => layerList.find(
-    ((layer) => layer.chartCSSSelector === name)
-  ).chartCSSColor;
 
   const CustomTooltip = ({ active, payload, label }) => {
     // eslint-disable-next-line max-len
@@ -150,12 +147,9 @@ export default function ChartSummary(props) {
     Object.entries(data).forEach(([key, value]) => {
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
         const chartValue = getNormValue(key, value);
-        console.log('trying to work with ', key, ' with value ', value);
-        console.log('calculated ', chartValue);
         tempData.push({ name: key, value, chartValue });
       }
     });
-    console.log(tempData);
     if (tempData.length === 0) {
       dataToPlot.current = false;
     }
