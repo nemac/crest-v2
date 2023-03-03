@@ -101,6 +101,9 @@ export default function ChartSummary(props) {
   const getLabel = (name) => layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).label;
+  const getNormValue = (name) => layerList.find(
+    ((layer) => layer.chartCSSSelector === name)
+  ).chartCSSColor;
 
   const CustomTooltip = ({ active, payload, label }) => {
     // eslint-disable-next-line max-len
@@ -130,7 +133,15 @@ export default function ChartSummary(props) {
       ).chartCSSColor[colorValue];
       return selectedColor;
     };
-
+    const getNormValue = (name, value) => {
+      const selectedColorChart = layerList.find(
+        ((layer) => layer.chartCSSSelector === name)
+      ).chartCSSColor;
+      const allValues = Object.keys(selectedColorChart);
+      const maxValue = allValues[allValues.length - 1];
+      const normValue = value / maxValue;
+      return normValue;
+    };
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
@@ -138,9 +149,13 @@ export default function ChartSummary(props) {
     // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
-        tempData.push({ name: key, value });
+        const chartValue = getNormValue(key, value);
+        console.log('trying to work with ', key, ' with value ', value);
+        console.log('calculated ', chartValue);
+        tempData.push({ name: key, value, chartValue });
       }
     });
+    console.log(tempData);
     if (tempData.length === 0) {
       dataToPlot.current = false;
     }
@@ -174,7 +189,7 @@ export default function ChartSummary(props) {
             <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
             <YAxis />
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey='value' >
+            <Bar dataKey='chartValue' >
               {
                 chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={barColors[index]} />
