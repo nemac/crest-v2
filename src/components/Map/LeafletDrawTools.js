@@ -117,30 +117,28 @@ export default function LeafletDrawTools(props) {
     const features = JSON.parse(JSON.stringify(drawnLayersFromState.features));
     let areaNameAdjustment; // we will use this to determine what area name number we are on
     // make a deep copy of the features from state since I was getting read only errors otherwise
-    const areasFeatures = JSON.parse(JSON.stringify(zonalStatsAreas.features));
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(removeAllFeaturesFromZonalStatsAreas());
     features.forEach((feature, index) => {
       const featureCopy = feature;
       const areaName = featureCopy.properties.areaName;
       areaNameAdjustment = parseInt(areaName.split(' ')[1], 10); // should number of highest area in list
-      const zonalStatsFeature = areasFeatures[index]; // HUGE assumption that indexes match
       let layer = L.geoJSON(feature);
       const layerId = L.stamp(layer);
       featureCopy.properties.leafletId = layerId;
       const leafletIdsList = [layerId];
       leafletDrawFeatureGroupRef.current.addLayer(layer);
       layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
-      dispatch(addNewFeatureToDrawnLayers(featureCopy));
       if (feature.properties.buffer) {
         layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
         layer = L.geoJSON(layer, { style: bufferStyle });
         const bufferLayerId = L.stamp(layer);
+        featureCopy.properties.bufferLayerId = bufferLayerId;
         leafletIdsList.push(bufferLayerId);
         leafletDrawFeatureGroupRef.current.addLayer(layer);
       }
-      zonalStatsFeature.properties.leafletIds = leafletIdsList;
-      dispatch(addNewFeatureToZonalStatsAreas(zonalStatsFeature));
+      featureCopy.properties.leafletIds = leafletIdsList;
+      dispatch(addNewFeatureToDrawnLayers(featureCopy));
       // bump area number up total length of features so no duplicate area names
       setAreaNumber(areaNumber + areaNameAdjustment);
     });
@@ -200,7 +198,6 @@ export default function LeafletDrawTools(props) {
     }
 
     const layerToAnalyze = bufferLayer || e.layer;
-    // dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
 
     // Create dummy featureGroup, add to geojson, and call zonal stats.
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
@@ -213,15 +210,9 @@ export default function LeafletDrawTools(props) {
     zonalStatsPromise.then((data) => {
       featureGroupGeoJSON.features.forEach((feature) => {
         // make copy of feature and enrich it with leaflet id and mean results from zonal stats
-        const tempFeature = feature;
-        tempFeature.properties.zonalStatsData = data.features[0].properties.mean;
-        tempFeature.properties.areaName = `Area ${areaNumber}`;
-        tempFeature.properties.leafletIds = leafletIdsList;
         geojson.properties.zonalStatsData = data.features[0].properties.mean;
         geojson.properties.leafletIds = leafletIdsList;
-        // dispatch(addNewFeatureToDrawnLayers(tempFeature));
         dispatch(addNewFeatureToDrawnLayers(geojson));
-        dispatch(addNewFeatureToZonalStatsAreas(tempFeature));
         setAreaNumber(areaNumber + 1);
         setDrawAreaDisabled(false);
       });
