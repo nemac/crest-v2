@@ -34,7 +34,6 @@ import ChartActionButtons from './ChartActionButtons';
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
-
 export default function ChartCard(props) {
   const {
     areaName,
