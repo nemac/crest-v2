@@ -98,6 +98,17 @@ export default function ChartSummary(props) {
     borderRadius: '6px'
   };
 
+  const formatYAxis = (value) => {
+    switch (value) {
+      case 1:
+        return 'High';
+      case 0:
+        return 'Low';
+      default:
+        return '';
+    }
+  };
+
   const getLabel = (name) => layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).label;
@@ -108,7 +119,7 @@ export default function ChartSummary(props) {
       return (
         <div className="custom-tooltip" style={divStyle}>
           <p className="label">{getLabel(label)}</p>
-          <h4 className="desc">{`${payload[0].value.toFixed(2)}`}</h4>
+          <h4 className="desc">{`${payload[0].payload.value.toFixed(2)}`}</h4>
         </div>
       );
     }
@@ -123,6 +134,7 @@ export default function ChartSummary(props) {
 
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
+
     const getColor = (name, value) => {
       const colorValue = Math.round(value);
       const selectedColor = layerList.find(
@@ -181,7 +193,7 @@ export default function ChartSummary(props) {
             </text>
 
             <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
-            <YAxis />
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis}/>
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >
               {

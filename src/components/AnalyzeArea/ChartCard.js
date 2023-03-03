@@ -62,6 +62,7 @@ export default function ChartCard(props) {
             <Grid item xs={12} >
               <ChartActionButtons
                 areaName={areaName}
+                areaIndex={areaIndex}
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
               />
             </Grid>
