@@ -19,7 +19,7 @@ Props
   - Not sure yet
 
 */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
@@ -76,6 +76,10 @@ export default function MapHolder(props) {
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
+
+  useEffect(() => {
+    console.log(bufferCheckbox);
+  }, [bufferCheckbox]);
 
   return (
     <Grid container

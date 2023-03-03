@@ -40,7 +40,7 @@ import {
   // FileUpload
 } from '@mui/icons-material';
 
-import { s3ShapeFileURL } from '../../reducers/mapPropertiesSlice';
+import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
 import { Shape2GeoJSON } from '../../api/shapeFileToGeoJson';
 
 const useStyles = makeStyles((theme) => ({
@@ -70,7 +70,7 @@ export default function Upload(props) {
       return;
     }
     // reject incoming file if the size is greater than 10 MB
-    if (file.size > 10000000) {
+    if (file.size > 100000000000) {
       setTooLargeLayerOpen(true);
       setFile(null);
       return;
@@ -78,7 +78,7 @@ export default function Upload(props) {
 
     const uploadShapeFilePromise = Shape2GeoJSON(file);
     uploadShapeFilePromise.then((data) => {
-      console.log(data);
+      dispatch(uploadedShapeFileGeoJSON(data));
     });
   }, [file, setFile, dispatch, setTooLargeLayerOpen]);
 

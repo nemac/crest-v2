@@ -73,8 +73,8 @@ export const mapPropertiesSlice = createSlice({
     removeAllFeaturesFromDrawnLayers: (state) => {
       state.drawnLayers.features = []; // empty list should clear everything back to normal
     },
-    s3ShapeFileURL: (state, action) => {
-      state.s3ShapeFileURL = action.payload;
+    uploadedShapeFileGeoJSON: (state, action) => {
+      state.uploadedShapeFileGeoJSON = action.payload;
     }
   }
 });
@@ -85,7 +85,7 @@ export const {
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
   toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
   removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
-  removeAllFeaturesFromDrawnLayers, s3ShapeFileURL
+  removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;
