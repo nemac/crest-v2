@@ -194,7 +194,7 @@ export default function ChartSummary(props) {
               <tspan fontSize="14">{chartLabel}</tspan>
             </text>
 
-            <XAxis dataKey="name" tick={<ChartInteractiveLabels />} style={{ fontSize: '12px' }} />
+            <XAxis dataKey="name" tick={<ChartInteractiveLabels />} style={{ fontSize: '8px' }} interval={0} height={80}/>
             <YAxis domain={[0, 1]} tickFormatter={formatYAxis}/>
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >
