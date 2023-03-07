@@ -111,16 +111,12 @@ export default function ChartSummary(props) {
     }
   };
 
-  const getLabel = (name) => layerList.find(
-    ((layer) => layer.chartCSSSelector === name)
-  ).label;
-
   const CustomTooltip = ({ active, payload, label }) => {
     // eslint-disable-next-line max-len
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
         <div className="custom-tooltip" style={divStyle}>
-          <p className="label">{getLabel(label)}</p>
+          <p className="label">{label}</p>
           <h4 className="desc">{`${payload[0].payload.value.toFixed(2)}`}</h4>
         </div>
       );
@@ -137,6 +133,20 @@ export default function ChartSummary(props) {
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
 
+    const getData = (name, value) => { //Replaces getColor and getNormValue
+      const colorValue = Math.round(value);
+      const selectedLayerData = layerList.find(
+        ((layer) => layer.chartCSSSelector === name)
+      );
+      const selectedChartLabel = selectedLayerData.chartLabel;
+      const selectedColorChart = selectedLayerData.chartCSSColor;
+      const selectedColor = selectedColorChart[colorValue];
+      const allValues = Object.keys(selectedColorChart);
+      const maxValue = allValues[allValues.length - 1];
+      const normValue = value / maxValue;
+      const retData = [selectedColor, normValue, selectedChartLabel];
+      return retData;
+    };
     const getColor = (name, value) => {
       const colorValue = Math.round(value);
       const selectedColor = layerList.find(
@@ -160,15 +170,24 @@ export default function ChartSummary(props) {
     // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
-        const chartValue = getNormValue(key, value);
-        tempData.push({ name: key, value, chartValue });
+        const layerData = getData(key, value);
+        
+        const barColor = layerData[0];
+        const chartValue = layerData[1];
+        const tickLabel = layerData[2];
+
+        const test = getData(key, value);
+        tempData.push({
+          name: key, value, chartValue, tickLabel
+        });
+        tempColors.push(barColor);
       }
     });
     if (tempData.length === 0) {
       dataToPlot.current = false;
     }
     // Match colors to data
-    tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
+    // tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
     setChartData(tempData);
     setBarColors(tempColors);
   }, [layerList, chartType]);
@@ -194,8 +213,8 @@ export default function ChartSummary(props) {
               <tspan fontSize="14">{chartLabel}</tspan>
             </text>
 
-            <XAxis dataKey="name" tick={<ChartInteractiveLabels />} style={{ fontSize: '8px' }} interval={0} height={80}/>
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis}/>
+            <XAxis dataKey="tickLabel" tick={<ChartInteractiveLabels />} style={{ fontSize: '8px' }} interval={0} height={80} />
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} />
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >
               {
