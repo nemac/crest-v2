@@ -11,7 +11,7 @@ export default function ChartInteractiveLabels(props) {
 
   return (
         <g transform={`translate(${x},${y})`} onClick={() => console.log(payload.value)}>
-            {Object.entries(textWithOffset).map(([word, offset]) => <text key={word} x={0} y={0} dy={16} style={{ fontSize: '10px' }} textAnchor="middle" fill="#FFF">
+            {Object.entries(textWithOffset).map(([word, offset]) => <text key={word} x={0} y={5} dy={16} style={{ fontSize: '10px' }} textAnchor="middle" fill="#FFF">
                 <tspan textAnchor="middle" x="0" dy={offset}>{word}</tspan>
             </text>)}
         </g>
