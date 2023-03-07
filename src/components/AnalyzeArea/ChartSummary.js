@@ -133,7 +133,7 @@ export default function ChartSummary(props) {
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
 
-    const getData = (name, value) => { //Replaces getColor and getNormValue
+    const getData = (name, value) => {
       const colorValue = Math.round(value);
       const selectedLayerData = layerList.find(
         ((layer) => layer.chartCSSSelector === name)
@@ -147,22 +147,7 @@ export default function ChartSummary(props) {
       const retData = [selectedColor, normValue, selectedChartLabel];
       return retData;
     };
-    const getColor = (name, value) => {
-      const colorValue = Math.round(value);
-      const selectedColor = layerList.find(
-        ((layer) => layer.chartCSSSelector === name)
-      ).chartCSSColor[colorValue];
-      return selectedColor;
-    };
-    const getNormValue = (name, value) => {
-      const selectedColorChart = layerList.find(
-        ((layer) => layer.chartCSSSelector === name)
-      ).chartCSSColor;
-      const allValues = Object.keys(selectedColorChart);
-      const maxValue = allValues[allValues.length - 1];
-      const normValue = value / maxValue;
-      return normValue;
-    };
+
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
@@ -171,7 +156,6 @@ export default function ChartSummary(props) {
     Object.entries(data).forEach(([key, value]) => {
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
         const layerData = getData(key, value);
-        
         const barColor = layerData[0];
         const chartValue = layerData[1];
         const tickLabel = layerData[2];
@@ -214,7 +198,7 @@ export default function ChartSummary(props) {
             </text>
 
             <XAxis dataKey="tickLabel" tick={<ChartInteractiveLabels />} style={{ fontSize: '8px' }} interval={0} height={80} />
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} />
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontSize: '10px' }} interval={0}/>
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >
               {
