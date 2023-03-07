@@ -159,8 +159,6 @@ export default function ChartSummary(props) {
         const barColor = layerData[0];
         const chartValue = layerData[1];
         const tickLabel = layerData[2];
-
-        const test = getData(key, value);
         tempData.push({
           name: key, value, chartValue, tickLabel
         });
