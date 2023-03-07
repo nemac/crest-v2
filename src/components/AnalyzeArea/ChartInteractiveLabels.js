@@ -32,7 +32,7 @@ export default function ChartInteractiveLabels(props) {
         <g transform={`translate(${x},${y})`} onMouseLeave={() => setShowTip(false)}>
             
       
-            {Object.entries(textWithOffset).map(([word, offset]) => <HtmlTooltip
+            {Object.entries(textWithOffset).map(([word, offset], index) => <HtmlTooltip key={index}
         title={
           <React.Fragment>
             <Typography color="inherit">{payload.value}</Typography>
