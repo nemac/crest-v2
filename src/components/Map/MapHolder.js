@@ -19,7 +19,7 @@ Props
   - Not sure yet
 
 */
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
@@ -68,6 +68,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MapHolder(props) {
   const classes = useStyles();
+  const [map, setMap] = useState(null);
+  const [bufferCheckbox, setBufferCheckbox] = useState(true);
+  const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
+  const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
+  const leafletDrawFeatureGroupRef = useRef();
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
@@ -88,21 +93,37 @@ export default function MapHolder(props) {
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
         className={classes.threeColumnHolder}>
-        <MapActionCard />
+        <MapActionCard
+          map={map}
+          bufferCheckbox={bufferCheckbox}
+          setBufferCheckbox={setBufferCheckbox}
+          drawAreaDisabled={drawAreaDisabled}
+          setTooLargeLayerOpen={setTooLargeLayerOpen}
+        />
         <AnalyzeAreaHolder
           boxHeight={'calc(100% - 258px)'}
-          boxMarginTop={'8px'} />
+          boxMarginTop={'8px'}
+          leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+        />
       </Grid>
 
       {/* Map */}
-     <Grid item
-       xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.25 : 8.25} xl={layerListVisible ? 6.25 : 9}
-       order={{ xs: 1, sm: 1, md: 2 }}
-       className={classes.threeColumnHolder}>
-       <Box className={classes.contentmapBox} >
-         <MapCard />
-       </Box>
-     </Grid>
+      <Grid item
+        xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.25 : 8.25} xl={layerListVisible ? 6.25 : 9}
+        order={{ xs: 1, sm: 1, md: 2 }}
+        className={classes.threeColumnHolder}>
+        <Box className={classes.contentmapBox} >
+          <MapCard
+            map={map}
+            setMap={setMap}
+            leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+            bufferCheckbox={bufferCheckbox}
+            setDrawAreaDisabled={setDrawAreaDisabled}
+            tooLargeLayerOpen={tooLargeLayerOpen}
+            setTooLargeLayerOpen={setTooLargeLayerOpen}
+          />
+        </Box>
+      </Grid>
 
      {/* Layer List */}
       <Grid item

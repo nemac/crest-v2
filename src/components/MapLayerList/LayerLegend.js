@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
 import { logRoles } from '@testing-library/react';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
   legendHolder: {

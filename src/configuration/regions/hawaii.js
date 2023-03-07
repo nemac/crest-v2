@@ -14,7 +14,7 @@ export const hawaiiConfig = {
     },
     {
       chartInputName: 'asset',
-      ChartInputLabel: 'Comunity Assets Inputs'
+      ChartInputLabel: 'Community Assets Inputs'
     },
     {
       chartInputName: 'threat',
@@ -34,6 +34,19 @@ export const hawaiiConfig = {
         chartLabel: 'Resilience Hubs',
         chartLegendValues: 10,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#ffc500',
+          2: '#f9b500',
+          3: '#f3a400',
+          4: '#ed9400',
+          5: '#e78300',
+          6: '#e07000',
+          7: '#d95e00',
+          8: '#d14c00',
+          9: '#ca3600',
+          10: '#c21500'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#ffc500',
           2: '#f9b500',
@@ -76,6 +89,19 @@ export const hawaiiConfig = {
           9: '#9b5526',
           10: '#633319'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#1f6e6e',
+          2: '#3d8282',
+          3: '#7dad9c',
+          4: '#b7d4b2',
+          5: '#e9f2bb',
+          6: '#f5e9a9',
+          7: '#dbba7a',
+          8: '#b08042',
+          9: '#9b5526',
+          10: '#633319'
+        },
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Community Exposure Index',
@@ -94,6 +120,19 @@ export const hawaiiConfig = {
         chartLabel: 'Community Asset',
         chartLegendValues: 10,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#b6edf0',
+          2: '#98d2ed',
+          3: '#7cbbeb',
+          4: '#5ca3e6',
+          5: '#368de3',
+          6: '#2176d9',
+          7: '#2259c7',
+          8: '#1d3eb5',
+          9: '#1727a3',
+          10: '#090991'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#b6edf0',
           2: '#98d2ed',
@@ -136,6 +175,19 @@ export const hawaiiConfig = {
           9: '#c9251c',
           10: '#c40a0a'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#ffebd6',
+          2: '#f7d7bc',
+          3: '#f0c0a1',
+          4: '#eba988',
+          5: '#e3906f',
+          6: '#de775b',
+          7: '#d65d45',
+          8: '#d14030',
+          9: '#c9251c',
+          10: '#c40a0a'
+        },
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Community Asset and Threat Indices',
@@ -162,10 +214,19 @@ export const hawaiiConfig = {
           5: '#B7528A',
           6: '#7E33A8'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#EEE7F8',
+          2: '#E9BBCB',
+          3: '#DB90A6',
+          4: '#D27C99',
+          5: '#B7528A',
+          6: '#7E33A8'
+        },
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Fish and Wildlife',
-        chartCSSSelector: 'fishandwildlife',
+        chartCSSSelector: 'wildlife',
         label: 'Fish and Wildlife Index',
         url: 'https://tiles.resilientcoasts.org/HI_CombinedWildlifeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
@@ -181,6 +242,13 @@ export const hawaiiConfig = {
         chartLabel: 'Marine',
         chartLegendValues: 4,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#CDE1E8',
+          2: '#82BCD1',
+          3: '#007E91',
+          4: '#005A62'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#CDE1E8',
           2: '#82BCD1',
@@ -204,6 +272,13 @@ export const hawaiiConfig = {
         chartLabel: 'Terrestrial',
         chartLegendValues: 4,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#FFE9C4',
+          2: '#DFC878',
+          3: '#385B23',
+          4: '#004900'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#FFE9C4',
           2: '#DFC878',
@@ -234,9 +309,17 @@ export const hawaiiConfig = {
           4: '#2c8d7a',
           5: '#385a4c'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#dfc878',
+          2: '#efc133',
+          3: '#9eac37',
+          4: '#2c8d7a',
+          5: '#385a4c'
+        },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'population-density',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'pop_density',
         url: 'https://tiles.resilientcoasts.org/HI_PopDensityIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -258,9 +341,17 @@ export const hawaiiConfig = {
           4: '#321669',
           5: '#270B59'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#9EBBD7',
+          2: '#7A8EF5',
+          3: '#43309D',
+          4: '#321669',
+          5: '#270B59'
+        },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'social-vulnerability',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'social_vuln',
         url: 'https://tiles.resilientcoasts.org/HI_SocVulnIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -276,16 +367,21 @@ export const hawaiiConfig = {
         chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
-          1: '#9EBBD7', // 3
-          2: '#9EBBD7', // 3
-          3: '#9EBBD7', // 3
-          4: '#0084A8', // 5
-          5: '#0084A8', // 5
-          6: '#0084A8' // 5
+          1: '#9EBBD7', 
+          2: '#9EBBD7', 
+          3: '#9EBBD7', 
+          4: '#0084A8', 
+          5: '#0084A8', 
+          6: '#0084A8' 
+        },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          3: '#9EBBD7', 
+          5: '#0084A8', 
         },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-facilities',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_facilities',
         url: 'https://tiles.resilientcoasts.org/HI_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -310,9 +406,20 @@ export const hawaiiConfig = {
           7: '#A82B41',
           8: '#7B1733'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#CCD1D2',
+          2: '#77B099',
+          3: '#355C59',
+          4: '#CDB16D',
+          5: '#BD7D46',
+          6: '#B5483E',
+          7: '#A82B41',
+          8: '#7B1733'
+        },
         chartInputName: 'asset',
-        ChartInputLabel: 'Comunity Assets Inputs',
-        chartCSSSelector: 'critical-infrastructure',
+        ChartInputLabel: 'Community Assets Inputs',
+        chartCSSSelector: 'crit_infra',
         url: 'https://tiles.resilientcoasts.org/HI_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -327,6 +434,14 @@ export const hawaiiConfig = {
         chartLabel: 'Impermeable Soils',
         chartLegendValues: 5,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#447604',
+          2: '#77D66F',
+          3: '#dce9f2',
+          4: '#755b69',
+          5: '#553555'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#447604',
           2: '#77D66F',
@@ -351,6 +466,14 @@ export const hawaiiConfig = {
         chartLabel: 'Soil Erodibility',
         chartLegendValues: 5,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#feeba2',
+          2: '#febb47',
+          3: '#f07818',
+          4: '#b84203',
+          5: '#662506'
+        },        
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#feeba2',
           2: '#febb47',
@@ -382,9 +505,17 @@ export const hawaiiConfig = {
           4: '#027976',
           5: '#014636'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#99b9d9',
+          2: '#99b9d9',
+          3: '#4095c3',
+          4: '#027976',
+          5: '#014636'
+        },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'sea-level-rise',
+        chartCSSSelector: 'sea_level_rise',
         url: 'https://tiles.resilientcoasts.org/HI_SLRIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -406,9 +537,17 @@ export const hawaiiConfig = {
           4: '#234da0',
           5: '#081d58'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#d6efb3',
+          2: '#73c8bd',
+          3: '#2498c1',
+          4: '#234da0',
+          5: '#081d58'
+        },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'storm-surge',
+        chartCSSSelector: 'storm_surge',
         url: 'https://tiles.resilientcoasts.org/HI_StormSurgeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -423,6 +562,14 @@ export const hawaiiConfig = {
         chartLabel: 'Areas of Low Slope',
         chartLegendValues: 5,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#d3eecd',
+          2: '#98d594',
+          3: '#4bb062',
+          4: '#157f3b',
+          5: '#00441b'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#d3eecd',
           2: '#98d594',
@@ -454,9 +601,17 @@ export const hawaiiConfig = {
           4: '#61409b',
           5: '#3f007d'
         },
+        chartCSSLegends: {
+          0: '#E9ECEF',
+          1: '#e2e2ef',
+          2: '#b6b6d8',
+          3: '#8683bd',
+          4: '#61409b',
+          5: '#3f007d'
+        },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'floodprone-areas',
+        chartCSSSelector: 'floodprone_areas',
         url: 'https://tiles.resilientcoasts.org/HI_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
@@ -471,6 +626,12 @@ export const hawaiiConfig = {
         chartLabel: 'Geological Stressors',
         chartLegendValues: 3,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#fbacb9',
+          2: '#cd238f',
+          3: '#49006a'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#fbacb9',
           2: '#cd238f',
@@ -493,6 +654,11 @@ export const hawaiiConfig = {
         chartLabel: 'Tsunami',
         chartLegendValues: 2,
         chartCSSColor: {
+          0: '#E9ECEF',
+          1: '#414488',
+          2: '#2A798F'
+        },
+        chartCSSLegends: {
           0: '#E9ECEF',
           1: '#414488',
           2: '#2A798F'

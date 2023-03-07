@@ -41,6 +41,7 @@ import {
 } from '@mui/icons-material';
 
 import { changeMore } from '../../reducers/analyzeAreaSlice';
+import { removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers } from '../../reducers/mapPropertiesSlice';
 import ChartActionButton from './ChartActionButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +59,12 @@ const useStyles = makeStyles((theme) => ({
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartActionButtons(props) {
-  const { areaName } = props;
+  const {
+    areaName,
+    areaIndex,
+    leafletDrawFeatureGroupRef,
+    leafletIds
+  } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -76,6 +82,19 @@ export default function ChartActionButtons(props) {
   const handleGenericClick = (event) => {
     event.stopPropagation();
     console.log('clicked'); // eslint-disable-line no-console
+  };
+
+  const handleRemoveClick = (event) => {
+    event.stopPropagation();
+    const featureGroup = leafletDrawFeatureGroupRef.current;
+    // leafletIds is a list of all the leaflet ids to remove (e.g. drawn and buffer layer)
+    leafletIds.forEach((element) => {
+      featureGroup.removeLayer(element);
+    });
+    // remove layer from drawn layers AND from zonal stats info in redux
+    dispatch(removeFeatureFromZonalStatsAreas(areaIndex));
+    // drawn layer index SHOULD match up with zonal stats. If there are errors check this out
+    dispatch(removeFeatureFromDrawnLayers(areaIndex));
   };
 
   return (
@@ -108,7 +127,7 @@ export default function ChartActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Remove'}
           buttonName={'Remove'}
-          onClick={handleGenericClick}>
+          onClick={handleRemoveClick}>
           <DeleteForever />
         </ChartActionButton>
       </Grid>
@@ -117,5 +136,8 @@ export default function ChartActionButtons(props) {
 }
 
 ChartActionButtons.propTypes = {
-  areaName: PropTypes.string.isRequired
+  areaName: PropTypes.string.isRequired,
+  areaIndex: PropTypes.number.isRequired,
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletIds: PropTypes.array
 };
