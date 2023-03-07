@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
+import { logRoles } from '@testing-library/react';
 import { ConstructionOutlined } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,22 +53,19 @@ const useStyles = makeStyles((theme) => ({
 export default function LayerLegend(props) {
   const { layer } = props;
   const classes = useStyles();
-  const colorChart = Object.values(layer.chartCSSLegends).slice(1);
-
-  const colorEntries1 = Object.entries(layer.chartCSSLegends).slice(1).map(
+  const colorChart = Object.values(layer.chartCSSColor).slice(1);
+  const colorEntries1 = Object.entries(layer.chartCSSColor).slice(1).map(
     ([key, value]) => [value, key]
-   );
-
-   const colorChartEntries = Object.fromEntries(colorEntries1);
-   const colorEntries2 = Object.values(layer.chartCSSLegends).slice(1).map( (color) =>
-   { return [color, colorChartEntries[color]];
-   })
-   let colorChartValues = Object();
-   colorChartValues = Object.fromEntries(colorEntries2);
-   const colors = Array.from(new Set(Object.values(colorChart)));
-   
-   const maxLegendWidth = 12;
-   const lightDarkThresh = 0.12;
+  );
+  const colorChartEntries = Object.fromEntries(colorEntries1);
+  const colorEntries2 = Object.values(layer.chartCSSColor).slice(1).map( (color) =>
+    {return [color, colorChartEntries[color]];}
+  ) 
+  let colorChartValues = Object();
+  colorChartValues = Object.fromEntries(colorEntries2);
+  const colors = Array.from(new Set(Object.values(colorChart)));
+  const maxLegendWidth = 12;
+  const lightDarkThresh = 0.12;
 
   function pickCSSBasedOnBgColor(bgColor) {
     const color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
