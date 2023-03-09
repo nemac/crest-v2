@@ -33,7 +33,7 @@ export default function BasemapLayer(props) {
       newBasemap.addTo(map);
       basemapRef.current = newBasemap;
     }
-  }, [map, basemapRef, attributionString]);
+  }, [map]);
 
   const handleAttributionsChange = useCallback(() => {
     attributionString.current = selectedAttributions.length > 0 ? Array.from(selectedAttributions).join(', ') : '';

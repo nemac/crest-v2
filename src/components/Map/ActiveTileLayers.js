@@ -10,9 +10,6 @@ export default function ActiveTileLayers() {
   const dispatch = useDispatch();
   const handleAttributionsChange = useCallback((currAtts, newAtts) => {
     if (currAtts.join(', ') !== newAtts.join(', ')) {
-      console.log('mismatch!');
-      console.log(`${newAtts} != ${currAtts}`);
-      console.log('dispatching ', newAtts.join(''), ' to redux state');
       dispatch(updateAttributions(newAtts));
     }
   }, [dispatch]);
