@@ -31,7 +31,6 @@ export default function ActiveTileLayers() {
     handleAttributionsChange(currAttributions, newAttributions);
   }, [handleAttributionsChange, newAttributions, currAttributions]);
   return (
-    // eslint-disable-next-line max-len
     layers
   );
 }

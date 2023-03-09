@@ -31,17 +31,17 @@ export default function BasemapLayer(props) {
     attributionString.current = selectedAttributions.length > 0 ? Array.from(selectedAttributions).join(', ') : '';
     // console.log('setting attributionString to ' + attributionString.current);
     // if (basemapRef.current !== null) {
-      // basemapRef.current.options.attribution = attributionString.current;
-      // console.log('before: ', basemapRef.current.options);
-      // basemapRef.current.attribution = attributionString.current;
-      // basemapRef.current._setupAttribution();
-      // handleBasemapChange(basemapRef.current);
-      // console.log(basemapRef.current);
-      // map.attributionControl.addAttribution(basemapRef.current.attribution);
+    // basemapRef.current.options.attribution = attributionString.current;
+    // console.log('before: ', basemapRef.current.options);
+    // basemapRef.current.attribution = attributionString.current;
+    // basemapRef.current._setupAttribution();
+    // handleBasemapChange(basemapRef.current);
+    // console.log(basemapRef.current);
+    // map.attributionControl.addAttribution(basemapRef.current.attribution);
     // }
     // console.log(basemapRef.current);
     // basemapRef.current.attribution = attributionString.current;
-  }, [selectedAttributions, map]);
+  }, [selectedAttributions]);
 
   const handleBasemapChange = useCallback((basemapName) => {
     if (basemapRef.current !== null) {
