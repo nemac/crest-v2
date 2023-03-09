@@ -8,14 +8,14 @@ const attributionsSelector = (state) => state.mapProperties.attributions;
 
 export default function ActiveTileLayers() {
   const dispatch = useDispatch();
-  const handleAttributionsChange = useCallback((newAttributions) => {
-    if (currAttributions.join(', ') !== newAttributions.join(', ')) {
+  const handleAttributionsChange = useCallback((currAtts, newAtts) => {
+    if (currAtts.join(', ') !== newAtts.join(', ')) {
       console.log('mismatch!');
-      console.log(`${newAttributions} != ${currAttributions}`);
-      console.log('dispatching ' + newAttributions.join('') + ' to redux state');
-      dispatch(updateAttributions(newAttributions));
+      console.log(`${newAtts} != ${currAtts}`);
+      console.log('dispatching ', newAtts.join(''), ' to redux state');
+      dispatch(updateAttributions(newAtts));
     }
-  });
+  }, [dispatch]);
   const currentAttributions = useSelector(attributionsSelector);
   const layerList = useSelector(activeLayerListSelector);
   const layerAttributions = new Set(); // This should become redux State and read in BasemapLayer.js
@@ -28,8 +28,8 @@ export default function ActiveTileLayers() {
   const newAttributions = Array.from(layerAttributions).sort();
 
   useEffect(() => {
-    handleAttributionsChange(newAttributions);
-  }, [handleAttributionsChange, newAttributions]);
+    handleAttributionsChange(currAttributions, newAttributions);
+  }, [handleAttributionsChange, newAttributions, currAttributions]);
   return (
     // eslint-disable-next-line max-len
     layers
