@@ -5,9 +5,11 @@ import { mapConfig } from '../../../src/configuration/config';
 import ChartHeaderActionButtons from '../../../src/components/AnalyzeArea/ChartHeaderActionButtons';
 
 //Done
-describe('ChartHeaderActionButton', () => {
+const testArea = "alaska";
+
+describe('ChartHeaderActionButtons', () => {
   beforeEach(() => {
-    render(<ChartHeaderActionButtons />).store;
+    render(<ChartHeaderActionButtons areaName={testArea} />).store;
   });
   afterEach(() => {
     cleanup();
@@ -16,7 +18,7 @@ describe('ChartHeaderActionButton', () => {
   describe('Renders as expected: ', () => {
     test('Screen as expected: ', () => {
         expect(screen.getAllByRole('button').length).toBeGreaterThan(0);
-        expect(analyzeAreaState).not.toBe(null);
+        expect(ChartHeaderActionButtons.analyzeAreaState).not.toBe(null);
     })
   })
 })

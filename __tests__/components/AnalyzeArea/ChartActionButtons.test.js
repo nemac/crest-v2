@@ -16,7 +16,7 @@ describe('ChartActionButton', () => {
     describe('Renders as expected:', () => {
       test('Screen as expected:', () => {
         expect(screen.getAllByRole('button').length).toBeGreaterThan(0);
-        expect(analyzeAreaState).not.toBe(null);
+        expect(ChartActionButtons.analyzeAreaState).not.toBe(null);
       });
     });
   });

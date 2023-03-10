@@ -4,6 +4,7 @@ import { render } from '../../setup/testUtils';
 import { mapConfig } from '../../../src/configuration/config';
 import TableData from '../../../src/components/AnalyzeArea/TableData';
 
+//Still finishing this one
 describe('TableData', () => {
   beforeEach(() => {
     render(<TableData />).store;
@@ -13,13 +14,8 @@ describe('TableData', () => {
   });
 
   describe('Renders as expected: ', () => {
-    /*test('Screen as expected: ', () => {
-        //expect(screen.getAllByRole('button').length).toBeGreaterThan(0);
+    test('Screen as expected: ', () => {
+        //expect(map.getAllByRole('button')).toBeInTheDocument();
     })
-
-    test('Funtions as expected: ', () => {
-      //expect(TableData.data.length).toBeGreaterThan(0);
-    })*/
-
   })
-}) 
+})
