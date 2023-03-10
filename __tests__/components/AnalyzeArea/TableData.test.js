@@ -5,9 +5,14 @@ import { mapConfig } from '../../../src/configuration/config';
 import TableData from '../../../src/components/AnalyzeArea/TableData';
 
 //Still finishing this one
+
+const chartTest = new Array(1);
+
+chartTest[0] = ["test", "test", 101, "test"];
+
 describe('TableData', () => {
   beforeEach(() => {
-    render(<TableData />).store;
+    render(<TableData data = {chartTest} />).store;
   });
   afterEach(() => {
     cleanup();
@@ -15,7 +20,7 @@ describe('TableData', () => {
 
   describe('Renders as expected: ', () => {
     test('Screen as expected: ', () => {
-        //expect(map.getAllByRole('button')).toBeInTheDocument();
+        expect(screen.getAllByRole('button')).toBeInTheDocument();
     })
   })
 })
