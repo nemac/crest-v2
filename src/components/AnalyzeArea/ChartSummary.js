@@ -98,6 +98,17 @@ export default function ChartSummary(props) {
     borderRadius: '6px'
   };
 
+  const formatYAxis = (value) => {
+    switch (value) {
+      case 1:
+        return 'High';
+      case 0:
+        return 'Low';
+      default:
+        return '';
+    }
+  };
+
   const getLabel = (name) => layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).label;
@@ -108,7 +119,7 @@ export default function ChartSummary(props) {
       return (
         <div className="custom-tooltip" style={divStyle}>
           <p className="label">{getLabel(label)}</p>
-          <h4 className="desc">{`${payload[0].value.toFixed(2)}`}</h4>
+          <h4 className="desc">{`${payload[0].payload.value.toFixed(2)}`}</h4>
         </div>
       );
     }
@@ -123,6 +134,7 @@ export default function ChartSummary(props) {
 
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
+
     const getColor = (name, value) => {
       const colorValue = Math.round(value);
       const selectedColor = layerList.find(
@@ -130,7 +142,15 @@ export default function ChartSummary(props) {
       ).chartCSSColor[colorValue];
       return selectedColor;
     };
-
+    const getNormValue = (name, value) => {
+      const selectedColorChart = layerList.find(
+        ((layer) => layer.chartCSSSelector === name)
+      ).chartCSSColor;
+      const allValues = Object.keys(selectedColorChart);
+      const maxValue = allValues[allValues.length - 1];
+      const normValue = value / maxValue;
+      return normValue;
+    };
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
@@ -138,7 +158,8 @@ export default function ChartSummary(props) {
     // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
-        tempData.push({ name: key, value });
+        const chartValue = getNormValue(key, value);
+        tempData.push({ name: key, value, chartValue });
       }
     });
     if (tempData.length === 0) {
@@ -172,9 +193,9 @@ export default function ChartSummary(props) {
             </text>
 
             <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
-            <YAxis />
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis}/>
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey='value' >
+            <Bar dataKey='chartValue' >
               {
                 chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={barColors[index]} />
