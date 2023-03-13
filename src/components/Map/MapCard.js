@@ -38,7 +38,7 @@ import React, {
   useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import { useMapEvents, AttributionControl } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
@@ -138,6 +138,8 @@ export default function MapCard() {
     }
   }, [map, layerListVisible]);
 
+  //here use selector, and do attribution control change here?
+  //attribution control here add regions
   useEffect(() => {
     handleRegionChange(selectedRegion, userInitiatedRegion);
   }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
@@ -197,6 +199,7 @@ export default function MapCard() {
         </Control>
         <ActiveTileLayers />
         <BasemapLayer map={map} />
+        <AttributionControl position="topright" prefix = {'hi'} />
         <MapEventsComponent />
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
