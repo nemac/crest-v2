@@ -158,6 +158,7 @@ export default function MapCard(props) {
     }
   }, [map, layerListVisible]);
 
+
   useEffect(() => {
     handleRegionChange(selectedRegion, userInitiatedRegion);
   }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
