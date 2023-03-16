@@ -100,7 +100,7 @@ export default function TableData(props) {
               {data.map((row) => (
                 Object.entries(row.zonalStatsData).map(([ind, val]) => (
                   <React.Fragment key={row.areaName + ind}>
-                    <StyledTableRow key={`${row.areaName + ind}-${row.name}`}>
+                    <StyledTableRow key={`${row.areaName}-${row.name}`}>
                       <TableCell align="left">{row.areaName}</TableCell>
                       <TableCell align="left">{getLabel(row, ind)}</TableCell>
                       <TableCell align="left">{val}</TableCell>
