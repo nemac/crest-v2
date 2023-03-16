@@ -31,6 +31,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { mapConfig } from '../../configuration/config';
+
+const regions = mapConfig.regions;
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
@@ -65,6 +68,28 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function TableData(props) {
   const classes = useStyles();
   const { data } = props;
+  const getLabel = (area, name) => {
+    const region = regions[area.region];
+    const layerList = region.layerList;
+    const selectedLayer = layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    );
+    const thisLabel = selectedLayer.label;
+    return thisLabel;
+  };
+  const getRange = (area, name) => {
+    const region = regions[area.region];
+    const layerList = region.layerList;
+    const selectedLayer = layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    );
+    const selectedColorChart = selectedLayer.chartCSSColor;
+    const allValues = Object.keys(selectedColorChart);
+    const minValue = allValues[0];
+    const maxValue = allValues[allValues.length - 1];
+    const thisRange = `${minValue}-${maxValue}`;
+    return thisRange;
+  };
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} className={classes.contentBox}>
@@ -81,15 +106,16 @@ export default function TableData(props) {
             </TableHead>
             <TableBody>
               {data.map((row) => (
-                <React.Fragment key={row.areaName}>
-                  <StyledTableRow key={`${row.areaName}-${row.name}`}>
-                    <TableCell align="left">{row.areaName}</TableCell>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="left">{row.value}</TableCell>
-                    <TableCell align="left">{row.range}</TableCell>
-                  </StyledTableRow>
-                </React.Fragment>
-              ))}
+                Object.entries(row.zonalStatsData).map(([ind, val]) => (
+                  <React.Fragment key={row.areaName + ind}>
+                    <StyledTableRow key={`${row.areaName + ind}-${row.name}`}>
+                      <TableCell align="left">{row.areaName}</TableCell>
+                      <TableCell align="left">{getLabel(row, ind)}</TableCell>
+                      <TableCell align="left">{val}</TableCell>
+                      <TableCell align="left">{getRange(row, ind)}</TableCell>
+                    </StyledTableRow>
+                  </React.Fragment>
+                ))))}
             </TableBody>
           </Table>
         </TableContainer>
