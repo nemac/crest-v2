@@ -79,9 +79,9 @@ export default function ChartSummary(props) {
   const [chartData, setChartData] = useState([]);
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
-    'Fish and Wildlife Inputs': ['aquatic', 'terrestrial'],
+    'Fish and Wildlife Inputs': ['aquatic', 'terrestrial', 'marine'],
     'Threats Inputs': [
-      'floodprone_areas', 'slope', 'sea_level_rise', 'low_areas', 'drainage',
+      'floodprone_areas', 'slope', 'sea_level_rise', 'low_areas', 'drainage', 'impermeable',
       'storm_surge', 'erosion', 'tsunami', 'permafrost', 'wave_flooding', 'geostress'],
     'Community Assets Inputs': [
       'pop_density', 'crit_infra', 'transportation',

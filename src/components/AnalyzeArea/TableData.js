@@ -73,6 +73,7 @@ export default function TableData(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
 
   const getLabel = (area, name) => {
+    console.log(name);
     const thisLabel = regions[area.region].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
     ).label;
