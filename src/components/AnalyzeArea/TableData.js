@@ -69,25 +69,17 @@ export default function TableData(props) {
   const classes = useStyles();
   const { data } = props;
   const getLabel = (area, name) => {
-    const region = regions[area.region];
-    const layerList = region.layerList;
-    const selectedLayer = layerList.find(
+    const thisLabel = regions[area.region].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
-    );
-    const thisLabel = selectedLayer.label;
+    ).label;
     return thisLabel;
   };
   const getRange = (area, name) => {
-    const region = regions[area.region];
-    const layerList = region.layerList;
-    const selectedLayer = layerList.find(
+    const selectedColorChart = regions[area.region].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
-    );
-    const selectedColorChart = selectedLayer.chartCSSColor;
+    ).chartCSSColor;
     const allValues = Object.keys(selectedColorChart);
-    const minValue = allValues[0];
-    const maxValue = allValues[allValues.length - 1];
-    const thisRange = `${minValue}-${maxValue}`;
+    const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
     return thisRange;
   };
 
