@@ -292,7 +292,7 @@ export const americanSamoaConfig = {
         4: '#005A62'
       },
       ChartInputLabel: 'Fish and Wildlife Inputs',
-      chartCSSSelector: 'aquatic',
+      chartCSSSelector: 'marine',
       url: 'https://tiles.resilientcoasts.org/AS_AquaticIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -474,7 +474,7 @@ export const americanSamoaConfig = {
         5: '#553555' 
       },
       ChartInputLabel: 'Threats Inputs',
-      chartCSSSelector: 'drainage',
+      chartCSSSelector: 'impermeable',
       url: 'https://tiles.resilientcoasts.org/AS_DraingeIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
