@@ -48,7 +48,7 @@ import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import { mapConfig } from '../../configuration/config';
 
-import ChartInteractiveLabels from './ChartInteractiveLabels';
+import ChartCustomLabels from './ChartCustomLabels';
 
 const regions = mapConfig.regions;
 
@@ -203,7 +203,7 @@ export default function ChartSummary(props) {
               <tspan fontSize="14">{chartLabel}</tspan>
             </text>
 
-            <XAxis dataKey="tickLabel" tick={<ChartInteractiveLabels />} style={{ fontSize: '8px' }} interval={0} height={80} />
+            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontSize: '8px' }} interval={0} height={80} />
             <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontSize: '10px' }} interval={0}/>
 
             <Tooltip content={<CustomTooltip />} />
