@@ -102,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MapCard(props) {
-  // const [map, setMap] = useState(null);
   const {
     map,
     setMap,
@@ -135,7 +134,7 @@ export default function MapCard(props) {
 
     // ensure map has been instantiated
     if (map) {
-      // zoom ot region locations
+      // zoom to region locations
       map.setView(
         regions[regionName].mapProperties.center,
         regions[regionName].mapProperties.zoom

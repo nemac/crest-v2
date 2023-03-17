@@ -40,7 +40,8 @@ import {
   // FileUpload
 } from '@mui/icons-material';
 
-import { uploadShapeFile } from '../../reducers/mapPropertiesSlice';
+import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
+import { Shape2GeoJSON } from '../../api/shapeFileToGeoJson';
 
 const useStyles = makeStyles((theme) => ({
   actionButton: {
@@ -69,13 +70,16 @@ export default function Upload(props) {
       return;
     }
     // reject incoming file if the size is greater than 10 MB
-    if (file.size > 10000) {
+    if (file.size > 100000000000) {
       setTooLargeLayerOpen(true);
       setFile(null);
       return;
     }
-    const s3TestLocation = 'https://nfwf-tool-user-shapes.s3.amazonaws.com/prod/000225eb73fc4eba9de3499cc135a93c';
-    dispatch(uploadShapeFile(s3TestLocation));
+
+    const uploadShapeFilePromise = Shape2GeoJSON(file);
+    uploadShapeFilePromise.then((data) => {
+      dispatch(uploadedShapeFileGeoJSON(data));
+    });
   }, [file, setFile, dispatch, setTooLargeLayerOpen]);
 
   return (
@@ -92,8 +96,7 @@ export default function Upload(props) {
         Upload Shapefile
         <input
           type="file"
-          multiple={true}
-          accept=".zip, .shp, .dbf, .prj, .geojson, .json"
+          accept=".zip"
           onChange={handleFileChange}
           style={{ display: 'none' }}/>
       </Button>

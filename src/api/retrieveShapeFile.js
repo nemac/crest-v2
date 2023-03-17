@@ -5,7 +5,6 @@ export const retrieveShapeFile = async (url) => {
       'Access-Control-Allow-Origin': '*'
     }
   });
-  console.log(response);
   const data = await response.json();
   return data;
 };

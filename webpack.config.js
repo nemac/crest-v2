@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-//const webpack = require('webpack');
+const webpack = require('webpack');
 
 // We'll refer to our source and dist paths frequently, so let's store them here
 //const PATH_SOURCE = path.join(__dirname, './src');
@@ -41,6 +41,12 @@ module.exports = {
     /*resolve: {
       extensions: ['.js', '.jsx'],
     },*/
+
+    resolve: {
+      fallback: {
+        buffer: require.resolve("buffer/")
+      }
+    },
     // Determine how the different types of modules will be treated.
     // https://webpack.js.org/configuration/module
     // https://webpack.js.org/concepts#loaders
@@ -97,5 +103,8 @@ module.exports = {
         filename:  path.join('css/style.[name].css'),
         chunkFilename: "[name].css"
       }),
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer']
+      })
     ],
 };
