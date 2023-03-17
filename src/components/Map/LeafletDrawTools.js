@@ -170,7 +170,8 @@ export default function LeafletDrawTools(props) {
       return;
     }
 
-    let counter = 1000;
+    // I couldn't get areaNumberRef working like I wanted to so using a local counter instead
+    let counter = areaNumber;
     const shapeFileFeatures = JSON.parse(JSON.stringify(shapeFileGeoJSON.features));
     shapeFileFeatures.forEach((shapeFeature, index) => {
       const shapeFeatureCopy = shapeFeature;
@@ -187,7 +188,7 @@ export default function LeafletDrawTools(props) {
       const areaName = `Area ${counter}`;
       const geojson = enrichGeoJsonWithProperties(layer, bufferLayer, areaName);
       counter += 1;
-      setAreaNumber(areaNumber + 1);
+      setAreaNumber(counter); // so the areaNumber is in sync with the counter
       layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
 
       // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
