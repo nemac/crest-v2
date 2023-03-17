@@ -25,7 +25,7 @@ Props
   - Not sure yet
 */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import * as L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
@@ -36,7 +36,6 @@ import * as turf from '@turf/turf';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
 import {
-  addNewFeatureToZonalStatsAreas,
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
   removeAllFeaturesFromDrawnLayers,
@@ -47,7 +46,6 @@ import {
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
-const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
 const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
 
 const useStyles = makeStyles((theme) => ({
@@ -83,13 +81,10 @@ export default function LeafletDrawTools(props) {
   };
   const maxPolygonAreaSize = 100000000; // 1000 sq km
   const [areaNumber, setAreaNumber] = useState(1);
-  const areaNumberRef = useRef();
-  areaNumberRef.current = areaNumber;
 
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
-  const zonalStatsAreas = useSelector(zonalStatsAreasSelector);
   const shapeFileGeoJSON = useSelector(uploadedShapeFileSelector);
 
   // BEGIN FUNCTIONS FOR DRAWN LAYERS
