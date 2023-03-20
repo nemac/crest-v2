@@ -84,6 +84,17 @@ export default function ChartActionButtons(props) {
     console.log('clicked'); // eslint-disable-line no-console
   };
 
+  const handleExportClick = (event) => {
+    event.stopPropagation();
+    console.log('clicked EXPORT'); // eslint-disable-line no-console
+    const rows = [['Index', 'Values', 'Range(s)']
+    ];
+    const data = rows.map((e) => e.join(',')).join('\n');
+    const csvContent = `data:text/csv;charset=utf-8,${data}`;
+    const encodedUri = encodeURI(csvContent);
+    window.open(encodedUri);
+  };
+
   const handleRemoveClick = (event) => {
     event.stopPropagation();
     const featureGroup = leafletDrawFeatureGroupRef.current;
@@ -111,7 +122,7 @@ export default function ChartActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={handleGenericClick}>
+          onClick={handleExportClick}>
           <CameraAlt />
         </ChartActionButton>
       </Grid>
