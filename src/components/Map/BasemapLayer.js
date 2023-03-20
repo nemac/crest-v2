@@ -28,7 +28,8 @@ export default function BasemapLayer(props) {
       const newBasemap = vectorBasemapLayer(basemaps[basemapName], {
         apikey: 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By',
         pane: 'mapPane',
-        attribution: attributionString.current
+        // attribution: attributionString.current
+        attribution: 'NFWF 2020, NFWF 2022'
       });
       newBasemap.addTo(map);
       basemapRef.current = newBasemap;
@@ -37,7 +38,7 @@ export default function BasemapLayer(props) {
 
   const handleAttributionsChange = useCallback(() => {
     attributionString.current = selectedAttributions.length > 0 ? Array.from(selectedAttributions).join(', ') : '';
-    handleBasemapChange(selectedBasemap);
+    // handleBasemapChange(selectedBasemap);
   }, [handleBasemapChange, selectedAttributions, selectedBasemap]);
 
   useEffect(() => {
