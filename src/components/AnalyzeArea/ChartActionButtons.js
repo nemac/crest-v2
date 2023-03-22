@@ -43,6 +43,7 @@ import {
 import { changeMore } from '../../reducers/analyzeAreaSlice';
 import { removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers } from '../../reducers/mapPropertiesSlice';
 import ChartActionButton from './ChartActionButton';
+import { mapConfig } from '../../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
@@ -56,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
+const regions = mapConfig.regions;
+const selectedRegionSelector = (state) => state.selectedRegion.value;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartActionButtons(props) {
@@ -63,12 +66,30 @@ export default function ChartActionButtons(props) {
     areaName,
     areaIndex,
     data,
+    chartIndices,
     leafletDrawFeatureGroupRef,
     leafletIds
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+  const selectedRegion = useSelector(selectedRegionSelector);
+
+  console.log(data);
+  const getLabel = (name) => {
+    const thisLabel = regions[selectedRegion].layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    ).label;
+    return thisLabel;
+  };
+  const getRange = (name) => {
+    const selectedColorChart = regions[selectedRegion].layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    ).chartCSSColor;
+    const allValues = Object.keys(selectedColorChart);
+    const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
+    return thisRange;
+  };
 
   // handle state change more charts or more details charts
   const handleMoreOnClick = () => {
@@ -87,11 +108,30 @@ export default function ChartActionButtons(props) {
 
   const handleExportClick = (event) => {
     event.stopPropagation();
-    console.log('clicked EXPORT'); // eslint-disable-line no-console
-    console.log(event);
+    // console.log(event);
+    // console.log(chartIndices);
+    // Parse out data by chartIndices
+    // console.log(data);
+    const dataRows = [];
+    Object.entries(data).map(([index, value]) => {
+      const thisRow = [];
+      thisRow.push(getLabel(index)); // need to get label here
+      thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
+      thisRow.push(getRange(index)); // need to get range here
+      dataRows.push(thisRow);
+    });
+
     const rows = [['Index', 'Values', 'Range(s)']];
+    dataRows.map((row) => {
+      rows.push(row);
+    });
+    // Object.entries(data).map(([index, val]) => {
+    //   const thisRow = [];
+    //   console.log('index: ', index, ' val: ', val);
+    // })
+    // const rows = [['Index', 'Values', 'Range(s)']];
     const csvData = rows.map((e) => e.join(',')).join('\n');
-    console.log('data that would pass: ', data);
+    // console.log('data that would pass: ', data);
     const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
     const encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
@@ -154,6 +194,8 @@ ChartActionButtons.defaultProps = {
 ChartActionButtons.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
+  data: PropTypes.object,
+  chartIndices: PropTypes.array.isRequired,
   leafletDrawFeatureGroupRef: PropTypes.object,
   leafletIds: PropTypes.array
 };

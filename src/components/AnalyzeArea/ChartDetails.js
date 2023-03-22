@@ -28,7 +28,7 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@mui/styles';
@@ -67,6 +67,17 @@ export default function ChartDetails(props) {
     zonalStatsData
   } = props;
 
+  const chartValues = useRef({
+    'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
+    'Fish and Wildlife Inputs': ['aquatic', 'terrestrial', 'marine'],
+    'Threats Inputs': [
+      'floodprone_areas', 'slope', 'sea_level_rise', 'low_areas', 'drainage', 'impermeable',
+      'storm_surge', 'erosion', 'tsunami', 'permafrost', 'wave_flooding', 'geostress'],
+    'Community Assets Inputs': [
+      'pop_density', 'crit_infra', 'transportation',
+      'social_vuln', 'crit_facilities']
+  });
+
   return (
     <div>
       <Box className={classes.contentBox} >
@@ -76,6 +87,7 @@ export default function ChartDetails(props) {
           chartRegion={region}
           zonalStatsData={zonalStatsData}
           chartType={'Summary Chart'}
+          chartIndices={chartValues.current['Summary Chart']}
         />
       </Box>
       <ChartDetailsActionButtons areaIndex={areaIndex} />
@@ -86,6 +98,7 @@ export default function ChartDetails(props) {
           areaIndex={areaIndex}
           chartRegion={region}
           zonalStatsData={zonalStatsData}
+          chartIndices={chartValues.current['Fish and Wildlife Inputs']}
           chartType={'Fish and Wildlife Inputs'}
         />
       </Box>
@@ -97,6 +110,7 @@ export default function ChartDetails(props) {
           areaIndex={areaIndex}
           chartRegion={region}
           zonalStatsData={zonalStatsData}
+          chartIndices={chartValues.current['Threats Inputs']}
           chartType={'Threats Inputs'}
         />
       </Box>
@@ -108,6 +122,7 @@ export default function ChartDetails(props) {
           areaIndex={areaIndex}
           chartRegion={region}
           zonalStatsData={zonalStatsData}
+          chartIndices={chartValues.current['Community Assets Inputs']}
           chartType={'Community Assets Inputs'}
         />
       </Box>

@@ -145,17 +145,17 @@ export default function ChartsHolder(props) {
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(changeEmptyState());
   };
-
+  // This exports all data for all areas
   const handleExportClick = (event) => {
     event.stopPropagation();
     const dataRows = [];
     chartData.map((area) => {
-      Object.entries(area.zonalStatsData).map((index) => {
+      Object.entries(area.zonalStatsData).map(([index, value]) => {
         const thisRow = [];
         thisRow.push(area.areaName);
-        thisRow.push(getLabel(area, index[0])); // need to get label here
-        thisRow.push(Number.isNaN(Number(index[1])) ? 'No Data' : index[1].toFixed(3)); // need to get value here
-        thisRow.push(getRange(area, index[0])); // need to get range here
+        thisRow.push(getLabel(area, index)); // need to get label here
+        thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
+        thisRow.push(getRange(area, index)); // need to get range here
         dataRows.push(thisRow);
       });
     });
