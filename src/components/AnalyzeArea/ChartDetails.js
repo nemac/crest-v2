@@ -90,7 +90,11 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Summary Chart']}
         />
       </Box>
-      <ChartDetailsActionButtons areaIndex={areaIndex} />
+      <ChartDetailsActionButtons
+      areaIndex={areaIndex}
+      data={zonalStatsData}
+      chartIndices={chartValues.current['Summary Chart']}
+       />
 
       <Box className={classes.contentBox} >
       <ChartSummary
@@ -102,7 +106,11 @@ export default function ChartDetails(props) {
           chartType={'Fish and Wildlife Inputs'}
         />
       </Box>
-      <ChartDetailsActionButtons areaIndex={areaIndex}/>
+      <ChartDetailsActionButtons
+      areaIndex={areaIndex}
+      data={zonalStatsData}
+      chartIndices={chartValues.current['Fish and Wildlife Inputs']}
+      />
 
       <Box className={classes.contentBox} >
       <ChartSummary
@@ -126,7 +134,11 @@ export default function ChartDetails(props) {
           chartType={'Community Assets Inputs'}
         />
       </Box>
-      <ChartDetailsActionButtons areaIndex={areaIndex}/>
+      <ChartDetailsActionButtons
+      areaIndex={areaIndex}
+      data={zonalStatsData}
+      chartIndices={chartValues.current['Community Assets Inputs']}
+      />
 
       <Box className={classes.contentBox} >
         Landcover Chart {areaName}
