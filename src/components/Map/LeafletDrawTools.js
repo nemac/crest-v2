@@ -32,22 +32,21 @@ import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import buffer from '@turf/buffer';
+import * as turf from '@turf/turf';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
-import { retrieveShapeFile } from '../../api/retrieveShapeFile';
 import {
-  addNewFeatureToZonalStatsAreas,
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
   removeAllFeaturesFromDrawnLayers,
-  removeAllFeaturesFromZonalStatsAreas
+  removeAllFeaturesFromZonalStatsAreas,
+  uploadedShapeFileGeoJSON
 } from '../../reducers/mapPropertiesSlice';
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
-const zonalStatsAreasSelector = (state) => state.mapProperties.zonalStatsAreas;
-const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFile;
+const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
 
 const useStyles = makeStyles((theme) => ({
   // Feels a bit hacky that I had to tack !important on to everything to get the override
@@ -69,13 +68,8 @@ export default function LeafletDrawTools(props) {
     setTooLargeLayerOpen
   } = props;
   const classes = useStyles();
-  const [areaNumber, setAreaNumber] = useState(1);
   const dispatch = useDispatch();
-  const drawToolsEnabled = useSelector(sketchAreaSelector);
-  const selectedRegion = useSelector(selectedRegionSelector);
-  const drawnLayersFromState = useSelector(drawnLayersSelector);
-  const zonalStatsAreas = useSelector(zonalStatsAreasSelector);
-  const uploadedShapeFile = useSelector(uploadedShapeFileSelector);
+
   const bufferSize = 1;
   const bufferUnits = 'kilometers';
   const bufferStyle = {
@@ -85,6 +79,47 @@ export default function LeafletDrawTools(props) {
       'stroke-width': 5
     }
   };
+  const maxPolygonAreaSize = 100000000; // 1000 sq km
+  const [areaNumber, setAreaNumber] = useState(1);
+
+  const drawToolsEnabled = useSelector(sketchAreaSelector);
+  const selectedRegion = useSelector(selectedRegionSelector);
+  const drawnLayersFromState = useSelector(drawnLayersSelector);
+  const shapeFileGeoJSON = useSelector(uploadedShapeFileSelector);
+
+  // BEGIN FUNCTIONS FOR DRAWN LAYERS
+
+  const calculateAreaOfPolygon = ((layer) => {
+    const geojson = layer.toGeoJSON();
+    const coordinates = geojson.geometry.coordinates;
+    const polygon = turf.polygon(coordinates);
+    const area = turf.area(polygon);
+    return area;
+  });
+
+  const createBufferLayer = ((layer) => {
+    const geojson = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
+    const bufferLayer = L.geoJSON(geojson, { style: bufferStyle });
+    return bufferLayer;
+  });
+
+  const enrichGeoJsonWithProperties = ((layer, bufferLayer, areaName) => {
+    const geojson = layer.toGeoJSON();
+    geojson.properties = geojson.properties || {};
+    const leafletId = L.stamp(layer);
+    const bufferLayerId = L.stamp(bufferLayer);
+    const leafletIdsList = [leafletId, bufferLayerId];
+    geojson.properties.leafletId = leafletId;
+    geojson.properties.bufferLayerId = bufferLayerId;
+    geojson.properties.leafletIds = leafletIdsList;
+    geojson.properties.areaName = areaName;
+    geojson.properties.buffer = bufferCheckbox;
+    geojson.properties.region = selectedRegion;
+
+    return geojson;
+  });
+
+  // END FUNCTIONS FOR DRAWN LAYERS
 
   /* This useEffect runs once on startup and is responsible for creating layers from state
      1. Copy drawn layer state to local variable and clear drawn layer and zonal stats state
@@ -96,30 +131,28 @@ export default function LeafletDrawTools(props) {
     const features = JSON.parse(JSON.stringify(drawnLayersFromState.features));
     let areaNameAdjustment; // we will use this to determine what area name number we are on
     // make a deep copy of the features from state since I was getting read only errors otherwise
-    const areasFeatures = JSON.parse(JSON.stringify(zonalStatsAreas.features));
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(removeAllFeaturesFromZonalStatsAreas());
-    features.forEach((feature, index) => {
+    features.forEach((feature) => {
       const featureCopy = feature;
       const areaName = featureCopy.properties.areaName;
       areaNameAdjustment = parseInt(areaName.split(' ')[1], 10); // should number of highest area in list
-      const zonalStatsFeature = areasFeatures[index]; // HUGE assumption that indexes match
       let layer = L.geoJSON(feature);
       const layerId = L.stamp(layer);
       featureCopy.properties.leafletId = layerId;
       const leafletIdsList = [layerId];
-      layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
       leafletDrawFeatureGroupRef.current.addLayer(layer);
-      dispatch(addNewFeatureToDrawnLayers(featureCopy));
+      layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
       if (feature.properties.buffer) {
         layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
         layer = L.geoJSON(layer, { style: bufferStyle });
         const bufferLayerId = L.stamp(layer);
+        featureCopy.properties.bufferLayerId = bufferLayerId;
         leafletIdsList.push(bufferLayerId);
         leafletDrawFeatureGroupRef.current.addLayer(layer);
       }
-      zonalStatsFeature.properties.leafletIds = leafletIdsList;
-      dispatch(addNewFeatureToZonalStatsAreas(zonalStatsFeature));
+      featureCopy.properties.leafletIds = leafletIdsList;
+      dispatch(addNewFeatureToDrawnLayers(featureCopy));
       // bump area number up total length of features so no duplicate area names
       setAreaNumber(areaNumber + areaNameAdjustment);
     });
@@ -127,75 +160,89 @@ export default function LeafletDrawTools(props) {
   }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   // Watches for an uploaded shapefile and adds it as a layer to leaflet Draw feature group
-  // useEffect(() => {
-  //   if (!uploadedShapeFile) {
-  //     return;
-  //   }
-  //   const retrieveShapeFilesPromise = retrieveShapeFile(uploadedShapeFile);
-  //   retrieveShapeFilesPromise.then((data) => {
-  //     console.log(data);
-  //   });
-  // }, [uploadedShapeFile]);
+  useEffect(() => {
+    if (!shapeFileGeoJSON) {
+      return;
+    }
+
+    // I couldn't get areaNumberRef working like I wanted to so using a local counter instead
+    let counter = areaNumber;
+    const shapeFileFeatures = JSON.parse(JSON.stringify(shapeFileGeoJSON.features));
+    shapeFileFeatures.forEach((shapeFeature, index) => {
+      const shapeFeatureCopy = shapeFeature;
+      const layer = L.geoJSON(shapeFeatureCopy);
+      leafletDrawFeatureGroupRef.current.addLayer(layer);
+
+      // check if buffer checkbox is checked and if so, create a buffer using turf.js
+      let bufferLayer;
+      if (bufferCheckbox) {
+        bufferLayer = createBufferLayer(layer);
+        leafletDrawFeatureGroupRef.current.addLayer(bufferLayer); // add buffer layer to ref
+      }
+
+      const areaName = `Area ${counter}`;
+      const geojson = enrichGeoJsonWithProperties(layer, bufferLayer, areaName);
+      counter += 1;
+      setAreaNumber(counter); // so the areaNumber is in sync with the counter
+      layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+
+      // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
+      const dummyFeatureGroup = L.featureGroup();
+      dummyFeatureGroup.addLayer(layer);
+      const dummyFeatureGroupGeoJSON = dummyFeatureGroup.toGeoJSON();
+      const zonalStatsPromise = zonalStatsAPI(dummyFeatureGroupGeoJSON, selectedRegion);
+
+      // Wait for promise to complete, add returned zonal stats, and then add to redux
+      zonalStatsPromise.then((data) => {
+        data.features.forEach((feature) => {
+          geojson.properties.zonalStatsData = feature.properties.mean; // Should only be 1 feature
+          dispatch(addNewFeatureToDrawnLayers(geojson));
+          setDrawAreaDisabled(false);
+        });
+      });
+    });
+    dispatch(uploadedShapeFileGeoJSON(null));
+  }, [shapeFileGeoJSON, dispatch]);
 
   function onCreated(e) {
-    // toggle sketch area off since new area was just created
+    // Toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
-    // Doing a quick check up top to make sure that the newly drawn polygon isn't too big
-    const drawnLayerBounds = e.layer.getBounds();
-    const latDiff = Math.abs(drawnLayerBounds._southWest.lat - drawnLayerBounds._northEast.lat);
-    const lngDiff = Math.abs(drawnLayerBounds._southWest.lng - drawnLayerBounds._northEast.lng);
-    if ((latDiff >= 3 || lngDiff >= 3) || (latDiff >= 2 && lngDiff >= 2)) {
+
+    // Check size of polygon and remove it and return if it is too large
+    if (calculateAreaOfPolygon(e.layer) > maxPolygonAreaSize) {
       setTooLargeLayerOpen(true);
       leafletDrawFeatureGroupRef.current.removeLayer(e.layer);
       return;
     }
 
-    setDrawAreaDisabled(true); // disable draw until zonal stats done below
-    const areaName = `Area ${areaNumber}`;
-    const drawnLayer = e.layer;
-    drawnLayer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
-    let layerToAnalyze = e.layer;
-    const leafletIdsList = [L.stamp(drawnLayer)];
-    const drawnLayerGeoJSON = drawnLayer.toGeoJSON();
-    drawnLayerGeoJSON.properties.leafletId = L.stamp(drawnLayer);
-    drawnLayerGeoJSON.properties.areaName = areaName;
-    drawnLayerGeoJSON.properties.buffer = bufferCheckbox;
-    drawnLayerGeoJSON.properties.region = selectedRegion;
-    // dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
+    // disable draw until zonal stats done below
+    setDrawAreaDisabled(true);
 
-    // check if buffer checkbox is checked and if so, create a 1 km buffer using turf.js
+    // check if buffer checkbox is checked and if so, create a buffer using turf.js
+    let bufferLayer;
     if (bufferCheckbox) {
-      layerToAnalyze = buffer(layerToAnalyze.toGeoJSON(), bufferSize, { units: bufferUnits });
-      layerToAnalyze = L.geoJSON(layerToAnalyze, { style: bufferStyle });
-      const bufferLayerId = L.stamp(layerToAnalyze);
-      leafletIdsList.push(bufferLayerId);
-      drawnLayerGeoJSON.properties.bufferLayerId = bufferLayerId;
-      leafletDrawFeatureGroupRef.current.addLayer(layerToAnalyze); // add buffer layer to ref
+      bufferLayer = createBufferLayer(e.layer);
+      leafletDrawFeatureGroupRef.current.addLayer(bufferLayer); // add buffer layer to ref
     }
 
-    // Create dummy featureGroup, add to geojson, and call zonal stats.
+    // Enrich geojson with properties, bind tooltip, and choose which layer to analyze
+    const areaName = `Area ${areaNumber}`;
+    const geojson = enrichGeoJsonWithProperties(e.layer, bufferLayer, areaName);
+    setAreaNumber(areaNumber + 1);
+    e.layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+    const layerToAnalyze = bufferLayer || e.layer;
+
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
     const dummyFeatureGroup = L.featureGroup();
     dummyFeatureGroup.addLayer(layerToAnalyze);
-    const featureGroupGeoJSON = dummyFeatureGroup.toGeoJSON();
-    const zonalStatsPromise = zonalStatsAPI(featureGroupGeoJSON, selectedRegion);
+    const dummyFeatureGroupGeoJSON = dummyFeatureGroup.toGeoJSON();
+    const zonalStatsPromise = zonalStatsAPI(dummyFeatureGroupGeoJSON, selectedRegion);
 
     // Wait for promise to complete, add returned zonal stats, and then add to redux
     zonalStatsPromise.then((data) => {
-      featureGroupGeoJSON.features.forEach((feature) => {
-        // make copy of feature and enrich it with leaflet id and mean results from zonal stats
-        const tempFeature = feature;
-        tempFeature.properties.zonalStatsData = data.features[0].properties.mean;
-        tempFeature.properties.areaName = `Area ${areaNumber}`;
-        tempFeature.properties.leafletIds = leafletIdsList;
-        tempFeature.properties.drawnLayerGeoJSON = drawnLayer.toGeoJSON();
-        drawnLayerGeoJSON.properties.zonalStatsData = data.features[0].properties.mean;
-        drawnLayerGeoJSON.properties.leafletIds = leafletIdsList;
-        console.log(drawnLayerGeoJSON);
-        // dispatch(addNewFeatureToDrawnLayers(tempFeature));
-        dispatch(addNewFeatureToDrawnLayers(drawnLayerGeoJSON));
-        dispatch(addNewFeatureToZonalStatsAreas(tempFeature));
-        setAreaNumber(areaNumber + 1);
+      data.features.forEach((feature) => {
+        geojson.properties.zonalStatsData = feature.properties.mean; // Should only be 1 feature
+        dispatch(addNewFeatureToDrawnLayers(geojson));
         setDrawAreaDisabled(false);
       });
     });

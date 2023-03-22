@@ -50,7 +50,7 @@ export default function Buffer(props) {
           aria-label={'Include a Buffer for Nearby Impacts'}
           label='Include a Buffer for Nearby Impacts'
           className={classes.actionButton}
-          onClick={ () => { setBufferCheckbox(!bufferCheckbox); }}
+          onChange={ () => { setBufferCheckbox(!bufferCheckbox); }}
         />
       </FormGroup>
     </Box>

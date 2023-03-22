@@ -48,6 +48,8 @@ import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import { mapConfig } from '../../configuration/config';
 
+import ChartCustomLabels from './ChartCustomLabels';
+
 const regions = mapConfig.regions;
 
 const useStyles = makeStyles((theme) => ({
@@ -79,9 +81,9 @@ export default function ChartSummary(props) {
   const [chartData, setChartData] = useState([]);
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
-    'Fish and Wildlife Inputs': ['aquatic', 'terrestrial'],
+    'Fish and Wildlife Inputs': ['aquatic', 'terrestrial', 'marine'],
     'Threats Inputs': [
-      'floodprone_areas', 'slope', 'sea_level_rise', 'low_areas', 'drainage',
+      'floodprone_areas', 'slope', 'sea_level_rise', 'low_areas', 'drainage', 'impermeable',
       'storm_surge', 'erosion', 'tsunami', 'permafrost', 'wave_flooding', 'geostress'],
     'Community Assets Inputs': [
       'pop_density', 'crit_infra', 'transportation',
@@ -109,16 +111,12 @@ export default function ChartSummary(props) {
     }
   };
 
-  const getLabel = (name) => layerList.find(
-    ((layer) => layer.chartCSSSelector === name)
-  ).label;
-
   const CustomTooltip = ({ active, payload, label }) => {
     // eslint-disable-next-line max-len
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
         <div className="custom-tooltip" style={divStyle}>
-          <p className="label">{getLabel(label)}</p>
+          <p className="label">{label}</p>
           <h4 className="desc">{`${payload[0].payload.value.toFixed(2)}`}</h4>
         </div>
       );
@@ -135,12 +133,19 @@ export default function ChartSummary(props) {
   const handleGetZonalStatsData = useCallback((data) => {
     // Bar Color is functional based on value comparison with config
 
-    const getColor = (name, value) => {
+    const getData = (name, value) => {
       const colorValue = Math.round(value);
-      const selectedColor = layerList.find(
+      const selectedLayerData = layerList.find(
         ((layer) => layer.chartCSSSelector === name)
-      ).chartCSSColor[colorValue];
-      return selectedColor;
+      );
+      const selectedChartLabel = selectedLayerData.chartLabel;
+      const selectedColorChart = selectedLayerData.chartCSSColor;
+      const selectedColor = selectedColorChart[colorValue];
+      const allValues = Object.keys(selectedColorChart);
+      const maxValue = allValues[allValues.length - 1];
+      const normValue = value / maxValue;
+      const retData = [selectedColor, normValue, selectedChartLabel];
+      return retData;
     };
     const getNormValue = (name, value) => {
       const selectedColorChart = layerList.find(
@@ -158,15 +163,21 @@ export default function ChartSummary(props) {
     // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
       if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
-        const chartValue = getNormValue(key, value);
-        tempData.push({ name: key, value, chartValue });
+        const layerData = getData(key, value);
+        const barColor = layerData[0];
+        const chartValue = layerData[1];
+        const tickLabel = layerData[2];
+        tempData.push({
+          name: key, value, chartValue, tickLabel
+        });
+        tempColors.push(barColor);
       }
     });
     if (tempData.length === 0) {
       dataToPlot.current = false;
     }
     // Match colors to data
-    tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
+    // tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
     setChartData(tempData);
     setBarColors(tempColors);
   }, [layerList, chartType]);
@@ -192,8 +203,9 @@ export default function ChartSummary(props) {
               <tspan fontSize="14">{chartLabel}</tspan>
             </text>
 
-            <XAxis dataKey="name" tick={{ fill: 'white' }} style={{ fontSize: '12px' }} />
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis}/>
+            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontSize: '8px' }} interval={0} height={80} />
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontSize: '10px' }} interval={0}/>
+
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >
               {
