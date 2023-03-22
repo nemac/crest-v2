@@ -50,6 +50,7 @@ import {
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
+import { mapConfig } from '../../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
   gridHolder: {
@@ -66,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 // TODO config should be imported from config directory
 
 // selector named functions for lint rules makes it easier to re-use if needed.
+const regions = mapConfig.regions;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
 
@@ -85,6 +87,20 @@ export default function ChartsHolder(props) {
   // console.log(drawnLayerFeatures);
   const [chartData, setChartData] = useState([]);
   const classes = useStyles();
+  const getLabel = (area, name) => {
+    const thisLabel = regions[area.region].layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    ).label;
+    return thisLabel;
+  };
+  const getRange = (area, name) => {
+    const selectedColorChart = regions[area.region].layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    ).chartCSSColor;
+    const allValues = Object.keys(selectedColorChart);
+    const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
+    return thisRange;
+  };
   const handleFeatureUpdate = useCallback((features) => {
     if (features) {
       const tempData = [];
@@ -135,12 +151,12 @@ export default function ChartsHolder(props) {
     const dataRows = [];
     chartData.map((area) => {
       Object.entries(area.zonalStatsData).map((index) => {
-        let thisRow = [];
+        const thisRow = [];
         console.log('area ', area.areaName, ' with : ', index);
         thisRow.push(area.areaName);
-        thisRow.push(index[0]); // need to get label here
+        thisRow.push(getLabel(area, index[0])); // need to get label here
         thisRow.push(isNaN(index[1]) ? 'No Data' : index[1].toFixed(3)); // need to get value here
-        thisRow.push('0-1'); // need to get range here
+        thisRow.push(getRange(area, index[0])); // need to get range here
         dataRows.push(thisRow);
       });
     });
