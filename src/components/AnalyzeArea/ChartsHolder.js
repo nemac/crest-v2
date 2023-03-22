@@ -130,10 +130,29 @@ export default function ChartsHolder(props) {
     dispatch(changeEmptyState());
   };
 
-  // place holder for adding specfic click events
-  const handleGenericClick = (event) => {
+  const handleExportClick = (event) => {
     event.stopPropagation();
-    console.log('clicked'); // eslint-disable-line no-console
+    const dataRows = [];
+    chartData.map((area) => {
+      Object.entries(area.zonalStatsData).map((index) => {
+        let thisRow = [];
+        console.log('area ', area.areaName, ' with : ', index);
+        thisRow.push(area.areaName);
+        thisRow.push(index[0]); // need to get label here
+        thisRow.push(isNaN(index[1]) ? 'No Data' : index[1].toFixed(3)); // need to get value here
+        thisRow.push('0-1'); // need to get range here
+        dataRows.push(thisRow);
+      });
+    });
+    console.log(dataRows);
+    const rows = [['Area', 'Index', 'Values', 'Range(s)']];
+    dataRows.map((row) => {
+      rows.push(row);
+    });
+    const csvData = rows.map((e) => e.join(',')).join('\n');
+    const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
+    const encodedUri = encodeURI(csvContent);
+    window.open(encodedUri);
   };
 
   return (
@@ -144,7 +163,7 @@ export default function ChartsHolder(props) {
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
           HandleRemoveAllClick={HandleRemoveAllClick}
-          handleGenericClick={handleGenericClick} />
+          handleGenericClick={handleExportClick} />
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (

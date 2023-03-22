@@ -62,6 +62,7 @@ export default function ChartActionButtons(props) {
   const {
     areaName,
     areaIndex,
+    data,
     leafletDrawFeatureGroupRef,
     leafletIds
   } = props;
@@ -87,10 +88,11 @@ export default function ChartActionButtons(props) {
   const handleExportClick = (event) => {
     event.stopPropagation();
     console.log('clicked EXPORT'); // eslint-disable-line no-console
-    const rows = [['Index', 'Values', 'Range(s)']
-    ];
-    const data = rows.map((e) => e.join(',')).join('\n');
-    const csvContent = `data:text/csv;charset=utf-8,${data}`;
+    console.log(event);
+    const rows = [['Index', 'Values', 'Range(s)']];
+    const csvData = rows.map((e) => e.join(',')).join('\n');
+    console.log('data that would pass: ', data);
+    const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
     const encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
   };
@@ -146,6 +148,9 @@ export default function ChartActionButtons(props) {
   );
 }
 
+ChartActionButtons.defaultProps = {
+  data: null
+};
 ChartActionButtons.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,

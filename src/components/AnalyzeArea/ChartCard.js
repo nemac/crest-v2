@@ -84,6 +84,7 @@ export default function ChartCard(props) {
               <ChartActionButtons
                 areaName={areaName}
                 areaIndex={areaIndex}
+                data={zonalStatsData} // need to pick out the Summary
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
                 leafletIds={leafletIds}
               />
