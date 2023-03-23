@@ -95,7 +95,7 @@ export default function ChartActionButtons(props) {
   };
 
   // place holder for later wanted to add a click handler for graph or Table
-  // TODO add exportOnClick, zoomOnClick, removeOnClick
+  // TODO add zoomOnClick, removeOnClick
   // TODO removeOnClick will also have to remove redux state for more/less
   // TODO this will also need to clear all the save results
   //      from the store (from add areas) when its completed
@@ -106,10 +106,7 @@ export default function ChartActionButtons(props) {
 
   const handleExportClick = (event) => {
     event.stopPropagation();
-    // console.log(event);
-    // console.log(chartIndices);
     // Parse out data by chartIndices
-    // console.log(data);
     const dataRows = [];
     Object.entries(data).map(([index, value]) => {
       const thisRow = [];
