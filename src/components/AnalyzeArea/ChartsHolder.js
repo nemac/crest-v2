@@ -70,10 +70,12 @@ const useStyles = makeStyles((theme) => ({
 const regions = mapConfig.regions;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
+const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function ChartsHolder(props) {
   const { leafletDrawFeatureGroupRef } = props;
   const drawnLayerAreas = useSelector(drawnLayerSelector);
+  const selectedRegion = useSelector(selectedRegionSelector);
   // console.log('drawn layer');
   // console.log(drawnLayerAreas);
   // console.log('zonalstatsareas');
@@ -151,13 +153,15 @@ export default function ChartsHolder(props) {
     const dataRows = [];
     chartData.map((area) => {
       Object.entries(area.zonalStatsData).map(([index, value]) => {
-        const thisRow = [];
-        thisRow.push(area.areaName);
-        thisRow.push(getLabel(area, index)); // need to get label here
-        thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
-        thisRow.push(getRange(area, index)); // need to get range here
-        dataRows.push(thisRow);
-        return thisRow;
+        if (area.region === selectedRegion) {
+          const thisRow = [];
+          thisRow.push(area.areaName);
+          thisRow.push(getLabel(area, index)); // need to get label here
+          thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
+          thisRow.push(getRange(area, index)); // need to get range here
+          dataRows.push(thisRow);
+          return thisRow;
+        }
       });
       return dataRows;
     });
@@ -169,7 +173,7 @@ export default function ChartsHolder(props) {
     // Get date and time, replace all special characters with '-'
     const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, '-');
     // concatenate type, area name, and date-time for filename
-    const filename = `ALL-DATA-${dateString}.csv`;
+    const filename = `ALL-DATA-${selectedRegion.replace(/ |\/|,|:|\./g, '-')}-${dateString}.csv`;
     const csvData = rows.map((e) => e.join(',')).join('\n');
     const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
     const encodedUri = encodeURI(csvContent);
