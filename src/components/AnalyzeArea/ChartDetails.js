@@ -94,6 +94,8 @@ export default function ChartDetails(props) {
       areaIndex={areaIndex}
       data={zonalStatsData}
       chartIndices={chartValues.current['Summary Chart']}
+      chartType={'Summary Chart'}
+
        />
 
       <Box className={classes.contentBox} >
@@ -110,6 +112,7 @@ export default function ChartDetails(props) {
       areaIndex={areaIndex}
       data={zonalStatsData}
       chartIndices={chartValues.current['Fish and Wildlife Inputs']}
+      chartType={'Fish and Wildlife Inputs'}
       />
 
       <Box className={classes.contentBox} >
@@ -122,7 +125,11 @@ export default function ChartDetails(props) {
           chartType={'Threats Inputs'}
         />
       </Box>
-      <ChartDetailsActionButtons areaIndex={areaIndex}/>
+      <ChartDetailsActionButtons
+      areaIndex={areaIndex}
+      data={zonalStatsData}
+      chartIndices={chartValues.current['Threats Inputs']}
+      chartType={'Threats Inputs'}/>
 
       <Box className={classes.contentBox} >
       <ChartSummary
@@ -138,6 +145,7 @@ export default function ChartDetails(props) {
       areaIndex={areaIndex}
       data={zonalStatsData}
       chartIndices={chartValues.current['Community Assets Inputs']}
+      chartType={'Community Assets Inputs'}
       />
 
       <Box className={classes.contentBox} >

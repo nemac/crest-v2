@@ -25,10 +25,8 @@ import Grid from '@mui/material/Grid';
 import { CameraAlt } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
-
 import ChartActionButton from './ChartActionButton';
 import { mapConfig } from '../../configuration/config';
-
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
@@ -51,7 +49,7 @@ const regions = mapConfig.regions;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function ChartDetailsActionButtons(props) {
-  const { data, chartIndices } = props;
+  const { areaIndex, data, chartIndices, chartType } = props;
   const classes = useStyles();
   const selectedRegion = useSelector(selectedRegionSelector);
 
@@ -91,16 +89,21 @@ export default function ChartDetailsActionButtons(props) {
     dataRows.map((row) => {
       rows.push(row);
     });
-    // Object.entries(data).map(([index, val]) => {
-    //   const thisRow = [];
-    //   console.log('index: ', index, ' val: ', val);
-    // })
-    // const rows = [['Index', 'Values', 'Range(s)']];
+    console.log(data);
+    const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, '-');
+    const filename = `${chartType.replace(/ /g, '-')}-Area-${areaIndex + 1}-${dateString}.csv`;
+    console.log(filename);
     const csvData = rows.map((e) => e.join(',')).join('\n');
     // console.log('data that would pass: ', data);
     const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
     const encodedUri = encodeURI(csvContent);
-    window.open(encodedUri);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link); // Required for FF
+console.log('calling link.click()');
+    link.click(); // This will download the data file named "my_data.csv".
+    // window.open(encodedUri);
   };
   // place holder for later
   const handleGenericClick = (event) => {
