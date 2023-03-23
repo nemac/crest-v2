@@ -163,10 +163,18 @@ export default function ChartsHolder(props) {
     dataRows.map((row) => {
       rows.push(row);
     });
+    // Get date and time, replace all special characters with '-'
+    const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, '-');
+    // concatenate type, area name, and date-time for filename
+    const filename = `ALL-DATA-${dateString}.csv`;
     const csvData = rows.map((e) => e.join(',')).join('\n');
     const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
     const encodedUri = encodeURI(csvContent);
-    window.open(encodedUri);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link); // invisible link for download
+    link.click(); // This will download the data file using invisible link
   };
 
   return (

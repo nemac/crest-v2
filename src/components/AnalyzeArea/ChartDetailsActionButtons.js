@@ -77,7 +77,6 @@ export default function ChartDetailsActionButtons(props) {
     Object.entries(data).map(([index, value]) => {
       const thisRow = [];
       if (chartIndices.includes(index)) {
-        console.log('includes: ', index);
         thisRow.push(getLabel(index)); // need to get label here
         thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
         thisRow.push(getRange(index)); // need to get range here
@@ -89,21 +88,18 @@ export default function ChartDetailsActionButtons(props) {
     dataRows.map((row) => {
       rows.push(row);
     });
-    console.log(data);
+    // Get date and time, replace all special characters with '-'
     const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, '-');
+    // concatenate type, area name, and date-time for filename
     const filename = `${chartType.replace(/ /g, '-')}-Area-${areaIndex + 1}-${dateString}.csv`;
-    console.log(filename);
     const csvData = rows.map((e) => e.join(',')).join('\n');
-    // console.log('data that would pass: ', data);
     const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
     link.setAttribute('download', filename);
-    document.body.appendChild(link); // Required for FF
-console.log('calling link.click()');
-    link.click(); // This will download the data file named "my_data.csv".
-    // window.open(encodedUri);
+    document.body.appendChild(link); // invisible link for download
+    link.click(); // This will download the data file using invisible link
   };
   // place holder for later
   const handleGenericClick = (event) => {
