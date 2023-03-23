@@ -139,15 +139,7 @@ export default function ChartSummary(props) {
       const retData = [selectedColor, normValue, selectedChartLabel];
       return retData;
     };
-    const getNormValue = (name, value) => {
-      const selectedColorChart = layerList.find(
-        ((layer) => layer.chartCSSSelector === name)
-      ).chartCSSColor;
-      const allValues = Object.keys(selectedColorChart);
-      const maxValue = allValues[allValues.length - 1];
-      const normValue = value / maxValue;
-      return normValue;
-    };
+
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts

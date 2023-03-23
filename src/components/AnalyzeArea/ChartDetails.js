@@ -75,7 +75,8 @@ export default function ChartDetails(props) {
       'storm_surge', 'erosion', 'tsunami', 'permafrost', 'wave_flooding', 'geostress'],
     'Community Assets Inputs': [
       'pop_density', 'crit_infra', 'transportation',
-      'social_vuln', 'crit_facilities']
+      'social_vuln', 'crit_facilities'],
+    Landcover: []
   });
 
   return (
@@ -151,7 +152,11 @@ export default function ChartDetails(props) {
       <Box className={classes.contentBox} >
         Landcover Chart {areaName}
       </Box>
-      <ChartDetailsActionButtons areaIndex={areaIndex}/>
+      <ChartDetailsActionButtons
+      areaIndex={areaIndex}
+      data={zonalStatsData}
+      chartIndices={chartValues.current.Landcover}
+      chartType={'Landcover'}/>
     </div>
   );
 }

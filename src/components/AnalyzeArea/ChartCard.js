@@ -46,7 +46,6 @@ export default function ChartCard(props) {
   const summaryIndices = ['hubs', 'exposure', 'threat', 'asset', 'wildlife'];
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
-  console.log(zonalStatsData);
   if (region === selectedRegion) {
     return (
       <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
@@ -65,7 +64,6 @@ export default function ChartCard(props) {
                 areaName={areaName}
                 areaIndex={areaIndex}
                 data={zonalStatsData}
-                chartIndices={[summaryIndices]}
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
               />
             </Grid>
@@ -90,7 +88,6 @@ export default function ChartCard(props) {
                 areaName={areaName}
                 areaIndex={areaIndex}
                 data={zonalStatsData} // need to pick out the Summary
-                chartIndices={summaryIndices}
                 leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
                 leafletIds={leafletIds}
               />

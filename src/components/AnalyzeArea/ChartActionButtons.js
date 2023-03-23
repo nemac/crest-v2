@@ -66,7 +66,6 @@ export default function ChartActionButtons(props) {
     areaName,
     areaIndex,
     data,
-    chartIndices,
     leafletDrawFeatureGroupRef,
     leafletIds
   } = props;
@@ -75,7 +74,6 @@ export default function ChartActionButtons(props) {
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
 
-  console.log(data);
   const getLabel = (name) => {
     const thisLabel = regions[selectedRegion].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
@@ -119,11 +117,13 @@ export default function ChartActionButtons(props) {
       thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
       thisRow.push(getRange(index)); // need to get range here
       dataRows.push(thisRow);
+      return thisRow;
     });
 
     const rows = [['Index', 'Values', 'Range(s)']];
     dataRows.map((row) => {
       rows.push(row);
+      return rows;
     });
 
     // Get date and time, replace all special characters with '-'
@@ -198,7 +198,6 @@ ChartActionButtons.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
   data: PropTypes.object,
-  chartIndices: PropTypes.array.isRequired,
   leafletDrawFeatureGroupRef: PropTypes.object,
   leafletIds: PropTypes.array
 };
