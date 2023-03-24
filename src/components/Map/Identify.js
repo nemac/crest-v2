@@ -37,9 +37,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import { IconButton } from '@mui/material/';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import {
   changeIdentifyCoordinates,
@@ -101,6 +103,25 @@ const useStyles = makeStyles((theme) => ({
       color: `${theme.palette.CRESTLight.contrastText} !important`
     }
   },
+  titleBoxTypography: {
+    cursor: 'default',
+    display: 'flex',
+    width: '100%',
+    fontWeight: 'bold'
+  },
+  titleBox: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '54px',
+    paddingBottom: theme.spacing(0.5)
+  },  
+  rightActionButton: {
+    height: theme.spacing(4.5),
+    padding: theme.spacing(0.375),
+    justifyContent: 'end'      
+  },
   valueName: {
     display: 'flex',
     justifyContent: 'center',
@@ -155,10 +176,20 @@ export default function ShowIdentifyPopup(props) {
             className={classes.indentifyPopup}
             closeButton={false}
           >
-            <Typography variant="h6" component="div" align="center" gutterBottom>
-              Map Information
-              <button onClick={closePopups}>Close</button>
-            </Typography>
+            
+            <Box px={1} py={0.75} className={classes.titleBox}>
+              <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
+                Map Information
+              </Typography>
+              <IconButton
+                  variant="contained"
+                  color="CRESTPrimary"
+                  className={classes.rightActionButton}
+                  aria-label="Close"
+                  onClick={closePopups}>
+                  <CancelIcon />
+                </IconButton>
+            </Box>
             <Divider />
             <Grid container spaceing={2} justifyContent="start" alignItems="start" pt={1.5}>
               <Grid item xs={12}>
@@ -186,10 +217,19 @@ export default function ShowIdentifyPopup(props) {
         closeButton={false}
         className={classes.indentifyPopup}
       >
-        <Typography variant="h6" component="div" align="center" gutterBottom>
-          Map Information
-          <button onClick={closePopups}>Close</button>
-        </Typography>
+        <Box px={1} py={0.75} className={classes.titleBox}>
+          <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
+            Map Information
+          </Typography>
+          <IconButton
+              variant="contained"
+              color="CRESTPrimary"
+              className={classes.rightActionButton}
+              aria-label="Close"
+              onClick={closePopups}>
+              <CancelIcon />
+            </IconButton>
+        </Box>
         <Divider />
         <Grid container spaceing={2} pt={2} alignItems="center" justifyContent="center">
           <Grid item xs={12}>

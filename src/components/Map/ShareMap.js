@@ -20,7 +20,7 @@ Props
 */
 import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
-import { betaShareLinkEndpoint, prodShareLinkEndpoint } from '../../configuration/config';
+import { betaShareLinkEndpoint } from '../../configuration/config';
 import {
   changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded

@@ -399,15 +399,15 @@ export const alaskaConfig = {
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#0084A8', 
-        2: '#0084A8', 
-        3: '#0084A8', 
+        1: '#0084A8',
+        2: '#0084A8',
+        3: '#0084A8',
         4: '#0084A8',
-        5: '#0084A8' 
+        5: '#0084A8'
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        5: '#0084A8' 
+        5: '#0084A8'
       },
       url: 'https://tiles.resilientcoasts.org/AK_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -426,15 +426,15 @@ export const alaskaConfig = {
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#A82B41', 
-        2: '#A82B41', 
-        3: '#A82B41', 
-        4: '#A82B41', 
-        5: '#A82B41' 
+        1: '#A82B41',
+        2: '#A82B41',
+        3: '#A82B41',
+        4: '#A82B41',
+        5: '#A82B41'
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        5: '#A82B41' 
+        5: '#A82B41'
       },
       url: 'https://tiles.resilientcoasts.org/AK_CommunityInfrastructurIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -453,15 +453,15 @@ export const alaskaConfig = {
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#FEB24C', 
-        2: '#FEB24C', 
-        3: '#FEB24C', 
-        4: '#FEB24C', 
-        5: '#FEB24C' 
+        1: '#FEB24C',
+        2: '#FEB24C',
+        3: '#FEB24C',
+        4: '#FEB24C',
+        5: '#FEB24C'
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        5: '#FEB24C' 
+        5: '#FEB24C'
       },
       url: 'https://tiles.resilientcoasts.org/AK_TransporationInfrastructure/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -542,13 +542,13 @@ export const alaskaConfig = {
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        3: '#FB6A4A', 
+        3: '#FB6A4A',
         4: '#DE2D26',
         5: '#A50F15'
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        3: '#FB6A4A', 
+        3: '#FB6A4A',
         4: '#DE2D26',
         5: '#A50F15'
       },

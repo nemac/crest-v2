@@ -375,7 +375,7 @@ export const americanSamoaConfig = {
       chartCSSSelector: 'social_vuln',
       chartCSSLegends: {
         0: '#E9ECEF',
-        1: '#88419D',
+        1: '#88419D'
       },
       url: 'https://tiles.resilientcoasts.org/AS_SocVulnIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -392,15 +392,15 @@ export const americanSamoaConfig = {
       chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#0084A8', 
-        2: '#0084A8', 
-        3: '#0084A8', 
-        4: '#0084A8', 
-        5: '#0084A8' 
+        1: '#0084A8',
+        2: '#0084A8',
+        3: '#0084A8',
+        4: '#0084A8',
+        5: '#0084A8'
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        5: '#0084A8' 
+        5: '#0084A8'
       },
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_facilities',
@@ -419,29 +419,29 @@ export const americanSamoaConfig = {
       chartLegendValues: 15,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#CCD1D2', 
-        2: '#CCD1D2', 
-        3: '#CCD1D2', 
-        4: '#355C59', 
-        5: '#355C59', 
-        6: '#355C59', 
-        7: '#E8B16D', 
-        8: '#E8B16D', 
-        9: '#E8B16D',  
-        10: '#AD3541', 
-        11: '#AD3541', 
-        12: '#AD3541', 
-        13: '#7B1733', 
-        14: '#7B1733', 
-        15: '#7B1733' 
+        1: '#CCD1D2',
+        2: '#CCD1D2',
+        3: '#CCD1D2',
+        4: '#355C59',
+        5: '#355C59',
+        6: '#355C59',
+        7: '#E8B16D',
+        8: '#E8B16D',
+        9: '#E8B16D',
+        10: '#AD3541',
+        11: '#AD3541',
+        12: '#AD3541',
+        13: '#7B1733',
+        14: '#7B1733',
+        15: '#7B1733'
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        3: '#CCD1D2', 
-        5: '#355C59', 
-        8: '#E8B16D', 
-        10: '#AD3541', 
-        15: '#7B1733' 
+        3: '#CCD1D2',
+        5: '#355C59',
+        8: '#E8B16D',
+        10: '#AD3541',
+        15: '#7B1733'
       },
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_infra',
@@ -460,18 +460,18 @@ export const americanSamoaConfig = {
       chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
-        1: '#447604', 
-        2: '#447604', 
-        3: '#DCE9F2', 
-        4: '#DCE9F2', 
-        5: '#553555', 
-        6: '#553555' 
+        1: '#447604',
+        2: '#447604',
+        3: '#DCE9F2',
+        4: '#DCE9F2',
+        5: '#553555',
+        6: '#553555'
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        1: '#447604', 
+        1: '#447604',
         3: '#DCE9F2',
-        5: '#553555' 
+        5: '#553555'
       },
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'impermeable',
@@ -650,7 +650,7 @@ export const americanSamoaConfig = {
       },
       chartCSSLegends: {
         0: '#E9ECEF',
-        3: '#2171b5',
+        3: '#2171b5'
       },
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'tsunami',

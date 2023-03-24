@@ -46,6 +46,7 @@ import {
   // Polygon
 } from 'react-leaflet';
 import InfoIcon from '@mui/icons-material/Info';
+import ShareIcon from '@mui/icons-material/Share';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
@@ -63,7 +64,9 @@ import ShowIdentifyPopup from './Identify';
 import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
 import { createShareURL } from './ShareMap';
-import DialogPopup from '../All/DialogPopup';
+import ModelErrors from '../All/ModelErrors';
+import ModalShare from '../All/ModalShare';
+
 // import Boxforlayout from './BoxForLayouts';
 
 const regions = mapConfig.regions;
@@ -82,17 +85,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '30px',
     minWidth: '30px',
     width: '30px',
-    height: '30px',
-    backgroundColor: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: '#F4F4F4'
-    }
-  },
-  shareButton: {
-    color: '#000000',
-    minHeight: '30px',
-    minWidth: '60px',
-    width: '60px',
     height: '30px',
     backgroundColor: '#FFFFFF',
     '&:hover': {
@@ -157,7 +149,6 @@ export default function MapCard(props) {
     }
   }, [map, layerListVisible]);
 
-
   useEffect(() => {
     handleRegionChange(selectedRegion, userInitiatedRegion);
   }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
@@ -196,16 +187,28 @@ export default function MapCard(props) {
     });
   };
 
-  const handleShareLinkClose = () => {
-    // navigator.clipboard.writeText(shareUrl); THIS IS BROKEN ON HTTP
+  const handleShareLinkClose = (event) => {
+    // navigator.clipboard.writeText(shareUrl); // THIS IS BROKEN ON HTTP
     setShareLinkOpen(false);
+  };
+
+  const handleShareLinkCopy = () => {
+    navigator.clipboard.writeText(shareUrl); // THIS IS BROKEN ON HTTP
   };
 
   const handleTooLargeLayerClose = () => {
     setTooLargeLayerOpen(false);
   };
 
-  const shareMapHandler = () => {
+  const handleSelectURLDblClick = (event) => {
+    const range = document.createRange();
+    range.selectNodeContents(event.target);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  };
+
+  const shareMapHandler = (event) => {
+    event.stopPropagation();
     setShareUrl(createShareURL());
     setShareLinkOpen(true);
   };
@@ -224,9 +227,11 @@ export default function MapCard(props) {
         <Control prepend='true' position='bottomleft'>
           <Button
             variant="contained"
+            startIcon={<ShareIcon />}
             onClick={shareMapHandler}
+            color="CRESTPrimary"
             className={classes.shareButton}>
-            SHARE
+            Share Map
           </Button>
         </Control>
         <LayersControl position="topright">
@@ -242,15 +247,21 @@ export default function MapCard(props) {
             </FeatureGroup>
           </LayersControl.Overlay>
         </LayersControl>
-        <DialogPopup
-          contentMessage={('Your Share URL is: ').concat(shareUrl)}
+        <ModalShare
+          contentTitle={'Share map url'}
+          contentMessage={shareUrl}
           buttonMessage='Dismiss'
           onClose={handleShareLinkClose}
+          onDoubleClick={handleSelectURLDblClick}
+          secondaryClick={handleShareLinkCopy}
+          secondaryButtonMessage='Copy Map URL'
           open={shareLinkOpen}
         />
-        <DialogPopup
-          contentMessage={'Layer is too large.'}
+        <ModelErrors
+          contentTitle={'Sketch an Area Error '}
+          contentMessage={'The sketched area is too large.'}
           buttonMessage='Dismiss'
+          errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
           onClose={handleTooLargeLayerClose}
           open={tooLargeLayerOpen}
         />

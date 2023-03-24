@@ -367,16 +367,16 @@ export const northernMarianaIslandsConfig = {
         chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
-          1: '#9EBBD7', 
-          2: '#9EBBD7', 
-          3: '#9EBBD7', 
-          4: '#0084A8', 
-          5: '#0084A8', 
-          6: '#0084A8' 
+          1: '#9EBBD7',
+          2: '#9EBBD7',
+          3: '#9EBBD7',
+          4: '#0084A8',
+          5: '#0084A8',
+          6: '#0084A8'
         },
         chartCSSLegends: {
           0: '#E9ECEF',
-          3: '#9EBBD7', 
+          3: '#9EBBD7',
           5: '#0084A8'
         },
         chartInputName: 'asset',

@@ -371,12 +371,12 @@ export const usVirginIslandsConfig = {
           2: '#0084a8',
           3: '#0084a8',
           4: '#0084a8',
-          5: '#0084a8', 
-          6: '#0084a8' 
+          5: '#0084a8',
+          6: '#0084a8'
         },
         chartCSSLegends: {
           0: '#E9ECEF',
-          5: '#0084a8', 
+          5: '#0084a8'
         },
         chartInputName: 'asset',
         ChartInputLabel: 'Community Assets Inputs',
