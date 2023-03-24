@@ -153,15 +153,15 @@ export default function ChartsHolder(props) {
     const dataRows = [];
     chartData.map((area) => {
       Object.entries(area.zonalStatsData).map(([index, value]) => {
+        const thisRow = [];
         if (area.region === selectedRegion) {
-          const thisRow = [];
           thisRow.push(area.areaName);
           thisRow.push(getLabel(area, index)); // need to get label here
           thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
           thisRow.push(getRange(area, index)); // need to get range here
           dataRows.push(thisRow);
-          return thisRow;
         }
+        return thisRow;
       });
       return dataRows;
     });
