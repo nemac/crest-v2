@@ -75,20 +75,12 @@ export default function ChartSummary(props) {
     areaName,
     zonalStatsData,
     chartRegion,
+    chartIndices,
     chartType
   } = props;
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
-  const chartValues = useRef({
-    'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
-    'Fish and Wildlife Inputs': ['aquatic', 'terrestrial', 'marine'],
-    'Threats Inputs': [
-      'floodprone_areas', 'slope', 'sea_level_rise', 'low_areas', 'drainage', 'impermeable',
-      'storm_surge', 'erosion', 'tsunami', 'permafrost', 'wave_flooding', 'geostress'],
-    'Community Assets Inputs': [
-      'pop_density', 'crit_infra', 'transportation',
-      'social_vuln', 'crit_facilities']
-  });
+
   const dataToPlot = useRef(true);
   const chartLabel = `${chartType} ${areaName}`;
   const layerList = region.layerList;
@@ -147,22 +139,14 @@ export default function ChartSummary(props) {
       const retData = [selectedColor, normValue, selectedChartLabel];
       return retData;
     };
-    const getNormValue = (name, value) => {
-      const selectedColorChart = layerList.find(
-        ((layer) => layer.chartCSSSelector === name)
-      ).chartCSSColor;
-      const allValues = Object.keys(selectedColorChart);
-      const maxValue = allValues[allValues.length - 1];
-      const normValue = value / maxValue;
-      return normValue;
-    };
+
     const tempColors = []; // Stores colors for data bars plotted
     const tempData = []; // Stores data to be plotted
     // This is the logic to build the chart for Summary charts
     // Currently this is going to pull all data across all regions... need to simplify
     // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
-      if (chartValues.current[chartType].includes(key) && !value.isNaN && value > 0) {
+      if (chartIndices.includes(key) && !value.isNaN && value > 0) {
         const layerData = getData(key, value);
         const barColor = layerData[0];
         const chartValue = layerData[1];
@@ -180,7 +164,7 @@ export default function ChartSummary(props) {
     // tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
     setChartData(tempData);
     setBarColors(tempColors);
-  }, [layerList, chartType]);
+  }, [layerList, chartIndices]);
 
   useEffect(() => {
     handleGetZonalStatsData(zonalStatsData);
@@ -226,5 +210,6 @@ ChartSummary.propTypes = {
   areaName: PropTypes.string.isRequired,
   zonalStatsData: PropTypes.object,
   chartRegion: PropTypes.string.isRequired,
+  chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string
 };
