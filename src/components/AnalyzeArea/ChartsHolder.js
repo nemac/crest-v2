@@ -50,6 +50,7 @@ import {
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
+import { mapConfig } from '../../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
   gridHolder: {
@@ -66,12 +67,15 @@ const useStyles = makeStyles((theme) => ({
 // TODO config should be imported from config directory
 
 // selector named functions for lint rules makes it easier to re-use if needed.
+const regions = mapConfig.regions;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
+const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function ChartsHolder(props) {
   const { leafletDrawFeatureGroupRef } = props;
   const drawnLayerAreas = useSelector(drawnLayerSelector);
+  const selectedRegion = useSelector(selectedRegionSelector);
   // console.log('drawn layer');
   // console.log(drawnLayerAreas);
   // console.log('zonalstatsareas');
@@ -85,6 +89,20 @@ export default function ChartsHolder(props) {
   // console.log(drawnLayerFeatures);
   const [chartData, setChartData] = useState([]);
   const classes = useStyles();
+  const getLabel = (area, name) => {
+    const thisLabel = regions[area.region].layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    ).label;
+    return thisLabel;
+  };
+  const getRange = (area, name) => {
+    const selectedColorChart = regions[area.region].layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    ).chartCSSColor;
+    const allValues = Object.keys(selectedColorChart);
+    const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
+    return thisRange;
+  };
   const handleFeatureUpdate = useCallback((features) => {
     if (features) {
       const tempData = [];
@@ -129,11 +147,41 @@ export default function ChartsHolder(props) {
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(changeEmptyState());
   };
-
-  // place holder for adding specfic click events
-  const handleGenericClick = (event) => {
+  // This exports all data for all areas
+  const handleExportClick = (event) => {
     event.stopPropagation();
-    console.log('clicked'); // eslint-disable-line no-console
+    const dataRows = [];
+    chartData.map((area) => {
+      Object.entries(area.zonalStatsData).map(([index, value]) => {
+        const thisRow = [];
+        if (area.region === selectedRegion) {
+          thisRow.push(area.areaName);
+          thisRow.push(getLabel(area, index)); // need to get label here
+          thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
+          thisRow.push(getRange(area, index)); // need to get range here
+          dataRows.push(thisRow);
+        }
+        return thisRow;
+      });
+      return dataRows;
+    });
+    const rows = [['Area', 'Index', 'Values', 'Range(s)']];
+    dataRows.map((row) => {
+      rows.push(row);
+      return rows;
+    });
+    // Get date and time, replace all special characters with '-'
+    const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, '-');
+    // concatenate type, area name, and date-time for filename
+    const filename = `ALL-DATA-${selectedRegion.replace(/ |\/|,|:|\./g, '-')}-${dateString}.csv`;
+    const csvData = rows.map((e) => e.join(',')).join('\n');
+    const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link); // invisible link for download
+    link.click(); // This will download the data file using invisible link
   };
 
   return (
@@ -144,7 +192,7 @@ export default function ChartsHolder(props) {
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
           HandleRemoveAllClick={HandleRemoveAllClick}
-          handleGenericClick={handleGenericClick} />
+          handleGenericClick={handleExportClick} />
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
