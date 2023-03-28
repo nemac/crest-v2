@@ -367,17 +367,17 @@ export const hawaiiConfig = {
         chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
-          1: '#9EBBD7', 
-          2: '#9EBBD7', 
-          3: '#9EBBD7', 
-          4: '#0084A8', 
-          5: '#0084A8', 
-          6: '#0084A8' 
+          1: '#9EBBD7',
+          2: '#9EBBD7',
+          3: '#9EBBD7',
+          4: '#0084A8',
+          5: '#0084A8',
+          6: '#0084A8'
         },
         chartCSSLegends: {
           0: '#E9ECEF',
-          3: '#9EBBD7', 
-          5: '#0084A8', 
+          3: '#9EBBD7',
+          5: '#0084A8'
         },
         chartInputName: 'asset',
         ChartInputLabel: 'Community Assets Inputs',
@@ -472,7 +472,7 @@ export const hawaiiConfig = {
           3: '#f07818',
           4: '#b84203',
           5: '#662506'
-        },        
+        },
         chartCSSLegends: {
           0: '#E9ECEF',
           1: '#feeba2',

@@ -367,17 +367,17 @@ export const puertoRicoConfig = {
         chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
-          1: '#9EBBD7', 
-          2: '#9EBBD7', 
-          3: '#9EBBD7', 
-          4: '#0084A8', 
-          5: '#0084A8', 
-          6: '#0084A8' 
+          1: '#9EBBD7',
+          2: '#9EBBD7',
+          3: '#9EBBD7',
+          4: '#0084A8',
+          5: '#0084A8',
+          6: '#0084A8'
         },
         chartCSSLegends: {
           0: '#E9ECEF',
-          3: '#9EBBD7', 
-          5: '#0084A8', 
+          3: '#9EBBD7',
+          5: '#0084A8'
         },
         chartInputName: 'asset',
         ChartInputLabel: 'Community Assets Inputs',
@@ -568,7 +568,7 @@ export const puertoRicoConfig = {
           3: '#4bb062',
           4: '#157f3b',
           5: '#00441b'
-        },        
+        },
         chartCSSLegends: {
           0: '#E9ECEF',
           1: '#d3eecd',

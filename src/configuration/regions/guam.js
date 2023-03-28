@@ -418,15 +418,15 @@ export const guamConfig = {
         chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
-          1: '#0084A8', 
-          2: '#0084A8', 
-          3: '#0084A8', 
-          4: '#0084A8', 
-          5: '#0084A8' 
+          1: '#0084A8',
+          2: '#0084A8',
+          3: '#0084A8',
+          4: '#0084A8',
+          5: '#0084A8'
         },
         chartCSSLegends: {
           0: '#E9ECEF',
-          5: '#0084A8' 
+          5: '#0084A8'
         },
         chartInputName: 'asset',
         ChartInputLabel: 'Community Assets Inputs',
@@ -447,29 +447,29 @@ export const guamConfig = {
         chartLegendValues: 15,
         chartCSSColor: {
           0: '#E9ECEF',
-          1: '#CCD1D2', 
-          2: '#CCD1D2', 
-          3: '#CCD1D2', 
-          4: '#355C59', 
-          5: '#355C59', 
-          6: '#355C59', 
-          7: '#E8B16D', 
-          8: '#E8B16D', 
-          9: '#E8B16D', 
-          10: '#AD3541', 
-          11: '#AD3541', 
-          12: '#AD3541', 
-          13: '#7B1733', 
-          14: '#7B1733', 
-          15: '#7B1733' 
+          1: '#CCD1D2',
+          2: '#CCD1D2',
+          3: '#CCD1D2',
+          4: '#355C59',
+          5: '#355C59',
+          6: '#355C59',
+          7: '#E8B16D',
+          8: '#E8B16D',
+          9: '#E8B16D',
+          10: '#AD3541',
+          11: '#AD3541',
+          12: '#AD3541',
+          13: '#7B1733',
+          14: '#7B1733',
+          15: '#7B1733'
         },
         chartCSSLegends: {
           0: '#E9ECEF',
           3: '#CCD1D2',
-          5: '#355C59', 
-          8: '#E8B16D', 
-          10: '#AD3541', 
-          15: '#7B1733' 
+          5: '#355C59',
+          8: '#E8B16D',
+          10: '#AD3541',
+          15: '#7B1733'
         },
         chartInputName: 'asset',
         ChartInputLabel: 'Community Assets Inputs',
@@ -490,18 +490,18 @@ export const guamConfig = {
         chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
-          1: '#447604', 
-          2: '#447604', 
-          3: '#DCE9F2', 
-          4: '#DCE9F2', 
-          5: '#553555', 
-          6: '#553555' 
+          1: '#447604',
+          2: '#447604',
+          3: '#DCE9F2',
+          4: '#DCE9F2',
+          5: '#553555',
+          6: '#553555'
         },
         chartCSSLegends: {
           0: '#E9ECEF',
-          1: '#447604', 
-          3: '#DCE9F2', 
-          5: '#553555',
+          1: '#447604',
+          3: '#DCE9F2',
+          5: '#553555'
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
