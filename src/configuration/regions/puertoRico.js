@@ -7,6 +7,7 @@ export const puertoRicoConfig = {
     extent: [-67.54431130541467, 17.46071271042981, -65.08612038744593, 18.895892559415024],
     zoom: 8
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

@@ -7,6 +7,7 @@ export const northernMarianaIslandsConfig = {
     extent: [144.87, 13.92, 147.27, 15.38],
     zoom: 9
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

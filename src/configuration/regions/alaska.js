@@ -7,6 +7,7 @@ export const alaskaConfig = {
     extent: [-185.977, 46.073, -95.801, 73.751],
     zoom: 4
   },
+  attribution: 'NFWF 2022',
   chartInputs: [
     {
       chartInputName: 'summary',

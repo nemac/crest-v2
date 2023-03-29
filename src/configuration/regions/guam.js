@@ -7,6 +7,7 @@ export const guamConfig = {
     extent: [144.33, 13.20, 145.88, 13.79],
     zoom: 10
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

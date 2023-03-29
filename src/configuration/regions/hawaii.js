@@ -7,6 +7,7 @@ export const hawaiiConfig = {
     extent: [-166.09, 13.77, -140.36, 26.78],
     zoom: 6
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',
