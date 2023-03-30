@@ -55,6 +55,7 @@ import PropTypes from 'prop-types';
 import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
 import BasemapLayer from './BasemapLayer';
+
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
   changeZoom, changeCenter, changeIdentifyCoordinates
@@ -80,16 +81,14 @@ const listVisibleSelector = (state) => state.mapLayerList.visible;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 const useStyles = makeStyles((theme) => ({
-  leafletButton: {
-    color: '#000000',
+  shareButton: {
+    top: '-10px'
+  },
+  identifyButton: {
     minHeight: '30px',
     minWidth: '30px',
     width: '30px',
-    height: '30px',
-    backgroundColor: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: '#F4F4F4'
-    }
+    height: '30px'
   }
 }));
 
@@ -219,8 +218,9 @@ export default function MapCard(props) {
         <Control prepend='true' position='topleft'>
           <Button
             variant="contained"
+            color="CRESTPrimary"
             onClick={identifyClickHandler}
-            className={classes.leafletButton}>
+            className={classes.identifyButton}>
             <InfoIcon />
           </Button>
         </Control>

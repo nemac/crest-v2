@@ -42,6 +42,7 @@ import {
   removeAllFeaturesFromZonalStatsAreas,
   uploadedShapeFileGeoJSON
 } from '../../reducers/mapPropertiesSlice';
+import { setEmptyState } from '../../reducers/analyzeAreaSlice';
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -194,6 +195,7 @@ export default function LeafletDrawTools(props) {
 
       // Wait for promise to complete, add returned zonal stats, and then add to redux
       zonalStatsPromise.then((data) => {
+        dispatch(setEmptyState(false));
         data.features.forEach((feature) => {
           geojson.properties.zonalStatsData = feature.properties.mean; // Should only be 1 feature
           dispatch(addNewFeatureToDrawnLayers(geojson));
@@ -240,6 +242,7 @@ export default function LeafletDrawTools(props) {
 
     // Wait for promise to complete, add returned zonal stats, and then add to redux
     zonalStatsPromise.then((data) => {
+      dispatch(setEmptyState(false));
       data.features.forEach((feature) => {
         geojson.properties.zonalStatsData = feature.properties.mean; // Should only be 1 feature
         dispatch(addNewFeatureToDrawnLayers(geojson));
