@@ -81,20 +81,48 @@ export default function ChartActionButtons(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayers = useSelector(drawnLayersSelector);
 
+  function calculateZoomLevel(latRange, longRange) { 
+    // Define the size of the map container in pixels
+    const mapSize = [600, 400];
+
+    // Define the maximum zoom level
+    const maxZoom = 18;
+
+    // Define the scale factor to adjust the zoom level
+    const scaleFactor = 0.9;
+
+    // Calculate the zoom level based on the lat and long ranges and map size
+    const zoomLat = Math.log(mapSize[1] / latRange) / Math.LN2;
+    const zoomLong = Math.log(mapSize[0] / longRange) / Math.LN2;
+    const zoom = Math.floor(Math.min(zoomLat, zoomLong, maxZoom) * scaleFactor);
+
+    return zoom;
+  }
+
   const handleZoomClick = (event) => {
     event.stopPropagation();
     drawnLayers.features.map((feature) => {
-      let xSum = 0;
-      let ySum = 0;
+      let latSum = 0;
+      let longSum = 0;
+      let latMax = -9999;
+      let latMin = 9999;
+      let longMax = -9999;
+      let longMin = 9999;
       if (feature.properties.areaName === areaName) {
         feature.geometry.coordinates[0].map(([y, x]) => {
-          xSum += x;
-          ySum += y;
+          latMax = x > latMax ? x : latMax;
+          longMax = y > longMax ? y : longMax;
+          latMin = x < latMin ? x : latMin;
+          longMin = y < longMin ? y : longMin;
+          latSum += x;
+          longSum += y;
         });
-        const xAvg = xSum / feature.geometry.coordinates[0].length;
-        const yAvg = ySum / feature.geometry.coordinates[0].length;
-        const newCenter = [xAvg, yAvg];
-        const newZoom = 12; // hard code or now, fix later
+        const latRange = latMax - latMin;
+        const longRange = longMax - longMin;
+        const latAvg = latSum / feature.geometry.coordinates[0].length;
+        const longAvg = longSum / feature.geometry.coordinates[0].length;
+        const newCenter = [latAvg, longAvg];
+        const newZoom = calculateZoomLevel(latRange, longRange); // hard code or now, fix later
 
         dispatch(changeCenter(newCenter));
         dispatch(changeZoom(newZoom));
