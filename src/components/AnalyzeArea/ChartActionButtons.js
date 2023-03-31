@@ -40,8 +40,12 @@ import {
   CenterFocusStrong
 } from '@mui/icons-material';
 
+import { map } from 'leaflet';
 import { changeMore } from '../../reducers/analyzeAreaSlice';
-import { removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers } from '../../reducers/mapPropertiesSlice';
+import {
+  removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers,
+  changeCenter, changeZoom
+} from '../../reducers/mapPropertiesSlice';
 import ChartActionButton from './ChartActionButton';
 import { mapConfig } from '../../configuration/config';
 
@@ -60,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 const regions = mapConfig.regions;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
 export default function ChartActionButtons(props) {
   const {
@@ -67,12 +72,36 @@ export default function ChartActionButtons(props) {
     areaIndex,
     data,
     leafletDrawFeatureGroupRef,
-    leafletIds
+    leafletIds,
+    map
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
+  const drawnLayers = useSelector(drawnLayersSelector);
+
+  const handleZoomClick = (event) => {
+    event.stopPropagation();
+    drawnLayers.features.map((feature) => {
+      let xSum = 0;
+      let ySum = 0;
+      if (feature.properties.areaName === areaName) {
+        feature.geometry.coordinates[0].map(([y, x]) => {
+          xSum += x;
+          ySum += y;
+        });
+        const xAvg = xSum / feature.geometry.coordinates[0].length;
+        const yAvg = ySum / feature.geometry.coordinates[0].length;
+        const newCenter = [xAvg, yAvg];
+        const newZoom = 12; // hard code or now, fix later
+
+        dispatch(changeCenter(newCenter));
+        dispatch(changeZoom(newZoom));
+        map.setView(newCenter, newZoom);
+      }
+    });
+  };
 
   const getLabel = (name) => {
     const thisLabel = regions[selectedRegion].layerList.find(
@@ -94,15 +123,10 @@ export default function ChartActionButtons(props) {
     dispatch(changeMore(areaName));
   };
 
-  // place holder for later wanted to add a click handler for graph or Table
-  // TODO add zoomOnClick, removeOnClick
+  // TODO add removeOnClick
   // TODO removeOnClick will also have to remove redux state for more/less
   // TODO this will also need to clear all the save results
   //      from the store (from add areas) when its completed
-  const handleGenericClick = (event) => {
-    event.stopPropagation();
-    console.log('clicked'); // eslint-disable-line no-console
-  };
 
   const handleExportClick = (event) => {
     event.stopPropagation();
@@ -172,7 +196,7 @@ export default function ChartActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Zoom'}
           buttonName={'Zoom'}
-          onClick={handleGenericClick}>
+          onClick={handleZoomClick}>
           <CenterFocusStrong />
         </ChartActionButton>
       </Grid>
