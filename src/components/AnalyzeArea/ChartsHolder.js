@@ -233,5 +233,6 @@ export default function ChartsHolder(props) {
 }
 
 ChartsHolder.propTypes = {
-  leafletDrawFeatureGroupRef: PropTypes.object
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  map: PropTypes.object
 };

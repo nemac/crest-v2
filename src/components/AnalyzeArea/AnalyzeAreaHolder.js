@@ -63,4 +63,5 @@ AnalyzeAreaHolder.propTypes = {
   boxHeight: PropTypes.string.isRequired,
   boxMarginTop: PropTypes.string,
   leafletDrawFeatureGroupRef: PropTypes.object,
+  map: PropTypes.object
 };

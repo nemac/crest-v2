@@ -40,7 +40,6 @@ import {
   CenterFocusStrong
 } from '@mui/icons-material';
 
-import { map } from 'leaflet';
 import { changeMore } from '../../reducers/analyzeAreaSlice';
 import {
   removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers,
@@ -81,7 +80,7 @@ export default function ChartActionButtons(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayers = useSelector(drawnLayersSelector);
 
-  function calculateZoomLevel(latRange, longRange) { 
+  function calculateZoomLevel(latRange, longRange) {
     // Define the size of the map container in pixels
     const mapSize = [600, 400];
 
@@ -116,6 +115,7 @@ export default function ChartActionButtons(props) {
           longMin = y < longMin ? y : longMin;
           latSum += x;
           longSum += y;
+          return true;
         });
         const latRange = latMax - latMin;
         const longRange = longMax - longMin;
@@ -128,6 +128,7 @@ export default function ChartActionButtons(props) {
         dispatch(changeZoom(newZoom));
         map.setView(newCenter, newZoom);
       }
+      return true;
     });
   };
 
@@ -248,5 +249,6 @@ ChartActionButtons.propTypes = {
   areaIndex: PropTypes.number.isRequired,
   data: PropTypes.object,
   leafletDrawFeatureGroupRef: PropTypes.object,
-  leafletIds: PropTypes.array
+  leafletIds: PropTypes.array,
+  map: PropTypes.object
 };

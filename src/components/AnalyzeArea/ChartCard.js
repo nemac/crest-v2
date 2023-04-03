@@ -109,5 +109,6 @@ ChartCard.propTypes = {
   leafletIds: PropTypes.array,
   zonalStatsData: PropTypes.object,
   region: PropTypes.string,
-  leafletDrawFeatureGroupRef: PropTypes.object
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  map: PropTypes.object
 };
