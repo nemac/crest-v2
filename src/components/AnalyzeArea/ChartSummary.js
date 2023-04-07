@@ -44,6 +44,8 @@ import {
   Cell
 } from 'recharts';
 
+import { useSelector } from 'react-redux';
+
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import { mapConfig } from '../../configuration/config';
@@ -51,6 +53,9 @@ import { mapConfig } from '../../configuration/config';
 import ChartCustomLabels from './ChartCustomLabels';
 
 const regions = mapConfig.regions;
+
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
@@ -79,6 +84,7 @@ export default function ChartSummary(props) {
     chartType,
     map
   } = props;
+  const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
 
@@ -173,70 +179,48 @@ export default function ChartSummary(props) {
   }, [zonalStatsData, handleGetZonalStatsData]);
 
   const handleMouseEnter = () => {
-    const highlight = {
+    const areaHighlightStyle = {
       color: '#dda006',
       weight: 2,
       opacity: 1
     };
-    const bufferHighlight = {
+    const bufferHighlightStyle = {
       color: '#ffc107',
       weight: 2,
       opacity: 1
     };
-    console.log('Mouse Enter');
-    // OK... guess we got the map in, now we got to find the right layer and change its color...
-    console.log('areaName', areaName);
-    for (let i = 0; i < Object.entries(map._layers).length; i++) {
-      const id = Object.entries(thisMap.current._layers)[i][0];
-      const layer = Object.entries(thisMap.current._layers)[i][1];
-      // Object.entries(thisMap.current._layers).map(([id, layer]) => {
-      if (layer.feature) {
-        // console.log('found feature ', layer.feature, '...');
-        console.log('feature: ', layer.feature);
-        console.log('feature areaName: ', layer.feature.properties.areaName);
-        const bufferLayerId = layer.feature.properties.bufferLayerId;
-        if (layer.feature.properties.areaName === areaName) {
-          console.log('feature matches! ');
-          // console.log(map._layers[id]);
-          thisMap.current._layers[id].setStyle(highlight);
-          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlight);
-          break;
-          // console.log('layer.feature: ', layer.feature);
-        }
+
+    drawnLayersFromState.features.forEach((feature) => {
+      const id = feature.properties.leafletId;
+      const bufferLayerId = feature.properties.bufferLayerId;
+      if (feature.properties.areaName === areaName) {
+        thisMap.current._layers[id].setStyle(areaHighlightStyle);
+        thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
       }
-    };
+    });
   };
   const handleMouseLeave = () => {
-    console.log('Mouse Leave');
-    const highlight = {
+    const areaStyle = {
       color: '#4992f9',
       weight: 2,
       opacity: 1
     };
-    const bufferHighlight = {
+    const bufferStyle = {
       color: '#99c3ff',
       weight: 2,
       opacity: 1
     };
-    // OK... guess we got the map in, now we got to find the right layer and change its color...
-    // console.log('map.__layers: ', map._layers);
-    // console.log('areaName', areaName);
-    for (let i = 0; i < Object.entries(thisMap.current._layers).length; i++) {
-      const id = Object.entries(thisMap.current._layers)[i][0];
-      const layer = Object.entries(thisMap.current._layers)[i][1];
-    // Object.entries(thisMap.current._layers).map(([id, layer]) => {
-      if (layer.feature) {
-        // console.log('found feature ', layer.feature, '...');
-        const bufferLayerId = layer.feature.properties.bufferLayerId;
-        if (layer.feature.properties.areaName === areaName) {
-          // console.log('feature matches!');
-          thisMap.current._layers[id].setStyle(highlight);
-          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlight);
-          // console.log('layer.feature: ', layer.feature);
-        }
+
+    drawnLayersFromState.features.forEach((feature) => {
+      const id = feature.properties.leafletId;
+      const bufferLayerId = feature.properties.bufferLayerId;
+      if (feature.properties.areaName === areaName) {
+        thisMap.current._layers[id].setStyle(areaStyle);
+        thisMap.current._layers[bufferLayerId].setStyle(bufferStyle);
       }
-    };
+    });
   };
+
   if (dataToPlot.current) {
     return (
       <Box className={classes.contentBox}
