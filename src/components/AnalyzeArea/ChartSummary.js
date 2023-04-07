@@ -76,12 +76,14 @@ export default function ChartSummary(props) {
     zonalStatsData,
     chartRegion,
     chartIndices,
-    chartType
+    chartType,
+    map
   } = props;
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
 
   const dataToPlot = useRef(true);
+  const thisMap = useRef(map);
   const chartLabel = `${chartType} ${areaName}`;
   const layerList = region.layerList;
 
@@ -170,9 +172,77 @@ export default function ChartSummary(props) {
     handleGetZonalStatsData(zonalStatsData);
   }, [zonalStatsData, handleGetZonalStatsData]);
 
+  const handleMouseEnter = () => {
+    const highlight = {
+      color: '#dda006',
+      weight: 2,
+      opacity: 1
+    };
+    const bufferHighlight = {
+      color: '#ffc107',
+      weight: 2,
+      opacity: 1
+    };
+    console.log('Mouse Enter');
+    // OK... guess we got the map in, now we got to find the right layer and change its color...
+    console.log('areaName', areaName);
+    for (let i = 0; i < Object.entries(map._layers).length; i++) {
+      const id = Object.entries(thisMap.current._layers)[i][0];
+      const layer = Object.entries(thisMap.current._layers)[i][1];
+      // Object.entries(thisMap.current._layers).map(([id, layer]) => {
+      if (layer.feature) {
+        // console.log('found feature ', layer.feature, '...');
+        console.log('feature: ', layer.feature);
+        console.log('feature areaName: ', layer.feature.properties.areaName);
+        const bufferLayerId = layer.feature.properties.bufferLayerId;
+        if (layer.feature.properties.areaName === areaName) {
+          console.log('feature matches! ');
+          // console.log(map._layers[id]);
+          thisMap.current._layers[id].setStyle(highlight);
+          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlight);
+          break;
+          // console.log('layer.feature: ', layer.feature);
+        }
+      }
+    };
+  };
+  const handleMouseLeave = () => {
+    console.log('Mouse Leave');
+    const highlight = {
+      color: '#4992f9',
+      weight: 2,
+      opacity: 1
+    };
+    const bufferHighlight = {
+      color: '#99c3ff',
+      weight: 2,
+      opacity: 1
+    };
+    // OK... guess we got the map in, now we got to find the right layer and change its color...
+    // console.log('map.__layers: ', map._layers);
+    // console.log('areaName', areaName);
+    for (let i = 0; i < Object.entries(thisMap.current._layers).length; i++) {
+      const id = Object.entries(thisMap.current._layers)[i][0];
+      const layer = Object.entries(thisMap.current._layers)[i][1];
+    // Object.entries(thisMap.current._layers).map(([id, layer]) => {
+      if (layer.feature) {
+        // console.log('found feature ', layer.feature, '...');
+        const bufferLayerId = layer.feature.properties.bufferLayerId;
+        if (layer.feature.properties.areaName === areaName) {
+          // console.log('feature matches!');
+          thisMap.current._layers[id].setStyle(highlight);
+          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlight);
+          // console.log('layer.feature: ', layer.feature);
+        }
+      }
+    };
+  };
   if (dataToPlot.current) {
     return (
-      <Box className={classes.contentBox} components='fieldset'>
+      <Box className={classes.contentBox}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        components='fieldset'>
         <ResponsiveContainer width="100%" height="40%">
           <BarChart data={chartData}
             width={500}
@@ -188,7 +258,7 @@ export default function ChartSummary(props) {
             </text>
 
             <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontSize: '8px' }} interval={0} height={80} />
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontSize: '10px' }} interval={0}/>
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontSize: '10px' }} interval={0} />
 
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >
@@ -211,5 +281,6 @@ ChartSummary.propTypes = {
   zonalStatsData: PropTypes.object,
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
-  chartType: PropTypes.string
+  chartType: PropTypes.string,
+  map: PropTypes.object
 };
