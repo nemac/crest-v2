@@ -195,7 +195,9 @@ export default function ChartSummary(props) {
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
         thisMap.current._layers[id].setStyle(areaHighlightStyle);
-        thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
+        if (bufferLayerId !== null) {
+          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
+        }
       }
     });
   };
@@ -216,7 +218,9 @@ export default function ChartSummary(props) {
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
         thisMap.current._layers[id].setStyle(areaStyle);
-        thisMap.current._layers[bufferLayerId].setStyle(bufferStyle);
+        if (bufferLayerId !== null) {
+          thisMap.current._layers[bufferLayerId].setStyle(bufferStyle);
+        }
       }
     });
   };
