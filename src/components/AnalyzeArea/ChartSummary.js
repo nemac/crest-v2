@@ -56,7 +56,6 @@ const regions = mapConfig.regions;
 
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
-
 const useStyles = makeStyles((theme) => ({
   contentBox: {
     display: 'flex',
