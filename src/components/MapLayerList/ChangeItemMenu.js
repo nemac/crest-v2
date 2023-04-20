@@ -152,6 +152,7 @@ export default function ChangeItemMenu(props) {
           spacing={0}
           justifyContent="center"
           alignItems="center"
+          // eslint-disable-next-line max-len
           className={selectedValue === menuItems[menuItem].label ? classes.itemRowSelected : classes.itemRow}
           onClick={(event) => { minimizeOnClick(event); itemClick(menuItems[menuItem].label); }} >
             <Grid item xs={8} sx={{ padding: '8px' }} >
