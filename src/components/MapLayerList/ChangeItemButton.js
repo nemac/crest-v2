@@ -157,7 +157,7 @@ ChangeItemButton.propTypes = {
   buttonMainLabel: PropTypes.string.isRequired,
   buttonNameLabel: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
-  menuItems: PropTypes.array.isRequired,
+  menuItems: PropTypes.object.isRequired,
   showMenu: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   itemOnClick: PropTypes.func.isRequired

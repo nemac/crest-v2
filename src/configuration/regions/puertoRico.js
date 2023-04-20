@@ -1,5 +1,8 @@
+import regionPuertoRicoImage from '../../assets/images/zoomregion-pr.png';
+
 export const puertoRicoConfig = {
   label: 'Puerto Rico',
+  image: regionPuertoRicoImage,
   regionName: 'puerto_rico',
   mapProperties: {
     label: 'Puerto Rico',

@@ -1,5 +1,8 @@
+import regionContinentalUSImage from '../../assets/images/zoomregion-cus.png';
+
 export const continentalUSConfig = {
   label: 'Continental U.S',
+  image: regionContinentalUSImage,
   regionName: 'continental_us',
   mapProperties: {
     label: 'Continental U.S',

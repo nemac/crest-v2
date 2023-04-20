@@ -1,5 +1,8 @@
+import regionGuamImage from '../../assets/images/zoomregion-guam.png';
+
 export const guamConfig = {
   label: 'Guam',
+  image: regionGuamImage,
   regionName: 'guam',
   mapProperties: {
     label: 'Guam',

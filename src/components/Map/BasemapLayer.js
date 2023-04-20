@@ -25,7 +25,7 @@ export default function BasemapLayer(props) {
     }
 
     if (map) {
-      const newBasemap = vectorBasemapLayer(basemaps[basemapName], {
+      const newBasemap = vectorBasemapLayer(basemaps[basemapName].basemap, {
         apikey: 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By',
         pane: 'mapPane',
         // attribution: attributionString.current

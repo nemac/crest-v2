@@ -1,5 +1,8 @@
+import regionHawaiiImage from '../../assets/images/zoomregion-hawaii.png';
+
 export const hawaiiConfig = {
   label: 'Hawai\'i',
+  image: regionHawaiiImage,
   regionName: 'hawaii',
   mapProperties: {
     label: 'Hawai\'i',

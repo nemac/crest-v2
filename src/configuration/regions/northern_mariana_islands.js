@@ -1,5 +1,8 @@
+import regionNorthernMarianaIslandsImage from '../../assets/images/zoomregion-cnmi.png';
+
 export const northernMarianaIslandsConfig = {
   label: 'Northern Mariana Islands',
+  image: regionNorthernMarianaIslandsImage,
   regionName: 'northern_mariana_islands',
   mapProperties: {
     label: 'Northern Mariana Islands',
