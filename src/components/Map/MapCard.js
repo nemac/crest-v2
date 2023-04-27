@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#F4F4F4'
     }
+  },
+  shareButton: {
+    margin: '0 0 20px 0'
   }
 }));
 
