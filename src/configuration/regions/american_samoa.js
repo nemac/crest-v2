@@ -1,5 +1,8 @@
+import regionAmericanSamoaImage from '../../assets/images/zoomregion-as.png';
+
 export const americanSamoaConfig = {
   label: 'American Samoa',
+  image: regionAmericanSamoaImage,
   regionName: 'american_samoa',
   mapProperties: {
     label: 'American Samoa',

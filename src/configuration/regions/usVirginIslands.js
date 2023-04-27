@@ -1,5 +1,8 @@
+import regionUSVirginIslandsImage from '../../assets/images/zoomregion-uvi.png';
+
 export const usVirginIslandsConfig = {
   label: 'US Virgin Islands',
+  image: regionUSVirginIslandsImage,
   regionName: 'usVirginIslands',
   mapProperties: {
     label: 'US Virgin Islands',

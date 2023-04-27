@@ -1,5 +1,8 @@
+import regionAlaskaImage from '../../assets/images/zoomregion-alaska.png';
+
 export const alaskaConfig = {
   label: 'Alaska',
+  image: regionAlaskaImage,
   regionName: 'alaska',
   mapProperties: {
     label: 'Alaska',

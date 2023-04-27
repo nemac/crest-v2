@@ -22,20 +22,6 @@ import ChangeItemButton from './ChangeItemButton';
 import DriverGroup from './DriverGroup';
 import LayerGroup from './LayerGroup';
 
-import regionAlaskaImage from '../../assets/images/zoomregion-alaska.png';
-import regionAmericanSamoaImage from '../../assets/images/zoomregion-as.png';
-import regionContinentalUSImage from '../../assets/images/zoomregion-cus.png';
-import regionGuamImage from '../../assets/images/zoomregion-guam.png';
-import regionHawaiiImage from '../../assets/images/zoomregion-hawaii.png';
-import regionNorthernMarianaIslandsImage from '../../assets/images/zoomregion-cnmi.png';
-import regionPuertoRicoImage from '../../assets/images/zoomregion-pr.png';
-import regionUSVirginIslandsImage from '../../assets/images/zoomregion-uvi.png';
-
-import basemapDarkImage from '../../assets/images/basemap-dark.png';
-import basemapImageryImage from '../../assets/images/basemap-imagery.png';
-import basemapStreetImage from '../../assets/images/basemap-street.jpg';
-import basemapTopoImage from '../../assets/images/basemap-topo.jpg';
-
 const useStyles = makeStyles((theme) => ({
   gridHolder: {
     height: '100%',
@@ -69,62 +55,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// TODO: move this to config file?
-const baseMapMenuItems = [
-  {
-    label: 'Dark Gray',
-    image: basemapDarkImage
-  },
-  {
-    label: 'Imagery',
-    image: basemapImageryImage
-  },
-  {
-    label: 'Topographic',
-    image: basemapTopoImage
-  },
-  {
-    label: 'Streets',
-    image: basemapStreetImage
-  }
-];
-
-// TODO: move this to config file?
-const regionMenuItems = [
-  {
-    label: 'Alaska',
-    image: regionAlaskaImage
-  },
-  {
-    label: 'American Samoa',
-    image: regionAmericanSamoaImage
-  },
-  {
-    label: 'Continental U.S',
-    image: regionContinentalUSImage
-  },
-  {
-    label: 'Guam',
-    image: regionGuamImage
-  },
-  {
-    label: 'Hawai\'i',
-    image: regionHawaiiImage
-  },
-  {
-    label: 'Northern Mariana Islands',
-    image: regionNorthernMarianaIslandsImage
-  },
-  {
-    label: 'Puerto Rico',
-    image: regionPuertoRicoImage
-  },
-  {
-    label: 'US Virgin Islands',
-    image: regionUSVirginIslandsImage
-  }
-];
-
+const basemaps = mapConfig.basemaps;
 const regions = mapConfig.regions;
 
 export default function MapLayerList() {
@@ -253,7 +184,7 @@ export default function MapLayerList() {
           buttonNameLabel={selectedBasemap}
           buttonName={'Change Basemap'}
           showMenu={showBaseMapMenu}
-          menuItems={baseMapMenuItems}
+          menuItems={basemaps}
           onClick={handleBaseMapClick}
           itemOnClick={handleBaseMapMenuItemClick}>
           {<GridViewRounded className={classes.changeItemIcon}/>}
@@ -266,7 +197,7 @@ export default function MapLayerList() {
           buttonNameLabel={selectedRegion}
           buttonName={'Change Region'}
           showMenu={showRegionMenu}
-          menuItems={regionMenuItems}
+          menuItems={regions}
           onClick={handleRegionClick}
           itemOnClick={handleRegionMenuItemClick}>
           {<FilterNone className={classes.changeItemIcon}/>}
