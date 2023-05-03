@@ -54,6 +54,7 @@ import PropTypes from 'prop-types';
 
 import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
+import SearchPlaces from './SearchPlaces';
 import BasemapLayer from './BasemapLayer';
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
@@ -268,6 +269,7 @@ export default function MapCard(props) {
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
+        <SearchPlaces map = {map}/>
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
           map = {map}
