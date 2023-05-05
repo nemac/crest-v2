@@ -10,6 +10,7 @@ export const americanSamoaConfig = {
     extent: [-170.88, -14.71, -168.92, -13.90],
     zoom: 9
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

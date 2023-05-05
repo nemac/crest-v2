@@ -10,6 +10,7 @@ export const continentalUSConfig = {
     extent: [-132.97, 25.16, -62.49, 50.00],
     zoom: 4
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',
