@@ -110,9 +110,13 @@ export default function MapHolder(props) {
 
       {/* Map */}
       <Grid item
-        xs={12} sm={12} md={4.5} lg={layerListVisible ? 5.25 : 8.25} xl={layerListVisible ? 6.25 : 9}
-        order={{ xs: 1, sm: 1, md: 2 }}
-        className={classes.threeColumnHolder}>
+            xs={12}
+            sm={12}
+            md={4.5}
+            lg={layerListVisible ? 5.25 : 8.25}
+            xl={layerListVisible ? 6.25 : 9}
+            order={{ xs: 1, sm: 1, md: 2 }}
+            className={classes.threeColumnHolder}>
         <Box className={classes.contentmapBox} >
           <MapCard
             map={map}

@@ -48,9 +48,11 @@ import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { mapConfig } from '../../configuration/config';
 
 import ChartCustomLabels from './ChartCustomLabels';
+import { lineHeight } from '@mui/system';
 
 const regions = mapConfig.regions;
 
@@ -69,7 +71,20 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: '1px',
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  ToolTipBox: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    borderRadius: '4px',
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.CRESTLight.main,
+    borderColor: theme.palette.CRESTLightBorderColor.main,
+    color: theme.palette.CRESTLight.contrastText,
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 }));
 
 export default function ChartSummary(props) {
@@ -92,13 +107,6 @@ export default function ChartSummary(props) {
   const chartLabel = `${chartType} ${areaName}`;
   const layerList = region.layerList;
 
-  const divStyle = {
-    color: 'black',
-    backgroundColor: 'white',
-    padding: '5px 0',
-    borderRadius: '6px'
-  };
-
   const formatYAxis = (value) => {
     switch (value) {
       case 1:
@@ -111,13 +119,18 @@ export default function ChartSummary(props) {
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
+    const classes = useStyles();
     // eslint-disable-next-line max-len
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
-        <div className="custom-tooltip" style={divStyle}>
-          <p className="label">{label}</p>
-          <h4 className="desc">{`${payload[0].payload.value.toFixed(2)}`}</h4>
-        </div>
+        <Box className={classes.ToolTipBox} >
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
+            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'  }} variant="body2" component="div">{label}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'  }} >
+            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'  }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
+          </Box>
+        </Box>
       );
     }
     return null;
@@ -229,23 +242,33 @@ export default function ChartSummary(props) {
       <Box className={classes.contentBox}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        components='fieldset'>
-        <ResponsiveContainer width="100%" height="40%">
-          <BarChart data={chartData}
-            width={500}
-            height={300}
+        components='fieldset'
+      >
+        <ResponsiveContainer  
+          sx={{
+            padding: "20px",
+            width: "100%",
+            height: "100%"
+           }}>
+          <BarChart 
+            data={chartData}
+            sx={{
+              width: "100%",
+              height: "100%"
+             }}
             margin={{
-              top: 25,
+              top: 90,
               right: 30,
-              left: 20,
-              bottom: 5
+              left: 0,
+              bottom: 30
             }}>
-            <text x={400 / 2} y={10} fill="white" textAnchor="middle" dominantBaseline="central">
-              <tspan fontSize="14">{chartLabel}</tspan>
+
+            <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central"  style={{ fontFamily: 'Roboto, sans-serif' }} >
+              <tspan style={{  fontSize: '1.25rem' }}>{chartLabel}</tspan>
             </text>
 
-            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontSize: '8px' }} interval={0} height={80} />
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontSize: '10px' }} interval={0} />
+            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0}  />
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif',fontSize: '0.75rem'}} interval={0}/>
 
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >

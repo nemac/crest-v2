@@ -118,5 +118,6 @@ export default function DrawArea(props) {
 }
 
 DrawArea.propTypes = {
-  map: PropTypes.object
+  map: PropTypes.object,
+  disabled: PropTypes.bool
 };

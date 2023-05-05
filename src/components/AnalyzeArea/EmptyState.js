@@ -20,16 +20,10 @@ Props
   - Not sure yet
 */
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
-import BarChartIcon from '@mui/icons-material/BarChart';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-
-import { changeEmptyState } from '../../reducers/analyzeAreaSlice';
-import ChartActionButton from './ChartActionButton';
 
 const useStyles = makeStyles((theme) => ({
   CardBackground: {
@@ -56,15 +50,6 @@ const useStyles = makeStyles((theme) => ({
 export default function EmptyState(props) {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
-
-  // to do this will also need to clear all the save results
-  // from the store (from add areas) when its completed
-  const handleClick = (event) => {
-    event.stopPropagation();
-    dispatch(changeEmptyState());
-  };
-
   return (
     <Box variant="outlined" square={false} className={classes.CardBackground} >
       <Typography variant="h6" gutterBottom>
@@ -80,22 +65,6 @@ export default function EmptyState(props) {
         Resilience Hubs and explore and compare the Community Exposure and Fish and Wildlife
         Indices in the surrounding area.
       </Typography>
-
-      {/* temporary button for chaning state to not empty */}
-      <Grid container spacing={0} p={0} mt={0} mb={0} className={classes.tempButtonBox}>
-
-        <Grid item xs={12}>
-          <ChartActionButton
-            buttonLabel={'View Chart UI'}
-            buttonName={'View Chart UI'}
-            onClick={handleClick}>
-            <BarChartIcon />
-          </ChartActionButton>
-        </Grid>
-
-      </Grid>
-      {/* temporary button for chaning state to not empty */}
-
     </Box>
   );
 }
