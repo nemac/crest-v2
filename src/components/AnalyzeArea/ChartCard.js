@@ -57,6 +57,7 @@ export default function ChartCard(props) {
               <ChartDetails areaName={areaName}
                 areaIndex={areaIndex}
                 region={region}
+                map={map}
                 zonalStatsData={zonalStatsData} />
             </Grid>
 
@@ -82,6 +83,7 @@ export default function ChartCard(props) {
                 chartRegion={region}
                 chartIndices={summaryIndices}
                 chartType={'Summary Chart'}
+                map={map}
               />
             </Grid>
 
