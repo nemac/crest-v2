@@ -104,6 +104,7 @@ export default function MapHolder(props) {
           boxHeight={'calc(100% - 258px)'}
           boxMarginTop={'8px'}
           leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+          map={map}
         />
       </Grid>
 

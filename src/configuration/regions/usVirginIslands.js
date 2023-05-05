@@ -1,5 +1,8 @@
+import regionUSVirginIslandsImage from '../../assets/images/zoomregion-uvi.png';
+
 export const usVirginIslandsConfig = {
   label: 'US Virgin Islands',
+  image: regionUSVirginIslandsImage,
   regionName: 'usVirginIslands',
   mapProperties: {
     label: 'US Virgin Islands',
@@ -7,6 +10,7 @@ export const usVirginIslandsConfig = {
     extent: [-65.13508888306899, 17.627008270947076, -64.25480934205336, 18.46267598832466],
     zoom: 10
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

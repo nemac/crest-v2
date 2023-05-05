@@ -145,20 +145,21 @@ export default function ChangeItemMenu(props) {
         </Grid>
       </Grid>
 
-      { menuItems.map((menuItem) => (
+      { Object.keys(menuItems).map((menuItem) => (
         <Grid
-          key={menuItem.label}
+          key={menuItems[menuItem].label}
           container
           spacing={0}
           justifyContent="center"
           alignItems="center"
-          className={selectedValue === menuItem.label ? classes.itemRowSelected : classes.itemRow}
-          onClick={(event) => { minimizeOnClick(event); itemClick(menuItem.label); }} >
+          // eslint-disable-next-line max-len
+          className={selectedValue === menuItems[menuItem].label ? classes.itemRowSelected : classes.itemRow}
+          onClick={(event) => { minimizeOnClick(event); itemClick(menuItems[menuItem].label); }} >
             <Grid item xs={8} sx={{ padding: '8px' }} >
-              <Box px={1} py={0.75} >{menuItem.label}</Box>
+              <Box px={1} py={0.75} >{menuItems[menuItem].label}</Box>
             </Grid>
             <Grid item xs={4} sx={{ padding: '8px' }} >
-              <img src={menuItem.image} style={{ width: '54px', height: '31px' }} />
+              <img src={menuItems[menuItem].image} style={{ width: '54px', height: '31px' }} />
             </Grid>
           </Grid>
       ))
@@ -170,7 +171,7 @@ export default function ChangeItemMenu(props) {
 ChangeItemMenu.propTypes = {
   selectedValue: PropTypes.string.isRequired,
   menuName: PropTypes.string.isRequired,
-  menuItems: PropTypes.array.isRequired,
+  menuItems: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   itemOnClick: PropTypes.func.isRequired
 };

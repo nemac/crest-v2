@@ -1,5 +1,8 @@
+import regionAmericanSamoaImage from '../../assets/images/zoomregion-as.png';
+
 export const americanSamoaConfig = {
   label: 'American Samoa',
+  image: regionAmericanSamoaImage,
   regionName: 'american_samoa',
   mapProperties: {
     label: 'American Samoa',
@@ -7,6 +10,7 @@ export const americanSamoaConfig = {
     extent: [-170.88, -14.71, -168.92, -13.90],
     zoom: 9
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

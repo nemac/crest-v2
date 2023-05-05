@@ -88,7 +88,14 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '30px',
     minWidth: '30px',
     width: '30px',
-    height: '30px'
+    height: '30px',
+    backgroundColor: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#F4F4F4'
+    }
+  },
+  shareButton: {
+    margin: '0 0 20px 0'
   }
 }));
 

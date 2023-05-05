@@ -1,5 +1,8 @@
+import regionHawaiiImage from '../../assets/images/zoomregion-hawaii.png';
+
 export const hawaiiConfig = {
   label: 'Hawai\'i',
+  image: regionHawaiiImage,
   regionName: 'hawaii',
   mapProperties: {
     label: 'Hawai\'i',
@@ -7,6 +10,7 @@ export const hawaiiConfig = {
     extent: [-166.09, 13.77, -140.36, 26.78],
     zoom: 6
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

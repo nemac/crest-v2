@@ -1,5 +1,8 @@
+import regionNorthernMarianaIslandsImage from '../../assets/images/zoomregion-cnmi.png';
+
 export const northernMarianaIslandsConfig = {
   label: 'Northern Mariana Islands',
+  image: regionNorthernMarianaIslandsImage,
   regionName: 'northern_mariana_islands',
   mapProperties: {
     label: 'Northern Mariana Islands',
@@ -7,6 +10,7 @@ export const northernMarianaIslandsConfig = {
     extent: [144.87, 13.92, 147.27, 15.38],
     zoom: 9
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',

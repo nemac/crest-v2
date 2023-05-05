@@ -44,6 +44,8 @@ import {
   Cell
 } from 'recharts';
 
+import { useSelector } from 'react-redux';
+
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -53,6 +55,8 @@ import ChartCustomLabels from './ChartCustomLabels';
 import { lineHeight } from '@mui/system';
 
 const regions = mapConfig.regions;
+
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
@@ -91,12 +95,15 @@ export default function ChartSummary(props) {
     zonalStatsData,
     chartRegion,
     chartIndices,
-    chartType
+    chartType,
+    map
   } = props;
+  const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
 
   const dataToPlot = useRef(true);
+  const thisMap = useRef(map);
   const chartLabel = `${chartType} ${areaName}`;
   const layerList = region.layerList;
 
@@ -183,9 +190,60 @@ export default function ChartSummary(props) {
     handleGetZonalStatsData(zonalStatsData);
   }, [zonalStatsData, handleGetZonalStatsData]);
 
+  const handleMouseEnter = () => {
+    const areaHighlightStyle = {
+      color: '#dda006',
+      weight: 2,
+      opacity: 1
+    };
+    const bufferHighlightStyle = {
+      color: '#ffc107',
+      weight: 2,
+      opacity: 1
+    };
+
+    drawnLayersFromState.features.forEach((feature) => {
+      const id = feature.properties.leafletId;
+      const bufferLayerId = feature.properties.bufferLayerId;
+      if (feature.properties.areaName === areaName) {
+        thisMap.current._layers[id].setStyle(areaHighlightStyle);
+        if (bufferLayerId !== null) {
+          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
+        }
+      }
+    });
+  };
+  const handleMouseLeave = () => {
+    const areaStyle = {
+      color: '#4992f9',
+      weight: 2,
+      opacity: 1
+    };
+    const bufferStyle = {
+      color: '#99c3ff',
+      weight: 2,
+      opacity: 1
+    };
+
+    drawnLayersFromState.features.forEach((feature) => {
+      const id = feature.properties.leafletId;
+      const bufferLayerId = feature.properties.bufferLayerId;
+      if (feature.properties.areaName === areaName) {
+        thisMap.current._layers[id].setStyle(areaStyle);
+        if (bufferLayerId !== null) {
+          thisMap.current._layers[bufferLayerId].setStyle(bufferStyle);
+        }
+      }
+    });
+  };
+
   if (dataToPlot.current) {
     return (
-      <Box className={classes.contentBox} components='fieldset'>
+      <Box className={classes.contentBox}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        components='fieldset'
+      >
         <ResponsiveContainer  
           sx={{
             padding: "20px",
@@ -233,5 +291,6 @@ ChartSummary.propTypes = {
   zonalStatsData: PropTypes.object,
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
-  chartType: PropTypes.string
+  chartType: PropTypes.string,
+  map: PropTypes.object
 };

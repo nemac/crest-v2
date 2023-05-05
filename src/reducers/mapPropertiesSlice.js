@@ -12,7 +12,6 @@ export const mapPropertiesSlice = createSlice({
     identifyResults: null,
     identifyIsLoaded: false,
     basemap: 'Dark Gray',
-    attributions: [],
     sketchArea: false,
     uploadedShapeFile: null,
     zonalStatsAreas: {
@@ -42,9 +41,6 @@ export const mapPropertiesSlice = createSlice({
     },
     changeBasemap: (state, action) => {
       state.basemap = action.payload;
-    },
-    updateAttributions: (state, action) => {
-      state.attributions = action.payload;
     },
     toggleSketchArea: (state) => {
       state.sketchArea = !state.sketchArea;
@@ -86,7 +82,7 @@ export const mapPropertiesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, updateAttributions,
+  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
   toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
   removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
   removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON
