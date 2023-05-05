@@ -73,7 +73,7 @@ const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function ChartsHolder(props) {
-  const { leafletDrawFeatureGroupRef } = props;
+  const { leafletDrawFeatureGroupRef, map } = props;
   const drawnLayerAreas = useSelector(drawnLayerSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   // console.log('drawn layer');
@@ -214,6 +214,7 @@ export default function ChartsHolder(props) {
                   region={thisRegion}
                   zonalStatsData={zonalStatsData}
                   leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                  map={map}
                 />
               );
             })}
@@ -232,5 +233,6 @@ export default function ChartsHolder(props) {
 }
 
 ChartsHolder.propTypes = {
-  leafletDrawFeatureGroupRef: PropTypes.object
+  leafletDrawFeatureGroupRef: PropTypes.object,
+  map: PropTypes.object
 };
