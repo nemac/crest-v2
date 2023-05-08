@@ -116,11 +116,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     height: '54px',
     paddingBottom: theme.spacing(0.5)
-  },  
+  },
   rightActionButton: {
     height: theme.spacing(4.5),
     padding: theme.spacing(0.375),
-    justifyContent: 'end'      
+    justifyContent: 'end'
   },
   valueName: {
     display: 'flex',
@@ -176,7 +176,6 @@ export default function ShowIdentifyPopup(props) {
             className={classes.indentifyPopup}
             closeButton={false}
           >
-            
             <Box px={1} py={0.75} className={classes.titleBox}>
               <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
                 Map Information

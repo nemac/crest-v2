@@ -7,6 +7,11 @@ import { puertoRicoConfig } from './regions/puertoRico';
 import { usVirginIslandsConfig } from './regions/usVirginIslands';
 import { alaskaConfig } from './regions/alaska';
 
+import basemapDarkImage from '../assets/images/basemap-dark.png';
+import basemapImageryImage from '../assets/images/basemap-imagery.png';
+import basemapStreetImage from '../assets/images/basemap-street.jpg';
+import basemapTopoImage from '../assets/images/basemap-topo.jpg';
+
 export const betaIdentifyEndpoint = 'https://api.resilientcoasts.org/beta/identify/';
 export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identify/';
 export const betaShareLinkEndpoint = 'https://api.resilientcoasts.org/beta/share-link';
@@ -19,10 +24,27 @@ export const s3ShapeFileBucket = 'https://nfwf-tool-user-shapes.s3.amazonaws.com
 
 export const mapConfig = {
   basemaps: {
-    'Dark Gray': 'ArcGIS:DarkGray',
-    Imagery: 'ArcGIS:Imagery',
-    Streets: 'ArcGIS:Streets',
-    Topographic: 'ArcGIS:Topographic'
+    'Dark Gray': {
+      label: 'Dark Gray',
+      image: basemapDarkImage,
+      basemap: 'ArcGIS:DarkGray'
+
+    },
+    Imagery: {
+      label: 'Imagery',
+      image: basemapImageryImage,
+      basemap: 'ArcGIS:Imagery'
+    },
+    Streets: {
+      label: 'Streets',
+      image: basemapStreetImage,
+      basemap: 'ArcGIS:Streets'
+    },
+    Topographic: {
+      label: 'Topographic',
+      image: basemapTopoImage,
+      basemap: 'ArcGIS:Topographic'
+    }
   },
   regions: {
     // eslint-disable-next-line quote-props

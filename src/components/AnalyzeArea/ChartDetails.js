@@ -64,7 +64,8 @@ export default function ChartDetails(props) {
     areaName,
     areaIndex,
     region,
-    zonalStatsData
+    zonalStatsData,
+    map
   } = props;
 
   const chartValues = useRef({
@@ -89,6 +90,7 @@ export default function ChartDetails(props) {
           zonalStatsData={zonalStatsData}
           chartType={'Summary Chart'}
           chartIndices={chartValues.current['Summary Chart']}
+          map={map}
         />
       </Box>
       <ChartDetailsActionButtons
@@ -107,6 +109,7 @@ export default function ChartDetails(props) {
           zonalStatsData={zonalStatsData}
           chartIndices={chartValues.current['Fish and Wildlife Inputs']}
           chartType={'Fish and Wildlife Inputs'}
+          map={map}
         />
       </Box>
       <ChartDetailsActionButtons
@@ -124,6 +127,7 @@ export default function ChartDetails(props) {
           zonalStatsData={zonalStatsData}
           chartIndices={chartValues.current['Threats Inputs']}
           chartType={'Threats Inputs'}
+          map={map}
         />
       </Box>
       <ChartDetailsActionButtons
@@ -140,6 +144,7 @@ export default function ChartDetails(props) {
           zonalStatsData={zonalStatsData}
           chartIndices={chartValues.current['Community Assets Inputs']}
           chartType={'Community Assets Inputs'}
+          map={map}
         />
       </Box>
       <ChartDetailsActionButtons
@@ -165,5 +170,6 @@ ChartDetails.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
   region: PropTypes.string.isRequired,
-  zonalStatsData: PropTypes.object.isRequired
+  zonalStatsData: PropTypes.object.isRequired,
+  map: PropTypes.object
 };

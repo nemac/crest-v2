@@ -44,7 +44,7 @@ export default function ModalShare(props) {
       <DialogActions>
         <Button
               variant="contained"
-              color="CRESTDarkAlt"
+              color="CRESTPrimary"
               aria-label="Copy"
               onClick={secondaryClick}
               endIcon={<ContentPasteIcon />}>
@@ -52,7 +52,7 @@ export default function ModalShare(props) {
         </Button>
         <Button
           variant="contained"
-          color="CRESTPrimary"
+          color="CRESTDarkAlt"
           onClick={onClose}
           autoFocus>
           {buttonMessage}

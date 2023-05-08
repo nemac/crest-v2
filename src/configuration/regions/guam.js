@@ -1,5 +1,8 @@
+import regionGuamImage from '../../assets/images/zoomregion-guam.png';
+
 export const guamConfig = {
   label: 'Guam',
+  image: regionGuamImage,
   regionName: 'guam',
   mapProperties: {
     label: 'Guam',
@@ -7,6 +10,7 @@ export const guamConfig = {
     extent: [144.33, 13.20, 145.88, 13.79],
     zoom: 10
   },
+  attribution: 'NFWF 2020',
   chartInputs: [
     {
       chartInputName: 'summary',
