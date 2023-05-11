@@ -23,14 +23,13 @@ Props
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Popup } from 'react-leaflet';
-import L from 'leaflet';
+import * as L from 'leaflet';
 import { Button } from '@mui/material/';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import { geosearch } from 'esri-leaflet-geocoder';
 import * as ELG from 'esri-leaflet-geocoder';
-import { makeStyles } from '@mui/styles';
-import InfoIcon from '@mui/icons-material/Info';
-import ShowIdentifyPopup from './Identify';
+import LeafletDrawTools from './LeafletDrawTools';
+
 import {
   addNewFeatureToDrawnLayers,
   uploadedShapeFileGeoJSON,
@@ -38,7 +37,9 @@ import {
 } from '../../reducers/mapPropertiesSlice';
 
 export default function SearchPlaces(props) {
-  const { map, leafletDrawFeatureGroupRef } = props;
+  const { map, leafletFeatureGroupRef } = props;
+  console.log('map is ', map);
+  console.log('at dereference: ', leafletFeatureGroupRef)
   const dispatch = useDispatch();
   const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
   const GeoSearchOptions = {
@@ -56,68 +57,30 @@ export default function SearchPlaces(props) {
     attribution: 'Powered by ESRI'
   };
 
-  let identifyData = null;
+  const identifyDataRef = useRef(null);
   const [popupContent, setPopupContent] = useState(null);
 
   const searchControlRef = useRef(null);
-  // const searchLocation = useRef(null);
 
-  function circleToFeature(circle) {
-    const center = circle.getLatLng();
-    const radius = circle.getRadius();
-    const feature = {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [center.lng, center.lat]
-      },
-      properties: {
-        radius,
-        areaName: 'TESTAREA'
-      }
-    };
-    return feature;
-  }
+  const handleGetAreaStatistics = useCallback(() => {
+    const thisArea = L.circle(identifyDataRef.current, { radius: 1000 });
+    const fakeLayer = { layer: thisArea };
+    const asGJSON = thisArea.toGeoJSON();
+    console.log(asGJSON);
+    thisArea.on('add', () => LeafletDrawTools.onCreated(fakeLayer));
+    console.log('the circle printed: ', thisArea);
+    // PULL IN ONCREATED here, and dummy out an event containing a "layer"
+    leafletFeatureGroupRef.current.addLayer(thisArea);
+  }, [leafletFeatureGroupRef]);
 
   const handleOnSearchResuts = useCallback((data) => {
     console.log('Search results', data);
-    identifyData = data.latlng;
-    console.log(identifyData);
-
-    const handleGetAreaStatistics = (data) => {
-      const thisArea = L.circle(identifyData, { radius: 1000 });
-      thisArea.addTo(map);
-      const newFeature = circleToFeature(thisArea);
-      // newLayer.addTo(map);
-
-      let layer = L.geoJSON(newFeature);
-      const layerId = L.stamp(layer);
-      newFeature.properties.leafletId = layerId;
-      const leafletIdsList = [layerId];
-      leafletDrawFeatureGroupRef.current.addLayer(layer);
-      // layer.bindTooltip('TESTAREATT', { direction: 'center', permanent: true });
-      if (newFeature.properties.buffer) {
-        // layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
-        // layer = L.geoJSON(layer, { style: bufferStyle });
-        // const bufferLayerId = L.stamp(layer);
-        // newFeature.properties.bufferLayerId = bufferLayerId;
-        // leafletIdsList.push(bufferLayerId);
-        leafletDrawFeatureGroupRef.current.addLayer(layer);
-      }
-      newFeature.properties.leafletIds = leafletIdsList;
-      // dispatch(addNewFeatureToDrawnLayers(newFeature));
-      // dispatch(addNewFeatureToZonalStatsAreas(newFeature));
-      dispatch(uploadedShapeFileGeoJSON(newFeature));
-      console.log(newFeature);
-      searchControlRef.current.clear();
-
-      // return(
-      //   <Circle center={identifyData} radius={1000} />
-      // )
-    };
+    console.log('inside search results ', map);
+    identifyDataRef.current = data.latlng;
+    console.log('identify ref is currently: ', identifyDataRef.current);
 
     setPopupContent(
-      <Popup position={identifyData} onClose={() => setPopupContent(null)}>
+      <Popup position={identifyDataRef.current} onClose={() => setPopupContent(null)}>
         <div>
           <h2>{data.results[0].text}</h2>
           <p><Button
@@ -128,7 +91,7 @@ export default function SearchPlaces(props) {
         </div>
       </Popup>
     );
-  }, []);
+  }, [handleGetAreaStatistics, map]);
   useEffect(() => {
     if (!map) { return; }
 

@@ -276,7 +276,7 @@ export default function MapCard(props) {
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
-        <SearchPlaces map = {map}/>
+        <SearchPlaces map = {map} leafletFeatureGroupRef={leafletDrawFeatureGroupRef}/>
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
           map = {map}
