@@ -29,6 +29,7 @@ import AddchartIcon from '@mui/icons-material/Addchart';
 import { geosearch } from 'esri-leaflet-geocoder';
 import * as ELG from 'esri-leaflet-geocoder';
 import LeafletDrawTools from './LeafletDrawTools';
+import * as turf from '@turf/turf';
 
 import {
   addNewFeatureToDrawnLayers,
@@ -39,8 +40,6 @@ import {
 
 export default function SearchPlaces(props) {
   const { map, leafletFeatureGroupRef } = props;
-  console.log('map is ', map);
-  console.log('at dereference: ', leafletFeatureGroupRef)
   const dispatch = useDispatch();
   const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
   const GeoSearchOptions = {
@@ -63,18 +62,49 @@ export default function SearchPlaces(props) {
 
   const searchControlRef = useRef(null);
 
+  const circleToPolygon = (circle) => {
+    const numSegments = 32; // Default number of segments
+
+    const center = circle.getLatLng();
+    const radius = circle.getRadius();
+
+    console.log('center: ', center, ' radius: ', radius);
+    const points = [];
+    const angle = (Math.PI * 2) / numSegments;
+
+    for (let i = 0; i < numSegments; i++) {
+      const theta = angle * i;
+      const x = center.lng + radius * Math.cos(theta);
+      const y = center.lat + radius * Math.sin(theta);
+      points.push([y, x]);
+    }
+
+    const polygon = L.polygon(points);
+    console.log('polygon: ', polygon);
+    console.log('points: ', points);
+    return polygon;
+  }
+
   const handleGetAreaStatistics = useCallback(() => {
-    const thisArea = L.circle(identifyDataRef.current, { radius: 1000 });
-    const asGJSON = thisArea.toGeoJSON();
+    const circle = L.circle(identifyDataRef.current, { radius: 1000 });
+    const centerLatLng = circle.getLatLng();
+    const center = [centerLatLng.lng, centerLatLng.lat];
+    const radius = circle.getRadius();
+    // Turf Circle
+    const options = { steps: 32, units: 'meters' };
+    const turfCircle = turf.circle(center, radius, options);
+    const newTurfCircle = new L.GeoJSON(turfCircle);
+    const asGJSON = newTurfCircle.toGeoJSON();
+    // const thisArea = circleToPolygon(thisCircle);
+    // thisArea.addTo(map);
+    // console.log('this area: ', thisArea);
+    // const asGJSON = thisArea.toGeoJSON();
     dispatch(addSearchPlacesGeoJSON(asGJSON));
   }, [dispatch]);
 
   const handleOnSearchResuts = useCallback((data) => {
-    console.log('Search results', data);
-    console.log('inside search results ', map);
     identifyDataRef.current = data.latlng;
-    console.log('identify ref is currently: ', identifyDataRef.current);
-
+ 
     setPopupContent(
       <Popup position={identifyDataRef.current} onClose={() => setPopupContent(null)}>
         <div>
@@ -98,7 +128,7 @@ export default function SearchPlaces(props) {
 
       searchControlRef.current.on('results', handleOnSearchResuts);
       // return () => {
-        // searchControlRef.current.off('results', handleOnSearchResuts);
+      // searchControlRef.current.off('results', handleOnSearchResuts);
       // };
     }
   }, [GeoSearchOptions, handleOnSearchResuts, map]);
