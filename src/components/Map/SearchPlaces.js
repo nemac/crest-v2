@@ -33,7 +33,8 @@ import LeafletDrawTools from './LeafletDrawTools';
 import {
   addNewFeatureToDrawnLayers,
   uploadedShapeFileGeoJSON,
-  addNewFeatureToZonalStatsAreas
+  addNewFeatureToZonalStatsAreas,
+  addSearchPlacesGeoJSON
 } from '../../reducers/mapPropertiesSlice';
 
 export default function SearchPlaces(props) {
@@ -64,14 +65,9 @@ export default function SearchPlaces(props) {
 
   const handleGetAreaStatistics = useCallback(() => {
     const thisArea = L.circle(identifyDataRef.current, { radius: 1000 });
-    const fakeLayer = { layer: thisArea };
     const asGJSON = thisArea.toGeoJSON();
-    console.log(asGJSON);
-    thisArea.on('add', () => LeafletDrawTools.onCreated(fakeLayer));
-    console.log('the circle printed: ', thisArea);
-    // PULL IN ONCREATED here, and dummy out an event containing a "layer"
-    leafletFeatureGroupRef.current.addLayer(thisArea);
-  }, [leafletFeatureGroupRef]);
+    dispatch(addSearchPlacesGeoJSON(asGJSON));
+  }, [dispatch]);
 
   const handleOnSearchResuts = useCallback((data) => {
     console.log('Search results', data);

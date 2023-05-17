@@ -40,7 +40,8 @@ import {
   addNewFeatureToDrawnLayers,
   removeAllFeaturesFromDrawnLayers,
   removeAllFeaturesFromZonalStatsAreas,
-  uploadedShapeFileGeoJSON
+  uploadedShapeFileGeoJSON,
+  addSearchPlacesGeoJSON
 } from '../../reducers/mapPropertiesSlice';
 import { setEmptyState } from '../../reducers/analyzeAreaSlice';
 
@@ -48,6 +49,7 @@ const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
+const searchPlacesFileSelector = (state) => state.mapProperties.searchPlacesFileGeoJSON;
 
 const useStyles = makeStyles((theme) => ({
   // Feels a bit hacky that I had to tack !important on to everything to get the override
@@ -87,6 +89,7 @@ export default function LeafletDrawTools(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const shapeFileGeoJSON = useSelector(uploadedShapeFileSelector);
+  const searchPlacesGeoJSON = useSelector(searchPlacesFileSelector);
 
   // BEGIN FUNCTIONS FOR DRAWN LAYERS
 
@@ -157,7 +160,7 @@ export default function LeafletDrawTools(props) {
       // bump area number up total length of features so no duplicate area names
       setAreaNumber(areaNumber + areaNameAdjustment);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   // Watches for an uploaded shapefile and adds it as a layer to leaflet Draw feature group
@@ -205,6 +208,36 @@ export default function LeafletDrawTools(props) {
     });
     dispatch(uploadedShapeFileGeoJSON(null));
   }, [shapeFileGeoJSON, dispatch]);
+
+  // Watches for an area to be added from search Places and adds its layer to the draw group ref
+  useEffect(() => {
+    if (!searchPlacesGeoJSON) {
+      return;
+    }
+    console.log(searchPlacesGeoJSON);
+    const layer = L.geoJSON(searchPlacesGeoJSON);
+    leafletDrawFeatureGroupRef.current.addLayer(layer);
+    const areaName = `Area ${areaNumber}`;
+    const bufferLayer = createBufferLayer(layer);
+    const geojson = enrichGeoJsonWithProperties(layer, bufferLayer, areaName);
+    setAreaNumber(areaNumber + 1);
+    layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+    const dummyFeatureGroup = L.featureGroup();
+    dummyFeatureGroup.addLayer(layer);
+    const dummyFeatureGroupGeoJSON = dummyFeatureGroup.toGeoJSON();
+    const zonalStatsPromise = zonalStatsAPI(dummyFeatureGroupGeoJSON, selectedRegion);
+    zonalStatsPromise.then((data) => {
+      dispatch(setEmptyState(false));
+      data.features.forEach((feature) => {
+        geojson.properties.zonalStatsData = feature.properties.mean; // Should only be 1 feature
+        dispatch(addNewFeatureToDrawnLayers(geojson));
+        setDrawAreaDisabled(false);
+      });
+    });
+    console.log(layer);
+
+    dispatch(addSearchPlacesGeoJSON(null));
+  }, [searchPlacesGeoJSON, dispatch]);
 
   function onCreated(e) {
     // Toggle sketch area off since new area was just created
