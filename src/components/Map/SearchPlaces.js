@@ -62,29 +62,6 @@ export default function SearchPlaces(props) {
 
   const searchControlRef = useRef(null);
 
-  const circleToPolygon = (circle) => {
-    const numSegments = 32; // Default number of segments
-
-    const center = circle.getLatLng();
-    const radius = circle.getRadius();
-
-    console.log('center: ', center, ' radius: ', radius);
-    const points = [];
-    const angle = (Math.PI * 2) / numSegments;
-
-    for (let i = 0; i < numSegments; i++) {
-      const theta = angle * i;
-      const x = center.lng + radius * Math.cos(theta);
-      const y = center.lat + radius * Math.sin(theta);
-      points.push([y, x]);
-    }
-
-    const polygon = L.polygon(points);
-    console.log('polygon: ', polygon);
-    console.log('points: ', points);
-    return polygon;
-  }
-
   const handleGetAreaStatistics = useCallback(() => {
     const circle = L.circle(identifyDataRef.current, { radius: 1000 });
     const centerLatLng = circle.getLatLng();
