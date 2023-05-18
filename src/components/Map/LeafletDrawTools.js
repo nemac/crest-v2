@@ -214,7 +214,6 @@ export default function LeafletDrawTools(props) {
     if (!searchPlacesGeoJSON) {
       return;
     }
-    console.log(searchPlacesGeoJSON);
     const layer = L.geoJSON(searchPlacesGeoJSON);
     leafletDrawFeatureGroupRef.current.addLayer(layer);
     const areaName = `Area ${areaNumber}`;
@@ -234,10 +233,10 @@ export default function LeafletDrawTools(props) {
         setDrawAreaDisabled(false);
       });
     });
-    console.log(layer);
 
     dispatch(addSearchPlacesGeoJSON(null));
-  }, [searchPlacesGeoJSON, dispatch]);
+  // eslint-disable-next-line max-len
+  }, [searchPlacesGeoJSON, dispatch, leafletDrawFeatureGroupRef, areaNumber, createBufferLayer, enrichGeoJsonWithProperties, classes.leafletTooltips, selectedRegion, setDrawAreaDisabled]);
 
   function onCreated(e) {
     // Toggle sketch area off since new area was just created

@@ -77,8 +77,6 @@ export const mapPropertiesSlice = createSlice({
       state.uploadedShapeFileGeoJSON = action.payload;
     },
     addSearchPlacesGeoJSON: (state, action) => {
-      console.log('reached dispatch!');
-      console.log(action.payload);
       state.searchPlacesFileGeoJSON = action.payload;
     }
   }

@@ -40,7 +40,6 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useMapEvents,
-  FeatureGroup,
   LayersControl
   // GeoJSON,
   // Polygon
@@ -52,7 +51,6 @@ import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
 import PropTypes from 'prop-types';
 
-import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
 import SearchPlaces from './SearchPlaces';
 import BasemapLayer from './BasemapLayer';

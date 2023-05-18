@@ -20,42 +20,25 @@ State needed
 Props
   Not sure yet
 */
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {
+  useEffect, useState, useRef, useCallback
+} from 'react';
+import { useDispatch } from 'react-redux';
 import { Popup } from 'react-leaflet';
 import * as L from 'leaflet';
 import { Button } from '@mui/material/';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import { geosearch } from 'esri-leaflet-geocoder';
+import PropTypes from 'prop-types';
 import * as ELG from 'esri-leaflet-geocoder';
-import LeafletDrawTools from './LeafletDrawTools';
 import * as turf from '@turf/turf';
 
-import {
-  addNewFeatureToDrawnLayers,
-  uploadedShapeFileGeoJSON,
-  addNewFeatureToZonalStatsAreas,
-  addSearchPlacesGeoJSON
-} from '../../reducers/mapPropertiesSlice';
+import { addSearchPlacesGeoJSON } from '../../reducers/mapPropertiesSlice';
 
 export default function SearchPlaces(props) {
-  const { map, leafletFeatureGroupRef } = props;
+  const { map } = props;
   const dispatch = useDispatch();
   const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
-  const GeoSearchOptions = {
-    providers: [
-      ELG.arcgisOnlineProvider({
-        // API Key to be passed to the ArcGIS Online Geocoding Service
-        apikey: apiKey
-      })
-    ],
-    useMapBounds: false,
-    expanded: false,
-    placeholder: 'Search for places or addresses',
-    collapseAfterResult: false,
-    allowMultipleResults: false,
-    attribution: 'Powered by ESRI'
-  };
 
   const identifyDataRef = useRef(null);
   const [popupContent, setPopupContent] = useState(null);
@@ -72,16 +55,12 @@ export default function SearchPlaces(props) {
     const turfCircle = turf.circle(center, radius, options);
     const newTurfCircle = new L.GeoJSON(turfCircle);
     const asGJSON = newTurfCircle.toGeoJSON();
-    // const thisArea = circleToPolygon(thisCircle);
-    // thisArea.addTo(map);
-    // console.log('this area: ', thisArea);
-    // const asGJSON = thisArea.toGeoJSON();
     dispatch(addSearchPlacesGeoJSON(asGJSON));
   }, [dispatch]);
 
   const handleOnSearchResuts = useCallback((data) => {
     identifyDataRef.current = data.latlng;
- 
+
     setPopupContent(
       <Popup position={identifyDataRef.current} onClose={() => setPopupContent(null)}>
         <div>
@@ -94,11 +73,26 @@ export default function SearchPlaces(props) {
         </div>
       </Popup>
     );
-  }, [handleGetAreaStatistics, map]);
+  }, [handleGetAreaStatistics]);
+
   useEffect(() => {
     if (!map) { return; }
 
     if (!searchControlRef.current) {
+      const GeoSearchOptions = {
+        providers: [
+          ELG.arcgisOnlineProvider({
+            // API Key to be passed to the ArcGIS Online Geocoding Service
+            apikey: apiKey
+          })
+        ],
+        useMapBounds: false,
+        expanded: false,
+        placeholder: 'Search for places or addresses',
+        collapseAfterResult: false,
+        allowMultipleResults: false,
+        attribution: 'Powered by ESRI'
+      };
       const searchControl = geosearch(GeoSearchOptions);
       searchControl.addTo(map);
       searchControlRef.current = searchControl;
@@ -108,15 +102,15 @@ export default function SearchPlaces(props) {
       // searchControlRef.current.off('results', handleOnSearchResuts);
       // };
     }
-  }, [GeoSearchOptions, handleOnSearchResuts, map]);
+  }, [handleOnSearchResuts, map]);
 
   return (
     <>
       {popupContent}
     </>
   );
-  // return (
-  //   isSearched ? <div /> : <ShowIdentifyPopup map={map} selectedRegion={identifyData} />
-
-  // );
 }
+
+SearchPlaces.propTypes = {
+  map: PropTypes.object
+};
