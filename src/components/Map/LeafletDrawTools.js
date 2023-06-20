@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LeafletDrawTools(props) {
   const {
     bufferCheckbox,
-    leafletDrawFeatureGroupRef,
+    leafletFeatureGroupRef,
     setDrawAreaDisabled,
     setTooLargeLayerOpen
   } = props;
@@ -111,13 +111,19 @@ export default function LeafletDrawTools(props) {
     const geojson = layer.toGeoJSON();
     geojson.properties = geojson.properties || {};
     const leafletId = L.stamp(layer);
-    const bufferLayerId = L.stamp(bufferLayer);
-    const leafletIdsList = [leafletId, bufferLayerId];
+    let bufferLayerId;
+    if (bufferLayer) {
+      bufferLayerId = L.stamp(bufferLayer);
+      geojson.properties.bufferLayerId = bufferLayerId;
+      geojson.properties.buffer = bufferCheckbox;
+    }
+    const leafletIdsList = [
+      leafletId,
+      ...(bufferLayerId ? [bufferLayerId] : []) // conditionally add bufferLayerId if it exists
+    ];
     geojson.properties.leafletId = leafletId;
-    geojson.properties.bufferLayerId = bufferLayerId;
     geojson.properties.leafletIds = leafletIdsList;
     geojson.properties.areaName = areaName;
-    geojson.properties.buffer = bufferCheckbox;
     geojson.properties.region = selectedRegion;
 
     return geojson;
@@ -145,7 +151,7 @@ export default function LeafletDrawTools(props) {
       const layerId = L.stamp(layer);
       featureCopy.properties.leafletId = layerId;
       const leafletIdsList = [layerId];
-      leafletDrawFeatureGroupRef.current.addLayer(layer);
+      leafletFeatureGroupRef.current.addLayer(layer);
       layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
       if (feature.properties.buffer) {
         layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
@@ -153,7 +159,7 @@ export default function LeafletDrawTools(props) {
         const bufferLayerId = L.stamp(layer);
         featureCopy.properties.bufferLayerId = bufferLayerId;
         leafletIdsList.push(bufferLayerId);
-        leafletDrawFeatureGroupRef.current.addLayer(layer);
+        leafletFeatureGroupRef.current.addLayer(layer);
       }
       featureCopy.properties.leafletIds = leafletIdsList;
       dispatch(addNewFeatureToDrawnLayers(featureCopy));
@@ -175,13 +181,13 @@ export default function LeafletDrawTools(props) {
     shapeFileFeatures.forEach((shapeFeature, index) => {
       const shapeFeatureCopy = shapeFeature;
       const layer = L.geoJSON(shapeFeatureCopy);
-      leafletDrawFeatureGroupRef.current.addLayer(layer);
+      leafletFeatureGroupRef.current.addLayer(layer);
 
       // check if buffer checkbox is checked and if so, create a buffer using turf.js
       let bufferLayer;
       if (bufferCheckbox) {
         bufferLayer = createBufferLayer(layer);
-        leafletDrawFeatureGroupRef.current.addLayer(bufferLayer); // add buffer layer to ref
+        leafletFeatureGroupRef.current.addLayer(bufferLayer); // add buffer layer to ref
       }
 
       const areaName = `Area ${counter}`;
@@ -215,10 +221,9 @@ export default function LeafletDrawTools(props) {
       return;
     }
     const layer = L.geoJSON(searchPlacesGeoJSON);
-    leafletDrawFeatureGroupRef.current.addLayer(layer);
+    leafletFeatureGroupRef.current.addLayer(layer);
     const areaName = `Area ${areaNumber}`;
-    const bufferLayer = createBufferLayer(layer);
-    const geojson = enrichGeoJsonWithProperties(layer, bufferLayer, areaName);
+    const geojson = enrichGeoJsonWithProperties(layer, null, areaName); // null is for bufferlayer
     setAreaNumber(areaNumber + 1);
     layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
     const dummyFeatureGroup = L.featureGroup();
@@ -236,7 +241,7 @@ export default function LeafletDrawTools(props) {
 
     dispatch(addSearchPlacesGeoJSON(null));
   // eslint-disable-next-line max-len
-  }, [searchPlacesGeoJSON, dispatch, leafletDrawFeatureGroupRef, areaNumber, createBufferLayer, enrichGeoJsonWithProperties, classes.leafletTooltips, selectedRegion, setDrawAreaDisabled]);
+  }, [searchPlacesGeoJSON, dispatch, leafletFeatureGroupRef, areaNumber, classes.leafletTooltips, selectedRegion, setDrawAreaDisabled]);
 
   function onCreated(e) {
     // Toggle sketch area off since new area was just created
@@ -245,7 +250,7 @@ export default function LeafletDrawTools(props) {
     // Check size of polygon and remove it and return if it is too large
     if (calculateAreaOfPolygon(e.layer) > maxPolygonAreaSize) {
       setTooLargeLayerOpen(true);
-      leafletDrawFeatureGroupRef.current.removeLayer(e.layer);
+      leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
     }
 
@@ -256,7 +261,7 @@ export default function LeafletDrawTools(props) {
     let bufferLayer;
     if (bufferCheckbox) {
       bufferLayer = createBufferLayer(e.layer);
-      leafletDrawFeatureGroupRef.current.addLayer(bufferLayer); // add buffer layer to ref
+      leafletFeatureGroupRef.current.addLayer(bufferLayer); // add buffer layer to ref
     }
 
     // Enrich geojson with properties, bind tooltip, and choose which layer to analyze
@@ -319,7 +324,7 @@ export default function LeafletDrawTools(props) {
 
 LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
-  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletFeatureGroupRef: PropTypes.object,
   setDrawAreaDisabled: PropTypes.func,
   setTooLargeLayerOpen: PropTypes.func
 };

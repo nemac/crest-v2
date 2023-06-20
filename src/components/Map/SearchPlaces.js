@@ -56,6 +56,7 @@ export default function SearchPlaces(props) {
     const newTurfCircle = new L.GeoJSON(turfCircle);
     const asGJSON = newTurfCircle.toGeoJSON();
     dispatch(addSearchPlacesGeoJSON(asGJSON));
+    setPopupContent(null);
   }, [dispatch]);
 
   const handleOnSearchResuts = useCallback((data) => {

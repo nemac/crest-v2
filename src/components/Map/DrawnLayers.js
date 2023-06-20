@@ -15,7 +15,7 @@ export default function DrawnLayers(props) {
     <FeatureGroup ref={leafletFeatureGroupRef}>
       <LeafletDrawTools
         map={map}
-        leafletDrawFeatureGroupRef={leafletFeatureGroupRef}
+        leafletFeatureGroupRef={leafletFeatureGroupRef}
         bufferCheckbox={bufferCheckbox}
         setDrawAreaDisabled={setDrawAreaDisabled}
         setTooLargeLayerOpen={setTooLargeLayerOpen}

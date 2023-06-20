@@ -39,7 +39,7 @@ export default function AnalyzeAreaHolder(props) {
   const {
     boxHeight,
     boxMarginTop,
-    leafletDrawFeatureGroupRef,
+    leafletFeatureGroupRef,
     map
   } = props;
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -51,7 +51,7 @@ export default function AnalyzeAreaHolder(props) {
       ) : (
         <ChartsHolder
           boxHeight={boxHeight}
-          leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+          leafletFeatureGroupRef={leafletFeatureGroupRef}
           map={map}
         />
       )}
@@ -62,6 +62,6 @@ export default function AnalyzeAreaHolder(props) {
 AnalyzeAreaHolder.propTypes = {
   boxHeight: PropTypes.string.isRequired,
   boxMarginTop: PropTypes.string,
-  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletFeatureGroupRef: PropTypes.object,
   map: PropTypes.object
 };
