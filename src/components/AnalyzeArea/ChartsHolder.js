@@ -73,14 +73,14 @@ const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function ChartsHolder(props) {
-  const { leafletDrawFeatureGroupRef, map } = props;
+  const { leafletFeatureGroupRef, map } = props;
   const drawnLayerAreas = useSelector(drawnLayerSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   // console.log('drawn layer');
   // console.log(drawnLayerAreas);
   // console.log('zonalstatsareas');
   // console.log(zonalStatsAreas);
-  // console.log(leafletDrawFeatureGroupRef);
+  // console.log(leafletFeatureGroupRef);
   const featureList = drawnLayerAreas.features;
   // const drawnLayerFeatures = drawnLayerAreas.features;
   // console.log('feature list original');
@@ -142,7 +142,7 @@ export default function ChartsHolder(props) {
   const HandleRemoveAllClick = (event) => {
     event.stopPropagation();
     // clear all layers from leaflet draw featureGroup and from state/redux
-    leafletDrawFeatureGroupRef.current.clearLayers();
+    leafletFeatureGroupRef.current.clearLayers();
     dispatch(removeAllFeaturesFromZonalStatsAreas());
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(changeEmptyState());
@@ -213,7 +213,7 @@ export default function ChartsHolder(props) {
                   leafletIds={leafletIds}
                   region={thisRegion}
                   zonalStatsData={zonalStatsData}
-                  leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
+                  leafletFeatureGroupRef={leafletFeatureGroupRef}
                   map={map}
                 />
               );
@@ -233,6 +233,6 @@ export default function ChartsHolder(props) {
 }
 
 ChartsHolder.propTypes = {
-  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletFeatureGroupRef: PropTypes.object,
   map: PropTypes.object
 };

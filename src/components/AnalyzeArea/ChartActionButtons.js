@@ -70,7 +70,7 @@ export default function ChartActionButtons(props) {
     areaName,
     areaIndex,
     data,
-    leafletDrawFeatureGroupRef,
+    leafletFeatureGroupRef,
     leafletIds,
     map
   } = props;
@@ -157,7 +157,7 @@ export default function ChartActionButtons(props) {
 
   const handleRemoveClick = (event) => {
     event.stopPropagation();
-    const featureGroup = leafletDrawFeatureGroupRef.current;
+    const featureGroup = leafletFeatureGroupRef.current;
     // leafletIds is a list of all the leaflet ids to remove (e.g. drawn and buffer layer)
     leafletIds.forEach((element) => {
       featureGroup.removeLayer(element);
@@ -213,7 +213,7 @@ ChartActionButtons.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
   data: PropTypes.object,
-  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletFeatureGroupRef: PropTypes.object,
   leafletIds: PropTypes.array,
   map: PropTypes.object
 };

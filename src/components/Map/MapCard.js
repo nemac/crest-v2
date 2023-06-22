@@ -40,7 +40,6 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useMapEvents,
-  FeatureGroup,
   LayersControl
   // GeoJSON,
   // Polygon
@@ -52,8 +51,8 @@ import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
 import PropTypes from 'prop-types';
 
-import LeafletDrawTools from './LeafletDrawTools';
 import ActiveTileLayers from './ActiveTileLayers';
+import SearchPlaces from './SearchPlaces';
 import BasemapLayer from './BasemapLayer';
 
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
@@ -67,6 +66,7 @@ import ActionButtons from './ActionButtons';
 import { createShareURL } from './ShareMap';
 import ModelErrors from '../All/ModelErrors';
 import ModalShare from '../All/ModalShare';
+import DrawnLayers from './DrawnLayers';
 
 // import Boxforlayout from './BoxForLayouts';
 
@@ -104,7 +104,7 @@ export default function MapCard(props) {
     map,
     setMap,
     bufferCheckbox,
-    leafletDrawFeatureGroupRef,
+    leafletFeatureGroupRef,
     setDrawAreaDisabled,
     tooLargeLayerOpen,
     setTooLargeLayerOpen
@@ -171,7 +171,7 @@ export default function MapCard(props) {
         );
       },
       zoomend: () => {
-        const featureGroup = leafletDrawFeatureGroupRef.current;
+        const featureGroup = leafletFeatureGroupRef.current;
         featureGroup.eachLayer((layer) => {
           if (map.getZoom() < 10) {
             layer.closeTooltip();
@@ -243,15 +243,13 @@ export default function MapCard(props) {
         </Control>
         <LayersControl position="topright">
           <LayersControl.Overlay checked name="leaflet-draw">
-            <FeatureGroup ref={leafletDrawFeatureGroupRef}>
-              <LeafletDrawTools
-                map={map}
-                leafletDrawFeatureGroupRef={leafletDrawFeatureGroupRef}
-                bufferCheckbox={bufferCheckbox}
-                setDrawAreaDisabled={setDrawAreaDisabled}
-                setTooLargeLayerOpen={setTooLargeLayerOpen}
-              />
-            </FeatureGroup>
+            <DrawnLayers
+              map={map}
+              leafletFeatureGroupRef={leafletFeatureGroupRef}
+              bufferCheckbox={bufferCheckbox}
+              setDrawAreaDisabled={setDrawAreaDisabled}
+              setTooLargeLayerOpen={setTooLargeLayerOpen}
+            />
           </LayersControl.Overlay>
         </LayersControl>
         <ModalShare
@@ -275,6 +273,7 @@ export default function MapCard(props) {
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
+        <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef}/>
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
           map = {map}
@@ -290,7 +289,7 @@ MapCard.propTypes = {
   bufferCheckbox: PropTypes.bool,
   map: PropTypes.object,
   setMap: PropTypes.func,
-  leafletDrawFeatureGroupRef: PropTypes.object,
+  leafletFeatureGroupRef: PropTypes.object,
   setDrawAreaDisabled: PropTypes.func,
   tooLargeLayerOpen: PropTypes.bool,
   setTooLargeLayerOpen: PropTypes.func
