@@ -33,6 +33,7 @@ export default function LeafletMapContainer(props) {
       closePopupOnClick={false}
       ref={innerRef}
       attributionControl={false}
+      worldCopyJump={true}
     >
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
