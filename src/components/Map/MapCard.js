@@ -81,9 +81,6 @@ const listVisibleSelector = (state) => state.mapLayerList.visible;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 const useStyles = makeStyles((theme) => ({
-  shareButton: {
-    top: '-10px'
-  },
   identifyButton: {
     minHeight: '30px',
     minWidth: '30px',
@@ -222,15 +219,21 @@ export default function MapCard(props) {
   return (
     <div style={{ height: '100%' }}>
       <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-        <Control prepend='true' position='topleft'>
-          <Button
-            variant="contained"
-            color="CRESTPrimary"
-            onClick={identifyClickHandler}
-            className={classes.identifyButton}>
+        <Control position='topleft'>
+          <Button variant="contained" color="CRESTPrimary" onClick={identifyClickHandler} className={classes.identifyButton}>
             <InfoIcon />
           </Button>
         </Control>
+        <Control position='topleft'>
+          <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef} />
+        </Control>
+        <Button
+          variant="contained"
+          color="CRESTPrimary"
+          onClick={identifyClickHandler}
+          className={classes.identifyButton}>
+          <InfoIcon />
+        </Button>
         <Control prepend='true' position='bottomleft'>
           <Button
             variant="contained"
@@ -273,7 +276,6 @@ export default function MapCard(props) {
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
-        <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef}/>
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
           map = {map}
