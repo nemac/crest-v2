@@ -108,26 +108,25 @@ export default function LeafletDrawTools(props) {
     return bufferLayer;
   });
 
-  const enrichGeoJsonWithProperties = ((layer, bufferLayer, areaName) => {
-    const geojson = layer.toGeoJSON();
-    geojson.properties = geojson.properties || {};
-    const leafletId = L.stamp(layer);
+  const enrichGeoJsonWithProperties = ((geojson, leafletId, bufferLayer, areaName) => {
+    const enrichedGeoJSON = geojson;
+    enrichedGeoJSON.properties = geojson.properties || {};
     let bufferLayerId;
     if (bufferLayer) {
       bufferLayerId = L.stamp(bufferLayer);
-      geojson.properties.bufferLayerId = bufferLayerId;
-      geojson.properties.buffer = bufferCheckbox;
+      enrichedGeoJSON.properties.bufferLayerId = bufferLayerId;
+      enrichedGeoJSON.properties.buffer = bufferCheckbox;
     }
     const leafletIdsList = [
       leafletId,
       ...(bufferLayerId ? [bufferLayerId] : []) // conditionally add bufferLayerId if it exists
     ];
-    geojson.properties.leafletId = leafletId;
-    geojson.properties.leafletIds = leafletIdsList;
-    geojson.properties.areaName = areaName;
-    geojson.properties.region = selectedRegion;
+    enrichedGeoJSON.properties.leafletId = leafletId;
+    enrichedGeoJSON.properties.leafletIds = leafletIdsList;
+    enrichedGeoJSON.properties.areaName = areaName;
+    enrichedGeoJSON.properties.region = selectedRegion;
 
-    return geojson;
+    return enrichedGeoJSON;
   });
 
   // END FUNCTIONS FOR DRAWN LAYERS
@@ -194,7 +193,9 @@ export default function LeafletDrawTools(props) {
       }
 
       const areaName = `Area ${counter}`;
-      const geojson = enrichGeoJsonWithProperties(layer, bufferLayer, areaName);
+      const leafletId = L.stamp(layer);
+      let geojson = layer.toGeoJSON();
+      geojson = enrichGeoJsonWithProperties(geojson, leafletId, bufferLayer, areaName);
       counter += 1;
       setAreaNumber(counter); // so the areaNumber is in sync with the counter
       layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
@@ -223,10 +224,13 @@ export default function LeafletDrawTools(props) {
     if (!searchPlacesGeoJSON) {
       return;
     }
+    // make a deep copy of the features from state since I was getting read only errors otherwise
+    const geojsonCopy = JSON.parse(JSON.stringify(searchPlacesGeoJSON));
     const layer = L.geoJSON(searchPlacesGeoJSON);
     leafletFeatureGroupRef.current.addLayer(layer);
     const areaName = `Area ${areaNumber}`;
-    const geojson = enrichGeoJsonWithProperties(layer, null, areaName); // null is for bufferlayer
+    const leafletId = L.stamp(layer);
+    const geojson = enrichGeoJsonWithProperties(geojsonCopy, leafletId, null, areaName); // null is for bufferlayer
     setAreaNumber(areaNumber + 1);
     layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
     const dummyFeatureGroup = L.featureGroup();
@@ -269,7 +273,9 @@ export default function LeafletDrawTools(props) {
 
     // Enrich geojson with properties, bind tooltip, and choose which layer to analyze
     const areaName = `Area ${areaNumber}`;
-    const geojson = enrichGeoJsonWithProperties(e.layer, bufferLayer, areaName);
+    const leafletId = L.stamp(e.layer);
+    let geojson = e.layer.toGeoJSON();
+    geojson = enrichGeoJsonWithProperties(geojson, leafletId, bufferLayer, areaName);
     setAreaNumber(areaNumber + 1);
     e.layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
     const layerToAnalyze = bufferLayer || e.layer;

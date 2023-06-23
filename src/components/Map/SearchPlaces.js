@@ -35,10 +35,26 @@ import * as turf from '@turf/turf';
 
 import { addSearchPlacesGeoJSON } from '../../reducers/mapPropertiesSlice';
 
+const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
+const GeoSearchOptions = {
+  providers: [
+    ELG.arcgisOnlineProvider({
+      // API Key to be passed to the ArcGIS Online Geocoding Service
+      apikey: apiKey
+    })
+  ],
+  useMapBounds: false,
+  expanded: true,
+  placeholder: 'Search for places or addresses',
+  collapseAfterResult: false,
+  allowMultipleResults: false,
+  attribution: 'Powered by ESRI'
+};
+const searchControl = geosearch(GeoSearchOptions);
+
 export default function SearchPlaces(props) {
   const { map } = props;
   const dispatch = useDispatch();
-  const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
 
   const identifyDataRef = useRef(null);
   const [popupContent, setPopupContent] = useState(null);
@@ -53,9 +69,7 @@ export default function SearchPlaces(props) {
     // Turf Circle
     const options = { steps: 32, units: 'meters' };
     const turfCircle = turf.circle(center, radius, options);
-    const newTurfCircle = new L.GeoJSON(turfCircle);
-    const asGJSON = newTurfCircle.toGeoJSON();
-    dispatch(addSearchPlacesGeoJSON(asGJSON));
+    dispatch(addSearchPlacesGeoJSON(turfCircle));
     setPopupContent(null);
   }, [dispatch]);
 
@@ -80,21 +94,6 @@ export default function SearchPlaces(props) {
     if (!map) { return; }
 
     if (!searchControlRef.current) {
-      const GeoSearchOptions = {
-        providers: [
-          ELG.arcgisOnlineProvider({
-            // API Key to be passed to the ArcGIS Online Geocoding Service
-            apikey: apiKey
-          })
-        ],
-        useMapBounds: false,
-        expanded: false,
-        placeholder: 'Search for places or addresses',
-        collapseAfterResult: false,
-        allowMultipleResults: false,
-        attribution: 'Powered by ESRI'
-      };
-      const searchControl = geosearch(GeoSearchOptions);
       searchControl.addTo(map);
       searchControlRef.current = searchControl;
 
@@ -106,9 +105,9 @@ export default function SearchPlaces(props) {
   }, [handleOnSearchResuts, map]);
 
   return (
-    <>
+    <div>
       {popupContent}
-    </>
+    </div>
   );
 }
 

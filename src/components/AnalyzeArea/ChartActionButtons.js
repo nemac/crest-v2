@@ -81,20 +81,22 @@ export default function ChartActionButtons(props) {
   const drawnLayers = useSelector(drawnLayersSelector);
 
   const handleZoomClick = (event) => {
-    let bounds = null;
     event.stopPropagation();
-    drawnLayers.features.map((feature) => {
+    let bounds;
+    drawnLayers.features.forEach((feature) => {
       if (feature.properties.areaName === areaName) {
         bounds = L.geoJSON(feature.geometry).getBounds();
       }
-      const newCenter = bounds.getCenter();
-      const newZoom = map.getBoundsZoom(bounds);
-      const newCenterArray = [newCenter.lat, newCenter.lng];
-      dispatch(changeCenter(newCenterArray));
-      dispatch(changeZoom(newZoom));
-      map.setView(newCenter, newZoom);
-      return true;
     });
+    if (!bounds) {
+      return;
+    }
+    const newCenter = bounds.getCenter();
+    const newZoom = map.getBoundsZoom(bounds);
+    const newCenterArray = [newCenter.lat, newCenter.lng];
+    dispatch(changeCenter(newCenterArray));
+    dispatch(changeZoom(newZoom));
+    map.setView(newCenter, newZoom);
   };
 
   const getLabel = (name) => {
