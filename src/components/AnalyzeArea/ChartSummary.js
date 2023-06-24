@@ -106,6 +106,7 @@ export default function ChartSummary(props) {
   const thisMap = useRef(map);
   const chartLabel = `${chartType} ${areaName}`;
   const layerList = region.layerList;
+  console.log(layerList);
 
   const formatYAxis = (value) => {
     switch (value) {
@@ -166,6 +167,7 @@ export default function ChartSummary(props) {
     // Currently this is going to pull all data across all regions... need to simplify
     // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
+      console.log(data)
       if (chartIndices.includes(key) && !value.isNaN && value > 0) {
         const layerData = getData(key, value);
         const barColor = layerData[0];
