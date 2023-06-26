@@ -204,9 +204,10 @@ export default function ChartSummary(props) {
       const id = feature.properties.leafletId;
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
-        thisMap.current._layers[id].setStyle(areaHighlightStyle);
         if (bufferLayerId !== undefined) {
           thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
+        } else {
+          thisMap.current._layers[id].setStyle(areaHighlightStyle);
         }
       }
     });
@@ -227,10 +228,10 @@ export default function ChartSummary(props) {
       const id = feature.properties.leafletId;
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
-        thisMap.current._layers[id].setStyle(areaStyle);
         if (bufferLayerId !== undefined) {
           thisMap.current._layers[bufferLayerId].setStyle(bufferStyle);
         }
+        thisMap.current._layers[id].setStyle(areaStyle);
       }
     });
   };
