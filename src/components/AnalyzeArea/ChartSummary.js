@@ -166,7 +166,7 @@ export default function ChartSummary(props) {
     // Currently this is going to pull all data across all regions... need to simplify
     // An error occurs when trying to cross-reference the wrong data/region combo
     Object.entries(data).forEach(([key, value]) => {
-      if (chartIndices.includes(key) && !value.isNaN && value > 0) {
+      if (chartIndices.includes(key)) {
         const layerData = getData(key, value);
         const barColor = layerData[0];
         const chartValue = layerData[1];

@@ -157,7 +157,7 @@ export default function ChartsHolder(props) {
         if (area.region === selectedRegion) {
           thisRow.push(area.areaName);
           thisRow.push(getLabel(area, index)); // need to get label here
-          thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
+          thisRow.push(Number.isNaN(Number(value)) ? '0.0' : value.toFixed(3)); // need to get value here
           thisRow.push(getRange(area, index)); // need to get range here
           dataRows.push(thisRow);
         }
