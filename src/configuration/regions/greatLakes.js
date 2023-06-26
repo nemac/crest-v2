@@ -27,6 +27,10 @@ export const greatLakesConfig = {
     {
       chartInputName: 'fishandwildlife',
       ChartInputLabel: 'Fish and Wildlife Inputs'
+    },
+    {
+      chartInputName: 'additional',
+      ChartInputLabel: 'Additional Overlays'
     }
   ],
   layerList: [
