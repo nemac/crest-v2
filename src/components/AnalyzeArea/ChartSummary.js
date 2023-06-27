@@ -163,8 +163,8 @@ export default function ChartSummary(props) {
     // This is the logic to build the chart for Summary charts
     // Currently this is going to pull all data across all regions... need to simplify
     // An error occurs when trying to cross-reference the wrong data/region combo
-
     chartIndices.forEach((element) => {
+      if (data[element] === undefined) { return; }
       const value = data[element];
       const layerData = getData(element, value);
       const barColor = layerData[0];
