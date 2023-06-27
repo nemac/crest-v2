@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { vectorBasemapLayer } from 'esri-leaflet-vector';
 import { AttributionControl } from 'react-leaflet';
+import L from 'leaflet';
 import { mapConfig } from '../../configuration/config';
 
 const basemaps = mapConfig.basemaps;
