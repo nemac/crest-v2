@@ -36,9 +36,9 @@ export const mapConfig = {
       basemap: 'ArcGIS:Imagery'
     },
     ImageryNoLabel: {
-      label: 'Imagery - No Labels',
+      label: 'ImageryNoLabel',
       image: basemapImageryImage,
-      basemap: 'https://basemapstyles-api.arcgis.com/arcgis/rest/services/styles/v2/styles/arcgis/imagery/standard'
+      basemap: 'ArcGIS:Imagery:Standard'
     },
     Streets: {
       label: 'Streets',
