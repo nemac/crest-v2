@@ -35,8 +35,8 @@ export const mapConfig = {
       image: basemapImageryImage,
       basemap: 'ArcGIS:Imagery'
     },
-    ImageryNoLabel: {
-      label: 'ImageryNoLabel',
+    'Imagery - No Label': {
+      label: 'Imagery - No Label',
       image: basemapImageryImage,
       basemap: 'ArcGIS:Imagery:Standard'
     },
