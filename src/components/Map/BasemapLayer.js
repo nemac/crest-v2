@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { vectorBasemapLayer } from 'esri-leaflet-vector';
 import { AttributionControl } from 'react-leaflet';
+import L from 'leaflet';
 import { mapConfig } from '../../configuration/config';
 
 const basemaps = mapConfig.basemaps;
@@ -25,11 +26,18 @@ export default function BasemapLayer(props) {
     }
 
     if (map) {
-      const newBasemap = vectorBasemapLayer(basemaps[basemapName].basemap, {
-        apikey: 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By',
-        pane: 'mapPane',
-        attribution: regions[selectedRegion].attribution
-      });
+      let newBasemap;
+      if (basemapName === 'Imagery - No Labels') {
+        newBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri'
+        });
+      } else {
+        newBasemap = vectorBasemapLayer(basemaps[basemapName].basemap, {
+          apikey: 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By',
+          pane: 'mapPane',
+          attribution: regions[selectedRegion].attribution
+        });
+      }
       newBasemap.addTo(map);
       basemapRef.current = newBasemap;
     }
