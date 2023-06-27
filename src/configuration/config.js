@@ -6,6 +6,7 @@ import { northernMarianaIslandsConfig } from './regions/northern_mariana_islands
 import { puertoRicoConfig } from './regions/puertoRico';
 import { usVirginIslandsConfig } from './regions/usVirginIslands';
 import { alaskaConfig } from './regions/alaska';
+import { greatLakesConfig } from './regions/greatLakes';
 
 import basemapDarkImage from '../assets/images/basemap-dark.png';
 import basemapImageryImage from '../assets/images/basemap-imagery.png';
@@ -51,6 +52,7 @@ export const mapConfig = {
     'Alaska': alaskaConfig,
     'American Samoa': americanSamoaConfig,
     'Continental U.S': continentalUSConfig,
+    'Great Lakes': greatLakesConfig,
     // eslint-disable-next-line quote-props
     'Guam': guamConfig,
     'Hawai\'i': hawaiiConfig,
