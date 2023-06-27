@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-console */
+import React from 'react';
 import * as ReactDOM from 'react-dom';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { TileLayer } from 'react-leaflet';
 import { createControlComponent } from '@react-leaflet/core';
 import * as L from 'leaflet';
-import { Button, Stack } from '@mui/material';
-import Control from 'react-leaflet-custom-control';
+import { Button } from '@mui/material';
 import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
 import LeafletMapContainer from '../components/Map/LeafletMapContainer';
 
 const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
 
 const createIdentifyButonControl = () => {
-  const control = L.control({position: 'topleft'});
+  const control = L.control({ position: 'topleft' });
 
   control.onAdd = () => {
     const container = L.DomUtil.create('div', '');
@@ -30,10 +30,9 @@ const createIdentifyButonControl = () => {
 const IdentifyButton = createControlComponent(createIdentifyButonControl);
 
 function MyMapComponent() {
-  const {map, setMap} = useState(null);
   return (
     <div style={{ height: '100%' }}>
-      <LeafletMapContainer center={[51.505, -0.09]} zoom={13} innerRef={setMap}>
+      <LeafletMapContainer center={[51.505, -0.09]} zoom={13}>
         <IdentifyButton/>
           <EsriLeafletGeoSearch providers={{
             arcgisOnlineProvider: {
@@ -48,7 +47,7 @@ function MyMapComponent() {
         />
       </LeafletMapContainer>
     </div>
-  )
+  );
 }
 
 export default MyMapComponent;

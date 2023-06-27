@@ -21,37 +21,21 @@ Props
   Not sure yet
 */
 import React, {
-  useEffect, useState, useRef, useCallback
+  useState, useRef, useCallback
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { Popup } from 'react-leaflet';
 import * as L from 'leaflet';
 import { Button } from '@mui/material/';
 import AddchartIcon from '@mui/icons-material/Addchart';
-import { geosearch } from 'esri-leaflet-geocoder';
 import PropTypes from 'prop-types';
-import * as ELG from 'esri-leaflet-geocoder';
 import * as turf from '@turf/turf';
 import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
 
+import '../../css/SearchPlaces.css';
 import { addSearchPlacesGeoJSON } from '../../reducers/mapPropertiesSlice';
 
 const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
-const GeoSearchOptions = {
-  providers: [
-    ELG.arcgisOnlineProvider({
-      // API Key to be passed to the ArcGIS Online Geocoding Service
-      apikey: apiKey
-    })
-  ],
-  useMapBounds: false,
-  expanded: true,
-  placeholder: 'Search for places or addresses',
-  collapseAfterResult: false,
-  allowMultipleResults: false,
-  attribution: 'Powered by ESRI'
-};
-const searchControl = geosearch(GeoSearchOptions);
 
 export default function SearchPlaces(props) {
   const { map } = props;
@@ -59,8 +43,6 @@ export default function SearchPlaces(props) {
 
   const identifyDataRef = useRef(null);
   const [popupContent, setPopupContent] = useState(null);
-
-  const searchControlRef = useRef(null);
 
   const handleGetAreaStatistics = useCallback(() => {
     const circle = L.circle(identifyDataRef.current, { radius: 1000 });
@@ -74,7 +56,7 @@ export default function SearchPlaces(props) {
     setPopupContent(null);
   }, [dispatch]);
 
-  const handleOnSearchResuts = useCallback((data) => {
+  const handleOnSearchResults = useCallback((data) => {
     identifyDataRef.current = data.latlng;
 
     setPopupContent(
@@ -91,32 +73,29 @@ export default function SearchPlaces(props) {
     );
   }, [handleGetAreaStatistics]);
 
-  useEffect(() => {
-    if (!map) { return; }
-
-    if (!searchControlRef.current) {
-      // searchControl.addTo(map);
-      searchControlRef.current = searchControl;
-
-      searchControlRef.current.on('results', handleOnSearchResuts);
-      // return () => {
-      // searchControlRef.current.off('results', handleOnSearchResuts);
-      // };
-    }
-  }, [handleOnSearchResuts, map]);
+  if (!map) {
+    return (null);
+  }
 
   return (
-    <div>
-      <EsriLeafletGeoSearch position="topleft" providers={{
-        arcgisOnlineProvider: {
-          token: apiKey,
-          label: 'ArcGIS Online Results',
-          maxResults: 10
-        }
-      }}
-    />
+    <>
+      <EsriLeafletGeoSearch
+        position="topleft"
+        useMapBounds={false}
+        attribution='Powered by ESRI'
+        providers={{
+          arcgisOnlineProvider: {
+            token: apiKey,
+            label: 'ArcGIS Online Results',
+            maxResults: 10
+          }
+        }}
+        eventHandlers={{
+          results: (r) => handleOnSearchResults(r)
+        }}
+      />
       {popupContent}
-    </div>
+    </>
   );
 }
 

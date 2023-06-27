@@ -1,0 +1,13 @@
+/* 
+This is not desirable to have a css file but I did not see any other
+way to override the css of the EsriLeafletGeoSearch component. All relevant
+information is attached below in this comment
+
+https://developers.arcgis.com/esri-leaflet/api-reference/controls/geosearch/#styling
+https://github.com/slutske22/react-esri-leaflet
+https://github.com/Esri/esri-leaflet-geocoder
+*/
+
+.geocoder-control-suggestions .geocoder-control-suggestion {
+    color:black;
+}

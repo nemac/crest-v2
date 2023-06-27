@@ -37,22 +37,12 @@ Props
 import React, {
   useState, useEffect, useCallback
 } from 'react';
-import * as ReactDOM from 'react-dom';
-import * as L from 'leaflet';
-import { createControlComponent } from '@react-leaflet/core';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useMapEvents,
-  LayersControl
-  // GeoJSON,
-  // Polygon
-} from 'react-leaflet';
-import InfoIcon from '@mui/icons-material/Info';
+import { useMapEvents } from 'react-leaflet';
 import ShareIcon from '@mui/icons-material/Share';
 import { makeStyles } from '@mui/styles';
-import { Button, Stack } from '@mui/material';
+import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
-import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
 import PropTypes from 'prop-types';
 
 import ActiveTileLayers from './ActiveTileLayers';
@@ -61,7 +51,7 @@ import BasemapLayer from './BasemapLayer';
 
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
-  changeZoom, changeCenter, changeIdentifyCoordinates
+  changeZoom, changeCenter
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
 import ShowIdentifyPopup from './IdentifyPopup';
@@ -100,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 0 20px 0'
   }
 }));
-const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
 
 export default function MapCard(props) {
   const {
@@ -187,15 +176,6 @@ export default function MapCard(props) {
     return null;
   };
 
-  const identifyClickHandler = () => {
-    map.getContainer().style.cursor = 'crosshair';
-    map.once('click', (e) => {
-      const coordinates = e.latlng;
-      dispatch(changeIdentifyCoordinates({ lat: coordinates.lat, lng: coordinates.lng }));
-      map.getContainer().style.cursor = 'grab';
-    });
-  };
-
   const handleShareLinkClose = (event) => {
     // navigator.clipboard.writeText(shareUrl); // THIS IS BROKEN ON HTTP
     setShareLinkOpen(false);
@@ -225,15 +205,8 @@ export default function MapCard(props) {
   return (
     <div style={{ height: '100%' }}>
       <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-        <IdentifyButtonWrapper map={map} style={classes.identifyButton} color="CrestPrimary" handler={identifyClickHandler}/>
-        <EsriLeafletGeoSearch providers={{
-          arcgisOnlineProvider: {
-            token: apiKey,
-            label: 'ArcGIS Online Results',
-            maxResults: 10
-          }
-        }}
-        />
+        <IdentifyButtonWrapper map={map} />
+        <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef} />
         <Control position='bottomleft'>
           <Button
             variant="contained"

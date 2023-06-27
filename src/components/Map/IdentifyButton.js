@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 import * as L from 'leaflet';
 import { createControlComponent } from '@react-leaflet/core';
+import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { useDispatch } from 'react-redux';
@@ -9,33 +10,28 @@ import { changeIdentifyCoordinates } from '../../reducers/mapPropertiesSlice';
 
 const createIdentifyButonControl = (props) => {
   const { handler } = props;
-
   const identifyButtonStyle = {
     minHeight: '30px',
     minWidth: '30px',
     width: '30px',
     height: '30px',
     color: '#000000',
-    backgroundColor: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: '#F4F4F4'
-    }
+    backgroundColor: '#FFFFFF'
   };
-
   const control = L.control({ position: 'topleft' });
 
   control.onAdd = () => {
     const container = L.DomUtil.create('div', '');
+    const root = createRoot(container);
 
-    ReactDOM.render(
+    root.render(
       <Button
         variant="contained"
         onClick={handler}
         style={identifyButtonStyle}
       >
         <InfoIcon/>
-      </Button>,
-      container
+      </Button>
     );
 
     return container;
@@ -48,7 +44,6 @@ const IdentifyButton = createControlComponent(createIdentifyButonControl);
 
 export default function IdentifyButtonWrapper(props) {
   const { map } = props;
-  const stateMap = useRef(map);
   const dispatch = useDispatch();
 
   const identifyClickHandler = (e) => {
@@ -61,18 +56,17 @@ export default function IdentifyButtonWrapper(props) {
     });
   };
 
-  // useEffect to wait for map to not be null and then attach it to the ref
-  useEffect(() => {
-    if (map) {
-      stateMap.current = map;
-    }
-  }, [map]);
-
   if (!map) {
     return (null);
   }
 
   return (
-    <IdentifyButton handler={identifyClickHandler}/>
+    <IdentifyButton
+      handler={identifyClickHandler}
+    />
   );
 }
+
+IdentifyButtonWrapper.propTypes = {
+  map: PropTypes.object
+};
