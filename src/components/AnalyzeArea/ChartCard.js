@@ -44,7 +44,7 @@ export default function ChartCard(props) {
     leafletFeatureGroupRef,
     map
   } = props;
-  const summaryIndices = ['hubs', 'exposure', 'threat', 'asset', 'wildlife'];
+  const summaryIndices = ['hubs', 'exposure', 'asset', 'threat', 'wildlife'];
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   if (region === selectedRegion) {

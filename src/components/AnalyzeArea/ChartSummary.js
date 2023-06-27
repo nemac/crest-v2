@@ -163,17 +163,18 @@ export default function ChartSummary(props) {
     // This is the logic to build the chart for Summary charts
     // Currently this is going to pull all data across all regions... need to simplify
     // An error occurs when trying to cross-reference the wrong data/region combo
-    Object.entries(data).forEach(([key, value]) => {
-      if (chartIndices.includes(key)) {
-        const layerData = getData(key, value);
-        const barColor = layerData[0];
-        const chartValue = layerData[1];
-        const tickLabel = layerData[2];
-        tempData.push({
-          name: key, value, chartValue, tickLabel
-        });
-        tempColors.push(barColor);
-      }
+
+    chartIndices.forEach((element) => {
+      const value = data[element];
+      const layerData = getData(element, value);
+      const barColor = layerData[0];
+      const chartValue = layerData[1];
+      const tickLabel = layerData[2];
+
+      tempData.push({
+        name: element, value, chartValue, tickLabel
+      });
+      tempColors.push(barColor);
     });
     if (tempData.length === 0) {
       dataToPlot.current = false;
