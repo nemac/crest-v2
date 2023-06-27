@@ -108,7 +108,7 @@ export default function TableData(props) {
                       <StyledTableRow key={`${row.areaName}-${row.name}`}>
                         <TableCell align="left">{row.areaName}</TableCell>
                         <TableCell align="left">{getLabel(row, ind)}</TableCell>
-                        <TableCell align="left">{Number.isNaN(Number(val)) ? 'No Data' : val.toFixed(3)}</TableCell>
+                        <TableCell align="left">{Number.isNaN(Number(val)) ? '0.0' : val.toFixed(3)}</TableCell>
                         <TableCell align="left">{getRange(row, ind)}</TableCell>
                       </StyledTableRow>
                     </React.Fragment>)));

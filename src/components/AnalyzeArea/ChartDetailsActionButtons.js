@@ -81,7 +81,7 @@ export default function ChartDetailsActionButtons(props) {
       const thisRow = [];
       if (chartIndices.includes(index)) {
         thisRow.push(getLabel(index)); // need to get label here
-        thisRow.push(Number.isNaN(Number(value)) ? 'No Data' : value.toFixed(3)); // need to get value here
+        thisRow.push(Number.isNaN(Number(value)) ? '0.0' : value.toFixed(3)); // need to get value here
         thisRow.push(getRange(index)); // need to get range here
         dataRows.push(thisRow);
       }
