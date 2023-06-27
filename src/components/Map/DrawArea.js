@@ -62,7 +62,7 @@ export default function DrawArea(props) {
   // have to wrap in use effect because map comes in null at first
   React.useEffect(() => {
     if (map) {
-      setLeafletDraw(new L.Draw.Polygon(map, {}));
+      setLeafletDraw(new L.Draw.Polygon(map, { allowIntersection: false }));
     }
   }, [map]);
   const classes = useStyles();

@@ -33,9 +33,11 @@ export default function LeafletMapContainer(props) {
       closePopupOnClick={false}
       ref={innerRef}
       attributionControl={false}
+      worldCopyJump={true}
     >
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
+      <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>
       {children}
     </MapContainer>
   );

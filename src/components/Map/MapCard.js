@@ -38,13 +38,7 @@ import React, {
   useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useMapEvents,
-  LayersControl
-  // GeoJSON,
-  // Polygon
-} from 'react-leaflet';
-import InfoIcon from '@mui/icons-material/Info';
+import { useMapEvents } from 'react-leaflet';
 import ShareIcon from '@mui/icons-material/Share';
 import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
@@ -57,10 +51,11 @@ import BasemapLayer from './BasemapLayer';
 
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
-  changeZoom, changeCenter, changeIdentifyCoordinates
+  changeZoom, changeCenter
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
-import ShowIdentifyPopup from './Identify';
+import ShowIdentifyPopup from './IdentifyPopup';
+import IdentifyButtonWrapper from './IdentifyButton';
 import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
 import { createShareURL } from './ShareMap';
@@ -81,9 +76,6 @@ const listVisibleSelector = (state) => state.mapLayerList.visible;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 const useStyles = makeStyles((theme) => ({
-  shareButton: {
-    top: '-10px'
-  },
   identifyButton: {
     minHeight: '30px',
     minWidth: '30px',
@@ -184,15 +176,6 @@ export default function MapCard(props) {
     return null;
   };
 
-  const identifyClickHandler = () => {
-    map.getContainer().style.cursor = 'crosshair';
-    map.once('click', (e) => {
-      const coordinates = e.latlng;
-      dispatch(changeIdentifyCoordinates({ lat: coordinates.lat, lng: coordinates.lng }));
-      map.getContainer().style.cursor = 'grab';
-    });
-  };
-
   const handleShareLinkClose = (event) => {
     // navigator.clipboard.writeText(shareUrl); // THIS IS BROKEN ON HTTP
     setShareLinkOpen(false);
@@ -222,16 +205,9 @@ export default function MapCard(props) {
   return (
     <div style={{ height: '100%' }}>
       <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-        <Control prepend='true' position='topleft'>
-          <Button
-            variant="contained"
-            color="CRESTPrimary"
-            onClick={identifyClickHandler}
-            className={classes.identifyButton}>
-            <InfoIcon />
-          </Button>
-        </Control>
-        <Control prepend='true' position='bottomleft'>
+        <IdentifyButtonWrapper map={map} />
+        <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef} />
+        <Control position='bottomleft'>
           <Button
             variant="contained"
             startIcon={<ShareIcon />}
@@ -241,17 +217,13 @@ export default function MapCard(props) {
             Share Map
           </Button>
         </Control>
-        <LayersControl position="topright">
-          <LayersControl.Overlay checked name="leaflet-draw">
-            <DrawnLayers
-              map={map}
-              leafletFeatureGroupRef={leafletFeatureGroupRef}
-              bufferCheckbox={bufferCheckbox}
-              setDrawAreaDisabled={setDrawAreaDisabled}
-              setTooLargeLayerOpen={setTooLargeLayerOpen}
-            />
-          </LayersControl.Overlay>
-        </LayersControl>
+        <DrawnLayers
+          map={map}
+          leafletFeatureGroupRef={leafletFeatureGroupRef}
+          bufferCheckbox={bufferCheckbox}
+          setDrawAreaDisabled={setDrawAreaDisabled}
+          setTooLargeLayerOpen={setTooLargeLayerOpen}
+        />
         <ModalShare
           contentTitle={'Share map url'}
           contentMessage={shareUrl}
@@ -273,7 +245,6 @@ export default function MapCard(props) {
         <ActiveTileLayers />
         <BasemapLayer map={map} />
         <MapEventsComponent />
-        <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef}/>
         <ShowIdentifyPopup
           selectedRegion = {selectedRegion}
           map = {map}

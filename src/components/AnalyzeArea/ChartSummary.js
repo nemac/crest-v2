@@ -52,7 +52,6 @@ import Typography from '@mui/material/Typography';
 import { mapConfig } from '../../configuration/config';
 
 import ChartCustomLabels from './ChartCustomLabels';
-import { lineHeight } from '@mui/system';
 
 const regions = mapConfig.regions;
 
@@ -84,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: '1px',
     justifyContent: 'center',
     alignItems: 'center'
-  },
+  }
 }));
 
 export default function ChartSummary(props) {
@@ -119,16 +118,15 @@ export default function ChartSummary(props) {
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
-    const classes = useStyles();
     // eslint-disable-next-line max-len
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
         <Box className={classes.ToolTipBox} >
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
-            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'  }} variant="body2" component="div">{label}</Typography>
+            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="body2" component="div">{label}</Typography>
           </Box>
-          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'  }} >
-            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'  }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
+            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
           </Box>
         </Box>
       );
@@ -206,9 +204,10 @@ export default function ChartSummary(props) {
       const id = feature.properties.leafletId;
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
-        thisMap.current._layers[id].setStyle(areaHighlightStyle);
         if (bufferLayerId !== undefined) {
           thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
+        } else {
+          thisMap.current._layers[id].setStyle(areaHighlightStyle);
         }
       }
     });
@@ -229,10 +228,10 @@ export default function ChartSummary(props) {
       const id = feature.properties.leafletId;
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
-        thisMap.current._layers[id].setStyle(areaStyle);
         if (bufferLayerId !== undefined) {
           thisMap.current._layers[bufferLayerId].setStyle(bufferStyle);
         }
+        thisMap.current._layers[id].setStyle(areaStyle);
       }
     });
   };
@@ -244,18 +243,18 @@ export default function ChartSummary(props) {
         onMouseLeave={handleMouseLeave}
         components='fieldset'
       >
-        <ResponsiveContainer  
+        <ResponsiveContainer
           sx={{
-            padding: "20px",
-            width: "100%",
-            height: "100%"
-           }}>
-          <BarChart 
+            padding: '20px',
+            width: '100%',
+            height: '100%'
+          }}>
+          <BarChart
             data={chartData}
             sx={{
-              width: "100%",
-              height: "100%"
-             }}
+              width: '100%',
+              height: '100%'
+            }}
             margin={{
               top: 90,
               right: 30,
@@ -263,12 +262,12 @@ export default function ChartSummary(props) {
               bottom: 30
             }}>
 
-            <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central"  style={{ fontFamily: 'Roboto, sans-serif' }} >
-              <tspan style={{  fontSize: '1.25rem' }}>{chartLabel}</tspan>
+            <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
+              <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
             </text>
 
-            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0}  />
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif',fontSize: '0.75rem'}} interval={0}/>
+            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
+            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0}/>
 
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey='chartValue' >
