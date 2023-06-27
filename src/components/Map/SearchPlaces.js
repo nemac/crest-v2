@@ -32,6 +32,7 @@ import { geosearch } from 'esri-leaflet-geocoder';
 import PropTypes from 'prop-types';
 import * as ELG from 'esri-leaflet-geocoder';
 import * as turf from '@turf/turf';
+import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
 
 import { addSearchPlacesGeoJSON } from '../../reducers/mapPropertiesSlice';
 
@@ -94,7 +95,7 @@ export default function SearchPlaces(props) {
     if (!map) { return; }
 
     if (!searchControlRef.current) {
-      searchControl.addTo(map);
+      // searchControl.addTo(map);
       searchControlRef.current = searchControl;
 
       searchControlRef.current.on('results', handleOnSearchResuts);
@@ -106,6 +107,14 @@ export default function SearchPlaces(props) {
 
   return (
     <div>
+      <EsriLeafletGeoSearch position="topleft" providers={{
+        arcgisOnlineProvider: {
+          token: apiKey,
+          label: 'ArcGIS Online Results',
+          maxResults: 10
+        }
+      }}
+    />
       {popupContent}
     </div>
   );

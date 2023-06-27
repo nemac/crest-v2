@@ -1,85 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, FeatureGroup, Polygon, Tooltip } from 'react-leaflet';
-import { EditControl } from 'react-leaflet-draw';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import * as ReactDOM from 'react-dom';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import { createControlComponent } from '@react-leaflet/core';
+import * as L from 'leaflet';
+import { Button, Stack } from '@mui/material';
+import Control from 'react-leaflet-custom-control';
+import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
+import LeafletMapContainer from '../components/Map/LeafletMapContainer';
 
-const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
-const selectedCenterSelector = (state) => state.mapProperties.center;
+const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
 
-const multiPolygon = [
-  [
-    [51.51, -0.12],
-    [51.51, -0.13],
-    [51.53, -0.13],
-  ],
-  [
-    [51.51, -0.05],
-    [51.51, -0.07],
-    [51.53, -0.07],
-  ],
-]
+const createIdentifyButonControl = () => {
+  const control = L.control({position: 'topleft'});
 
-const poly = [
-  [
-    [51.51, -0.12],
-    [51.51, -0.13],
-    [51.53, -0.13],
-  ]
-]
+  control.onAdd = () => {
+    const container = L.DomUtil.create('div', '');
 
-console.log(multiPolygon);
+    ReactDOM.render(
+      <Button variant="contained" onClick={() => console.log('hello')}>Click Me</Button>,
+      container
+    );
 
-function App() {
-  const drawnLayersFromState = useSelector(drawnLayersSelector);
-  const center = useSelector(selectedCenterSelector, () => true);
-  const [polyList, setPolyList] = useState([]);
+    return container;
+  };
 
-  useEffect(() => {
-    const features = JSON.parse(JSON.stringify(drawnLayersFromState.features));
-    const multiPolyList = [];
-    features.forEach((feature) => {
-      const reverseCoordinates = [];
-      feature.geometry.coordinates[0].forEach((coords) => {
-        reverseCoordinates.push(coords.reverse());
-      });
-      multiPolyList.push(reverseCoordinates);
-    });
-    setPolyList(multiPolyList);
-    console.log(polyList);
-  }, [drawnLayersFromState]);
+  return control;
+};
 
+const IdentifyButton = createControlComponent(createIdentifyButonControl);
+
+function MyMapComponent() {
+  const {map, setMap} = useState(null);
   return (
-    <MapContainer center={[51.51, -0.05]} zoom={12} style={{ height: "100vh", width: "100%" }}>
-      {multiPolygon.map((coords) => (
-        <Polygon key={coords} positions={coords}>
-          <Tooltip opacity={1} direction="center">
-            Hi I am a tooltip!!!
-          </Tooltip>
-         </Polygon>
-      ))};
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-      <FeatureGroup>
-        <EditControl
-          position='topleft'
-          draw={{
-            rectangle: false,
-            circle: false,
-            circlemarker: false,
-            marker: false,
-            polyline: false,
-            polygon: {
-              allowIntersection: false // Prevent user from drawing self-intersecting polygons
+    <div style={{ height: '100%' }}>
+      <LeafletMapContainer center={[51.505, -0.09]} zoom={13} innerRef={setMap}>
+        <IdentifyButton/>
+          <EsriLeafletGeoSearch providers={{
+            arcgisOnlineProvider: {
+              token: apiKey,
+              label: 'ArcGIS Online Results',
+              maxResults: 10
             }
-          }}
+          }}/>;
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      </FeatureGroup>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-    </MapContainer>
-  );
+      </LeafletMapContainer>
+    </div>
+  )
 }
 
-export default App;
+export default MyMapComponent;

@@ -37,6 +37,9 @@ Props
 import React, {
   useState, useEffect, useCallback
 } from 'react';
+import * as ReactDOM from 'react-dom';
+import * as L from 'leaflet';
+import { createControlComponent } from '@react-leaflet/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useMapEvents,
@@ -47,8 +50,9 @@ import {
 import InfoIcon from '@mui/icons-material/Info';
 import ShareIcon from '@mui/icons-material/Share';
 import { makeStyles } from '@mui/styles';
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
+import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
 import PropTypes from 'prop-types';
 
 import ActiveTileLayers from './ActiveTileLayers';
@@ -60,7 +64,8 @@ import {
   changeZoom, changeCenter, changeIdentifyCoordinates
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
-import ShowIdentifyPopup from './Identify';
+import ShowIdentifyPopup from './IdentifyPopup';
+import IdentifyButtonWrapper from './IdentifyButton';
 import { mapConfig } from '../../configuration/config';
 import ActionButtons from './ActionButtons';
 import { createShareURL } from './ShareMap';
@@ -95,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 0 20px 0'
   }
 }));
+const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
 
 export default function MapCard(props) {
   const {
@@ -219,22 +225,16 @@ export default function MapCard(props) {
   return (
     <div style={{ height: '100%' }}>
       <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-        <Control position='topleft'>
-          <Button variant="contained" color="CRESTPrimary" onClick={identifyClickHandler} className={classes.identifyButton}>
-            <InfoIcon />
-          </Button>
-        </Control>
-        <Control position='topleft'>
-          <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef} />
-        </Control>
-        <Button
-          variant="contained"
-          color="CRESTPrimary"
-          onClick={identifyClickHandler}
-          className={classes.identifyButton}>
-          <InfoIcon />
-        </Button>
-        <Control prepend='true' position='bottomleft'>
+        <IdentifyButtonWrapper map={map} style={classes.identifyButton} color="CrestPrimary" handler={identifyClickHandler}/>
+        <EsriLeafletGeoSearch providers={{
+          arcgisOnlineProvider: {
+            token: apiKey,
+            label: 'ArcGIS Online Results',
+            maxResults: 10
+          }
+        }}
+        />
+        <Control position='bottomleft'>
           <Button
             variant="contained"
             startIcon={<ShareIcon />}
@@ -244,17 +244,13 @@ export default function MapCard(props) {
             Share Map
           </Button>
         </Control>
-        <LayersControl position="topright">
-          <LayersControl.Overlay checked name="leaflet-draw">
-            <DrawnLayers
-              map={map}
-              leafletFeatureGroupRef={leafletFeatureGroupRef}
-              bufferCheckbox={bufferCheckbox}
-              setDrawAreaDisabled={setDrawAreaDisabled}
-              setTooLargeLayerOpen={setTooLargeLayerOpen}
-            />
-          </LayersControl.Overlay>
-        </LayersControl>
+        <DrawnLayers
+          map={map}
+          leafletFeatureGroupRef={leafletFeatureGroupRef}
+          bufferCheckbox={bufferCheckbox}
+          setDrawAreaDisabled={setDrawAreaDisabled}
+          setTooLargeLayerOpen={setTooLargeLayerOpen}
+        />
         <ModalShare
           contentTitle={'Share map url'}
           contentMessage={shareUrl}
