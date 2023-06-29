@@ -64,6 +64,7 @@ export default function NavBar(props) {
     const locationPath = window.location.pathname.replace('/', '');
 
     if (!navBar || navBar !== locationPath) {
+      console.log(locationPath);
       dispatch(changeActiveTab(locationPath));
     }
   }, [dispatch, navBar]);

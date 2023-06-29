@@ -164,8 +164,13 @@ export default function LeafletDrawTools(props) {
         }
         featureCopy.properties.leafletIds = leafletIdsList;
         dispatch(addNewFeatureToDrawnLayers(featureCopy));
+        // areaNameAdjustment can be NaN due to example area names so check for that
+        if (Number.isNaN(areaNameAdjustment)) {
+          areaNameAdjustment = 0;
+        }
         // bump area number up total length of features so no duplicate area names
         setAreaNumber(areaNumber + areaNameAdjustment);
+        dispatch(setEmptyState(false));
       });
     }, 10);
     // eslint-disable-next-line react-hooks/exhaustive-deps

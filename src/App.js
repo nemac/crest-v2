@@ -9,7 +9,7 @@ import About from './pages/About';
 import AnalyzeProjectSites from './pages/AnalyzeProjectSites';
 import CustomTheme from './CRESTTheme/CRESTCustomTheme';
 import DataAndReports from './pages/DataAndReports';
-import Examples from './pages/Examples';
+import Examples from './pages/ExamplesPage';
 import Home from './pages/Home';
 import ResilienceProject from './pages/ResilienceProject';
 import StyleGuide from './pages/StyleGuide';

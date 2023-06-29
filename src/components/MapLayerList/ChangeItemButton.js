@@ -118,7 +118,8 @@ export default function ChangeItemButton(props) {
     menuItems,
     showMenu,
     onClick,
-    itemOnClick
+    itemOnClick,
+    disabled
   } = props;
 
   return (
@@ -130,6 +131,7 @@ export default function ChangeItemButton(props) {
           fullWidth={true}
           aria-label={buttonName}
           className={classes.ChangeItemButton}
+          disabled={disabled || false}
           onClick={onClick}>
           <Box component="div" className={classes.buttonIcon} pr={2}>{children}</Box>
           <div className={classes.labelHolder}>
@@ -160,5 +162,6 @@ ChangeItemButton.propTypes = {
   menuItems: PropTypes.object.isRequired,
   showMenu: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  itemOnClick: PropTypes.func.isRequired
+  itemOnClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };

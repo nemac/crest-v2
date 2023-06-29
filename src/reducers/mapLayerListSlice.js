@@ -1,14 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const startingState = {
+  // TODO add defaults for Resilience hubs
+  visible: true,
+  activeLayerList: {},
+  expandedCharts: [],
+  displayedLegends: {}
+};
+
 export const mapLayerListSlice = createSlice({
   name: 'mapLayerList',
-  initialState: {
-    // TODO add defaults for Resilience hubs
-    visible: true,
-    activeLayerList: {},
-    expandedCharts: [],
-    displayedLegends: {}
-  },
+  initialState: startingState,
   reducers: {
     toggleVisible: (state) => {
       state.visible = !state.visible;
@@ -43,6 +45,12 @@ export const mapLayerListSlice = createSlice({
     replaceActiveLayerList: (state, action) => {
       const layerList = action.payload;
       state.activeLayerList = layerList;
+    },
+    initializeState: (state) => {
+      state.visible = startingState.visible;
+      state.activeLayerList = startingState.activeLayerList;
+      state.expandedCharts = startingState.expandedCharts;
+      state.displayedLegends = startingState.displayedLegends;
     }
 
   }
@@ -50,7 +58,7 @@ export const mapLayerListSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  toggleVisible, toggleLayer, toggleCollapsed, toggleLegend, replaceActiveLayerList
+  toggleVisible, toggleLayer, toggleCollapsed, toggleLegend, replaceActiveLayerList, initializeState
 } = mapLayerListSlice.actions;
 
 export default mapLayerListSlice.reducer;
