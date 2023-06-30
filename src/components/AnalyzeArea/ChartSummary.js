@@ -236,8 +236,13 @@ export default function ChartSummary(props) {
     });
   };
 
-  const theBarChart = (
-    <ResponsiveContainer
+  return (
+    <Box className={classes.contentBox}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      components='fieldset'
+    >
+      <ResponsiveContainer
         sx={{
           padding: '20px',
           width: '100%',
@@ -273,15 +278,6 @@ export default function ChartSummary(props) {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-  );
-  
-  return (
-    <Box className={classes.contentBox}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      components='fieldset'
-    >
-      {theBarChart}
     </Box>
   );
 }
