@@ -236,53 +236,54 @@ export default function ChartSummary(props) {
     });
   };
 
-  if (dataToPlot.current) {
-    return (
-      <Box className={classes.contentBox}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        components='fieldset'
-      >
-        <ResponsiveContainer
+  const theBarChart = (
+    <ResponsiveContainer
+        sx={{
+          padding: '20px',
+          width: '100%',
+          height: '100%'
+        }}>
+        <BarChart
+          data={chartData}
           sx={{
-            padding: '20px',
             width: '100%',
             height: '100%'
+          }}
+          margin={{
+            top: 90,
+            right: 30,
+            left: 0,
+            bottom: 30
           }}>
-          <BarChart
-            data={chartData}
-            sx={{
-              width: '100%',
-              height: '100%'
-            }}
-            margin={{
-              top: 90,
-              right: 30,
-              left: 0,
-              bottom: 30
-            }}>
 
-            <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
-              <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
-            </text>
+          <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
+            <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
+          </text>
 
-            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0}/>
+          <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
+          <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0} />
 
-            <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey='chartValue' >
-              {
-                chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={barColors[index]} />
-                ))
-              }
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </Box>
-    );
-  }
-  return <h3>{chartLabel} - No Data</h3>;
+          <Tooltip content={<CustomTooltip />} />
+          <Bar dataKey='chartValue' >
+            {
+              chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={barColors[index]} />
+              ))
+            }
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+  );
+  
+  return (
+    <Box className={classes.contentBox}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      components='fieldset'
+    >
+      {theBarChart}
+    </Box>
+  );
 }
 
 ChartSummary.propTypes = {
