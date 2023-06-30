@@ -1,53 +1,77 @@
 /* eslint-disable no-console */
-import React from 'react';
-import * as ReactDOM from 'react-dom';
-import { TileLayer } from 'react-leaflet';
-import { createControlComponent } from '@react-leaflet/core';
+import React, { useEffect, useRef, useState } from 'react';
+import { MapContainer, TileLayer, useMap, GeoJSON, Tooltip, FeatureGroup, useMapEvents, Circle } from 'react-leaflet';
+import { EditControl } from 'react-leaflet-draw';
 import * as L from 'leaflet';
-import { Button } from '@mui/material';
-import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
-import LeafletMapContainer from '../components/Map/LeafletMapContainer';
 
-const apiKey = 'AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By';
+const DrawItems = (props) => {
+  const { ready } = props;
+  const [drawnItems, setDrawnItems] = useState(() => {
+    const data = localStorage.getItem('drawnItems');
+    return data ? JSON.parse(data) : [];
+  });
 
-const createIdentifyButonControl = () => {
-  const control = L.control({ position: 'topleft' });
+  useEffect(() => {
+    setDrawnItems(drawnItems);
+  }, [ready, drawnItems]);
 
-  control.onAdd = () => {
-    const container = L.DomUtil.create('div', '');
-
-    ReactDOM.render(
-      <Button variant="contained" onClick={() => console.log('hello')}>Click Me</Button>,
-      container
-    );
-
-    return container;
+  const handleDrawCreate = (e) => {
+    const layer = e.layer;
+    const newItem = { geoJson: layer.toGeoJSON(), center: layer.getBounds().getCenter() };
+    setDrawnItems(prevItems => {
+      const updatedItems = [...prevItems, newItem];
+      localStorage.setItem('drawnItems', JSON.stringify(updatedItems));
+      return updatedItems;
+    });
   };
 
-  return control;
+  const drawOptions = {
+    rectangle: false,
+    circle: false,
+    circlemarker: false,
+    marker: false,
+    polyline: false
+  };
+
+  return (
+    <FeatureGroup>
+      <EditControl position="topleft" onCreated={handleDrawCreate} draw={drawOptions} />
+      {ready ? (drawnItems.map((item, index) => (
+        <GeoJSON key={index} data={item.geoJson}>
+          <Tooltip className="red-tooltip" permanent direction="center" opacity={1} position={item.center} >
+            Hi, I am a Tooltip!
+          </Tooltip>
+      </GeoJSON>
+      ))) : ( <div></div> )}
+    </FeatureGroup>
+  );
 };
 
-const IdentifyButton = createControlComponent(createIdentifyButonControl);
+const App = () => {
+  const [map, setMap] = useState(null);
+  const [ready, setReady] = useState(true);
 
-function MyMapComponent() {
+  useEffect(() => {
+    if (map) {
+      map.flyTo([51.51, -0.11], 9)
+    }
+  }, [map]);
+
   return (
-    <div style={{ height: '100%' }}>
-      <LeafletMapContainer center={[51.505, -0.09]} zoom={13}>
-        <IdentifyButton/>
-          <EsriLeafletGeoSearch providers={{
-            arcgisOnlineProvider: {
-              token: apiKey,
-              label: 'ArcGIS Online Results',
-              maxResults: 10
-            }
-          }}/>;
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    <React.Fragment>
+      <MapContainer ref={setMap} center={[51.51, -0.12]} zoom={9} style={{ height: '100vh', width: '100%' }}>
+        <Circle
+          center={[51.51, -0.08]}
+          radius={100}
         />
-      </LeafletMapContainer>
-    </div>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <DrawItems ready={ready} />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
+        <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>
+      </MapContainer>
+    </React.Fragment>
   );
-}
+};
 
-export default MyMapComponent;
+export default App;

@@ -23,7 +23,7 @@ import RectangleTwoToneIcon from '@mui/icons-material/RectangleTwoTone';
 
 import { toggleLayer, toggleLegend, toggleCollapsed, initializeState } from '../../reducers/mapLayerListSlice';
 import {
-  changeZoom, changeCenter
+  changeZoom, changeCenter, changeBasemap
 } from '../../reducers/mapPropertiesSlice';
 import { addNewFeatureToDrawnLayers } from '../../reducers/mapPropertiesSlice';
 import { changeActiveTab } from '../../reducers/NavBarSlice';
@@ -70,8 +70,8 @@ const useStyles = makeStyles((theme) => ({
 
 // just a place holder needs props passed in and image etc
 export default function ExampleCard(props) {
-  const { map, examplePolyData, setExamplePolyData, expanded, handleExpanded, title, summaryText, geojson, 
-    steps, mapCoordinates, examplePolygonLabel, examplePolygonCoords, examplePolygonCenter, zoom } = props;
+  const { map, setExamplePolyData, expanded, handleExpanded, title, summaryText, examplePolygonGeojson, 
+    steps, mapCoordinates, examplePolygonLabel, examplePolygonCenter, zoom } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ export default function ExampleCard(props) {
   const viewExampleOnMap = () => {
     dispatch(changeActiveTab('AnalyzeProjectSites'));
     navigate('/AnalyzeProjectSites');
-    dispatch(addNewFeatureToDrawnLayers(geojson.features[0]));
+    dispatch(addNewFeatureToDrawnLayers(examplePolygonGeojson.features[0]));
     dispatch(changeCenter(examplePolygonCenter));
     dispatch(changeZoom(zoom));
   };
@@ -112,10 +112,9 @@ export default function ExampleCard(props) {
   // or backwards in the examples. REMINDER THAT STEPS ARE ZERO BASED SO STEPS 1-7 ARE
   // [0,1 ,2 ,3, 4, 5,6] IN THE STEP LIST
   useEffect(() => {
-    // reset to defaults when nothing is expanded
+    // remove all polygon data if none are expanded
     if (!expanded) {
       setExamplePolyData(null);
-      dispatch(initializeState());
     }
 
     const activeStepLayer = mapConfig.regions['Continental U.S'].layerList[steps[activeStep].layerIndex];
@@ -136,15 +135,18 @@ export default function ExampleCard(props) {
     }
 
     if (map && expanded === title) {
+      // reset and initialize state when active step is 0
       if (activeStep === 0) {
         setExamplePolyData(null);
+        dispatch(initializeState());
+        dispatch(changeBasemap('Dark Gray'));
       }
 
       // Always draw poly and make sure you are at the correct location on the map
       if (activeStep >= 1) {
         flyToLocation(map, mapCoordinates, zoom);
         setExamplePolyData((previous) => ({ ...previous, label: examplePolygonLabel }));
-        setExamplePolyData((previous) => ({ ...previous, coords: examplePolygonCoords }));
+        setExamplePolyData((previous) => ({ ...previous, geojson: examplePolygonGeojson }));
         setExamplePolyData((previous) => ({ ...previous, center: examplePolygonCenter }));
       }
 

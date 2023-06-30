@@ -15,7 +15,7 @@ const baseMapSelector = (state) => state.mapProperties.basemap;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function BasemapLayer(props) {
-  const { map } = props;
+  const { map, examplePage } = props;
   const selectedBasemap = useSelector(baseMapSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const basemapRef = useRef(null);
@@ -46,5 +46,6 @@ export default function BasemapLayer(props) {
 }
 
 BasemapLayer.propTypes = {
-  map: PropTypes.object
+  map: PropTypes.object,
+  examplePage: PropTypes.bool
 };

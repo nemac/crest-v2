@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Polygon, Tooltip } from 'react-leaflet';
+import { GeoJSON, Tooltip } from 'react-leaflet';
 
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -12,7 +12,7 @@ import LeafletMapContainer from './LeafletMapContainer';
 import ActionButtons from './ActionButtons';
 import BasemapLayer from './BasemapLayer';
 import ActiveTileLayers from './ActiveTileLayers';
-import ExampleMapLayerList from '../MapLayerList/ExampleMapLayerList';
+import MapLayerList from '../MapLayerList/MapLayerList';
 import { mapConfig } from '../../configuration/config';
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 export default function MapHolderExample() {
   const classes = useStyles();
   const [map, setMap] = useState(null);
-
   const [examplePolyData, setExamplePolyData] = useState(null);
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
@@ -118,15 +117,15 @@ export default function MapHolderExample() {
           >
             <>
             { examplePolyData ? (
-              <Polygon positions={examplePolyData.coords} opacity={0.5}>
+              <GeoJSON data={examplePolyData.geojson} opacity={0.5}>
                 <Tooltip position={examplePolyData.center} direction='center' className={classes.leafletTooltips} permanent>
                   {examplePolyData.label}
                 </Tooltip>
-              </Polygon>
+              </GeoJSON>
             ) : (<div></div>) }
             </>
             <ActiveTileLayers />
-            <BasemapLayer map={map} />
+            <BasemapLayer map={map} examplePage={true}/>
           </LeafletMapContainer>
           <ActionButtons/>
         </Box>
@@ -138,7 +137,7 @@ export default function MapHolderExample() {
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
         className={classes.threeColumnHolder}>
-        <ExampleMapLayerList/>
+        <MapLayerList/>
       </Grid>
 
       {/* Adds bottom padding for small screens this is hacky need another way to handle this */}

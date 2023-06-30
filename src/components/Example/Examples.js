@@ -63,10 +63,9 @@ export default function Example(props) {
       {mapConfig.examples.map((example) => {
         const title = example.title;
         const summaryText = example.summaryText;
-        const geojson = example.geojson;
+        const examplePolygonGeojson = example.geojson;
         const mapCoordinates = example.mapCoordinates;
         const examplePolygonLabel = example.polygonLabel;
-        const examplePolygonCoords = example.polygonCoords;
         const examplePolygonCenter = example.polygonCenter;
         const zoom = example.zoom;
         const steps = example.steps;
@@ -81,11 +80,10 @@ export default function Example(props) {
             handleExpanded={handleExpanded}
             title={title}
             summaryText={summaryText}
-            geojson={geojson}
+            examplePolygonGeojson={examplePolygonGeojson}
             steps={steps}
             mapCoordinates={mapCoordinates}
             examplePolygonLabel={examplePolygonLabel}
-            examplePolygonCoords={examplePolygonCoords}
             examplePolygonCenter={examplePolygonCenter}
             zoom={zoom}
           />

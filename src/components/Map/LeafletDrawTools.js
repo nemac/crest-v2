@@ -172,7 +172,7 @@ export default function LeafletDrawTools(props) {
         setAreaNumber(areaNumber + areaNameAdjustment);
         dispatch(setEmptyState(false));
       });
-    }, 10);
+    }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // purposefully using empty array '[]' so it only runs once on startup
 
