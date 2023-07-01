@@ -51,7 +51,7 @@ export default function TabCallToActions() {
       </Grid>
       <Grid item xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
-          tabLabel={'Where Should I Do a Resilience Project?'}
+          tabLabel={'Explore Resilience Hubs'}
           tabLocation={'ResilienceProject'}
           tabText={
             'Identify all Resilience Hubs in your study area to find \
