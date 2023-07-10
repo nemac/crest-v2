@@ -11,6 +11,9 @@ export const greatLakesConfig = {
     zoom: 6
   },
   attribution: 'NFWF 2022',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/gl_hubs_cores_052323_CREST_3857_sean_2/FeatureServer/0',
+  hubsHexServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/gl_hubs_hex_052323_CREST_3857/FeatureServer/0',
+  rankProperty: 'rank_val', // need this in config because the rank property is different for all of the regions
   chartInputs: [
     {
       chartInputName: 'summary',

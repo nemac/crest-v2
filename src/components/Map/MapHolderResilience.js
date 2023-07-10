@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import * as L from 'leaflet';
+import * as esri from 'esri-leaflet';
 
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 
+import { useMapEvents, GeoJSON, Tooltip } from 'react-leaflet';
 import LeafletMapContainer from './LeafletMapContainer';
+import ResiliencePieChart from '../AnalyzeArea/ResiliencePieChart';
 import ActionButtons from './ActionButtons';
 import BasemapLayer from './BasemapLayer';
 import ActiveTileLayers from './ActiveTileLayers';
 import MapLayerList from '../MapLayerList/MapLayerList';
+import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
+import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
 import { mapConfig } from '../../configuration/config';
-import { FeatureLayer } from 'react-esri-leaflet';
-import { useMapEvents } from 'react-leaflet';
+// import { FeatureLayer } from 'react-esri-leaflet';
 
 const useStyles = makeStyles((theme) => ({
   threeColumnHolder: {
@@ -59,50 +64,125 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const selectedRegionSelector = (state) => state.selectedRegion.value;
+const selectedZoomSelector = (state) => state.mapProperties.zoom;
+const selectedCenterSelector = (state) => state.mapProperties.center;
+const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
+const listVisibleSelector = (state) => state.mapLayerList.visible;
+
 export default function MapHolderResilience() {
   const classes = useStyles();
   const [map, setMap] = useState(null);
-  const [message, setMessage] = useState('GOOD TO GO! CLICK AWAY!');
-  const [hubScore, setHubScore] = useState(null);
-  const [clickedLayer, setClickedLayer] = useState(null);
-  const featureLayerURL = 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/ak_hubs_core_030722/FeatureServer/0';
+  const [clickedFeature, setClickedFeature] = useState(null);
+  const [chartData, setChartData] = useState(null);
+  const dispatch = useDispatch();
+  const center = useSelector(selectedCenterSelector, () => true);
+  const zoom = useSelector(selectedZoomSelector, () => true);
+  const userInitiatedRegion = useSelector(userInitiatedSelector);
+  const selectedRegion = useSelector(selectedRegionSelector);
+  const hubsURL = mapConfig.regions[selectedRegion].hubsFeatureServer;
+  const hubsHexesUrl = mapConfig.regions[selectedRegion].hubsHexServer;
+  const rankProperty = mapConfig.regions[selectedRegion].rankProperty;
 
-  const listVisibleSelector = (state) => state.mapLayerList.visible;
+  const featureLayerHubs = esri.featureLayer({
+    url: hubsURL
+  });
+
+  // there currently isn't a hub core for every region
+  let featureLayerHex;
+  if (hubsHexesUrl) {
+    featureLayerHex = esri.featureLayer({
+      url: hubsHexesUrl
+    });
+  }
+
   const layerListVisible = useSelector(listVisibleSelector);
 
-  const onEachFeature = (feature, layer) => {
-    // Make the feature transparent initially
-    layer.setStyle({
-      fillOpacity: 0,
-      opacity: 0
-    });
-  };
+  const handleRegionChange = useCallback((regionName, user) => {
+    // catch bad region
+    if (!mapConfig.regions[regionName]) return null;
 
-  const featureLayerclick = (event) => {
-    console.log(event.layer.feature);
-    setHubScore(event.layer.feature.properties.hub_rnk);
-    setClickedLayer(event.layer);
-    if (clickedLayer) { // this is the previously clicked layer
-      clickedLayer.setStyle({
-        fillOpacity: 0,
-        opacity: 0
+    // check for user changing region as opposed to
+    //  state update on refresh
+    if (!user) return null;
+
+    // ensure map has been instantiated
+    if (map) {
+      // zoom to region locations
+      map.setView(
+        mapConfig.regions[regionName].mapProperties.center,
+        mapConfig.regions[regionName].mapProperties.zoom
+      );
+
+      // Update redux store with new region, zoom, and center
+      dispatch(changeRegion(mapConfig.regions[regionName].label));
+      dispatch(changeZoom(mapConfig.regions[regionName].mapProperties.zoom));
+      dispatch(changeCenter(mapConfig.regions[regionName].mapProperties.center));
+      dispatch(regionUserInitiated(false));
+    }
+    setClickedFeature(null);
+    return null;
+  }, [map, dispatch]);
+
+  useEffect(() => {
+    handleRegionChange(selectedRegion, userInitiatedRegion);
+  }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
+
+  // Change the map cursor style to pointer
+  React.useEffect(() => {
+    if (map) {
+      map.getContainer().style.cursor = 'pointer';
+    }
+  }, [map]);
+
+  // Run query on hex server if it exists after feature clicked on
+  React.useEffect(() => {
+    if (!featureLayerHex) { return; } // return if no hex layer to query
+    if (clickedFeature) {
+      const calculatedData = [];
+      for (let i = 0; i < 10; i++) {
+        calculatedData[i] = { name: 'Hub Score = ' + parseInt((i + 1), 10), value: 0 };
+      }
+      const query = featureLayerHex.query().within(clickedFeature);
+      query.run((error, featureCollection, response) => {
+        if (error) {
+          return;
+        }
+        if (featureCollection.features.length === 0) {
+          return;
+        }
+        // Count occurrences of each rank
+        featureCollection.features.forEach(obj => {
+          // Subtracting 1 because rankProperty 1 goes into 0th element etc
+          calculatedData[parseInt(obj.properties[rankProperty] - 1, 10)].value += 1;
+        });
+        setChartData(calculatedData);
       });
     }
-    event.layer.setStyle({
-      fillOpacity: 1,
-      opacity: 1
-    });
-  };
+  }, [clickedFeature]);
 
   // This component exists solely for the useMapEvents hook
   const MapEventsComponent = () => {
     useMapEvents({
-      zoomend: () => {
-        if (map.getZoom() < 11) {
-          setMessage('Please zoom in to inspect hubs');
-        } else {
-          setMessage('GOOD TO GO! CLICK AWAY!');
-        }
+      click: (e) => {
+        const query = featureLayerHubs.query().nearby(e.latlng, 0);
+        query.run((error, featureCollection, response) => {
+          if (error) {
+            return;
+          }
+          if (featureCollection.features.length === 0) {
+            return;
+          }
+          setClickedFeature(featureCollection.features[0]);
+        });
+      },
+      moveend: () => { // Send updated zoom and center to redux when moveend event occurs.
+        dispatch(changeZoom(map.getZoom()));
+        dispatch(
+          changeCenter(
+            [map.getCenter().lat, map.getCenter().lng]
+          )
+        );
       }
     });
     return null;
@@ -129,14 +209,16 @@ export default function MapHolderResilience() {
           Placeholder for Resilience
         </Typography>
         <Typography align='center' variant="h4" gutterBottom>
-          {message}
+          Hub Core Score
         </Typography>
-        <Typography align='center' variant="h4" gutterBottom>
-          Average Hub Core Score
-        </Typography>
-        <Typography align='center' variant="h3" gutterBottom>
-          {hubScore}
-        </Typography>
+        {clickedFeature &&
+          <Typography align='center' variant="h3" gutterBottom>
+            {clickedFeature.properties.hub_rnk}
+          </Typography>
+        }
+        {chartData &&
+          <ResiliencePieChart chartData={chartData} />
+        }
       </Grid>
 
       {/* Map */}
@@ -149,15 +231,22 @@ export default function MapHolderResilience() {
             order={{ xs: 1, sm: 1, md: 2 }}
             className={classes.threeColumnHolder}>
         <Box className={classes.contentmapBox} >
-          <LeafletMapContainer center={[61.21, -149.90]} zoom={12} innerRef={setMap}>
-            <FeatureLayer
+          <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
+            {/* <FeatureLayer
               minZoom={11}
               url={featureLayerURL}
               onEachFeature={onEachFeature}
               eventHandlers={{
                 click: featureLayerclick
               }}
-            />
+            /> */}
+            {clickedFeature &&
+              <GeoJSON key={clickedFeature.id} data={clickedFeature}>
+                <Tooltip direction='center' className={classes.leafletTooltips} permanent>
+                  {clickedFeature.id}
+                </Tooltip>
+              </GeoJSON>
+            }
             <ActiveTileLayers />
             <BasemapLayer map={map} />
             <MapEventsComponent/>
