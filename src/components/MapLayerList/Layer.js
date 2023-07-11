@@ -37,9 +37,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center'
-  },
-  legendButton: {
-    padding: theme.spacing(0.5)
   }
 }));
 
@@ -74,7 +71,7 @@ export default function Layer(props) {
         <Box>
           <IconButton
             onClick={handleToggleLegendClick}
-            className={classes.legendButton}
+            sx={{ padding: 0.5 }} // sx automatically uses theme.spacing
             size="large">
             {layerData.id in displayedLegends ? <Ballot /> : <BallotOutlined />}
           </IconButton>
