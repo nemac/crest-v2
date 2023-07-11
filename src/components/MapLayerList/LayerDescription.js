@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   popupBox: {
     width: '450px',
     borderRadius: theme.spacing(0.5),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: '300px'
     },
     backgroundColor: theme.palette.CRESTLight.main,
@@ -98,7 +98,8 @@ export default function LayerDescription(props) {
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
         onClick={handleClick}
-        className={classes.descriptionButton}>
+        className={classes.descriptionButton}
+        size="large">
         <HelpOutlineOutlined />
           <Popper id={id} open={open} placement={'bottom-end'} anchorEl={anchorEl} className={classes.popupHolder}>
             <Box className={classes.popupBox}>
@@ -111,7 +112,8 @@ export default function LayerDescription(props) {
                   color="CRESTPrimary"
                   className={classes.rightActionButton}
                   aria-label="Minimize"
-                  onClick={handlePopoverButtonClose}>
+                  onClick={handlePopoverButtonClose}
+                  size="large">
                   <Cancel />
                 </IconButton>
               </Box>

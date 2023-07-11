@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contentHolder: {
     height: 'calc(100% - 115px)',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       height: 'calc(100% - 56px)'
     }
   },
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   guttter: {
     padding: `${theme.spacing(0)} !important`,
     height: theme.spacing(0),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       height: theme.spacing(1)
     }
   },
@@ -195,7 +195,7 @@ export default function MapHolderResilience() {
       px={1}
       pb={{ xs: 1, sm: 1, md: 0 }}
       pt={{ xs: 0.5, sm: 0.5, md: 0 }}
-      justify="space-between"
+      justifyContent="space-between"
       alignItems="stretch"
       className={classes.contentHolder}>
 

@@ -169,42 +169,43 @@ export default function ShowIdentifyPopup(props) {
 
   if (!identifyIsLoaded) {
     return (
-        <div>
-          <Popup
-            position={identifyCoordinates}
-            autoPan={false}
-            className={classes.indentifyPopup}
-            closeButton={false}
-          >
-            <Box px={1} py={0.75} className={classes.titleBox}>
-              <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
-                Map Information
+      <div>
+        <Popup
+          position={identifyCoordinates}
+          autoPan={false}
+          className={classes.indentifyPopup}
+          closeButton={false}
+        >
+          <Box px={1} py={0.75} className={classes.titleBox}>
+            <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
+              Map Information
+            </Typography>
+            <IconButton
+              variant="contained"
+              color="CRESTPrimary"
+              className={classes.rightActionButton}
+              aria-label="Close"
+              onClick={closePopups}
+              size="large">
+                <CancelIcon />
+              </IconButton>
+          </Box>
+          <Divider />
+          <Grid container spaceing={2} justifyContent="start" alignItems="start" pt={1.5}>
+            <Grid item xs={12}>
+              <Typography variant="h6" component="div" align="center" gutterBottom>
+                Loading...
               </Typography>
-              <IconButton
-                  variant="contained"
-                  color="CRESTPrimary"
-                  className={classes.rightActionButton}
-                  aria-label="Close"
-                  onClick={closePopups}>
-                  <CancelIcon />
-                </IconButton>
-            </Box>
-            <Divider />
-            <Grid container spaceing={2} justifyContent="start" alignItems="start" pt={1.5}>
-              <Grid item xs={12}>
-                <Typography variant="h6" component="div" align="center" gutterBottom>
-                  Loading...
-                </Typography>
-              </Grid>
             </Grid>
-          </Popup>
-          <CircleMarker
-              center={{ lat: identifyCoordinates.lat, lng: identifyCoordinates.lng }}
-              fillColor='#444444'
-              color='#555555'
-              fillOpacity='0.9'
-              radius={5} />
-        </div>
+          </Grid>
+        </Popup>
+        <CircleMarker
+            center={{ lat: identifyCoordinates.lat, lng: identifyCoordinates.lng }}
+            fillColor='#444444'
+            color='#555555'
+            fillOpacity='0.9'
+            radius={5} />
+      </div>
     );
   }
 
@@ -221,11 +222,12 @@ export default function ShowIdentifyPopup(props) {
             Map Information
           </Typography>
           <IconButton
-              variant="contained"
-              color="CRESTPrimary"
-              className={classes.rightActionButton}
-              aria-label="Close"
-              onClick={closePopups}>
+            variant="contained"
+            color="CRESTPrimary"
+            className={classes.rightActionButton}
+            aria-label="Close"
+            onClick={closePopups}
+            size="large">
               <CancelIcon />
             </IconButton>
         </Box>

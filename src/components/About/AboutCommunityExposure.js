@@ -23,24 +23,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 import Link from '@mui/material/Link';
 
+import { AboutImage } from '../All/StyledComponents';
 import AboutComunityExposureImage from '../../assets/images/about_comunity_exposure.png';
 
-const useStyles = makeStyles((theme) => ({
-  crestList: {
-    marginTop: theme.spacing(0.5)
-  },
-  AboutImageStyle: {
-    maxWidth: '100%',
-    height: 'auto'
-  }
-}));
-
 export default function AboutCommunityExposure(props) {
-  const classes = useStyles();
-
   return (
     <div>
       <Typography variant="h5" component="div" px={3} py={1} gutterBottom>
@@ -49,7 +37,7 @@ export default function AboutCommunityExposure(props) {
       <Divider variant="middle" />
       <Grid container justifyContent="center" alignItems="center" pt={1.5}>
         <Grid item xs={12}>
-          <img src={AboutComunityExposureImage} className={classes.AboutImageStyle} />
+          <AboutImage src={AboutComunityExposureImage} />
         </Grid>
       </Grid>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>

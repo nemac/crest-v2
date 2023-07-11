@@ -65,23 +65,26 @@ export default function Layer(props) {
   };
 
   return (
-      <div>
-        <Box className={classes.layerHolder}>
-          <Box component="div" className={classes.layerName} onClick={handleToggleLayerClick} >
-            <Checkbox color="CRESTPrimary" checked={checked} onClick={handleToggleLayerClick} />
-            {layerData.label}
-          </Box>
-          <Box>
-            <IconButton onClick={handleToggleLegendClick} className={classes.legendButton} >
-              {layerData.id in displayedLegends ? <Ballot /> : <BallotOutlined />}
-            </IconButton>
-          </Box>
-          <LayerDescription layerName={layerData.label} layerDescription={layerData.description} />
+    <div>
+      <Box className={classes.layerHolder}>
+        <Box component="div" className={classes.layerName} onClick={handleToggleLayerClick} >
+          <Checkbox color="CRESTPrimary" checked={checked} onClick={handleToggleLayerClick} />
+          {layerData.label}
         </Box>
-        <Collapse in={layerData.id in displayedLegends} >
-          <LayerLegend layer={layerData} />
-        </Collapse>
-      </div>
+        <Box>
+          <IconButton
+            onClick={handleToggleLegendClick}
+            className={classes.legendButton}
+            size="large">
+            {layerData.id in displayedLegends ? <Ballot /> : <BallotOutlined />}
+          </IconButton>
+        </Box>
+        <LayerDescription layerName={layerData.label} layerDescription={layerData.description} />
+      </Box>
+      <Collapse in={layerData.id in displayedLegends} >
+        <LayerLegend layer={layerData} />
+      </Collapse>
+    </div>
   );
 }
 

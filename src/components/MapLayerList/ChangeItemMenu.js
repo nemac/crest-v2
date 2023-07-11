@@ -134,7 +134,8 @@ export default function ChangeItemMenu(props) {
             color="CRESTPrimary"
             className={classes.rightActionButton}
             aria-label="Minimize"
-            onClick={minimizeOnClick}>
+            onClick={minimizeOnClick}
+            size="large">
             <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }}/>
           </IconButton>
         </Box>

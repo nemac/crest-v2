@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.CRESTBlack.dark
   },
   EmptyStateBodyText: {
-    [theme.breakpoints.between('md', 'lg')]: {
+    [theme.breakpoints.between('md', 'xl')]: {
       fontSize: '0.9rem'
     }
   }

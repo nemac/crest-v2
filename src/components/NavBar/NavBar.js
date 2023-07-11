@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.CRESTGridBackground.contrastText,
     borderColor: theme.palette.CRESTBorderColor.main,
     minHeight: '115px',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       minHeight: '56px'
     }
   }
@@ -77,7 +77,7 @@ export default function NavBar(props) {
   // get breakpoint for small screens so we can make menu appear on side
   // also add show or hide the tabs
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'));
   const classes = useStyles();
 
   return (

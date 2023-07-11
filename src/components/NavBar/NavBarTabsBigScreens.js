@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   TitleHolder: {
     marginLeft: theme.spacing(0.5),
-    [theme.breakpoints.between('md', 'lg')]: {
+    [theme.breakpoints.between('md', 'xl')]: {
       marginLeft: theme.spacing(2)
     }
   }
