@@ -51,7 +51,7 @@ const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function ChartDetailsActionButtons(props) {
   const {
-    areaIndex, data, chartIndices, chartType
+    areaIndex, data, chartIndices, chartType, handleDownload
   } = props;
   const classes = useStyles();
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -120,7 +120,7 @@ export default function ChartDetailsActionButtons(props) {
         <ChartActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={handleExportClick}>
+          onClick={() => handleDownload(chartType)}>
           <CameraAlt />
         </ChartActionButton>
       </Grid>
@@ -134,5 +134,6 @@ ChartDetailsActionButtons.propTypes = {
   data: PropTypes.object.isRequired,
   areaIndex: PropTypes.number.isRequired,
   chartIndices: PropTypes.array.isRequired,
-  chartType: PropTypes.string.isRequired
+  chartType: PropTypes.string.isRequired,
+  handleDownload: PropTypes.func
 };

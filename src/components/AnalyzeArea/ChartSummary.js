@@ -45,7 +45,7 @@ import {
 } from 'recharts';
 
 import { useSelector } from 'react-redux';
-
+import { useCurrentPng } from "recharts-to-png";
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -95,8 +95,14 @@ export default function ChartSummary(props) {
     chartRegion,
     chartIndices,
     chartType,
-    map
+    map,
+    pngFunc
+    // ref
   } = props;
+  // Attach ref to a Recharts component, and the png will be returned
+  // Also accepts an optional argument for Html2Canvas options: useRechartToPng(options)
+  const [getPng, { ref, isLoading }] = useCurrentPng();
+  pngFunc.current[chartType] = getPng;
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
@@ -235,6 +241,45 @@ export default function ChartSummary(props) {
       }
     });
   };
+  const thisChart = (
+    <ResponsiveContainer
+      sx={{
+        padding: '20px',
+        width: '100%',
+        height: '100%'
+      }}>
+      <BarChart
+        data={chartData}
+        ref={ref}
+        sx={{
+          width: '100%',
+          height: '100%'
+        }}
+        margin={{
+          top: 90,
+          right: 30,
+          left: 0,
+          bottom: 30
+        }}>
+
+        <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
+          <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
+        </text>
+
+        <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
+        <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0} />
+
+        <Tooltip content={<CustomTooltip />} />
+        <Bar dataKey='chartValue' >
+          {
+            chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={barColors[index]} />
+            ))
+          }
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  );
 
   return (
     <Box className={classes.contentBox}
@@ -242,42 +287,7 @@ export default function ChartSummary(props) {
       onMouseLeave={handleMouseLeave}
       components='fieldset'
     >
-      <ResponsiveContainer
-        sx={{
-          padding: '20px',
-          width: '100%',
-          height: '100%'
-        }}>
-        <BarChart
-          data={chartData}
-          sx={{
-            width: '100%',
-            height: '100%'
-          }}
-          margin={{
-            top: 90,
-            right: 30,
-            left: 0,
-            bottom: 30
-          }}>
-
-          <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
-            <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
-          </text>
-
-          <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
-          <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0} />
-
-          <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey='chartValue' >
-            {
-              chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={barColors[index]} />
-              ))
-            }
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+      {thisChart}
     </Box>
   );
 }
@@ -288,5 +298,6 @@ ChartSummary.propTypes = {
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,
-  map: PropTypes.object
+  map: PropTypes.object,
+  pngFunc: PropTypes.any
 };
