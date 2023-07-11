@@ -114,9 +114,6 @@ export default function ChartDetails(props) {
         />
       </Box>
       <ChartDetailsActionButtons
-        areaIndex={areaIndex}
-        data={zonalStatsData}
-        chartIndices={chartValues.current['Summary Chart']}
         chartType={'Summary Chart'}
         handleDownload={handleDownload}
       />
@@ -135,9 +132,6 @@ export default function ChartDetails(props) {
         />
       </Box>
       <ChartDetailsActionButtons
-        areaIndex={areaIndex}
-        data={zonalStatsData}
-        chartIndices={chartValues.current['Fish and Wildlife Inputs']}
         chartType={'Fish and Wildlife Inputs'}
         handleDownload={handleDownload}
       />
@@ -156,9 +150,6 @@ export default function ChartDetails(props) {
         />
       </Box>
       <ChartDetailsActionButtons
-        areaIndex={areaIndex}
-        data={zonalStatsData}
-        chartIndices={chartValues.current['Threats Inputs']}
         chartType={'Threats Inputs'}
         handleDownload={handleDownload}
       />
@@ -177,9 +168,6 @@ export default function ChartDetails(props) {
         />
       </Box>
       <ChartDetailsActionButtons
-        areaIndex={areaIndex}
-        data={zonalStatsData}
-        chartIndices={chartValues.current['Community Assets Inputs']}
         chartType={'Community Assets Inputs'}
         handleDownload={handleDownload}
       />
@@ -188,9 +176,6 @@ export default function ChartDetails(props) {
         Landcover Chart {areaName}
       </Box>
       <ChartDetailsActionButtons
-        areaIndex={areaIndex}
-        data={zonalStatsData}
-        chartIndices={chartValues.current.Landcover}
         chartType={'Landcover'}
         handleDownload={handleDownload}
         />
