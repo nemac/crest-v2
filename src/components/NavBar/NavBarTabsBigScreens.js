@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import LinkTab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
@@ -50,16 +50,16 @@ export default function NavBarTabsBigScreens(props) {
 
   return (
     <>
-    <Grid xs={0} sm={0.75} sx={{ display: { xs: 'none', md: 'flex' } }}>
+    <Grid item xs={0} sm={0.75} sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Box p={1} justifyContent='center' alignItems='center'>
         <RouterLink to="/">
           <StyledImg src={logo} />
         </RouterLink>
       </Box>
     </Grid>
-    <Grid xs={12} sm={11.25}>
+    <Grid item xs={12} sm={11.25}>
       <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} py={0.75}>
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <Typography
             variant='h5'
             component='div'
@@ -76,7 +76,7 @@ export default function NavBarTabsBigScreens(props) {
             Coastal Resilience Evaluation and Siting Tool (CREST)
           </Typography>
         </Grid>
-        <Grid xs={10}>
+        <Grid item xs={10}>
           <Tabs
             orientation="horizontal"
             variant="scrollable"

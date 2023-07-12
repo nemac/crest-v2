@@ -26,7 +26,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 
@@ -84,12 +84,12 @@ export default function NavBarTabsSmallScreens(props) {
 
   return (
     <>
-    <Grid xs={12} >
+    <Grid item xs={12} >
       <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} >
 
-        <Grid xs={12} onClick={handleMenuClick} sx={{ cursor: 'pointer', backgroundColor: 'CRESTGridBackground.main' }}>
+        <Grid item xs={12} onClick={handleMenuClick} sx={{ cursor: 'pointer', backgroundColor: 'CRESTGridBackground.main' }}>
           <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} pb={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
-            <Grid xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
+            <Grid item xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
               <Typography variant='h6' component='div' px={1} pt={1} align="left" gutterBottom
                 sx={{
                   '&': (theme) => ({
@@ -103,7 +103,7 @@ export default function NavBarTabsSmallScreens(props) {
                 Coastal Resilience Evaluation and Siting Tool
               </Typography>
             </Grid>
-            <Grid xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
+            <Grid item xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
               <Typography variant='h6' component='div' px={0} pt={2} mb={0} align="left" gutterBottom>
                 <MenuOutlined fontSize='medium' />
               </Typography>
@@ -111,13 +111,13 @@ export default function NavBarTabsSmallScreens(props) {
           </Grid>
         </Grid>
 
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <Collapse in={navBar.menuOpen} timeout="auto" unmountOnExit sx={{ backgroundColor: 'CRESTGridBackground.main' }}>
 
             <Grid container spacing={0} justifyContent='center' alignItems='center' px={0.75} pt={1} pb={0}
               onClick={handleMenuClick} sx={{ cursor: 'pointer', backgroundColor: 'CRESTGridBackground.main' }}
             >
-              <Grid xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
+              <Grid item xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
                 <StyledTypographyTitle variant='h6' component='div' px={1} align="left">
                   Navigation menu
                 </StyledTypographyTitle>
@@ -127,7 +127,7 @@ export default function NavBarTabsSmallScreens(props) {
                   <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)', fontSize: '1.20rem' }}/>
                 </StyledTypographyTitle>
               </Grid>
-              <Grid xs={12} sx={{ backgroundColor: 'CRESTDark.main' }}>
+              <Grid item xs={12} sx={{ backgroundColor: 'CRESTDark.main' }}>
                 <Typography variant='h7' component='div' px={0} pb={0} mb={0} align="left" gutterBottom>
                   <Divider sx={{ borderColor: 'CRESTPrimary.main' }}/>
                 </Typography>

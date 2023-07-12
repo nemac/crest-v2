@@ -182,7 +182,7 @@ export default function ChartsHolder(props) {
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
-        <Grid xs={12} sx={{ height: 'calc(100% - 112px)' }}>
+        <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
           <Box>
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
@@ -207,8 +207,7 @@ export default function ChartsHolder(props) {
           </Box>
         </Grid>
       ) : (
-        <Grid
-          xs={12}
+        <Grid xs={12}
           sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}
         >
           <Box>

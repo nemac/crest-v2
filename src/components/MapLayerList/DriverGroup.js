@@ -27,7 +27,7 @@ export default function DriverGroup(props) {
       sx={{
         '&': (theme) => ({
           backgroundColor: theme.palette.CRESTDarkAlt.main,
-          color: theme.palette.CRESTDarkAlt.contrastText,
+          color: 'theme.palette.CRESTDarkAlt.contrastText',
           marginTop: theme.spacing(1),
           borderRadius: theme.spacing(0.5)
         })

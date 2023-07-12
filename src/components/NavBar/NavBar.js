@@ -25,7 +25,7 @@ Props
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';

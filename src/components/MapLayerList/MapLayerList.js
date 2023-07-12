@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import { IconButton } from '@mui/material/';
 import {
   ArrowDropDownCircle,
@@ -130,7 +130,7 @@ export default function MapLayerList() {
       }}
     >
 
-      <Grid xs={12}>
+      <Grid item xs={12}>
         <Box px={1} py={0.75}
           sx={{
             display: 'flex',
@@ -167,13 +167,13 @@ export default function MapLayerList() {
           </IconButton>
         </Box>
         <Grid container spacing={0} justifyContent="center" alignItems="center" >
-          <Grid xs={12} >
+          <Grid item xs={12} >
             <Divider variant="middle" />
           </Grid>
         </Grid>
       </Grid>
 
-      <Grid xs={12} pt={2} px={2}>
+      <Grid item xs={12} pt={2} px={2}>
         <ChangeItemButton
           buttonMainLabel={'Change Basemap'}
           buttonNameLabel={selectedBasemap}
@@ -186,7 +186,7 @@ export default function MapLayerList() {
         </ChangeItemButton>
       </Grid>
 
-      <Grid xs={12} pt={1} px={2}>
+      <Grid item xs={12} pt={1} px={2}>
         <ChangeItemButton
           buttonMainLabel={'Change Region'}
           buttonNameLabel={selectedRegion}
@@ -199,11 +199,11 @@ export default function MapLayerList() {
         </ChangeItemButton>
       </Grid>
 
-      <Grid xs={12} px={2} pt={1}>
+      <Grid item xs={12} px={2} pt={1}>
         { chartSummaryInputs.map((item) => renderAccordion(item.ChartInputLabel)) }
       </Grid>
 
-      <Grid xs={12} px={2} pt={1} mt={2} mb={1}>
+      <Grid item xs={12} px={2} pt={1} mt={2} mb={1}>
         { chartDriverInputs.map((item) => renderAccordion(item.ChartInputLabel)) }
       </Grid>
 

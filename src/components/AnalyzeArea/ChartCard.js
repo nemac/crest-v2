@@ -53,7 +53,7 @@ export default function ChartCard(props) {
         {analyzeAreaState.isMore[areaName] ? (
 
           <div style={{ width: '100%' }}>
-            <Grid xs={12} >
+            <Grid xs={12}>
               <ChartDetails areaName={areaName}
                 areaIndex={areaIndex}
                 region={region}
