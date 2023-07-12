@@ -26,7 +26,6 @@ Props
 */
 
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@mui/styles';
 import * as L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,17 +50,17 @@ const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
 const searchPlacesFileSelector = (state) => state.mapProperties.searchPlacesFileGeoJSON;
 
-const useStyles = makeStyles((theme) => ({
+// TODO: THIS STYLING BROKE WHILE UPDATING FROM MUI 4 to MUI 5 BUT I CAN FIX IT WITH REFACTOR
+// DO THIS JEFF!!!!
+const leafletTooltips = {
   // Feels a bit hacky that I had to tack !important on to everything to get the override
-  leafletTooltips: {
-    backgroundColor: 'transparent !important',
-    border: 'transparent !important',
-    color: '#FFFFFF !important',
-    'box-shadow': 'none !important',
-    fontSize: '1.5em',
-    fontWeight: 700
-  }
-}));
+  backgroundColor: 'transparent !important',
+  border: 'transparent !important',
+  color: '#FFFFFF !important',
+  'box-shadow': 'none !important',
+  fontSize: '1.5em',
+  fontWeight: 700
+};
 
 export default function LeafletDrawTools(props) {
   const {
@@ -71,7 +70,6 @@ export default function LeafletDrawTools(props) {
     setTooLargeLayerOpen,
     map
   } = props;
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const bufferSize = 1;
@@ -153,7 +151,7 @@ export default function LeafletDrawTools(props) {
         featureCopy.properties.leafletId = layerId;
         const leafletIdsList = [layerId];
         leafletFeatureGroupRef.current.addLayer(layer);
-        layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+        layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: leafletTooltips });
         if (feature.properties.buffer) {
           layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
           layer = L.geoJSON(layer, { style: bufferStyle });
@@ -198,7 +196,7 @@ export default function LeafletDrawTools(props) {
       geojson = enrichGeoJsonWithProperties(geojson, leafletId, bufferLayer, areaName);
       counter += 1;
       setAreaNumber(counter); // so the areaNumber is in sync with the counter
-      layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+      layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: leafletTooltips });
 
       // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
       const dummyFeatureGroup = L.featureGroup();
@@ -232,7 +230,7 @@ export default function LeafletDrawTools(props) {
     const leafletId = L.stamp(layer);
     const geojson = enrichGeoJsonWithProperties(geojsonCopy, leafletId, null, areaName); // null is for bufferlayer
     setAreaNumber(areaNumber + 1);
-    layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+    layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: leafletTooltips });
     const dummyFeatureGroup = L.featureGroup();
     dummyFeatureGroup.addLayer(layer);
     const dummyFeatureGroupGeoJSON = dummyFeatureGroup.toGeoJSON();
@@ -248,7 +246,7 @@ export default function LeafletDrawTools(props) {
 
     dispatch(addSearchPlacesGeoJSON(null));
   // eslint-disable-next-line max-len
-  }, [searchPlacesGeoJSON, dispatch, leafletFeatureGroupRef, areaNumber, classes.leafletTooltips, selectedRegion, setDrawAreaDisabled]);
+  }, [searchPlacesGeoJSON, dispatch, leafletFeatureGroupRef, areaNumber, leafletTooltips, selectedRegion, setDrawAreaDisabled]);
 
   function onCreated(e) {
     // Toggle sketch area off since new area was just created
@@ -277,7 +275,7 @@ export default function LeafletDrawTools(props) {
     let geojson = e.layer.toGeoJSON();
     geojson = enrichGeoJsonWithProperties(geojson, leafletId, bufferLayer, areaName);
     setAreaNumber(areaNumber + 1);
-    e.layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+    e.layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: leafletTooltips });
     const layerToAnalyze = bufferLayer || e.layer;
 
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this

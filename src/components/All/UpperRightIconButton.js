@@ -32,7 +32,7 @@ export default function UpperRightIconButton(props) {
     <IconButton
       variant="contained"
       color="CRESTPrimary"
-      sx= {{ height: 4.5, padding: 0.375 }} // sx automatically uses theme.spacing()
+      sx= {{ height: (theme) => theme.spacing(4.5), padding: (theme) => theme.spacing(0.375) }}
       aria-label={ariaLabel}
       size="large">
       {children}

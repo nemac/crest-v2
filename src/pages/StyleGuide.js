@@ -3,7 +3,7 @@ import { CodeBlock, a11yDark } from 'react-code-blocks';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -91,7 +91,7 @@ export default function StyleGuide() {
       </Box>
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Typography variant="h4" component="div" gutterBottom>
             Backgrounds and associated text
           </Typography>
@@ -148,7 +148,7 @@ export default function StyleGuide() {
       />
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Buttons
           </Typography>
@@ -181,7 +181,7 @@ export default function StyleGuide() {
       />
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Divider
           </Typography>
@@ -192,10 +192,10 @@ export default function StyleGuide() {
       <div>
 
         <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-          <Grid item xs={1}>
+          <Grid xs={1}>
             &nbsp;
           </Grid>
-          <Grid item xs={11}>
+          <Grid xs={11}>
             <Typography variant="h6" gutterBottom>
               Default Divider (color set in styleOverrides)
             </Typography>
@@ -203,30 +203,30 @@ export default function StyleGuide() {
         </Grid>
 
         <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
-          <Grid item xs={1}>
+          <Grid xs={1}>
             &nbsp;
           </Grid>
-          <Grid item xs={3} pl={0}>
+          <Grid xs={3} pl={0}>
             <Paper variant="outlined" square={false} sx={{ padding: '20px', backgroundColor: 'CRESTGridBackground.dark' }}>
 
               <Grid container spacing={3} justifyContent="start" alignItems="start">
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <Divider />
                 </Grid>
               </Grid>
 
             </Paper>
           </Grid>
-          <Grid item xs={8}>
+          <Grid xs={8}>
             &nbsp;
           </Grid>
         </Grid>
 
         <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-          <Grid item xs={1}>
+          <Grid xs={1}>
             &nbsp;
           </Grid>
-          <Grid item xs={11}>
+          <Grid xs={11}>
             <Box>
               <CodeBlock
                 theme={a11yDark}
@@ -240,7 +240,7 @@ export default function StyleGuide() {
       </div>
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Links
           </Typography>
@@ -251,10 +251,10 @@ export default function StyleGuide() {
       <div>
 
         <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-          <Grid item xs={1}>
+          <Grid xs={1}>
             &nbsp;
           </Grid>
-          <Grid item xs={11}>
+          <Grid xs={11}>
             <Typography variant="h6" gutterBottom>
               Default Link (color set in styleOverrides)
             </Typography>
@@ -262,30 +262,30 @@ export default function StyleGuide() {
         </Grid>
 
         <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
-          <Grid item xs={1}>
+          <Grid xs={1}>
             &nbsp;
           </Grid>
-          <Grid item xs={3} pl={0}>
+          <Grid xs={3} pl={0}>
             <Paper variant="outlined" square={false} sx={{ padding: '20px', backgroundColor: 'CRESTGridBackground.dark' }}>
 
               <Grid container spacing={3} justifyContent="start" alignItems="start">
-                <Grid item xs={12}>
+                <Grid xs={12}>
                   <Link href="#" >Link</Link>
                 </Grid>
               </Grid>
 
             </Paper>
           </Grid>
-          <Grid item xs={8}>
+          <Grid xs={8}>
             &nbsp;
           </Grid>
         </Grid>
 
         <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-          <Grid item xs={1}>
+          <Grid xs={1}>
             &nbsp;
           </Grid>
-          <Grid item xs={11}>
+          <Grid xs={11}>
             <Box>
               <CodeBlock
                 theme={a11yDark}
@@ -299,7 +299,7 @@ export default function StyleGuide() {
       </div>
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Icons
           </Typography>

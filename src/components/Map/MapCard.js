@@ -40,7 +40,6 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
 import ShareIcon from '@mui/icons-material/Share';
-import { makeStyles } from '@mui/styles';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
 import PropTypes from 'prop-types';
@@ -75,22 +74,6 @@ const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
-const useStyles = makeStyles((theme) => ({
-  identifyButton: {
-    minHeight: '30px',
-    minWidth: '30px',
-    width: '30px',
-    height: '30px',
-    backgroundColor: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: '#F4F4F4'
-    }
-  },
-  shareButton: {
-    margin: '0 0 20px 0'
-  }
-}));
-
 export default function MapCard(props) {
   const {
     map,
@@ -103,7 +86,6 @@ export default function MapCard(props) {
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
@@ -213,7 +195,8 @@ export default function MapCard(props) {
             startIcon={<ShareIcon />}
             onClick={shareMapHandler}
             color="CRESTPrimary"
-            className={classes.shareButton}>
+            sx={{ margin: '0 0 20px 0' }}
+          >
             Share Map
           </Button>
         </Control>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { CodeBlock, a11yDark } from 'react-code-blocks';
 
@@ -26,10 +26,10 @@ export default function StyleGuideBackgroundComponent(props) {
     <div>
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-        <Grid item xs={1}>
+        <Grid xs={1}>
           &nbsp;
         </Grid>
-        <Grid item xs={11}>
+        <Grid xs={11}>
           <Typography variant="h6" gutterBottom>
             {title} and text
           </Typography>
@@ -37,10 +37,10 @@ export default function StyleGuideBackgroundComponent(props) {
       </Grid>
 
       <Grid container spacing={3} justifyContent="center" alignItems="center" pb={1} px={3} pt={0}>
-        <Grid item xs={1}>
+        <Grid xs={1}>
           &nbsp;
         </Grid>
-        <Grid item xs={3}>
+        <Grid xs={3}>
           <Box >
             <Paper
               variant="outlined"
@@ -55,16 +55,16 @@ export default function StyleGuideBackgroundComponent(props) {
             </Paper>
           </Box>
         </Grid>
-        <Grid item xs={8}>
+        <Grid xs={8}>
           &nbsp;
         </Grid>
       </Grid>
 
       <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-        <Grid item xs={1}>
+        <Grid xs={1}>
           &nbsp;
         </Grid>
-        <Grid item xs={11}>
+        <Grid xs={11}>
           <Box>
             <CodeBlock
               theme={a11yDark}

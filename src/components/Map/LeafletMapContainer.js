@@ -1,30 +1,26 @@
 import React from 'react';
 import { MapContainer } from 'react-leaflet';
-import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
+import { styled } from '@mui/system';
 
 import { mapConfig } from '../../configuration/config';
 
-const useStyles = makeStyles((theme) => ({
-  leafletMapContainer: {
-    height: 'calc(100% - 64px)',
-    width: 'calc(100% - 1px)'
-  }
-}));
-
 const regions = mapConfig.regions;
+
+export const StyledMapContainer = styled(MapContainer)(({ theme }) => ({
+  height: 'calc(100% - 64px)',
+  width: 'calc(100% - 1px)'
+}));
 
 export default function LeafletMapContainer(props) {
   const {
     children, center, zoom, innerRef
   } = props;
   // const dispatch = useDispatch();
-  const classes = useStyles();
   const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
 
   return (
-    <MapContainer
-      className={classes.leafletMapContainer}
+    <StyledMapContainer
       center={center}
       zoom={zoom}
       doubleClickZoom={true}
@@ -39,7 +35,7 @@ export default function LeafletMapContainer(props) {
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
       <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>
       {children}
-    </MapContainer>
+    </StyledMapContainer>
   );
 }
 

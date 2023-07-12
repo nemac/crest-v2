@@ -39,7 +39,7 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import {
   PolylineOutlined
   // Polyline
@@ -47,12 +47,10 @@ import {
 
 import { toggleSketchArea } from '../../reducers/mapPropertiesSlice';
 
-const useStyles = makeStyles((theme) => ({
-  actionButton: {
-    height: theme.spacing(4.5),
-    textTransform: 'none',
-    justifyContent: 'start'
-  }
+const StyledButton = styled(Button)(({ theme }) => ({
+  height: theme.spacing(4.5),
+  textTransform: 'none',
+  justifyContent: 'start'
 }));
 
 // just a place holder needs props passed in and image etc
@@ -65,7 +63,6 @@ export default function DrawArea(props) {
       setLeafletDraw(new L.Draw.Polygon(map, { allowIntersection: false }));
     }
   }, [map]);
-  const classes = useStyles();
   const dispatch = useDispatch();
   const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   const drawToolsEnabled = useSelector(sketchAreaSelector);
@@ -86,33 +83,31 @@ export default function DrawArea(props) {
   if (!disabled) {
     return (
       <Box p={0.75} >
-        <Button
+        <StyledButton
           variant="contained"
           color="CRESTPrimary"
           fullWidth={true}
           aria-label={'Sketch an Area'}
-          className={classes.actionButton}
           onClick={handleSketchClick}
           startIcon={<PolylineOutlined />}
         >
           Sketch an Area
-        </Button>
+        </StyledButton>
       </Box>
     );
   }
   return (
     <Box p={0.75} >
-      <Button
+      <StyledButton
         variant="contained"
         color="CRESTPrimary"
         fullWidth={true}
         aria-label={'Sketch an Area'}
-        className={classes.actionButton}
         onClick={handleSketchClick}
         startIcon={<PolylineOutlined />}
       disabled>
         Sketch an Area
-      </Button>
+      </StyledButton>
     </Box>
   );
 }

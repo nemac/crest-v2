@@ -38,8 +38,8 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { IconButton } from '@mui/material/';
-import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
+import Grid from '@mui/material/Unstable_Grid2';
+import { styled } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -70,76 +70,55 @@ export const IdentifyAPI = async (dispatch, coordinates, selectedRegion) => {
     });
 };
 
-const useStyles = makeStyles((theme) => ({
-  indentifyPopup: {
-    bottom: '-22px !important',
-    left: '-308px !important',
-    '& .leaflet-popup-content-wrapper': {
-      padding: `${theme.spacing(1)} !important`,
-      borderRadius: `${theme.spacing(0.5)} !important`,
-      backgroundColor: `${theme.palette.CRESTGridBackground.dark} !important`,
-      color: `${theme.palette.CRESTGridBackground.contrastText} !important`,
-      border: `1px solid ${theme.palette.CRESTBorderColor.main} !important`,
-      width: '310px !important',
-      height: '215px !important',
-      overflow: 'clip !important'
-    },
-    '& .leaflet-popup-content': {
-      margin: '0px !important'
-    },
-    '& .leaflet-popup-tip': {
-      width: '0px !important',
-      height: '0px !important'
-    },
-    '& a.leaflet-popup-close-button': {
-      paddingTop: '2px !important',
-      paddingLeft: '3px !important',
-      borderRadius: '20px !important',
-      width: '20px !important',
-      height: '20px !important',
-      top: '15px !important',
-      right: '10px !important',
-      backgroundColor: `${theme.palette.CRESTLight.main} !important`,
-      color: `${theme.palette.CRESTLight.contrastText} !important`
-    }
+const StyledPopup = styled(Popup)(({ theme }) => ({
+  bottom: '-22px !important',
+  left: '-308px !important',
+  '& .leaflet-popup-content-wrapper': {
+    padding: `${theme.spacing(1)} !important`,
+    borderRadius: `${theme.spacing(0.5)} !important`,
+    backgroundColor: `${theme.palette.CRESTGridBackground.dark} !important`,
+    color: `${theme.palette.CRESTGridBackground.contrastText} !important`,
+    border: `1px solid ${theme.palette.CRESTBorderColor.main} !important`,
+    width: '310px !important',
+    height: '215px !important',
+    overflow: 'clip !important'
   },
-  titleBoxTypography: {
-    cursor: 'default',
-    display: 'flex',
-    width: '100%',
-    fontWeight: 'bold'
+  '& .leaflet-popup-content': {
+    margin: '0px !important'
   },
-  titleBox: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '54px',
-    paddingBottom: theme.spacing(0.5)
+  '& .leaflet-popup-tip': {
+    width: '0px !important',
+    height: '0px !important'
   },
-  rightActionButton: {
-    height: theme.spacing(4.5),
-    padding: theme.spacing(0.375),
-    justifyContent: 'end'
-  },
-  valueName: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  value: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    fontSize: '2rem'
-
+  '& a.leaflet-popup-close-button': {
+    paddingTop: '2px !important',
+    paddingLeft: '3px !important',
+    borderRadius: '20px !important',
+    width: '20px !important',
+    height: '20px !important',
+    top: '15px !important',
+    right: '10px !important',
+    backgroundColor: `${theme.palette.CRESTLight.main} !important`,
+    color: `${theme.palette.CRESTLight.contrastText} !important`
   }
+}));
+
+const StyledBoxNames = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+}));
+
+const StyledBoxValues = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontWeight: 'bold',
+  fontSize: '2rem'
 }));
 
 export default function ShowIdentifyPopup(props) {
   const { selectedRegion, map } = props;
-  const classes = useStyles();
   const dispatch = useDispatch();
   const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
   const identifyIsLoadedSelector = (state) => state.mapProperties.identifyIsLoaded;
@@ -167,125 +146,114 @@ export default function ShowIdentifyPopup(props) {
     return null;
   }
 
-  if (!identifyIsLoaded) {
-    return (
-      <div>
-        <Popup
-          position={identifyCoordinates}
-          autoPan={false}
-          className={classes.indentifyPopup}
-          closeButton={false}
+  return (
+    <div>
+      <StyledPopup
+        position={identifyCoordinates}
+        autoPan={false}
+        closeButton={false}
+      >
+        <Box px={1} py={0.75}
+          sx={{
+            display: 'flex',
+            flexWrap: 'nowrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '54px',
+            paddingBottom: (theme) => theme.spacing(0.5)
+          }}
         >
-          <Box px={1} py={0.75} className={classes.titleBox}>
-            <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
-              Map Information
-            </Typography>
-            <IconButton
-              variant="contained"
-              color="CRESTPrimary"
-              className={classes.rightActionButton}
-              aria-label="Close"
-              onClick={closePopups}
-              size="large">
-                <CancelIcon />
-              </IconButton>
-          </Box>
-          <Divider />
-          <Grid container spaceing={2} justifyContent="start" alignItems="start" pt={1.5}>
-            <Grid item xs={12}>
+          <Typography
+            sx={{
+              cursor: 'default', display: 'flex', width: '100%', fontWeight: 'bold'
+            }}
+            px={1}
+            variant="h6"
+            component="div"
+          >
+            Map Information
+          </Typography>
+          <IconButton
+            sx={{
+              height: (theme) => theme.spacing(4.5),
+              padding: (theme) => theme.spacing(0.375),
+              justifyContent: 'end'
+            }}
+            variant="contained"
+            color="CRESTPrimary"
+            aria-label="Close"
+            onClick={closePopups}
+            size="large"
+          >
+            <CancelIcon />
+          </IconButton>
+        </Box>
+        <Divider />
+        { !identifyIsLoaded ? (
+          <Grid container spaceing={2} pt={2} alignItems="center" justifyContent="center">
+            <Grid xs={12}>
               <Typography variant="h6" component="div" align="center" gutterBottom>
                 Loading...
               </Typography>
             </Grid>
           </Grid>
-        </Popup>
+        ) : (
+          <Grid container spaceing={2} pt={2} alignItems="center" justifyContent="center">
+            <Grid xs={12}>
+              <Typography variant="h6" component="div" align="center" gutterBottom>
+                Need Graph here
+              </Typography>
+            </Grid>
+            <Grid xs={2.4}>
+              <StyledBoxNames>
+                Hubs
+              </StyledBoxNames>
+              <StyledBoxValues>
+                {items.hubs === '255' ? '-' : items.hubs }
+              </StyledBoxValues>
+            </Grid>
+            <Grid xs={2.4}>
+              <StyledBoxNames>
+                Exposure
+              </StyledBoxNames>
+              <StyledBoxValues>
+                {items.exposure === '255' ? '-' : items.exposure }
+              </StyledBoxValues>
+            </Grid>
+            <Grid xs={2.4}>
+              <StyledBoxNames>
+                Asset
+              </StyledBoxNames>
+              <StyledBoxValues>
+                {items.asset === '255' ? '-' : items.asset }
+              </StyledBoxValues>
+            </Grid>
+            <Grid xs={2.4}>
+              <StyledBoxNames>
+                Threat
+              </StyledBoxNames>
+              <StyledBoxValues>
+                {items.threat === '255' ? '-' : items.threat }
+              </StyledBoxValues>
+            </Grid>
+            <Grid xs={2.4}>
+              <StyledBoxNames>
+                Wildlife
+              </StyledBoxNames>
+              <StyledBoxValues>
+                {items.wildlife === '255' ? '-' : items.wildlife }
+              </StyledBoxValues>
+            </Grid>
+          </Grid>
+        )}
+        </StyledPopup>
         <CircleMarker
-            center={{ lat: identifyCoordinates.lat, lng: identifyCoordinates.lng }}
-            fillColor='#444444'
-            color='#555555'
-            fillOpacity='0.9'
-            radius={5} />
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <Popup
-        position={identifyCoordinates}
-        autoPan={false}
-        closeButton={false}
-        className={classes.indentifyPopup}
-      >
-        <Box px={1} py={0.75} className={classes.titleBox}>
-          <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
-            Map Information
-          </Typography>
-          <IconButton
-            variant="contained"
-            color="CRESTPrimary"
-            className={classes.rightActionButton}
-            aria-label="Close"
-            onClick={closePopups}
-            size="large">
-              <CancelIcon />
-            </IconButton>
-        </Box>
-        <Divider />
-        <Grid container spaceing={2} pt={2} alignItems="center" justifyContent="center">
-          <Grid item xs={12}>
-            <Typography variant="h6" component="div" align="center" gutterBottom>
-              Need Graph here
-            </Typography>
-          </Grid>
-          <Grid item xs={2.4}>
-            <Box className={classes.valueName}>
-              Hubs
-            </Box>
-            <Box className={classes.value}>
-              {items.hubs === '255' ? '-' : items.hubs }
-            </Box>
-          </Grid>
-          <Grid item xs={2.4}>
-            <Box className={classes.valueName}>
-              Exposure
-            </Box>
-            <Box className={classes.value}>
-              {items.exposure === '255' ? '-' : items.exposure }
-            </Box>
-          </Grid>
-          <Grid item xs={2.4}>
-            <Box className={classes.valueName}>
-              Asset
-            </Box>
-            <Box className={classes.value}>
-              {items.asset === '255' ? '-' : items.asset }
-            </Box>
-          </Grid>
-          <Grid item xs={2.4}>
-            <Box className={classes.valueName}>
-              Threat
-            </Box>
-            <Box className={classes.value}>
-              {items.threat === '255' ? '-' : items.threat }
-            </Box>
-          </Grid>
-          <Grid item xs={2.4}>
-            <Box className={classes.valueName}>
-              Wildlife
-            </Box>
-            <Box className={classes.value}>
-              {items.wildlife === '255' ? '-' : items.wildlife }
-            </Box>
-          </Grid>
-        </Grid>
-      </Popup>
-      <CircleMarker
           center={{ lat: identifyCoordinates.lat, lng: identifyCoordinates.lng }}
           fillColor='#444444'
           color='#555555'
           fillOpacity='0.9'
-          radius={5} />
+          radius={5}
+        />
       </div>
   );
 }

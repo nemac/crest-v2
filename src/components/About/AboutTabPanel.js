@@ -26,7 +26,15 @@ Props
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
+
+const StyledDiv = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  border: 1,
+  borderStyle: 'solid',
+  borderColor: theme.palette.CRESTBorderColor.main
+}));
 
 export default function AboutTabPanel(props) {
   const {
@@ -37,7 +45,7 @@ export default function AboutTabPanel(props) {
   } = props;
 
   return (
-    <div
+    <StyledDiv
       role="tabpanel"
       hidden={value !== index}
       id={`about-tab-index-${index}`}
@@ -49,7 +57,7 @@ export default function AboutTabPanel(props) {
           {children}
         </Box>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 

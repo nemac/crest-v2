@@ -30,8 +30,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import L from 'leaflet';
-import { makeStyles } from '@mui/styles';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import {
   CameraAlt,
@@ -46,18 +45,8 @@ import {
   changeCenter, changeZoom
 } from '../../reducers/mapPropertiesSlice';
 import ChartActionButton from './ChartActionButton';
+import { StyledGrid } from '../All/StyledComponents';
 import { mapConfig } from '../../configuration/config';
-
-const useStyles = makeStyles((theme) => ({
-  contentBox: {
-    height: theme.spacing(8),
-    maxHeight: theme.spacing(8),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px'
-  }
-}));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const regions = mapConfig.regions;
@@ -74,7 +63,6 @@ export default function ChartActionButtons(props) {
     leafletIds,
     map
   } = props;
-  const classes = useStyles();
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -171,8 +159,15 @@ export default function ChartActionButtons(props) {
   };
 
   return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" p={0} className={classes.contentBox}>
-      <Grid item xs={3} >
+    <StyledGrid
+      container
+      spacing={0}
+      justifyContent="center"
+      alignItems="center"
+      p={0}
+      sx={{ height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
+    >
+      <Grid xs={3} >
         <ChartActionButton
           buttonLabel={analyzeAreaState.isMore[areaName] ? 'Less' : 'More'}
           buttonName={analyzeAreaState.isMore[areaName] ? 'Less' : 'More'}
@@ -180,7 +175,7 @@ export default function ChartActionButtons(props) {
           <MoreHorizOutlined />
         </ChartActionButton>
       </Grid>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <ChartActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
@@ -188,7 +183,7 @@ export default function ChartActionButtons(props) {
           <CameraAlt />
         </ChartActionButton>
       </Grid>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <ChartActionButton
           buttonLabel={'Zoom'}
           buttonName={'Zoom'}
@@ -196,7 +191,7 @@ export default function ChartActionButtons(props) {
           <CenterFocusStrong />
         </ChartActionButton>
       </Grid>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <ChartActionButton
           buttonLabel={'Remove'}
           buttonName={'Remove'}
@@ -204,7 +199,7 @@ export default function ChartActionButtons(props) {
           <DeleteForever />
         </ChartActionButton>
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 }
 

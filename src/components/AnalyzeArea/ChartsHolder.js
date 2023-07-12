@@ -35,8 +35,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import {
   changeEmptyState,
@@ -51,17 +50,6 @@ import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
 import { mapConfig } from '../../configuration/config';
-
-const useStyles = makeStyles((theme) => ({
-  gridHolder: {
-    height: '100%'
-  },
-  contentBox: {
-    height: 'calc(100% - 112px)',
-    paddingRight: theme.spacing(1.5),
-    overflowY: 'scroll'
-  }
-}));
 
 // sample configs to create the charts should come from state/redux later
 // TODO config should be imported from config directory
@@ -88,7 +76,6 @@ export default function ChartsHolder(props) {
   // console.log('new feature list:');
   // console.log(drawnLayerFeatures);
   const [chartData, setChartData] = useState([]);
-  const classes = useStyles();
   const getLabel = (area, name) => {
     const thisLabel = regions[area.region].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
@@ -185,9 +172,8 @@ export default function ChartsHolder(props) {
   };
 
   return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} className={classes.gridHolder}>
-
-      <Grid item xs={12} >
+    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
+      <Grid xs={12} >
         <ChartHeaderActionButtons
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
@@ -196,7 +182,7 @@ export default function ChartsHolder(props) {
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
-        <Grid item xs={12} className={classes.contentBox}>
+        <Grid xs={12} sx={{ height: 'calc(100% - 112px)' }}>
           <Box>
             {chartData.map((dataRow) => {
               const name = dataRow.areaName;
@@ -221,7 +207,10 @@ export default function ChartsHolder(props) {
           </Box>
         </Grid>
       ) : (
-        <Grid item xs={12} className={classes.contentBox}>
+        <Grid
+          xs={12}
+          sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}
+        >
           <Box>
             <TableData data={chartData} />
           </Box>

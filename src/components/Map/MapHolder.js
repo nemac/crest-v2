@@ -22,9 +22,9 @@ Props
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import MapCard from './MapCard';
 import MapActionCard from './MapActionCard';
@@ -85,10 +85,9 @@ export default function MapHolder(props) {
     >
 
        {/* Data (graph/chart/table, action buttons) */}
-      <Grid item
+      <ThreeColumnGrid
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
-        variant='threeColumn'
       >
         <MapActionCard
           map={map}
@@ -103,10 +102,10 @@ export default function MapHolder(props) {
           leafletFeatureGroupRef={leafletFeatureGroupRef}
           map={map}
         />
-      </Grid>
+      </ThreeColumnGrid>
 
       {/* Map */}
-      <ThreeColumnGrid item
+      <ThreeColumnGrid
         xs={12}
         sm={12}
         md={4.5}
@@ -128,7 +127,7 @@ export default function MapHolder(props) {
       </ThreeColumnGrid>
 
      {/* Layer List */}
-      <ThreeColumnGrid item
+      <ThreeColumnGrid
         xs={12} sm={12} md={3.5} lg={3} xl={2.75}
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
@@ -137,7 +136,7 @@ export default function MapHolder(props) {
       </ThreeColumnGrid>
 
       {/* Adds bottom padding for small screens this is hacky need another way to handle this */}
-       <GutterGrid item xs={12} order={4}/>
+       <GutterGrid xs={12} order={4}/>
 
     </ContentHolderGrid>
   );

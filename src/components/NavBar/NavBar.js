@@ -25,10 +25,11 @@ Props
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { makeStyles, useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
+import { styled } from '@mui/system';
 
 import { changeActiveTab } from '../../reducers/NavBarSlice';
 import NavBarTabsSmallScreens from './NavBarTabsSmallScreens';
@@ -36,15 +37,13 @@ import NavBarTabsBigScreens from './NavBarTabsBigScreens';
 
 import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
 
-const useStyles = makeStyles((theme) => ({
-  CardBackground: {
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    color: theme.palette.CRESTGridBackground.contrastText,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    minHeight: '115px',
-    [theme.breakpoints.down('lg')]: {
-      minHeight: '56px'
-    }
+export const StyledPaperCardBackground = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  color: theme.palette.CRESTGridBackground.contrastText,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  minHeight: '115px',
+  [theme.breakpoints.down('lg')]: {
+    minHeight: '56px'
   }
 }));
 
@@ -78,10 +77,9 @@ export default function NavBar(props) {
   // also add show or hide the tabs
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'));
-  const classes = useStyles();
 
   return (
-      <Paper square={false} elevation={3} className={classes.CardBackground} px={0} pb={0.75} >
+      <StyledPaperCardBackground square={false} elevation={3} px={0} pb={0.75} >
         <Grid container spacing={0} justifyContent='center' alignItems='center'>
 
               {isSmallScreen ? (
@@ -96,6 +94,6 @@ export default function NavBar(props) {
                 />
               )}
         </Grid>
-      </Paper>
+      </StyledPaperCardBackground>
   );
 }

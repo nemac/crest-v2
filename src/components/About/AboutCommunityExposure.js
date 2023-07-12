@@ -21,7 +21,7 @@ import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
@@ -36,7 +36,7 @@ export default function AboutCommunityExposure(props) {
       </Typography>
       <Divider variant="middle" />
       <Grid container justifyContent="center" alignItems="center" pt={1.5}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <AboutImage src={AboutComunityExposureImage} />
         </Grid>
       </Grid>
