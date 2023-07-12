@@ -95,8 +95,8 @@ export default function NavBarTabsBigScreens(props) {
             <LinkTab value="CodeTest" to='/CodeTest' {...a11yProps(6, 'crest-tab')} component={RouterLink}label="Code Test" />
           </Tabs>
         </Grid>
-        <Grid xs={2} px={5}>
-          <Button variant="contained" color="CRESTPrimary" onClick={() => { localStorage.clear(); } }>Clear Local Storage</Button>
+        <Grid item xs={2} px={5}>
+          <Button variant="contained" color="CRESTPrimary" onClick={() => { localStorage.clear(); location.reload(true); } }>Clear and Refresh</Button>
         </Grid>
       </Grid>
     </Grid>

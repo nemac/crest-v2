@@ -204,7 +204,6 @@ export const continentalUSConfig = {
         description: 'Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.',
         region: 'continental_us'
       },
-
       {
         id: 'CONUS_FishAndWildlifeTMS',
         layer: 'FishAndWildlife TMS',
