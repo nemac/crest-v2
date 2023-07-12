@@ -11,7 +11,6 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import MapIcon from '@mui/icons-material/Map';
 import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -30,49 +29,11 @@ import { changeActiveTab } from '../../reducers/NavBarSlice';
 import ExampleActionButton from './ActionButton';
 import { flyToLocation } from './StepActions';
 import { mapConfig } from '../../configuration/config';
-import { center } from '@turf/turf';
-
-const useStyles = makeStyles((theme) => ({
-  CardBackground: {
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    color: theme.palette.CRESTGridBackground.contrastText,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    height: '100%'
-  },
-  tempButtonBox: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.CRESTBlack.dark
-  },
-  EmptyStateBodyText: {
-    [theme.breakpoints.between('md', 'lg')]: {
-      fontSize: '0.9rem'
-    }
-  },
-  titleText: {
-    display: 'flex'
-  },
-  activeStep: {
-    color: 'transparent',
-    background: 'gray',
-    borderColor: 'white',
-    borderStyle: 'solid'
-  },
-  notActiveStep: {
-    color: 'transparent',
-    background: 'white',
-    borderColor: 'white',
-    borderStyle: 'solid'
-  }
-}));
 
 // just a place holder needs props passed in and image etc
 export default function ExampleCard(props) {
   const { map, setExamplePolyData, expanded, handleExpanded, title, summaryText, examplePolygonGeojson, 
     steps, mapCoordinates, examplePolygonLabel, examplePolygonCenter, zoom } = props;
-  const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -101,10 +62,13 @@ export default function ExampleCard(props) {
 
     return (
         <RectangleTwoToneIcon
-        className={clsx(classes.root, {
-          [classes.activeStep]: active,
-          [classes.notActiveStep]: !active
-        })}/>
+          sx={{
+            color: 'transparent',
+            background: active ? 'gray' : 'white',
+            borderColor: 'white',
+            borderStyle: 'solid'
+          }}
+        />
     );
   };
 
@@ -187,15 +151,15 @@ export default function ExampleCard(props) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography variant="h6" component="div" justifyContent="center" alignItems="center" p={1} className={classes.titleText} >
+        <Typography variant="h6" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
           {title}
         </Typography>
       </AccordionSummary>
       <Divider light sx={{ marginLeft: '6px', marginRight: '6px' }} />
       <AccordionDetails>
-        <Grid container spacing={0} p={0} mt={1} mb={1} className={classes.contentBox}>
+        <Grid container spacing={0} p={0} mt={1} mb={1}>
           <Grid item xs={12} >
-            <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} className={classes.titleText} >
+            <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
               {summaryText}
             </Typography>
             {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}

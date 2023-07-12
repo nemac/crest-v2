@@ -54,12 +54,10 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 
 /* Adds bottom padding for small screens this is hacky need another way to handle this */
 const GutterGrid = styled(Grid)(({ theme }) => ({
-  guttter: {
-    padding: `${theme.spacing(0)} !important`,
-    height: theme.spacing(0),
-    [theme.breakpoints.down('lg')]: {
-      height: theme.spacing(1)
-    }
+  padding: `${theme.spacing(0)} !important`,
+  height: theme.spacing(0),
+  [theme.breakpoints.down('lg')]: {
+    height: theme.spacing(1)
   }
 }));
 

@@ -22,44 +22,33 @@ Props
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import { makeStyles } from '@mui/styles';
 
 import ExampleCard from './ExampleCard';
 import { mapConfig } from '../../configuration/config';
-
-const useStyles = makeStyles((theme) => ({
-  CardBackground: {
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    color: theme.palette.CRESTGridBackground.contrastText,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    height: '100%'
-  },
-  tempButtonBox: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.CRESTBlack.dark
-  },
-  EmptyStateBodyText: {
-    [theme.breakpoints.between('md', 'lg')]: {
-      fontSize: '0.9rem'
-    }
-  }
-}));
 
 // just a place holder needs props passed in and image etc
 export default function Example(props) {
   const { map, examplePolyData, setExamplePolyData } = props;
   const [expanded, setExpanded] = React.useState(false);
-  const classes = useStyles();
 
   const handleExpanded = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   return (
-    <Box variant="outlined" square={false} className={classes.CardBackground} >
+    <Box variant="outlined" square={false}
+      sx={{
+        '&': (theme) => ({
+          padding: theme.spacing(1),
+          backgroundColor: theme.palette.CRESTGridBackground.dark,
+          color: theme.palette.CRESTGridBackground.contrastText,
+          borderColor: theme.palette.CRESTBorderColor.main,
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          height: '100%'
+        })
+      }}
+    >
       {mapConfig.examples.map((example) => {
         const title = example.title;
         const summaryText = example.summaryText;

@@ -1,11 +1,11 @@
 /*
 Purpose
-  Button for example case study actions
+  Action button for the maps
 
-  Buttons include:
-    - Next go to next step
-    - View In CREST jump to area with Analyze Project already complete
-    - Previous go to Previous step
+  the actions are one of the following:
+    - add area (open or expands the add area menu)
+    - export exports the map to png/svg
+    - map layers opens the map layer list
 
 Child Components
   - None
@@ -17,52 +17,30 @@ API
   - Not sure yet
 
 State needed
+  - map layer list open or not
+  - add area open or not NEW state item
   - Not sure yet
 
 Props
-  - button Text
-  - button icon
   - Not sure yet
 */
-
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
-  actionButton: {
-    borderRadius: 0,
-    maxHeight: theme.spacing(8),
-    textTransform: 'none',
-    flexWrap: 'wrap',
-    '&:hover': {
-      backgroundColor: '#6f6f6f'
-    }
-  },
-  buttonHolder: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  button: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    [theme.breakpoints.between('md', 'lg')]: {
-      fontSize: '0.75rem'
-    }
-  }
+const StyledBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%'
 }));
 
 // just a place holder needs props passed in and image etc
 export default function ExampleActionButton(props) {
-  const classes = useStyles();
   const {
     children,
     buttonLabel,
@@ -70,22 +48,27 @@ export default function ExampleActionButton(props) {
     onClick
   } = props;
 
-  const handleClick = (event) => {
-    onClick(event);
-  };
-
   return (
-    <Box className={classes.buttonHolder}>
+    <Box sx={{
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+    }}>
       <Button
         variant="text"
         color="CRESTPrimary"
         fullWidth={true}
         aria-label={buttonName}
-        value={buttonName}
-        className={classes.actionButton}
-        onClick={handleClick}>
-        <Box component="div" className={classes.button} pt={0.5}>{children}</Box>
-        <Box component="div" className={classes.button} pb={0.5}>{buttonLabel}</Box>
+        sx={{
+          borderRadius: 0,
+          maxHeight: (theme) => theme.spacing(8),
+          textTransform: 'none',
+          flexWrap: 'wrap',
+          '&:hover': {
+            backgroundColor: '#6f6f6f'
+          }
+        }}
+        onClick={onClick}>
+        <StyledBox component="div" pt={0.5}>{children}</StyledBox>
+        <StyledBox component="div" pb={0.5}>{buttonLabel}</StyledBox>
       </Button>
     </Box>
   );
