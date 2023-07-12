@@ -50,57 +50,7 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import { ArrowDropDownCircle } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
-
-const useStyles = makeStyles((theme) => ({
-  hold: {
-    padding: theme.spacing(1)
-  },
-  gridHolder: {
-    marginTop: theme.spacing(0.1),
-    marginBottom: theme.spacing(1),
-    border: `1px solid ${theme.palette.CRESTBorderColor.main}`
-  },
-  rightActionButton: {
-    height: theme.spacing(4.5),
-    padding: theme.spacing(0.375),
-    justifyContent: 'end'
-  },
-  titleBox: {
-    cursor: 'pointer',
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '54px',
-    paddingBottom: theme.spacing(0.5),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    '&:hover': {
-      backgroundColor: '#6f6f6f'
-    }
-  },
-  titleBoxTypography: {
-    cursor: 'default',
-    display: 'flex',
-    width: '100%',
-    fontWeight: 'bold'
-  },
-  itemRow: {
-    cursor: 'pointer',
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    '&:hover': {
-      backgroundColor: '#6f6f6f'
-    }
-  },
-  itemRowSelected: {
-    cursor: 'pointer',
-    backgroundColor: theme.palette.CRESTDarkAlt.main,
-    '&:hover': {
-      backgroundColor: '#6f6f6f'
-    }
-  }
-}));
 
 export default function ChangeItemMenu(props) {
   const {
@@ -110,7 +60,6 @@ export default function ChangeItemMenu(props) {
     onClick,
     itemOnClick
   } = props;
-  const classes = useStyles();
 
   // Create state for layer list visibility
   const minimizeOnClick = (event) => {
@@ -122,19 +71,59 @@ export default function ChangeItemMenu(props) {
   };
 
   return (
-    <Grid container spacing={0} className={classes.gridHolder}>
+    <Grid
+      sx={{
+        '&': (theme) => ({
+          marginTop: theme.spacing(0.1),
+          marginBottom: theme.spacing(1),
+          border: `1px solid ${theme.palette.CRESTBorderColor.main}`
+        })
+      }}
+      container
+      spacing={0}
+    >
 
       <Grid item xs={12}>
-        <Box px={1} py={0.75} className={classes.titleBox} onClick={minimizeOnClick}>
-          <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
+        <Box px={1} py={0.75} onClick={minimizeOnClick}
+          sx={{
+            '&': (theme) => ({
+              cursor: 'pointer',
+              display: 'flex',
+              flexWrap: 'nowrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '54px',
+              paddingBottom: theme.spacing(0.5),
+              backgroundColor: theme.palette.CRESTGridBackground.dark,
+              '&:hover': {
+                backgroundColor: '#6f6f6f'
+              }
+            })
+          }}
+        >
+          <Typography px={1} variant="h6" component="div"
+            sx={{
+              cursor: 'default',
+              display: 'flex',
+              width: '100%',
+              fontWeight: 'bold'
+            }}
+          >
             {menuName}
           </Typography>
           <IconButton
+            sx={{
+              '&': (theme) => ({
+                height: theme.spacing(4.5),
+                padding: theme.spacing(0.375),
+                justifyContent: 'end'
+              })
+            }}
             variant="contained"
             color="CRESTPrimary"
-            className={classes.rightActionButton}
             aria-label="Minimize"
-            onClick={minimizeOnClick}>
+            onClick={minimizeOnClick}
+            size="large">
             <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }}/>
           </IconButton>
         </Box>
@@ -152,8 +141,13 @@ export default function ChangeItemMenu(props) {
           spacing={0}
           justifyContent="center"
           alignItems="center"
-          // eslint-disable-next-line max-len
-          className={selectedValue === menuItems[menuItem].label ? classes.itemRowSelected : classes.itemRow}
+          sx={{
+            cursor: 'pointer',
+            backgroundColor: selectedValue === menuItems[menuItem].label ? 'CRESTDarkAlt.main' : 'CRESTGridBackground.dark',
+            '&:hover': {
+              backgroundColor: '#6f6f6f'
+            }
+          }}
           onClick={(event) => { minimizeOnClick(event); itemClick(menuItems[menuItem].label); }} >
             <Grid item xs={8} sx={{ padding: '8px' }} >
               <Box px={1} py={0.75} >{menuItems[menuItem].label}</Box>

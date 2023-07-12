@@ -11,6 +11,9 @@ export const americanSamoaConfig = {
     zoom: 9
   },
   attribution: 'NFWF 2020',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/CREST_American_Samoa_Hub_Cores_API_100421/FeatureServer/0',
+  hubsHexServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/AS_hubs_hexes_merge_081921/FeatureServer/0',
+  rankProperty: 'Rank', // need this in config because the rank property is different for all of the regions
   chartInputs: [
     {
       chartInputName: 'summary',

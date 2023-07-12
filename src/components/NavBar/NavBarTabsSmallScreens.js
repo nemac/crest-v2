@@ -34,58 +34,37 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { MenuOutlined, ArrowDropDownCircle } from '@mui/icons-material';
 
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 
 import { changeMenuOpen } from '../../reducers/NavBarSlice';
 import a11yProps from '../../utility/a11yProps';
 
-// style for menu
-const useStyles = makeStyles((theme) => ({
-  appTitle: {
-    fontSize: '1rem',
-    paddingLeft: theme.spacing(1),
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(0)
-  },
-  navTitle: {
-    fontSize: '1rem',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  },
-  navControlIcon: {
-    fontSize: '1.20rem'
-  },
-  navItemClick: {
-    cursor: 'pointer',
-    backgroundColor: theme.palette.CRESTGridBackground.main
-  },
-  navItemDark: {
-    backgroundColor: theme.palette.CRESTDark.main
-  },
-  navPaperFirst: {
-    padding: '6px 6px 3px 6px',
-    backgroundColor: theme.palette.CRESTGridBackground.main
-  },
-  navPaper: {
-    padding: '3px 6px 3px 6px',
-    backgroundColor: theme.palette.CRESTGridBackground.main
-  },
-  navMenuListItem: {
+const StyledNavPaper = styled(Paper)(({ theme }) => ({
+  padding: '3px 6px 3px 6px',
+  backgroundColor: theme.palette.CRESTGridBackground.main
+}));
+
+const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '1rem',
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1)
+}));
+
+const StyledListItem = styled(ListItem)(({ theme }) => ({
+  color: '#FFFFFF',
+  backgroundColor: '#000000',
+  textTransform: 'capitalize',
+  boxShadow: 3,
+  padding: '12px',
+  '&:hover': {
+    backgroundColor: '#444444',
     color: '#FFFFFF',
-    backgroundColor: '#000000',
-    textTransform: 'capitalize',
-    boxShadow: 3,
-    padding: '12px',
-    '&:hover': {
-      backgroundColor: '#444444',
-      color: '#FFFFFF',
-      textTransform: 'capitalize'
-    },
-    '&.Mui-selected': {
-      color: '#FFFFFF',
-      backgroundColor: '#444444',
-      textTransform: 'capitalize'
-    }
+    textTransform: 'capitalize'
+  },
+  '&.Mui-selected': {
+    color: '#FFFFFF',
+    backgroundColor: '#444444',
+    textTransform: 'capitalize'
   }
 }));
 
@@ -94,7 +73,6 @@ const NavBarSelector = (state) => state.navBar;
 
 export default function NavBarTabsSmallScreens(props) {
   const { handleClickNavTab } = props;
-  const classes = useStyles();
   const navBar = useSelector(NavBarSelector);
   const dispatch = useDispatch();
 
@@ -105,18 +83,27 @@ export default function NavBarTabsSmallScreens(props) {
   };
 
   return (
-    < >
+    <>
     <Grid item xs={12} >
       <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} >
 
-        <Grid item xs={12} onClick={handleMenuClick} className={classes.navItemClick} >
-          <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} pb={1} className={classes.navItemDark}>
-            <Grid item xs={11} className={classes.navItemDark}>
-              <Typography variant='h6' component='div' px={1} pt={1} align="left" gutterBottom className={classes.appTitle}>
+        <Grid item xs={12} onClick={handleMenuClick} sx={{ cursor: 'pointer', backgroundColor: 'CRESTGridBackground.main' }}>
+          <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} pb={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
+            <Grid item xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
+              <Typography variant='h6' component='div' px={1} pt={1} align="left" gutterBottom
+                sx={{
+                  '&': (theme) => ({
+                    fontSize: '1rem',
+                    paddingLeft: theme.spacing(1),
+                    paddingTop: theme.spacing(2),
+                    paddingBottom: theme.spacing(0)
+                  })
+                }}
+              >
                 Coastal Resilience Evaluation and Siting Tool
               </Typography>
             </Grid>
-            <Grid item xs={1} className={classes.navItemDark}>
+            <Grid item xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
               <Typography variant='h6' component='div' px={0} pt={2} mb={0} align="left" gutterBottom>
                 <MenuOutlined fontSize='medium' />
               </Typography>
@@ -127,18 +114,20 @@ export default function NavBarTabsSmallScreens(props) {
         <Grid item xs={12}>
           <Collapse in={navBar.menuOpen} timeout="auto" unmountOnExit sx={{ backgroundColor: 'CRESTGridBackground.main' }}>
 
-            <Grid container spacing={0} justifyContent='center' alignItems='center' px={0.75} pt={1} pb={0} onClick={handleMenuClick} className={classes.navItemClick}>
-              <Grid item xs={11} className={classes.navItemDark}>
-                <Typography variant='h6' component='div' px={1} align="left" className={classes.navTitle}>
+            <Grid container spacing={0} justifyContent='center' alignItems='center' px={0.75} pt={1} pb={0}
+              onClick={handleMenuClick} sx={{ cursor: 'pointer', backgroundColor: 'CRESTGridBackground.main' }}
+            >
+              <Grid item xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
+                <StyledTypographyTitle variant='h6' component='div' px={1} align="left">
                   Navigation menu
-                </Typography>
+                </StyledTypographyTitle>
               </Grid>
-              <Grid item xs={1} className={classes.navItemDark}>
-                <Typography variant='h6' component='div' px={1} align="left" className={classes.navTitle}>
-                  <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }} className={classes.navControlIcon} />
-                </Typography>
+              <Grid xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
+                <StyledTypographyTitle variant='h6' component='div' px={1} align="left">
+                  <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)', fontSize: '1.20rem' }}/>
+                </StyledTypographyTitle>
               </Grid>
-              <Grid item xs={12} className={classes.navItemDark}>
+              <Grid item xs={12} sx={{ backgroundColor: 'CRESTDark.main' }}>
                 <Typography variant='h7' component='div' px={0} pb={0} mb={0} align="left" gutterBottom>
                   <Divider sx={{ borderColor: 'CRESTPrimary.main' }}/>
                 </Typography>
@@ -150,91 +139,83 @@ export default function NavBarTabsSmallScreens(props) {
               aria-label="CREST Nabigation Tabs"
               sx={{ paddingTop: '0px' }} >
 
-              <Paper square={false} elevation={0} className={classes.navPaperFirst} >
-                <ListItem
-                  className={classes.navMenuListItem}
+              <Paper square={false} elevation={0} sx={{ padding: '6px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main' }}>
+                <StyledListItem
                   selected={navBar.activeTab === 'Home'}
                   onClick={(event) => handleClickNavTab(event, 'Home')}
                   to='/' {...a11yProps(0)}
                   component={RouterLink}>Home
-                </ListItem>
+                </StyledListItem>
               </Paper>
 
-              <Paper square={false} elevation={0} className={classes.navPaper} >
-                <ListItem
-                  className={classes.navMenuListItem}
+              <StyledNavPaper square={false} elevation={0}>
+                <StyledListItem
                   selected={navBar.activeTab === 'ResilienceProject'}
                   onClick={(event) => handleClickNavTab(event, 'ResilienceProject')}
                   to='/ResilienceProject'
                   {...a11yProps(1)}
                   component={RouterLink}>Where Should I do a Resilience Project?
-                </ListItem>
-              </Paper>
+                </StyledListItem>
+              </StyledNavPaper>
 
-              <Paper square={false} elevation={0} className={classes.navPaper} >
-                <ListItem
-                  className={classes.navMenuListItem}
+              <StyledNavPaper square={false} elevation={0}>
+                <StyledListItem
                   selected={navBar.activeTab === 'AnalyzeProjectSites'}
                   onClick={(event) => handleClickNavTab(event, 'AnalyzeProjectSites')}
                   to='/AnalyzeProjectSites' {...a11yProps(2)}
                   component={RouterLink}>Analyze Project Sites
-                </ListItem>
-              </Paper>
+                </StyledListItem>
+              </StyledNavPaper>
 
-              <Paper square={false} elevation={0} className={classes.navPaper} >
-                <ListItem
-                  className={classes.navMenuListItem}
+              <StyledNavPaper square={false} elevation={0}>
+                <StyledListItem
                   selected={navBar.activeTab === 'Examples'}
                   onClick={(event) => handleClickNavTab(event, 'Examples')}
                   to='/Examples'
                   {...a11yProps(3)}
                   component={RouterLink}>
                   Examples
-                </ListItem>
-              </Paper>
+                </StyledListItem>
+              </StyledNavPaper>
 
-              <Paper square={false} elevation={0} className={classes.navPaper} >
-                <ListItem
-                  className={classes.navMenuListItem}
+              <StyledNavPaper square={false} elevation={0}>
+                <StyledListItem
                   selected={navBar.activeTab === 'DataAndReports'}
                   onClick={(event) => handleClickNavTab(event, 'DataAndReports')}
                   to='/DataAndReports'
                   {...a11yProps(0)}
                   component={RouterLink}
                   label="Data & Reports" >Data & Reports
-                </ListItem>
-              </Paper>
+                </StyledListItem>
+              </StyledNavPaper>
 
-              <Paper square={false} elevation={0} className={classes.navPaper} >
-                <ListItem
-                  className={classes.navMenuListItem}
+              <StyledNavPaper square={false} elevation={0}>
+                <StyledListItem
                   selected={navBar.activeTab === 'About'}
                   onClick={(event) => handleClickNavTab(event, 'About')}
                   to='/About'
                   {...a11yProps(4)}
                   component={RouterLink}
                   label="About" >About
-                </ListItem>
-              </Paper>
+                </StyledListItem>
+              </StyledNavPaper>
 
-              <Paper square={false} elevation={0} className={classes.navPaper} >
-                <ListItem
-                  className={classes.navMenuListItem}
+              <StyledNavPaper square={false} elevation={0}>
+                <StyledListItem
                   selected={navBar.activeTab === 'StyleGuide'}
                   onClick={(event) => handleClickNavTab(event, 'StyleGuide')}
                   to='/StyleGuide'
                   {...a11yProps(5)}
                   component={RouterLink}
                   label="Style Guide" >Style Guide
-                </ListItem>
-              </Paper>
-
+                </StyledListItem>
+              </StyledNavPaper>
             </List>
           </Collapse>
         </Grid>
       </Grid>
     </Grid>
-    < />
+    </>
   );
 }
 

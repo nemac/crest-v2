@@ -27,30 +27,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-  CardBackground: {
-    padding: '20px',
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    color: theme.palette.CRESTGridBackground.contrastText,
-    borderColor: theme.palette.CRESTBorderColor.main
-  },
-  regionImageBox: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    width: '100%',
-    height: '150px'
-  }
-}));
+import { StyledPaper } from '../All/StyledComponents';
 
 // just a place holder needs props passed in and image etc
 export default function TabCallToActionCard(props) {
-  const classes = useStyles();
   const {
     tabLabel,
     tabLocation,
@@ -64,14 +47,16 @@ export default function TabCallToActionCard(props) {
 
   return (
     <Box>
-      <Paper variant="outlined" square={false} className={classes.CardBackground} >
+      <StyledPaper variant="outlined" square={false} >
         <Typography variant="h6" component="div" align="center" gutterBottom style={{ minHeight: '64px' }}>
           {tabLabel}
         </Typography>
         <Divider />
         <Grid container justifyContent="center" alignItems="center" pt={1.5}>
-          <Grid item xs={12}>
-            <Box className={classes.regionImageBox} >
+          <Grid xs={12}>
+            <Box sx={{
+              justifyContent: 'center', alignItems: 'center', display: 'flex', width: '100%', height: '150px'
+            }}>
               <Typography variant="body" component="div" gutterBottom>
                 {tabText}
               </Typography>
@@ -79,7 +64,7 @@ export default function TabCallToActionCard(props) {
           </Grid>
         </Grid>
         <Grid container justifyContent="center" alignItems="center" pt={1.5}>
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Button
               variant="contained"
               color="CRESTCta"
@@ -90,7 +75,7 @@ export default function TabCallToActionCard(props) {
               style={{ minHeight: '64px' }}>{tabLabel}</Button>
           </Grid>
         </Grid>
-      </Paper>
+      </StyledPaper>
     </Box>
   );
 }

@@ -11,6 +11,7 @@ export const usVirginIslandsConfig = {
     zoom: 10
   },
   attribution: 'NFWF 2020',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/USVI_hubs_staging_073020/FeatureServer/0',
   chartInputs: [
     {
       chartInputName: 'summary',

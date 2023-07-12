@@ -27,7 +27,7 @@ Props
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import {
   CameraAlt,
   LayersOutlined,
@@ -35,26 +35,14 @@ import {
   // LibraryAddOutlined,
   LibraryAdd
 } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
+import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from './ActionButton';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
 
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 
-const useStyles = makeStyles((theme) => ({
-  contentGrid: {
-    height: theme.spacing(8),
-    padding: theme.spacing(0),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px'
-  }
-}));
-
 // just a place holder needs props passed in and image etc
 export default function ActionButtons() {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const layerListVisible = useSelector(listVisibleSelector);
 
@@ -71,9 +59,15 @@ export default function ActionButtons() {
   };
 
   return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" className={classes.contentGrid}>
+    <StyledGrid
+      container
+      spacing={0}
+      justifyContent="center"
+      alignItems="center"
+      sx={{ height: (theme) => theme.spacing(8) }}
+    >
 
-      <Grid item xs={4}>
+      <Grid xs={4}>
         <ActionButton
           buttonLabel={'Add Area'}
           buttonName={'Add Area'}
@@ -81,7 +75,7 @@ export default function ActionButtons() {
           <LibraryAdd />
         </ActionButton>
       </Grid>
-      <Grid item xs={4}>
+      <Grid xs={4}>
         <ActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
@@ -89,7 +83,7 @@ export default function ActionButtons() {
           <CameraAlt />
         </ActionButton>
       </Grid>
-      <Grid item xs={4}>
+      <Grid xs={4}>
         <ActionButton
           buttonLabel={'Map Layers'}
           buttonName={'Map Layers'}
@@ -98,6 +92,6 @@ export default function ActionButtons() {
         </ActionButton>
       </Grid>
 
-    </Grid>
+    </StyledGrid>
   );
 }
