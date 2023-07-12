@@ -1,66 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
-import { logRoles } from '@testing-library/react';
-import { ConstructionOutlined } from '@mui/icons-material';
+import Grid from '@mui/material/Unstable_Grid2';
 
-const useStyles = makeStyles((theme) => ({
-  legendHolder: {
-    transition: 'all 0.75s ease',
-    willChange: 'transform',
-    padding: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  low: {
-    fontSize: '1rem',
-    display: 'flex',
-    justifyContent: 'start'
-  },
-  high: {
-    fontSize: '1rem',
-    display: 'flex',
-    justifyContent: 'end'
-  },
-  legend: {
-    height: '48px'
-  },
-  legendBoxLight: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 12,
-    color: '#ffffff'
-  },
-  legendBoxDark: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 12,
-    color: '#000000'
-  },
-  legendIsNotRreal: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontWeight: 600
-  }
-}));
+const legendLightColor = '#ffffff';
+const legendDarkColor = '#000000';
 
 export default function LayerLegend(props) {
   const { layer } = props;
-  const classes = useStyles();
   const colorChart = Object.values(layer.chartCSSColor).slice(1);
   const colorEntries1 = Object.entries(layer.chartCSSColor).slice(1).map(
     ([key, value]) => [value, key]
   );
   const colorChartEntries = Object.fromEntries(colorEntries1);
-  const colorEntries2 = Object.values(layer.chartCSSColor).slice(1).map( (color) =>
-    {return [color, colorChartEntries[color]];}
-  ) 
+  const colorEntries2 = Object.values(layer.chartCSSColor).slice(1).map(
+    (color) => [color, colorChartEntries[color]]
+  );
   let colorChartValues = Object();
   colorChartValues = Object.fromEntries(colorEntries2);
   const colors = Array.from(new Set(Object.values(colorChart)));
@@ -80,31 +35,53 @@ export default function LayerLegend(props) {
       return ((col + 0.055) / 1.055) ** 2.4;
     });
     const L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
-    return (L > lightDarkThresh) ? classes.legendBoxDark : classes.legendBoxLight;
+    return (L > lightDarkThresh) ? legendDarkColor : legendLightColor;
   }
 
   return (
     <Box m={1.5}>
       <Grid container spacing={0}>
-        <Grid item xs={2} className={classes.low}>
+        <Grid xs={2} sx={{ fontSize: '1rem', display: 'flex', justifyContent: 'start' }}>
           Low
         </Grid>
-        <Grid item xs={8} className={classes.legendIsNotRreal}>
+        <Grid xs={8}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontWeight: 600
+          }}
+        >
 
         </Grid>
-        <Grid item xs={2} className={classes.high}>
+        <Grid xs={2} sx={{ fontSize: '1rem', display: 'flex', justifyContent: 'end' }}>
           High
         </Grid>
-        <Grid item xs={12} className={classes.legendHolder}>
-
-          {/* this is where the code generated legend goes this
-            is just a example of what will be here */}
-
-          <Grid container spacing={0} m={0} p={0} className={classes.legend}>
-            {colors.map((color) => <Grid item xs={maxLegendWidth / colors.length}
-              key={layer.id.concat('-', color)} sx={{ backgroundColor: color }}
-              className={pickCSSBasedOnBgColor(color)}>{colorChartValues[color]}</Grid>)}
-          </Grid>
+        <Grid container xs={12}
+          sx={{
+            transition: 'all 0.75s ease',
+            willChange: 'transform',
+            padding: (theme) => theme.spacing(1),
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+            {colors.map((color) => <Grid
+                xs={maxLegendWidth / colors.length}
+                key={layer.id.concat('-', color)}
+                sx={{
+                  backgroundColor: color,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: 12,
+                  color: pickCSSBasedOnBgColor(color),
+                  height: '48px'
+                }}
+              >
+                {colorChartValues[color]}
+              </Grid>)}
         </Grid>
       </Grid>
     </Box>

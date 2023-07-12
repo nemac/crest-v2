@@ -46,7 +46,7 @@ import {
 
 import { useSelector } from 'react-redux';
 
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { mapConfig } from '../../configuration/config';
@@ -57,37 +57,35 @@ const regions = mapConfig.regions;
 
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
-const useStyles = makeStyles((theme) => ({
-  contentBox: {
-    display: 'flex',
-    width: '100%',
-    height: '350px',
-    maxHeight: '350px',
-    padding: theme.spacing(0),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  ToolTipBox: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    borderRadius: '4px',
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.CRESTLight.main,
-    borderColor: theme.palette.CRESTLightBorderColor.main,
-    color: theme.palette.CRESTLight.contrastText,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+const ContentBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  height: '350px',
+  maxHeight: '350px',
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  justifyContent: 'center',
+  alignItems: 'center'
+}));
+
+const ToolTipBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  borderRadius: '4px',
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.CRESTLight.main,
+  borderColor: theme.palette.CRESTLightBorderColor.main,
+  color: theme.palette.CRESTLight.contrastText,
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  justifyContent: 'center',
+  alignItems: 'center'
 }));
 
 export default function ChartSummary(props) {
-  const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
   const {
     areaName,
@@ -121,14 +119,14 @@ export default function ChartSummary(props) {
     // eslint-disable-next-line max-len
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
-        <Box className={classes.ToolTipBox} >
+        <ToolTipBox >
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
             <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="body2" component="div">{label}</Typography>
           </Box>
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
             <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
           </Box>
-        </Box>
+        </ToolTipBox>
       );
     }
     return null;
@@ -163,17 +161,18 @@ export default function ChartSummary(props) {
     // This is the logic to build the chart for Summary charts
     // Currently this is going to pull all data across all regions... need to simplify
     // An error occurs when trying to cross-reference the wrong data/region combo
-    Object.entries(data).forEach(([key, value]) => {
-      if (chartIndices.includes(key)) {
-        const layerData = getData(key, value);
-        const barColor = layerData[0];
-        const chartValue = layerData[1];
-        const tickLabel = layerData[2];
-        tempData.push({
-          name: key, value, chartValue, tickLabel
-        });
-        tempColors.push(barColor);
-      }
+    chartIndices.forEach((element) => {
+      if (data[element] === undefined) { return; }
+      const value = data[element];
+      const layerData = getData(element, value);
+      const barColor = layerData[0];
+      const chartValue = layerData[1];
+      const tickLabel = layerData[2];
+
+      tempData.push({
+        name: element, value, chartValue, tickLabel
+      });
+      tempColors.push(barColor);
     });
     if (tempData.length === 0) {
       dataToPlot.current = false;
@@ -238,7 +237,7 @@ export default function ChartSummary(props) {
 
   if (dataToPlot.current) {
     return (
-      <Box className={classes.contentBox}
+      <ContentBox
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         components='fieldset'
@@ -279,7 +278,7 @@ export default function ChartSummary(props) {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-      </Box>
+      </ContentBox>
     );
   }
   return <h3>{chartLabel} - No Data</h3>;

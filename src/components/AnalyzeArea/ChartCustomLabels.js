@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import Typography from '@mui/material/Typography';
 
 const HtmlTooltip = styled(({ className, ...props }) => (

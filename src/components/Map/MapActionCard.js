@@ -24,8 +24,7 @@ Props
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
+import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
@@ -40,31 +39,10 @@ import DrawArea from './DrawArea';
 import SearchCustom from './SearchCustom';
 import Upload from './Upload';
 import UpperRightIconButton from '../All/UpperRightIconButton';
-
-const useStyles = makeStyles((theme) => ({
-  contentGrid: {
-    height: '250px',
-    padding: theme.spacing(0),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px'
-  },
-  titleBox: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center'
-  },
-  titleBoxTypography: {
-    cursor: 'default',
-    width: '100%',
-    alignItems: 'center'
-  }
-}));
+import { StyledGrid } from '../All/StyledComponents';
 
 // just a place holder needs props passed in and image etc
 export default function MapActionCard(props) {
-  const classes = useStyles();
   const {
     map,
     bufferCheckbox,
@@ -74,12 +52,12 @@ export default function MapActionCard(props) {
   } = props;
 
   return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" className={classes.contentGrid}>
+    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: '250px' }}>
 
-      <Grid item xs={12}>
-        <Box px={1} py={0.75} className={classes.titleBox}>
+      <Grid xs={12}>
+        <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
           <LibraryAdd />
-          <Typography px={1} className={classes.titleBoxTypography}>
+          <Typography px={1} sx={{ cursor: 'default', width: '100%', alignItems: 'center' }}>
             Add an area to analyze
           </Typography>
           <UpperRightIconButton ariaLabel="Help">
@@ -91,20 +69,20 @@ export default function MapActionCard(props) {
         </Box>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid xs={12}>
         <DrawArea map={map} disabled={drawAreaDisabled}/>
       </Grid>
-      <Grid item xs={12}>
+      <Grid xs={12}>
         <Upload setTooLargeLayerOpen={setTooLargeLayerOpen}/>
       </Grid>
-      <Grid item xs={12}>
+      <Grid xs={12}>
         <SearchCustom />
       </Grid>
-      <Grid item xs={12}>
+      <Grid xs={12}>
         <Buffer bufferCheckbox={bufferCheckbox} setBufferCheckbox={setBufferCheckbox}/>
       </Grid>
 
-    </Grid>
+    </StyledGrid>
   );
 }
 

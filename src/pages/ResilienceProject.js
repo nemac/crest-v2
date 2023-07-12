@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import MapHolder from '../components/Map/MapHolder';
+import MapHolderResilience from '../components/Map/MapHolderResilience';
 import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 // import DiaglogPopup from '../components/All/DiaglogPopup';
 
@@ -54,6 +54,6 @@ export default function ResilienceProject() {
     );
   }
   return (
-    <MapHolder/>
+    <MapHolderResilience/>
   );
 }

@@ -65,6 +65,18 @@ export const mapConfig = {
     'Puerto Rico': puertoRicoConfig,
     'US Virgin Islands': usVirginIslandsConfig
   },
+  resiliencePieChartLegend: [
+    '#ffc500',
+    '#f9b500',
+    '#f3a400',
+    '#ed9400',
+    '#e78300',
+    '#e07000',
+    '#d95e00',
+    '#d14c00',
+    '#ca3600',
+    '#c21500'
+  ],
   examplePolygonFeature: {
     type: 'Feature',
     geometry: {

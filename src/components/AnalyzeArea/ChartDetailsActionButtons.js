@@ -20,8 +20,8 @@ Props
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@mui/styles';
-import Grid from '@mui/material/Grid';
+import { styled } from '@mui/system';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import { CameraAlt } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -29,21 +29,16 @@ import { useSelector } from 'react-redux';
 import ChartActionButton from './ChartActionButton';
 import { mapConfig } from '../../configuration/config';
 
-const useStyles = makeStyles((theme) => ({
-  contentBox: {
-    display: 'flex',
-    height: theme.spacing(8),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    borderTop: '0px !important',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  titleText: {
-    display: 'flex'
-  }
+const StyledGridContent = styled(Grid)(({ theme }) => ({
+  display: 'flex',
+  height: theme.spacing(8),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  borderTop: '0px !important',
+  justifyContent: 'center',
+  alignItems: 'center'
 }));
 
 const regions = mapConfig.regions;
@@ -53,7 +48,6 @@ export default function ChartDetailsActionButtons(props) {
   const {
     areaIndex, data, chartIndices, chartType
   } = props;
-  const classes = useStyles();
   const selectedRegion = useSelector(selectedRegionSelector);
 
   const getLabel = (name) => {
@@ -113,10 +107,10 @@ export default function ChartDetailsActionButtons(props) {
   // };
 
   return (
-    <Grid container spacing={0} p={0} mt={0} mb={0} className={classes.contentBox}>
-      <Grid item xs={4.5}>
+    <StyledGridContent container spacing={0} p={0} mt={0} mb={0}>
+      <Grid xs={4.5}>
       </Grid>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <ChartActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
@@ -124,9 +118,9 @@ export default function ChartDetailsActionButtons(props) {
           <CameraAlt />
         </ChartActionButton>
       </Grid>
-      <Grid item xs={4.5}>
+      <Grid xs={4.5}>
       </Grid>
-    </Grid>
+    </StyledGridContent>
   );
 }
 

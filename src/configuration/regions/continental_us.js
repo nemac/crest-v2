@@ -11,6 +11,7 @@ export const continentalUSConfig = {
     zoom: 4
   },
   attribution: 'NFWF 2020',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/CONUS_hubs_staging_073020/FeatureServer/0',
   chartInputs: [
     {
       chartInputName: 'summary',

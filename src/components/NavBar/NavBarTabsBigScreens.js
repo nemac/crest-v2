@@ -24,57 +24,59 @@ import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import LinkTab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 
+import { styled } from '@mui/system';
 import a11yProps from '../../utility/a11yProps';
-
-// style for logo image
-const useStyles = makeStyles((theme) => ({
-  NFWFLogoImageStyle: {
-    marginLeft: theme.spacing(1),
-    height: 'auto',
-    width: '100%',
-    maxWidth: '65px',
-    minWidth: '45px'
-  },
-  TitleHolder: {
-    marginLeft: theme.spacing(0.5),
-    [theme.breakpoints.between('md', 'lg')]: {
-      marginLeft: theme.spacing(2)
-    }
-  }
-}));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const NavBarSelector = (state) => state.navBar;
 
+export const StyledImg = styled('img')(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  height: 'auto',
+  width: '100%',
+  maxWidth: '65px',
+  minWidth: '45px'
+}));
+
 export default function NavBarTabsBigScreens(props) {
   const { handleClickNavTab, logo } = props;
-  const classes = useStyles();
 
   const navBar = useSelector(NavBarSelector);
 
   return (
-    < >
-    <Grid item xs={0} sm={0.75} sx={{ display: { xs: 'none', md: 'flex' } }}>
+    <>
+    <Grid xs={0} sm={0.75} sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Box p={1} justifyContent='center' alignItems='center'>
         <RouterLink to="/">
-          <img src={logo} className={classes.NFWFLogoImageStyle} />
+          <StyledImg src={logo} />
         </RouterLink>
       </Box>
     </Grid>
-    <Grid item xs={12} sm={11.25}>
+    <Grid xs={12} sm={11.25}>
       <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} py={0.75}>
-        <Grid item xs={12}>
-          <Typography variant='h5' component='div' px={1} gutterBottom className={classes.TitleHolder}>
+        <Grid xs={12}>
+          <Typography
+            variant='h5'
+            component='div'
+            px={1} gutterBottom
+            sx={{
+              '&': (theme) => ({
+                marginLeft: theme.spacing(0.5),
+                [theme.breakpoints.between('md', 'xl')]: {
+                  marginLeft: theme.spacing(2)
+                }
+              })
+            }}
+          >
             Coastal Resilience Evaluation and Siting Tool (CREST)
           </Typography>
         </Grid>
-        <Grid item xs={10}>
+        <Grid xs={10}>
           <Tabs
             orientation="horizontal"
             variant="scrollable"
@@ -98,7 +100,7 @@ export default function NavBarTabsBigScreens(props) {
         </Grid>
       </Grid>
     </Grid>
-    < />
+    </>
   );
 }
 
