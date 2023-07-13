@@ -15,6 +15,7 @@
     "test": "jest --env=jsdom",
     "test:watch": "jest --env=jsdom --watch",
     "deployS3": "aws s3 sync dist/ s3://crest-v2",
+    "Mui5": "aws s3 sync dist/ s3://crest-v2-mui5",
     "lint-test": "eslint ./src"
   },
   "devDependencies": {
