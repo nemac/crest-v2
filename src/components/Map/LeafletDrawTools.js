@@ -51,6 +51,15 @@ const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
 const searchPlacesFileSelector = (state) => state.mapProperties.searchPlacesFileGeoJSON;
 
+const drawOptions = {
+  polyline: false,
+  polygon: true,
+  rectangle: false,
+  circle: false,
+  marker: false,
+  circlemarker: false
+};
+
 const useStyles = makeStyles((theme) => ({
   // Feels a bit hacky that I had to tack !important on to everything to get the override
   leafletTooltips: {
@@ -314,18 +323,8 @@ export default function LeafletDrawTools(props) {
         position='topleft'
         onCreated={onCreated}
         onDeleted={onDeleted}
-        draw={{
-          polyline: false,
-          polygon: true,
-          rectangle: false,
-          circle: false,
-          marker: false,
-          circlemarker: false
-        }}
-        edit={{
-          edit: false,
-          remove: true
-        }}
+        draw={drawOptions}
+        edit={{ edit: false, remove: false }}
       />
     );
   }

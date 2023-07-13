@@ -1,5 +1,5 @@
 import React from 'react';
-import { FeatureGroup } from 'react-leaflet';
+import { FeatureGroup, GeoJSON, Tooltip } from 'react-leaflet';
 import PropTypes from 'prop-types';
 import LeafletDrawTools from './LeafletDrawTools';
 
