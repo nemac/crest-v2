@@ -33,6 +33,7 @@ import PropTypes from 'prop-types';
 import FileSaver from 'file-saver';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
+import html2canvas from 'html2canvas';
 
 import ChartDetailsActionButtons from './ChartDetailsActionButtons';
 import ChartSummary from './ChartSummary';
@@ -60,13 +61,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartDetails(props) {
   const classes = useStyles();
-  const getPng = useRef({
-    'Summary Chart': null,
-    'Fish and Wildlife Inputs': null,
-    'Threats Inputs': null,
-    'Community Assets Inputs': null,
-    Landcover: null
-  });
 
   const {
     areaName,
@@ -77,15 +71,19 @@ export default function ChartDetails(props) {
   } = props;
 
   const handleDownload = useCallback(async (chartType) => {
-    const png = await getPng.current[chartType]();
-
-    // Verify that png is not undefined
-    if (png) {
-      // Download with FileSaver
+    const elId = `${chartType}-chartbox`;
+    await html2canvas(document.getElementById(elId), {
+      logging: false,
+    }).then((canvas) => {
+      const capturedImageContainer = document.getElementById('capturedImage');
+      console.log(canvas);
+      console.log(capturedImageContainer);
+      document.body.appendChild(canvas);
+      const png = canvas.toDataURL('image/png', 1.0);
       const fileName = `${chartType}.png`;
       FileSaver.saveAs(png, fileName);
-    }
-  }, [getPng]);
+    });
+  }, []);
 
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
@@ -110,7 +108,6 @@ export default function ChartDetails(props) {
           chartType={'Summary Chart'}
           chartIndices={chartValues.current['Summary Chart']}
           map={map}
-          pngFunc={getPng}
         />
       </Box>
       <ChartDetailsActionButtons
@@ -127,7 +124,6 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Fish and Wildlife Inputs']}
           chartType={'Fish and Wildlife Inputs'}
           map={map}
-          pngFunc={getPng}
 
         />
       </Box>
@@ -145,7 +141,6 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Threats Inputs']}
           chartType={'Threats Inputs'}
           map={map}
-          pngFunc={getPng}
 
         />
       </Box>
@@ -163,8 +158,6 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Community Assets Inputs']}
           chartType={'Community Assets Inputs'}
           map={map}
-          pngFunc={getPng}
-
         />
       </Box>
       <ChartDetailsActionButtons
@@ -178,7 +171,7 @@ export default function ChartDetails(props) {
       <ChartDetailsActionButtons
         chartType={'Landcover'}
         handleDownload={handleDownload}
-        />
+      />
     </div>
   );
 }

@@ -45,7 +45,6 @@ import {
 } from 'recharts';
 
 import { useSelector } from 'react-redux';
-import { useCurrentPng } from "recharts-to-png";
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -95,14 +94,11 @@ export default function ChartSummary(props) {
     chartRegion,
     chartIndices,
     chartType,
-    map,
-    pngFunc
+    map
     // ref
   } = props;
   // Attach ref to a Recharts component, and the png will be returned
   // Also accepts an optional argument for Html2Canvas options: useRechartToPng(options)
-  const [getPng, { ref, isLoading }] = useCurrentPng();
-  pngFunc.current[chartType] = getPng;
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
@@ -250,7 +246,6 @@ export default function ChartSummary(props) {
       }}>
       <BarChart
         data={chartData}
-        ref={ref}
         sx={{
           width: '100%',
           height: '100%'
@@ -286,8 +281,9 @@ export default function ChartSummary(props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       components='fieldset'
+      id={`${chartType}-chartbox`}
     >
-      {thisChart}
+        {thisChart}
     </Box>
   );
 }
@@ -298,6 +294,5 @@ ChartSummary.propTypes = {
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,
-  map: PropTypes.object,
-  pngFunc: PropTypes.any
+  map: PropTypes.object
 };
