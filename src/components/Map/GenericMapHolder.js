@@ -27,17 +27,16 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function GenericMapHolder(props) {
-  const { children, mapCard } = props;
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
 
   const getChildByDisplayName = (displayName) => {
-    const child = React.Children.map(props.children, ((child) => {
+    const foundChild = React.Children.map(props.children, ((child) => {
       // you can access displayName property by child.type.displayName
       if (child.type.displayName === displayName) return child;
       return null;
     }));
-    return child;
+    return foundChild;
   };
 
   return (
@@ -85,6 +84,5 @@ export default function GenericMapHolder(props) {
 }
 
 GenericMapHolder.propTypes = {
-  children: PropTypes.node,
-  mapCard: PropTypes.node
+  children: PropTypes.node
 };
