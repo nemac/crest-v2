@@ -122,11 +122,19 @@ export default function ChartSummary(props) {
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
         <Box className={classes.ToolTipBox} >
-          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
-            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="body2" component="div">{label}</Typography>
+          <Box sx={{
+            display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+          }} >
+            <Typography sx={{
+              display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+            }} variant="body2" component="div">{label}</Typography>
           </Box>
-          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
-            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
+          <Box sx={{
+            display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+          }} >
+            <Typography sx={{
+              display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+            }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
           </Box>
         </Box>
       );
