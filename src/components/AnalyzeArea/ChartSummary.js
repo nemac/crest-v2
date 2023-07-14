@@ -283,16 +283,15 @@ export default function ChartSummary(props) {
       </BarChart>
     </ResponsiveContainer>
   );
-  
   return (
-    <Box className={classes.contentBox}
+    <ContentBox
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       components='fieldset'
       id={`${chartType}-chartbox`}
     >
-        {thisChart}
-    </Box>
+      {thisChart}
+    </ContentBox>
   );
 }
 
