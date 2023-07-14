@@ -71,7 +71,7 @@ export default function ChartDetails(props) {
   } = props;
 
   const handleDownload = useCallback(async (chartType) => {
-    const elId = `${chartType}-chartbox`;
+    const elId = `${chartType}-container`;
     await html2canvas(document.getElementById(elId), {
       logging: false,
       backgroundColor: null,

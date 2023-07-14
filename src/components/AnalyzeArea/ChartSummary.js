@@ -239,12 +239,14 @@ export default function ChartSummary(props) {
   };
   const thisChart = (
     <ResponsiveContainer
+    id ={`${chartType}-container`}
       sx={{
         padding: '20px',
         width: '100%',
         height: '100%'
       }}>
       <BarChart
+        id={`${chartType}-barchart`}
         data={chartData}
         sx={{
           width: '100%',
