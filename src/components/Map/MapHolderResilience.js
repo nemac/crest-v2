@@ -4,6 +4,7 @@ import * as esri from 'esri-leaflet';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
+import { styled } from '@mui/system';
 import { Typography } from '@mui/material';
 
 import { useMapEvents, GeoJSON, Tooltip } from 'react-leaflet';
@@ -17,6 +18,36 @@ import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSl
 import { changeZoom, changeCenter } from '../../reducers/mapPropertiesSlice';
 import { mapConfig } from '../../configuration/config';
 // import { FeatureLayer } from 'react-esri-leaflet';
+
+const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(0.2),
+  height: '100%'
+}));
+
+const ContentHolderGrid = styled(Grid)(({ theme }) => ({
+  height: 'calc(100% - 123px)',
+  [theme.breakpoints.down('lg')]: {
+    height: 'calc(100% - 56px)'
+  }
+}));
+
+const ContentMapBox = styled(Box)(({ theme }) => ({
+  height: '100%',
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px'
+}));
+
+/* Adds bottom padding for small screens this is hacky need another way to handle this */
+const GutterGrid = styled(Grid)(({ theme }) => ({
+  padding: `${theme.spacing(0)} !important`,
+  height: theme.spacing(0),
+  [theme.breakpoints.down('lg')]: {
+    height: theme.spacing(1)
+  }
+}));
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
@@ -142,7 +173,7 @@ export default function MapHolderResilience() {
   };
 
   return (
-    <Grid container
+    <ContentHolderGrid container
       spacing={0}
       rowSpacing={{ xs: 1, sm: 1, md: 0 }}
       px={1}
@@ -153,7 +184,7 @@ export default function MapHolderResilience() {
     >
 
        {/* Data (graph/chart/table, action buttons) */}
-      <Grid
+      <ThreeColumnGrid
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
       >
@@ -171,10 +202,10 @@ export default function MapHolderResilience() {
         {chartData &&
           <ResiliencePieChart chartData={chartData} />
         }
-      </Grid>
+      </ThreeColumnGrid>
 
       {/* Map */}
-      <Grid
+      <ThreeColumnGrid
         xs={12}
         sm={12}
         md={4.5}
@@ -182,7 +213,7 @@ export default function MapHolderResilience() {
         xl={layerListVisible ? 6.25 : 9}
         order={{ xs: 1, sm: 1, md: 2 }}
       >
-        <Box >
+        <ContentMapBox >
           <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
             {clickedFeature &&
               <GeoJSON key={clickedFeature.id} data={clickedFeature}>
@@ -196,21 +227,21 @@ export default function MapHolderResilience() {
             <MapEventsComponent/>
           </LeafletMapContainer>
           <ActionButtons/>
-        </Box>
-      </Grid>
+        </ContentMapBox>
+      </ThreeColumnGrid>
 
      {/* Layer List */}
-      <Grid
+      <ThreeColumnGrid
         xs={12} sm={12} md={3.5} lg={3} xl={2.75}
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
       >
         <MapLayerList/>
-      </Grid>
+      </ThreeColumnGrid>
 
       {/* Adds bottom padding for small screens this is hacky need another way to handle this */}
-       <Grid xs={12} order={4}/>
+       <GutterGrid xs={12} order={4}/>
 
-    </Grid>
+    </ContentHolderGrid>
   );
 }
