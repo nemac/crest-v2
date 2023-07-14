@@ -28,11 +28,12 @@ Props
   - if details add export button
   - Not sure yet
 */
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-
+import FileSaver from 'file-saver';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
+import html2canvas from 'html2canvas';
 
 import ChartDetailsActionButtons from './ChartDetailsActionButtons';
 import ChartSummary from './ChartSummary';
@@ -60,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartDetails(props) {
   const classes = useStyles();
+
   const {
     areaName,
     areaIndex,
@@ -67,6 +69,21 @@ export default function ChartDetails(props) {
     zonalStatsData,
     map
   } = props;
+
+  const handleDownload = useCallback(async (chartType) => {
+    const elId = `${chartType}-container`;
+    await html2canvas(document.getElementById(elId), {
+      logging: false,
+      backgroundColor: null,
+      useCORS: true, // Enable CORS to avoid cross-origin issues
+      allowTaint: true, // Allow images from other domains
+      useUnsafeCSS: true // Allow unsafe CSS (if needed)
+    }).then((canvas) => {
+      const png = canvas.toDataURL('image/png', 1.0);
+      const fileName = `${chartType}.png`;
+      FileSaver.saveAs(png, fileName);
+    });
+  }, []);
 
   const chartValues = useRef({
     'Summary Chart': ['hubs', 'exposure', 'threat', 'asset', 'wildlife'],
@@ -94,15 +111,12 @@ export default function ChartDetails(props) {
         />
       </Box>
       <ChartDetailsActionButtons
-      areaIndex={areaIndex}
-      data={zonalStatsData}
-      chartIndices={chartValues.current['Summary Chart']}
-      chartType={'Summary Chart'}
-
-       />
+        chartType={'Summary Chart'}
+        handleDownload={handleDownload}
+      />
 
       <Box className={classes.contentBox} >
-      <ChartSummary
+        <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
           chartRegion={region}
@@ -110,17 +124,16 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Fish and Wildlife Inputs']}
           chartType={'Fish and Wildlife Inputs'}
           map={map}
+
         />
       </Box>
       <ChartDetailsActionButtons
-      areaIndex={areaIndex}
-      data={zonalStatsData}
-      chartIndices={chartValues.current['Fish and Wildlife Inputs']}
-      chartType={'Fish and Wildlife Inputs'}
+        chartType={'Fish and Wildlife Inputs'}
+        handleDownload={handleDownload}
       />
 
       <Box className={classes.contentBox} >
-      <ChartSummary
+        <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
           chartRegion={region}
@@ -128,16 +141,16 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Threats Inputs']}
           chartType={'Threats Inputs'}
           map={map}
+
         />
       </Box>
       <ChartDetailsActionButtons
-      areaIndex={areaIndex}
-      data={zonalStatsData}
-      chartIndices={chartValues.current['Threats Inputs']}
-      chartType={'Threats Inputs'}/>
+        chartType={'Threats Inputs'}
+        handleDownload={handleDownload}
+      />
 
       <Box className={classes.contentBox} >
-      <ChartSummary
+        <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
           chartRegion={region}
@@ -148,20 +161,17 @@ export default function ChartDetails(props) {
         />
       </Box>
       <ChartDetailsActionButtons
-      areaIndex={areaIndex}
-      data={zonalStatsData}
-      chartIndices={chartValues.current['Community Assets Inputs']}
-      chartType={'Community Assets Inputs'}
+        chartType={'Community Assets Inputs'}
+        handleDownload={handleDownload}
       />
 
       <Box className={classes.contentBox} >
         Landcover Chart {areaName}
       </Box>
       <ChartDetailsActionButtons
-      areaIndex={areaIndex}
-      data={zonalStatsData}
-      chartIndices={chartValues.current.Landcover}
-      chartType={'Landcover'}/>
+        chartType={'Landcover'}
+        handleDownload={handleDownload}
+      />
     </div>
   );
 }
