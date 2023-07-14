@@ -154,7 +154,7 @@ export default function NavBarTabsSmallScreens(props) {
                   onClick={(event) => handleClickNavTab(event, 'ResilienceProject')}
                   to='/ResilienceProject'
                   {...a11yProps(1)}
-                  component={RouterLink}>Where Should I do a Resilience Project?
+                  component={RouterLink}>Explore Resilience Hubs
                 </StyledListItem>
               </StyledNavPaper>
 
