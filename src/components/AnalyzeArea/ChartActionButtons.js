@@ -44,7 +44,7 @@ import {
   removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers,
   changeCenter, changeZoom
 } from '../../reducers/mapPropertiesSlice';
-import ChartActionButton from './ChartActionButton';
+import ActionButton from '../All/ActionButton';
 import { StyledGrid } from '../All/StyledComponents';
 import { mapConfig } from '../../configuration/config';
 
@@ -168,36 +168,36 @@ export default function ChartActionButtons(props) {
       sx={{ height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
     >
       <Grid xs={3} >
-        <ChartActionButton
+        <ActionButton
           buttonLabel={analyzeAreaState.isMore[areaName] ? 'Less' : 'More'}
           buttonName={analyzeAreaState.isMore[areaName] ? 'Less' : 'More'}
           onClick={handleMoreOnClick}>
           <MoreHorizOutlined />
-        </ChartActionButton>
+        </ActionButton>
       </Grid>
       <Grid xs={3}>
-        <ChartActionButton
+        <ActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
           onClick={handleExportClick}>
           <CameraAlt />
-        </ChartActionButton>
+        </ActionButton>
       </Grid>
       <Grid xs={3}>
-        <ChartActionButton
+        <ActionButton
           buttonLabel={'Zoom'}
           buttonName={'Zoom'}
           onClick={handleZoomClick}>
           <CenterFocusStrong />
-        </ChartActionButton>
+        </ActionButton>
       </Grid>
       <Grid xs={3}>
-        <ChartActionButton
+        <ActionButton
           buttonLabel={'Remove'}
           buttonName={'Remove'}
           onClick={handleRemoveClick}>
           <DeleteForever />
-        </ChartActionButton>
+        </ActionButton>
       </Grid>
     </StyledGrid>
   );

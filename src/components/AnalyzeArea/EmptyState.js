@@ -44,7 +44,7 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 // just a place holder needs props passed in and image etc
 export default function EmptyState(props) {
   return (
-    <StyledBox variant="outlined" square={false}>
+    <StyledBox variant="outlined">
       <Typography variant="h6" gutterBottom>
         To get started
       </Typography>

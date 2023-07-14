@@ -26,7 +26,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { CameraAlt } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
-import ChartActionButton from './ChartActionButton';
+import ActionButton from '../All/ActionButton';
 import { mapConfig } from '../../configuration/config';
 
 const StyledGridContent = styled(Grid)(({ theme }) => ({
@@ -111,12 +111,12 @@ export default function ChartDetailsActionButtons(props) {
       <Grid xs={4.5}>
       </Grid>
       <Grid xs={3}>
-        <ChartActionButton
+        <ActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
           onClick={handleExportClick}>
           <CameraAlt />
-        </ChartActionButton>
+        </ActionButton>
       </Grid>
       <Grid xs={4.5}>
       </Grid>

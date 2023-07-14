@@ -36,7 +36,7 @@ import {
   LibraryAdd
 } from '@mui/icons-material';
 import { StyledGrid } from '../All/StyledComponents';
-import ActionButton from './ActionButton';
+import ActionButton from '../All/ActionButton';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
 
 const listVisibleSelector = (state) => state.mapLayerList.visible;
