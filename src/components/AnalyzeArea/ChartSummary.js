@@ -95,6 +95,7 @@ export default function ChartSummary(props) {
     chartType,
     map
   } = props;
+
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
@@ -120,11 +121,19 @@ export default function ChartSummary(props) {
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
         <ToolTipBox >
-          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
-            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="body2" component="div">{label}</Typography>
+          <Box sx={{
+            display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+          }} >
+            <Typography sx={{
+              display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+            }} variant="body2" component="div">{label}</Typography>
           </Box>
-          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} >
-            <Typography sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
+          <Box sx={{
+            display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+          }} >
+            <Typography sx={{
+              display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+            }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
           </Box>
         </ToolTipBox>
       );
@@ -234,54 +243,57 @@ export default function ChartSummary(props) {
       }
     });
   };
+  const thisChart = (
+    <ResponsiveContainer
+    id ={`${chartType}-container`}
+      sx={{
+        padding: '20px',
+        width: '100%',
+        height: '100%'
+      }}>
+      <BarChart
+        id={`${chartType}-barchart`}
+        data={chartData}
+        sx={{
+          width: '100%',
+          height: '100%'
+        }}
+        margin={{
+          top: 90,
+          right: 30,
+          left: 0,
+          bottom: 30
+        }}>
 
-  if (dataToPlot.current) {
-    return (
-      <ContentBox
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        components='fieldset'
-      >
-        <ResponsiveContainer
-          sx={{
-            padding: '20px',
-            width: '100%',
-            height: '100%'
-          }}>
-          <BarChart
-            data={chartData}
-            sx={{
-              width: '100%',
-              height: '100%'
-            }}
-            margin={{
-              top: 90,
-              right: 30,
-              left: 0,
-              bottom: 30
-            }}>
+        <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
+          <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
+        </text>
 
-            <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
-              <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
-            </text>
+        <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
+        <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0} />
 
-            <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
-            <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0}/>
-
-            <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey='chartValue' >
-              {
-                chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={barColors[index]} />
-                ))
-              }
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </ContentBox>
-    );
-  }
-  return <h3>{chartLabel} - No Data</h3>;
+        <Tooltip content={<CustomTooltip />} />
+        <Bar dataKey='chartValue' >
+          {
+            chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={barColors[index]} />
+            ))
+          }
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  );
+  
+  return (
+    <Box className={classes.contentBox}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      components='fieldset'
+      id={`${chartType}-chartbox`}
+    >
+        {thisChart}
+    </Box>
+  );
 }
 
 ChartSummary.propTypes = {
