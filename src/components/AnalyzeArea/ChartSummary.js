@@ -95,10 +95,8 @@ export default function ChartSummary(props) {
     chartIndices,
     chartType,
     map
-    // ref
   } = props;
-  // Attach ref to a Recharts component, and the png will be returned
-  // Also accepts an optional argument for Html2Canvas options: useRechartToPng(options)
+
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
