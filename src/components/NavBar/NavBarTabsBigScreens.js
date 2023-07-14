@@ -28,50 +28,52 @@ import Grid from '@mui/material/Grid';
 import LinkTab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 
+import { styled } from '@mui/system';
 import a11yProps from '../../utility/a11yProps';
-
-// style for logo image
-const useStyles = makeStyles((theme) => ({
-  NFWFLogoImageStyle: {
-    marginLeft: theme.spacing(1),
-    height: 'auto',
-    width: '100%',
-    maxWidth: '65px',
-    minWidth: '45px'
-  },
-  TitleHolder: {
-    marginLeft: theme.spacing(0.5),
-    [theme.breakpoints.between('md', 'lg')]: {
-      marginLeft: theme.spacing(2)
-    }
-  }
-}));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const NavBarSelector = (state) => state.navBar;
 
+export const StyledImg = styled('img')(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  height: 'auto',
+  width: '100%',
+  maxWidth: '65px',
+  minWidth: '45px'
+}));
+
 export default function NavBarTabsBigScreens(props) {
   const { handleClickNavTab, logo } = props;
-  const classes = useStyles();
 
   const navBar = useSelector(NavBarSelector);
 
   return (
-    < >
+    <>
     <Grid item xs={0} sm={0.75} sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Box p={1} justifyContent='center' alignItems='center'>
         <RouterLink to="/">
-          <img src={logo} className={classes.NFWFLogoImageStyle} />
+          <StyledImg src={logo} />
         </RouterLink>
       </Box>
     </Grid>
     <Grid item xs={12} sm={11.25}>
       <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} py={0.75}>
         <Grid item xs={12}>
-          <Typography variant='h5' component='div' px={1} gutterBottom className={classes.TitleHolder}>
-            Coastal Resilience Evaluation and Siting Tool (CREST)
+          <Typography
+            variant='h5'
+            component='div'
+            px={1} gutterBottom
+            sx={{
+              '&': (theme) => ({
+                marginLeft: theme.spacing(0.5),
+                [theme.breakpoints.between('md', 'xl')]: {
+                  marginLeft: theme.spacing(2)
+                }
+              })
+            }}
+          >
+            Coastal Resilience Evaluation and Siting Tool (CREST) MATERIAL UI 5
           </Typography>
         </Grid>
         <Grid item xs={10}>
@@ -84,7 +86,7 @@ export default function NavBarTabsBigScreens(props) {
             aria-label="CREST Nabigation Tabs"
             >
             <LinkTab value="Home" to='/' {...a11yProps(0, 'crest-tab')} component={RouterLink} label="Home" />
-            <LinkTab value="ResilienceProject" to='/ResilienceProject' {...a11yProps(1, 'crest-tab')} component={RouterLink} label="Where Should I do a Resilience Project?" />
+            <LinkTab value="ResilienceProject" to='/ResilienceProject' {...a11yProps(1, 'crest-tab')} component={RouterLink} label="Explore Resilience Hubs" />
             <LinkTab value="AnalyzeProjectSites" to='/AnalyzeProjectSites' {...a11yProps(2, 'crest-tab')} component={RouterLink}label="Analyze Project Sites" />
             <LinkTab value="Examples" to='/Examples' {...a11yProps(3, 'crest-tab')} component={RouterLink} label="Examples" />
             <LinkTab value="DataAndReports" to='/DataAndReports' {...a11yProps(0, 'crest-tab')} component={RouterLink}label="Data & Reports" />
@@ -94,11 +96,11 @@ export default function NavBarTabsBigScreens(props) {
           </Tabs>
         </Grid>
         <Grid item xs={2} px={5}>
-          <Button variant="contained" color="CRESTPrimary" onClick={() => { localStorage.clear(); } }>Clear Local Storage</Button>
+          <Button variant="contained" color="CRESTPrimary" onClick={() => { localStorage.clear(); location.reload(true); } }>Clear and Refresh</Button>
         </Grid>
       </Grid>
     </Grid>
-    < />
+    </>
   );
 }
 

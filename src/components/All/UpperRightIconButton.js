@@ -25,25 +25,16 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from '@mui/material/IconButton';
-import { makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles((theme) => ({
-  actionButton: {
-    height: theme.spacing(4.5),
-    padding: theme.spacing(0.375)
-  }
-}));
 
 export default function UpperRightIconButton(props) {
   const { children, ariaLabel } = props;
-  const classes = useStyles();
-
   return (
     <IconButton
       variant="contained"
       color="CRESTPrimary"
-      className={classes.actionButton}
-      aria-label={ariaLabel}>
+      sx= {{ height: (theme) => theme.spacing(4.5), padding: (theme) => theme.spacing(0.375) }}
+      aria-label={ariaLabel}
+      size="large">
       {children}
     </IconButton>
   );

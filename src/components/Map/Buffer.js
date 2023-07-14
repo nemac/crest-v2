@@ -24,21 +24,11 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { makeStyles } from '@mui/styles';
 import Checkbox from '@mui/material/Checkbox';
-
-const useStyles = makeStyles((theme) => ({
-  actionButton: {
-    height: theme.spacing(4.5),
-    textTransform: 'none',
-    justifyContent: 'start'
-  }
-}));
 
 // just a place holder needs props passed in and image etc
 export default function Buffer(props) {
   const { bufferCheckbox, setBufferCheckbox } = props;
-  const classes = useStyles();
 
   return (
     <Box p={0.75} >
@@ -49,7 +39,7 @@ export default function Buffer(props) {
           color="CRESTPrimary"
           aria-label={'Include a Buffer for Nearby Impacts'}
           label='Include a Buffer for Nearby Impacts'
-          className={classes.actionButton}
+          sx={{ height: (theme) => theme.spacing(4.5), textTransform: 'none', justifyContent: 'start' }}
           onChange={ () => { setBufferCheckbox(!bufferCheckbox); }}
         />
       </FormGroup>

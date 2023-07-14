@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import { InfoOutlined } from '@mui/icons-material';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
@@ -20,7 +20,7 @@ export default function Home() {
     <div>
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} py={0.75}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Box>
             <Paper
               square={false}
@@ -46,7 +46,7 @@ export default function Home() {
       </Grid>
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={4} pb={0}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Box>
             <Paper
               square={false}
@@ -65,13 +65,13 @@ export default function Home() {
       </Grid>
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Regions />
         </Grid>
       </Grid>
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Box>
             <Paper
               variant="outlined"
@@ -124,13 +124,13 @@ export default function Home() {
       </Grid>
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Divider />
         </Grid>
       </Grid>
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={4} pb={3}>
-        <Grid item xs={12}>
+        <Grid xs={12}>
           <Typography variant="h4" component="div" align="center" gutterBottom>
             Or choose a topic to start using CREST
           </Typography>

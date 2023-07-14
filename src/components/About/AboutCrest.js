@@ -20,18 +20,11 @@ Props
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import { makeStyles } from '@mui/styles';
 import Link from '@mui/material/Link';
 
-const useStyles = makeStyles((theme) => ({
-  crestList: {
-    marginTop: theme.spacing(0.5)
-  }
-}));
+import { CrestList } from '../All/StyledComponents';
 
 export default function AboutCrest(props) {
-  const classes = useStyles();
-
   return (
     <div>
       <Typography variant="h5" component="div" px={3} py={1} gutterBottom>
@@ -63,7 +56,7 @@ export default function AboutCrest(props) {
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         CREST provides an online, interactive environment to access Regional Assessment results.
         It allows users to:
-        <ol className={classes.crestList} >
+        <CrestList>
           <li>
             View and explore key Assessment inputs and results within their own areas of interest,
           </li>
@@ -77,7 +70,7 @@ export default function AboutCrest(props) {
             Provide advanced GIS users with the ability to download all of the final Regional
             Assessment datasets for use in their own GIS platform.
           </li>
-        </ol>
+        </CrestList>
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         CREST is intended to be used as a screening-level tool designed to help identify areas

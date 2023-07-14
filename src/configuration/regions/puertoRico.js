@@ -11,6 +11,7 @@ export const puertoRicoConfig = {
     zoom: 8
   },
   attribution: 'NFWF 2020',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/PR_hubs_staging_073020/FeatureServer/0',
   chartInputs: [
     {
       chartInputName: 'summary',

@@ -22,7 +22,7 @@ Props
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
@@ -31,43 +31,37 @@ import MapActionCard from './MapActionCard';
 import MapLayerList from '../MapLayerList/MapLayerList';
 import AnalyzeAreaHolder from '../AnalyzeArea/AnalyzeAreaHolder';
 
-const useStyles = makeStyles((theme) => ({
-  threeColumnHolder: {
-    padding: theme.spacing(0.2),
-    height: '100%'
-  },
-  contentHolder: {
-    height: 'calc(100% - 115px)',
-    [theme.breakpoints.down('md')]: {
-      height: 'calc(100% - 56px)'
-    }
-  },
-  contentBox: {
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px'
-  },
-  contentmapBox: {
-    height: '100%',
-    padding: theme.spacing(0),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px'
-  },
-  guttter: {
-    padding: `${theme.spacing(0)} !important`,
-    height: theme.spacing(0),
-    [theme.breakpoints.down('md')]: {
-      height: theme.spacing(1)
-    }
+const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(0.2),
+  height: '100%'
+}));
+
+const ContentHolderGrid = styled(Grid)(({ theme }) => ({
+  height: 'calc(100% - 123px)',
+  [theme.breakpoints.down('lg')]: {
+    height: 'calc(100% - 56px)'
+  }
+}));
+
+const ContentMapBox = styled(Box)(({ theme }) => ({
+  height: '100%',
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px'
+}));
+
+/* Adds bottom padding for small screens this is hacky need another way to handle this */
+const GutterGrid = styled(Grid)(({ theme }) => ({
+  padding: `${theme.spacing(0)} !important`,
+  height: theme.spacing(0),
+  [theme.breakpoints.down('lg')]: {
+    height: theme.spacing(1)
   }
 }));
 
 export default function MapHolder(props) {
-  const classes = useStyles();
   const [map, setMap] = useState(null);
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
@@ -78,21 +72,21 @@ export default function MapHolder(props) {
   const layerListVisible = useSelector(listVisibleSelector);
 
   return (
-    <Grid container
+    <ContentHolderGrid container
       spacing={0}
       rowSpacing={{ xs: 1, sm: 1, md: 0 }}
       px={1}
       pb={{ xs: 1, sm: 1, md: 0 }}
       pt={{ xs: 0.5, sm: 0.5, md: 0 }}
-      justify="space-between"
+      justifyContent="space-between"
       alignItems="stretch"
-      className={classes.contentHolder}>
+    >
 
        {/* Data (graph/chart/table, action buttons) */}
-      <Grid item
+      <ThreeColumnGrid item
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
-        className={classes.threeColumnHolder}>
+      >
         <MapActionCard
           map={map}
           bufferCheckbox={bufferCheckbox}
@@ -106,18 +100,18 @@ export default function MapHolder(props) {
           leafletFeatureGroupRef={leafletFeatureGroupRef}
           map={map}
         />
-      </Grid>
+      </ThreeColumnGrid>
 
       {/* Map */}
-      <Grid item
-            xs={12}
-            sm={12}
-            md={4.5}
-            lg={layerListVisible ? 5.25 : 8.25}
-            xl={layerListVisible ? 6.25 : 9}
-            order={{ xs: 1, sm: 1, md: 2 }}
-            className={classes.threeColumnHolder}>
-        <Box className={classes.contentmapBox} >
+      <ThreeColumnGrid item
+        xs={12}
+        sm={12}
+        md={4.5}
+        lg={layerListVisible ? 5.25 : 8.25}
+        xl={layerListVisible ? 6.25 : 9}
+        order={{ xs: 1, sm: 1, md: 2 }}
+      >
+        <ContentMapBox>
           <MapCard
             map={map}
             setMap={setMap}
@@ -127,21 +121,21 @@ export default function MapHolder(props) {
             tooLargeLayerOpen={tooLargeLayerOpen}
             setTooLargeLayerOpen={setTooLargeLayerOpen}
           />
-        </Box>
-      </Grid>
+        </ContentMapBox>
+      </ThreeColumnGrid>
 
      {/* Layer List */}
-      <Grid item
+      <ThreeColumnGrid item
         xs={12} sm={12} md={3.5} lg={3} xl={2.75}
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
-        className={classes.threeColumnHolder}>
+      >
         <MapLayerList/>
-      </Grid>
+      </ThreeColumnGrid>
 
       {/* Adds bottom padding for small screens this is hacky need another way to handle this */}
-       <Grid item xs={12} order={4} className={classes.guttter} />
+       <GutterGrid item xs={12} order={4}/>
 
-    </Grid>
+    </ContentHolderGrid>
   );
 }

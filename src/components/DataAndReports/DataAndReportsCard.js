@@ -28,29 +28,11 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { PictureAsPdf, FileDownload } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-  CardBackground: {
-    padding: '20px',
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    color: theme.palette.CRESTGridBackground.contrastText,
-    borderColor: theme.palette.CRESTBorderColor.main
-  },
-  descriptionBox: {
-    justifyContent: 'start',
-    alignItems: 'start',
-    display: 'flex',
-    width: '100%'
-  },
-  iconColor: {
-    color: theme.palette.CRESTCta.main
-  }
-}));
+import { StyledPaper } from '../All/StyledComponents';
 
 // just a place holder needs props passed in and image etc
 export default function DataAndReportsCard(props) {
@@ -64,15 +46,13 @@ export default function DataAndReportsCard(props) {
     EnglishLink
   } = props;
 
-  const classes = useStyles();
-
   return (
     <Box>
-      <Paper variant="outlined" square={false} className={classes.CardBackground} >
+      <StyledPaper variant="outlined" square={false}>
         <Typography variant="h5" component="div" gutterBottom>
           {regionName}
         </Typography>
-        <Box className={classes.descriptionBox} >
+        <Box sx={{ justifyContent: 'start', alignItems: 'start', display: 'flex', width: '100%' }} >
           <Typography variant="body1" component="div" gutterBottom>
             The download contains all data for the {regionName}.
             The file also contains a readme file describing use.
@@ -81,7 +61,7 @@ export default function DataAndReportsCard(props) {
 
         <Grid container justifyContent="start" alignItems="start" pt={3}>
           <Grid item xs={1} sm={0.5}>
-            <FileDownload className={classes.iconColor} />
+            <FileDownload sx={{ color: (theme) => theme.palette.CRESTCta.main }} />
           </Grid>
           <Grid item xs={11} sm={11.5} >
             <Link href={dataLink} >{regionName} Data Download ({dataFileSize})</Link>
@@ -107,7 +87,7 @@ export default function DataAndReportsCard(props) {
           </Grid>
         </Grid>
 
-      </Paper>
+      </StyledPaper>
     </Box>
   );
 }
