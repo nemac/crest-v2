@@ -74,11 +74,11 @@ export default function ChartDetails(props) {
     const elId = `${chartType}-chartbox`;
     await html2canvas(document.getElementById(elId), {
       logging: false,
+      backgroundColor: null,
+      useCORS: true, // Enable CORS to avoid cross-origin issues
+      allowTaint: true, // Allow images from other domains
+      useUnsafeCSS: true // Allow unsafe CSS (if needed)
     }).then((canvas) => {
-      const capturedImageContainer = document.getElementById('capturedImage');
-      console.log(canvas);
-      console.log(capturedImageContainer);
-      document.body.appendChild(canvas);
       const png = canvas.toDataURL('image/png', 1.0);
       const fileName = `${chartType}.png`;
       FileSaver.saveAs(png, fileName);
