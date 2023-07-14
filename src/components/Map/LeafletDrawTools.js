@@ -39,7 +39,6 @@ import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
   removeAllFeaturesFromDrawnLayers,
-  removeAllFeaturesFromZonalStatsAreas,
   uploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON
 } from '../../reducers/mapPropertiesSlice';
@@ -125,6 +124,7 @@ export default function LeafletDrawTools(props) {
       bufferLayerId = L.stamp(bufferLayer);
       enrichedGeoJSON.properties.bufferLayerId = bufferLayerId;
       enrichedGeoJSON.properties.buffer = bufferCheckbox;
+      enrichedGeoJSON.properties.bufferGeoJSON = bufferLayer.toGeoJSON().features[0];
     }
     const leafletIdsList = [
       leafletId,
@@ -145,40 +145,39 @@ export default function LeafletDrawTools(props) {
      2. Iterate through each drawn layer and add it and buffer layer (if exists) to map
      3. Push new information back into drawn layer state (this is due to leaflet ids updating)
      4. Update zonal stats state information with new leaflet ids */
-  useEffect(() => {
-    setTimeout(() => {
-      // make a deep copy of the features from state since I was getting read only errors otherwise
-      const features = JSON.parse(JSON.stringify(drawnLayersFromState.features));
-      let areaNameAdjustment; // we will use this to determine what area name number we are on
-      // make a deep copy of the features from state since I was getting read only errors otherwise
-      dispatch(removeAllFeaturesFromDrawnLayers());
-      dispatch(removeAllFeaturesFromZonalStatsAreas());
-      features.forEach((feature) => {
-        const featureCopy = feature;
-        const areaName = featureCopy.properties.areaName;
-        areaNameAdjustment = parseInt(areaName.split(' ')[1], 10); // should number of highest area in list
-        let layer = L.geoJSON(feature);
-        const layerId = L.stamp(layer);
-        featureCopy.properties.leafletId = layerId;
-        const leafletIdsList = [layerId];
-        leafletFeatureGroupRef.current.addLayer(layer);
-        layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
-        if (feature.properties.buffer) {
-          layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
-          layer = L.geoJSON(layer, { style: bufferStyle });
-          const bufferLayerId = L.stamp(layer);
-          featureCopy.properties.bufferLayerId = bufferLayerId;
-          leafletIdsList.push(bufferLayerId);
-          leafletFeatureGroupRef.current.addLayer(layer);
-        }
-        featureCopy.properties.leafletIds = leafletIdsList;
-        dispatch(addNewFeatureToDrawnLayers(featureCopy));
-        // bump area number up total length of features so no duplicate area names
-        setAreaNumber(areaNumber + areaNameAdjustment);
-      });
-    }, 10);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // purposefully using empty array '[]' so it only runs once on startup
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     // make a deep copy of the features from state since I was getting read only errors otherwise
+  //     const features = JSON.parse(JSON.stringify(drawnLayersFromState.features));
+  //     let areaNameAdjustment; // we will use this to determine what area name number we are on
+  //     // make a deep copy of the features from state since I was getting read only errors otherwise
+  //     dispatch(removeAllFeaturesFromDrawnLayers());
+  //     features.forEach((feature) => {
+  //       const featureCopy = feature;
+  //       const areaName = featureCopy.properties.areaName;
+  //       areaNameAdjustment = parseInt(areaName.split(' ')[1], 10); // should number of highest area in list
+  //       let layer = L.geoJSON(feature);
+  //       const layerId = L.stamp(layer);
+  //       featureCopy.properties.leafletId = layerId;
+  //       const leafletIdsList = [layerId];
+  //       leafletFeatureGroupRef.current.addLayer(layer);
+  //       layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+  //       if (feature.properties.buffer) {
+  //         layer = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });
+  //         layer = L.geoJSON(layer, { style: bufferStyle });
+  //         const bufferLayerId = L.stamp(layer);
+  //         featureCopy.properties.bufferLayerId = bufferLayerId;
+  //         leafletIdsList.push(bufferLayerId);
+  //         leafletFeatureGroupRef.current.addLayer(layer);
+  //       }
+  //       featureCopy.properties.leafletIds = leafletIdsList;
+  //       dispatch(addNewFeatureToDrawnLayers(featureCopy));
+  //       // bump area number up total length of features so no duplicate area names
+  //       setAreaNumber(areaNumber + areaNameAdjustment);
+  //     });
+  //   }, 10);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []); // purposefully using empty array '[]' so it only runs once on startup
 
   // Watches for an uploaded shapefile and adds it as a layer to leaflet Draw feature group
   useEffect(() => {
@@ -285,8 +284,9 @@ export default function LeafletDrawTools(props) {
     const leafletId = L.stamp(e.layer);
     let geojson = e.layer.toGeoJSON();
     geojson = enrichGeoJsonWithProperties(geojson, leafletId, bufferLayer, areaName);
+    geojson.properties.center = JSON.stringify(e.layer.getBounds().getCenter());
     setAreaNumber(areaNumber + 1);
-    e.layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
+    //e.layer.bindTooltip(areaName, { direction: 'center', permanent: true, className: classes.leafletTooltips });
     const layerToAnalyze = bufferLayer || e.layer;
 
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
@@ -337,3 +337,4 @@ LeafletDrawTools.propTypes = {
   setTooLargeLayerOpen: PropTypes.func,
   map: PropTypes.object
 };
+

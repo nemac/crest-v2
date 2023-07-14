@@ -32,6 +32,7 @@ import React, {
   useCallback,
   useState
 } from 'react';
+import * as L from 'leaflet';
 import PropTypes from 'prop-types';
 
 import {
@@ -95,7 +96,8 @@ export default function ChartSummary(props) {
     chartRegion,
     chartIndices,
     chartType,
-    map
+    map,
+    leafletFeatureGroupRef
   } = props;
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
@@ -206,7 +208,7 @@ export default function ChartSummary(props) {
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
         if (bufferLayerId !== undefined) {
-          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
+          leafletFeatureGroupRef.current.getLayer(32).setStyle(bufferHighlightStyle);
         } else {
           thisMap.current._layers[id].setStyle(areaHighlightStyle);
         }
@@ -292,5 +294,6 @@ ChartSummary.propTypes = {
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,
-  map: PropTypes.object
+  map: PropTypes.object,
+  leafletFeatureGroupRef: PropTypes.object
 };

@@ -42,7 +42,7 @@ import {
 
 import { changeMore } from '../../reducers/analyzeAreaSlice';
 import {
-  removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers,
+  removeFeatureFromDrawnLayers,
   changeCenter, changeZoom
 } from '../../reducers/mapPropertiesSlice';
 import ChartActionButton from './ChartActionButton';
@@ -165,7 +165,6 @@ export default function ChartActionButtons(props) {
       featureGroup.removeLayer(element);
     });
     // remove layer from drawn layers AND from zonal stats info in redux
-    dispatch(removeFeatureFromZonalStatsAreas(areaIndex));
     // drawn layer index SHOULD match up with zonal stats. If there are errors check this out
     dispatch(removeFeatureFromDrawnLayers(areaIndex));
   };

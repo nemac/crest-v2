@@ -58,6 +58,7 @@ export default function ChartCard(props) {
                 areaIndex={areaIndex}
                 region={region}
                 map={map}
+                leafletFeatureGroupRef={leafletFeatureGroupRef}
                 zonalStatsData={zonalStatsData} />
             </Grid>
 
@@ -83,6 +84,7 @@ export default function ChartCard(props) {
                 chartRegion={region}
                 chartIndices={summaryIndices}
                 chartType={'Summary Chart'}
+                leafletFeatureGroupRef={leafletFeatureGroupRef}
                 map={map}
               />
             </Grid>

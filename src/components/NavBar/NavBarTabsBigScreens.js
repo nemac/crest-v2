@@ -59,7 +59,7 @@ export default function NavBarTabsBigScreens(props) {
   const navBar = useSelector(NavBarSelector);
 
   return (
-    < >
+    <>
     <Grid item xs={0} sm={0.75} sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Box p={1} justifyContent='center' alignItems='center'>
         <RouterLink to="/">
@@ -98,7 +98,7 @@ export default function NavBarTabsBigScreens(props) {
         </Grid>
       </Grid>
     </Grid>
-    < />
+    </>
   );
 }
 

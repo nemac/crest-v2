@@ -44,7 +44,6 @@ import {
   changeSortDirection
 } from '../../reducers/analyzeAreaSlice';
 import {
-  removeAllFeaturesFromZonalStatsAreas,
   removeAllFeaturesFromDrawnLayers
 } from '../../reducers/mapPropertiesSlice';
 import ChartCard from './ChartCard';
@@ -143,7 +142,6 @@ export default function ChartsHolder(props) {
     event.stopPropagation();
     // clear all layers from leaflet draw featureGroup and from state/redux
     leafletFeatureGroupRef.current.clearLayers();
-    dispatch(removeAllFeaturesFromZonalStatsAreas());
     dispatch(removeAllFeaturesFromDrawnLayers());
     dispatch(changeEmptyState());
   };
