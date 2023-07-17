@@ -5,6 +5,8 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 
+import GenericAnalyzeAreaHolder from '../AnalyzeArea/GenericAnalyzeAreaHolder';
+
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
   [theme.breakpoints.down('lg')]: {
@@ -54,7 +56,9 @@ export default function GenericMapHolder(props) {
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
       >
-        {getChildByDisplayName('LeftColumn')}
+        <GenericAnalyzeAreaHolder>
+          {getChildByDisplayName('ChartCard')}
+        </GenericAnalyzeAreaHolder>
       </ThreeColumnGrid>
 
       {/* MIDDLE COLUMN FOR MAP */}
