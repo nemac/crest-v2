@@ -17,10 +17,10 @@ import TabCallToActions from '../components/Home/TabCallToActions';
 
 export default function Home() {
   return (
-    <div>
+    <div width={100}>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} py={0.75}>
-        <Grid xs={12}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} py={0.75} width={1}>
+        <Grid xs={12} width={1}>
           <Box>
             <Paper
               square={false}
@@ -45,7 +45,7 @@ export default function Home() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={4} pb={0}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={4} pb={0} width={1}>
         <Grid xs={12}>
           <Box>
             <Paper
@@ -64,13 +64,13 @@ export default function Home() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
-        <Grid xs={12}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75} width={1}>
+        <Grid xs={12} width={1}>
           <Regions />
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75} width={1}>
         <Grid xs={12}>
           <Box>
             <Paper
@@ -123,13 +123,13 @@ export default function Home() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75} width={1}>
         <Grid xs={12}>
           <Divider />
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={4} pb={3}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={4} pb={3} width={1}>
         <Grid xs={12}>
           <Typography variant="h4" component="div" align="center" gutterBottom>
             Or choose a topic to start using CREST
