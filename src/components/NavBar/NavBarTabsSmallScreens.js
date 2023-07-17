@@ -28,7 +28,7 @@ import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -50,7 +50,7 @@ const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
   paddingBottom: theme.spacing(1)
 }));
 
-const StyledListItem = styled(ListItem)(({ theme }) => ({
+const StyledListItem = styled(ListItemButton)(({ theme }) => ({
   color: '#FFFFFF',
   backgroundColor: '#000000',
   textTransform: 'capitalize',
@@ -122,7 +122,7 @@ export default function NavBarTabsSmallScreens(props) {
                   Navigation menu
                 </StyledTypographyTitle>
               </Grid>
-              <Grid xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
+              <Grid item xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
                 <StyledTypographyTitle variant='h6' component='div' px={1} align="left">
                   <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)', fontSize: '1.20rem' }}/>
                 </StyledTypographyTitle>
