@@ -22,20 +22,10 @@ export default function ResilienceMapCard() {
   const selectedRegion = useSelector(selectedRegionSelector);
   const resilienceHub = useSelector(selectedResilienceHub);
   const hubsURL = mapConfig.regions[selectedRegion].hubsFeatureServer;
-  const hubsHexesUrl = mapConfig.regions[selectedRegion].hubsHexServer;
-  const rankProperty = mapConfig.regions[selectedRegion].rankProperty;
 
   const featureLayerHubs = esri.featureLayer({
     url: hubsURL
   });
-
-  // there currently isn't a hub core for every region
-  let featureLayerHex;
-  if (hubsHexesUrl) {
-    featureLayerHex = esri.featureLayer({
-      url: hubsHexesUrl
-    });
-  }
 
   // Change the map cursor style to pointer
   React.useEffect(() => {

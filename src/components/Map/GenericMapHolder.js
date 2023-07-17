@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 
-import GenericAnalyzeAreaHolder from '../AnalyzeArea/GenericAnalyzeAreaHolder';
+import { StyledGrid } from '../All/StyledComponents';
+import ChartHeaderActionButtonsHolder from '../AnalyzeArea/GenericChartHeaderActionButtons';
 
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
@@ -29,17 +30,10 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function GenericMapHolder(props) {
+  const { mapActionCardHeight, mapActionCard, isItAGraph,
+    chartHeaderActionButtons, chartCard, tableData, mapCard } = props;
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
-
-  const getChildByDisplayName = (displayName) => {
-    const foundChild = React.Children.map(props.children, ((child) => {
-      // you can access displayName property by child.type.displayName
-      if (child.type.displayName === displayName) return child;
-      return null;
-    }));
-    return foundChild;
-  };
 
   return (
     <ContentHolderGrid container
@@ -56,9 +50,26 @@ export default function GenericMapHolder(props) {
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
       >
-        <GenericAnalyzeAreaHolder>
-          {getChildByDisplayName('ChartCard')}
-        </GenericAnalyzeAreaHolder>
+        {mapActionCard}
+        <Box sx={{ height: 'calc(100% - 258px)', marginTop: '8px' }}>
+          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
+            <Grid xs={12} >
+              <ChartHeaderActionButtonsHolder
+                title='Where Should I Do a Resilience Project'
+                actionButtons={chartHeaderActionButtons}
+              />
+            </Grid>
+            <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
+              <Box>
+                {isItAGraph ? (
+                  chartCard
+                ) : (
+                  tableData
+                )}
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
       </ThreeColumnGrid>
 
       {/* MIDDLE COLUMN FOR MAP */}
@@ -71,7 +82,7 @@ export default function GenericMapHolder(props) {
         order={{ xs: 1, sm: 1, md: 2 }}
       >
         <ContentMapBox>
-          {getChildByDisplayName('MapCard')}
+          {mapCard}
         </ContentMapBox>
       </ThreeColumnGrid>
 
@@ -81,12 +92,14 @@ export default function GenericMapHolder(props) {
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
       >
-        {getChildByDisplayName('LayerList')}
       </ThreeColumnGrid>
     </ContentHolderGrid>
   );
 }
 
 GenericMapHolder.propTypes = {
-  children: PropTypes.node
+  mapActionCard: PropTypes.node,
+  //ChartCard: PropTypes.node,
+  mapCard: PropTypes.node,
+  chartHeaderActionButtons: PropTypes.array
 };

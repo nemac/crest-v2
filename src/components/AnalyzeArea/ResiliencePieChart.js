@@ -23,21 +23,23 @@ const renderCustomizedLabel = ({
 };
 
 export default function ResiliencePieChart(props) {
-  const { chartData } = props;
+  const { data } = props;
+  console.log(data);
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={600} height={600}>
+    <ResponsiveContainer>
+      <PieChart>
         <Pie
-          data={chartData}
+          data={data}
           cx="50%"
           cy="50%"
           labelLine={false}
-          outerRadius={200}
+          innerRadius={'35%'}
+          outerRadius={'75%'}
           label={renderCustomizedLabel}
           fill="#8884d8"
           dataKey="value"
         >
-          {chartData.map((entry, index) => (
+          {data?.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
