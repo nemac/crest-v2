@@ -1,4 +1,4 @@
-import regionUSVirginIslandsImage from '../../assets/images/zoomregion-uvi.png';
+import regionUSVirginIslandsImage from '../../assets/images/zoomregion-uvi-v2.png';
 
 export const usVirginIslandsConfig = {
   label: 'US Virgin Islands',

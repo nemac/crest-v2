@@ -1,4 +1,4 @@
-import regionGuamImage from '../../assets/images/zoomregion-guam.png';
+import regionGuamImage from '../../assets/images/zoomregion-guam-v2.png';
 
 export const guamConfig = {
   label: 'Guam',

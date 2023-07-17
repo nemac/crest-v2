@@ -1,4 +1,4 @@
-import regionGreatLakesImage from '../../assets/images/great_lakes.png';
+import regionGreatLakesImage from '../../assets/images/zoomregion-great_lakes-v2.png';
 
 export const greatLakesConfig = {
   label: 'Great Lakes',

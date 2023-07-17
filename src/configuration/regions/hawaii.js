@@ -1,4 +1,4 @@
-import regionHawaiiImage from '../../assets/images/zoomregion-hawaii.png';
+import regionHawaiiImage from '../../assets/images/zoomregion-hawaii-v2.png';
 
 export const hawaiiConfig = {
   label: 'Hawai\'i',

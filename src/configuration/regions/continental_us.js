@@ -1,4 +1,4 @@
-import regionContinentalUSImage from '../../assets/images/zoomregion-cus.png';
+import regionContinentalUSImage from '../../assets/images/zoomregion-cus-v2.png';
 
 export const continentalUSConfig = {
   label: 'Continental U.S',
