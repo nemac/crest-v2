@@ -1,5 +1,8 @@
 import React from 'react';
-import { Legend, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import {
+  Legend, PieChart, Pie, Cell, ResponsiveContainer
+} from 'recharts';
+import { PropTypes } from 'prop-types';
 import { mapConfig } from '../../configuration/config';
 
 const COLORS = mapConfig.resiliencePieChartLegend;
@@ -24,7 +27,6 @@ const renderCustomizedLabel = ({
 
 export default function ResiliencePieChart(props) {
   const { data } = props;
-  console.log(data);
   return (
     <ResponsiveContainer>
       <PieChart>
@@ -48,3 +50,7 @@ export default function ResiliencePieChart(props) {
     </ResponsiveContainer>
   );
 }
+
+ResiliencePieChart.propTypes = {
+  data: PropTypes.array
+};

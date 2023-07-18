@@ -6,6 +6,7 @@ import * as esri from 'esri-leaflet';
 import LeafletMapContainer from './LeafletMapContainer';
 import ActiveTileLayers from './ActiveTileLayers';
 import BasemapLayer from './BasemapLayer';
+
 import { changeZoom, changeCenter, changeResilienceHub } from '../../reducers/mapPropertiesSlice';
 import { mapConfig } from '../../configuration/config';
 
@@ -33,36 +34,6 @@ export default function ResilienceMapCard() {
       map.getContainer().style.cursor = 'pointer';
     }
   }, [map]);
-
-  // Run query on hex server if it exists after feature clicked on
-  // React.useEffect(() => {
-  //   if (!featureLayerHex) { return; } // return if no hex layer to query
-  //   if (resilienceHub) {
-  //     const calculatedData = [];
-  //     let runningTotalScore = 0; // using this incremenet the hub core scores
-  //     for (let i = 0; i < 10; i++) {
-  //       calculatedData[i] = { name: 'Hub Score = ' + parseInt((i + 1), 10), value: 0 };
-  //     }
-  //     const query = featureLayerHex.query().within(resilienceHub);
-  //     query.run((error, featureCollection, response) => {
-  //       if (error) {
-  //         return;
-  //       }
-  //       if (featureCollection.features.length === 0) {
-  //         return;
-  //       }
-  //       // Count occurrences of each rank
-  //       featureCollection.features.forEach(obj => {
-  //         // Subtracting 1 because rankProperty 1 goes into 0th element etc
-  //         calculatedData[parseInt(obj.properties[rankProperty] - 1, 10)].value += 1;
-  //         runningTotalScore += parseInt(obj.properties[rankProperty], 10);
-  //       });
-  //       const round = Math.round((runningTotalScore / featureCollection.features.length) * 10) / 10;
-  //       setAverageHubScore(round);
-  //       setChartData(calculatedData);
-  //     });
-  //   }
-  // }, [resilienceHub]);
 
   // This component exists solely for the useMapEvents hook
   const MapEventsComponent = () => {

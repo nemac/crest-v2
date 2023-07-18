@@ -5,8 +5,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 
-import { StyledGrid } from '../All/StyledComponents';
-import ChartHeaderActionButtonsHolder from '../AnalyzeArea/GenericChartHeaderActionButtons';
+import GenericLeftColumn from '../AnalyzeArea/GenericLeftColumn';
+import ActionButtons from './ActionButtons';
+import MapLayerList from '../MapLayerList/MapLayerList';
 
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
@@ -30,8 +31,10 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function GenericMapHolder(props) {
-  const { mapActionCardHeight, mapActionCard, isItAGraph,
-    chartHeaderActionButtons, chartCard, tableData, mapCard } = props;
+  const {
+    mapActionCard, isItAGraph, chartHeaderActionButtons,
+    chartCard, tableData, mapCard
+  } = props;
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
 
@@ -46,34 +49,21 @@ export default function GenericMapHolder(props) {
       alignItems="stretch"
     >
       {/* LEFT COLUMN */}
-      <ThreeColumnGrid item
+      <ThreeColumnGrid
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
       >
-        {mapActionCard}
-        <Box sx={{ height: 'calc(100% - 258px)', marginTop: '8px' }}>
-          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
-            <Grid xs={12} >
-              <ChartHeaderActionButtonsHolder
-                title='Where Should I Do a Resilience Project'
-                actionButtons={chartHeaderActionButtons}
-              />
-            </Grid>
-            <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
-              <Box>
-                {isItAGraph ? (
-                  chartCard
-                ) : (
-                  tableData
-                )}
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+        <GenericLeftColumn
+          mapActionCard = {mapActionCard}
+          chartHeaderActionButtons = {chartHeaderActionButtons}
+          chartCard = {chartCard}
+          tableData = {tableData}
+          isItAGraph = {isItAGraph}
+        />
       </ThreeColumnGrid>
 
       {/* MIDDLE COLUMN FOR MAP */}
-      <ThreeColumnGrid item
+      <ThreeColumnGrid
         xs={12}
         sm={12}
         md={4.5}
@@ -83,15 +73,17 @@ export default function GenericMapHolder(props) {
       >
         <ContentMapBox>
           {mapCard}
+          <ActionButtons/>
         </ContentMapBox>
       </ThreeColumnGrid>
 
       {/* RIGHT COLUMN FOR LAYER LIST */}
-      <ThreeColumnGrid item
+      <ThreeColumnGrid
         xs={12} sm={12} md={3.5} lg={3} xl={2.75}
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
         order={{ xs: 2, sm: 2, md: 3 }}
       >
+        <MapLayerList/>
       </ThreeColumnGrid>
     </ContentHolderGrid>
   );
@@ -99,7 +91,9 @@ export default function GenericMapHolder(props) {
 
 GenericMapHolder.propTypes = {
   mapActionCard: PropTypes.node,
-  //ChartCard: PropTypes.node,
+  isItAGraph: PropTypes.bool,
+  chartCard: PropTypes.node,
+  tableData: PropTypes.node,
   mapCard: PropTypes.node,
   chartHeaderActionButtons: PropTypes.array
 };
