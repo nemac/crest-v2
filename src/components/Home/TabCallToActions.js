@@ -22,7 +22,7 @@ Props
   - config?
 */
 import React from 'react';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useDispatch } from 'react-redux';
 import { changeActiveTab } from '../../reducers/NavBarSlice';
 import TabCallToActionCard from './TabCallToActionCard';
@@ -38,7 +38,7 @@ export default function TabCallToActions() {
   return (
     <Grid container spacing={6} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
 
-      <Grid item xs={12} sm={12} md={6} lg={3}>
+      <Grid xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
           tabLabel={'Analyze Project Sites'}
           tabLocation={'AnalyzeProjectSites'}
@@ -49,9 +49,9 @@ export default function TabCallToActions() {
           }
           onClick={handleActionClick}/>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={3}>
+      <Grid xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
-          tabLabel={'Where Should I Do a Resilience Project?'}
+          tabLabel={'Explore Resilience Hubs'}
           tabLocation={'ResilienceProject'}
           tabText={
             'Identify all Resilience Hubs in your study area to find \
@@ -60,7 +60,7 @@ export default function TabCallToActions() {
           }
           onClick={handleActionClick}/>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={3}>
+      <Grid xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
           tabLabel={'Download Data and Access Reports'}
           tabLocation={'DataAndReports'}
@@ -71,7 +71,7 @@ export default function TabCallToActions() {
           }
           onClick={handleActionClick}/>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={3}>
+      <Grid xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
           tabLabel={'Learn About the Assessment'}
           tabLocation={'About'}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import { HelpOutlineOutlined, Cancel } from '@mui/icons-material';
 import {
   IconButton,
@@ -9,58 +9,45 @@ import {
 } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
-const useStyles = makeStyles((theme) => ({
-  popupHolder: {
-    zIndex: 500,
-    borderRadius: theme.spacing(0.5)
+const PopupBox = styled(Box)(({ theme }) => ({
+  width: '450px',
+  borderRadius: theme.spacing(0.5),
+  [theme.breakpoints.down('lg')]: {
+    width: '300px'
   },
-  popupBox: {
-    width: '450px',
-    borderRadius: theme.spacing(0.5),
-    [theme.breakpoints.down('md')]: {
-      width: '300px'
-    },
-    backgroundColor: theme.palette.CRESTLight.main,
-    color: theme.palette.CRESTLight.contrastText,
-    border: `1px solid ${theme.palette.CRESTLightBorderColor.main}`
-  },
-  popupHeader: {
-    backgroundColor: '#E6E6E6',
-    padding: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopRightRadius: theme.spacing(0.5),
-    borderTopLeftRadius: theme.spacing(0.5)
-  },
-  popupTitle: {
-    fontSize: '1.1rem',
-    fontWeight: 500,
-    width: '100%',
-    borderTopRightRadius: theme.spacing(0.5),
-    borderTopLeftRadius: theme.spacing(0.5)
-  },
-  popupContent: {
-    backgroundColor: theme.palette.CRESTLight.main,
-    color: theme.palette.CRESTLight.contrastText,
-    padding: theme.spacing(1),
-    borderBottomRightRadius: theme.spacing(0.5),
-    borderBottomLeftRadius: theme.spacing(0.5)
-  },
-  rightActionButton: {
-    color: theme.palette.CRESTLight.contrastText,
-    height: theme.spacing(4.5),
-    padding: theme.spacing(0.375),
-    justifyContent: 'end'
-  },
-  descriptionButton: {
-    padding: theme.spacing(0.5)
-  }
+  backgroundColor: theme.palette.CRESTLight.main,
+  color: theme.palette.CRESTLight.contrastText,
+  border: `1px solid ${theme.palette.CRESTLightBorderColor.main}`
+}));
+
+const PopupHeaderBox = styled(Box)(({ theme }) => ({
+  backgroundColor: '#E6E6E6',
+  padding: theme.spacing(1),
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderTopRightRadius: theme.spacing(0.5),
+  borderTopLeftRadius: theme.spacing(0.5)
+}));
+
+const PopupTitleBox = styled(Box)(({ theme }) => ({
+  fontSize: '1.1rem',
+  fontWeight: 500,
+  width: '100%',
+  borderTopRightRadius: theme.spacing(0.5),
+  borderTopLeftRadius: theme.spacing(0.5)
+}));
+
+const PopupContentBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.CRESTLight.main,
+  color: theme.palette.CRESTLight.contrastText,
+  padding: theme.spacing(1),
+  borderBottomRightRadius: theme.spacing(0.5),
+  borderBottomLeftRadius: theme.spacing(0.5)
 }));
 
 export default function LayerDescription(props) {
   const { layerName, layerDescription } = props;
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [clicked, setClicked] = useState(false);
 
@@ -98,27 +85,38 @@ export default function LayerDescription(props) {
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
         onClick={handleClick}
-        className={classes.descriptionButton}>
+        sx={{ padding: (theme) => theme.spacing(0.5) }}
+        size="large">
         <HelpOutlineOutlined />
-          <Popper id={id} open={open} placement={'bottom-end'} anchorEl={anchorEl} className={classes.popupHolder}>
-            <Box className={classes.popupBox}>
-              <Box className={classes.popupHeader}>
-                <Box className={classes.popupTitle}>
+          <Popper id={id} open={open} placement={'bottom-end'} anchorEl={anchorEl}
+            sx={{ zIndex: 500, borderRadius: (theme) => theme.spacing(0.5) }}
+          >
+            <PopupBox>
+              <PopupHeaderBox>
+                <PopupTitleBox>
                   {layerName}
-                </Box>
+                </PopupTitleBox>
                 <IconButton
+                  sx={{
+                    '&': (theme) => ({
+                      color: theme.palette.CRESTLight.contrastText,
+                      height: theme.spacing(4.5),
+                      padding: theme.spacing(0.375),
+                      justifyContent: 'end'
+                    })
+                  }}
                   variant="contained"
                   color="CRESTPrimary"
-                  className={classes.rightActionButton}
                   aria-label="Minimize"
-                  onClick={handlePopoverButtonClose}>
+                  onClick={handlePopoverButtonClose}
+                  size="large">
                   <Cancel />
                 </IconButton>
-              </Box>
-              <Box className={classes.popupContent}>
+              </PopupHeaderBox>
+              <PopupContentBox>
                 {layerDescription}
-              </Box>
-            </Box>
+              </PopupContentBox>
+            </PopupBox>
           </Popper>
         </IconButton>
       </ClickAwayListener>

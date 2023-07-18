@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import { IconButton } from '@mui/material/';
-import { makeStyles } from '@mui/styles';
 import {
   ArrowDropDownCircle,
   Layers,
@@ -22,44 +21,10 @@ import ChangeItemButton from './ChangeItemButton';
 import DriverGroup from './DriverGroup';
 import LayerGroup from './LayerGroup';
 
-const useStyles = makeStyles((theme) => ({
-  gridHolder: {
-    height: '100%',
-    paddingRight: theme.spacing(0),
-    overflowY: 'scroll',
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    border: `1px solid ${theme.palette.CRESTBorderColor.main}`,
-    placeContent: 'flex-start'
-  },
-  rightActionButton: {
-    height: theme.spacing(4.5),
-    padding: theme.spacing(0.375),
-    justifyContent: 'end'
-  },
-  titleBox: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '54px',
-    paddingBottom: theme.spacing(0.5)
-  },
-  titleBoxTypography: {
-    cursor: 'default',
-    display: 'flex',
-    width: '100%',
-    fontWeight: 'bold'
-  },
-  changeItemIcon: {
-    fontSize: '1.75rem'
-  }
-}));
-
 const basemaps = mapConfig.basemaps;
 const regions = mapConfig.regions;
 
 export default function MapLayerList() {
-  const classes = useStyles();
   const [showBaseMapMenu, setShowBaseMapMenu] = useState(false);
   const [showRegionMenu, setShowRegionMenu] = useState(false);
 
@@ -154,20 +119,50 @@ export default function MapLayerList() {
   };
 
   return (
-    <Grid container spacing={0} className={classes.gridHolder}>
+    <Grid container spacing={0}
+      sx={{
+        height: '100%',
+        paddingRight: (theme) => theme.spacing(0),
+        overflowY: 'scroll',
+        backgroundColor: (theme) => theme.palette.CRESTGridBackground.dark,
+        border: (theme) => `1px solid ${theme.palette.CRESTBorderColor.main}`,
+        placeContent: 'flex-start'
+      }}
+    >
 
       <Grid item xs={12}>
-        <Box px={1} py={0.75} className={classes.titleBox}>
+        <Box px={1} py={0.75}
+          sx={{
+            display: 'flex',
+            flexWrap: 'nowrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '54px',
+            paddingBottom: (theme) => theme.spacing(0.5)
+          }}
+        >
           <Layers />
-          <Typography px={1} variant="h6" component="div" className={classes.titleBoxTypography} >
+          <Typography px={1} variant="h6" component="div"
+            sx={{
+              cursor: 'default',
+              display: 'flex',
+              width: '100%',
+              fontWeight: 'bold'
+            }}
+          >
             Map Layers
           </Typography>
           <IconButton
             variant="contained"
             color="CRESTPrimary"
-            className={classes.rightActionButton}
             aria-label="Minimize"
-            onClick={minimizeOnClick}>
+            onClick={minimizeOnClick}
+            sx={{
+              height: (theme) => theme.spacing(4.5),
+              padding: (theme) => theme.spacing(0.375),
+              justifyContent: 'end'
+            }}
+            size="large">
             <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }}/>
           </IconButton>
         </Box>
@@ -187,7 +182,7 @@ export default function MapLayerList() {
           menuItems={basemaps}
           onClick={handleBaseMapClick}
           itemOnClick={handleBaseMapMenuItemClick}>
-          {<GridViewRounded className={classes.changeItemIcon}/>}
+          {<GridViewRounded sx={{ fontSize: '1.75rem' }}/>}
         </ChangeItemButton>
       </Grid>
 
@@ -200,7 +195,7 @@ export default function MapLayerList() {
           menuItems={regions}
           onClick={handleRegionClick}
           itemOnClick={handleRegionMenuItemClick}>
-          {<FilterNone className={classes.changeItemIcon}/>}
+          {<FilterNone sx={{ fontSize: '1.75rem' }}/>}
         </ChangeItemButton>
       </Grid>
 

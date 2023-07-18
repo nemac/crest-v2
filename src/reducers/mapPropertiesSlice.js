@@ -14,6 +14,7 @@ export const mapPropertiesSlice = createSlice({
     basemap: 'Dark Gray',
     sketchArea: false,
     uploadedShapeFile: null,
+    resilienceHub: null,
     zonalStatsAreas: {
       type: 'FeatureCollection',
       features: []
@@ -78,6 +79,9 @@ export const mapPropertiesSlice = createSlice({
     },
     addSearchPlacesGeoJSON: (state, action) => {
       state.searchPlacesFileGeoJSON = action.payload;
+    },
+    changeResilienceHub: (state, action) => {
+      state.resilienceHub = action.payload;
     }
   }
 });
@@ -88,7 +92,8 @@ export const {
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap,
   toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
   removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
-  removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON
+  removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON,
+  changeResilienceHub
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

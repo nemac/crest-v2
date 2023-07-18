@@ -1,4 +1,4 @@
-import regionHawaiiImage from '../../assets/images/zoomregion-hawaii.png';
+import regionHawaiiImage from '../../assets/images/zoomregion-hawaii-v2.png';
 
 export const hawaiiConfig = {
   label: 'Hawai\'i',
@@ -11,6 +11,7 @@ export const hawaiiConfig = {
     zoom: 6
   },
   attribution: 'NFWF 2020',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/NFWF_CREST_Hawaii_Hubs_Cores_11242020/FeatureServer/0',
   chartInputs: [
     {
       chartInputName: 'summary',

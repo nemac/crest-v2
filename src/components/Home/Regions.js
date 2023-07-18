@@ -21,7 +21,7 @@ Props
   - Not sure yet
 */
 import React from 'react';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useDispatch } from 'react-redux';
 import RegionCard from './RegionCard';
 import { mapConfig } from '../../configuration/config';
@@ -44,10 +44,10 @@ export default function Regions() {
   };
 
   return (
-    <Grid container spacing={6} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
+    <Grid container spacing={3} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
 
       { Object.keys(regions).map((region) => (
-        <Grid item xs={12} sm={12} md={6} lg={3} key={regions[region].label}>
+        <Grid xs={12} sm={12} md={6} lg={3} key={regions[region].label}>
           <RegionCard
             regionName={regions[region].label}
             regionImage={regions[region].image}

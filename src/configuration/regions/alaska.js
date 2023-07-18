@@ -1,4 +1,4 @@
-import regionAlaskaImage from '../../assets/images/zoomregion-alaska.png';
+import regionAlaskaImage from '../../assets/images/zoomregion-alaska-v2.png';
 
 export const alaskaConfig = {
   label: 'Alaska',
@@ -11,6 +11,9 @@ export const alaskaConfig = {
     zoom: 4
   },
   attribution: 'NFWF 2022',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/ak_hubs_core_030722/FeatureServer/0',
+  hubsHexServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/ak_hubs_hexes_030822_jeff/FeatureServer/0',
+  rankProperty: 'rank', // need this in config because the rank property is different for all of the regions
   chartInputs: [
     {
       chartInputName: 'summary',

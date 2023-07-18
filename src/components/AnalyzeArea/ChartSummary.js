@@ -45,7 +45,8 @@ import {
 } from 'recharts';
 
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@mui/styles';
+
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { mapConfig } from '../../configuration/config';
@@ -56,37 +57,39 @@ const regions = mapConfig.regions;
 
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
-const useStyles = makeStyles((theme) => ({
-  contentBox: {
-    display: 'flex',
-    width: '100%',
-    height: '350px',
-    maxHeight: '350px',
-    padding: theme.spacing(0),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    justifyContent: 'center',
-    alignItems: 'center'
+const ContentBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  height: '340px',
+  maxHeight: '340px',
+  [theme.breakpoints.down('sm')]: {
+    height: '300px',
+    maxHeight: '300px',
   },
-  ToolTipBox: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    borderRadius: '4px',
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.CRESTLight.main,
-    borderColor: theme.palette.CRESTLightBorderColor.main,
-    color: theme.palette.CRESTLight.contrastText,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  justifyContent: 'center',
+  alignItems: 'center'
+}));
+
+const ToolTipBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  borderRadius: '4px',
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.CRESTLight.main,
+  borderColor: theme.palette.CRESTLightBorderColor.main,
+  color: theme.palette.CRESTLight.contrastText,
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  justifyContent: 'center',
+  alignItems: 'center'
 }));
 
 export default function ChartSummary(props) {
-  const classes = useStyles();
   const [barColors, setBarColors] = useState([]);
   const {
     areaName,
@@ -121,7 +124,7 @@ export default function ChartSummary(props) {
     // eslint-disable-next-line max-len
     if (active && payload && payload.length && Number.isFinite(payload[0].value) && zonalStatsData) {
       return (
-        <Box className={classes.ToolTipBox} >
+        <ToolTipBox >
           <Box sx={{
             display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
           }} >
@@ -136,7 +139,7 @@ export default function ChartSummary(props) {
               display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
             }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
           </Box>
-        </Box>
+        </ToolTipBox>
       );
     }
     return null;
@@ -284,16 +287,15 @@ export default function ChartSummary(props) {
       </BarChart>
     </ResponsiveContainer>
   );
-
   return (
-    <Box className={classes.contentBox}
+    <ContentBox
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       components='fieldset'
       id={`${chartType}-chartbox`}
     >
-        {thisChart}
-    </Box>
+      {thisChart}
+    </ContentBox>
   );
 }
 

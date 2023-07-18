@@ -31,37 +31,33 @@ Props
 import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import FileSaver from 'file-saver';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import html2canvas from 'html2canvas';
 
 import ChartDetailsActionButtons from './ChartDetailsActionButtons';
 import ChartSummary from './ChartSummary';
 
-const useStyles = makeStyles((theme) => ({
-  contentBox: {
-    display: 'flex',
-    width: '100%',
-    height: '350px',
-    maxHeight: '350px',
-    padding: theme.spacing(0),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    borderBottom: '0px !important',
-    justifyContent: 'center',
-    alignItems: 'center'
+const StyledBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  height: '340px',
+  maxHeight: '340px',
+  [theme.breakpoints.down('sm')]: {
+    height: '300px',
+    maxHeight: '300px',
   },
-  ChartDetailsButton: {
-    display: 'flex',
-    width: '100%'
-  }
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  borderBottom: '0px !important',
+  justifyContent: 'center',
+  alignItems: 'center'
 }));
 
 export default function ChartDetails(props) {
-  const classes = useStyles();
-
   const {
     areaName,
     areaIndex,
@@ -99,7 +95,7 @@ export default function ChartDetails(props) {
 
   return (
     <div>
-      <Box className={classes.contentBox} >
+      <StyledBox >
         <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
@@ -109,13 +105,13 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Summary Chart']}
           map={map}
         />
-      </Box>
+      </StyledBox>
       <ChartDetailsActionButtons
         chartType={'Summary Chart'}
         handleDownload={handleDownload}
       />
 
-      <Box className={classes.contentBox} >
+      <StyledBox>
         <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
@@ -126,13 +122,13 @@ export default function ChartDetails(props) {
           map={map}
 
         />
-      </Box>
+      </StyledBox>
       <ChartDetailsActionButtons
         chartType={'Fish and Wildlife Inputs'}
         handleDownload={handleDownload}
       />
 
-      <Box className={classes.contentBox} >
+      <StyledBox>
         <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
@@ -141,15 +137,14 @@ export default function ChartDetails(props) {
           chartIndices={chartValues.current['Threats Inputs']}
           chartType={'Threats Inputs'}
           map={map}
-
         />
-      </Box>
+      </StyledBox>
       <ChartDetailsActionButtons
         chartType={'Threats Inputs'}
         handleDownload={handleDownload}
       />
 
-      <Box className={classes.contentBox} >
+      <StyledBox>
         <ChartSummary
           areaName={areaName}
           areaIndex={areaIndex}
@@ -159,15 +154,15 @@ export default function ChartDetails(props) {
           chartType={'Community Assets Inputs'}
           map={map}
         />
-      </Box>
+      </StyledBox>
       <ChartDetailsActionButtons
         chartType={'Community Assets Inputs'}
         handleDownload={handleDownload}
       />
 
-      <Box className={classes.contentBox} >
+      <StyledBox>
         Landcover Chart {areaName}
-      </Box>
+      </StyledBox>
       <ChartDetailsActionButtons
         chartType={'Landcover'}
         handleDownload={handleDownload}

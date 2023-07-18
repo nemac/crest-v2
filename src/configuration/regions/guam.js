@@ -1,4 +1,4 @@
-import regionGuamImage from '../../assets/images/zoomregion-guam.png';
+import regionGuamImage from '../../assets/images/zoomregion-guam-v2.png';
 
 export const guamConfig = {
   label: 'Guam',
@@ -11,6 +11,9 @@ export const guamConfig = {
     zoom: 10
   },
   attribution: 'NFWF 2020',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/CREST_Guam_Hubs_10042021/FeatureServer/0',
+  hubsHexServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/gu_hubs_hexes_091421/FeatureServer/0',
+  rankProperty: 'Rank', // need this in config because the rank property is different for all of the regions
   chartInputs: [
     {
       chartInputName: 'summary',

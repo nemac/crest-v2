@@ -36,8 +36,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { makeStyles } from '@mui/styles';
-import Grid from '@mui/material/Grid';
+import { styled } from '@mui/system';
+import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import {
@@ -52,25 +52,19 @@ import {
 
 import ChartHeaderActionButton from './ChartHeaderActionButton';
 
-const useStyles = makeStyles((theme) => ({
-  contentBox: {
-    display: 'flex',
-    height: theme.spacing(14),
-    backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    borderStyle: 'solid',
-    borderWidth: '1px'
-  },
-  titleText: {
-    display: 'flex'
-  }
+const StyledGridContainer = styled(Grid)(({ theme }) => ({
+  display: 'flex',
+  height: theme.spacing(14),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px'
 }));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 
 export default function ChartHeaderActionButtons(props) {
-  const classes = useStyles();
   const {
     handleSortClick,
     handleGraphOrTableClick,
@@ -82,15 +76,15 @@ export default function ChartHeaderActionButtons(props) {
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
   return (
-    <Grid container spacing={0} p={0} mt={1} mb={1} className={classes.contentBox}>
+    <StyledGridContainer container spacing={0} p={0} mt={1} mb={1}>
 
-      <Grid item xs={12} >
-        <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} className={classes.titleText} >
-          Analzyed project sites
+      <Grid xs={12} >
+        <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+          Analyzed project sites
         </Typography>
         {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}
       </Grid>
-      <Grid item xs={3} >
+      <Grid xs={3} >
         <ChartHeaderActionButton
           buttonLabel={'Sort'}
           buttonName={'Sort'}
@@ -98,7 +92,7 @@ export default function ChartHeaderActionButtons(props) {
           {analyzeAreaState.isSortASC ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
         </ChartHeaderActionButton>
       </Grid>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <ChartHeaderActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
@@ -106,7 +100,7 @@ export default function ChartHeaderActionButtons(props) {
           <CameraAlt />
         </ChartHeaderActionButton>
       </Grid>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <ChartHeaderActionButton
           buttonLabel={analyzeAreaState.isItAGraph ? 'Table' : 'Chart'}
           buttonName={analyzeAreaState.isItAGraph ? 'Table' : 'Chart'}
@@ -114,7 +108,7 @@ export default function ChartHeaderActionButtons(props) {
           {analyzeAreaState.isItAGraph ? (<TableChart />) : (<BarChart />)}
         </ChartHeaderActionButton>
       </Grid>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <ChartHeaderActionButton
           buttonLabel={'Remove All'}
           buttonName={'Remove All'}
@@ -122,7 +116,7 @@ export default function ChartHeaderActionButtons(props) {
           <DeleteForever />
         </ChartHeaderActionButton>
       </Grid>
-    </Grid>
+    </StyledGridContainer>
   );
 }
 

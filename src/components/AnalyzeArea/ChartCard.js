@@ -24,7 +24,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import ChartSummary from './ChartSummary';
 import ChartDetails from './ChartDetails';
@@ -49,11 +49,11 @@ export default function ChartCard(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   if (region === selectedRegion) {
     return (
-      <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
+      <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
         {analyzeAreaState.isMore[areaName] ? (
 
           <div style={{ width: '100%' }}>
-            <Grid item xs={12} >
+            <Grid xs={12}>
               <ChartDetails areaName={areaName}
                 areaIndex={areaIndex}
                 region={region}
@@ -61,7 +61,7 @@ export default function ChartCard(props) {
                 zonalStatsData={zonalStatsData} />
             </Grid>
 
-            <Grid item xs={12} >
+            <Grid xs={12} >
               <ChartActionButtons
                 areaName={areaName}
                 areaIndex={areaIndex}
@@ -75,7 +75,7 @@ export default function ChartCard(props) {
         ) : (
 
           <div style={{ width: '100%' }}>
-            <Grid item xs={12} >
+            <Grid xs={12} >
               <ChartSummary
                 areaName={areaName}
                 areaIndex={areaIndex}
@@ -87,7 +87,7 @@ export default function ChartCard(props) {
               />
             </Grid>
 
-            <Grid item xs={12} >
+            <Grid xs={12} >
               <ChartActionButtons
                 areaName={areaName}
                 areaIndex={areaIndex}

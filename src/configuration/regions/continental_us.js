@@ -1,4 +1,4 @@
-import regionContinentalUSImage from '../../assets/images/zoomregion-cus.png';
+import regionContinentalUSImage from '../../assets/images/zoomregion-cus-v2.png';
 
 export const continentalUSConfig = {
   label: 'Continental U.S',
@@ -11,6 +11,7 @@ export const continentalUSConfig = {
     zoom: 4
   },
   attribution: 'NFWF 2020',
+  hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/CONUS_hubs_staging_073020/FeatureServer/0',
   chartInputs: [
     {
       chartInputName: 'summary',
@@ -203,7 +204,6 @@ export const continentalUSConfig = {
         description: 'Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.',
         region: 'continental_us'
       },
-
       {
         id: 'CONUS_FishAndWildlifeTMS',
         layer: 'FishAndWildlife TMS',

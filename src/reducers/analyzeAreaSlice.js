@@ -22,6 +22,9 @@ export const AnalyzeAreaSlice = createSlice({
     changeGraphTable: (state, action) => {
       state.isItAGraph = !state.isItAGraph;
     },
+    changeGraphTableResilience: (state, action) => {
+      state.isItAGraphResilience = !state.isItAGraphResilience;
+    },
     changeSortDirection: (state, action) => {
       state.isSortASC = !state.isSortASC;
     },
@@ -37,6 +40,7 @@ export const {
   changeEmptyState,
   changeMore,
   changeGraphTable,
+  changeGraphTableResilience,
   changeSortDirection,
   changeSortBy
 } = AnalyzeAreaSlice.actions;

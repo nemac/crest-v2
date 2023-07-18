@@ -34,7 +34,6 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
 import {
   FileUploadOutlined
   // FileUpload
@@ -43,18 +42,9 @@ import {
 import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
 import { Shape2GeoJSON } from '../../api/shapeFileToGeoJson';
 
-const useStyles = makeStyles((theme) => ({
-  actionButton: {
-    height: theme.spacing(4.5),
-    textTransform: 'none',
-    justifyContent: 'start'
-  }
-}));
-
 // just a place holder needs props passed in and image etc
 export default function Upload(props) {
   const { setTooLargeLayerOpen } = props;
-  const classes = useStyles();
   const dispatch = useDispatch();
   const [file, setFile] = React.useState(null);
 
@@ -89,7 +79,7 @@ export default function Upload(props) {
         color="CRESTPrimary"
         fullWidth={true}
         aria-label={'Upload Shapefile'}
-        className={classes.actionButton}
+        sx={{ height: (theme) => theme.spacing(4.5), textTransform: 'none', justifyContent: 'start' }}
         component="label"
         startIcon={<FileUploadOutlined />}
       >
