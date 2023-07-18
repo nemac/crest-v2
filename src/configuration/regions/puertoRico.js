@@ -1,4 +1,4 @@
-import regionPuertoRicoImage from '../../assets/images/zoomregion-pr.png';
+import regionPuertoRicoImage from '../../assets/images/zoomregion-pr-v2.png';
 
 export const puertoRicoConfig = {
   label: 'Puerto Rico',

@@ -44,7 +44,7 @@ export default function Regions() {
   };
 
   return (
-    <Grid container spacing={6} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
+    <Grid container spacing={3} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
 
       { Object.keys(regions).map((region) => (
         <Grid xs={12} sm={12} md={6} lg={3} key={regions[region].label}>

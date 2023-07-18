@@ -1,4 +1,4 @@
-import regionAmericanSamoaImage from '../../assets/images/zoomregion-as.png';
+import regionAmericanSamoaImage from '../../assets/images/zoomregion-as-v2.png';
 
 export const americanSamoaConfig = {
   label: 'American Samoa',

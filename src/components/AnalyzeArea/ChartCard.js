@@ -49,7 +49,7 @@ export default function ChartCard(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   if (region === selectedRegion) {
     return (
-      <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
+      <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
         {analyzeAreaState.isMore[areaName] ? (
 
           <div style={{ width: '100%' }}>

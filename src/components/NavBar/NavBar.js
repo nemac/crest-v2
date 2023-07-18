@@ -42,7 +42,7 @@ export const StyledPaperCardBackground = styled(Paper)(({ theme }) => ({
   color: theme.palette.CRESTGridBackground.contrastText,
   borderColor: theme.palette.CRESTBorderColor.main,
   minHeight: '115px',
-  [theme.breakpoints.down('lg')]: {
+  [theme.breakpoints.down('md')]: {
     minHeight: '56px'
   }
 }));
@@ -76,7 +76,7 @@ export default function NavBar(props) {
   // get breakpoint for small screens so we can make menu appear on side
   // also add show or hide the tabs
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
       <StyledPaperCardBackground square={false} elevation={3} px={0} pb={0.75} >

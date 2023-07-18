@@ -1,4 +1,4 @@
-import regionAlaskaImage from '../../assets/images/zoomregion-alaska.png';
+import regionAlaskaImage from '../../assets/images/zoomregion-alaska-v2.png';
 
 export const alaskaConfig = {
   label: 'Alaska',
