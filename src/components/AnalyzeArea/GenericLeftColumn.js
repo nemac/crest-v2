@@ -3,12 +3,12 @@ import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { PropTypes } from 'prop-types';
 
-import EmptyState from './EmptyState';
 import ChartHeaderActionButtonsHolder from './GenericChartHeaderActionButtons';
 
 export default function GenericLeftColumn(props) {
   const {
-    mapActionCard, chartHeaderActionButtons, chartCard, tableData, isItAGraph, noDataState
+    mapActionCard, chartHeaderActionButtons, chartCard, tableData,
+    isItAGraph, noDataState, optionalComponent
   } = props;
 
   return (
@@ -20,6 +20,9 @@ export default function GenericLeftColumn(props) {
         ) : (
           <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
             <Grid xs={12} >
+              {optionalComponent}
+            </Grid>
+            <Grid xs={12}>
               <ChartHeaderActionButtonsHolder
                 title='Where Should I Do a Resilience Project'
                 actionButtons={chartHeaderActionButtons}
@@ -46,5 +49,7 @@ GenericLeftColumn.propTypes = {
   isItAGraph: PropTypes.bool,
   chartCard: PropTypes.node,
   tableData: PropTypes.node,
-  chartHeaderActionButtons: PropTypes.array
+  chartHeaderActionButtons: PropTypes.array,
+  noDataState: PropTypes.any,
+  optionalComponent: PropTypes.node
 };

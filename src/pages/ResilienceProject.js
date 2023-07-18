@@ -6,8 +6,10 @@ import { TableChart, BarChart, CameraAlt } from '@mui/icons-material';
 import { changeGraphTableResilience } from '../reducers/analyzeAreaSlice';
 import GenericMapHolder from '../components/Map/GenericMapHolder';
 import ResilienceMapActionCard from '../components/Map/ResilienceMapActionCard';
+import ResilienceHubScore from '../components/AnalyzeArea/ResilienceHubScore';
 import ResilienceChartCard from '../components/AnalyzeArea/GenericChartCard';
 import ResilienceMapCard from '../components/Map/ResilienceMapCard';
+import TableData from '../components/AnalyzeArea/TableData';
 import { mapConfig } from '../configuration/config';
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -66,7 +68,7 @@ export default function ResilienceProject() {
       const calculatedData = [];
       let runningTotalScore = 0; // using this increment the hub core scores
       for (let i = 0; i < 10; i += 1) {
-        calculatedData[i] = { name: 'Hub Score = ' + parseInt((i + 1), 10), value: 0 };
+        calculatedData[i] = { name: `Hub Score = ${parseInt((i + 1), 10)}`, value: 0 };
       }
       const query = featureLayerHex.query().within(resilienceHub);
       query.run((error, featureCollection, response) => {
@@ -87,6 +89,7 @@ export default function ResilienceProject() {
         setChartData(calculatedData);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resilienceHub]);
 
   return (
@@ -97,8 +100,10 @@ export default function ResilienceProject() {
       chartCard={
         <ResilienceChartCard chartData={chartData} chartActionButtons={chartActionButtons}/>
       }
-      tableData={<ResilienceMapActionCard/>}
+      tableData='Insert Table Data Here'
       mapCard={<ResilienceMapCard/>}
+      noDataState={null}
+      optionalComponent={<ResilienceHubScore coreHubScore={averageHubScore}/>}
     />
   );
 }
