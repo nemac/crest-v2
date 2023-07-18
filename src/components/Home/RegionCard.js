@@ -39,7 +39,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   display: 'flex',
   width: '100%',
-  height: '150px'
+  height: '150px',
+  [theme.breakpoints.up('xxl')]: {
+    height: '250px'
+  }
 }));
 
 // just a place holder needs props passed in and image etc

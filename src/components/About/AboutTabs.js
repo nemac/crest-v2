@@ -45,9 +45,7 @@ const StyledAboutTab = styled(Tab)(({ theme }) => ({
   },
   '&.Mui-selected': {
     backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    border: 1,
-    borderStyle: 'solid',
+    border: `1px solid ${theme.palette.CRESTBorderColor.main}`,
     '&:hover': {
       backgroundColor: theme.palette.CRESTDarkAlt.main
     },
