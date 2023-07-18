@@ -1,34 +1,81 @@
 import React from 'react';
 import {
-  Legend, PieChart, Pie, Cell, ResponsiveContainer
+  Legend, PieChart, Pie, Cell, ResponsiveContainer, Tooltip
 } from 'recharts';
+import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/system';
 import { PropTypes } from 'prop-types';
 import { mapConfig } from '../../configuration/config';
 
+const ToolTipBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  borderRadius: '4px',
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.CRESTLight.main,
+  borderColor: theme.palette.CRESTLightBorderColor.main,
+  color: theme.palette.CRESTLight.contrastText,
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  justifyContent: 'center',
+  alignItems: 'center'
+}));
+
 const COLORS = mapConfig.resiliencePieChartLegend;
-
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({
-  cx, cy, midAngle, innerRadius, outerRadius, percent, index
-}) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  if (percent === 0) {
-    return null;
-  }
-  return (
-    <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central">
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
 
 export default function ResiliencePieChart(props) {
   const { data } = props;
+  const renderCustomizedLabel = ({
+    cx, cy, midAngle, innerRadius, outerRadius, percent, index
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const percentFixed = (percent * 100).toFixed(0);
+    if (percentFixed <= 3) {
+      return null;
+    }
+    return (
+      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central">
+        {percentFixed}%
+      </text>
+    );
+  };
+
+  const sumTotal = data.reduce((a, b) => a + (b.value || 0), 0);
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length && Number.isFinite(payload[0].value)) {
+      return (
+        <ToolTipBox >
+          <Box sx={{
+            display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+          }} >
+            <Typography sx={{
+              display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+            }} variant="body2" component="div">{payload[0].name}</Typography>
+          </Box>
+          <Box sx={{
+            display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+          }} >
+            <Typography sx={{
+              display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
+            }} variant="h4" component="h2">{Math.round((payload[0].value / sumTotal) * 100)}%</Typography>
+          </Box>
+        </ToolTipBox>
+      );
+    }
+    return null;
+  };
+
+  CustomTooltip.propTypes = {
+    active: PropTypes.bool,
+    payload: PropTypes.array
+  };
+
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer id={'resilience-pie-container'}>
       <PieChart>
         <Pie
           data={data}
@@ -45,7 +92,8 @@ export default function ResiliencePieChart(props) {
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
-        <Legend iconType='circle' layout='vertical' align='right' verticalAlign='middle' height={270}/>
+        <Tooltip content={CustomTooltip}/>
+        <Legend iconType='circle' layout='vertical' align='right' verticalAlign='middle' height={245} />
       </PieChart>
     </ResponsiveContainer>
   );

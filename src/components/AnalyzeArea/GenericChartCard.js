@@ -11,8 +11,12 @@ import ActionButtonsHolder from '../All/ActionButtonsHolder';
 const ContentBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
-  height: '350px',
-  maxHeight: '350px',
+  height: '340px',
+  maxHeight: '340px',
+  [theme.breakpoints.down('sm')]: {
+    height: '300px',
+    maxHeight: '300px'
+  },
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
@@ -26,7 +30,7 @@ export default function ChartCard(props) {
   const { chartData, chartActionButtons } = props;
 
   return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
+    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
         <div style={{ width: '100%' }}>
           <Grid xs={12} >
             <ContentBox>

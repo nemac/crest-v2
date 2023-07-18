@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GeoJSON, Tooltip, useMapEvents } from 'react-leaflet';
+import { GeoJSON, useMapEvents } from 'react-leaflet';
 import * as esri from 'esri-leaflet';
 
 import LeafletMapContainer from './LeafletMapContainer';
@@ -9,6 +9,7 @@ import BasemapLayer from './BasemapLayer';
 
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import { changeZoom, changeCenter, changeResilienceHub } from '../../reducers/mapPropertiesSlice';
+import { StyledReactLeafletTooltip } from '../All/StyledComponents';
 import { mapConfig } from '../../configuration/config';
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -19,6 +20,7 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 
 export default function ResilienceMapCard() {
   const dispatch = useDispatch();
+  const [ready, setReady] = useState(false);
   const [map, setMap] = useState(null);
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
@@ -35,6 +37,10 @@ export default function ResilienceMapCard() {
   React.useEffect(() => {
     if (map) {
       map.getContainer().style.cursor = 'pointer';
+      // I truly dislike that I have to set this timeout to get the tooltip in the right spot
+      setTimeout(() => {
+        setReady(true);
+      }, 500);
     }
   }, [map]);
 
@@ -96,13 +102,13 @@ export default function ResilienceMapCard() {
 
   return (
     <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-      {resilienceHub &&
-        <GeoJSON key={resilienceHub.id} data={resilienceHub}>
-          <Tooltip direction='center' permanent>
-            {resilienceHub.id}
-          </Tooltip>
+      {ready && (
+        <GeoJSON key={resilienceHub?.id} data={resilienceHub}>
+          <StyledReactLeafletTooltip direction='center' permanent>
+            {resilienceHub?.id}
+          </StyledReactLeafletTooltip>
         </GeoJSON>
-      }
+      )}
       <ActiveTileLayers />
       <BasemapLayer map={map}/>
       <MapEventsComponent/>

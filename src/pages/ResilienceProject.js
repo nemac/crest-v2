@@ -9,6 +9,7 @@ import ResilienceMapActionCard from '../components/Map/ResilienceMapActionCard';
 import ResilienceHubScore from '../components/AnalyzeArea/ResilienceHubScore';
 import ResilienceChartCard from '../components/AnalyzeArea/GenericChartCard';
 import ResilienceMapCard from '../components/Map/ResilienceMapCard';
+import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions';
 import TableData from '../components/AnalyzeArea/TableData';
 import { mapConfig } from '../configuration/config';
 
@@ -48,15 +49,11 @@ export default function ResilienceProject() {
     }
   ];
 
-  const handleExportClick = () => {
-    console.log('click');
-  };
-
   const chartActionButtons = [
     {
       buttonLabel: 'Export',
       buttonName: 'Export',
-      onClick: handleExportClick,
+      onClick: () => { handleExportImage('resilience-pie'); },
       icon: <CameraAlt />
     }
   ];

@@ -13,6 +13,9 @@ const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
   [theme.breakpoints.down('lg')]: {
     height: 'calc(100% - 56px)'
+  },
+  [theme.breakpoints.down('md')]: {
+    height: 'calc(60% - 56px)'
   }
 }));
 
