@@ -101,8 +101,8 @@ DataAndReportsCardRegions.propTypes = {
   dataDownloadName: PropTypes.string.isRequired,
   dataDownloadFileLink: PropTypes.string.isRequired,
   dataDownloadFileSize: PropTypes.string.isRequired,
-  reportEnglishName: PropTypes.string.isRequired,
-  reportEnglishFileLink: PropTypes.string.isRequired,
+  reportEnglishName: PropTypes.string,
+  reportEnglishFileLink: PropTypes.string,
   reportNativeName: PropTypes.string,
   reportNativeFileLink: PropTypes.string
 };

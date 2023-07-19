@@ -38,7 +38,7 @@ export default function DataAndReports() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={6} pb={0.75}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" mt={4} px={3} pt={6} pb={0.75}>
         <Grid item xs={12}>
           <Box>
             <StyledPaper square={false} elevation={0}>
