@@ -15,6 +15,7 @@ export const mapPropertiesSlice = createSlice({
     sketchArea: false,
     uploadedShapeFile: null,
     resilienceHub: null,
+    areaNumber: 1,
     zonalStatsAreas: {
       type: 'FeatureCollection',
       features: []
@@ -51,6 +52,11 @@ export const mapPropertiesSlice = createSlice({
       // used for charts
       state.zonalStatsAreas.features = [...state.zonalStatsAreas.features, action.payload];
     },
+    updateDrawnLayers: (state, action) => {
+      // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
+      // used to rebuild all of the layers on page refresh
+      state.drawnLayers = action.payload;
+    },
     addNewFeatureToDrawnLayers: (state, action) => {
       // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
       // used to rebuild all of the layers on page refresh
@@ -71,6 +77,13 @@ export const mapPropertiesSlice = createSlice({
         ...state.drawnLayers.features.slice(action.payload + 1)
       ];
     },
+    removeFeatureByGeometry: (state, action) => {
+      state.drawnLayers.features = [
+        ...state.drawnLayers.features.filter(
+          (feature) => JSON.stringify(feature.geometry) !== JSON.stringify(action.payload)
+        )
+      ];
+    },
     removeAllFeaturesFromDrawnLayers: (state) => {
       state.drawnLayers.features = []; // empty list should clear everything back to normal
     },
@@ -82,6 +95,12 @@ export const mapPropertiesSlice = createSlice({
     },
     changeResilienceHub: (state, action) => {
       state.resilienceHub = action.payload;
+    },
+    incrementAreaNumber: (state) => {
+      state.areaNumber += 1;
+    },
+    resetAreaNumber: (state) => {
+      state.areaNumber = 1;
     }
   }
 });
@@ -93,7 +112,8 @@ export const {
   toggleSketchArea, addNewFeatureToZonalStatsAreas, removeAllFeaturesFromZonalStatsAreas,
   removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
   removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON,
-  changeResilienceHub
+  changeResilienceHub, updateDrawnLayers, removeFeatureByGeometry, incrementAreaNumber,
+  resetAreaNumber
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;
