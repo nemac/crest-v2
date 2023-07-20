@@ -48,6 +48,7 @@ import {
 } from '../../reducers/mapPropertiesSlice';
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
+import { ChartSortHolder } from './ChartSortHolder';
 import TableData from './TableData';
 import { mapConfig } from '../../configuration/config';
 
@@ -179,6 +180,7 @@ export default function ChartsHolder(props) {
           handleGraphOrTableClick={handleGraphOrTableClick}
           HandleRemoveAllClick={HandleRemoveAllClick}
           handleGenericClick={handleExportClick} />
+        <ChartSortHolder />
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
