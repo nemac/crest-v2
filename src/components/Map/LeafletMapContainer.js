@@ -21,6 +21,7 @@ export default function LeafletMapContainer(props) {
 
   return (
     <StyledMapContainer
+      id='map-container'
       center={center}
       zoom={zoom}
       doubleClickZoom={true}
