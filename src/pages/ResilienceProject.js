@@ -11,7 +11,6 @@ import ResilienceMapCard from '../components/Map/ResilienceMapCard';
 import EmptyStateResilience from '../components/AnalyzeArea/EmptyStateResilience';
 import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions';
 
-import TableData from '../components/AnalyzeArea/TableData';
 import { mapConfig } from '../configuration/config';
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -96,7 +95,7 @@ export default function ResilienceProject() {
       chartHeaderActionButtons={null}
       isItAGraph={analyzeAreaState.isItAGraphResilience}
       chartCard={
-        <ResilienceChartCard 
+        <ResilienceChartCard
           chartData={chartData}
           chartActionButtons={chartActionButtons}
           noDataState={EmptyStateResilience}
@@ -104,8 +103,7 @@ export default function ResilienceProject() {
       }
       tableData='Insert Table Data Here'
       mapCard={<ResilienceMapCard/>}
-      noDataState={<EmptyStateResilience />}
-      // optionalComponent={<ResilienceHubScore coreHubScore={averageHubScore}/>}
+      noDataState={(resilienceHub === null) ? <EmptyStateResilience /> : null}
     />
   );
 }
