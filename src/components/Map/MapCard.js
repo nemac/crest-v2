@@ -185,7 +185,7 @@ export default function MapCard(props) {
   };
 
   return (
-    <div style={{ height: '100%' }}>
+    <div id='map-container' style={{ height: '100%' }}>
       <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
         <IdentifyButtonWrapper map={map} />
         <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef} />

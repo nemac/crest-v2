@@ -24,8 +24,10 @@ State needed
 Props
   - Not sure yet
 */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import html2canvas from 'html2canvas';
+import FileSaver from 'file-saver';
 
 import Grid from '@mui/material/Unstable_Grid2';
 import {
@@ -53,6 +55,21 @@ export default function ActionButtons() {
   // place holder for later wanted to add a click handler for graph or Table
   // TODO add addarea toggle
   // TODO export
+  const handleExportClick = useCallback(async () => {
+    const elId = 'map-container';
+    console.log('export clicked!');
+    await html2canvas(document.getElementById(elId), {
+      logging: false,
+      backgroundColor: null,
+      useCORS: true, // Enable CORS to avoid cross-origin issues
+      allowTaint: true, // Allow images from other domains
+      useUnsafeCSS: true // Allow unsafe CSS (if needed)
+    }).then((canvas) => {
+      const png = canvas.toDataURL('image/png', 1.0);
+      const fileName = 'map.png';
+      FileSaver.saveAs(png, fileName);
+    });
+  }, []);
   const handleGenericClick = (event) => {
     event.stopPropagation();
     console.log('clicked'); // eslint-disable-line no-console
@@ -79,7 +96,7 @@ export default function ActionButtons() {
         <ActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={handleGenericClick}>
+          onClick={handleExportClick}>
           <CameraAlt />
         </ActionButton>
       </Grid>
