@@ -29,6 +29,7 @@ import { changeActiveTab } from '../../reducers/NavBarSlice';
 import ExampleActionButton from './ActionButton';
 import { flyToLocation } from './StepActions';
 import { mapConfig } from '../../configuration/config';
+import { width } from '@mui/system';
 
 // just a place holder needs props passed in and image etc
 export default function ExampleCard(props) {
@@ -66,7 +67,9 @@ export default function ExampleCard(props) {
             color: 'transparent',
             background: active ? 'gray' : 'white',
             borderColor: 'white',
-            borderStyle: 'solid'
+            borderStyle: 'solid',
+            height: '48px',
+            width: '32px'
           }}
         />
     );
@@ -151,7 +154,7 @@ export default function ExampleCard(props) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography variant="h7" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+        <Typography variant="h7" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex', fontWeight: 'bold'}} >
           {title}
         </Typography>
       </AccordionSummary>
@@ -166,11 +169,11 @@ export default function ExampleCard(props) {
             {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}
           </Grid>
           <Grid item xs={12} py={1} >
-            <Typography align='center' variant="body2" component="div">Step {activeStep + 1}</Typography>
+            <Typography align='center' variant="body2" component="div" sx={{fontWeight: 'bold'}} >Step {activeStep + 1}</Typography>
           </Grid>          
-          <Grid item xs={12} >
+          <Grid item xs={12} py={1} >
             <Box sx={{ width: '100%' }}>
-              <Stepper activeStep={activeStep} nonLinear={true}>
+              <Stepper activeStep={activeStep} nonLinear={true} connector={false}>
                 {steps.map((item) => (
                   <Step key={item.title}>
                     <StepLabel StepIconComponent={CustomStepIcon}/>
@@ -179,9 +182,9 @@ export default function ExampleCard(props) {
               </Stepper>
             </Box>
           </Grid>
-          <Grid item xs={12} >
+          <Grid item xs={12} py={1} >
             <Box sx={{ height: '175px' }}>
-              <Typography variant="body1" component="div" >
+              <Typography variant="body1" component="div" sx={{fontWeight: 'bold'}} >
                 {steps[activeStep].title}
               </Typography>
               <Typography variant="body2" component="div" >
