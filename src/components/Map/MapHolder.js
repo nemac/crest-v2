@@ -65,11 +65,11 @@ const GutterGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export default function MapHolder(props) {
+  const { listOfDrawnLayers, setListOfDrawnLayers, bufferGeo, setBufferGeo, leafletFeatureGroupRef } = props;
   const [map, setMap] = useState(null);
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
-  const leafletFeatureGroupRef = useRef();
 
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
@@ -102,6 +102,10 @@ export default function MapHolder(props) {
           boxMarginTop={'8px'}
           leafletFeatureGroupRef={leafletFeatureGroupRef}
           map={map}
+          listOfDrawnLayers={listOfDrawnLayers}
+          setListOfDrawnLayers={setListOfDrawnLayers}
+          setBufferGeo={setBufferGeo}
+          bufferGeo={bufferGeo}
         />
       </ThreeColumnGrid>
 
@@ -123,6 +127,9 @@ export default function MapHolder(props) {
             setDrawAreaDisabled={setDrawAreaDisabled}
             tooLargeLayerOpen={tooLargeLayerOpen}
             setTooLargeLayerOpen={setTooLargeLayerOpen}
+            setListOfDrawnLayers={setListOfDrawnLayers}
+            bufferGeo={bufferGeo}
+            setBufferGeo={setBufferGeo}
           />
         </ContentMapBox>
       </ThreeColumnGrid>

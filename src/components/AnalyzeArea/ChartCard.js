@@ -1,25 +1,3 @@
-/*
-Purpose
-  The component holds the summary chart and action buttons. This should be the summary chart only
-  when user hovers overs will need to highlight the shape on the map
-
-Child Components
-  - AnalyzeArea-ChartActionButtons.js
-  - AnalyzeArea-Chart.js
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - More or less?
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -42,11 +20,16 @@ export default function ChartCard(props) {
     zonalStatsData,
     region,
     leafletFeatureGroupRef,
-    map
+    map,
+    layerToRemove,
+    setListOfDrawnLayers,
+    setBufferGeo,
+    bufferGeo
   } = props;
   const summaryIndices = ['hubs', 'exposure', 'asset', 'threat', 'wildlife'];
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
+  
   if (region === selectedRegion) {
     return (
       <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
@@ -68,6 +51,10 @@ export default function ChartCard(props) {
                 data={zonalStatsData}
                 leafletFeatureGroupRef={leafletFeatureGroupRef}
                 map={map}
+                layerToRemove={layerToRemove}
+                setListOfDrawnLayers={setListOfDrawnLayers}
+                setBufferGeo={setBufferGeo}
+                bufferGeo={bufferGeo}
               />
             </Grid>
           </div>
@@ -95,6 +82,10 @@ export default function ChartCard(props) {
                 leafletFeatureGroupRef={leafletFeatureGroupRef}
                 leafletIds={leafletIds}
                 map={map}
+                layerToRemove={layerToRemove}
+                setListOfDrawnLayers={setListOfDrawnLayers}
+                setBufferGeo={setBufferGeo}
+                bufferGeo={bufferGeo}
               />
             </Grid>
           </div>

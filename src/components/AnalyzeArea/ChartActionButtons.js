@@ -31,6 +31,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import L from 'leaflet';
 import Grid from '@mui/material/Unstable_Grid2';
+import buffer from '@turf/buffer';
 
 import {
   CameraAlt,
@@ -42,7 +43,7 @@ import {
 import { changeMore } from '../../reducers/analyzeAreaSlice';
 import {
   removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers,
-  changeCenter, changeZoom
+  changeCenter, changeZoom, removeFeatureByGeometry
 } from '../../reducers/mapPropertiesSlice';
 import ActionButton from '../All/ActionButton';
 import { StyledGrid } from '../All/StyledComponents';
@@ -61,7 +62,11 @@ export default function ChartActionButtons(props) {
     data,
     leafletFeatureGroupRef,
     leafletIds,
-    map
+    map,
+    layerToRemove,
+    setBufferGeo,
+    setListOfDrawnLayers,
+    bufferGeo
   } = props;
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -158,6 +163,18 @@ export default function ChartActionButtons(props) {
     dispatch(removeFeatureFromDrawnLayers(areaIndex));
   };
 
+  const removeLayer = (layer) => {
+    leafletFeatureGroupRef.current?.removeLayer(layerToRemove);
+    setListOfDrawnLayers(leafletFeatureGroupRef.current?.getLayers());
+    const geo = layerToRemove.toGeoJSON();
+    const buffGeo = buffer(geo, 1, { units: 'kilometers' });
+    dispatch(removeFeatureByGeometry(geo.geometry));
+    const newBufferGeoFeatures = bufferGeo.features.filter(
+      (item) => JSON.stringify(item.geometry) !== JSON.stringify(buffGeo.geometry)
+    );
+    setBufferGeo((previous) => ({ ...previous, features: newBufferGeoFeatures }));
+  };
+
   return (
     <StyledGrid
       container
@@ -195,7 +212,7 @@ export default function ChartActionButtons(props) {
         <ActionButton
           buttonLabel={'Remove'}
           buttonName={'Remove'}
-          onClick={handleRemoveClick}>
+          onClick={removeLayer}>
           <DeleteForever />
         </ActionButton>
       </Grid>

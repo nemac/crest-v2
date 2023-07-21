@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import MapHolder from '../components/Map/MapHolder';
 import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
@@ -6,6 +6,9 @@ import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 export default function AnalyzeProjectSite() {
   const [shareUrlComplete, setShareUrlComplete] = useState(false);
   const [querySearchParams, setQuerySearchParams] = useSearchParams();
+  const leafletFeatureGroupRef = useRef();
+  const [listOfDrawnLayers, setListOfDrawnLayers] = useState([]);
+  const [bufferGeo, setBufferGeo] = useState({ type: 'FeatureCollection', features: [] });
   useEffect(() => {
     // Delete share url params from url when it's complete
     if (shareUrlComplete) {
@@ -30,7 +33,14 @@ export default function AnalyzeProjectSite() {
       </div>
     );
   }
+
   return (
-    <MapHolder/>
+    <MapHolder
+    listOfDrawnLayers={listOfDrawnLayers}
+    setListOfDrawnLayers={setListOfDrawnLayers}
+    bufferGeo={bufferGeo}
+    setBufferGeo={setBufferGeo}
+    leafletFeatureGroupRef={leafletFeatureGroupRef}
+    />
   );
 }

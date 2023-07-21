@@ -1,35 +1,3 @@
-/*
-Purpose
-  Shows chart when the user does analyze project site. Type of chart
-
-  - format data for the chart from Zonal stats API JSON / GEOJSON
-  - handle all the charts
-    - details, inputs, and summary chart
-
-  TODO needs menu for sort and export
-        needs charts added
-
-Child Components
-  - AnalyzeArea-ChartActionButtons.js
-
-Libs
-  - chart.js
-  - Not sure yet
-
-API
-  - Zonal stats API JSON / GEOJSON
-  - Not sure yet
-
-State needed
-  - More or less?
-  - table or graph
-  - Not sure yet
-
-Props
-  - GEOJSON data (to get properies aka attributes)
-  - if details add export button
-  - Not sure yet
-*/
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -59,22 +27,14 @@ const regions = mapConfig.regions;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
 export default function ChartsHolder(props) {
-  const { leafletFeatureGroupRef, map } = props;
+  const { leafletFeatureGroupRef, map, listOfDrawnLayers, setListOfDrawnLayers, setBufferGeo, bufferGeo } = props;
   const drawnLayerAreas = useSelector(drawnLayerSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
-  // console.log('drawn layer');
-  // console.log(drawnLayerAreas);
-  // console.log('zonalstatsareas');
-  // console.log(zonalStatsAreas);
-  // console.log(leafletFeatureGroupRef);
+  const drawnLayersFromState = useSelector(drawnLayersSelector);
   const featureList = drawnLayerAreas.features;
-  // const drawnLayerFeatures = drawnLayerAreas.features;
-  // console.log('feature list original');
-  // console.log(featureList);
-  // console.log('new feature list:');
-  // console.log(drawnLayerFeatures);
   const [chartData, setChartData] = useState([]);
   const getLabel = (area, name) => {
     const thisLabel = regions[area.region].layerList.find(
@@ -90,24 +50,24 @@ export default function ChartsHolder(props) {
     const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
     return thisRange;
   };
-  const handleFeatureUpdate = useCallback((features) => {
-    if (features) {
-      const tempData = [];
-      features.forEach((entry, index) => {
-        tempData.push({
-          areaName: entry.properties.areaName,
-          areaIndex: index,
-          leafletIds: entry.properties.leafletIds,
-          region: entry.properties.region,
-          zonalStatsData: entry.properties.zonalStatsData
-        });
-      });
-      setChartData(tempData);
-    }
-  }, []);
-  useEffect(() => {
-    handleFeatureUpdate(featureList);
-  }, [featureList, handleFeatureUpdate]);
+  // const handleFeatureUpdate = useCallback((features) => {
+  //   if (features) {
+  //     const tempData = [];
+  //     features.forEach((entry, index) => {
+  //       tempData.push({
+  //         areaName: entry.properties.areaName,
+  //         areaIndex: index,
+  //         leafletIds: entry.properties.leafletIds,
+  //         region: entry.properties.region,
+  //         zonalStatsData: entry.properties.zonalStatsData
+  //       });
+  //     });
+  //     setChartData(tempData);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   handleFeatureUpdate(featureList);
+  // }, [featureList, handleFeatureUpdate]);
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
@@ -184,26 +144,22 @@ export default function ChartsHolder(props) {
       {analyzeAreaState.isItAGraph ? (
         <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
           <Box>
-            {chartData.map((dataRow) => {
-              const name = dataRow.areaName;
-              const index = dataRow.areaIndex;
-              const leafletIds = dataRow.leafletIds;
-              const zonalStatsData = dataRow.zonalStatsData;
-              const thisRegion = dataRow.region;
-
-              return (
-                <ChartCard
-                  key={name}
-                  areaName={name}
-                  areaIndex={index}
-                  leafletIds={leafletIds}
-                  region={thisRegion}
-                  zonalStatsData={zonalStatsData}
-                  leafletFeatureGroupRef={leafletFeatureGroupRef}
-                  map={map}
-                />
-              );
-            })}
+            {drawnLayersFromState.features.map((feature, index) => (
+              <ChartCard
+                key={feature.properties.areaName}
+                areaName={feature.properties.areaName}
+                areaIndex={index}
+                leafletIds={['0, 1']} // useless now delete
+                region={feature.properties.region}
+                zonalStatsData={feature.properties.zonalStatsData}
+                leafletFeatureGroupRef={leafletFeatureGroupRef}
+                layerToRemove={listOfDrawnLayers[index]}
+                map={map}
+                setListOfDrawnLayers={setListOfDrawnLayers}
+                setBufferGeo={setBufferGeo}
+                bufferGeo={bufferGeo}
+              />
+            ))}
           </Box>
         </Grid>
       ) : (
@@ -211,7 +167,7 @@ export default function ChartsHolder(props) {
           sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}
         >
           <Box>
-            <TableData data={chartData} />
+            {/* <TableData data={chartData} /> TODO: COME BACK TO THIS IT NEEDS UPDATING TOO */}
           </Box>
         </Grid>
       )}

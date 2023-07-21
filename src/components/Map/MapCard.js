@@ -1,44 +1,8 @@
-/*
-Purpose
-  holds map and map actions
-
-Child Components
-  - Map-ActionButton.js
-  - Map-ActionButtons.js
-  - Map-ClearAllState.js
-  - Map-DrawArea.js
-  - Map-DrawAreaActions.js
-  - Map-MapIdentify.js
-  - Map-SearchPlaces.js
-  - Map-SearchPlacesAction.js
-  - Map-ShareMap.js
-
-Libs
-  - leaflet
-
-API
-  - indentify
-  - zonal stats
-  - share map
-
-State needed
-  - zoom level
-  - center
-  - basemap
-  - region
-  - layers on and off
-  - all zonal stat GEOJSON so we can draw it
-  - probably missed stuff
-
-Props
-  - Not sure yet
-
-*/
 import React, {
   useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import { useMapEvents, FeatureGroup, GeoJSON } from 'react-leaflet';
 import ShareIcon from '@mui/icons-material/Share';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
@@ -60,7 +24,8 @@ import ActionButtons from './ActionButtons';
 import { createShareURL } from './ShareMap';
 import ModelErrors from '../All/ModelErrors';
 import ModalShare from '../All/ModalShare';
-import DrawnLayers from './DrawnLayers';
+import LeafletDrawTools from './LeafletDrawTools';
+import { StyledReactLeafletTooltip } from '../All/StyledComponents';
 
 // import Boxforlayout from './BoxForLayouts';
 
@@ -72,6 +37,7 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 export default function MapCard(props) {
@@ -82,7 +48,10 @@ export default function MapCard(props) {
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
     tooLargeLayerOpen,
-    setTooLargeLayerOpen
+    setTooLargeLayerOpen,
+    setListOfDrawnLayers,
+    bufferGeo,
+    setBufferGeo
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
@@ -94,6 +63,7 @@ export default function MapCard(props) {
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
+  const drawnFromState = useSelector(drawnLayersSelector);
   // const analyzedAreas = useSelector(analyzedAreasSelector);
 
   const handleRegionChange = useCallback((regionName, user) => {
@@ -146,7 +116,7 @@ export default function MapCard(props) {
       },
       zoomend: () => {
         const featureGroup = leafletFeatureGroupRef.current;
-        featureGroup.eachLayer((layer) => {
+        featureGroup?.eachLayer((layer) => {
           if (map.getZoom() < 10) {
             layer.closeTooltip();
           } else {
@@ -200,13 +170,30 @@ export default function MapCard(props) {
             Share Map
           </Button>
         </Control>
-        <DrawnLayers
+        <LeafletDrawTools
           map={map}
           leafletFeatureGroupRef={leafletFeatureGroupRef}
           bufferCheckbox={bufferCheckbox}
           setDrawAreaDisabled={setDrawAreaDisabled}
           setTooLargeLayerOpen={setTooLargeLayerOpen}
+          setListOfDrawnLayers={setListOfDrawnLayers}
+          bufferGeo={bufferGeo}
+          setBufferGeo={setBufferGeo}
         />
+        {drawnFromState?.features?.map((item, index) => (
+          <React.Fragment key={item.geometry.coordinates} >
+            <GeoJSON data={item}>
+              <StyledReactLeafletTooltip direction='center' permanent>
+                {item.properties.areaName}
+              </StyledReactLeafletTooltip>
+            </GeoJSON>
+          </React.Fragment>
+        ))}
+        {bufferGeo?.features?.map((item, index) => (
+          <React.Fragment key={item.geometry.coordinates} >
+            <GeoJSON data={item} style={{ color: '#99c3ff' }}/>
+          </React.Fragment>
+        ))}
         <ModalShare
           contentTitle={'Share map url'}
           contentMessage={shareUrl}
@@ -246,5 +233,8 @@ MapCard.propTypes = {
   leafletFeatureGroupRef: PropTypes.object,
   setDrawAreaDisabled: PropTypes.func,
   tooLargeLayerOpen: PropTypes.bool,
-  setTooLargeLayerOpen: PropTypes.func
+  setTooLargeLayerOpen: PropTypes.func,
+  setListOfDrawnLayers: PropTypes.func,
+  bufferGeo: PropTypes.object,
+  setBufferGeo: PropTypes.func
 };

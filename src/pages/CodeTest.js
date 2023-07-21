@@ -4,20 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNewFeatureToDrawnLayers, removeFeatureByGeometry, updateDrawnLayers, incrementAreaNumber } from '../reducers/mapPropertiesSlice';
 import { MapContainer, TileLayer, useMap, GeoJSON, Tooltip, FeatureGroup, useMapEvents, Circle } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { styled } from '@mui/system';
 import * as L from 'leaflet';
 import { feature } from '@turf/turf';
 import buffer from '@turf/buffer';
 import * as turf from '@turf/turf';
-
-export const StyledReactLeafletTooltip = styled(Tooltip)(({ theme }) => ({
-  backgroundColor: 'transparent !important',
-  border: 'transparent !important',
-  color: '#FFFFFF !important',
-  boxShadow: 'none !important',
-  fontSize: '1.5em',
-  fontWeight: 700
-}));
+import { StyledReactLeafletTooltip } from '../components/All/StyledComponents';
 
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const areaNumberSelector = (state) => state.mapProperties.areaNumber;
@@ -43,13 +34,13 @@ function EditControlFC(props) {
     }));
   };
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     const geo = e.layer.toGeoJSON();
     addBufferLayer(geo);
     geo.properties = { areaName: `Area ${areaNumber}` };
     dispatch(incrementAreaNumber());
     dispatch(addNewFeatureToDrawnLayers(geo));
-  }
+  };
 
   React.useEffect(() => {
     setLayers(passedRef?.current?.getLayers());
@@ -75,10 +66,11 @@ function EditControlFC(props) {
   }, [geojson]);
 
   return (
-    <FeatureGroup ref={passedRef} eventHandlers={{ layeradd: handleChange }}>
+    <FeatureGroup ref={passedRef} eventHandlers={{  }}>
       <EditControl
+        key={`edit-control-${areaNumber}`}
         position="topleft"
-        // onCreated={(e) => { handleChange(e, areaNumber); }}
+        onCreated={(e) => { handleChange(e); }}
         draw={{
           rectangle: false,
           circle: true,
@@ -139,6 +131,7 @@ const App = () => {
         </React.Fragment>
       ))}
       <MapContainer
+        key={'balls'}
         center={[35.776787, -82.968467]}
         zoom={9}
         zoomControl={false}
