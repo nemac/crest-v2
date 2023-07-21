@@ -1,9 +1,26 @@
 import React from 'react';
+import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { PropTypes } from 'prop-types';
 
 import ChartHeaderActionButtonsHolder from './GenericChartHeaderActionButtons';
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  border: `1px solid ${theme.palette.CRESTBorderColor.main}`,
+  display: 'flex',
+  flexDirection: 'row',
+  overflowY: 'scroll',
+  overflowX: 'clip',
+  width: '100%',
+  height: 'calc(100% - 88px)'
+}));
+
+const StyledBackgroundBox = styled(Box)(({ theme }) => ({
+  height: '100%'
+}));
 
 export default function GenericLeftColumn(props) {
   const {
@@ -12,34 +29,37 @@ export default function GenericLeftColumn(props) {
   } = props;
 
   return (
-    <Box>
+    <Box sx={{ height: '100%', width: '100%' }}>
       {mapActionCard}
-      <Box sx={{ height: 'calc(100% - 258px)', marginTop: '8px' }}>
+      <StyledBox >
         {!chartCard.props.chartData ? (
           noDataState
         ) : (
-          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
+          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={0} sx={{ height: '100%' }} >
             <Grid xs={12} >
               {optionalComponent}
             </Grid>
-            <Grid xs={12}>
-              <ChartHeaderActionButtonsHolder
-                title='Where Should I Do a Resilience Project'
-                actionButtons={chartHeaderActionButtons}
-              />
-            </Grid>
-            <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
-              <Box>
+            {chartHeaderActionButtons ? (
+                        <Grid xs={12} sx={{ height: '100%' }}>
+                        <ChartHeaderActionButtonsHolder
+                          title='Explore Reslience Hubs'
+                          actionButtons={chartHeaderActionButtons}
+                        />
+                      </Grid>
+            ) : (<Grid sx={{ display: 'none' }}></Grid>)
+            }
+            <Grid xs={12} sx={{ height: '100%', width: '100%' }} >
+              <StyledBackgroundBox mr={1}>
                 {isItAGraph ? (
                   chartCard
                 ) : (
                   tableData
                 )}
-              </Box>
+              </StyledBackgroundBox>
             </Grid>
           </Grid>
         )}
-      </Box>
+      </StyledBox>
     </Box>
   );
 }

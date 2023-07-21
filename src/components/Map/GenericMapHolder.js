@@ -12,10 +12,10 @@ import MapLayerList from '../MapLayerList/MapLayerList';
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
   [theme.breakpoints.down('lg')]: {
-    height: 'calc(100% - 56px)'
+    height: 'calc(100% - 80px)'
   },
   [theme.breakpoints.down('md')]: {
-    height: 'calc(60% - 56px)'
+    height: 'calc(60% - 80px)'
   }
 }));
 

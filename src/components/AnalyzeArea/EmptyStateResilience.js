@@ -30,17 +30,14 @@ const StyledBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   color: theme.palette.CRESTGridBackground.contrastText,
-  borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: 'solid',
-  borderWidth: '1px',
   height: '100%',
   overflow: 'hidden'
 }));
 
 // just a place holder needs props passed in and image etc
-export default function EmptyState(props) {
+export default function EmptyStateResilience(props) {
   return (
-    <StyledBox variant="outlined">
+    <StyledBox>
       <Box sx={{ height: 'calc(100% - 4px)', overflow: 'hidden' }}>
         <Typography variant="h6" gutterBottom>
           To get started

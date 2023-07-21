@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Legend, PieChart, Pie, Cell, ResponsiveContainer, Tooltip
 } from 'recharts';
-import { Box, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { PropTypes } from 'prop-types';
 import { mapConfig } from '../../configuration/config';
@@ -75,27 +75,36 @@ export default function ResiliencePieChart(props) {
   };
 
   return (
-    <ResponsiveContainer id={'resilience-pie-container'}>
-      <PieChart>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          innerRadius={'35%'}
-          outerRadius={'75%'}
-          label={renderCustomizedLabel}
-          fill="#8884d8"
-          dataKey="value"
-        >
-          {data?.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip content={CustomTooltip}/>
-        <Legend iconType='circle' layout='vertical' align='right' verticalAlign='middle' height={245} />
-      </PieChart>
-    </ResponsiveContainer>
+    <Grid container spacing={0} p={0} mt={0} mb={0} >
+      <Grid item xs={12}>
+        <Typography variant="body" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+          Core Variability
+        </Typography>
+      </Grid>
+      <Grid item xs={12} mx={1} sx={{ height: '320px' }}>
+          <ResponsiveContainer id={'resilience-pie-container'}>
+            <PieChart >
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                innerRadius={'35%'}
+                outerRadius={'75%'}
+                label={renderCustomizedLabel}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {data?.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip content={CustomTooltip}/>
+              <Legend iconType='circle' layout='vertical' align='right' verticalAlign='middle' height={245} formatter={(value, entry, index) => <span style={{ color: 'white' }} >{value}</span>} />
+            </PieChart>
+          </ResponsiveContainer>
+          </Grid>
+        </Grid>
   );
 }
 
