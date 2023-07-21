@@ -17,10 +17,10 @@ export default function ActionButtonsHolder(props) {
       justifyContent="center"
       alignItems="center"
       p={0}
-      sx={{ height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
+      sx={{ width: 'fit-content', height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
     >
       {actionButtons?.map((actionButton) => (
-        <Grid key={actionButton.buttonName} xs={3}>
+        <Grid key={actionButton.buttonName} xs={3} sx={{ width: 'fit-content' }}>
           <ActionButton
             buttonLabel={actionButton.buttonLabel}
             buttonName={actionButton.buttonName}
