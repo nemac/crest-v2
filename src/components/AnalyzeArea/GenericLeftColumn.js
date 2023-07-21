@@ -1,9 +1,22 @@
 import React from 'react';
+import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { PropTypes } from 'prop-types';
 
 import ChartHeaderActionButtonsHolder from './GenericChartHeaderActionButtons';
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  border: `1px solid ${theme.palette.CRESTBorderColor.main}`,
+  display: 'flex',
+  flexDirection: 'row',
+  overflowY: 'scroll',
+  overflowX: 'clip',
+  width: '100%',
+  height: 'calc(100% - 88px)'
+}));
 
 export default function GenericLeftColumn(props) {
   const {
@@ -14,8 +27,8 @@ export default function GenericLeftColumn(props) {
   return (
     <Box>
       {mapActionCard}
-      <Box sx={{ height: 'calc(100% - 258px)', marginTop: '8px' }}>
-        {chartCard?.props?.chartData === undefined || chartCard?.props?.chartData.length === 0 ? (
+      <StyledBox >
+        {!chartCard.props.chartData ? (
           noDataState
         ) : (
           <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
@@ -39,7 +52,7 @@ export default function GenericLeftColumn(props) {
             </Grid>
           </Grid>
         )}
-      </Box>
+      </StyledBox>
     </Box>
   );
 }
