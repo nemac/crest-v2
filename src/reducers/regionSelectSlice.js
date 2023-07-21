@@ -7,7 +7,7 @@ export const regionSelectSlice = createSlice({
   name: 'selectedRegion',
   initialState: {
     userInitiated: false,
-    value: regions['Continental U.S'].label // Continental US
+    value: regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].label // Continental US
   },
   reducers: {
     changeRegion: (state, action) => {

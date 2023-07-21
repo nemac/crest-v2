@@ -4,6 +4,19 @@ export const americanSamoaConfig = {
   label: 'American Samoa',
   image: regionAmericanSamoaImage,
   regionName: 'american_samoa',
+  reportEnglish: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2021-12/American-Samoa-Coastal-Resilience-Assessment.pdf',
+    name: 'American Samoa Coastal Resilience Assessment'
+  },
+  reportNative: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2021-12/Amerika-Samoa-Suesuega-o-Malosi-Gafataulima-i-Nofoaga-Tumatafaga.pdf',
+    name: ' Amerika Samoa Su’esu’ega o Malosi Gafataulima i Nofoaga Tumatāfaga'
+  },
+  dataDownload: {
+    fileSize: '89 MB',
+    fileLink: 'https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/American_Samoa_Assessment_Data.zip',
+    name: 'American Samoa Data Download'
+  },
   mapProperties: {
     label: 'American Samoa',
     center: [-14.31, -170.25],

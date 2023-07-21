@@ -45,7 +45,7 @@ export default function AboutFishAndWildlife(props) {
         habitats are located, helping to understand areas where implementing nature-based
         solutions are likely to benefit federal- or state-designated species of concern. While
         the Regional Coastal Resilience Assessments consistently combine species data to create
-        a single Fish and Wildlife Index, methods vary between the continental U.S. (CONUS) and
+        a single Fish and Wildlife Index, methods vary between the Atlantic, Gulf of Mexico, and Pacific Coasts. (CONUS) and
         other regional assessments. In CONUS, a Terrestrial and Aquatic Index are combined based
         principally on rarity-weighted richness. Importantly, in CONUS, the Aquatic Index
         includes both freshwater and marine species, but focuses almost exclusively on very

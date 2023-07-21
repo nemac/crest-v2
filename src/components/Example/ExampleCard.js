@@ -81,15 +81,15 @@ export default function ExampleCard(props) {
       setExamplePolyData(null);
     }
 
-    const activeStepLayer = mapConfig.regions['Continental U.S'].layerList[steps[activeStep].layerIndex];
-    const previousStepLayer = mapConfig.regions['Continental U.S'].layerList[steps[previousStep].layerIndex]
+    const activeStepLayer = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].layerList[steps[activeStep].layerIndex];
+    const previousStepLayer = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].layerList[steps[previousStep].layerIndex]
 
     // zero out the active and previous step if not expanded, toggle layer, and reset map
     if (map && expanded !== title) {
       setActiveStep(0);
       setPreviousStep(0);
-      const defaultCenter = mapConfig.regions['Continental U.S'].mapProperties.center;
-      const defaultZoom = mapConfig.regions['Continental U.S'].mapProperties.zoom;
+      const defaultCenter = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.center;
+      const defaultZoom = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.zoom;
       flyToLocation(map, defaultCenter, defaultZoom);
       if (activeStep >= 2) {
         dispatch(toggleLayer(activeStepLayer));

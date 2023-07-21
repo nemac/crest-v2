@@ -15,7 +15,7 @@ Purpose
     - Alaska
     - American Samoa
     - Contiental U.S.
-    - Great Lakes
+    - U.S. Great Lakes
     - Guam
     - Hawai'i
     - Northern Mariana Islands
