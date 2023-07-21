@@ -4,6 +4,19 @@ export const guamConfig = {
   label: 'Guam',
   image: regionGuamImage,
   regionName: 'guam',
+  reportEnglish: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2021-10/Guam-Coastal-Resilience-Assessment-Oct-2021_0.pdf',
+    name: 'Guam Coastal Resilience Assessment'
+  },
+  reportNative: {
+    fileLink: null,
+    name: null
+  },
+  dataDownload: {
+    fileSize: '32 MB',
+    fileLink: 'https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/Guam_Assessment_Data.zip',
+    name: 'Guam Data Download'
+  },
   mapProperties: {
     label: 'Guam',
     center: [13.45, 144.8],

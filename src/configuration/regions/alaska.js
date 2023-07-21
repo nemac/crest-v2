@@ -4,6 +4,19 @@ export const alaskaConfig = {
   label: 'Alaska',
   image: regionAlaskaImage,
   regionName: 'alaska',
+  reportEnglish: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2022-04/alaska-coastal-resilience-assessment.pdf',
+    name: 'Alaska Coastal Resilience Assessment'
+  },
+  reportNative: {
+    fileLink: null,
+    name: null
+  },
+  dataDownload: {
+    fileSize: '720 MB',
+    fileLink: 'https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/Alaska_Assessment_Data.zip',
+    name: 'Alaska Data download'
+  },
   mapProperties: {
     label: 'Alaska',
     center: [62.996, -150.858],

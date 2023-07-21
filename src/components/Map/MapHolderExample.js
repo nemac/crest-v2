@@ -118,8 +118,8 @@ export default function MapHolderExample() {
             order={{ xs: 1, sm: 1, md: 2 }}>
         <ContentMapBox>
           <LeafletMapContainer
-            center={mapConfig.regions['Continental U.S'].mapProperties.center}
-            zoom={mapConfig.regions['Continental U.S'].mapProperties.zoom}
+            center={mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.center}
+            zoom={mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.zoom}
             innerRef={setMap}
           >
             <>

@@ -4,6 +4,19 @@ export const hawaiiConfig = {
   label: 'Hawai\'i',
   image: regionHawaiiImage,
   regionName: 'hawaii',
+  reportEnglish: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2020-11/hawaii-coastal-resilience-assessment.pdf',
+    name: 'Hawai\'i Assessment'
+  },
+  reportNative: {
+    fileLink: null,
+    name: null
+  },
+  dataDownload: {
+    fileSize: '98 MB',
+    fileLink: 'https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/Hawaii_Assessment_Data.zip',
+    name: 'Hawai\'i Download'
+  },
   mapProperties: {
     label: 'Hawai\'i',
     center: [21.08, 196.97],
