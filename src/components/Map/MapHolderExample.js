@@ -6,6 +6,10 @@ import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
+import {
+  ArrowDropDownCircle,
+  Help
+} from '@mui/icons-material';
 
 import Example from '../Example/Examples';
 import LeafletMapContainer from './LeafletMapContainer';
@@ -14,6 +18,8 @@ import BasemapLayer from './BasemapLayer';
 import ActiveTileLayers from './ActiveTileLayers';
 import MapLayerList from '../MapLayerList/MapLayerList';
 import { mapConfig } from '../../configuration/config';
+import { StyledGrid } from '../All/StyledComponents';
+import UpperRightIconButton from '../All/UpperRightIconButton';
 
 const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(0.2),
@@ -84,9 +90,17 @@ export default function MapHolderExample() {
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
       >
-        <Typography align='center' variant="h6" gutterBottom>
-          Step through one of the examples to learn how to use CREST
-        </Typography>
+
+        <StyledGrid container spacing={0} mb={1} justifyContent="center" alignItems="center" sx={{ height: '80px' }} >
+          <Grid xs={12} >
+            <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', height: '60px' }} >
+              <Typography variant="h6" component="div" px={1} sx={{ cursor: 'default', width: '100%', alignItems: 'center' }}>
+                Step through one of the examples to learn how to use CREST
+              </Typography>
+            </Box>
+          </Grid>
+        </StyledGrid>
+
         <Example
           map={map}
           examplePolyData={examplePolyData}

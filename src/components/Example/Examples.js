@@ -45,7 +45,9 @@ export default function Example(props) {
           borderColor: theme.palette.CRESTBorderColor.main,
           borderStyle: 'solid',
           borderWidth: '1px',
-          height: '100%'
+          height: 'calc(100% - 88px)',
+          overflowX: 'clip',
+          overflowY: 'scroll'
         })
       }}
     >

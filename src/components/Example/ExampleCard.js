@@ -151,7 +151,7 @@ export default function ExampleCard(props) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography variant="h6" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+        <Typography variant="h7" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
           {title}
         </Typography>
       </AccordionSummary>
@@ -159,7 +159,7 @@ export default function ExampleCard(props) {
       <AccordionDetails>
         <Grid container spacing={0} p={0} mt={1} mb={1}>
           <Grid item xs={12} >
-            <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+            <Typography variant="body2" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
               {summaryText}
             </Typography>
             {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}
@@ -178,10 +178,10 @@ export default function ExampleCard(props) {
           </Grid>
           <Grid item xs={12} >
             <Box sx={{ height: '175px' }}>
-              <Typography>
+              <Typography variant="body1" component="div" >
                 {steps[activeStep].title}
               </Typography>
-              <Typography>
+              <Typography variant="body2" component="div" >
                 {steps[activeStep].text}
               </Typography>
             </Box>
