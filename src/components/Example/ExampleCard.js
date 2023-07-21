@@ -155,16 +155,19 @@ export default function ExampleCard(props) {
           {title}
         </Typography>
       </AccordionSummary>
+      {/* revist  */}
       <Divider light sx={{ marginLeft: '6px', marginRight: '6px' }} />
-      <AccordionDetails>
-        <Grid container spacing={0} p={0} mt={1} mb={1}>
-          <Grid item xs={12} >
+      <AccordionDetails>  
+        <Grid container spacing={0} p={0} m={0}>
+          <Grid item xs={12} py={1}>
             <Typography variant="body2" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
               {summaryText}
             </Typography>
             {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}
           </Grid>
-          <Typography align='center' sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          <Grid item xs={12} py={1} >
+            <Typography align='center' variant="body2" component="div">Step {activeStep + 1}</Typography>
+          </Grid>          
           <Grid item xs={12} >
             <Box sx={{ width: '100%' }}>
               <Stepper activeStep={activeStep} nonLinear={true}>
