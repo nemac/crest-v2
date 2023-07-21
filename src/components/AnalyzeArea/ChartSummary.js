@@ -17,6 +17,8 @@ import {
 } from 'recharts';
 
 import { useSelector } from 'react-redux';
+import * as L from 'leaflet';
+import buffer from '@turf/buffer';
 
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
@@ -77,10 +79,9 @@ export default function ChartSummary(props) {
     chartIndices,
     chartType,
     map,
-    layerToHighlight
+    layerToHighlight,
+    bufferLayerToHighlight
   } = props;
-
-  const blah = []
 
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
@@ -198,10 +199,10 @@ export default function ChartSummary(props) {
       const id = feature.properties.leafletId;
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
-        if (bufferLayerId !== undefined) {
-          thisMap.current._layers[bufferLayerId].setStyle(bufferHighlightStyle);
+        if (bufferLayerToHighlight !== undefined) {
+          bufferLayerToHighlight.setStyle(bufferHighlightStyle);
         } else {
-          thisMap.current._layers[id].setStyle(areaHighlightStyle);
+          layerToHighlight.setStyle(areaHighlightStyle);
         }
       }
     });
@@ -222,10 +223,10 @@ export default function ChartSummary(props) {
       const id = feature.properties.leafletId;
       const bufferLayerId = feature.properties.bufferLayerId;
       if (feature.properties.areaName === areaName) {
-        if (bufferLayerId !== undefined) {
-          thisMap.current._layers[bufferLayerId].setStyle(bufferStyle);
+        if (bufferLayerToHighlight !== undefined) {
+          bufferLayerToHighlight.setStyle(bufferStyle);
         }
-        thisMap.current._layers[id].setStyle(areaStyle);
+        layerToHighlight.setStyle(areaStyle);
       }
     });
   };
@@ -269,7 +270,6 @@ export default function ChartSummary(props) {
       </BarChart>
     </ResponsiveContainer>
   );
-  console.log(chartData);
   return (
     <ContentBox
       onMouseEnter={handleMouseEnter}

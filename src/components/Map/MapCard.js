@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useCallback
+  useState, useEffect, useCallback, createRef
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents, FeatureGroup, GeoJSON } from 'react-leaflet';
@@ -51,10 +51,14 @@ export default function MapCard(props) {
     setTooLargeLayerOpen,
     setListOfDrawnLayers,
     bufferGeo,
-    setBufferGeo
+    setBufferGeo,
+    bufferLayersList,
+    setBufferLayersList
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
+  const geojsonRef = React.useRef([]);
+  geojsonRef.current = bufferGeo.features.map((_, i) => geojsonRef.current[i] ?? createRef());
   const dispatch = useDispatch();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
@@ -179,6 +183,7 @@ export default function MapCard(props) {
           setListOfDrawnLayers={setListOfDrawnLayers}
           bufferGeo={bufferGeo}
           setBufferGeo={setBufferGeo}
+          setBufferLayersList={setBufferLayersList}
         />
         {drawnFromState?.features?.map((item, index) => (
           <React.Fragment key={item.geometry.coordinates} >
@@ -191,7 +196,16 @@ export default function MapCard(props) {
         ))}
         {bufferGeo?.features?.map((item, index) => (
           <React.Fragment key={item.geometry.coordinates} >
-            <GeoJSON data={item} style={{ color: '#99c3ff' }}/>
+            <GeoJSON
+              ref={geojsonRef.current[index]}
+              data={item}
+              style={{ color: '#99c3ff' }}
+              eventHandlers={{
+                mouseover: (e) => { e.target.setStyle({ color: '#ff0000' }); },
+                mouseout: (e) => { e.target.setStyle({ color: '#99c3ff' }); },
+                click: (e) => {console.log(geojsonRef.current[index])}
+              }}
+            />
           </React.Fragment>
         ))}
         <ModalShare

@@ -62,6 +62,7 @@ export default function ChartActionButtons(props) {
     leafletFeatureGroupRef,
     map,
     layerToRemove,
+    bufferLayerToRemove,
     setBufferGeo,
     setListOfDrawnLayers,
     bufferGeo
@@ -142,6 +143,7 @@ export default function ChartActionButtons(props) {
 
   const removeLayer = (layer) => {
     leafletFeatureGroupRef.current?.removeLayer(layerToRemove);
+    //leafletFeatureGroupRef.current?.removeLayer(bufferLayerToRemove);
     setListOfDrawnLayers(leafletFeatureGroupRef.current?.getLayers());
     const geo = layerToRemove.toGeoJSON();
     const buffGeo = buffer(geo, 1, { units: 'kilometers' });

@@ -15,7 +15,8 @@ import {
   removeAllFeaturesFromZonalStatsAreas,
   uploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
-  incrementAreaNumber
+  incrementAreaNumber,
+  addBufferLayerToList
 } from '../../reducers/mapPropertiesSlice';
 import { setEmptyState } from '../../reducers/analyzeAreaSlice';
 
@@ -34,7 +35,8 @@ export default function LeafletDrawTools(props) {
     setDrawAreaDisabled,
     setTooLargeLayerOpen,
     setListOfDrawnLayers,
-    setBufferGeo
+    setBufferGeo,
+    setBufferLayersList
   } = props;
   const dispatch = useDispatch();
 
@@ -264,12 +266,16 @@ export default function LeafletDrawTools(props) {
   //   });
   // }
 
-  const addBufferLayer = (geo) => {
+  const addBufferLayer = (geo, ref) => {
     const buffGeo = buffer(geo, bufferSize, { units: bufferUnits });
     setBufferGeo((previous) => ({
       ...previous,
       features: [...previous.features, ...[buffGeo]]
     }));
+    const bufferLayer = L.geoJSON(buffGeo, { style: { color: '#99c3ff' } });
+    //ref?.current?.addLayer(bufferLayer);
+    //dispatch(addBufferLayerToList(JSON.stringify(bufferLayer)));
+    setBufferLayersList((previous) => [...previous, bufferLayer]);
     return buffGeo;
   };
 
@@ -290,13 +296,13 @@ export default function LeafletDrawTools(props) {
             leafletFeatureGroupRef.current?.addLayer(layer);
           }
           setListOfDrawnLayers(leafletFeatureGroupRef?.current?.getLayers());
-          addBufferLayer(layer.toGeoJSON());
+          addBufferLayer(layer.toGeoJSON(), leafletFeatureGroupRef);
         }
       });
     }
-  }, [drawnLayersFromState]);
+  }, [drawnLayersFromState, leafletFeatureGroupRef]);
 
-  function handleOnCreate(e) {
+  function handleOnCreate(e, ref) {
     // Toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
 
@@ -311,13 +317,13 @@ export default function LeafletDrawTools(props) {
     setDrawAreaDisabled(true);
 
     const geo = e.layer.toGeoJSON();
+    let buffGeo;
+    if (bufferCheckbox) {
+      buffGeo = addBufferLayer(geo, ref);
+    }
     geo.properties = geo.properties || {};
     geo.properties.areaName = `Area ${areaNumber}`;
     geo.properties.region = selectedRegion;
-    let buffGeo;
-    if (bufferCheckbox) {
-      buffGeo = addBufferLayer(geo);
-    }
     const layerToAnalyze = L.geoJSON(buffGeo) || e.layer;
 
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
@@ -341,7 +347,7 @@ export default function LeafletDrawTools(props) {
         <EditControl
           key={`edit-control-${areaNumber}`}
           position='topleft'
-          onCreated={handleOnCreate}
+          onCreated={(e) => { handleOnCreate(e, leafletFeatureGroupRef); }}
           draw={{
             polyline: false,
             polygon: true,

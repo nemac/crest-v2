@@ -16,6 +16,7 @@ export const mapPropertiesSlice = createSlice({
     uploadedShapeFile: null,
     resilienceHub: null,
     areaNumber: 1,
+    bufferLayers: [],
     zonalStatsAreas: {
       type: 'FeatureCollection',
       features: []
@@ -101,6 +102,11 @@ export const mapPropertiesSlice = createSlice({
     },
     resetAreaNumber: (state) => {
       state.areaNumber = 1;
+    },
+    addBufferLayerToList: (state, action) => {
+      // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
+      // used to rebuild all of the layers on page refresh
+      state.bufferLayers = [...state.bufferLayers, action.payload];
     }
   }
 });
@@ -113,7 +119,7 @@ export const {
   removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
   removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON,
   changeResilienceHub, updateDrawnLayers, removeFeatureByGeometry, incrementAreaNumber,
-  resetAreaNumber
+  resetAreaNumber, addBufferLayerToList
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

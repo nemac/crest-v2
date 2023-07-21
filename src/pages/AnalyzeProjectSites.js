@@ -26,6 +26,7 @@ export default function AnalyzeProjectSite() {
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const [listOfDrawnLayers, setListOfDrawnLayers] = useState([]);
+  const [bufferLayersList, setBufferLayersList] = useState([]);
   const [bufferGeo, setBufferGeo] = useState({ type: 'FeatureCollection', features: [] });
   useEffect(() => {
     // Delete share url params from url when it's complete
@@ -92,6 +93,8 @@ export default function AnalyzeProjectSite() {
           setListOfDrawnLayers={setListOfDrawnLayers}
           setBufferGeo={setBufferGeo}
           bufferGeo={bufferGeo}
+          bufferLayersList={bufferLayersList}
+          setBufferLayersList={setBufferLayersList}
           chartData={drawnLayersFromState.features}
         />
       }
@@ -108,6 +111,8 @@ export default function AnalyzeProjectSite() {
           setTooLargeLayerOpen={setTooLargeLayerOpen}
           bufferGeo={bufferGeo}
           setBufferGeo={setBufferGeo}
+          bufferLayersList={bufferLayersList}
+          setBufferLayersList={setBufferLayersList}
         />
       }
       noDataState={<EmptyState/>}
