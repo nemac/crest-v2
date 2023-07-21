@@ -29,30 +29,33 @@ export default function GenericLeftColumn(props) {
   } = props;
 
   return (
-    <Box>
+    <Box sx={{ height: '100%', width: '100%' }}>
       {mapActionCard}
       <StyledBox >
         {!chartCard.props.chartData ? (
           noDataState
         ) : (
-          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
+          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={0} sx={{ height: '100%' }} >
             <Grid xs={12} >
               {optionalComponent}
             </Grid>
-            <Grid xs={12}>
-              <ChartHeaderActionButtonsHolder
-                title='Where Should I Do a Resilience Project'
-                actionButtons={chartHeaderActionButtons}
-              />
-            </Grid>
-            <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
-              <Box>
+            {chartHeaderActionButtons ? (
+                        <Grid xs={12} sx={{ height: '100%' }}>
+                        <ChartHeaderActionButtonsHolder
+                          title='Explore Reslience Hubs'
+                          actionButtons={chartHeaderActionButtons}
+                        />
+                      </Grid>
+            ) : (<Grid sx={{ display: 'none' }}></Grid>)
+            }
+            <Grid xs={12} sx={{ height: '100%', width: '100%' }} >
+              <StyledBackgroundBox mr={1}>
                 {isItAGraph ? (
                   chartCard
                 ) : (
                   tableData
                 )}
-              </Box>
+              </StyledBackgroundBox>
             </Grid>
           </Grid>
         )}

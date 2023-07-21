@@ -4,24 +4,22 @@ import { PropTypes } from 'prop-types';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Typography } from '@mui/material';
 
-import { StyledGrid } from '../All/StyledComponents';
-
 export default function ResilienceHubScore(props) {
   const { coreHubScore } = props;
 
   return (
-    <StyledGrid container spacing={0} p={0} mt={1} mb={1} sx={{ height: '350px' }}>
+    <Grid container spacing={0} p={0} mt={0} mb={0} >
       <Grid xs={12}>
-        <Typography variant="h4" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
-          Average Hub Core Score
+        <Typography variant="body" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+          Average Core Score
         </Typography>
       </Grid>
-      <Grid xs={12}>
+      <Grid xs={12} >
         <Typography variant="h2" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
           {coreHubScore}
         </Typography>
       </Grid>
-    </StyledGrid>
+    </Grid>
   );
 }
 
