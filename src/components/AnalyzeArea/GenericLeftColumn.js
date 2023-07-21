@@ -18,6 +18,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   height: 'calc(100% - 88px)'
 }));
 
+const StyledBackgroundBox = styled(Box)(({ theme }) => ({
+  height: '100%'
+}));
+
 export default function GenericLeftColumn(props) {
   const {
     mapActionCard, chartHeaderActionButtons, chartCard, tableData,
