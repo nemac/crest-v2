@@ -42,7 +42,6 @@ import {
 
 import { changeMore } from '../../reducers/analyzeAreaSlice';
 import {
-  removeFeatureFromZonalStatsAreas, removeFeatureFromDrawnLayers,
   changeCenter, changeZoom, removeFeatureByGeometry
 } from '../../reducers/mapPropertiesSlice';
 import ActionButton from '../All/ActionButton';
@@ -61,7 +60,6 @@ export default function ChartActionButtons(props) {
     areaIndex,
     data,
     leafletFeatureGroupRef,
-    leafletIds,
     map,
     layerToRemove,
     setBufferGeo,
@@ -73,17 +71,9 @@ export default function ChartActionButtons(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayers = useSelector(drawnLayersSelector);
 
-  const handleZoomClick = (event) => {
+  const handleZoomClick = (event, layerToZoomTo) => {
     event.stopPropagation();
-    let bounds;
-    drawnLayers.features.forEach((feature) => {
-      if (feature.properties.areaName === areaName) {
-        bounds = L.geoJSON(feature.geometry).getBounds();
-      }
-    });
-    if (!bounds) {
-      return;
-    }
+    const bounds = layerToZoomTo.getBounds();
     const newCenter = bounds.getCenter();
     const newZoom = map.getBoundsZoom(bounds);
     const newCenterArray = [newCenter.lat, newCenter.lng];
@@ -150,19 +140,6 @@ export default function ChartActionButtons(props) {
     link.click(); // This will download the data file using invisible link
   };
 
-  const handleRemoveClick = (event) => {
-    event.stopPropagation();
-    const featureGroup = leafletFeatureGroupRef.current;
-    // leafletIds is a list of all the leaflet ids to remove (e.g. drawn and buffer layer)
-    leafletIds.forEach((element) => {
-      featureGroup.removeLayer(element);
-    });
-    // remove layer from drawn layers AND from zonal stats info in redux
-    dispatch(removeFeatureFromZonalStatsAreas(areaIndex));
-    // drawn layer index SHOULD match up with zonal stats. If there are errors check this out
-    dispatch(removeFeatureFromDrawnLayers(areaIndex));
-  };
-
   const removeLayer = (layer) => {
     leafletFeatureGroupRef.current?.removeLayer(layerToRemove);
     setListOfDrawnLayers(leafletFeatureGroupRef.current?.getLayers());
@@ -204,7 +181,7 @@ export default function ChartActionButtons(props) {
         <ActionButton
           buttonLabel={'Zoom'}
           buttonName={'Zoom'}
-          onClick={handleZoomClick}>
+          onClick={(e) => { handleZoomClick(e, layerToRemove); }}>
           <CenterFocusStrong />
         </ActionButton>
       </Grid>
@@ -228,6 +205,5 @@ ChartActionButtons.propTypes = {
   areaIndex: PropTypes.number.isRequired,
   data: PropTypes.object,
   leafletFeatureGroupRef: PropTypes.object,
-  leafletIds: PropTypes.array,
   map: PropTypes.object
 };

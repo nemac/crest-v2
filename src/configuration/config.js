@@ -87,7 +87,6 @@ export const mapConfig = {
       areaName: null,
       buffer: true,
       leafletId: null, // this is the leaflet id of just the drawn layer
-      leafletIdsList: [], // List of leaflet ids to remove. Includes both drawn layer and buffer
       zonalStatsData: {}
     }
   },

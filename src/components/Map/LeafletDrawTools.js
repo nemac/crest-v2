@@ -25,18 +25,6 @@ const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
 const searchPlacesFileSelector = (state) => state.mapProperties.searchPlacesFileGeoJSON;
 
-// TODO: THIS STYLING BROKE WHILE UPDATING FROM MUI 4 to MUI 5 BUT I CAN FIX IT WITH REFACTOR
-// DO THIS JEFF!!!!
-const leafletTooltips = {
-  // Feels a bit hacky that I had to tack !important on to everything to get the override
-  backgroundColor: 'transparent !important',
-  border: 'transparent !important',
-  color: '#FFFFFF !important',
-  'box-shadow': 'none !important',
-  fontSize: '1.5em',
-  fontWeight: 700
-};
-
 const areaNumberSelector = (state) => state.mapProperties.areaNumber;
 
 export default function LeafletDrawTools(props) {
@@ -70,6 +58,11 @@ export default function LeafletDrawTools(props) {
     const area = turf.area(polygon);
     return area;
   });
+
+  if (searchPlacesGeoJSON) {
+    console.log('searchPlacesGeoJSON', searchPlacesGeoJSON);
+    dispatch(addSearchPlacesGeoJSON(null));
+  }
 
   // const createBufferLayer = ((layer) => {
   //   const geojson = buffer(layer.toGeoJSON(), bufferSize, { units: bufferUnits });

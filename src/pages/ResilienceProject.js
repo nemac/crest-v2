@@ -10,7 +10,6 @@ import ResilienceHubScore from '../components/AnalyzeArea/ResilienceHubScore';
 import ResilienceChartCard from '../components/AnalyzeArea/GenericChartCard';
 import ResilienceMapCard from '../components/Map/ResilienceMapCard';
 import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions';
-import TableData from '../components/AnalyzeArea/TableData';
 import { mapConfig } from '../configuration/config';
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;

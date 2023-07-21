@@ -1,31 +1,3 @@
-/*
-Purpose
-  Shows chart when the user does analyze project site. Type of chart
-
-  - format data for the chart from Zonal stats API JSON / GEOJSON
-  - handle all the charts
-    - details, inputs, and summary chart
-
-Child Components
-  - AnalyzeArea-ChartActionButtons.js
-
-Libs
-  - recharts
-
-API
-  - Zonal stats API JSON / GEOJSON
-  - Not sure yet
-
-State needed
-  - More or less?
-  - table or graph
-  - Not sure yet
-
-Props
-  - GEOJSON data (to get properies aka attributes)
-  - if details add export button
-  - Not sure yet
-*/
 import React, {
   useEffect,
   useRef,
@@ -89,6 +61,13 @@ const ToolTipBox = styled(Box)(({ theme }) => ({
   alignItems: 'center'
 }));
 
+const chartDataTemplate = {
+  name: '',
+  value: null,
+  chartValue: null,
+  tickLabel: ''
+};
+
 export default function ChartSummary(props) {
   const [barColors, setBarColors] = useState([]);
   const {
@@ -97,8 +76,11 @@ export default function ChartSummary(props) {
     chartRegion,
     chartIndices,
     chartType,
-    map
+    map,
+    layerToHighlight
   } = props;
+
+  const blah = []
 
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
@@ -287,6 +269,7 @@ export default function ChartSummary(props) {
       </BarChart>
     </ResponsiveContainer>
   );
+  console.log(chartData);
   return (
     <ContentBox
       onMouseEnter={handleMouseEnter}

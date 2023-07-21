@@ -18,6 +18,7 @@ import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
 import { mapConfig } from '../../configuration/config';
+import { handleExportCSV, HandleRemoveAllClick } from './ChartFunctions';
 
 // sample configs to create the charts should come from state/redux later
 // TODO config should be imported from config directory
@@ -57,7 +58,6 @@ export default function ChartsHolder(props) {
   //       tempData.push({
   //         areaName: entry.properties.areaName,
   //         areaIndex: index,
-  //         leafletIds: entry.properties.leafletIds,
   //         region: entry.properties.region,
   //         zonalStatsData: entry.properties.zonalStatsData
   //       });
@@ -84,61 +84,16 @@ export default function ChartsHolder(props) {
     dispatch(changeSortDirection());
   };
 
-  // TODO this will also need to clear all the save results
-  // from the store (from add areas) when its completed
-  const HandleRemoveAllClick = (event) => {
-    event.stopPropagation();
-    // clear all layers from leaflet draw featureGroup and from state/redux
-    leafletFeatureGroupRef.current.clearLayers();
-    dispatch(removeAllFeaturesFromZonalStatsAreas());
-    dispatch(removeAllFeaturesFromDrawnLayers());
-    dispatch(changeEmptyState());
-  };
-  // This exports all data for all areas
-  const handleExportClick = (event) => {
-    event.stopPropagation();
-    const dataRows = [];
-    chartData.map((area) => {
-      Object.entries(area.zonalStatsData).map(([index, value]) => {
-        const thisRow = [];
-        if (area.region === selectedRegion) {
-          thisRow.push(area.areaName);
-          thisRow.push(getLabel(area, index)); // need to get label here
-          thisRow.push(Number.isNaN(Number(value)) ? '0.0' : value.toFixed(3)); // need to get value here
-          thisRow.push(getRange(area, index)); // need to get range here
-          dataRows.push(thisRow);
-        }
-        return thisRow;
-      });
-      return dataRows;
-    });
-    const rows = [['Area', 'Index', 'Values', 'Range(s)']];
-    dataRows.map((row) => {
-      rows.push(row);
-      return rows;
-    });
-    // Get date and time, replace all special characters with '-'
-    const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, '-');
-    // concatenate type, area name, and date-time for filename
-    const filename = `ALL-DATA-${selectedRegion.replace(/ |\/|,|:|\./g, '-')}-${dateString}.csv`;
-    const csvData = rows.map((e) => e.join(',')).join('\n');
-    const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', filename);
-    document.body.appendChild(link); // invisible link for download
-    link.click(); // This will download the data file using invisible link
-  };
-
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
       <Grid xs={12} >
         <ChartHeaderActionButtons
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
-          HandleRemoveAllClick={HandleRemoveAllClick}
-          handleGenericClick={handleExportClick} />
+          HandleRemoveAllClick={
+            (e) => { HandleRemoveAllClick(e, leafletFeatureGroupRef, dispatch, setBufferGeo); }
+          }
+          handleGenericClick={handleExportCSV} />
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
@@ -149,7 +104,6 @@ export default function ChartsHolder(props) {
                 key={feature.properties.areaName}
                 areaName={feature.properties.areaName}
                 areaIndex={index}
-                leafletIds={['0, 1']} // useless now delete
                 region={feature.properties.region}
                 zonalStatsData={feature.properties.zonalStatsData}
                 leafletFeatureGroupRef={leafletFeatureGroupRef}

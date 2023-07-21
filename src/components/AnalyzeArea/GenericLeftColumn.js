@@ -15,7 +15,7 @@ export default function GenericLeftColumn(props) {
     <Box>
       {mapActionCard}
       <Box sx={{ height: 'calc(100% - 258px)', marginTop: '8px' }}>
-        {!chartCard.props.chartData ? (
+        {chartCard?.props?.chartData === undefined || chartCard?.props?.chartData.length === 0 ? (
           noDataState
         ) : (
           <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
