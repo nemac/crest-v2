@@ -12,7 +12,10 @@ import MapLayerList from '../MapLayerList/MapLayerList';
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
   [theme.breakpoints.down('lg')]: {
-    height: 'calc(100% - 56px)'
+    height: 'calc(100% - 80px)'
+  },
+  [theme.breakpoints.down('md')]: {
+    height: 'calc(60% - 80px)'
   }
 }));
 
@@ -33,7 +36,7 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 export default function GenericMapHolder(props) {
   const {
     mapActionCard, isItAGraph, chartHeaderActionButtons,
-    chartCard, tableData, mapCard
+    chartCard, tableData, mapCard, noDataState, optionalComponent
   } = props;
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
@@ -59,6 +62,8 @@ export default function GenericMapHolder(props) {
           chartCard = {chartCard}
           tableData = {tableData}
           isItAGraph = {isItAGraph}
+          noDataState = {noDataState}
+          optionalComponent = {optionalComponent}
         />
       </ThreeColumnGrid>
 
@@ -95,5 +100,7 @@ GenericMapHolder.propTypes = {
   chartCard: PropTypes.node,
   tableData: PropTypes.node,
   mapCard: PropTypes.node,
-  chartHeaderActionButtons: PropTypes.array
+  chartHeaderActionButtons: PropTypes.array,
+  noDataState: PropTypes.any,
+  optionalComponent: PropTypes.node
 };

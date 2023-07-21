@@ -3,12 +3,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { Button } from '@mui/material';
 
 import {
   ArrowDropDownCircle,
-  Help,
-  Info
+  Help
 } from '@mui/icons-material';
 
 import UpperRightIconButton from '../All/UpperRightIconButton';
@@ -18,12 +16,12 @@ import { StyledGrid } from '../All/StyledComponents';
 export default function ResilienceMapActionCard(props) {
   return (
     // There was a height of 250px here originally. Trying without it and seeing what it is like
-    <StyledGrid container spacing={0} justifyContent="center" alignItems="center">
+    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: '80px' }} >
 
-      <Grid xs={12}>
-        <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
+      <Grid xs={12} >
+        <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', height: '60px' }} >
           <Typography px={1} sx={{ cursor: 'default', width: '100%', alignItems: 'center' }}>
-            Select a Resilience Core to learn more
+            Click on a Resilience Core to start exploring
           </Typography>
           <UpperRightIconButton ariaLabel="Help">
             <Help />
@@ -34,7 +32,9 @@ export default function ResilienceMapActionCard(props) {
         </Box>
       </Grid>
 
-      <Grid xs={12}>
+      {/*
+      for now I want to remove this it looks like a button but does not do anything
+      <Grid xs={12} m={1}>
         <Box p={0.75}>
           <Button
             disabled
@@ -59,7 +59,7 @@ export default function ResilienceMapActionCard(props) {
             Click on Area Resilience Hub Core
           </Button>
         </Box>
-      </Grid>
+      </Grid> */}
     </StyledGrid>
   );
 }

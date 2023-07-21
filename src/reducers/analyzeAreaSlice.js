@@ -6,6 +6,7 @@ export const AnalyzeAreaSlice = createSlice({
     isEmptyState: true,
     isMore: {},
     isItAGraph: true,
+    isItAGraphResilience: true,
     isSortASC: true,
     sortBy: 'Resilience Hubs'
   },

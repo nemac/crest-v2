@@ -45,7 +45,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   maxHeight: '340px',
   [theme.breakpoints.down('sm')]: {
     height: '300px',
-    maxHeight: '300px',
+    maxHeight: '300px'
   },
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
