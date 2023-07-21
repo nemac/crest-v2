@@ -18,7 +18,7 @@ import { StyledGrid } from '../All/StyledComponents';
 export default function ResilienceMapActionCard(props) {
   return (
     // There was a height of 250px here originally. Trying without it and seeing what it is like
-    <StyledGrid container spacing={0} justifyContent="center" alignItems="center">
+    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: '100px' }}>
 
       <Grid xs={12}>
         <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>

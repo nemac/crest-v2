@@ -62,6 +62,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableData(props) {
   const { data } = props;
+  console.log(data);
   const selectedRegion = useSelector(selectedRegionSelector);
 
   const getLabel = (area, name) => {
