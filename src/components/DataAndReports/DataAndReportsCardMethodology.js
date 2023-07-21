@@ -24,22 +24,27 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { PictureAsPdf, FileDownload } from '@mui/icons-material';
+import { PictureAsPdf } from '@mui/icons-material';
 
 import { StyledPaper } from '../All/StyledComponents';
 
 // just a place holder needs props passed in and image etc
 export default function DataAndReportsCardMethodology() {
-
   return (
     <Box>
       <StyledPaper variant="outlined" square={false}>
         <Typography variant="h5" component="div" gutterBottom>
           Methodology and Data Report for U.S. Caribbean and Pacific Islands
         </Typography>
-        <Box sx={{ justifyContent: 'start', alignItems: 'start', display: 'flex', width: '100%' }} >
+        <Box sx={{
+          justifyContent: 'start',
+          alignItems: 'start',
+          display: 'flex',
+          width: '100%'
+        }} >
           <Typography variant="body1" component="div" gutterBottom>
-            Report provides a summary of overarching methods and data sources used for all U.S. Caribbean and Pacific Islands.
+            Report provides a summary of overarching methods and data
+            sources used for all U.S. Caribbean and Pacific Islands.
           </Typography>
         </Box>
 

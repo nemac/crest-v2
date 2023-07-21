@@ -54,7 +54,12 @@ export default function DataAndReportsCardRegions(props) {
         <Typography variant="h5" component="div" gutterBottom>
           {regionName}
         </Typography>
-        <Box sx={{ justifyContent: 'start', alignItems: 'start', display: 'flex', width: '100%' }} >
+        <Box sx={{
+          justifyContent: 'start',
+          alignItems: 'start',
+          display: 'flex',
+          width: '100%'
+        }} >
           <Typography variant="body1" component="div" gutterBottom>
             The download contains all data for the {regionName}.
             The file also contains a readme file describing use.

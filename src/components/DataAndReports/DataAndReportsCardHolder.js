@@ -22,18 +22,18 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Grid';
 import DataAndReportsCardRegions from './DataAndReportsCardRegions';
 import DataAndReportsCardMethodology from './DataAndReportsCardMethodology';
 import { mapConfig } from '../../configuration/config';
+
 const regions = mapConfig.regions;
 
 export default function DataAndReportsCardHolder(props) {
   return (
     <Grid container spacing={1} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
-      {Object.entries(regions).map(([regionName,regionConfig]) => <Grid item xs={12} key={regionName}>
+      {Object.entries(regions).map(([regionName, regionConfig]) => <Grid item xs={12} key={regionName}>
             <DataAndReportsCardRegions
               regionName={regionName}
               dataDownloadName={regionConfig.dataDownload.name}
