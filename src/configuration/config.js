@@ -7,6 +7,14 @@ import { puertoRicoConfig } from './regions/puertoRico';
 import { usVirginIslandsConfig } from './regions/usVirginIslands';
 import { alaskaConfig } from './regions/alaska';
 import { greatLakesConfig } from './regions/greatLakes';
+import { capeFearWatershedConfig } from './targetedWatersheds/cape-fear-watershed';
+import { charlestonHarborWatershedConfig } from './targetedWatersheds/charleston-harbor-watershed';
+import { delawareBayAndCoastalWatershedsConfig } from './targetedWatersheds/delaware-bay-and-coastal-watersheds';
+import { narragansettBayAndCoastalRhodeIslandWatershedsConfig } from './targetedWatersheds/narragansett-bay-and-coastal-rhode-island-watersheds';
+import { portlandAndMidcoastMaineWatershedsConfig } from './targetedWatersheds/portland-and-midcoast-maine-watersheds';
+import { sanFranciscoBayAndOuterCoastWatershedsConfig } from './targetedWatersheds/san-francisco-bay-and-outer-coast-watersheds';
+import { savannahRiverWatershedsConfig } from './targetedWatersheds/savannah-river-watersheds';
+import { jacksonvilleAndLowerStJohnsRiverWatershedsConfig } from './targetedWatersheds/jacksonville-and-lower-st-johns-river-watersheds';
 
 import basemapDarkImage from '../assets/images/basemap-dark.png';
 import basemapImageryImage from '../assets/images/basemap-imagery.png';
@@ -56,14 +64,24 @@ export const mapConfig = {
     // eslint-disable-next-line quote-props
     'Alaska': alaskaConfig,
     'American Samoa': americanSamoaConfig,
-    'Continental U.S': continentalUSConfig,
-    'Great Lakes': greatLakesConfig,
+    'Atlantic, Gulf of Mexico, and Pacific Coasts': continentalUSConfig,
     // eslint-disable-next-line quote-props
     'Guam': guamConfig,
     'Hawai\'i': hawaiiConfig,
     'Northern Mariana Islands': northernMarianaIslandsConfig,
     'Puerto Rico': puertoRicoConfig,
+    'U.S. Great Lakes': greatLakesConfig,
     'US Virgin Islands': usVirginIslandsConfig
+  },
+  targetedWatersheds: {
+    'Cape Fear Watershed': capeFearWatershedConfig,
+    'Charleston Harbor Watershed': charlestonHarborWatershedConfig,
+    'Delaware Bay and Coastal Watersheds': delawareBayAndCoastalWatershedsConfig,
+    'Narragansett Bay and Coastal Rhode Island Watersheds': narragansettBayAndCoastalRhodeIslandWatershedsConfig,
+    'Portland and Midcoast Maine Watersheds': portlandAndMidcoastMaineWatershedsConfig,
+    'San Francisco Bay and Outer Coast Watersheds': sanFranciscoBayAndOuterCoastWatershedsConfig,
+    'Savannah River Watersheds': savannahRiverWatershedsConfig,
+    'Jacksonville and Lower St. Johns River Watersheds': jacksonvilleAndLowerStJohnsRiverWatershedsConfig
   },
   resiliencePieChartLegend: [
     '#ffc500',
@@ -84,7 +102,7 @@ export const mapConfig = {
       coordinates: []
     },
     properties: {
-      areaName: null,
+      areaname: null,
       buffer: true,
       leafletId: null, // this is the leaflet id of just the drawn layer
       zonalStatsData: {}
@@ -103,7 +121,7 @@ export const mapConfig = {
           type: 'Feature',
           properties: {
             areaName: 'White Horse Pike',
-            region: 'Continental U.S',
+            region: 'Atlantic, Gulf of Mexico, and Pacific Coasts',
             zonalStatsData: {
               exposure: 8.095615479621243,
               asset: 2.0521819678880195,
@@ -182,7 +200,7 @@ export const mapConfig = {
           type: 'Feature',
           properties: {
             areaName: 'Buffalo Bayou',
-            region: 'Continental U.S',
+            region: 'Atlantic, Gulf of Mexico, and Pacific Coasts',
             zonalStatsData: {
               exposure: 9.513333333333334, asset: 3.981333333333333, threat: 5.734666666666667, aquatic: 1, terrestrial: 0, hubs: 'NaN', crit_infra: 0.504, crit_facilities: 0, pop_density: 2.477333333333333, social_vuln: 0, drainage: 2.656, erosion: 0, floodprone_areas: 4.534666666666666, geostress: 1.264, sea_level_rise: 0.28933333333333333, slope: 0.09733333333333333, storm_surge: 2.132
             }
@@ -246,7 +264,7 @@ export const mapConfig = {
           type: 'Feature',
           properties: {
             areaName: 'Water Street',
-            region: 'Continental U.S',
+            region: 'Atlantic, Gulf of Mexico, and Pacific Coasts',
             zonalStatsData: {
               exposure: 8.430505117200395,
               asset: 2.693298118190822,

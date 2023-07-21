@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
 
 import DataAndReportsCardHolder from '../components/DataAndReports/DataAndReportsCardHolder';
+import DataAndReportsCardTargetWatershedsHolder from '../components/DataAndReports/DataAndReportsCardTargetWatershedsHolder';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2.5),
@@ -14,47 +15,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   color: theme.palette.CRESTGridBackground.contrastText,
   borderColor: theme.palette.CRESTBorderColor.main
 }));
-
-// sample configs to create all the cards
-// TODO config should be imported from config directory
-const sampleRegionConfig = [
-  {
-    regionName: 'American Somoa',
-    dataFileSize: '100 MB',
-    dataLink: 'https://www.google.com/',
-    NativeLanguageText: 'Amerika Samoa Su’esu’ega o Malosi Gafataulima i Nofoaga Tumatāfaga',
-    NativeLanguageLink: 'https://www.google.com/',
-    EnglishLink: 'https://www.google.com/'
-  },
-  {
-    regionName: 'Continental United States (CONUS)',
-    dataFileSize: '15 GB',
-    dataLink: 'https://www.google.com/',
-    EnglishLink: 'https://www.google.com/'
-  },
-  {
-    regionName: 'Guam',
-    dataFileSize: '10 MB',
-    dataLink: 'https://www.google.com/',
-    EnglishLink: 'https://www.google.com/'
-  },
-  {
-    regionName: 'Hawai\'i',
-    dataFileSize: '25 MB',
-    dataLink: 'https://www.google.com/',
-    EnglishLink: 'https://www.google.com/'
-  }
-];
-
-const sampleTargetedWatershedConfig = [
-  {
-    regionName: 'Cape Fear Watershed',
-    dataFileSize: '122 MB',
-    dataLink: 'https://www.google.com/',
-    NativeLanguageLink: 'https://www.google.com/',
-    EnglishLink: 'https://www.google.com/'
-  }
-];
 
 export default function DataAndReports() {
   return (
@@ -74,11 +34,11 @@ export default function DataAndReports() {
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
         <Grid item xs={12}>
-          <DataAndReportsCardHolder cardConfig={sampleRegionConfig} />
+          <DataAndReportsCardHolder />
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" px={3} pt={6} pb={0.75}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" mt={4} px={3} pt={6} pb={0.75}>
         <Grid item xs={12}>
           <Box>
             <StyledPaper square={false} elevation={0}>
@@ -92,7 +52,7 @@ export default function DataAndReports() {
 
       <Grid container spacing={2} justifyContent="center" alignItems="center" px={1.5} py={0.75}>
         <Grid item xs={12}>
-          <DataAndReportsCardHolder cardConfig={sampleTargetedWatershedConfig} />
+          <DataAndReportsCardTargetWatershedsHolder />
         </Grid>
       </Grid>
 
