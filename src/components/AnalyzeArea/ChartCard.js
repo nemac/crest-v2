@@ -22,14 +22,18 @@ export default function ChartCard(props) {
     leafletFeatureGroupRef,
     map,
     layerToRemove,
-    bufferLayerToRemove,
+    buffLayerToRemove,
     setListOfDrawnLayers,
     setBufferGeo,
-    bufferGeo
+    bufferGeo,
+    geoRefLayer,
+    bufferGeoRefLayer
   } = props;
   const summaryIndices = ['hubs', 'exposure', 'asset', 'threat', 'wildlife'];
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
+
+  console.log('jeff buff layer to remove', buffLayerToRemove)
   if (region === selectedRegion) {
     return (
       <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
@@ -52,10 +56,12 @@ export default function ChartCard(props) {
                 leafletFeatureGroupRef={leafletFeatureGroupRef}
                 map={map}
                 layerToRemove={layerToRemove}
-                bufferLayerToRemove={bufferLayerToRemove}
+                bufferLayerToRemove={buffLayerToRemove}
                 setListOfDrawnLayers={setListOfDrawnLayers}
                 setBufferGeo={setBufferGeo}
                 bufferGeo={bufferGeo}
+                geoRefLayer={geoRefLayer}
+                bufferGeoRefLayer={bufferGeoRefLayer}
               />
             </Grid>
           </div>
@@ -73,7 +79,9 @@ export default function ChartCard(props) {
                 chartType={'Summary Chart'}
                 map={map}
                 layerToHighlight={layerToRemove}
-                bufferLayerToHighlight={bufferLayerToRemove}
+                bufferLayerToHighlight={buffLayerToRemove}
+                geoRefLayer={geoRefLayer}
+                bufferGeoRefLayer={bufferGeoRefLayer}
               />
             </Grid>
 
@@ -85,6 +93,7 @@ export default function ChartCard(props) {
                 leafletFeatureGroupRef={leafletFeatureGroupRef}
                 map={map}
                 layerToRemove={layerToRemove}
+                bufferLayerToRemove={buffLayerToRemove}
                 setListOfDrawnLayers={setListOfDrawnLayers}
                 setBufferGeo={setBufferGeo}
                 bufferGeo={bufferGeo}

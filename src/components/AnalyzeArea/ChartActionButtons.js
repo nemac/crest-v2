@@ -42,7 +42,7 @@ import {
 
 import { changeMore } from '../../reducers/analyzeAreaSlice';
 import {
-  changeCenter, changeZoom, removeFeatureByGeometry
+  changeCenter, changeZoom, removeFeatureByGeometry, removeFeatureByGeometryBufferLayers
 } from '../../reducers/mapPropertiesSlice';
 import ActionButton from '../All/ActionButton';
 import { StyledGrid } from '../All/StyledComponents';
@@ -142,16 +142,9 @@ export default function ChartActionButtons(props) {
   };
 
   const removeLayer = (layer) => {
-    leafletFeatureGroupRef.current?.removeLayer(layerToRemove);
-    //leafletFeatureGroupRef.current?.removeLayer(bufferLayerToRemove);
-    setListOfDrawnLayers(leafletFeatureGroupRef.current?.getLayers());
-    const geo = layerToRemove.toGeoJSON();
-    const buffGeo = buffer(geo, 1, { units: 'kilometers' });
-    dispatch(removeFeatureByGeometry(geo.geometry));
-    const newBufferGeoFeatures = bufferGeo.features.filter(
-      (item) => JSON.stringify(item.geometry) !== JSON.stringify(buffGeo.geometry)
-    );
-    setBufferGeo((previous) => ({ ...previous, features: newBufferGeoFeatures }));
+    console.log(bufferLayerToRemove);
+    dispatch(removeFeatureByGeometry(layerToRemove.geometry));
+    dispatch(removeFeatureByGeometryBufferLayers(bufferLayerToRemove.geometry));
   };
 
   return (

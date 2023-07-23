@@ -80,7 +80,9 @@ export default function ChartSummary(props) {
     chartType,
     map,
     layerToHighlight,
-    bufferLayerToHighlight
+    bufferLayerToHighlight,
+    geoRefLayer,
+    bufferGeoRefLayer
   } = props;
 
   const drawnLayersFromState = useSelector(drawnLayersSelector);
@@ -194,18 +196,11 @@ export default function ChartSummary(props) {
       weight: 2,
       opacity: 1
     };
-
-    drawnLayersFromState.features.forEach((feature) => {
-      const id = feature.properties.leafletId;
-      const bufferLayerId = feature.properties.bufferLayerId;
-      if (feature.properties.areaName === areaName) {
-        if (bufferLayerToHighlight !== undefined) {
-          bufferLayerToHighlight.setStyle(bufferHighlightStyle);
-        } else {
-          layerToHighlight.setStyle(areaHighlightStyle);
-        }
-      }
-    });
+    if (bufferGeoRefLayer) {
+      bufferGeoRefLayer.setStyle(bufferHighlightStyle);
+    } else {
+      geoRefLayer.setStyle(areaHighlightStyle);
+    }
   };
   const handleMouseLeave = () => {
     const areaStyle = {
@@ -219,16 +214,11 @@ export default function ChartSummary(props) {
       opacity: 1
     };
 
-    drawnLayersFromState.features.forEach((feature) => {
-      const id = feature.properties.leafletId;
-      const bufferLayerId = feature.properties.bufferLayerId;
-      if (feature.properties.areaName === areaName) {
-        if (bufferLayerToHighlight !== undefined) {
-          bufferLayerToHighlight.setStyle(bufferStyle);
-        }
-        layerToHighlight.setStyle(areaStyle);
-      }
-    });
+    if (bufferGeoRefLayer) {
+      bufferGeoRefLayer.setStyle(bufferStyle);
+    } else {
+      geoRefLayer.setStyle(areaStyle);
+    }
   };
   const thisChart = (
     <ResponsiveContainer

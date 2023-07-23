@@ -141,6 +141,7 @@ const App = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
+        // eslint-disable-next-line max-len
         <EditControlFC areaNumber={areaNumber} passedRef={ref} setLayers={setLayers} geojson={drawnFromState} handleChange={handleChange} addBufferLayer={addBufferLayer} setBufferGeo={setBufferGeo} areaNumber={areaNumber}/>
         {drawnFromState?.features?.map((item, index) => (
           <React.Fragment key={item.geometry.coordinates} >

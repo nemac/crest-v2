@@ -38,6 +38,7 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 export default function MapCard(props) {
@@ -49,16 +50,11 @@ export default function MapCard(props) {
     setDrawAreaDisabled,
     tooLargeLayerOpen,
     setTooLargeLayerOpen,
-    setListOfDrawnLayers,
-    bufferGeo,
-    setBufferGeo,
-    bufferLayersList,
-    setBufferLayersList
+    geoRef,
+    bufferGeoRef
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
-  const geojsonRef = React.useRef([]);
-  geojsonRef.current = bufferGeo.features.map((_, i) => geojsonRef.current[i] ?? createRef());
   const dispatch = useDispatch();
 
   // setting "() => true" for both center and zoom ensures that value is only read from store once
@@ -68,6 +64,7 @@ export default function MapCard(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
   const drawnFromState = useSelector(drawnLayersSelector);
+  const bufferLayersFromState = useSelector(bufferLayersSelector);
   // const analyzedAreas = useSelector(analyzedAreasSelector);
 
   const handleRegionChange = useCallback((regionName, user) => {
@@ -175,36 +172,26 @@ export default function MapCard(props) {
           </Button>
         </Control>
         <LeafletDrawTools
-          map={map}
-          leafletFeatureGroupRef={leafletFeatureGroupRef}
           bufferCheckbox={bufferCheckbox}
+          leafletFeatureGroupRef={leafletFeatureGroupRef}
           setDrawAreaDisabled={setDrawAreaDisabled}
           setTooLargeLayerOpen={setTooLargeLayerOpen}
-          setListOfDrawnLayers={setListOfDrawnLayers}
-          bufferGeo={bufferGeo}
-          setBufferGeo={setBufferGeo}
-          setBufferLayersList={setBufferLayersList}
         />
         {drawnFromState?.features?.map((item, index) => (
           <React.Fragment key={item.geometry.coordinates} >
-            <GeoJSON data={item}>
+            <GeoJSON data={item} ref={geoRef.current[index]}>
               <StyledReactLeafletTooltip direction='center' permanent>
                 {item.properties.areaName}
               </StyledReactLeafletTooltip>
             </GeoJSON>
           </React.Fragment>
         ))}
-        {bufferGeo?.features?.map((item, index) => (
+        {bufferLayersFromState?.features?.map((item, index) => (
           <React.Fragment key={item.geometry.coordinates} >
             <GeoJSON
-              ref={geojsonRef.current[index]}
+              ref={bufferGeoRef.current[index]}
               data={item}
               style={{ color: '#99c3ff' }}
-              eventHandlers={{
-                mouseover: (e) => { e.target.setStyle({ color: '#ff0000' }); },
-                mouseout: (e) => { e.target.setStyle({ color: '#99c3ff' }); },
-                click: (e) => {console.log(geojsonRef.current[index])}
-              }}
             />
           </React.Fragment>
         ))}
@@ -248,7 +235,6 @@ MapCard.propTypes = {
   setDrawAreaDisabled: PropTypes.func,
   tooLargeLayerOpen: PropTypes.bool,
   setTooLargeLayerOpen: PropTypes.func,
-  setListOfDrawnLayers: PropTypes.func,
-  bufferGeo: PropTypes.object,
-  setBufferGeo: PropTypes.func
+  geoRef: PropTypes.object,
+  bufferGeoRef: PropTypes.object
 };

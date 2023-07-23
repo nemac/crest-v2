@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { CameraAlt } from '@mui/icons-material';
+import * as L from 'leaflet';
 
 import GenericMapHolder from '../components/Map/GenericMapHolder';
 import MapActionCard from '../components/Map/MapActionCard';
@@ -13,10 +14,12 @@ import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 
 export default function AnalyzeProjectSite() {
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
+  const bufferLayersFromState = useSelector(bufferLayersSelector);
 
   const [shareUrlComplete, setShareUrlComplete] = useState(false);
   const [querySearchParams, setQuerySearchParams] = useSearchParams();
@@ -28,6 +31,29 @@ export default function AnalyzeProjectSite() {
   const [listOfDrawnLayers, setListOfDrawnLayers] = useState([]);
   const [bufferLayersList, setBufferLayersList] = useState([]);
   const [bufferGeo, setBufferGeo] = useState({ type: 'FeatureCollection', features: [] });
+  const ref = useRef(null);
+
+  // This is a great way to make a ref list of refs that let us manipulate
+  // things later down the line in a known way
+  const geoRef = React.useRef([]);
+  geoRef.current = drawnLayersFromState.features.map((_, i) => geoRef.current[i] ?? createRef());
+  const bufferGeoRef = React.useRef([]);
+  bufferGeoRef.current = bufferLayersFromState.features.map((_, i) => bufferGeoRef.current[i] ?? createRef());
+
+  // console.log('jeff drawn state', drawnLayersFromState.features);
+  // console.log('jeff drawn ref', geoRef.current);
+  // console.log('jeff buffer state', bufferLayersFromState.features);
+  // console.log('jeff buffer ref', bufferGeoRef.current);
+  // console.log(L.geoJSON(bufferLayersFromState.features[0]));
+  //console.log(bufferGeoRef?.current[0]?.current?._layers?.editing);
+
+  // useEffect(() => {
+  //   if (geoRef.current[0].current) {
+  //     bufferGeoRef.current[0].current.setStyle({ color: 'white' })
+  //   }
+  // }, [geoRef.current])
+  // // bufferGeoRef?.current[0]?.current?.removeLayer(L.geoJSON(bufferLayersFromState.features[0]));
+
   useEffect(() => {
     // Delete share url params from url when it's complete
     if (shareUrlComplete) {
@@ -55,21 +81,14 @@ export default function AnalyzeProjectSite() {
 
   const chartHeaderActionButtons = [
     {
-      buttonLabel: 'Export',
-      buttonName: 'Export',
+      buttonLabel: 'BIG OL PLACEHOLDER',
+      buttonName: 'BIG OL PLACEHOLDER',
       onClick: () => { handleExportImage('resilience-pie'); },
       icon: <CameraAlt />
     }
   ];
 
   return (
-    // <MapHolder
-    //   listOfDrawnLayers={listOfDrawnLayers}
-    //   setListOfDrawnLayers={setListOfDrawnLayers}
-    //   bufferGeo={bufferGeo}
-    //   setBufferGeo={setBufferGeo}
-    //   leafletFeatureGroupRef={leafletFeatureGroupRef}
-    // />
     <GenericMapHolder
       mapActionCard={
         <MapActionCard
@@ -96,6 +115,8 @@ export default function AnalyzeProjectSite() {
           bufferLayersList={bufferLayersList}
           setBufferLayersList={setBufferLayersList}
           chartData={drawnLayersFromState.features}
+          geoRef={geoRef}
+          bufferGeoRef={bufferGeoRef}
         />
       }
       tableData='Insert Table Data Here'
@@ -109,10 +130,8 @@ export default function AnalyzeProjectSite() {
           setDrawAreaDisabled={setDrawAreaDisabled}
           tooLargeLayerOpen={tooLargeLayerOpen}
           setTooLargeLayerOpen={setTooLargeLayerOpen}
-          bufferGeo={bufferGeo}
-          setBufferGeo={setBufferGeo}
-          bufferLayersList={bufferLayersList}
-          setBufferLayersList={setBufferLayersList}
+          geoRef={geoRef}
+          bufferGeoRef={bufferGeoRef}
         />
       }
       noDataState={<EmptyState/>}

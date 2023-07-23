@@ -11,13 +11,12 @@ import { zonalStatsAPI } from '../../api/ZonalStats';
 import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
-  removeAllFeaturesFromDrawnLayers,
-  removeAllFeaturesFromZonalStatsAreas,
   uploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
   incrementAreaNumber,
-  addBufferLayerToList
+  addNewFeatureToBufferLayers
 } from '../../reducers/mapPropertiesSlice';
+import { zonalStatsApi } from '../../services/zonalstats';
 import { setEmptyState } from '../../reducers/analyzeAreaSlice';
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
@@ -33,10 +32,7 @@ export default function LeafletDrawTools(props) {
     bufferCheckbox,
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
-    setTooLargeLayerOpen,
-    setListOfDrawnLayers,
-    setBufferGeo,
-    setBufferLayersList
+    setTooLargeLayerOpen
   } = props;
   const dispatch = useDispatch();
 
@@ -266,50 +262,54 @@ export default function LeafletDrawTools(props) {
   //   });
   // }
 
-  const addBufferLayer = (geo, ref) => {
-    const buffGeo = buffer(geo, bufferSize, { units: bufferUnits });
-    setBufferGeo((previous) => ({
-      ...previous,
-      features: [...previous.features, ...[buffGeo]]
-    }));
-    const bufferLayer = L.geoJSON(buffGeo, { style: { color: '#99c3ff' } });
-    //ref?.current?.addLayer(bufferLayer);
-    //dispatch(addBufferLayerToList(JSON.stringify(bufferLayer)));
-    setBufferLayersList((previous) => [...previous, bufferLayer]);
+  const addBufferLayer = (geo) => {
+    const geoCopy = structuredClone(geo);
+    const buffGeo = buffer(geoCopy, bufferSize, { units: bufferUnits });
+    // setBufferGeo((previous) => ({
+    //   ...previous,
+    //   features: [...previous.features, ...[buffGeo]]
+    // }));
+    // const bufferLayer = L.geoJSON(buffGeo, { style: { color: '#99c3ff' } });
+    // ref?.current?.addLayer(bufferLayer);
+    // dispatch(addBufferLayerToList(JSON.stringify(bufferLayer)));
+    // setBufferLayersList((previous) => [...previous, bufferLayer]);
+    dispatch(addNewFeatureToBufferLayers(buffGeo));
     return buffGeo;
   };
 
-  React.useEffect(() => {
-    setListOfDrawnLayers(leafletFeatureGroupRef?.current?.getLayers());
-    if (leafletFeatureGroupRef?.current?.getLayers().length === 0 && drawnLayersFromState) {
-      L.geoJSON(drawnLayersFromState).eachLayer((layer) => {
-        if (
-          layer instanceof L.Polyline ||
-          layer instanceof L.Polygon ||
-          layer instanceof L.Marker
-        ) {
-          if (layer?.feature?.properties.radius && leafletFeatureGroupRef.current) {
-            new L.Circle(layer.feature.geometry.coordinates.slice().reverse(), {
-              radius: layer.feature?.properties.radius
-            }).addTo(leafletFeatureGroupRef.current);
-          } else {
-            leafletFeatureGroupRef.current?.addLayer(layer);
-          }
-          setListOfDrawnLayers(leafletFeatureGroupRef?.current?.getLayers());
-          addBufferLayer(layer.toGeoJSON(), leafletFeatureGroupRef);
-        }
-      });
-    }
-  }, [drawnLayersFromState, leafletFeatureGroupRef]);
+  // React.useEffect(() => {
+  //   setListOfDrawnLayers(leafletFeatureGroupRef?.current?.getLayers());
+  //   if (leafletFeatureGroupRef?.current?.getLayers().length === 0 && drawnLayersFromState) {
+  //     L.geoJSON(drawnLayersFromState).eachLayer((layer) => {
+  //       if (
+  //         layer instanceof L.Polyline ||
+  //         layer instanceof L.Polygon ||
+  //         layer instanceof L.Marker
+  //       ) {
+  //         if (layer?.feature?.properties.radius && leafletFeatureGroupRef.current) {
+  //           new L.Circle(layer.feature.geometry.coordinates.slice().reverse(), {
+  //             radius: layer.feature?.properties.radius
+  //           }).addTo(leafletFeatureGroupRef.current);
+  //         } else {
+  //           leafletFeatureGroupRef.current?.addLayer(layer);
+  //         }
+  //         setListOfDrawnLayers(leafletFeatureGroupRef?.current?.getLayers());
+  //         addBufferLayer(layer.toGeoJSON(), leafletFeatureGroupRef);
+  //       }
+  //     });
+  //   }
+  // }, [drawnLayersFromState, leafletFeatureGroupRef]);
 
-  function handleOnCreate(e, ref) {
+  function handleOnCreate(e) {
+    // immediately remove the layer from the feature group since we don't need this
+    // the only reason we have a feature group is because React Leaflet Draw requires it
+    leafletFeatureGroupRef.current.removeLayer(e.layer);
     // Toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
 
     // Check size of polygon and remove it and return if it is too large
     if (calculateAreaOfPolygon(e.layer) > maxPolygonAreaSize) {
       setTooLargeLayerOpen(true);
-      leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
     }
 
@@ -317,13 +317,13 @@ export default function LeafletDrawTools(props) {
     setDrawAreaDisabled(true);
 
     const geo = e.layer.toGeoJSON();
-    let buffGeo;
-    if (bufferCheckbox) {
-      buffGeo = addBufferLayer(geo, ref);
-    }
     geo.properties = geo.properties || {};
     geo.properties.areaName = `Area ${areaNumber}`;
     geo.properties.region = selectedRegion;
+    let buffGeo;
+    if (bufferCheckbox) {
+      buffGeo = addBufferLayer(geo);
+    }
     const layerToAnalyze = L.geoJSON(buffGeo) || e.layer;
 
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this

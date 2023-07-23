@@ -5,6 +5,7 @@ import mapPropertiesReducer from './reducers/mapPropertiesSlice';
 import mapLayerListReducer from './reducers/mapLayerListSlice';
 import NavBarReducer from './reducers/NavBarSlice';
 import AnalyzeAreaReducer from './reducers/analyzeAreaSlice';
+import { zonalStatsApi } from './services/zonalstats';
 import { loadState } from './localStorage';
 
 const reducers = combineReducers({
@@ -12,7 +13,8 @@ const reducers = combineReducers({
   mapProperties: mapPropertiesReducer,
   AnalyzeArea: AnalyzeAreaReducer,
   mapLayerList: mapLayerListReducer,
-  navBar: NavBarReducer
+  navBar: NavBarReducer,
+  [zonalStatsApi.reducerPath]: zonalStatsApi.reducer
 });
 
 export const setupStore = (preloadedState) => configureStore({
@@ -22,6 +24,7 @@ export const setupStore = (preloadedState) => configureStore({
 
 export const store = configureStore({
   devTools: true, // prob should turn off in prod
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(zonalStatsApi.middleware),
   reducer: reducers,
   // here we restore previously persisted state
   preloadedState: loadState()

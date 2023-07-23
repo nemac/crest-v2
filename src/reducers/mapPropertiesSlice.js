@@ -16,12 +16,15 @@ export const mapPropertiesSlice = createSlice({
     uploadedShapeFile: null,
     resilienceHub: null,
     areaNumber: 1,
-    bufferLayers: [],
     zonalStatsAreas: {
       type: 'FeatureCollection',
       features: []
     },
     drawnLayers: {
+      type: 'FeatureCollection',
+      features: []
+    },
+    bufferLayers: {
       type: 'FeatureCollection',
       features: []
     }
@@ -103,10 +106,18 @@ export const mapPropertiesSlice = createSlice({
     resetAreaNumber: (state) => {
       state.areaNumber = 1;
     },
-    addBufferLayerToList: (state, action) => {
-      // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
-      // used to rebuild all of the layers on page refresh
-      state.bufferLayers = [...state.bufferLayers, action.payload];
+    addNewFeatureToBufferLayers: (state, action) => {
+      state.bufferLayers.features = [...state.bufferLayers.features, action.payload];
+    },
+    removeFeatureByGeometryBufferLayers: (state, action) => {
+      state.bufferLayers.features = [
+        ...state.bufferLayers.features.filter(
+          (feature) => JSON.stringify(feature.geometry) !== JSON.stringify(action.payload)
+        )
+      ];
+    },
+    removeAllFeaturesFromBufferLayers: (state) => {
+      state.bufferLayers.features = []; // empty list should clear everything back to normal
     }
   }
 });
@@ -119,7 +130,8 @@ export const {
   removeFeatureFromZonalStatsAreas, addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
   removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON,
   changeResilienceHub, updateDrawnLayers, removeFeatureByGeometry, incrementAreaNumber,
-  resetAreaNumber, addBufferLayerToList
+  resetAreaNumber, addNewFeatureToBufferLayers, removeFeatureByGeometryBufferLayers,
+  removeAllFeaturesFromBufferLayers
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

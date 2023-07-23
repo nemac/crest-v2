@@ -32,11 +32,13 @@ const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const bufferLayersListSelector = (state) => state.mapProperties.bufferLayers;
 
 export default function ChartsHolder(props) {
-  const { leafletFeatureGroupRef, map, listOfDrawnLayers, setListOfDrawnLayers, setBufferGeo, bufferGeo, setBufferLayersList } = props;
+  const { leafletFeatureGroupRef, map, listOfDrawnLayers, setListOfDrawnLayers, setBufferGeo, bufferGeo, setBufferLayersList,
+    geoRef, bufferGeoRef } = props;
   const drawnLayerAreas = useSelector(drawnLayerSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const bufferLayersList = useSelector(bufferLayersListSelector);
+  console.log('buff layer list', bufferLayersList.features[0])
   const featureList = drawnLayerAreas.features;
   const [chartData, setChartData] = useState([]);
   const getLabel = (area, name) => {
@@ -109,14 +111,15 @@ export default function ChartsHolder(props) {
                 region={feature.properties.region}
                 zonalStatsData={feature.properties.zonalStatsData}
                 leafletFeatureGroupRef={leafletFeatureGroupRef}
-                layerToRemove={listOfDrawnLayers[index]}
+                layerToRemove={feature}
+                buffLayerToRemove={bufferLayersList.features[index]}
                 // bufferLayerToRemove={JSON.parse(bufferLayersList[index])}
                 map={map}
                 setListOfDrawnLayers={setListOfDrawnLayers}
                 setBufferGeo={setBufferGeo}
                 bufferGeo={bufferGeo}
-                bufferLayersList={bufferLayersList}
-                setBufferLayersList={setBufferLayersList}
+                geoRefLayer={geoRef?.current[index]?.current}
+                bufferGeoRefLayer={bufferGeoRef?.current[index]?.current}
               />
             ))}
           </Box>

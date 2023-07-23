@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as esri from 'esri-leaflet';
-import { TableChart, BarChart, CameraAlt } from '@mui/icons-material';
+import { CameraAlt } from '@mui/icons-material';
 
-import { changeGraphTableResilience } from '../reducers/analyzeAreaSlice';
 import GenericMapHolder from '../components/Map/GenericMapHolder';
 import ResilienceMapActionCard from '../components/Map/ResilienceMapActionCard';
 import ResilienceChartCard from '../components/AnalyzeArea/GenericChartCard';
@@ -18,7 +17,6 @@ const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const selectedResilienceHub = (state) => state.mapProperties.resilienceHub;
 
 export default function ResilienceProject() {
-  const dispatch = useDispatch();
   const [chartData, setChartData] = useState(null);
   const [averageHubScore, setAverageHubScore] = useState(0);
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -34,20 +32,6 @@ export default function ResilienceProject() {
       url: hubsHexesUrl
     });
   }
-
-  // handle state change Graph/Table
-  const handleGraphOrTableClick = () => {
-    dispatch(changeGraphTableResilience());
-  };
-
-  const chartHeaderActionButtons = [
-    {
-      buttonLabel: analyzeAreaState.isItAGraphResilience ? 'Table' : 'Chart',
-      buttonName: analyzeAreaState.isItAGraphResilience ? 'Table' : 'Chart',
-      onClick: handleGraphOrTableClick,
-      icon: analyzeAreaState.isItAGraphResilience ? (<TableChart />) : (<BarChart />)
-    }
-  ];
 
   const chartActionButtons = [
     {
@@ -92,7 +76,6 @@ export default function ResilienceProject() {
   return (
     <GenericMapHolder
       mapActionCard={<ResilienceMapActionCard/>}
-      chartHeaderActionButtons={null}
       isItAGraph={analyzeAreaState.isItAGraphResilience}
       chartCard={
         <ResilienceChartCard
