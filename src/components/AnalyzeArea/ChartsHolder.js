@@ -32,15 +32,15 @@ const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const bufferLayersListSelector = (state) => state.mapProperties.bufferLayers;
 
 export default function ChartsHolder(props) {
-  const { leafletFeatureGroupRef, map, listOfDrawnLayers, setListOfDrawnLayers, setBufferGeo, bufferGeo, setBufferLayersList,
-    geoRef, bufferGeoRef } = props;
+  const { map, listOfDrawnLayers, setListOfDrawnLayers, setBufferGeo, bufferGeo, setBufferLayersList,
+    geoRef, bufferGeoRef, chartData, setHover } = props;
   const drawnLayerAreas = useSelector(drawnLayerSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const bufferLayersList = useSelector(bufferLayersListSelector);
-  console.log('buff layer list', bufferLayersList.features[0])
+  // console.log('buff layer list', bufferLayersList.features[0])
   const featureList = drawnLayerAreas.features;
-  const [chartData, setChartData] = useState([]);
+  // const [chartData, setChartData] = useState([]);
   const getLabel = (area, name) => {
     const thisLabel = regions[area.region].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
@@ -88,6 +88,8 @@ export default function ChartsHolder(props) {
     dispatch(changeSortDirection());
   };
 
+  // const filterRef = (ref, areaNumber) => ref?.current?.options?.areaNumber === areaNumber;
+
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
       <Grid xs={12} >
@@ -95,7 +97,7 @@ export default function ChartsHolder(props) {
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
           HandleRemoveAllClick={
-            (e) => { HandleRemoveAllClick(e, leafletFeatureGroupRef, dispatch, setBufferGeo); }
+            (e) => { HandleRemoveAllClick(e, dispatch); }
           }
           handleGenericClick={handleExportCSV} />
       </Grid>
@@ -110,16 +112,16 @@ export default function ChartsHolder(props) {
                 areaIndex={index}
                 region={feature.properties.region}
                 zonalStatsData={feature.properties.zonalStatsData}
-                leafletFeatureGroupRef={leafletFeatureGroupRef}
                 layerToRemove={feature}
-                buffLayerToRemove={bufferLayersList.features[index]}
+                buffLayerToRemove={feature.properties.buffGeo}
                 // bufferLayerToRemove={JSON.parse(bufferLayersList[index])}
                 map={map}
                 setListOfDrawnLayers={setListOfDrawnLayers}
                 setBufferGeo={setBufferGeo}
                 bufferGeo={bufferGeo}
-                geoRefLayer={geoRef?.current[index]?.current}
-                bufferGeoRefLayer={bufferGeoRef?.current[index]?.current}
+                setHover={setHover}
+                // geoRefLayer={geoRef?.current.filter((e) => e.current?.options?.areaNumber === feature.properties.areaNumber)[0]?.current}
+                // bufferGeoRefLayer={bufferGeoRef?.current.filter((e) => e.current?.options?.areaNumber === feature.properties.areaNumber)[0]?.current}
               />
             ))}
           </Box>

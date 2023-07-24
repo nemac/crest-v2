@@ -19,21 +19,15 @@ export default function ChartCard(props) {
     areaIndex,
     zonalStatsData,
     region,
-    leafletFeatureGroupRef,
     map,
     layerToRemove,
     buffLayerToRemove,
-    setListOfDrawnLayers,
-    setBufferGeo,
-    bufferGeo,
-    geoRefLayer,
-    bufferGeoRefLayer
+    setHover
   } = props;
   const summaryIndices = ['hubs', 'exposure', 'asset', 'threat', 'wildlife'];
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
 
-  console.log('jeff buff layer to remove', buffLayerToRemove)
   if (region === selectedRegion) {
     return (
       <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
@@ -53,15 +47,9 @@ export default function ChartCard(props) {
                 areaName={areaName}
                 areaIndex={areaIndex}
                 data={zonalStatsData}
-                leafletFeatureGroupRef={leafletFeatureGroupRef}
                 map={map}
                 layerToRemove={layerToRemove}
                 bufferLayerToRemove={buffLayerToRemove}
-                setListOfDrawnLayers={setListOfDrawnLayers}
-                setBufferGeo={setBufferGeo}
-                bufferGeo={bufferGeo}
-                geoRefLayer={geoRefLayer}
-                bufferGeoRefLayer={bufferGeoRefLayer}
               />
             </Grid>
           </div>
@@ -77,11 +65,8 @@ export default function ChartCard(props) {
                 chartRegion={region}
                 chartIndices={summaryIndices}
                 chartType={'Summary Chart'}
-                map={map}
-                layerToHighlight={layerToRemove}
                 bufferLayerToHighlight={buffLayerToRemove}
-                geoRefLayer={geoRefLayer}
-                bufferGeoRefLayer={bufferGeoRefLayer}
+                setHover={setHover}
               />
             </Grid>
 
@@ -90,13 +75,9 @@ export default function ChartCard(props) {
                 areaName={areaName}
                 areaIndex={areaIndex}
                 data={zonalStatsData} // need to pick out the Summary
-                leafletFeatureGroupRef={leafletFeatureGroupRef}
                 map={map}
                 layerToRemove={layerToRemove}
                 bufferLayerToRemove={buffLayerToRemove}
-                setListOfDrawnLayers={setListOfDrawnLayers}
-                setBufferGeo={setBufferGeo}
-                bufferGeo={bufferGeo}
               />
             </Grid>
           </div>
@@ -112,6 +93,5 @@ ChartCard.propTypes = {
   areaIndex: PropTypes.number.isRequired,
   zonalStatsData: PropTypes.object,
   region: PropTypes.string,
-  leafletFeatureGroupRef: PropTypes.object,
   map: PropTypes.object
 };

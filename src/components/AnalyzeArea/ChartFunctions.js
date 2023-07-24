@@ -56,11 +56,8 @@ export const handleExportCSV = (event) => {
   link.click(); // This will download the data file using invisible link
 };
 
-export const HandleRemoveAllClick = (event, ref, dispatch, setBufferGeo) => {
-  event.stopPropagation();
-  // clear all layers from leaflet draw featureGroup and from state/redux
-  ref.current.clearLayers();
-  setBufferGeo({ type: 'FeatureCollection', features: [] });
+export const HandleRemoveAllClick = (e, dispatch) => {
+  e.stopPropagation();
   dispatch(removeAllFeaturesFromDrawnLayers());
   dispatch(resetAreaNumber());
   dispatch(changeEmptyState());

@@ -16,8 +16,10 @@ import {
   incrementAreaNumber,
   addNewFeatureToBufferLayers
 } from '../../reducers/mapPropertiesSlice';
-import { zonalStatsApi } from '../../services/zonalstats';
+import { useGetZonalStatsQuery } from '../../services/zonalstats';
 import { setEmptyState } from '../../reducers/analyzeAreaSlice';
+import { mapConfig } from '../../configuration/config';
+import { SystemSecurityUpdateGoodTwoTone } from '@mui/icons-material';
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -46,6 +48,53 @@ export default function LeafletDrawTools(props) {
   const shapeFileGeoJSON = useSelector(uploadedShapeFileSelector);
   const searchPlacesGeoJSON = useSelector(searchPlacesFileSelector);
   const areaNumber = useSelector(areaNumberSelector);
+  //const region = mapConfig.regions[selectedRegion].regionName;
+
+  const [currentDrawn, setCurrentDrawn] = useState({
+    drawnGeo: null,
+    bufferGeo: null,
+    featureGroupZonalStats: null, // this is the featureGroup that gets sent to zonalStats
+    skip: true // this tells the query not to run unless set to false
+  });
+
+  const { data, error, isLoading } = useGetZonalStatsQuery({
+    region: mapConfig.regions[selectedRegion].regionName,
+    queryData: currentDrawn.featureGroupZonalStats
+  }, { skip: currentDrawn.skip });
+
+  if (isLoading) {
+    console.log('loading');
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
+  useEffect(() => {
+    if (data) {
+      console.log('jeff data', data);
+      dispatch(setEmptyState(false));
+      console.log('1');
+
+      const geo = structuredClone(currentDrawn.drawnGeo);
+      console.log('jeff geo', geo)
+      console.log('2');
+
+      geo.properties.zonalStatsData = data.features[0].properties.mean;
+      console.log('3');
+
+      dispatch(addNewFeatureToDrawnLayers(geo));
+      console.log('4');
+
+      dispatch(incrementAreaNumber());
+      console.log('5');
+
+      setDrawAreaDisabled(false);
+      console.log('6');
+
+      setCurrentDrawn((previous) => ({ ...previous, skip: true }));
+    }
+  }, [data]);
 
   // BEGIN FUNCTIONS FOR DRAWN LAYERS
 
@@ -265,14 +314,6 @@ export default function LeafletDrawTools(props) {
   const addBufferLayer = (geo) => {
     const geoCopy = structuredClone(geo);
     const buffGeo = buffer(geoCopy, bufferSize, { units: bufferUnits });
-    // setBufferGeo((previous) => ({
-    //   ...previous,
-    //   features: [...previous.features, ...[buffGeo]]
-    // }));
-    // const bufferLayer = L.geoJSON(buffGeo, { style: { color: '#99c3ff' } });
-    // ref?.current?.addLayer(bufferLayer);
-    // dispatch(addBufferLayerToList(JSON.stringify(bufferLayer)));
-    // setBufferLayersList((previous) => [...previous, bufferLayer]);
     dispatch(addNewFeatureToBufferLayers(buffGeo));
     return buffGeo;
   };
@@ -313,33 +354,41 @@ export default function LeafletDrawTools(props) {
       return;
     }
 
-    // disable draw until zonal stats done below
+    // disable draw until zonal stats done
     setDrawAreaDisabled(true);
 
     const geo = e.layer.toGeoJSON();
     geo.properties = geo.properties || {};
     geo.properties.areaName = `Area ${areaNumber}`;
+    geo.properties.areaNumber = areaNumber;
     geo.properties.region = selectedRegion;
     let buffGeo;
     if (bufferCheckbox) {
       buffGeo = addBufferLayer(geo);
+      geo.properties.buffGeo = buffGeo;
     }
-    const layerToAnalyze = L.geoJSON(buffGeo) || e.layer;
+    const layerToAnalyze = buffGeo ? L.geoJSON(buffGeo) : e.layer;
 
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
-    const featureGroupGeoJSON = L.featureGroup().addLayer(layerToAnalyze).toGeoJSON();
-    const zonalStatsPromise = zonalStatsAPI(featureGroupGeoJSON, selectedRegion);
-
-    // Wait for promise to complete, add returned zonal stats, and then add to redux
-    zonalStatsPromise.then((data) => {
-      dispatch(setEmptyState(false));
-      data.features.forEach((feature) => { // Should only be 1 feature
-        geo.properties.zonalStatsData = feature.properties.mean;
-        dispatch(addNewFeatureToDrawnLayers(geo));
-        dispatch(incrementAreaNumber());
-        setDrawAreaDisabled(false);
-      });
+    const featureGroupZonalStats = L.featureGroup().addLayer(layerToAnalyze).toGeoJSON();
+    setCurrentDrawn({
+      drawnGeo: geo,
+      bufferGeo: buffGeo,
+      featureGroupZonalStats,
+      skip: false
     });
+    // const zonalStatsPromise = zonalStatsAPI(featureGroupGeoJSON, selectedRegion);
+
+    // // Wait for promise to complete, add returned zonal stats, and then add to redux
+    // zonalStatsPromise.then((zData) => {
+    //   dispatch(setEmptyState(false));
+    //   zData.features.forEach((feature) => { // Should only be 1 feature
+    //     geo.properties.zonalStatsData = feature.properties.mean;
+    //     dispatch(addNewFeatureToDrawnLayers(geo));
+    //     dispatch(incrementAreaNumber());
+    //     setDrawAreaDisabled(false);
+    //   });
+    // });
   }
   return (
     <FeatureGroup ref={leafletFeatureGroupRef}>
@@ -370,7 +419,5 @@ LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
   leafletFeatureGroupRef: PropTypes.object,
   setDrawAreaDisabled: PropTypes.func,
-  setTooLargeLayerOpen: PropTypes.func,
-  setListOfDrawnLayers: PropTypes.func,
-  setBufferGeo: PropTypes.func
+  setTooLargeLayerOpen: PropTypes.func
 };

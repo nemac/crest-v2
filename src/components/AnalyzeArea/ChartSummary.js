@@ -16,10 +16,6 @@ import {
   Cell
 } from 'recharts';
 
-import { useSelector } from 'react-redux';
-import * as L from 'leaflet';
-import buffer from '@turf/buffer';
-
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -29,7 +25,7 @@ import ChartCustomLabels from './ChartCustomLabels';
 
 const regions = mapConfig.regions;
 
-const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+// const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
 const ContentBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -78,19 +74,15 @@ export default function ChartSummary(props) {
     chartRegion,
     chartIndices,
     chartType,
-    map,
-    layerToHighlight,
     bufferLayerToHighlight,
-    geoRefLayer,
-    bufferGeoRefLayer
+    setHover
   } = props;
 
-  const drawnLayersFromState = useSelector(drawnLayersSelector);
+  // const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
   const [chartData, setChartData] = useState([]);
 
   const dataToPlot = useRef(true);
-  const thisMap = useRef(map);
   const chartLabel = `${chartType} ${areaName}`;
   const layerList = region.layerList;
 
@@ -186,40 +178,17 @@ export default function ChartSummary(props) {
   }, [zonalStatsData, handleGetZonalStatsData]);
 
   const handleMouseEnter = () => {
-    const areaHighlightStyle = {
-      color: '#dda006',
-      weight: 2,
-      opacity: 1
-    };
-    const bufferHighlightStyle = {
-      color: '#ffc107',
-      weight: 2,
-      opacity: 1
-    };
-    if (bufferGeoRefLayer) {
-      bufferGeoRefLayer.setStyle(bufferHighlightStyle);
+    if (bufferLayerToHighlight) {
+      setHover({ bufferAreaName: areaName });
     } else {
-      geoRefLayer.setStyle(areaHighlightStyle);
+      setHover({ areaName });
     }
   };
-  const handleMouseLeave = () => {
-    const areaStyle = {
-      color: '#4992f9',
-      weight: 2,
-      opacity: 1
-    };
-    const bufferStyle = {
-      color: '#99c3ff',
-      weight: 2,
-      opacity: 1
-    };
 
-    if (bufferGeoRefLayer) {
-      bufferGeoRefLayer.setStyle(bufferStyle);
-    } else {
-      geoRefLayer.setStyle(areaStyle);
-    }
+  const handleMouseLeave = () => {
+    setHover(false);
   };
+
   const thisChart = (
     <ResponsiveContainer
     id ={`${chartType}-container`}
@@ -277,6 +246,5 @@ ChartSummary.propTypes = {
   zonalStatsData: PropTypes.object,
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
-  chartType: PropTypes.string,
-  map: PropTypes.object
+  chartType: PropTypes.string
 };

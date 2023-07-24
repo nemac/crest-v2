@@ -1,31 +1,3 @@
-/*
-Purpose
-  The component holds all the action buttons for each chart/area. Each chart are the zonal
-  set of statistics for an Area the user-designated on the map.
-
-  The button is one of the following:
-   - more/less (more provides all the detailed charts, less and the default is the summary map)
-   - export (the map to png/svg)
-   - zoom (zoom/pan the map to the area)
-   - Remove Area (removes the area from the map)
-
-   Do we need to decide of the button action happens here?
-
-Child Components
-- AnalyzeArea-ChartActionButton.js
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yets
-
-State needed
-  - More or less?
-
-Props
-  - Not sure yet
-*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
@@ -52,25 +24,19 @@ import { mapConfig } from '../../configuration/config';
 const regions = mapConfig.regions;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
-const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
 export default function ChartActionButtons(props) {
   const {
     areaName,
     areaIndex,
     data,
-    leafletFeatureGroupRef,
     map,
     layerToRemove,
     bufferLayerToRemove,
-    setBufferGeo,
-    setListOfDrawnLayers,
-    bufferGeo
   } = props;
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
-  const drawnLayers = useSelector(drawnLayersSelector);
 
   const handleZoomClick = (event, layerToZoomTo) => {
     event.stopPropagation();
@@ -142,7 +108,7 @@ export default function ChartActionButtons(props) {
   };
 
   const removeLayer = (layer) => {
-    console.log(bufferLayerToRemove);
+    // console.log(bufferLayerToRemove);
     dispatch(removeFeatureByGeometry(layerToRemove.geometry));
     dispatch(removeFeatureByGeometryBufferLayers(bufferLayerToRemove.geometry));
   };
@@ -199,6 +165,5 @@ ChartActionButtons.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
   data: PropTypes.object,
-  leafletFeatureGroupRef: PropTypes.object,
   map: PropTypes.object
 };

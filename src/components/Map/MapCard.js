@@ -37,8 +37,8 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
-const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
-const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
+// const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+// const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 export default function MapCard(props) {
@@ -51,7 +51,11 @@ export default function MapCard(props) {
     tooLargeLayerOpen,
     setTooLargeLayerOpen,
     geoRef,
-    bufferGeoRef
+    bufferGeoRef,
+    setCurrentDrawn,
+    drawnFromState,
+    bufferFromState,
+    hover
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
@@ -63,8 +67,8 @@ export default function MapCard(props) {
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
-  const drawnFromState = useSelector(drawnLayersSelector);
-  const bufferLayersFromState = useSelector(bufferLayersSelector);
+  // const drawnFromState = useSelector(drawnLayersSelector);
+  // const bufferLayersFromState = useSelector(bufferLayersSelector);
   // const analyzedAreas = useSelector(analyzedAreasSelector);
 
   const handleRegionChange = useCallback((regionName, user) => {
@@ -176,17 +180,35 @@ export default function MapCard(props) {
           leafletFeatureGroupRef={leafletFeatureGroupRef}
           setDrawAreaDisabled={setDrawAreaDisabled}
           setTooLargeLayerOpen={setTooLargeLayerOpen}
+          setCurrentDrawn={setCurrentDrawn}
         />
         {drawnFromState?.features?.map((item, index) => (
           <React.Fragment key={item.geometry.coordinates} >
-            <GeoJSON data={item} ref={geoRef.current[index]}>
+            <GeoJSON
+              data={item}
+              ref={geoRef.current[index]}
+              style={{
+                weight: 2,
+                opacity: 1,
+                color: hover.areaName === item.properties.areaName ? '#dda006' : '#4992f9'
+              }}
+            >
               <StyledReactLeafletTooltip direction='center' permanent>
                 {item.properties.areaName}
               </StyledReactLeafletTooltip>
             </GeoJSON>
+            <GeoJSON
+              ref={bufferGeoRef.current[index]}
+              data={item.properties.buffGeo}
+              style={{
+                weight: 2,
+                opacity: 1,
+                color: hover.bufferAreaName === item.properties.areaName ? '#ffc107' : '#99c3ff'
+              }}
+            />
           </React.Fragment>
         ))}
-        {bufferLayersFromState?.features?.map((item, index) => (
+        {/* {bufferFromState?.features?.map((item, index) => (
           <React.Fragment key={item.geometry.coordinates} >
             <GeoJSON
               ref={bufferGeoRef.current[index]}
@@ -194,7 +216,7 @@ export default function MapCard(props) {
               style={{ color: '#99c3ff' }}
             />
           </React.Fragment>
-        ))}
+        ))} */}
         <ModalShare
           contentTitle={'Share map url'}
           contentMessage={shareUrl}
