@@ -36,8 +36,14 @@ export default function TabCallToActions() {
   };
 
   return (
-    <Grid container spacing={6} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
-
+    <Grid
+      container
+      flexDirection='row'
+      spacing={3}
+      justifyContent='center'
+      alignContent='stretch'
+      px={0.25}
+      py={0.75}>
       <Grid xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
           tabLabel={'Analyze Project Sites'}
