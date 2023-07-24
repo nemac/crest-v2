@@ -20,6 +20,7 @@ Props
   - Not sure yet
 */
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
 import Box from '@mui/material/Box';
 
@@ -36,7 +37,7 @@ export default function Example(props) {
   };
 
   return (
-    <Box variant="outlined" square={false}
+    <Box variant="outlined"
       sx={{
         '&': (theme) => ({
           padding: theme.spacing(1),
@@ -45,7 +46,9 @@ export default function Example(props) {
           borderColor: theme.palette.CRESTBorderColor.main,
           borderStyle: 'solid',
           borderWidth: '1px',
-          height: '100%'
+          height: 'calc(100% - 123px)',
+          overflowX: 'clip',
+          overflowY: 'scroll'
         })
       }}
     >
@@ -81,3 +84,9 @@ export default function Example(props) {
     </Box>
   );
 }
+
+Example.propTypes = {
+  map: PropTypes.any,
+  examplePolyData: PropTypes.array,
+  setExamplePolyData: PropTypes.func
+};

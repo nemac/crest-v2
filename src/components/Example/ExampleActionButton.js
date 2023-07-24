@@ -45,7 +45,8 @@ export default function ExampleActionButton(props) {
     children,
     buttonLabel,
     buttonName,
-    onClick
+    onClick,
+    buttonDisabled
   } = props;
 
   return (
@@ -55,6 +56,7 @@ export default function ExampleActionButton(props) {
       <Button
         variant="text"
         color="CRESTPrimary"
+        disabled={buttonDisabled}
         fullWidth={true}
         aria-label={buttonName}
         sx={{
@@ -78,5 +80,6 @@ ExampleActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  buttonDisabled: PropTypes.bool.isRequired
 };
