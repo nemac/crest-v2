@@ -8,6 +8,9 @@ import GenericMapHolder from '../components/Map/GenericMapHolder';
 import ResilienceMapActionCard from '../components/Map/ResilienceMapActionCard';
 import ResilienceChartCard from '../components/AnalyzeArea/GenericChartCard';
 import ResilienceMapCard from '../components/Map/ResilienceMapCard';
+import EmptyStateResilience from '../components/AnalyzeArea/EmptyStateResilience';
+import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions';
+
 import { mapConfig } from '../configuration/config';
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -46,15 +49,11 @@ export default function ResilienceProject() {
     }
   ];
 
-  const handleExportClick = () => {
-    console.log('click');
-  };
-
   const chartActionButtons = [
     {
       buttonLabel: 'Export',
       buttonName: 'Export',
-      onClick: handleExportClick,
+      onClick: () => { handleExportImage('resilience-pie'); },
       icon: <CameraAlt />
     }
   ];
@@ -66,7 +65,7 @@ export default function ResilienceProject() {
       const calculatedData = [];
       let runningTotalScore = 0; // using this increment the hub core scores
       for (let i = 0; i < 10; i += 1) {
-        calculatedData[i] = { name: 'Hub Score = ' + parseInt((i + 1), 10), value: 0 };
+        calculatedData[i] = { name: `Hub Score = ${parseInt((i + 1), 10)}`, value: 0 };
       }
       const query = featureLayerHex.query().within(resilienceHub);
       query.run((error, featureCollection, response) => {
@@ -87,18 +86,24 @@ export default function ResilienceProject() {
         setChartData(calculatedData);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resilienceHub]);
 
   return (
     <GenericMapHolder
       mapActionCard={<ResilienceMapActionCard/>}
-      chartHeaderActionButtons={chartHeaderActionButtons}
+      chartHeaderActionButtons={null}
       isItAGraph={analyzeAreaState.isItAGraphResilience}
       chartCard={
-        <ResilienceChartCard chartData={chartData} chartActionButtons={chartActionButtons}/>
+        <ResilienceChartCard
+          chartData={chartData}
+          chartActionButtons={chartActionButtons}
+          noDataState={EmptyStateResilience}
+          coreHubScore={averageHubScore}/>
       }
-      tableData={<ResilienceMapActionCard/>}
+      tableData='Insert Table Data Here'
       mapCard={<ResilienceMapCard/>}
+      noDataState={(resilienceHub === null) ? <EmptyStateResilience /> : null}
     />
   );
 }

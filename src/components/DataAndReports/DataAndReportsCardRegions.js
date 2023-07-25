@@ -35,15 +35,17 @@ import { PictureAsPdf, FileDownload } from '@mui/icons-material';
 import { StyledPaper } from '../All/StyledComponents';
 
 // just a place holder needs props passed in and image etc
-export default function DataAndReportsCard(props) {
+export default function DataAndReportsCardRegions(props) {
   // get props
   const {
     regionName,
-    dataLink,
-    dataFileSize,
-    NativeLanguageText,
-    NativeLanguageLink,
-    EnglishLink
+    dataDownloadName,
+    dataDownloadFileLink,
+    dataDownloadFileSize,
+    reportEnglishName,
+    reportEnglishFileLink,
+    reportNativeName,
+    reportNativeFileLink
   } = props;
 
   return (
@@ -52,51 +54,60 @@ export default function DataAndReportsCard(props) {
         <Typography variant="h5" component="div" gutterBottom>
           {regionName}
         </Typography>
-        <Box sx={{ justifyContent: 'start', alignItems: 'start', display: 'flex', width: '100%' }} >
+        <Box sx={{
+          justifyContent: 'start',
+          alignItems: 'start',
+          display: 'flex',
+          width: '100%'
+        }} >
           <Typography variant="body1" component="div" gutterBottom>
             The download contains all data for the {regionName}.
             The file also contains a readme file describing use.
           </Typography>
         </Box>
 
+      {dataDownloadName ? (
         <Grid container justifyContent="start" alignItems="start" pt={3}>
           <Grid item xs={1} sm={0.5}>
             <FileDownload sx={{ color: (theme) => theme.palette.CRESTCta.main }} />
           </Grid>
           <Grid item xs={11} sm={11.5} >
-            <Link href={dataLink} >{regionName} Data Download ({dataFileSize})</Link>
+            <Link href={dataDownloadFileLink} >{dataDownloadName}</Link>  ({dataDownloadFileSize})
           </Grid>
-        </Grid>
+        </Grid>) : (<></>)}
 
-        {NativeLanguageText ? (
+        {reportNativeName ? (
           <Grid container justifyContent="start" alignItems="start" pt={1}>
             <Grid item xs={1} sm={0.5}>
               <PictureAsPdf sx={{ color: 'CRESTCta.main' }} />
             </Grid>
             <Grid item xs={11} sm={11.5} >
-              <Link href={NativeLanguageLink} target="_blank">{NativeLanguageText}</Link>
+              <Link href={reportNativeFileLink} target="_blank">{reportNativeName}</Link>
             </Grid>
           </Grid>) : (<></>)}
 
+      {reportEnglishName ? (
         <Grid container justifyContent="start" alignItems="start" pt={1}>
           <Grid item xs={1} sm={0.5}>
             <PictureAsPdf sx={{ color: 'CRESTCta.main' }} />
           </Grid>
           <Grid item xs={11} sm={11.5} >
-            <Link href={EnglishLink} target="_blank">{regionName} Coastal Resilience Assessment</Link>
+            <Link href={reportEnglishFileLink} target="_blank">{reportEnglishName}</Link>
           </Grid>
-        </Grid>
+        </Grid>) : (<></>)}
 
       </StyledPaper>
     </Box>
   );
 }
 
-DataAndReportsCard.propTypes = {
+DataAndReportsCardRegions.propTypes = {
   regionName: PropTypes.string.isRequired,
-  dataLink: PropTypes.string.isRequired,
-  dataFileSize: PropTypes.string.isRequired,
-  NativeLanguageText: PropTypes.string,
-  NativeLanguageLink: PropTypes.string,
-  EnglishLink: PropTypes.string.isRequired
+  dataDownloadName: PropTypes.string.isRequired,
+  dataDownloadFileLink: PropTypes.string.isRequired,
+  dataDownloadFileSize: PropTypes.string.isRequired,
+  reportEnglishName: PropTypes.string,
+  reportEnglishFileLink: PropTypes.string,
+  reportNativeName: PropTypes.string,
+  reportNativeFileLink: PropTypes.string
 };

@@ -7,6 +7,14 @@ import { puertoRicoConfig } from './regions/puertoRico';
 import { usVirginIslandsConfig } from './regions/usVirginIslands';
 import { alaskaConfig } from './regions/alaska';
 import { greatLakesConfig } from './regions/greatLakes';
+import { capeFearWatershedConfig } from './targetedWatersheds/cape-fear-watershed';
+import { charlestonHarborWatershedConfig } from './targetedWatersheds/charleston-harbor-watershed';
+import { delawareBayAndCoastalWatershedsConfig } from './targetedWatersheds/delaware-bay-and-coastal-watersheds';
+import { narragansettBayAndCoastalRhodeIslandWatershedsConfig } from './targetedWatersheds/narragansett-bay-and-coastal-rhode-island-watersheds';
+import { portlandAndMidcoastMaineWatershedsConfig } from './targetedWatersheds/portland-and-midcoast-maine-watersheds';
+import { sanFranciscoBayAndOuterCoastWatershedsConfig } from './targetedWatersheds/san-francisco-bay-and-outer-coast-watersheds';
+import { savannahRiverWatershedsConfig } from './targetedWatersheds/savannah-river-watersheds';
+import { jacksonvilleAndLowerStJohnsRiverWatershedsConfig } from './targetedWatersheds/jacksonville-and-lower-st-johns-river-watersheds';
 
 import basemapDarkImage from '../assets/images/basemap-dark.png';
 import basemapImageryImage from '../assets/images/basemap-imagery.png';
@@ -56,14 +64,24 @@ export const mapConfig = {
     // eslint-disable-next-line quote-props
     'Alaska': alaskaConfig,
     'American Samoa': americanSamoaConfig,
-    'Continental U.S': continentalUSConfig,
-    'Great Lakes': greatLakesConfig,
+    'Atlantic, Gulf of Mexico, and Pacific Coasts': continentalUSConfig,
     // eslint-disable-next-line quote-props
     'Guam': guamConfig,
     'Hawai\'i': hawaiiConfig,
     'Northern Mariana Islands': northernMarianaIslandsConfig,
     'Puerto Rico': puertoRicoConfig,
+    'U.S. Great Lakes': greatLakesConfig,
     'US Virgin Islands': usVirginIslandsConfig
+  },
+  targetedWatersheds: {
+    'Cape Fear Watershed': capeFearWatershedConfig,
+    'Charleston Harbor Watershed': charlestonHarborWatershedConfig,
+    'Delaware Bay and Coastal Watersheds': delawareBayAndCoastalWatershedsConfig,
+    'Narragansett Bay and Coastal Rhode Island Watersheds': narragansettBayAndCoastalRhodeIslandWatershedsConfig,
+    'Portland and Midcoast Maine Watersheds': portlandAndMidcoastMaineWatershedsConfig,
+    'San Francisco Bay and Outer Coast Watersheds': sanFranciscoBayAndOuterCoastWatershedsConfig,
+    'Savannah River Watersheds': savannahRiverWatershedsConfig,
+    'Jacksonville and Lower St. Johns River Watersheds': jacksonvilleAndLowerStJohnsRiverWatershedsConfig
   },
   resiliencePieChartLegend: [
     '#ffc500',
@@ -84,7 +102,7 @@ export const mapConfig = {
       coordinates: []
     },
     properties: {
-      areaName: null,
+      areaname: null,
       buffer: true,
       leafletId: null, // this is the leaflet id of just the drawn layer
       leafletIdsList: [], // List of leaflet ids to remove. Includes both drawn layer and buffer
@@ -104,9 +122,25 @@ export const mapConfig = {
           type: 'Feature',
           properties: {
             areaName: 'White Horse Pike',
-            region: 'Continental U.S',
+            region: 'Atlantic, Gulf of Mexico, and Pacific Coasts',
             zonalStatsData: {
-              exposure: 8.095615479621243, asset: 2.0521819678880195, threat: 7.358480856319473, aquatic: 5, terrestrial: 2, hubs: 6.156908665105386, crit_infra: 0.2006998764923837, crit_facilities: 0, pop_density: 0.5652531906134212, social_vuln: 0.2862289007822149, drainage: 3.3779333058871965, erosion: 0.540654590366406, floodprone_areas: 1.915500205846027, geostress: 0, sea_level_rise: 3.8905928365582545, slope: 3.3070193495265543, storm_surge: 3.163030053519967
+              exposure: 8.095615479621243,
+              asset: 2.0521819678880195,
+              threat: 7.358480856319473,
+              aquatic: 5,
+              terrestrial: 2,
+              hubs: 6.156908665105386,
+              crit_infra: 0.2006998764923837,
+              crit_facilities: 0,
+              pop_density: 0.5652531906134212,
+              social_vuln: 0.2862289007822149,
+              drainage: 3.3779333058871965,
+              erosion: 0.540654590366406,
+              floodprone_areas: 1.915500205846027,
+              geostress: 0,
+              ea_level_rise: 3.8905928365582545,
+              slope: 3.3070193495265543,
+              storm_surge: 3.163030053519967
             }
           },
           geometry: { type: 'Polygon', coordinates: [[[-74.47557058418107, 39.41830265237318], [-74.47700058418107, 39.39903754258014], [-74.47724908482222, 39.39776684356539], [-74.47779644509973, 39.39655329621017], [-74.47862390521031, 39.395438496721845], [-74.47970310542537, 39.39446065846312], [-74.48099705807047, 39.3936533014976], [-74.48246141521226, 39.39304410288033], [-74.48404598860533, 39.39265394721612], [-74.48569646980535, 39.39249621014238], [-74.49601446980535, 39.39225418607139], [-74.49777776059312, 39.39234725278965], [-74.49948334562039, 39.392705323138024], [-74.50106520350077, 39.39331453267124], [-74.50246210219443, 39.394151293345914], [-74.50361996923539, 39.39518320753751], [-74.50449398481923, 39.39637032326916], [-74.50505031673028, 39.397666681886854], [-74.50526742995064, 39.399022098091955], [-74.50587542995063, 39.41809714483567], [-74.50574994452012, 39.41943627406887], [-74.50529300956359, 39.420731649089255], [-74.50452172861841, 39.42193478644227], [-74.50346497151017, 39.423000657347465], [-74.50216229372585, 39.42388937230102], [-74.50066245581196, 39.42456767312385], [-74.499021598218, 39.42501017676316], [-74.49730113990267, 39.42520032445151], [-74.4849451399027, 39.42563228148638], [-74.48327926530045, 39.425570809131806], [-74.48165681132639, 39.42527252423086], [-74.48013370084328, 39.424747705148846], [-74.47876243253518, 39.42401443653142], [-74.47759027137886, 39.423097986625656], [-74.47665761951119, 39.42202993716735], [-74.47599662364529, 39.42084709571155], [-74.47563006703518, 39.41959022777433], [-74.47557058418107, 39.41830265237318]]] }
@@ -167,7 +201,7 @@ export const mapConfig = {
           type: 'Feature',
           properties: {
             areaName: 'Buffalo Bayou',
-            region: 'Continental U.S',
+            region: 'Atlantic, Gulf of Mexico, and Pacific Coasts',
             zonalStatsData: {
               exposure: 9.513333333333334, asset: 3.981333333333333, threat: 5.734666666666667, aquatic: 1, terrestrial: 0, hubs: 'NaN', crit_infra: 0.504, crit_facilities: 0, pop_density: 2.477333333333333, social_vuln: 0, drainage: 2.656, erosion: 0, floodprone_areas: 4.534666666666666, geostress: 1.264, sea_level_rise: 0.28933333333333333, slope: 0.09733333333333333, storm_surge: 2.132
             }
@@ -231,9 +265,25 @@ export const mapConfig = {
           type: 'Feature',
           properties: {
             areaName: 'Water Street',
-            region: 'Continental U.S',
+            region: 'Atlantic, Gulf of Mexico, and Pacific Coasts',
             zonalStatsData: {
-              exposure: 8.430505117200395, asset: 2.693298118190822, threat: 5.925387916804226, aquatic: 4, terrestrial: 3.3486299108616704, hubs: 1, crit_infra: 0.2119511389897656, crit_facilities: 0.16011885110597557, pop_density: 1.2677451304060745, social_vuln: 0.05348299768900627, drainage: 3.046880158468141, erosion: 1.3367448002641136, floodprone_areas: 2.086167051832288, geostress: 0, sea_level_rise: 2.3337735226147243, slope: 1.8689336414658304, storm_surge: 1.7959722680752723
+              exposure: 8.430505117200395,
+              asset: 2.693298118190822,
+              threat: 5.925387916804226,
+              aquatic: 4,
+              terrestrial: 3.3486299108616704,
+              hubs: 1,
+              crit_infra: 0.2119511389897656,
+              crit_facilities: 0.16011885110597557,
+              pop_density: 1.2677451304060745,
+              social_vuln: 0.05348299768900627,
+              drainage: 3.046880158468141,
+              erosion: 1.3367448002641136,
+              floodprone_areas: 2.086167051832288,
+              geostress: 0,
+              sea_level_rise: 2.3337735226147243,
+              slope: 1.8689336414658304,
+              storm_surge: 1.7959722680752723
             }
           },
           geometry: { type: 'Polygon', coordinates: [[[-77.94021188650011, 34.24096756878416], [-77.9399758865001, 34.23937958586665], [-77.93992651881474, 34.23800840853208], [-77.94018305935336, 34.23665309545862], [-77.94073675478094, 34.235359892699115], [-77.94156871263856, 34.23417292903386], [-77.94265054596681, 34.23313270974793], [-77.94394534188781, 34.23227473384791], [-77.94540892109734, 34.23162828199646], [-77.94699134529233, 34.23121541663126], [-77.94871234529234, 34.230907390078], [-77.95038711608697, 34.23074159472215], [-77.95206985068849, 34.230837566954776], [-77.9537012222808, 34.231191922281575], [-77.95522371491201, 34.23179216433716], [-77.95658365128791, 34.23261712589893], [-77.95773308522902, 34.23363771585787], [-77.95863149207035, 34.234817945713516], [-77.95924719740681, 34.236116199283835], [-77.95955849381215, 34.23748670073992], [-77.95975549381217, 34.23925971504624], [-77.95974351610148, 34.240718597032206], [-77.95938675857394, 34.24214736664929], [-77.95869898991745, 34.24349088490917], [-77.95770675385215, 34.244697305367445], [-77.95644834470305, 34.245720074280335], [-77.95497232947005, 34.246519726257695], [-77.95333567343494, 34.247065406269954], [-77.95160154164509, 34.24733605943985], [-77.94991954164509, 34.24745904863081], [-77.94819660696687, 34.247447910826295], [-77.94650793640945, 34.24716507131159], [-77.94491565284653, 34.24662093254308], [-77.94347833326373, 34.245835507503166], [-77.94224885382606, 34.244837684164075], [-77.94127244466773, 34.24366416367059], [-77.94058502596434, 34.24235811117099], [-77.94021188650011, 34.24096756878416]]] }

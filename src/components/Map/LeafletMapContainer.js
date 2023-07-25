@@ -17,7 +17,7 @@ export default function LeafletMapContainer(props) {
     children, center, zoom, innerRef
   } = props;
   // const dispatch = useDispatch();
-  const extent = regions['Continental U.S'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
+  const extent = regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
 
   return (
     <StyledMapContainer

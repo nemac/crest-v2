@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
@@ -11,7 +12,6 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import MapIcon from '@mui/icons-material/Map';
 import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,21 +19,49 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import RectangleTwoToneIcon from '@mui/icons-material/RectangleTwoTone';
+import { styled } from '@mui/system';
 
-import { toggleLayer, toggleLegend, toggleCollapsed, initializeState } from '../../reducers/mapLayerListSlice';
 import {
-  changeZoom, changeCenter, changeBasemap
+  toggleLayer,
+  toggleLegend,
+  toggleCollapsed,
+  initializeState
+} from '../../reducers/mapLayerListSlice';
+import {
+  changeZoom,
+  changeCenter,
+  changeBasemap,
+  addNewFeatureToDrawnLayers
 } from '../../reducers/mapPropertiesSlice';
-import { addNewFeatureToDrawnLayers } from '../../reducers/mapPropertiesSlice';
 import { changeActiveTab } from '../../reducers/NavBarSlice';
-import ExampleActionButton from './ActionButton';
+import ExampleActionButton from './ExampleActionButton';
 import { flyToLocation } from './StepActions';
 import { mapConfig } from '../../configuration/config';
 
+const RectangleTwoToneIconStyled = styled(RectangleTwoToneIcon)(({ theme }) => ({
+  color: 'transparent',
+  borderColor: 'white',
+  borderStyle: 'solid',
+  height: '42px',
+  width: '22px'
+}));
+
 // just a place holder needs props passed in and image etc
 export default function ExampleCard(props) {
-  const { map, setExamplePolyData, expanded, handleExpanded, title, summaryText, examplePolygonGeojson, 
-    steps, mapCoordinates, examplePolygonLabel, examplePolygonCenter, zoom } = props;
+  const {
+    map,
+    setExamplePolyData,
+    expanded,
+    handleExpanded,
+    title,
+    summaryText,
+    examplePolygonGeojson,
+    steps,
+    mapCoordinates,
+    examplePolygonLabel,
+    examplePolygonCenter,
+    zoom
+  } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -57,17 +85,12 @@ export default function ExampleCard(props) {
     dispatch(changeZoom(zoom));
   };
 
-  const CustomStepIcon = (props) => {
-    const { active } = props;
+  const CustomStepIcon = (properties) => {
+    const { active } = properties;
 
     return (
-        <RectangleTwoToneIcon
-          sx={{
-            color: 'transparent',
-            background: active ? 'gray' : 'white',
-            borderColor: 'white',
-            borderStyle: 'solid'
-          }}
+        <RectangleTwoToneIconStyled
+          sx={{ background: active ? 'gray' : 'white' }}
         />
     );
   };
@@ -81,15 +104,15 @@ export default function ExampleCard(props) {
       setExamplePolyData(null);
     }
 
-    const activeStepLayer = mapConfig.regions['Continental U.S'].layerList[steps[activeStep].layerIndex];
-    const previousStepLayer = mapConfig.regions['Continental U.S'].layerList[steps[previousStep].layerIndex]
+    const activeStepLayer = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].layerList[steps[activeStep].layerIndex];
+    const previousStepLayer = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].layerList[steps[previousStep].layerIndex];
 
     // zero out the active and previous step if not expanded, toggle layer, and reset map
     if (map && expanded !== title) {
       setActiveStep(0);
       setPreviousStep(0);
-      const defaultCenter = mapConfig.regions['Continental U.S'].mapProperties.center;
-      const defaultZoom = mapConfig.regions['Continental U.S'].mapProperties.zoom;
+      const defaultCenter = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.center;
+      const defaultZoom = mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.zoom;
       flyToLocation(map, defaultCenter, defaultZoom);
       if (activeStep >= 2) {
         dispatch(toggleLayer(activeStepLayer));
@@ -151,73 +174,110 @@ export default function ExampleCard(props) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography variant="h6" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+        <Typography variant="h7" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex', fontWeight: 'bold' }} >
           {title}
         </Typography>
       </AccordionSummary>
+      {/* revist  */}
       <Divider light sx={{ marginLeft: '6px', marginRight: '6px' }} />
-      <AccordionDetails>
-        <Grid container spacing={0} p={0} mt={1} mb={1}>
-          <Grid item xs={12} >
-            <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+      <AccordionDetails >
+        <Grid container spacing={0} p={0} m={0} sx={{ width: '100%' }}>
+          <Grid item xs={12} py={1}>
+            <Typography variant="body2" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
               {summaryText}
             </Typography>
             {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}
           </Grid>
-          <Typography align='center' sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-          <Grid item xs={12} >
+          <Grid item xs={12} py={1} >
+            <Typography align='center' variant="body2" component="div" sx={{ fontWeight: 'bold' }} >Step {activeStep + 1}</Typography>
+          </Grid>
+          <Grid item xs={12} py={1} >
             <Box sx={{ width: '100%' }}>
-              <Stepper activeStep={activeStep} nonLinear={true}>
+              <Stepper sx={{ display: 'flex', justifyContent: 'center' }} activeStep={activeStep} nonLinear={true} connector={null}>
                 {steps.map((item) => (
                   <Step key={item.title}>
-                    <StepLabel StepIconComponent={CustomStepIcon}/>
+                    <StepLabel StepIconComponent={CustomStepIcon} />
                   </Step>
                 ))}
               </Stepper>
             </Box>
           </Grid>
-          <Grid item xs={12} >
+          <Grid item xs={12} py={1} >
             <Box sx={{ height: '175px' }}>
-              <Typography>
+              <Typography variant="body1" component="div" sx={{ fontWeight: 'bold' }} >
                 {steps[activeStep].title}
               </Typography>
-              <Typography>
+              <Typography variant="body2" component="div" >
                 {steps[activeStep].text}
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={3} >
+          <Grid container spacing={0} p={0} m={0} sx={{ width: '100%' }}>
+          <Grid item xs={12} md={3}>
             {activeStep !== 0 ? (
               <ExampleActionButton
                 buttonLabel={'Previous'}
                 buttonName={'Previous'}
-                onClick={handlePrevious}>
+                onClick={handlePrevious}
+                buttonDisabled={false}>
                 <ArrowCircleLeftIcon/>
               </ExampleActionButton>
             ) : (
-             <div> </div>)}
+              <ExampleActionButton
+                buttonLabel={'Previous'}
+                buttonName={'Previous'}
+                onClick={handlePrevious}
+                buttonDisabled={true}>
+                <ArrowCircleLeftIcon/>
+              </ExampleActionButton>
+            )}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} md={6}>
             <ExampleActionButton
               buttonLabel={'View in CREST'}
               buttonName={'View in CREST'}
-              onClick={viewExampleOnMap}>
+              onClick={viewExampleOnMap}
+              buttonDisabled={false}>
               <MapIcon/>
             </ExampleActionButton>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} md={3}>
             {activeStep !== steps.length - 1 ? (
               <ExampleActionButton
                 buttonLabel={'Next'}
                 buttonName={'Next'}
-                onClick={handleNext}>
+                onClick={handleNext}
+                buttonDisabled={false}>
                 <ArrowCircleRightIcon/>
               </ExampleActionButton>
             ) : (
-             <div> </div>)}
+              <ExampleActionButton
+                buttonLabel={'Next'}
+                buttonName={'Next'}
+                onClick={handleNext}
+                buttonDisabled={true}>
+                <ArrowCircleRightIcon/>
+              </ExampleActionButton>
+            )}
+          </Grid>
           </Grid>
         </Grid>
       </AccordionDetails>
     </Accordion>
   );
 }
+
+ExampleCard.propTypes = {
+  map: PropTypes.object,
+  setExamplePolyData: PropTypes.func,
+  expanded: PropTypes.string,
+  handleExpanded: PropTypes.func,
+  title: PropTypes.string,
+  summaryText: PropTypes.string,
+  examplePolygonGeojson: PropTypes.object,
+  steps: PropTypes.array,
+  mapCoordinates: PropTypes.array,
+  examplePolygonLabel: PropTypes.string,
+  examplePolygonCenter: PropTypes.array,
+  zoom: PropTypes.number
+};

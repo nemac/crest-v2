@@ -4,11 +4,18 @@ export const puertoRicoConfig = {
   label: 'Puerto Rico',
   image: regionPuertoRicoImage,
   regionName: 'puerto_rico',
-  mapProperties: {
-    label: 'Puerto Rico',
-    center: [18.22, -66.12],
-    extent: [-67.54431130541467, 17.46071271042981, -65.08612038744593, 18.895892559415024],
-    zoom: 8
+  reportEnglish: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2020-08/puerto-rico-coastal-resilience-assessment.pdf',
+    name: 'Puerto Rico Coastal Resilience Assessment'
+  },
+  reportNative: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2020-08/evaluacion-de-resiliencia-costera-de-puerto-rico.pdf',
+    name: 'Evaluación de Resiliencia Costera de Puerto Rico'
+  },
+  dataDownload: {
+    fileSize: '121.6 MB',
+    fileLink: 'https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/Puerto_Rico_Assessment_Data.zip',
+    name: 'Puerto Rico Data Download'
   },
   attribution: 'NFWF 2020',
   hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/PR_hubs_staging_073020/FeatureServer/0',

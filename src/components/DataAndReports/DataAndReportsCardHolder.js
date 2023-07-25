@@ -22,30 +22,31 @@ Props
   - Not sure yet
 */
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Grid';
-import DataAndReportsCard from './DataAndReportsCard';
+import DataAndReportsCardRegions from './DataAndReportsCardRegions';
+import DataAndReportsCardMethodology from './DataAndReportsCardMethodology';
+import { mapConfig } from '../../configuration/config';
+
+const regions = mapConfig.regions;
 
 export default function DataAndReportsCardHolder(props) {
-  const { cardConfig } = props;
-
   return (
     <Grid container spacing={1} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
-
-      {cardConfig.map((cardData) => <Grid item xs={12} key={cardData.regionName}>
-            <DataAndReportsCard
-              regionName={cardData.regionName}
-              dataFileSize={cardData.dataFileSize}
-              NativeLanguageText={cardData.NativeLanguageText}
-              dataLink={cardData.dataLink}
-              EnglishLink={cardData.EnglishLink}/>
-          </Grid>)}
-
+      {Object.entries(regions).map(([regionName, regionConfig]) => <Grid item xs={12} key={regionName}>
+            <DataAndReportsCardRegions
+              regionName={regionName}
+              dataDownloadName={regionConfig.dataDownload.name}
+              dataDownloadFileLink={regionConfig.dataDownload.fileLink}
+              dataDownloadFileSize={regionConfig.dataDownload.fileSize}
+              reportNativeName={regionConfig.reportNative.name}
+              reportNativeFileLink={regionConfig.reportNative.fileLink}
+              reportEnglishName={regionConfig.reportEnglish.name}
+              reportEnglishFileLink={regionConfig.reportEnglish.fileLink}/>
+              </Grid>)}
+      <Grid item xs={12} key={DataAndReportsCardMethodology}>
+        <DataAndReportsCardMethodology />
+      </Grid>
     </Grid>
   );
 }
-
-DataAndReportsCardHolder.propTypes = {
-  cardConfig: PropTypes.array.isRequired
-};

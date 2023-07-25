@@ -14,6 +14,7 @@ import BasemapLayer from './BasemapLayer';
 import ActiveTileLayers from './ActiveTileLayers';
 import MapLayerList from '../MapLayerList/MapLayerList';
 import { mapConfig } from '../../configuration/config';
+import { StyledGrid } from '../All/StyledComponents';
 
 const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(0.2),
@@ -21,9 +22,12 @@ const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
 }));
 
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
-  height: 'calc(100% - 115px)',
+  height: 'calc(100% - 123px)',
   [theme.breakpoints.down('lg')]: {
-    height: 'calc(100% - 56px)'
+    height: 'calc(100% - 146px)'
+  },
+  [theme.breakpoints.down('md')]: {
+    height: 'calc(60% - 56px)'
   }
 }));
 
@@ -81,12 +85,44 @@ export default function MapHolderExample() {
 
        {/* Data (graph/chart/table, action buttons) */}
       <ThreeColumnGrid item
-        xs={12} sm={12} md={4} lg={3.75} xl={3}
-        order={{ xs: 3, sm: 3, md: 1 }}
+        xs={12}
+        sm={12}
+        md={4}
+        lg={3.75}xl={3}
+        order={{
+          xs: 2,
+          sm: 2,
+          md: 1
+        }}
       >
-        <Typography align='center' variant="h6" gutterBottom>
-          Step through one of the examples to learn how to use CREST
-        </Typography>
+
+        <StyledGrid container spacing={0} mb={1} justifyContent="center" alignItems="center" sx={{ height: '115px' }} >
+          <Grid item xs={12} >
+            <Box
+              px={1}
+              py={0.75}
+              sx={{
+                display: 'flex',
+                flexWrap: 'nowrap',
+                alignItems: 'center',
+                height: '80px'
+              }} >
+              <Typography
+                variant="h7"
+                component="div"
+                p={1} sx={{
+                  fontWeight: 'bold',
+                  cursor: 'default',
+                  width: '100%',
+                  alignItems: 'center'
+                }}>
+                Step through one of the examples to learn how to use the
+                Coastal Resilience Evaluation and Siting Tool (CREST)
+              </Typography>
+            </Box>
+          </Grid>
+        </StyledGrid>
+
         <Example
           map={map}
           examplePolyData={examplePolyData}
@@ -104,8 +140,8 @@ export default function MapHolderExample() {
             order={{ xs: 1, sm: 1, md: 2 }}>
         <ContentMapBox>
           <LeafletMapContainer
-            center={mapConfig.regions['Continental U.S'].mapProperties.center}
-            zoom={mapConfig.regions['Continental U.S'].mapProperties.zoom}
+            center={mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.center}
+            zoom={mapConfig.regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.zoom}
             innerRef={setMap}
           >
             <>
@@ -128,7 +164,7 @@ export default function MapHolderExample() {
       <ThreeColumnGrid item
         xs={12} sm={12} md={3.5} lg={3} xl={2.75}
         sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
-        order={{ xs: 2, sm: 2, md: 3 }}>
+        order={{ xs: 3, sm: 3, md: 3 }}>
         <MapLayerList/>
       </ThreeColumnGrid>
 

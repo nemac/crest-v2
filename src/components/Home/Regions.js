@@ -44,10 +44,16 @@ export default function Regions() {
   };
 
   return (
-    <Grid container spacing={3} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
-
+    <Grid
+      container
+      flexDirection='row'
+      spacing={3}
+      justifyContent="center"
+      alignContent="stretch"
+      px={0.25}
+      py={0.75}>
       { Object.keys(regions).map((region) => (
-        <Grid xs={12} sm={12} md={6} lg={3} key={regions[region].label}>
+        <Grid xs={12} sm={12} md={6} lg={3} xxl={2} key={regions[region].label} >
           <RegionCard
             regionName={regions[region].label}
             regionImage={regions[region].image}

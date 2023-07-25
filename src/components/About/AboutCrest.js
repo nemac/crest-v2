@@ -50,7 +50,7 @@ export default function AboutCrest(props) {
         The Regional Assessments have since expanded to include Puerto Rico, the U.S. Virgin
         Islands, the Northern Mariana Islands, Hawaii, Guam, American Samoa, and Alaska. Owing to
         the uniqueness of each region, the methods will continue to be refined and enhanced. CREST
-        will be updated once the U.S. Great Lakes Regional Assessment is complete and as other
+        will be updated once the U.S. U.S. Great Lakes Regional Assessment is complete and as other
         Regional Assessments are updated.
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
