@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import L from 'leaflet';
 import Grid from '@mui/material/Unstable_Grid2';
-import buffer from '@turf/buffer';
 
 import {
   CameraAlt,
@@ -14,7 +12,7 @@ import {
 
 import { changeMore } from '../../reducers/analyzeAreaSlice';
 import {
-  changeCenter, changeZoom, removeFeatureByGeometry, removeFeatureByGeometryBufferLayers
+  changeCenter, changeZoom, removeFeatureByGeometry
 } from '../../reducers/mapPropertiesSlice';
 import ActionButton from '../All/ActionButton';
 import { StyledGrid } from '../All/StyledComponents';
@@ -32,7 +30,7 @@ export default function ChartActionButtons(props) {
     data,
     map,
     layerToRemove,
-    bufferLayerToRemove,
+    featureGroupRef
   } = props;
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -110,7 +108,10 @@ export default function ChartActionButtons(props) {
   const removeLayer = (layer) => {
     // console.log(bufferLayerToRemove);
     dispatch(removeFeatureByGeometry(layerToRemove.geometry));
-    dispatch(removeFeatureByGeometryBufferLayers(bufferLayerToRemove.geometry));
+    // dispatch(removeFeatureByGeometryBufferLayers(bufferLayerToRemove.geometry));
+    // Get rid of all layers from the feature group.
+    // the only reason we have a feature group is because React Leaflet Draw requires it
+    featureGroupRef.current.clearLayers();
   };
 
   return (
@@ -165,5 +166,7 @@ ChartActionButtons.propTypes = {
   areaName: PropTypes.string.isRequired,
   areaIndex: PropTypes.number.isRequired,
   data: PropTypes.object,
-  map: PropTypes.object
+  map: PropTypes.object,
+  layerToRemove: PropTypes.object,
+  featureGroupRef: PropTypes.object
 };

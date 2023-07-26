@@ -2,6 +2,7 @@ import FileSaver from 'file-saver';
 import html2canvas from 'html2canvas';
 import { removeAllFeaturesFromDrawnLayers, resetAreaNumber } from '../../reducers/mapPropertiesSlice';
 import { changeEmptyState } from '../../reducers/analyzeAreaSlice';
+import { mapConfig } from '../../configuration/config';
 
 export const handleExportImage = async (chartType) => {
   const elId = `${chartType}-container`;
@@ -18,9 +19,25 @@ export const handleExportImage = async (chartType) => {
   });
 };
 
+const getRange = (area, name) => {
+  const selectedColorChart = mapConfig.regions[area.region].layerList.find(
+    ((layer) => layer.chartCSSSelector === name)
+  ).chartCSSColor;
+  const allValues = Object.keys(selectedColorChart);
+  const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
+  return thisRange;
+};
+
+const getLabel = (area, name) => {
+  const thisLabel = mapConfig.regions[area.region].layerList.find(
+    ((layer) => layer.chartCSSSelector === name)
+  ).label;
+  return thisLabel;
+};
+
 // This exports all data for all areas
 // TODO: THIS IS BROKEN AT THE MOMENT. FIX IT.
-export const handleExportCSV = (event) => {
+export const handleExportCSV = (event, chartData, selectedRegion) => {
   event.stopPropagation();
   const dataRows = [];
   chartData.map((area) => {
@@ -56,9 +73,12 @@ export const handleExportCSV = (event) => {
   link.click(); // This will download the data file using invisible link
 };
 
-export const HandleRemoveAllClick = (e, dispatch) => {
+export const HandleRemoveAllClick = (e, dispatch, featureGroupRef) => {
   e.stopPropagation();
   dispatch(removeAllFeaturesFromDrawnLayers());
   dispatch(resetAreaNumber());
   dispatch(changeEmptyState());
+  // Get rid of all layers from the feature group.
+  // the only reason we have a feature group is because React Leaflet Draw requires it
+  featureGroupRef.current.clearLayers();
 };

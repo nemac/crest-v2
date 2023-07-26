@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useCallback,
-  useState
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -24,8 +19,6 @@ import { mapConfig } from '../../configuration/config';
 import ChartCustomLabels from './ChartCustomLabels';
 
 const regions = mapConfig.regions;
-
-// const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
 const ContentBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -59,32 +52,20 @@ const ToolTipBox = styled(Box)(({ theme }) => ({
   alignItems: 'center'
 }));
 
-const chartDataTemplate = {
-  name: '',
-  value: null,
-  chartValue: null,
-  tickLabel: ''
-};
-
 export default function ChartSummary(props) {
-  const [barColors, setBarColors] = useState([]);
   const {
-    areaName,
-    zonalStatsData,
     chartRegion,
     chartIndices,
     chartType,
-    bufferLayerToHighlight,
-    setHover
+    setHover,
+    feature
   } = props;
 
-  // const drawnLayersFromState = useSelector(drawnLayersSelector);
   const region = regions[chartRegion];
-  const [chartData, setChartData] = useState([]);
 
-  const dataToPlot = useRef(true);
-  const chartLabel = `${chartType} ${areaName}`;
+  const chartLabel = `${chartType} ${feature.properties.areaName}`;
   const layerList = region.layerList;
+  const zonalStatsData = feature.properties.zonalStatsData;
 
   const formatYAxis = (value) => {
     switch (value) {
@@ -128,60 +109,45 @@ export default function ChartSummary(props) {
     label: PropTypes.any
   };
 
-  const handleGetZonalStatsData = useCallback((data) => {
-    // Bar Color is functional based on value comparison with config
+  // Bar Color is functional based on value comparison with config
+  const getData = (name, value) => {
+    const colorValue = Math.round(value);
+    const selectedLayerData = layerList.find(
+      ((layer) => layer.chartCSSSelector === name)
+    );
+    const selectedChartLabel = selectedLayerData.chartLabel;
+    const selectedColorChart = selectedLayerData.chartCSSColor;
+    const selectedColor = selectedColorChart[colorValue];
+    const allValues = Object.keys(selectedColorChart);
+    const maxValue = allValues[allValues.length - 1];
+    const chartValue = value / maxValue;
+    const retData = { selectedColor, chartValue, selectedChartLabel };
+    return retData;
+  };
 
-    const getData = (name, value) => {
-      const colorValue = Math.round(value);
-      const selectedLayerData = layerList.find(
-        ((layer) => layer.chartCSSSelector === name)
-      );
-      const selectedChartLabel = selectedLayerData.chartLabel;
-      const selectedColorChart = selectedLayerData.chartCSSColor;
-      const selectedColor = selectedColorChart[colorValue];
-      const allValues = Object.keys(selectedColorChart);
-      const maxValue = allValues[allValues.length - 1];
-      const normValue = value / maxValue;
-      const retData = [selectedColor, normValue, selectedChartLabel];
-      return retData;
-    };
+  const barColors = []; // Stores colors for data bars plotted
+  const chartData = []; // Stores data to be plotted
 
-    const tempColors = []; // Stores colors for data bars plotted
-    const tempData = []; // Stores data to be plotted
-    // This is the logic to build the chart for Summary charts
-    // Currently this is going to pull all data across all regions... need to simplify
-    // An error occurs when trying to cross-reference the wrong data/region combo
+  if (zonalStatsData) {
     chartIndices.forEach((element) => {
-      if (data[element] === undefined) { return; }
-      const value = data[element];
+      const value = zonalStatsData[element];
       const layerData = getData(element, value);
-      const barColor = layerData[0];
-      const chartValue = layerData[1];
-      const tickLabel = layerData[2];
-
-      tempData.push({
-        name: element, value, chartValue, tickLabel
+      const { selectedColor, chartValue, selectedChartLabel } = layerData;
+      // const barColor = layerData[0];
+      // const chartValue = layerData[1];
+      // const tickLabel = layerData[2];
+      chartData.push({
+        name: element, value, chartValue, selectedChartLabel
       });
-      tempColors.push(barColor);
+      barColors.push(selectedColor);
     });
-    if (tempData.length === 0) {
-      dataToPlot.current = false;
-    }
-    // Match colors to data
-    // tempData.map(({ name, value }) => tempColors.push(getColor(name, value)));
-    setChartData(tempData);
-    setBarColors(tempColors);
-  }, [layerList, chartIndices]);
-
-  useEffect(() => {
-    handleGetZonalStatsData(zonalStatsData);
-  }, [zonalStatsData, handleGetZonalStatsData]);
+  }
 
   const handleMouseEnter = () => {
-    if (bufferLayerToHighlight) {
-      setHover({ bufferAreaName: areaName });
+    if (feature.properties.buffGeo) {
+      setHover({ bufferAreaName: feature.properties.areaName });
     } else {
-      setHover({ areaName });
+      setHover({ areaName: feature.properties.areaName });
     }
   };
 
@@ -215,7 +181,7 @@ export default function ChartSummary(props) {
           <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
         </text>
 
-        <XAxis dataKey="tickLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
+        <XAxis dataKey="selectedChartLabel" tick={<ChartCustomLabels />} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '10rem', lineHeight: '2rem' }} interval={0} />
         <YAxis domain={[0, 1]} tickFormatter={formatYAxis} style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }} interval={0} />
 
         <Tooltip content={<CustomTooltip />} />
@@ -242,9 +208,9 @@ export default function ChartSummary(props) {
 }
 
 ChartSummary.propTypes = {
-  areaName: PropTypes.string.isRequired,
-  zonalStatsData: PropTypes.object,
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
-  chartType: PropTypes.string
+  chartType: PropTypes.string,
+  feature: PropTypes.object,
+  setHover: PropTypes.func
 };

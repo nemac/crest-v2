@@ -12,7 +12,6 @@ import ChartActionButtons from './ChartActionButtons';
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
-
 export default function ChartCard(props) {
   const {
     areaName,
@@ -20,9 +19,10 @@ export default function ChartCard(props) {
     zonalStatsData,
     region,
     map,
+    feature,
     layerToRemove,
-    buffLayerToRemove,
-    setHover
+    setHover,
+    featureGroupRef
   } = props;
   const summaryIndices = ['hubs', 'exposure', 'asset', 'threat', 'wildlife'];
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
@@ -49,7 +49,6 @@ export default function ChartCard(props) {
                 data={zonalStatsData}
                 map={map}
                 layerToRemove={layerToRemove}
-                bufferLayerToRemove={buffLayerToRemove}
               />
             </Grid>
           </div>
@@ -59,14 +58,11 @@ export default function ChartCard(props) {
           <div style={{ width: '100%' }}>
             <Grid xs={12} >
               <ChartSummary
-                areaName={areaName}
-                areaIndex={areaIndex}
-                zonalStatsData={zonalStatsData}
                 chartRegion={region}
                 chartIndices={summaryIndices}
                 chartType={'Summary Chart'}
-                bufferLayerToHighlight={buffLayerToRemove}
                 setHover={setHover}
+                feature={feature}
               />
             </Grid>
 
@@ -77,7 +73,7 @@ export default function ChartCard(props) {
                 data={zonalStatsData} // need to pick out the Summary
                 map={map}
                 layerToRemove={layerToRemove}
-                bufferLayerToRemove={buffLayerToRemove}
+                featureGroupRef={featureGroupRef}
               />
             </Grid>
           </div>
@@ -93,5 +89,9 @@ ChartCard.propTypes = {
   areaIndex: PropTypes.number.isRequired,
   zonalStatsData: PropTypes.object,
   region: PropTypes.string,
-  map: PropTypes.object
+  map: PropTypes.object,
+  layerToRemove: PropTypes.object,
+  setHover: PropTypes.func,
+  feature: PropTypes.object,
+  featureGroupRef: PropTypes.object
 };

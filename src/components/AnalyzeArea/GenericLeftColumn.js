@@ -24,7 +24,7 @@ const StyledBackgroundBox = styled(Box)(({ theme }) => ({
 
 export default function GenericLeftColumn(props) {
   const {
-    mapActionCard, chartHeaderActionButtons, chartCard, tableData,
+    mapActionCard, chartHeaderActionButtons, chartHolder, tableData,
     isItAGraph, noDataState, optionalComponent
   } = props;
 
@@ -32,7 +32,7 @@ export default function GenericLeftColumn(props) {
     <Box sx={{ height: '100%', width: '100%' }}>
       {mapActionCard}
       <StyledBox >
-        {!chartCard.props.chartData ? (
+        {!chartHolder.props.chartData ? (
           noDataState
         ) : (
           <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={0} sx={{ height: '100%' }} >
@@ -51,7 +51,7 @@ export default function GenericLeftColumn(props) {
             <Grid xs={12} sx={{ height: '100%', width: '100%' }} >
               <StyledBackgroundBox mr={1}>
                 {isItAGraph ? (
-                  chartCard
+                  chartHolder
                 ) : (
                   tableData
                 )}
@@ -67,7 +67,7 @@ export default function GenericLeftColumn(props) {
 GenericLeftColumn.propTypes = {
   mapActionCard: PropTypes.node,
   isItAGraph: PropTypes.bool,
-  chartCard: PropTypes.node,
+  chartHolder: PropTypes.node,
   tableData: PropTypes.node,
   chartHeaderActionButtons: PropTypes.array,
   noDataState: PropTypes.any,

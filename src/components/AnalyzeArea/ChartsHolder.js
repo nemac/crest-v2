@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,72 +6,22 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import {
-  changeEmptyState,
   changeGraphTable,
   changeSortDirection
 } from '../../reducers/analyzeAreaSlice';
-import {
-  removeAllFeaturesFromZonalStatsAreas,
-  removeAllFeaturesFromDrawnLayers
-} from '../../reducers/mapPropertiesSlice';
 import ChartCard from './ChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './TableData';
-import { mapConfig } from '../../configuration/config';
 import { handleExportCSV, HandleRemoveAllClick } from './ChartFunctions';
 
-// sample configs to create the charts should come from state/redux later
-// TODO config should be imported from config directory
-
 // selector named functions for lint rules makes it easier to re-use if needed.
-const regions = mapConfig.regions;
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
-const drawnLayerSelector = (state) => state.mapProperties.drawnLayers;
-const selectedRegionSelector = (state) => state.selectedRegion.value;
-const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
-const bufferLayersListSelector = (state) => state.mapProperties.bufferLayers;
 
 export default function ChartsHolder(props) {
-  const { map, listOfDrawnLayers, setListOfDrawnLayers, setBufferGeo, bufferGeo, setBufferLayersList,
-    geoRef, bufferGeoRef, chartData, setHover } = props;
-  const drawnLayerAreas = useSelector(drawnLayerSelector);
-  const selectedRegion = useSelector(selectedRegionSelector);
-  const drawnLayersFromState = useSelector(drawnLayersSelector);
-  const bufferLayersList = useSelector(bufferLayersListSelector);
-  // console.log('buff layer list', bufferLayersList.features[0])
-  const featureList = drawnLayerAreas.features;
-  // const [chartData, setChartData] = useState([]);
-  const getLabel = (area, name) => {
-    const thisLabel = regions[area.region].layerList.find(
-      ((layer) => layer.chartCSSSelector === name)
-    ).label;
-    return thisLabel;
-  };
-  const getRange = (area, name) => {
-    const selectedColorChart = regions[area.region].layerList.find(
-      ((layer) => layer.chartCSSSelector === name)
-    ).chartCSSColor;
-    const allValues = Object.keys(selectedColorChart);
-    const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
-    return thisRange;
-  };
-  // const handleFeatureUpdate = useCallback((features) => {
-  //   if (features) {
-  //     const tempData = [];
-  //     features.forEach((entry, index) => {
-  //       tempData.push({
-  //         areaName: entry.properties.areaName,
-  //         areaIndex: index,
-  //         region: entry.properties.region,
-  //         zonalStatsData: entry.properties.zonalStatsData
-  //       });
-  //     });
-  //     setChartData(tempData);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   handleFeatureUpdate(featureList);
-  // }, [featureList, handleFeatureUpdate]);
+  const {
+    map, setHover, featureGroupRef, chartData
+  } = props;
+
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
 
@@ -88,8 +38,6 @@ export default function ChartsHolder(props) {
     dispatch(changeSortDirection());
   };
 
-  // const filterRef = (ref, areaNumber) => ref?.current?.options?.areaNumber === areaNumber;
-
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
       <Grid xs={12} >
@@ -97,7 +45,7 @@ export default function ChartsHolder(props) {
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
           HandleRemoveAllClick={
-            (e) => { HandleRemoveAllClick(e, dispatch); }
+            (e) => { HandleRemoveAllClick(e, dispatch, featureGroupRef); }
           }
           handleGenericClick={handleExportCSV} />
       </Grid>
@@ -105,23 +53,18 @@ export default function ChartsHolder(props) {
       {analyzeAreaState.isItAGraph ? (
         <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
           <Box>
-            {drawnLayersFromState.features.map((feature, index) => (
+            {chartData.map((feature, index) => (
               <ChartCard
                 key={feature.properties.areaName}
+                feature={feature}
                 areaName={feature.properties.areaName}
                 areaIndex={index}
                 region={feature.properties.region}
                 zonalStatsData={feature.properties.zonalStatsData}
                 layerToRemove={feature}
-                buffLayerToRemove={feature.properties.buffGeo}
-                // bufferLayerToRemove={JSON.parse(bufferLayersList[index])}
+                featureGroupRef={featureGroupRef}
                 map={map}
-                setListOfDrawnLayers={setListOfDrawnLayers}
-                setBufferGeo={setBufferGeo}
-                bufferGeo={bufferGeo}
                 setHover={setHover}
-                // geoRefLayer={geoRef?.current.filter((e) => e.current?.options?.areaNumber === feature.properties.areaNumber)[0]?.current}
-                // bufferGeoRefLayer={bufferGeoRef?.current.filter((e) => e.current?.options?.areaNumber === feature.properties.areaNumber)[0]?.current}
               />
             ))}
           </Box>
@@ -141,6 +84,8 @@ export default function ChartsHolder(props) {
 }
 
 ChartsHolder.propTypes = {
-  leafletFeatureGroupRef: PropTypes.object,
-  map: PropTypes.object
+  map: PropTypes.object,
+  setHover: PropTypes.func,
+  featureGroupRef: PropTypes.object,
+  chartData: PropTypes.array
 };

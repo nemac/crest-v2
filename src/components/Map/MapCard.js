@@ -1,8 +1,8 @@
 import React, {
-  useState, useEffect, useCallback, createRef
+  useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents, FeatureGroup, GeoJSON } from 'react-leaflet';
+import { useMapEvents, GeoJSON } from 'react-leaflet';
 import ShareIcon from '@mui/icons-material/Share';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
@@ -20,7 +20,6 @@ import LeafletMapContainer from './LeafletMapContainer';
 import ShowIdentifyPopup from './IdentifyPopup';
 import IdentifyButtonWrapper from './IdentifyButton';
 import { mapConfig } from '../../configuration/config';
-import ActionButtons from './ActionButtons';
 import { createShareURL } from './ShareMap';
 import ModelErrors from '../All/ModelErrors';
 import ModalShare from '../All/ModalShare';
@@ -37,7 +36,7 @@ const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
-// const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 // const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
@@ -50,24 +49,19 @@ export default function MapCard(props) {
     setDrawAreaDisabled,
     tooLargeLayerOpen,
     setTooLargeLayerOpen,
-    geoRef,
-    bufferGeoRef,
     setCurrentDrawn,
-    drawnFromState,
-    bufferFromState,
     hover
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const dispatch = useDispatch();
-
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
-  // const drawnFromState = useSelector(drawnLayersSelector);
+  const drawnFromState = useSelector(drawnLayersSelector);
   // const bufferLayersFromState = useSelector(bufferLayersSelector);
   // const analyzedAreas = useSelector(analyzedAreasSelector);
 
@@ -120,14 +114,10 @@ export default function MapCard(props) {
         );
       },
       zoomend: () => {
-        const featureGroup = leafletFeatureGroupRef.current;
-        featureGroup?.eachLayer((layer) => {
-          if (map.getZoom() < 10) {
-            layer.closeTooltip();
-          } else {
-            layer.openTooltip();
-          }
-        });
+        if (map.getZoom() >= 10) {
+          return map.eachLayer((layer) => { layer.openTooltip(); });
+        }
+        return map.eachLayer((layer) => { layer.closeTooltip(); });
       }
     });
     return null;
@@ -160,92 +150,78 @@ export default function MapCard(props) {
   };
 
   return (
-    <div style={{ height: '100%' }}>
-      <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-        <IdentifyButtonWrapper map={map} />
-        <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef} />
-        <Control position='bottomleft'>
-          <Button
-            variant="contained"
-            startIcon={<ShareIcon />}
-            onClick={shareMapHandler}
-            color="CRESTPrimary"
-            sx={{ margin: '0 0 20px 0' }}
-          >
-            Share Map
-          </Button>
-        </Control>
-        <LeafletDrawTools
-          bufferCheckbox={bufferCheckbox}
-          leafletFeatureGroupRef={leafletFeatureGroupRef}
-          setDrawAreaDisabled={setDrawAreaDisabled}
-          setTooLargeLayerOpen={setTooLargeLayerOpen}
-          setCurrentDrawn={setCurrentDrawn}
-        />
-        {drawnFromState?.features?.map((item, index) => (
-          <React.Fragment key={item.geometry.coordinates} >
-            <GeoJSON
-              data={item}
-              ref={geoRef.current[index]}
-              style={{
-                weight: 2,
-                opacity: 1,
-                color: hover.areaName === item.properties.areaName ? '#dda006' : '#4992f9'
-              }}
-            >
-              <StyledReactLeafletTooltip direction='center' permanent>
-                {item.properties.areaName}
-              </StyledReactLeafletTooltip>
-            </GeoJSON>
-            <GeoJSON
-              ref={bufferGeoRef.current[index]}
-              data={item.properties.buffGeo}
-              style={{
-                weight: 2,
-                opacity: 1,
-                color: hover.bufferAreaName === item.properties.areaName ? '#ffc107' : '#99c3ff'
-              }}
-            />
-          </React.Fragment>
-        ))}
-        {/* {bufferFromState?.features?.map((item, index) => (
-          <React.Fragment key={item.geometry.coordinates} >
-            <GeoJSON
-              ref={bufferGeoRef.current[index]}
-              data={item}
-              style={{ color: '#99c3ff' }}
-            />
-          </React.Fragment>
-        ))} */}
-        <ModalShare
-          contentTitle={'Share map url'}
-          contentMessage={shareUrl}
-          buttonMessage='Dismiss'
-          onClose={handleShareLinkClose}
-          onDoubleClick={handleSelectURLDblClick}
-          secondaryClick={handleShareLinkCopy}
-          secondaryButtonMessage='Copy Map URL'
-          open={shareLinkOpen}
-        />
-        <ModelErrors
-          contentTitle={'Sketch an Area Error '}
-          contentMessage={'The sketched area is too large.'}
-          buttonMessage='Dismiss'
-          errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
-          onClose={handleTooLargeLayerClose}
-          open={tooLargeLayerOpen}
-        />
-        <ActiveTileLayers />
-        <BasemapLayer map={map} />
-        <MapEventsComponent />
-        <ShowIdentifyPopup
-          selectedRegion = {selectedRegion}
-          map = {map}
+    <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
+      <IdentifyButtonWrapper map={map} />
+      <SearchPlaces map = {map} leafletFeatureGroupRef={leafletFeatureGroupRef} />
+      <Control position='bottomleft'>
+        <Button
+          variant="contained"
+          startIcon={<ShareIcon />}
+          onClick={shareMapHandler}
+          color="CRESTPrimary"
+          sx={{ margin: '0 0 20px 0' }}
         >
-        </ShowIdentifyPopup>
-      </LeafletMapContainer>
-      <ActionButtons />
-    </div>
+          Share Map
+        </Button>
+      </Control>
+      <LeafletDrawTools
+        bufferCheckbox={bufferCheckbox}
+        leafletFeatureGroupRef={leafletFeatureGroupRef}
+        setDrawAreaDisabled={setDrawAreaDisabled}
+        setTooLargeLayerOpen={setTooLargeLayerOpen}
+        setCurrentDrawn={setCurrentDrawn}
+      />
+      {drawnFromState?.features?.map((item, index) => (
+        <React.Fragment key={item.geometry.coordinates} >
+          <GeoJSON
+            data={item}
+            style={{
+              weight: 2,
+              opacity: 1,
+              color: hover.areaName === item.properties.areaName ? '#dda006' : '#4992f9'
+            }}
+          >
+            <StyledReactLeafletTooltip direction='center' permanent>
+              {item.properties.areaName}
+            </StyledReactLeafletTooltip>
+          </GeoJSON>
+          <GeoJSON
+            data={item.properties.buffGeo}
+            style={{
+              weight: 2,
+              opacity: 1,
+              color: hover.bufferAreaName === item.properties.areaName ? '#ffc107' : '#99c3ff'
+            }}
+          />
+        </React.Fragment>
+      ))}
+      <ModalShare
+        contentTitle={'Share map url'}
+        contentMessage={shareUrl}
+        buttonMessage='Dismiss'
+        onClose={handleShareLinkClose}
+        onDoubleClick={handleSelectURLDblClick}
+        secondaryClick={handleShareLinkCopy}
+        secondaryButtonMessage='Copy Map URL'
+        open={shareLinkOpen}
+      />
+      <ModelErrors
+        contentTitle={'Sketch an Area Error '}
+        contentMessage={'The sketched area is too large.'}
+        buttonMessage='Dismiss'
+        errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
+        onClose={handleTooLargeLayerClose}
+        open={tooLargeLayerOpen}
+      />
+      <ActiveTileLayers />
+      <BasemapLayer map={map} />
+      <MapEventsComponent />
+      <ShowIdentifyPopup
+        selectedRegion = {selectedRegion}
+        map = {map}
+      >
+      </ShowIdentifyPopup>
+    </LeafletMapContainer>
   );
 }
 
@@ -257,6 +233,6 @@ MapCard.propTypes = {
   setDrawAreaDisabled: PropTypes.func,
   tooLargeLayerOpen: PropTypes.bool,
   setTooLargeLayerOpen: PropTypes.func,
-  geoRef: PropTypes.object,
-  bufferGeoRef: PropTypes.object
+  setCurrentDrawn: PropTypes.func,
+  hover: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 };

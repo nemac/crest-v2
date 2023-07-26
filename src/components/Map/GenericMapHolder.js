@@ -36,7 +36,7 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 export default function GenericMapHolder(props) {
   const {
     mapActionCard, isItAGraph, chartHeaderActionButtons,
-    chartCard, tableData, mapCard, noDataState, optionalComponent
+    chartHolder, tableData, mapCard, noDataState, optionalComponent
   } = props;
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
@@ -59,7 +59,7 @@ export default function GenericMapHolder(props) {
         <GenericLeftColumn
           mapActionCard = {mapActionCard}
           chartHeaderActionButtons = {chartHeaderActionButtons}
-          chartCard = {chartCard}
+          chartHolder = {chartHolder}
           tableData = {tableData}
           isItAGraph = {isItAGraph}
           noDataState = {noDataState}
@@ -97,7 +97,7 @@ export default function GenericMapHolder(props) {
 GenericMapHolder.propTypes = {
   mapActionCard: PropTypes.node,
   isItAGraph: PropTypes.bool,
-  chartCard: PropTypes.node,
+  chartHolder: PropTypes.node,
   tableData: PropTypes.node,
   mapCard: PropTypes.node,
   chartHeaderActionButtons: PropTypes.array,

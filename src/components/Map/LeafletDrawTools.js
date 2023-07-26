@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import buffer from '@turf/buffer';
 import * as turf from '@turf/turf';
+import { CircularProgress } from '@mui/material';
 
 import { zonalStatsAPI } from '../../api/ZonalStats';
 import {
@@ -13,13 +14,12 @@ import {
   addNewFeatureToDrawnLayers,
   uploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
-  incrementAreaNumber,
-  addNewFeatureToBufferLayers
+  incrementAreaNumber
 } from '../../reducers/mapPropertiesSlice';
 import { useGetZonalStatsQuery } from '../../services/zonalstats';
+import ModelErrors from '../All/ModelErrors';
 import { setEmptyState } from '../../reducers/analyzeAreaSlice';
 import { mapConfig } from '../../configuration/config';
-import { SystemSecurityUpdateGoodTwoTone } from '@mui/icons-material';
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -62,41 +62,40 @@ export default function LeafletDrawTools(props) {
     queryData: currentDrawn.featureGroupZonalStats
   }, { skip: currentDrawn.skip });
 
+  useEffect(() => {
+    if (data) {
+      dispatch(setEmptyState(false));
+      const geo = structuredClone(currentDrawn.drawnGeo);
+      geo.properties.zonalStatsData = data.features[0].properties.mean;
+      dispatch(addNewFeatureToDrawnLayers(geo));
+      dispatch(incrementAreaNumber());
+      setDrawAreaDisabled(false);
+      setCurrentDrawn((previous) => ({ ...previous, skip: true }));
+      // Get rid of all layers from the feature group.
+      // the only reason we have a feature group is because React Leaflet Draw requires it
+      // leafletFeatureGroupRef.current.clearLayers();
+    }
+  }, [data]);
+
   if (isLoading) {
     console.log('loading');
   }
 
   if (error) {
-    console.log(error);
+    return (
+      <ModelErrors
+        contentTitle={'Sketch an Area Error '}
+        contentMessage={'There was an error in the area you sketched. Please make sure you are in the correct region and try again.'}
+        buttonMessage='Dismiss'
+        errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
+        onClose={() => {
+          setDrawAreaDisabled(false);
+          setCurrentDrawn((previous) => ({ ...previous, skip: true }));
+        }}
+        open={Boolean(error)}
+      />
+    );
   }
-
-  useEffect(() => {
-    if (data) {
-      console.log('jeff data', data);
-      dispatch(setEmptyState(false));
-      console.log('1');
-
-      const geo = structuredClone(currentDrawn.drawnGeo);
-      console.log('jeff geo', geo)
-      console.log('2');
-
-      geo.properties.zonalStatsData = data.features[0].properties.mean;
-      console.log('3');
-
-      dispatch(addNewFeatureToDrawnLayers(geo));
-      console.log('4');
-
-      dispatch(incrementAreaNumber());
-      console.log('5');
-
-      setDrawAreaDisabled(false);
-      console.log('6');
-
-      setCurrentDrawn((previous) => ({ ...previous, skip: true }));
-    }
-  }, [data]);
-
-  // BEGIN FUNCTIONS FOR DRAWN LAYERS
 
   const calculateAreaOfPolygon = ((layer) => {
     const geojson = layer.toGeoJSON();
@@ -109,6 +108,11 @@ export default function LeafletDrawTools(props) {
   if (searchPlacesGeoJSON) {
     console.log('searchPlacesGeoJSON', searchPlacesGeoJSON);
     dispatch(addSearchPlacesGeoJSON(null));
+  }
+
+  if (shapeFileGeoJSON) {
+    console.log('shapefile geojson', shapeFileGeoJSON);
+    dispatch(uploadedShapeFileGeoJSON(null));
   }
 
   // const createBufferLayer = ((layer) => {
@@ -152,7 +156,6 @@ export default function LeafletDrawTools(props) {
   //     let areaNameAdjustment; // we will use this to determine what area name number we are on
   //     // make a deep copy of the features from state since I was getting read only errors otherwise
   //     dispatch(removeAllFeaturesFromDrawnLayers());
-  //     dispatch(removeAllFeaturesFromZonalStatsAreas());
   //     features.forEach((feature) => {
   //       const featureCopy = feature;
   //       const areaName = featureCopy.properties.areaName;
@@ -314,7 +317,7 @@ export default function LeafletDrawTools(props) {
   const addBufferLayer = (geo) => {
     const geoCopy = structuredClone(geo);
     const buffGeo = buffer(geoCopy, bufferSize, { units: bufferUnits });
-    dispatch(addNewFeatureToBufferLayers(buffGeo));
+    // leafletFeatureGroupRef.current.addLayer(L.geoJSON(buffGeo, { style: { color: '#99c3ff' } }));
     return buffGeo;
   };
 
@@ -341,39 +344,53 @@ export default function LeafletDrawTools(props) {
   //   }
   // }, [drawnLayersFromState, leafletFeatureGroupRef]);
 
+  function processGeojson(geo) {
+    const geoCopy = structuredClone(geo);
+    geoCopy.properties = geo.properties || {};
+    geoCopy.properties.areaName = `Area ${areaNumber}`;
+    geoCopy.properties.areaNumber = areaNumber;
+    geoCopy.properties.region = selectedRegion;
+
+    let buffGeo;
+    if (bufferCheckbox) {
+      buffGeo = addBufferLayer(geo);
+      geoCopy.properties.buffGeo = buffGeo;
+    }
+    return geoCopy;
+  }
+
   function handleOnCreate(e) {
-    // immediately remove the layer from the feature group since we don't need this
-    // the only reason we have a feature group is because React Leaflet Draw requires it
-    leafletFeatureGroupRef.current.removeLayer(e.layer);
     // Toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
 
     // Check size of polygon and remove it and return if it is too large
     if (calculateAreaOfPolygon(e.layer) > maxPolygonAreaSize) {
       setTooLargeLayerOpen(true);
+      leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
     }
 
     // disable draw until zonal stats done
     setDrawAreaDisabled(true);
 
-    const geo = e.layer.toGeoJSON();
-    geo.properties = geo.properties || {};
-    geo.properties.areaName = `Area ${areaNumber}`;
-    geo.properties.areaNumber = areaNumber;
-    geo.properties.region = selectedRegion;
-    let buffGeo;
-    if (bufferCheckbox) {
-      buffGeo = addBufferLayer(geo);
-      geo.properties.buffGeo = buffGeo;
-    }
-    const layerToAnalyze = buffGeo ? L.geoJSON(buffGeo) : e.layer;
+    const geo = processGeojson(e.layer.toGeoJSON());
+    // geo.properties = geo.properties || {};
+    // geo.properties.areaName = `Area ${areaNumber}`;
+    // geo.properties.areaNumber = areaNumber;
+    // geo.properties.region = selectedRegion;
+    // let buffGeo;
+    // if (bufferCheckbox) {
+    //   buffGeo = addBufferLayer(geo);
+    //   geo.properties.buffGeo = buffGeo;
+    // }
+    // const layerToAnalyze = buffGeo ? L.geoJSON(buffGeo) : e.layer;
+    const layerToAnalyze = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : e.layer;
 
     // Zonal stats requires featureGroup so we need to make a dummy featureGroup for this
     const featureGroupZonalStats = L.featureGroup().addLayer(layerToAnalyze).toGeoJSON();
     setCurrentDrawn({
       drawnGeo: geo,
-      bufferGeo: buffGeo,
+      bufferGeo: geo.properties.buffGeo,
       featureGroupZonalStats,
       skip: false
     });
@@ -391,27 +408,47 @@ export default function LeafletDrawTools(props) {
     // });
   }
   return (
-    <FeatureGroup ref={leafletFeatureGroupRef}>
-      {drawToolsEnabled && (
-        <EditControl
-          key={`edit-control-${areaNumber}`}
-          position='topleft'
-          onCreated={(e) => { handleOnCreate(e, leafletFeatureGroupRef); }}
-          draw={{
-            polyline: false,
-            polygon: true,
-            rectangle: false,
-            circle: false,
-            marker: false,
-            circlemarker: false
-          }}
-          edit={{
-            edit: false,
-            remove: false
-          }}
-        />
-      )}
-    </FeatureGroup>
+    <React.Fragment>
+      <FeatureGroup ref={leafletFeatureGroupRef}>
+        {drawToolsEnabled && (
+          <EditControl
+            key={`edit-control-${areaNumber}`}
+            position='topleft'
+            onCreated={(e) => { handleOnCreate(e); }}
+            draw={{
+              polyline: false,
+              polygon: true,
+              rectangle: false,
+              circle: false,
+              marker: false,
+              circlemarker: false
+            }}
+            edit={{
+              edit: false,
+              remove: false
+            }}
+          />
+        )}
+        { isLoading &&
+            <div
+              style={{
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(255, 255, 255, 0.7)', // Use any desired background color with transparency
+                zIndex: 9999 // Set the overlay on top of everything
+              }}
+            >
+              <CircularProgress size={80} sx={{ position: 'absolute', top: '50%', left: '50%' }} />
+            </div>
+          }
+      </FeatureGroup>
+    </React.Fragment>
   );
 }
 

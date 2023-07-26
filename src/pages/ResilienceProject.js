@@ -77,7 +77,7 @@ export default function ResilienceProject() {
     <GenericMapHolder
       mapActionCard={<ResilienceMapActionCard/>}
       isItAGraph={analyzeAreaState.isItAGraphResilience}
-      chartCard={
+      chartHolder={
         <ResilienceChartCard
           chartData={chartData}
           chartActionButtons={chartActionButtons}
