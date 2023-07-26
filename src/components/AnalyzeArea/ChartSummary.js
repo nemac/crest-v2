@@ -61,11 +61,14 @@ export default function ChartSummary(props) {
     feature
   } = props;
 
+  console.log('yo props', props);
+
   const region = regions[chartRegion];
 
   const chartLabel = `${chartType} ${feature.properties.areaName}`;
   const layerList = region.layerList;
   const zonalStatsData = feature.properties.zonalStatsData;
+  console.log('chart label', chartLabel);
 
   const formatYAxis = (value) => {
     switch (value) {
@@ -131,11 +134,9 @@ export default function ChartSummary(props) {
   if (zonalStatsData) {
     chartIndices.forEach((element) => {
       const value = zonalStatsData[element];
+      if (!value) { return; }
       const layerData = getData(element, value);
       const { selectedColor, chartValue, selectedChartLabel } = layerData;
-      // const barColor = layerData[0];
-      // const chartValue = layerData[1];
-      // const tickLabel = layerData[2];
       chartData.push({
         name: element, value, chartValue, selectedChartLabel
       });

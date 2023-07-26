@@ -24,6 +24,7 @@ export default function ResilienceProject() {
   const resilienceHub = useSelector(selectedResilienceHub);
   const hubsHexesUrl = mapConfig.regions[selectedRegion].hubsHexServer;
   const rankProperty = mapConfig.regions[selectedRegion].rankProperty;
+  const isItAGraph = analyzeAreaState.isItAGraphResilience;
 
   // there currently isn't a hub core for every region
   let featureLayerHex;
@@ -76,13 +77,14 @@ export default function ResilienceProject() {
   return (
     <GenericMapHolder
       mapActionCard={<ResilienceMapActionCard/>}
-      isItAGraph={analyzeAreaState.isItAGraphResilience}
-      chartHolder={
+      isItAGraph={isItAGraph}
+      chartCard={
         <ResilienceChartCard
           chartData={chartData}
           chartActionButtons={chartActionButtons}
           noDataState={EmptyStateResilience}
-          coreHubScore={averageHubScore}/>
+          coreHubScore={averageHubScore}
+        />
       }
       tableData='Insert Table Data Here'
       mapCard={<ResilienceMapCard/>}

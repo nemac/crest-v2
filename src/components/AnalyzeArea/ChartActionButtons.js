@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Unstable_Grid2';
+import * as L from 'leaflet';
 
 import {
   CameraAlt,
@@ -38,7 +39,7 @@ export default function ChartActionButtons(props) {
 
   const handleZoomClick = (event, layerToZoomTo) => {
     event.stopPropagation();
-    const bounds = layerToZoomTo.getBounds();
+    const bounds = L.geoJSON(layerToZoomTo).getBounds();
     const newCenter = bounds.getCenter();
     const newZoom = map.getBoundsZoom(bounds);
     const newCenterArray = [newCenter.lat, newCenter.lng];

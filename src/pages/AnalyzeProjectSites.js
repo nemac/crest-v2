@@ -87,7 +87,8 @@ export default function AnalyzeProjectSite() {
       }
       // chartHeaderActionButtons={chartHeaderActionButtons}
       isItAGraph={analyzeAreaState.isItAGraph}
-      chartHolder={
+      styledBoxSX={{ height: 'calc(100% - 258px)', marginTop: '8px' }}
+      chartCard={
         <ChartsHolder
           map={map}
           featureGroupRef={leafletFeatureGroupRef}
@@ -114,8 +115,6 @@ export default function AnalyzeProjectSite() {
         </React.Fragment>
       }
       noDataState={<EmptyState/>}
-      // optionalComponent={<ResilienceHubScore coreHubScore={averageHubScore}/>}
-      optionalComponent={null}
     />
   );
 }
