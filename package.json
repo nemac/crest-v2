@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "gh-pages -d dist",
-    "start": "webpack serve --mode development",
+    "start": "webpack serve -https --mode development",
     "build": "webpack --mode production",
     "test": "jest --env=jsdom",
     "test:watch": "jest --env=jsdom --watch",
@@ -89,6 +89,7 @@
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
+    "leaflet-image": "^0.4.0",
     "maplibre-gl": "^2.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
