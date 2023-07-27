@@ -28,7 +28,6 @@ import React, { useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
 import FileSaver, { saveAs } from 'file-saver';
-import leafletImage from 'leaflet-image';
 import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Unstable_Grid2';
@@ -68,21 +67,21 @@ export default function ActionButtons(props) {
   // TODO export
   const handleExportClick = useCallback(async () => {
     // const mapContainer = document.getElementById('map-container');
-    if (passedMap.current) {
-      console.log('found instance of map!');
-      console.log(passedMap.current);
-      await leafletImage(passedMap.current, (err, canvas) => {
-        if (err) {
-          console.error('Error capturing the map:', err);
-          return;
-        }
+    // if (passedMap.current) {
+    //   console.log('found instance of map!');
+    //   console.log(passedMap.current);
+    //   await leafletImage(passedMap.current, (err, canvas) => {
+    //     if (err) {
+    //       console.error('Error capturing the map:', err);
+    //       return;
+    //     }
 
-        canvas.toBlob((blob) => {
-          // Save the image as a PNG file using the FileSaver library
-          saveAs(blob, 'map.png');
-        });
-      });
-    }
+    //     canvas.toBlob((blob) => {
+    //       // Save the image as a PNG file using the FileSaver library
+    //       saveAs(blob, 'map.png');
+    //     });
+    //   });
+    // }
   }, []);
 
   const handleGenericClick = (event) => {

@@ -61,6 +61,7 @@ import { createShareURL } from './ShareMap';
 import ModelErrors from '../All/ModelErrors';
 import ModalShare from '../All/ModalShare';
 import DrawnLayers from './DrawnLayers';
+import MapPrint from './MapPrint';
 
 // import Boxforlayout from './BoxForLayouts';
 
@@ -233,6 +234,8 @@ export default function MapCard(props) {
           map = {map}
         >
         </ShowIdentifyPopup>
+        <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Print" />
+        <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Export as PNG" exportOnly />
       </LeafletMapContainer>
       <ActionButtons map={map}/>
     </div>
