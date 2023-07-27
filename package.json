@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "gh-pages -d dist",
-    "start": "webpack serve -https --mode development",
+    "start": "webpack serve --mode development",
     "build": "webpack --mode production",
     "test": "jest --env=jsdom",
     "test:watch": "jest --env=jsdom --watch",
