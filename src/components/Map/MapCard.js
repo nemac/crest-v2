@@ -234,7 +234,7 @@ export default function MapCard(props) {
         >
         </ShowIdentifyPopup>
       </LeafletMapContainer>
-      <ActionButtons />
+      <ActionButtons map={map}/>
     </div>
   );
 }

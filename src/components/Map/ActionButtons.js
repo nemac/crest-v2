@@ -24,10 +24,12 @@ State needed
 Props
   - Not sure yet
 */
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
-import FileSaver from 'file-saver';
+import FileSaver, { saveAs } from 'file-saver';
+import leafletImage from 'leaflet-image';
+import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Unstable_Grid2';
 import {
@@ -44,8 +46,17 @@ import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLay
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 // just a place holder needs props passed in and image etc
-export default function ActionButtons() {
+export default function ActionButtons(props) {
+  const { map } = props;
+  const passedMap = useRef(map);
   const dispatch = useDispatch();
+  if (map) {
+    console.log(map);
+    passedMap.current = map;
+    // console.log(passedMap.current);
+  }
+  // const mapContainer = document.getElementById('map-container');
+
   const layerListVisible = useSelector(listVisibleSelector);
 
   const mapLayerVisiblityOnClick = () => {
@@ -56,20 +67,24 @@ export default function ActionButtons() {
   // TODO add addarea toggle
   // TODO export
   const handleExportClick = useCallback(async () => {
-    const elId = 'map-container';
-    console.log('export clicked!');
-    await html2canvas(document.getElementById(elId), {
-      logging: false,
-      backgroundColor: null,
-      useCORS: true, // Enable CORS to avoid cross-origin issues
-      allowTaint: true, // Allow images from other domains
-      useUnsafeCSS: true // Allow unsafe CSS (if needed)
-    }).then((canvas) => {
-      const png = canvas.toDataURL('image/png', 1.0);
-      const fileName = 'map.png';
-      FileSaver.saveAs(png, fileName);
-    });
+    // const mapContainer = document.getElementById('map-container');
+    if (passedMap.current) {
+      console.log('found instance of map!');
+      console.log(passedMap.current);
+      await leafletImage(passedMap.current, (err, canvas) => {
+        if (err) {
+          console.error('Error capturing the map:', err);
+          return;
+        }
+
+        canvas.toBlob((blob) => {
+          // Save the image as a PNG file using the FileSaver library
+          saveAs(blob, 'map.png');
+        });
+      });
+    }
   }, []);
+
   const handleGenericClick = (event) => {
     event.stopPropagation();
     console.log('clicked'); // eslint-disable-line no-console
@@ -105,10 +120,14 @@ export default function ActionButtons() {
           buttonLabel={'Map Layers'}
           buttonName={'Map Layers'}
           onClick={mapLayerVisiblityOnClick}>
-          {layerListVisible ? <Layers /> : <LayersOutlined /> }
+          {layerListVisible ? <Layers /> : <LayersOutlined />}
         </ActionButton>
       </Grid>
 
     </StyledGrid>
   );
 }
+
+ActionButtons.propTypes = {
+  map: PropTypes.object
+};

@@ -2,7 +2,7 @@ import React from 'react';
 import { MapContainer } from 'react-leaflet';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/system';
-
+import L from 'leaflet';
 import { mapConfig } from '../../configuration/config';
 
 const regions = mapConfig.regions;
@@ -31,6 +31,8 @@ export default function LeafletMapContainer(props) {
       ref={innerRef}
       attributionControl={false}
       worldCopyJump={true}
+      preferCanvas={true}
+      renderer={L.canvas()}
     >
       <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
