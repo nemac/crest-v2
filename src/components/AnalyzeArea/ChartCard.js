@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import html2canvas from 'html2canvas';
-import FileSaver from 'file-saver';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/system';
@@ -10,6 +8,7 @@ import { styled } from '@mui/system';
 import ChartSummary from './ChartSummary';
 import ChartActionButtons from './ChartActionButtons';
 import ChartDetailsActionButtons from './ChartDetailsActionButtons';
+import { handleExportImage } from './ChartFunctions';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
@@ -59,21 +58,6 @@ export default function ChartCard(props) {
     Landcover: []
   };
 
-  const handleDownload = React.useCallback(async (chartType) => {
-    const elId = `${chartType}-container`;
-    await html2canvas(document.getElementById(elId), {
-      logging: false,
-      backgroundColor: null,
-      useCORS: true, // Enable CORS to avoid cross-origin issues
-      allowTaint: true, // Allow images from other domains
-      useUnsafeCSS: true // Allow unsafe CSS (if needed)
-    }).then((canvas) => {
-      const png = canvas.toDataURL('image/png', 1.0);
-      const fileName = `${chartType}.png`;
-      FileSaver.saveAs(png, fileName);
-    });
-  }, []);
-
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
 
@@ -94,8 +78,7 @@ export default function ChartCard(props) {
                   />
                 </StyledBox>
                 <ChartDetailsActionButtons
-                  chartType={key}
-                  handleDownload={handleDownload}
+                  handleDownload={() => { handleExportImage(key); }}
                 />
               </Grid>
             ))}

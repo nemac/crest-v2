@@ -3,14 +3,12 @@ import React, {
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import { CameraAlt } from '@mui/icons-material';
 
 import GenericMapHolder from '../components/Map/GenericMapHolder';
 import MapActionCard from '../components/Map/MapActionCard';
 import EmptyState from '../components/AnalyzeArea/EmptyState';
 import ChartsHolder from '../components/AnalyzeArea/ChartsHolder';
 import MapCard from '../components/Map/MapCard';
-// import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions';
 import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
@@ -30,15 +28,6 @@ export default function AnalyzeProjectSite() {
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const [hover, setHover] = useState(false);
-
-  // // This is a great way to make a ref list of refs that let us manipulate
-  // // things later down the line in a known way
-  // const geoRef = React.useRef([]);
-  // geoRef.current = drawnLayersFromState.features.map((_, i) => geoRef.current[i] ?? createRef());
-  // const bufferGeoRef = React.useRef([]);
-  // bufferGeoRef.current = bufferLayersFromState.features.map(
-  //   (_, i) => bufferGeoRef.current[i] ?? createRef()
-  // );
 
   useEffect(() => {
     // Delete share url params from url when it's complete
@@ -87,7 +76,13 @@ export default function AnalyzeProjectSite() {
       }
       // chartHeaderActionButtons={chartHeaderActionButtons}
       isItAGraph={analyzeAreaState.isItAGraph}
-      styledBoxSX={{ height: 'calc(100% - 258px)', marginTop: '8px' }}
+      styledBoxSX={{
+        height: 'calc(100% - 258px)',
+        marginTop: '8px',
+        backgroundColor: 'background.default',
+        overflowY: 'visible',
+        border: 'none'
+      }}
       chartCard={
         <ChartsHolder
           map={map}

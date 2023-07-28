@@ -1,33 +1,11 @@
-/*
-Purpose
-  The component holds buttons for chart actions on each detailed chart for now its just export
-
-Child Components
-  - Not sure yet
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { styled } from '@mui/system';
 import Grid from '@mui/material/Unstable_Grid2';
-
 import { CameraAlt } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
 
 import ActionButton from '../All/ActionButton';
-import { mapConfig } from '../../configuration/config';
 
 const StyledGridContent = styled(Grid)(({ theme }) => ({
   display: 'flex',
@@ -41,14 +19,10 @@ const StyledGridContent = styled(Grid)(({ theme }) => ({
   alignItems: 'center'
 }));
 
-const regions = mapConfig.regions;
-const selectedRegionSelector = (state) => state.selectedRegion.value;
-
 export default function ChartDetailsActionButtons(props) {
   const {
-    chartType, handleDownload
+    handleDownload
   } = props;
-  const selectedRegion = useSelector(selectedRegionSelector);
 
   return (
     <StyledGridContent container spacing={0} p={0} mt={0} mb={0}>
@@ -58,7 +32,7 @@ export default function ChartDetailsActionButtons(props) {
         <ActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={() => handleDownload(chartType)}>
+          onClick={handleDownload}>
           <CameraAlt />
         </ActionButton>
       </Grid>
@@ -69,6 +43,5 @@ export default function ChartDetailsActionButtons(props) {
 }
 
 ChartDetailsActionButtons.propTypes = {
-  chartType: PropTypes.string.isRequired,
   handleDownload: PropTypes.func
 };

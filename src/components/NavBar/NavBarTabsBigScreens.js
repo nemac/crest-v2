@@ -73,7 +73,7 @@ export default function NavBarTabsBigScreens(props) {
               })
             }}
           >
-            Coastal Resilience Evaluation and Siting Tool (CREST) MATERIAL UI 5
+            Coastal Resilience Evaluation and Siting Tool (CREST)
           </Typography>
         </Grid>
         <Grid item xs={10}>

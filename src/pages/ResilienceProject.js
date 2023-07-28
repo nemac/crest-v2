@@ -5,7 +5,7 @@ import { CameraAlt } from '@mui/icons-material';
 
 import GenericMapHolder from '../components/Map/GenericMapHolder';
 import ResilienceMapActionCard from '../components/Map/ResilienceMapActionCard';
-import ResilienceChartCard from '../components/AnalyzeArea/GenericChartCard';
+import ResilienceChartCard from '../components/AnalyzeArea/ResilienceChartCard';
 import ResilienceMapCard from '../components/Map/ResilienceMapCard';
 import EmptyStateResilience from '../components/AnalyzeArea/EmptyStateResilience';
 import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions';
