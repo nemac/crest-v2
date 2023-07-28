@@ -61,14 +61,11 @@ export default function ChartSummary(props) {
     feature
   } = props;
 
-  console.log('yo props', props);
-
   const region = regions[chartRegion];
 
   const chartLabel = `${chartType} ${feature.properties.areaName}`;
   const layerList = region.layerList;
   const zonalStatsData = feature.properties.zonalStatsData;
-  console.log('chart label', chartLabel);
 
   const formatYAxis = (value) => {
     switch (value) {

@@ -1,28 +1,3 @@
-/*
-Purpose
-  hold each regions data and assessment report section
-  we may want to use a config or set config files
-
-Child Components
-  - None
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - Not sure yet
-
-Props
-  - regionName = Region name
-  - dataLink = Data file location link
-  - dataFileSize = Data file size
-  - NativeLanguageText = Native language assement text
-  - NativeLanguageLink = Native language assement link
-  - EnglishLink = English language assement link
-*/
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -54,7 +29,11 @@ export default function DataAndReportsCardRegions(props) {
         <Typography variant="h5" component="div" gutterBottom>
           {regionName}
         </Typography>
-        <Box sx={{ justifyContent: 'start', alignItems: 'start', display: 'flex', width: '100%' }} >
+        <Box
+          sx={{
+            justifyContent: 'start', alignItems: 'start', display: 'flex', width: '100%'
+          }}
+        >
           <Typography variant="body1" component="div" gutterBottom>
             The download contains all data for the {regionName}.
             The file also contains a readme file describing use.

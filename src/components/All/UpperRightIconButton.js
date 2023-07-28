@@ -1,26 +1,3 @@
-/*
-Purpose
-    Upper Right Buttons on cards and menus typically:
-      - Help or Information
-      - Minimize
-
-      TODO: needs click handler passed in
-Child Components
-  - Not sure yet
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - Not sure yet
-
-Props
-  - label for ally
-  - icon as child
-*/
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
