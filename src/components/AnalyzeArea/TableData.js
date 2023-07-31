@@ -1,27 +1,5 @@
-/*
-Purpose
-  Shows table when the user does analyze project site and choses to show the table
-
-Child Components
-  - None
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - table or graph
-  - Not sure yet
-
-Props
-  - GEOJSON data (to get properies aka attributes)
-  - Not sure yet
-*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
 import { styled } from '@mui/system';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -37,7 +15,6 @@ import { StyledGrid } from '../All/StyledComponents';
 import { mapConfig } from '../../configuration/config';
 
 const regions = mapConfig.regions;
-const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export const StyledTableHead = styled(TableHead)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTBlack.dark,
@@ -62,16 +39,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableData(props) {
   const { data } = props;
-  const selectedRegion = useSelector(selectedRegionSelector);
 
-  const getLabel = (area, name) => {
-    const thisLabel = regions[area.region].layerList.find(
+  const getLabel = (region, name) => {
+    const thisLabel = regions[region].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
     ).label;
     return thisLabel;
   };
-  const getRange = (area, name) => {
-    const selectedColorChart = regions[area.region].layerList.find(
+  const getRange = (region, name) => {
+    const selectedColorChart = regions[region].layerList.find(
       ((layer) => layer.chartCSSSelector === name)
     ).chartCSSColor;
     const allValues = Object.keys(selectedColorChart);
@@ -100,20 +76,14 @@ export default function TableData(props) {
               </TableRow>
             </StyledTableHead>
             <TableBody>
-              {data.map((row) => {
-                if (row.region === selectedRegion) {
-                  return (Object.entries(row.zonalStatsData).map(([ind, val]) => (
-                    <React.Fragment key={row.areaName + ind}>
-                      <StyledTableRow key={`${row.areaName}-${row.name}`}>
-                        <TableCell align="left">{row.areaName}</TableCell>
-                        <TableCell align="left">{getLabel(row, ind)}</TableCell>
-                        <TableCell align="left">{Number.isNaN(Number(val)) ? '0.0' : val.toFixed(3)}</TableCell>
-                        <TableCell align="left">{getRange(row, ind)}</TableCell>
-                      </StyledTableRow>
-                    </React.Fragment>)));
-                }
-                return null;
-              })}
+              {Object.entries(data.properties.zonalStatsData).map(([key, value]) => (
+                <StyledTableRow key={`${data.properties.areaName}-${key}`}>
+                  <TableCell align="left">{data.properties.areaName}</TableCell>
+                  <TableCell align="left">{getLabel(data.properties.region, key)}</TableCell>
+                  <TableCell align="left">{Number.isNaN(Number(value)) ? '0.0' : value.toFixed(3)}</TableCell>
+                  <TableCell align="left">{getRange(data.properties.region, key)}</TableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -123,5 +93,5 @@ export default function TableData(props) {
 }
 
 TableData.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.object.isRequired
 };

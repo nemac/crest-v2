@@ -15,11 +15,13 @@ import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
+const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function AnalyzeProjectSite() {
   const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const bufferLayersFromState = useSelector(bufferLayersSelector);
+  const region = useSelector(selectedRegionSelector);
 
   const [shareUrlComplete, setShareUrlComplete] = useState(false);
   const [querySearchParams, setQuerySearchParams] = useSearchParams();
@@ -29,6 +31,10 @@ export default function AnalyzeProjectSite() {
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const [hover, setHover] = useState(false);
+
+  const featuresForCurrentRegion = drawnLayersFromState.features.filter(
+    (feature) => JSON.stringify(feature.properties.region) === JSON.stringify(region)
+  );
 
   useEffect(() => {
     // Delete share url params from url when it's complete
@@ -75,7 +81,7 @@ export default function AnalyzeProjectSite() {
               featureGroupRef={leafletFeatureGroupRef}
               setHover={setHover}
               chartData={
-                drawnLayersFromState.features.length > 0 ? drawnLayersFromState.features : null
+                featuresForCurrentRegion.length > 0 ? featuresForCurrentRegion : null
               }
             />
           }

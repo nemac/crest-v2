@@ -74,7 +74,9 @@ export default function ChartsHolder(props) {
           sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}
         >
           <Box>
-            {/* <TableData data={chartData} /> TODO: COME BACK TO THIS IT NEEDS UPDATING TOO */}
+            {chartData.map((feature, index) => (
+              <TableData key={`${feature.properties.areaName} + table`} data={feature} />
+            ))}
           </Box>
         </Grid>
       )}
