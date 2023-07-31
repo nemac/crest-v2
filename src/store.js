@@ -6,6 +6,7 @@ import mapLayerListReducer from './reducers/mapLayerListSlice';
 import NavBarReducer from './reducers/NavBarSlice';
 import AnalyzeAreaReducer from './reducers/analyzeAreaSlice';
 import { zonalStatsApi } from './services/zonalstats';
+import { identifyApi } from './services/identify';
 import { loadState } from './localStorage';
 
 const reducers = combineReducers({
@@ -14,7 +15,8 @@ const reducers = combineReducers({
   AnalyzeArea: AnalyzeAreaReducer,
   mapLayerList: mapLayerListReducer,
   navBar: NavBarReducer,
-  [zonalStatsApi.reducerPath]: zonalStatsApi.reducer
+  [zonalStatsApi.reducerPath]: zonalStatsApi.reducer,
+  [identifyApi.reducerPath]: identifyApi.reducer
 });
 
 export const setupStore = (preloadedState) => configureStore({

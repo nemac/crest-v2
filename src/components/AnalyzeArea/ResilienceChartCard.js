@@ -52,7 +52,11 @@ export default function ChartCard(props) {
             flexDirection: 'column',
             justifyContent: 'center'
           }} >
-          <ActionButtonsHolder actionButtons={chartActionButtons} />
+          <ActionButtonsHolder
+            actionButtons={chartActionButtons}
+            styledGridSx={{ width: 'fit-content', height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
+            gridSx={ { width: 'fit-content' } }
+          />
         </Grid>
       </Grid>
     </StyledBackgroundBox>

@@ -75,7 +75,7 @@ export default function LeafletDrawTools(props) {
   }, [data]);
 
   if (isFetching) {
-    console.log('loading');
+    // console.log('loading');
   }
 
   if (error) {
@@ -154,7 +154,8 @@ export default function LeafletDrawTools(props) {
     const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
     shapeFileFeatures.forEach((feature, index) => {
       if (calculateAreaOfPolygon(feature) > maxPolygonAreaSize) {
-        console.log('too big!!!');
+        // console.log('too big!!!');
+        // TODO: DO SOMETHING WITH THE DRAWN SHAPE FILES THAT ARE TOO LARGE
         return;
       }
       const geo = processGeojson(feature, areaNum);

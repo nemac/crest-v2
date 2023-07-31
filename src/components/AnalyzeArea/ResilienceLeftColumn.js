@@ -4,8 +4,6 @@ import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { PropTypes } from 'prop-types';
 
-import ChartHeaderActionButtonsHolder from './GenericChartHeaderActionButtons';
-
 const StyledBox = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(1),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
@@ -18,10 +16,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
   height: 'calc(100% - 88px)'
 }));
 
-export default function GenericLeftColumn(props) {
+export default function ResilienceLeftColumn(props) {
   const {
-    mapActionCard, chartHeaderActionButtons,
-    noDataState, chartCard
+    mapActionCard, noDataState, chartCard
   } = props;
 
   return (
@@ -32,17 +29,6 @@ export default function GenericLeftColumn(props) {
           noDataState
         ) : (
           <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={0} sx={{ height: '100%' }} >
-            {chartHeaderActionButtons ? (
-              <Grid xs={12} sx={{ height: '100%' }}>
-                <ChartHeaderActionButtonsHolder
-                  title='Explore Reslience Hubs'
-                  actionButtons={chartHeaderActionButtons}
-                />
-              </Grid>
-            ) : (
-              <Grid sx={{ display: 'none' }}></Grid>
-            )
-          }
             <Grid xs={12} sx={{ height: '100%', width: '100%' }} >
               {chartCard}
             </Grid>
@@ -53,9 +39,8 @@ export default function GenericLeftColumn(props) {
   );
 }
 
-GenericLeftColumn.propTypes = {
+ResilienceLeftColumn.propTypes = {
   mapActionCard: PropTypes.node,
   chartCard: PropTypes.node,
-  chartHeaderActionButtons: PropTypes.array,
   noDataState: PropTypes.any
 };

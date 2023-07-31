@@ -16,7 +16,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   height: 'calc(100% - 258px)'
 }));
 
-export default function GenericLeftColumn(props) {
+export default function AnalyzeProjectSiteLeftColumn(props) {
   const {
     mapActionCard, noDataState, chartCard
   } = props;
@@ -39,7 +39,7 @@ export default function GenericLeftColumn(props) {
   );
 }
 
-GenericLeftColumn.propTypes = {
+AnalyzeProjectSiteLeftColumn.propTypes = {
   mapActionCard: PropTypes.node,
   chartCard: PropTypes.node,
   noDataState: PropTypes.any

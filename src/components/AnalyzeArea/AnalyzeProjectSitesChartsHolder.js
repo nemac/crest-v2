@@ -9,9 +9,9 @@ import {
   changeGraphTable,
   changeSortDirection
 } from '../../reducers/analyzeAreaSlice';
-import ChartCard from './ChartCard';
+import ChartCard from './AnalyzeProjectSitesChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
-import TableData from './TableData';
+import TableData from './AnalyzeProjectSitesTableData';
 import { handleExportCSV, HandleRemoveAllClick } from './ChartFunctions';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
@@ -57,7 +57,6 @@ export default function ChartsHolder(props) {
               <ChartCard
                 key={feature.properties.areaName}
                 feature={feature}
-                areaName={feature.properties.areaName}
                 areaIndex={index}
                 region={feature.properties.region}
                 zonalStatsData={feature.properties.zonalStatsData}

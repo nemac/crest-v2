@@ -1,8 +1,19 @@
 import FileSaver from 'file-saver';
 import html2canvas from 'html2canvas';
-import { removeAllFeaturesFromDrawnLayers, resetAreaNumber } from '../../reducers/mapPropertiesSlice';
-import { changeEmptyState } from '../../reducers/analyzeAreaSlice';
+import * as L from 'leaflet';
+import {
+  changeCenter,
+  changeZoom,
+  removeAllFeaturesFromDrawnLayers,
+  removeFeatureByGeometry,
+  resetAreaNumber
+} from '../../reducers/mapPropertiesSlice';
+import { changeEmptyState, changeMore } from '../../reducers/analyzeAreaSlice';
 import { mapConfig } from '../../configuration/config';
+
+export const handleMoreOnClick = (dispatch, areaName) => {
+  dispatch(changeMore(areaName));
+};
 
 export const handleExportImage = async (chartType) => {
   const elId = `${chartType}-container`;
@@ -33,6 +44,17 @@ const getLabel = (area, name) => {
     ((layer) => layer.chartCSSSelector === name)
   ).label;
   return thisLabel;
+};
+
+export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {
+  event.stopPropagation();
+  const bounds = L.geoJSON(layerToZoomTo).getBounds();
+  const newCenter = bounds.getCenter();
+  const newZoom = map.getBoundsZoom(bounds);
+  const newCenterArray = [newCenter.lat, newCenter.lng];
+  dispatch(changeCenter(newCenterArray));
+  dispatch(changeZoom(newZoom));
+  map.setView(newCenter, newZoom);
 };
 
 // This exports all data for all areas
@@ -78,6 +100,15 @@ export const HandleRemoveAllClick = (e, dispatch, featureGroupRef) => {
   dispatch(removeAllFeaturesFromDrawnLayers());
   dispatch(resetAreaNumber());
   dispatch(changeEmptyState());
+  // Get rid of all layers from the feature group.
+  // the only reason we have a feature group is because React Leaflet Draw requires it
+  featureGroupRef.current.clearLayers();
+};
+
+export const removeLayer = (e, layer, dispatch, featureGroupRef) => {
+  e.stopPropagation();
+  dispatch(removeFeatureByGeometry(layer.geometry));
+  // dispatch(removeFeatureByGeometryBufferLayers(bufferLayerToRemove.geometry));
   // Get rid of all layers from the feature group.
   // the only reason we have a feature group is because React Leaflet Draw requires it
   featureGroupRef.current.clearLayers();

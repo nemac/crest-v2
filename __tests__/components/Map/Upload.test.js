@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, cleanup } from '@testing-library/react';
 import { render } from '../../setup/testUtils';
 import { mapConfig } from '../../../src/configuration/config';
-import Upload from '../../../src/components/Map/Upload';
+import Upload from '../../../src/components/Map/UploadShapeFile';
 
 describe('Upload', () => {
   beforeEach(() => {

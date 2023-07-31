@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux';
 import AnalyzeProjectSiteLeftColumn from '../components/AnalyzeArea/AnalyzeProjectSitesLeftColumn';
 import GenericMapHolder from '../components/Map/GenericMapHolder';
 import MapActionCard from '../components/Map/MapActionCard';
-import EmptyState from '../components/AnalyzeArea/EmptyState';
-import ChartsHolder from '../components/AnalyzeArea/ChartsHolder';
-import MapCard from '../components/Map/MapCard';
+import EmptyState from '../components/AnalyzeArea/EmptyStateAnalyzeProject';
+import ChartsHolder from '../components/AnalyzeArea/AnalyzeProjectSitesChartsHolder';
+import MapCard from '../components/Map/AnalyzeProjectSitesMapCard';
 import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;

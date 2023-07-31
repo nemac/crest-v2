@@ -131,7 +131,7 @@ export default function ChartSummary(props) {
   if (zonalStatsData) {
     chartIndices.forEach((element) => {
       const value = zonalStatsData[element];
-      if (!value) { return; }
+      if (value === undefined) { return; }
       const layerData = getData(element, value);
       const { selectedColor, chartValue, selectedChartLabel } = layerData;
       chartData.push({

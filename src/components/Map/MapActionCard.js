@@ -14,7 +14,7 @@ import {
 import Buffer from './Buffer';
 import DrawArea from './DrawArea';
 import SearchCustom from './SearchCustom';
-import Upload from './Upload';
+import Upload from './UploadShapeFile';
 import UpperRightIconButton from '../All/UpperRightIconButton';
 import { StyledGrid } from '../All/StyledComponents';
 
