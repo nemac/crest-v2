@@ -5,7 +5,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 
-import GenericLeftColumn from '../AnalyzeArea/GenericLeftColumn';
 import ActionButtons from './ActionButtons';
 import MapLayerList from '../MapLayerList/MapLayerList';
 
@@ -34,11 +33,7 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function GenericMapHolder(props) {
-  const {
-    mapActionCard, isItAGraph, chartHeaderActionButtons, chartCard,
-    chartHolder, tableData, mapCard, noDataState,
-    styledBoxSX
-  } = props;
+  const { leftColumn, mapCard } = props;
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
 
@@ -57,16 +52,7 @@ export default function GenericMapHolder(props) {
         xs={12} sm={12} md={4} lg={3.75} xl={3}
         order={{ xs: 3, sm: 3, md: 1 }}
       >
-        <GenericLeftColumn
-          mapActionCard = {mapActionCard}
-          chartHeaderActionButtons = {chartHeaderActionButtons}
-          chartCard = {chartCard}
-          chartHolder = {chartHolder}
-          tableData = {tableData}
-          isItAGraph = {isItAGraph}
-          noDataState = {noDataState}
-          styledBoxSX = {styledBoxSX}
-        />
+        {leftColumn}
       </ThreeColumnGrid>
 
       {/* MIDDLE COLUMN FOR MAP */}
@@ -97,13 +83,6 @@ export default function GenericMapHolder(props) {
 }
 
 GenericMapHolder.propTypes = {
-  mapActionCard: PropTypes.node,
-  isItAGraph: PropTypes.bool,
-  chartCard: PropTypes.node,
-  chartHolder: PropTypes.node,
-  tableData: PropTypes.node,
-  mapCard: PropTypes.node,
-  chartHeaderActionButtons: PropTypes.array,
-  noDataState: PropTypes.any,
-  styledBoxSX: PropTypes.object
+  leftColumn: PropTypes.node,
+  mapCard: PropTypes.node
 };

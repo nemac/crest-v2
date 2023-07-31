@@ -4,6 +4,7 @@ import React, {
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import AnalyzeProjectSiteLeftColumn from '../components/AnalyzeArea/AnalyzeProjectSitesLeftColumn';
 import GenericMapHolder from '../components/Map/GenericMapHolder';
 import MapActionCard from '../components/Map/MapActionCard';
 import EmptyState from '../components/AnalyzeArea/EmptyState';
@@ -54,43 +55,31 @@ export default function AnalyzeProjectSite() {
     );
   }
 
-  // const chartHeaderActionButtons = [
-  //   {
-  //     buttonLabel: 'BIG OL PLACEHOLDER',
-  //     buttonName: 'BIG OL PLACEHOLDER',
-  //     onClick: () => { handleExportImage('resilience-pie'); },
-  //     icon: <CameraAlt />
-  //   }
-  // ];
-
   return (
     <GenericMapHolder
-      mapActionCard={
-        <MapActionCard
-          map={map}
-          bufferCheckbox={bufferCheckbox}
-          setBufferCheckbox={setBufferCheckbox}
-          drawAreaDisabled={drawAreaDisabled}
-          setTooLargeLayerOpen={setTooLargeLayerOpen}
-        />
-      }
-      // chartHeaderActionButtons={chartHeaderActionButtons}
       isItAGraph={analyzeAreaState.isItAGraph}
-      styledBoxSX={{
-        height: 'calc(100% - 258px)',
-        marginTop: '8px',
-        backgroundColor: 'background.default',
-        overflowY: 'visible',
-        border: 'none'
-      }}
-      chartCard={
-        <ChartsHolder
-          map={map}
-          featureGroupRef={leafletFeatureGroupRef}
-          setHover={setHover}
-          chartData={
-            drawnLayersFromState.features.length > 0 ? drawnLayersFromState.features : null
+      leftColumn={
+        <AnalyzeProjectSiteLeftColumn
+          mapActionCard={
+            <MapActionCard
+              map={map}
+              bufferCheckbox={bufferCheckbox}
+              setBufferCheckbox={setBufferCheckbox}
+              drawAreaDisabled={drawAreaDisabled}
+              setTooLargeLayerOpen={setTooLargeLayerOpen}
+            />
           }
+          chartCard={
+            <ChartsHolder
+              map={map}
+              featureGroupRef={leafletFeatureGroupRef}
+              setHover={setHover}
+              chartData={
+                drawnLayersFromState.features.length > 0 ? drawnLayersFromState.features : null
+              }
+            />
+          }
+          noDataState={<EmptyState/>}
         />
       }
       tableData='Insert Table Data Here'
@@ -109,7 +98,6 @@ export default function AnalyzeProjectSite() {
           />
         </React.Fragment>
       }
-      noDataState={<EmptyState/>}
     />
   );
 }
