@@ -5,14 +5,14 @@ import { betaIdentifyEndpoint, prodIdentifyEndpoint } from '../configuration/con
 
 // uncomment the endpoint you want to use and comment out the other
 const endpoint = betaIdentifyEndpoint;
-// const endpoint = prodZonalStatsEndpoint;
+// const endpoint = prodIdentifyEndpoint;
 
 // Define a service using a base URL and expected endpoints
 export const identifyApi = createApi({
   reducerPath: 'identifyApi',
   baseQuery: fetchBaseQuery({ baseUrl: endpoint }),
   endpoints: (builder) => ({
-    getZonalStats: builder.query({
+    getIdentify: builder.query({
       query: ({ region, coordinates }) => ({
         url: `?lat=${coordinates.lat}&lng=${coordinates.lng}&region=${encodeURIComponent(region)}`,
         method: 'GET'
@@ -23,4 +23,4 @@ export const identifyApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetIdentify } = identifyApi;
+export const { useGetIdentifyQuery } = identifyApi;

@@ -12,7 +12,7 @@ import {
 } from '@mui/icons-material';
 
 import ActionButtonsHolder from '../All/ActionButtonsHolder';
-import ChartSummary from './AnalyzeProjectSitesChartSummary';
+import AnalyzeBarChart from './AnalyzeBarChart';
 import {
   handleExportImage,
   handleMoreOnClick,
@@ -38,6 +38,24 @@ const StyledBox = styled(Box)(({ theme }) => ({
   borderStyle: 'solid',
   borderWidth: '1px',
   borderBottom: '0px !important',
+  justifyContent: 'center',
+  alignItems: 'center'
+}));
+
+const ContentBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  height: '340px',
+  maxHeight: '340px',
+  [theme.breakpoints.down('sm')]: {
+    height: '300px',
+    maxHeight: '300px'
+  },
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px',
   justifyContent: 'center',
   alignItems: 'center'
 }));
@@ -94,6 +112,18 @@ export default function ChartCard(props) {
     }
   ];
 
+  const handleMouseEnter = () => {
+    if (feature.properties.buffGeo) {
+      setHover({ bufferAreaName: feature.properties.areaName });
+    } else {
+      setHover({ areaName: feature.properties.areaName });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHover(false);
+  };
+
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
       {analyzeAreaState.isMore[feature.areaName] ? (
@@ -101,13 +131,27 @@ export default function ChartCard(props) {
           {Object.entries(chartValues).map(([key, value]) => (
             <Grid xs={12} key={key}>
               <StyledBox >
-                <ChartSummary
-                  chartRegion={region}
-                  chartIndices={value}
-                  chartType={key}
-                  setHover={setHover}
-                  feature={feature}
-                />
+                <ContentBox
+                  onMouseEnter={ setHover ? handleMouseEnter : null}
+                  onMouseLeave={ setHover ? handleMouseLeave : null}
+                  components='fieldset'
+                  id={`${key}-chartbox`}
+                >
+                  <AnalyzeBarChart
+                    chartRegion={region}
+                    chartIndices={value}
+                    chartType={key}
+                    setHover={setHover}
+                    feature={feature}
+                    zonalStatsData={feature.properties.zonalStatsData}
+                    barchartMargin={{
+                      top: 90,
+                      right: 30,
+                      left: 0,
+                      bottom: 30
+                    }}
+                  />
+                </ContentBox>
               </StyledBox>
               <ActionButtonsHolder
                 actionButtons={[
@@ -139,13 +183,27 @@ export default function ChartCard(props) {
 
         <div style={{ width: '100%' }}>
           <Grid xs={12} >
-            <ChartSummary
-              chartRegion={region}
-              chartIndices={chartValues['Summary Chart']}
-              chartType={'Summary Chart'}
-              setHover={setHover}
-              feature={feature}
-            />
+            <ContentBox
+              onMouseEnter={ setHover ? handleMouseEnter : null}
+              onMouseLeave={ setHover ? handleMouseLeave : null}
+              components='fieldset'
+              id={'Summary Chart-chartbox'}
+            >
+              <AnalyzeBarChart
+                chartRegion={region}
+                chartIndices={chartValues['Summary Chart']}
+                chartType={'Summary Chart'}
+                setHover={setHover}
+                feature={feature}
+                zonalStatsData={feature.properties.zonalStatsData}
+                barchartMargin={{
+                  top: 90,
+                  right: 30,
+                  left: 0,
+                  bottom: 30
+                }}
+              />
+            </ContentBox>
           </Grid>
 
           <Grid xs={12} >

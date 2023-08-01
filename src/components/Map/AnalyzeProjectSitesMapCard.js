@@ -14,7 +14,7 @@ import BasemapLayer from './BasemapLayer';
 
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
-  changeZoom, changeCenter
+  changeZoom, changeCenter, changeIdentifyResults, changeIdentifyIsLoaded
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer';
 import ShowIdentifyPopup from './IdentifyPopup';
@@ -25,6 +25,7 @@ import ModelErrors from '../All/ModelErrors';
 import ModalShare from '../All/ModalShare';
 import LeafletDrawTools from './LeafletDrawTools';
 import { StyledReactLeafletTooltip } from '../All/StyledComponents';
+import { useGetIdentifyQuery } from '../../services/identify';
 
 // import Boxforlayout from './BoxForLayouts';
 
@@ -37,6 +38,9 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+const identifyCoordinatesSelector = (state) => state.mapProperties.identifyCoordinates;
+const identifyIsLoadedSelector = (state) => state.mapProperties.identifyIsLoaded;
+const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
 // const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
@@ -64,6 +68,31 @@ export default function MapCard(props) {
   const drawnFromState = useSelector(drawnLayersSelector);
   // const bufferLayersFromState = useSelector(bufferLayersSelector);
   // const analyzedAreas = useSelector(analyzedAreasSelector);
+  const identifyCoordinates = useSelector(identifyCoordinatesSelector);
+  const identifyItems = useSelector(identifyItemsSelector);
+  const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
+
+  const { data, error, isFetching } = useGetIdentifyQuery({
+    region: mapConfig.regions[selectedRegion].regionName,
+    coordinates: identifyCoordinates
+  }, { skip: identifyItems });
+
+  useEffect(() => {
+    if (data) {
+      dispatch(changeIdentifyIsLoaded(true));
+      dispatch(changeIdentifyResults(data));
+    }
+  }, [data, dispatch]);
+
+  if (error) {
+    // TODO: Do something with errors
+    // console.log('jeff error ', error);
+  }
+
+  if (isFetching) {
+    // TODO: Do something with isFetching???
+    // console.log('jeff isFetching ', isFetching);
+  }
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region
@@ -217,10 +246,11 @@ export default function MapCard(props) {
       <BasemapLayer map={map} />
       <MapEventsComponent />
       <ShowIdentifyPopup
-        selectedRegion = {selectedRegion}
-        map = {map}
-      >
-      </ShowIdentifyPopup>
+        region={selectedRegion}
+        identifyItems={identifyItems}
+        identifyIsLoaded={identifyIsLoaded}
+        identifyCoordinates={identifyCoordinates}
+      />
     </LeafletMapContainer>
   );
 }

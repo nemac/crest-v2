@@ -20,24 +20,6 @@ import ChartCustomLabels from './ChartCustomLabels';
 
 const regions = mapConfig.regions;
 
-const ContentBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
-  height: '340px',
-  maxHeight: '340px',
-  [theme.breakpoints.down('sm')]: {
-    height: '300px',
-    maxHeight: '300px'
-  },
-  padding: theme.spacing(0),
-  backgroundColor: theme.palette.CRESTGridBackground.dark,
-  borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: 'solid',
-  borderWidth: '1px',
-  justifyContent: 'center',
-  alignItems: 'center'
-}));
-
 const ToolTipBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
@@ -52,20 +34,20 @@ const ToolTipBox = styled(Box)(({ theme }) => ({
   alignItems: 'center'
 }));
 
-export default function ChartSummary(props) {
+export default function AnalyzeBarChart(props) {
   const {
     chartRegion,
     chartIndices,
     chartType,
-    setHover,
-    feature
+    feature,
+    zonalStatsData,
+    barchartMargin
   } = props;
 
   const region = regions[chartRegion];
 
-  const chartLabel = `${chartType} ${feature.properties.areaName}`;
+  const chartLabel = feature?.properties?.areaName ? `${chartType} ${feature?.properties?.areaName}` : '';
   const layerList = region.layerList;
-  const zonalStatsData = feature.properties.zonalStatsData;
 
   const formatYAxis = (value) => {
     switch (value) {
@@ -95,7 +77,7 @@ export default function ChartSummary(props) {
           }} >
             <Typography sx={{
               display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'
-            }} variant="h4" component="h2">{`${payload[0].payload.value.toFixed(2)}`}</Typography>
+            }} variant="h4" component="h2">{`${parseInt(payload[0].payload.value, 10).toFixed(2)}`}</Typography>
           </Box>
         </ToolTipBox>
       );
@@ -141,26 +123,15 @@ export default function ChartSummary(props) {
     });
   }
 
-  const handleMouseEnter = () => {
-    if (feature.properties.buffGeo) {
-      setHover({ bufferAreaName: feature.properties.areaName });
-    } else {
-      setHover({ areaName: feature.properties.areaName });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setHover(false);
-  };
-
-  const thisChart = (
+  return (
     <ResponsiveContainer
-    id ={`${chartType}-container`}
+      id ={`${chartType}-container`}
       sx={{
         padding: '20px',
         width: '100%',
         height: '100%'
-      }}>
+      }}
+    >
       <BarChart
         id={`${chartType}-barchart`}
         data={chartData}
@@ -168,12 +139,7 @@ export default function ChartSummary(props) {
           width: '100%',
           height: '100%'
         }}
-        margin={{
-          top: 90,
-          right: 30,
-          left: 0,
-          bottom: 30
-        }}>
+        margin={ barchartMargin }>
 
         <text x={400 / 2} y={'10%'} fill="white" textAnchor="middle" dominantBaseline="central" style={{ fontFamily: 'Roboto, sans-serif' }} >
           <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
@@ -193,22 +159,13 @@ export default function ChartSummary(props) {
       </BarChart>
     </ResponsiveContainer>
   );
-  return (
-    <ContentBox
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      components='fieldset'
-      id={`${chartType}-chartbox`}
-    >
-      {thisChart}
-    </ContentBox>
-  );
 }
 
-ChartSummary.propTypes = {
+AnalyzeBarChart.propTypes = {
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,
   feature: PropTypes.object,
-  setHover: PropTypes.func
+  zonalStatsData: PropTypes.object,
+  barchartMargin: PropTypes.object
 };
