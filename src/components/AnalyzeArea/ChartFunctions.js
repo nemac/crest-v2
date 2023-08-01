@@ -30,20 +30,20 @@ export const handleExportImage = async (chartType) => {
   });
 };
 
-const getRange = (area, name) => {
-  const selectedColorChart = mapConfig.regions[area.region].layerList.find(
+export const getLabel = (region, name) => {
+  const thisLabel = mapConfig.regions[region].layerList.find(
+    ((layer) => layer.chartCSSSelector === name)
+  ).label;
+  return thisLabel;
+};
+
+export const getRange = (region, name) => {
+  const selectedColorChart = mapConfig.regions[region].layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).chartCSSColor;
   const allValues = Object.keys(selectedColorChart);
   const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
   return thisRange;
-};
-
-const getLabel = (area, name) => {
-  const thisLabel = mapConfig.regions[area.region].layerList.find(
-    ((layer) => layer.chartCSSSelector === name)
-  ).label;
-  return thisLabel;
 };
 
 export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {
@@ -57,21 +57,18 @@ export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {
   map.setView(newCenter, newZoom);
 };
 
-// This exports all data for all areas
-// TODO: THIS IS BROKEN AT THE MOMENT. FIX IT.
-export const handleExportCSV = (event, chartData, selectedRegion) => {
+export const handleExportAllCSV = (event, chartData) => {
+  const region = chartData[0].properties.region;
   event.stopPropagation();
   const dataRows = [];
-  chartData.map((area) => {
-    Object.entries(area.zonalStatsData).map(([index, value]) => {
+  chartData.map((feature) => {
+    Object.entries(feature.properties.zonalStatsData).map(([key, value]) => {
       const thisRow = [];
-      if (area.region === selectedRegion) {
-        thisRow.push(area.areaName);
-        thisRow.push(getLabel(area, index)); // need to get label here
-        thisRow.push(Number.isNaN(Number(value)) ? '0.0' : value.toFixed(3)); // need to get value here
-        thisRow.push(getRange(area, index)); // need to get range here
-        dataRows.push(thisRow);
-      }
+      thisRow.push(feature.properties.areaName);
+      thisRow.push(getLabel(feature.properties.region, key)); // need to get label here
+      thisRow.push(Number.isNaN(Number(value)) ? '0.0' : value.toFixed(3)); // need to get value here
+      thisRow.push(getRange(feature.properties.region, key)); // need to get range here
+      dataRows.push(thisRow);
       return thisRow;
     });
     return dataRows;
@@ -84,7 +81,7 @@ export const handleExportCSV = (event, chartData, selectedRegion) => {
   // Get date and time, replace all special characters with '-'
   const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, '-');
   // concatenate type, area name, and date-time for filename
-  const filename = `ALL-DATA-${selectedRegion.replace(/ |\/|,|:|\./g, '-')}-${dateString}.csv`;
+  const filename = `ALL-DATA-${region.replace(/ |\/|,|:|\./g, '-')}-${dateString}.csv`;
   const csvData = rows.map((e) => e.join(',')).join('\n');
   const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
   const encodedUri = encodeURI(csvContent);

@@ -12,7 +12,7 @@ import {
 import ChartCard from './AnalyzeProjectSitesChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './AnalyzeProjectSitesTableData';
-import { handleExportCSV, HandleRemoveAllClick } from './ChartFunctions';
+import { handleExportAllCSV, HandleRemoveAllClick } from './ChartFunctions';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
@@ -47,7 +47,8 @@ export default function ChartsHolder(props) {
           HandleRemoveAllClick={
             (e) => { HandleRemoveAllClick(e, dispatch, featureGroupRef); }
           }
-          handleGenericClick={handleExportCSV} />
+          handleExportClick={
+            (e) => { handleExportAllCSV(e, chartData); }} />
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (

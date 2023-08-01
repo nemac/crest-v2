@@ -69,7 +69,7 @@ export default function ChartHeaderActionButtons(props) {
     handleSortClick,
     handleGraphOrTableClick,
     HandleRemoveAllClick,
-    handleGenericClick
+    handleExportClick
   } = props;
 
   // get the redux state for analyze area
@@ -96,7 +96,7 @@ export default function ChartHeaderActionButtons(props) {
         <ChartHeaderActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={handleGenericClick}>
+          onClick={handleExportClick}>
           <CameraAlt />
         </ChartHeaderActionButton>
       </Grid>
@@ -123,6 +123,6 @@ export default function ChartHeaderActionButtons(props) {
 ChartHeaderActionButtons.propTypes = {
   handleSortClick: PropTypes.func.isRequired,
   handleGraphOrTableClick: PropTypes.func.isRequired,
-  handleGenericClick: PropTypes.func.isRequired,
+  handleExportClick: PropTypes.func.isRequired,
   HandleRemoveAllClick: PropTypes.func.isRequired
 };

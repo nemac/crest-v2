@@ -113,6 +113,10 @@ export default function LeafletDrawTools(props) {
     geoCopy.properties.areaName = `Area ${areaNum}`;
     geoCopy.properties.areaNumber = areaNum;
     geoCopy.properties.region = selectedRegion;
+    const turfCenter = turf.center(geoCopy.geometry);
+    geoCopy.properties.center = {
+      lat: turfCenter.geometry.coordinates[1], lng: turfCenter.geometry.coordinates[0]
+    };
 
     let buffGeo;
     if (bufferCheckbox) {

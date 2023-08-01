@@ -26,7 +26,9 @@ export const setupStore = (preloadedState) => configureStore({
 
 export const store = configureStore({
   devTools: true, // prob should turn off in prod
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(zonalStatsApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(zonalStatsApi.middleware)
+    .concat(identifyApi.middleware),
   reducer: reducers,
   // here we restore previously persisted state
   preloadedState: loadState()

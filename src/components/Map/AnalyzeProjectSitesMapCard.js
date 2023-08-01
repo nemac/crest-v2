@@ -75,7 +75,7 @@ export default function MapCard(props) {
   const { data, error, isFetching } = useGetIdentifyQuery({
     region: mapConfig.regions[selectedRegion].regionName,
     coordinates: identifyCoordinates
-  }, { skip: identifyItems });
+  }, { skip: !identifyCoordinates });
 
   useEffect(() => {
     if (data) {
@@ -210,7 +210,7 @@ export default function MapCard(props) {
               color: hover.areaName === item.properties.areaName ? '#dda006' : '#4992f9'
             }}
           >
-            <StyledReactLeafletTooltip direction='center' permanent>
+            <StyledReactLeafletTooltip direction='center' position={item.properties.center} permanent>
               {item.properties.areaName}
             </StyledReactLeafletTooltip>
           </GeoJSON>

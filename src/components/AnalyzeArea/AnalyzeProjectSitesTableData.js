@@ -12,9 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 import { StyledGrid } from '../All/StyledComponents';
-import { mapConfig } from '../../configuration/config';
-
-const regions = mapConfig.regions;
+import { getLabel, getRange } from './ChartFunctions';
 
 export const StyledTableHead = styled(TableHead)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTBlack.dark,
@@ -39,21 +37,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableData(props) {
   const { data } = props;
-
-  const getLabel = (region, name) => {
-    const thisLabel = regions[region].layerList.find(
-      ((layer) => layer.chartCSSSelector === name)
-    ).label;
-    return thisLabel;
-  };
-  const getRange = (region, name) => {
-    const selectedColorChart = regions[region].layerList.find(
-      ((layer) => layer.chartCSSSelector === name)
-    ).chartCSSColor;
-    const allValues = Object.keys(selectedColorChart);
-    const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
-    return thisRange;
-  };
 
   return (
     <StyledGrid container
