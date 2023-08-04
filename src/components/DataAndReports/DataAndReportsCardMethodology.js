@@ -17,11 +17,14 @@ export default function DataAndReportsCardMethodology() {
           Methodology and Data Report for U.S. Caribbean and Pacific Islands
         </Typography>
         <Box sx={{
-          justifyContent: 'start', alignItems: 'start', display: 'flex', width: '100%'
+          justifyContent: 'start',
+          alignItems: 'start',
+          display: 'flex',
+          width: '100%'
         }} >
           <Typography variant="body1" component="div" gutterBottom>
-            Report provides a summary of overarching methods and data sources used
-            for all U.S. Caribbean and Pacific Islands.
+            Report provides a summary of overarching methods and data
+            sources used for all U.S. Caribbean and Pacific Islands.
           </Typography>
         </Box>
 
