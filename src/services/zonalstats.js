@@ -10,7 +10,7 @@ const endpoint = betaZonalStatsEndpoint;
 // Define a service using a base URL and expected endpoints
 export const zonalStatsApi = createApi({
   reducerPath: 'zonalStatsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: endpoint }),
+  baseQuery: fetchBaseQuery({ baseUrl: endpoint, timeout: 100000 }),
   endpoints: (builder) => ({
     getZonalStats: builder.query({
       query: ({ region, queryData }) => ({

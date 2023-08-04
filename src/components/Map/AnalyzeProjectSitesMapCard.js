@@ -54,7 +54,8 @@ export default function MapCard(props) {
     tooLargeLayerOpen,
     setTooLargeLayerOpen,
     setCurrentDrawn,
-    hover
+    hover,
+    setGeoToRedraw,
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
@@ -199,6 +200,7 @@ export default function MapCard(props) {
         setDrawAreaDisabled={setDrawAreaDisabled}
         setTooLargeLayerOpen={setTooLargeLayerOpen}
         setCurrentDrawn={setCurrentDrawn}
+        setGeoToRedraw={setGeoToRedraw}
       />
       {drawnFromState?.features?.map((item, index) => (
         <React.Fragment key={item.geometry.coordinates} >
@@ -243,7 +245,7 @@ export default function MapCard(props) {
         open={tooLargeLayerOpen}
       />
       <ActiveTileLayers />
-      <BasemapLayer map={map} />
+      <BasemapLayer />
       <MapEventsComponent />
       <ShowIdentifyPopup
         region={selectedRegion}

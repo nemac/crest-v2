@@ -93,7 +93,8 @@ module.exports = {
       // https://github.com/jantimon/html-webpack-plugin
       new HtmlWebpackPlugin({
         //template: path.join(PATH_SOURCE, './index.html'),
-        template: path.resolve(__dirname, './src/index.html')
+        template: path.resolve(__dirname, './src/index.html'),
+        favicon: './src/assets/images/favicon.ico'
 
       }),
       //new webpack.HotModuleReplacementPlugin(),

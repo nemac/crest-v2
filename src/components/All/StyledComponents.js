@@ -35,3 +35,8 @@ export const AboutImage = styled('img')(({ theme }) => ({
   maxWidth: '100%',
   height: 'auto'
 }));
+
+export const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(0.2),
+  height: '100%'
+}));

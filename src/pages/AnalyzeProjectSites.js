@@ -10,6 +10,7 @@ import MapActionCard from '../components/Map/MapActionCard';
 import EmptyState from '../components/AnalyzeArea/EmptyStateAnalyzeProject';
 import ChartsHolder from '../components/AnalyzeArea/AnalyzeProjectSitesChartsHolder';
 import MapCard from '../components/Map/AnalyzeProjectSitesMapCard';
+import ShapeFileCorrectionMap from '../components/Map/ShapeFIleCorrectionMap';
 import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 
 const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
@@ -31,6 +32,12 @@ export default function AnalyzeProjectSite() {
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const [hover, setHover] = useState(false);
+
+  const emptyFeatureCollection = {
+    type: 'FeatureCollection',
+    features: []
+  };
+  const [geoToRedraw, setGeoToRedraw] = useState(null);
 
   const featuresForCurrentRegion = drawnLayersFromState.features.filter(
     (feature) => JSON.stringify(feature.properties.region) === JSON.stringify(region)
@@ -58,6 +65,16 @@ export default function AnalyzeProjectSite() {
       <div>
         Loading Share Link. We need to eventually style this.
       </div>
+    );
+  }
+
+  if (geoToRedraw?.features?.length > 0) {
+    return (
+      <ShapeFileCorrectionMap
+        geoToRedraw={geoToRedraw}
+        setGeoToRedraw={setGeoToRedraw}
+        setMap={setMap}
+      />
     );
   }
 
@@ -101,6 +118,7 @@ export default function AnalyzeProjectSite() {
             setTooLargeLayerOpen={setTooLargeLayerOpen}
             bufferFromState={bufferLayersFromState}
             hover={hover}
+            setGeoToRedraw={setGeoToRedraw}
           />
         </React.Fragment>
       }

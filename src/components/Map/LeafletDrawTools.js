@@ -15,6 +15,7 @@ import {
   addSearchPlacesGeoJSON,
   incrementAreaNumber
 } from '../../reducers/mapPropertiesSlice';
+import { validPolygon } from '../../utility/utilityFunctions';
 import { useGetZonalStatsQuery } from '../../services/zonalstats';
 import ModelErrors from '../All/ModelErrors';
 import { setEmptyState } from '../../reducers/analyzeAreaSlice';
@@ -32,13 +33,13 @@ export default function LeafletDrawTools(props) {
     bufferCheckbox,
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
-    setTooLargeLayerOpen
+    setTooLargeLayerOpen,
+    setGeoToRedraw,
   } = props;
   const dispatch = useDispatch();
 
   const bufferSize = 1;
   const bufferUnits = 'kilometers';
-  const maxPolygonAreaSize = 100000000; // 1000 sq km
 
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -94,13 +95,6 @@ export default function LeafletDrawTools(props) {
     );
   }
 
-  const calculateAreaOfPolygon = ((geojson) => {
-    const coordinates = geojson.geometry.coordinates;
-    const polygon = turf.polygon(coordinates);
-    const area = turf.area(polygon);
-    return area;
-  });
-
   const addBufferLayer = (geo) => {
     const geoCopy = structuredClone(geo);
     const buffGeo = buffer(geoCopy, bufferSize, { units: bufferUnits });
@@ -132,7 +126,7 @@ export default function LeafletDrawTools(props) {
     let geo = e.layer.toGeoJSON();
 
     // Check size of polygon and remove it and return if it is too large
-    if (calculateAreaOfPolygon(geo) > maxPolygonAreaSize) {
+    if (!validPolygon(geo)) {
       setTooLargeLayerOpen(true);
       leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
@@ -154,25 +148,36 @@ export default function LeafletDrawTools(props) {
 
   if (shapeFileGeoJSON) {
     const featureGroup = L.featureGroup();
+    const geoToRedraw = L.featureGroup();
     let areaNum = areaNumber; // need an independent counter here since dispatch is batched
     const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
+    let tooBigFlag = false;
     shapeFileFeatures.forEach((feature, index) => {
-      if (calculateAreaOfPolygon(feature) > maxPolygonAreaSize) {
-        // console.log('too big!!!');
-        // TODO: DO SOMETHING WITH THE DRAWN SHAPE FILES THAT ARE TOO LARGE
-        return;
+      // if (!validPolygon(feature)) {
+      //   // TODO: DO SOMETHING WITH THE DRAWN SHAPE FILES THAT ARE TOO LARGE
+      //   tooBigFlag = true;
+      //   geoToRedraw.addLayer(L.geoJSON(feature));
+      //   return;
+      // }
+      if (!tooBigFlag) {
+        const geo = processGeojson(feature, areaNum);
+        areaNum += 1;
+        dispatch(incrementAreaNumber());
+        const layer = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : L.geoJSON(geo);
+        featureGroup.addLayer(layer);
+      } else {
+        geoToRedraw.addLayer(L.geoJSON(feature));
       }
-      const geo = processGeojson(feature, areaNum);
-      areaNum += 1;
-      dispatch(incrementAreaNumber());
-      const layer = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : L.geoJSON(geo);
-      featureGroup.addLayer(layer);
     });
     dispatch(uploadedShapeFileGeoJSON(null));
-    setCurrentDrawn({
-      featureGroup: featureGroup.toGeoJSON(),
-      skip: false
-    });
+    if (tooBigFlag) {
+      setGeoToRedraw(geoToRedraw.toGeoJSON());
+    } else {
+      setCurrentDrawn({
+        featureGroup: featureGroup.toGeoJSON(),
+        skip: false
+      });
+    }
   }
 
   if (searchPlacesGeoJSON) {

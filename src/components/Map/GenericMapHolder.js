@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import ActionButtons from './ActionButtons';
 import MapLayerList from '../MapLayerList/MapLayerList';
+import { ThreeColumnGrid } from '../All/StyledComponents';
 
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
@@ -16,11 +17,6 @@ const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     height: 'calc(60% - 80px)'
   }
-}));
-
-const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
-  padding: theme.spacing(0.2),
-  height: '100%'
 }));
 
 const ContentMapBox = styled(Box)(({ theme }) => ({
