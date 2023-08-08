@@ -85,7 +85,8 @@ export const mapPropertiesSlice = createSlice({
     },
     resetAreaNumber: (state) => {
       state.areaNumber = 1;
-    }
+    },
+    resetMapProperties: () => startingState
   }
 });
 
@@ -96,7 +97,7 @@ export const {
   addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
   removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON,
   changeResilienceHub, updateDrawnLayers, removeFeatureByGeometry, incrementAreaNumber,
-  resetAreaNumber
+  resetAreaNumber, resetMapProperties
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

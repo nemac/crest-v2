@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents, GeoJSON } from 'react-leaflet';
-import ShareIcon from '@mui/icons-material/Share';
+import { LayersClear, Share } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
 import PropTypes from 'prop-types';
@@ -21,7 +21,6 @@ import ShowIdentifyPopup from './IdentifyPopup';
 import IdentifyButtonWrapper from './IdentifyButton';
 import { mapConfig } from '../../configuration/config';
 import { createShareURL } from './ShareMap';
-import ModelErrors from '../All/ModelErrors';
 import ModalShare from '../All/ModalShare';
 import LeafletDrawTools from './LeafletDrawTools';
 import { StyledReactLeafletTooltip } from '../All/StyledComponents';
@@ -54,8 +53,7 @@ export default function MapCard(props) {
     setDrawAreaDisabled,
     setCurrentDrawn,
     hover,
-    setErrorState,
-    setGeoToRedraw,
+    setErrorState
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
@@ -176,6 +174,23 @@ export default function MapCard(props) {
     setShareLinkOpen(true);
   };
 
+  const clearHandler = (event) => {
+    event.stopPropagation();
+    setErrorState((previous) => ({
+      ...previous,
+      error: true,
+      errorType: 'warning',
+      errorTitle: 'Clear All State',
+      errorMessage: 'Warning. This will clear all state and reload the page. Do you want to proceed?',
+      acceptButtonText: 'Proceed',
+      acceptButtonClose: () => {
+        setErrorState({ ...previous, error: false });
+        localStorage.clear();
+        window.location.reload(true);
+      }
+    }));
+  };
+
   return (
     <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
       <IdentifyButtonWrapper map={map} />
@@ -183,12 +198,21 @@ export default function MapCard(props) {
       <Control position='bottomleft'>
         <Button
           variant="contained"
-          startIcon={<ShareIcon />}
+          startIcon={<Share />}
           onClick={shareMapHandler}
           color="CRESTPrimary"
-          sx={{ margin: '0 0 20px 0' }}
+          sx={{ margin: '0 0 10px 0', display: 'flex' }}
         >
-          Share Map
+          Share
+        </Button>
+        <Button
+          variant="contained"
+          startIcon={<LayersClear />}
+          onClick={clearHandler}
+          color="CRESTPrimary"
+          sx={{ margin: '0 0 20px 0', display: 'flex' }}
+        >
+          Clear
         </Button>
       </Control>
       <LeafletDrawTools
@@ -196,7 +220,6 @@ export default function MapCard(props) {
         leafletFeatureGroupRef={leafletFeatureGroupRef}
         setDrawAreaDisabled={setDrawAreaDisabled}
         setCurrentDrawn={setCurrentDrawn}
-        setGeoToRedraw={setGeoToRedraw}
         setErrorState={setErrorState}
       />
       {drawnFromState?.features?.map((item, index) => (
@@ -254,5 +277,5 @@ MapCard.propTypes = {
   setDrawAreaDisabled: PropTypes.func,
   setCurrentDrawn: PropTypes.func,
   setErrorState: PropTypes.func,
-  hover: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  hover: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 };

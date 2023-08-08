@@ -38,7 +38,9 @@ export default function AnalyzeProjectSite() {
     errorTitle: 'Error',
     errorMessage: 'An error as occurred.',
     errorButtonText: 'Dismiss',
-    errorClose: () => setErrorState((previous) => ({ ...previous, error: false }))
+    acceptButtonText: null,
+    errorClose: () => setErrorState((previous) => ({ ...previous, error: false })),
+    acceptButtonClose: () => setErrorState((previous) => ({ ...previous, error: false }))
   });
 
   const [geoToRedraw, setGeoToRedraw] = useState(null);
@@ -91,6 +93,8 @@ export default function AnalyzeProjectSite() {
         errorType={errorState.errorType}
         onClose={errorState.errorClose}
         open={errorState.error}
+        acceptButtonText={errorState.acceptButtonText}
+        acceptButtonClose={errorState.acceptButtonClose}
       />
       <GenericMapHolder
         isItAGraph={analyzeAreaState.isItAGraph}

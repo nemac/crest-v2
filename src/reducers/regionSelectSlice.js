@@ -3,12 +3,14 @@ import { mapConfig } from '../configuration/config';
 
 const regions = mapConfig.regions;
 
+const initialState = {
+  userInitiated: false,
+  value: regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].label // Continental US
+};
+
 export const regionSelectSlice = createSlice({
   name: 'selectedRegion',
-  initialState: {
-    userInitiated: false,
-    value: regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].label // Continental US
-  },
+  initialState,
   reducers: {
     changeRegion: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -19,11 +21,12 @@ export const regionSelectSlice = createSlice({
     },
     regionUserInitiated: (state, action) => {
       state.userInitiated = action.payload;
-    }
+    },
+    resetRegionSelect: () => initialState
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { changeRegion, regionUserInitiated } = regionSelectSlice.actions;
+export const { changeRegion, regionUserInitiated, resetRegionSelect } = regionSelectSlice.actions;
 
 export default regionSelectSlice.reducer;

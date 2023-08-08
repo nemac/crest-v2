@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  visible: true,
+  isEmptyState: true,
+  isMore: {},
+  isItAGraph: true,
+  isItAGraphResilience: true,
+  isSortASC: true,
+  sortBy: 'Resilience Hubs'
+};
+
 export const AnalyzeAreaSlice = createSlice({
   name: 'analyzeArea',
-  initialState: {
-    visible: true,
-    isEmptyState: true,
-    isMore: {},
-    isItAGraph: true,
-    isItAGraphResilience: true,
-    isSortASC: true,
-    sortBy: 'Resilience Hubs'
-  },
+  initialState,
   reducers: {
     changeEmptyState: (state, action) => {
       state.isEmptyState = !state.isEmptyState;
@@ -35,7 +37,8 @@ export const AnalyzeAreaSlice = createSlice({
     },
     toggleAreaVisible: (state, action) => {
       state.visible = !state.visible;
-    }
+    },
+    resetAnalyzeArea: () => initialState
   }
 });
 
@@ -48,7 +51,8 @@ export const {
   changeGraphTableResilience,
   changeSortDirection,
   changeSortBy,
-  toggleAreaVisible
+  toggleAreaVisible,
+  resetAnalyzeArea
 } = AnalyzeAreaSlice.actions;
 
 export default AnalyzeAreaSlice.reducer;

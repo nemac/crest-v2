@@ -51,14 +51,20 @@ export const mapLayerListSlice = createSlice({
       state.activeLayerList = startingState.activeLayerList;
       state.expandedCharts = startingState.expandedCharts;
       state.displayedLegends = startingState.displayedLegends;
-    }
-
+    },
+    resetMapLayerList: () => startingState
   }
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  toggleVisible, toggleLayer, toggleCollapsed, toggleLegend, replaceActiveLayerList, initializeState
+  toggleVisible,
+  toggleLayer,
+  toggleCollapsed,
+  toggleLegend,
+  replaceActiveLayerList,
+  initializeState,
+  resetMapLayerList
 } = mapLayerListSlice.actions;
 
 export default mapLayerListSlice.reducer;
