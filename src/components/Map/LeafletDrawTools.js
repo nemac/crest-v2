@@ -33,8 +33,7 @@ export default function LeafletDrawTools(props) {
     bufferCheckbox,
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
-    setTooLargeLayerOpen,
-    setGeoToRedraw,
+    setErrorState
   } = props;
   const dispatch = useDispatch();
 
@@ -127,7 +126,12 @@ export default function LeafletDrawTools(props) {
 
     // Check size of polygon and remove it and return if it is too large
     if (!validPolygon(geo)) {
-      setTooLargeLayerOpen(true);
+      setErrorState((previous) => ({
+        ...previous,
+        error: true,
+        errorTitle: 'Draw Error',
+        errorMessage: 'The area of the drawn layer is too large. Please try again.'
+      }));
       leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
     }
@@ -148,36 +152,21 @@ export default function LeafletDrawTools(props) {
 
   if (shapeFileGeoJSON) {
     const featureGroup = L.featureGroup();
-    const geoToRedraw = L.featureGroup();
-    let areaNum = areaNumber; // need an independent counter here since dispatch is batched
     const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
-    let tooBigFlag = false;
+
+    let areaNum = areaNumber; // need an independent counter here since dispatch is batched
     shapeFileFeatures.forEach((feature, index) => {
-      // if (!validPolygon(feature)) {
-      //   // TODO: DO SOMETHING WITH THE DRAWN SHAPE FILES THAT ARE TOO LARGE
-      //   tooBigFlag = true;
-      //   geoToRedraw.addLayer(L.geoJSON(feature));
-      //   return;
-      // }
-      if (!tooBigFlag) {
-        const geo = processGeojson(feature, areaNum);
-        areaNum += 1;
-        dispatch(incrementAreaNumber());
-        const layer = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : L.geoJSON(geo);
-        featureGroup.addLayer(layer);
-      } else {
-        geoToRedraw.addLayer(L.geoJSON(feature));
-      }
+      const geo = processGeojson(feature, areaNum);
+      areaNum += 1;
+      dispatch(incrementAreaNumber());
+      const layer = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : L.geoJSON(geo);
+      featureGroup.addLayer(layer);
     });
     dispatch(uploadedShapeFileGeoJSON(null));
-    if (tooBigFlag) {
-      setGeoToRedraw(geoToRedraw.toGeoJSON());
-    } else {
-      setCurrentDrawn({
-        featureGroup: featureGroup.toGeoJSON(),
-        skip: false
-      });
-    }
+    setCurrentDrawn({
+      featureGroup: featureGroup.toGeoJSON(),
+      skip: false
+    });
   }
 
   if (searchPlacesGeoJSON) {
@@ -203,7 +192,7 @@ export default function LeafletDrawTools(props) {
             onCreated={(e) => { handleOnCreate(e); }}
             draw={{
               polyline: false,
-              polygon: true,
+              polygon: false,
               rectangle: false,
               circle: false,
               marker: false,
@@ -242,5 +231,5 @@ LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
   leafletFeatureGroupRef: PropTypes.object,
   setDrawAreaDisabled: PropTypes.func,
-  setTooLargeLayerOpen: PropTypes.func
+  setErrorState: PropTypes.func
 };

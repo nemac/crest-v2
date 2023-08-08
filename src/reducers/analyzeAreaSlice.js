@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const AnalyzeAreaSlice = createSlice({
   name: 'analyzeArea',
   initialState: {
+    visible: true,
     isEmptyState: true,
     isMore: {},
     isItAGraph: true,
@@ -31,6 +32,9 @@ export const AnalyzeAreaSlice = createSlice({
     },
     changeSortBy: (state, action) => {
       state.sortBy = action.payload;
+    },
+    toggleAreaVisible: (state, action) => {
+      state.visible = !state.visible;
     }
   }
 });
@@ -43,7 +47,8 @@ export const {
   changeGraphTable,
   changeGraphTableResilience,
   changeSortDirection,
-  changeSortBy
+  changeSortBy,
+  toggleAreaVisible
 } = AnalyzeAreaSlice.actions;
 
 export default AnalyzeAreaSlice.reducer;

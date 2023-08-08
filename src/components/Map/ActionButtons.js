@@ -6,19 +6,27 @@ import {
   CameraAlt,
   LayersOutlined,
   Layers,
-  // LibraryAddOutlined,
+  LibraryAddOutlined,
   LibraryAdd
 } from '@mui/icons-material';
 import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from '../All/ActionButton';
+import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
 
+const areaVisibleSelector = (state) => state.analyzeArea.visible;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 // just a place holder needs props passed in and image etc
 export default function ActionButtons() {
   const dispatch = useDispatch();
+  const areaVisible = useSelector(areaVisibleSelector);
   const layerListVisible = useSelector(listVisibleSelector);
+
+  const areaVisiblityOnClick = () => {
+    console.log('area visible: ', areaVisible); // eslint-disable-line no-console
+    dispatch(toggleAreaVisible());
+  };
 
   const mapLayerVisiblityOnClick = () => {
     dispatch(toggleMapLayerVisibility());
@@ -45,8 +53,8 @@ export default function ActionButtons() {
         <ActionButton
           buttonLabel={'Add Area'}
           buttonName={'Add Area'}
-          onClick={handleGenericClick}>
-          <LibraryAdd />
+          onClick={areaVisiblityOnClick}>
+          {areaVisible ? <LibraryAdd /> : <LibraryAddOutlined /> }
         </ActionButton>
       </Grid>
       <Grid xs={4}>

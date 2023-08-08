@@ -28,9 +28,12 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
   borderWidth: '1px'
 }));
 
+const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
+const listVisibleSelector = (state) => state.mapLayerList.visible;
+
 export default function GenericMapHolder(props) {
   const { leftColumn, mapCard } = props;
-  const listVisibleSelector = (state) => state.mapLayerList.visible;
+  const analyzeAreaVisible = useSelector(analyzeAreaVisibleSelector);
   const layerListVisible = useSelector(listVisibleSelector);
 
   return (
@@ -46,6 +49,7 @@ export default function GenericMapHolder(props) {
       {/* LEFT COLUMN */}
       <ThreeColumnGrid
         xs={12} sm={12} md={4} lg={3.75} xl={3}
+        sx={{ display: { xs: analyzeAreaVisible ? 'flex' : 'none' } }}
         order={{ xs: 3, sm: 3, md: 1 }}
       >
         {leftColumn}
@@ -56,8 +60,10 @@ export default function GenericMapHolder(props) {
         xs={12}
         sm={12}
         md={4.5}
-        lg={layerListVisible ? 5.25 : 8.25}
-        xl={layerListVisible ? 6.25 : 9}
+        // TODO: STILL NEED TO GET THIS VISIBILITY STYLING WORKING 100%
+        lg={(analyzeAreaVisible && layerListVisible) ? 5.25 : 8.25}
+        xl={(analyzeAreaVisible && layerListVisible) ? 6.25 : 9}
+
         order={{ xs: 1, sm: 1, md: 2 }}
       >
         <ContentMapBox>

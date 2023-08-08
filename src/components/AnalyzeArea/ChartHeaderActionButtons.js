@@ -62,7 +62,7 @@ const StyledGridContainer = styled(Grid)(({ theme }) => ({
 }));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
-const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const analyzeAreaSelector = (state) => state.analyzeArea;
 
 export default function ChartHeaderActionButtons(props) {
   const {
@@ -73,7 +73,7 @@ export default function ChartHeaderActionButtons(props) {
   } = props;
 
   // get the redux state for analyze area
-  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+  const analyzeAreaState = useSelector(analyzeAreaSelector);
 
   return (
     <StyledGridContainer container spacing={0} p={0} mt={1} mb={1}>

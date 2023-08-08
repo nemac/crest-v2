@@ -15,7 +15,7 @@ import TableData from './AnalyzeProjectSitesTableData';
 import { handleExportAllCSV, HandleRemoveAllClick } from './ChartFunctions';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
-const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const analyzeAreaSelector = (state) => state.analyzeArea;
 
 export default function ChartsHolder(props) {
   const {
@@ -23,7 +23,7 @@ export default function ChartsHolder(props) {
   } = props;
 
   const dispatch = useDispatch();
-  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+  const analyzeAreaState = useSelector(analyzeAreaSelector);
 
   // handle state change Graph/Table
   const handleGraphOrTableClick = (newValue) => {

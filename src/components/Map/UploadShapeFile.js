@@ -1,46 +1,58 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import shp from 'shpjs';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import {
   FileUploadOutlined
-  // FileUpload
 } from '@mui/icons-material';
 
+import { validPolygon } from '../../utility/utilityFunctions';
 import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
-import { Shape2GeoJSON } from '../../api/shapeFileToGeoJson';
 
-// just a place holder needs props passed in and image etc
 export default function Upload(props) {
-  const { setTooLargeLayerOpen } = props;
+  const { setGeoToRedraw, setErrorState } = props;
   const dispatch = useDispatch();
-  const [file, setFile] = React.useState(null);
+  const errorTitle = 'Upload Error';
 
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
+  const handleFileChange = async (e) => {
+    try {
+      const file = e.target.files[0];
+      // reject incoming file if the size is greater than 10 MB
+      if (file.size > 10000000) {
+        setErrorState((previous) => ({
+          ...previous,
+          error: true,
+          errorTitle,
+          errorMessage: 'The file size of the uploaded file is too large. Please upload a file less than 10 MB.'
+        }));
+        return;
+      }
+
+      let tooLargeFlag = false;
+      const buffer = await file.arrayBuffer();
+      const geojson = await shp(buffer);
+      geojson.features.forEach((feature) => {
+        if (!validPolygon(feature)) {
+          tooLargeFlag = true;
+        }
+      });
+      if (tooLargeFlag) {
+        setGeoToRedraw(geojson);
+        return;
+      }
+      dispatch(uploadedShapeFileGeoJSON(geojson));
+    } catch (error) {
+      setErrorState((previous) => ({
+        ...previous,
+        error: true,
+        errorTitle,
+        errorMessage: `Something wrong with zipfile. Please try another file. Error: ${error}`
+      }));
     }
   };
-
-  // This useEffect watches for the uploaded file
-  React.useEffect(() => {
-    if (!file) {
-      return;
-    }
-    // reject incoming file if the size is greater than 10 MB
-    if (file.size > 100000000000) {
-      setTooLargeLayerOpen(true);
-      setFile(null);
-      return;
-    }
-
-    const uploadShapeFilePromise = Shape2GeoJSON(file);
-    uploadShapeFilePromise.then((data) => {
-      dispatch(uploadedShapeFileGeoJSON(data));
-    });
-  }, [file, setFile, dispatch, setTooLargeLayerOpen]);
 
   return (
     <Box p={0.75} >
@@ -57,6 +69,7 @@ export default function Upload(props) {
         <input
           type="file"
           accept=".zip"
+          max={1}
           onChange={handleFileChange}
           style={{ display: 'none' }}/>
       </Button>
@@ -65,5 +78,6 @@ export default function Upload(props) {
 }
 
 Upload.propTypes = {
-  setTooLargeLayerOpen: PropTypes.func
+  setGeoToRedraw: PropTypes.func,
+  setErrorState: PropTypes.func
 };

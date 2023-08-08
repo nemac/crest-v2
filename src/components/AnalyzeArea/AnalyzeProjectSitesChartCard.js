@@ -21,7 +21,7 @@ import {
 } from './ChartFunctions';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
-const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const analyzeAreaSelector = (state) => state.analyzeArea;
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -83,7 +83,7 @@ export default function ChartCard(props) {
   };
 
   const dispatch = useDispatch();
-  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+  const analyzeAreaState = useSelector(analyzeAreaSelector);
 
   const chartActionButtons = [
     {

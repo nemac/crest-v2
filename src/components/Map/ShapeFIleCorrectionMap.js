@@ -17,19 +17,22 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
 function EditControlFC(props) {
-  const { localGeo, setLocalGeo, setSelectedLayer, setNumInvalid } = props;
+  const {
+    localGeo,
+    setLocalGeo,
+    setSelectedLayer,
+    setNumInvalid
+  } = props;
   const ref = React.useRef(null);
 
   React.useEffect(() => {
     if (ref.current?.getLayers().length === 0 && localGeo) {
       L.geoJSON(localGeo).eachLayer((layer) => {
-        // if (!validPolygon(layer.toGeoJSON())) {
-        //   setNumInvalid((prev) => prev + 1);
-        //   ref.current?.addLayer(layer.setStyle({ color: 'red' }));
-        // } else {
-        //   ref.current?.addLayer(layer.setStyle({ color: 'blue' }));
-        // }
-        ref.current?.addLayer(layer.setStyle({ color: 'blue' }));
+        if (!validPolygon(layer.toGeoJSON())) {
+          ref.current?.addLayer(layer.setStyle({ color: 'red' }));
+        } else {
+          ref.current?.addLayer(layer.setStyle({ color: 'blue' }));
+        }
       });
     }
   }, [localGeo, setNumInvalid]);
@@ -44,20 +47,20 @@ function EditControlFC(props) {
   const handleEditVertex = (e) => {
     const layer = e.poly;
     setSelectedLayer(structuredClone(layer.toGeoJSON()));
-    // if (validPolygon(layer.toGeoJSON())) {
-    //   layer.setStyle({ color: 'blue' });
-    // } else {
-    //   layer.setStyle({ color: 'red' });
-    // }
+    if (validPolygon(layer.toGeoJSON())) {
+      layer.setStyle({ color: 'blue' });
+    } else {
+      layer.setStyle({ color: 'red' });
+    }
   };
 
   const handleEditStop = () => {
     ref.current.eachLayer((layer) => {
-      // if (validPolygon(layer.toGeoJSON())) {
-      //   layer.setStyle({ color: 'blue' });
-      // } else {
-      //   layer.setStyle({ color: 'red' });
-      // }
+      if (validPolygon(layer.toGeoJSON())) {
+        layer.setStyle({ color: 'blue' });
+      } else {
+        layer.setStyle({ color: 'red' });
+      }
     });
     const geo = ref.current?.toGeoJSON();
     if (geo?.type === 'FeatureCollection') {
@@ -122,8 +125,8 @@ export default function ShapeFileCorrectionMap(props) {
           <Button
             onClick={() => {
               setGeoToRedraw(null);
-              download(localGeo);
-              // dispatch(uploadedShapeFileGeoJSON(localGeo));
+              // download(localGeo);
+              dispatch(uploadedShapeFileGeoJSON(localGeo));
             }}
           >
             Send Shapes

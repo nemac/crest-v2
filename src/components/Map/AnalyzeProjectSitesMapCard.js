@@ -36,6 +36,7 @@ const selectedRegionSelector = (state) => state.selectedRegion.value;
 const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
+const areaVisibleSelector = (state) => state.mapProperties.areaVisible;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const identifyCoordinatesSelector = (state) => state.mapProperties.identifyCoordinates;
@@ -51,10 +52,9 @@ export default function MapCard(props) {
     bufferCheckbox,
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
-    tooLargeLayerOpen,
-    setTooLargeLayerOpen,
     setCurrentDrawn,
     hover,
+    setErrorState,
     setGeoToRedraw,
   } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
@@ -63,6 +63,7 @@ export default function MapCard(props) {
   // setting "() => true" for both center and zoom ensures that value is only read from store once
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
+  const areaVisible = useSelector(areaVisibleSelector);
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
@@ -121,12 +122,12 @@ export default function MapCard(props) {
   }, [map, dispatch]);
 
   useEffect(() => {
+    let timer;
     if (map) {
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 10);
+      timer = setTimeout(() => map.invalidateSize(), 10);
     }
-  }, [map, layerListVisible]);
+    return () => clearTimeout(timer);
+  }, [map, areaVisible, layerListVisible]);
 
   useEffect(() => {
     handleRegionChange(selectedRegion, userInitiatedRegion);
@@ -162,10 +163,6 @@ export default function MapCard(props) {
     navigator.clipboard.writeText(shareUrl); // THIS IS BROKEN ON HTTP
   };
 
-  const handleTooLargeLayerClose = () => {
-    setTooLargeLayerOpen(false);
-  };
-
   const handleSelectURLDblClick = (event) => {
     const range = document.createRange();
     range.selectNodeContents(event.target);
@@ -198,9 +195,9 @@ export default function MapCard(props) {
         bufferCheckbox={bufferCheckbox}
         leafletFeatureGroupRef={leafletFeatureGroupRef}
         setDrawAreaDisabled={setDrawAreaDisabled}
-        setTooLargeLayerOpen={setTooLargeLayerOpen}
         setCurrentDrawn={setCurrentDrawn}
         setGeoToRedraw={setGeoToRedraw}
+        setErrorState={setErrorState}
       />
       {drawnFromState?.features?.map((item, index) => (
         <React.Fragment key={item.geometry.coordinates} >
@@ -236,14 +233,6 @@ export default function MapCard(props) {
         secondaryButtonMessage='Copy Map URL'
         open={shareLinkOpen}
       />
-      <ModelErrors
-        contentTitle={'Sketch an Area Error '}
-        contentMessage={'The sketched area is too large.'}
-        buttonMessage='Dismiss'
-        errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
-        onClose={handleTooLargeLayerClose}
-        open={tooLargeLayerOpen}
-      />
       <ActiveTileLayers />
       <BasemapLayer />
       <MapEventsComponent />
@@ -263,8 +252,7 @@ MapCard.propTypes = {
   setMap: PropTypes.func,
   leafletFeatureGroupRef: PropTypes.object,
   setDrawAreaDisabled: PropTypes.func,
-  tooLargeLayerOpen: PropTypes.bool,
-  setTooLargeLayerOpen: PropTypes.func,
   setCurrentDrawn: PropTypes.func,
-  hover: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+  setErrorState: PropTypes.func,
+  hover: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };

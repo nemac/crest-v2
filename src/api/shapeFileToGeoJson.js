@@ -90,14 +90,14 @@ export const Shape2GeoJSON = async (file, readFunc = 'readAsArrayBuffer', resolv
     return null;
   }
 
-  let zipContents = await readZip(file);
-  // readZip returns array of arrays
-  zipContents = zipContents[0];
-  // filter returns arrays so take 0th element
-  const shpFile = zipContents.filter((content) => getFileExtension(content.name) === 'shp')[0];
-  const dbfFile = zipContents.filter((content) => getFileExtension(content.name) === 'dbf')[0];
-  const shp = await readFileAsync(shpFile, readFunc, resolveUndefinedFiles);
-  const dbf = await readFileAsync(dbfFile, readFunc, resolveUndefinedFiles);
-  const geojson = await shapefile.read(shp, dbf);
-  return geojson;
+  // let zipContents = await readZip(file);
+  // // readZip returns array of arrays
+  // zipContents = zipContents[0];
+  // // filter returns arrays so take 0th element
+  // const shpFile = zipContents.filter((content) => getFileExtension(content.name) === 'shp')[0];
+  // const dbfFile = zipContents.filter((content) => getFileExtension(content.name) === 'dbf')[0];
+  // const shp = await readFileAsync(shpFile, readFunc, resolveUndefinedFiles);
+  // const dbf = await readFileAsync(dbfFile, readFunc, resolveUndefinedFiles);
+  // const geojson = await shapefile.read(shp, dbf);
+  // return geojson;
 };

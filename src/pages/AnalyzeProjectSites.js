@@ -10,16 +10,17 @@ import MapActionCard from '../components/Map/MapActionCard';
 import EmptyState from '../components/AnalyzeArea/EmptyStateAnalyzeProject';
 import ChartsHolder from '../components/AnalyzeArea/AnalyzeProjectSitesChartsHolder';
 import MapCard from '../components/Map/AnalyzeProjectSitesMapCard';
+import ModelErrors from '../components/All/ModelErrors';
 import ShapeFileCorrectionMap from '../components/Map/ShapeFIleCorrectionMap';
 import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
 
-const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const analyzeAreaSelector = (state) => state.analyzeArea;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function AnalyzeProjectSite() {
-  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+  const analyzeAreaState = useSelector(analyzeAreaSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const bufferLayersFromState = useSelector(bufferLayersSelector);
   const region = useSelector(selectedRegionSelector);
@@ -30,13 +31,16 @@ export default function AnalyzeProjectSite() {
   const [map, setMap] = useState(null);
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
-  const [tooLargeLayerOpen, setTooLargeLayerOpen] = useState(false);
   const [hover, setHover] = useState(false);
+  const [errorState, setErrorState] = useState({
+    error: false,
+    errorType: 'error', // error, warning, info, success (https://mui.com/material-ui/react-alert/)
+    errorTitle: 'Error',
+    errorMessage: 'An error as occurred.',
+    errorButtonText: 'Dismiss',
+    errorClose: () => setErrorState((previous) => ({ ...previous, error: false }))
+  });
 
-  const emptyFeatureCollection = {
-    type: 'FeatureCollection',
-    features: []
-  };
   const [geoToRedraw, setGeoToRedraw] = useState(null);
 
   const featuresForCurrentRegion = drawnLayersFromState.features.filter(
@@ -79,49 +83,59 @@ export default function AnalyzeProjectSite() {
   }
 
   return (
-    <GenericMapHolder
-      isItAGraph={analyzeAreaState.isItAGraph}
-      leftColumn={
-        <AnalyzeProjectSiteLeftColumn
-          mapActionCard={
-            <MapActionCard
-              map={map}
-              bufferCheckbox={bufferCheckbox}
-              setBufferCheckbox={setBufferCheckbox}
-              drawAreaDisabled={drawAreaDisabled}
-              setTooLargeLayerOpen={setTooLargeLayerOpen}
-            />
-          }
-          chartCard={
-            <ChartsHolder
-              map={map}
-              featureGroupRef={leafletFeatureGroupRef}
-              setHover={setHover}
-              chartData={
-                featuresForCurrentRegion.length > 0 ? featuresForCurrentRegion : null
-              }
-            />
-          }
-          noDataState={<EmptyState/>}
-        />
-      }
-      tableData='Insert Table Data Here'
-      mapCard={
-        <React.Fragment>
-          <MapCard
-            map={map}
-            setMap={setMap}
-            bufferCheckbox={bufferCheckbox}
-            leafletFeatureGroupRef={leafletFeatureGroupRef}
-            setDrawAreaDisabled={setDrawAreaDisabled}
-            tooLargeLayerOpen={tooLargeLayerOpen}
-            setTooLargeLayerOpen={setTooLargeLayerOpen}
-            bufferFromState={bufferLayersFromState}
-            hover={hover}
-            setGeoToRedraw={setGeoToRedraw}
+    <>
+      <ModelErrors
+        contentTitle={errorState.errorTitle}
+        contentMessage={errorState.errorMessage}
+        buttonMessage={errorState.errorButtonText}
+        errorType={errorState.errorType}
+        onClose={errorState.errorClose}
+        open={errorState.error}
+      />
+      <GenericMapHolder
+        isItAGraph={analyzeAreaState.isItAGraph}
+        leftColumn={
+          <AnalyzeProjectSiteLeftColumn
+            mapActionCard={
+              <MapActionCard
+                map={map}
+                bufferCheckbox={bufferCheckbox}
+                setBufferCheckbox={setBufferCheckbox}
+                drawAreaDisabled={drawAreaDisabled}
+                setGeoToRedraw={setGeoToRedraw}
+                setErrorState={setErrorState}
+              />
+            }
+            chartCard={
+              <ChartsHolder
+                map={map}
+                featureGroupRef={leafletFeatureGroupRef}
+                setHover={setHover}
+                chartData={
+                  featuresForCurrentRegion.length > 0 ? featuresForCurrentRegion : null
+                }
+              />
+            }
+            noDataState={<EmptyState/>}
           />
-        </React.Fragment>
-      }
-    />
+        }
+        tableData='Insert Table Data Here'
+        mapCard={
+          <React.Fragment>
+            <MapCard
+              map={map}
+              setMap={setMap}
+              bufferCheckbox={bufferCheckbox}
+              leafletFeatureGroupRef={leafletFeatureGroupRef}
+              setDrawAreaDisabled={setDrawAreaDisabled}
+              bufferFromState={bufferLayersFromState}
+              hover={hover}
+              setGeoToRedraw={setGeoToRedraw}
+              setErrorState={setErrorState}
+            />
+          </React.Fragment>
+        }
+      />
+    </>
   );
 }

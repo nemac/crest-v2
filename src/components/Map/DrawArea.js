@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import * as L from 'leaflet';
 import PropTypes from 'prop-types';
@@ -19,30 +20,23 @@ const StyledButton = styled(Button)(({ theme }) => ({
   justifyContent: 'start'
 }));
 
-// just a place holder needs props passed in and image etc
 export default function DrawArea(props) {
   const { map, disabled } = props;
-  const [leafletDraw, setLeafletDraw] = React.useState();
-  // have to wrap in use effect because map comes in null at first
-  React.useEffect(() => {
-    if (map) {
-      setLeafletDraw(new L.Draw.Polygon(map, { allowIntersection: false }));
-    }
-  }, [map]);
+  let drawElement = null;
+  if (map) {
+    drawElement = new L.Draw.Polygon(map, { allowIntersection: false });
+  }
+
   const dispatch = useDispatch();
   const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
   const drawToolsEnabled = useSelector(sketchAreaSelector);
-  // make draw tools false if for some reason its enabled from before
-  // if (drawToolsEnabled) {
-  //  dispatch(toggleSketchArea());
-  // }
 
   const handleSketchClick = () => {
     dispatch(toggleSketchArea());
     if (!drawToolsEnabled) {
-      leafletDraw.enable();
+      drawElement.enable();
     } else {
-      leafletDraw.disable();
+      drawElement.disable();
     }
   };
 

@@ -25,7 +25,8 @@ export default function MapActionCard(props) {
     bufferCheckbox,
     setBufferCheckbox,
     drawAreaDisabled,
-    setTooLargeLayerOpen
+    setGeoToRedraw,
+    setErrorState
   } = props;
 
   return (
@@ -50,7 +51,7 @@ export default function MapActionCard(props) {
         <DrawArea map={map} disabled={drawAreaDisabled}/>
       </Grid>
       <Grid xs={12}>
-        <Upload setTooLargeLayerOpen={setTooLargeLayerOpen}/>
+        <Upload setGeoToRedraw={setGeoToRedraw} setErrorState={setErrorState}/>
       </Grid>
       <Grid xs={12}>
         <SearchCustom />
@@ -68,5 +69,6 @@ MapActionCard.propTypes = {
   map: PropTypes.object,
   setBufferCheckbox: PropTypes.func,
   drawAreaDisabled: PropTypes.bool,
-  setTooLargeLayerOpen: PropTypes.func
+  setGeoToRedraw: PropTypes.func,
+  setErrorState: PropTypes.func
 };
