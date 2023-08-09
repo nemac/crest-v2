@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -11,23 +12,32 @@ import {
 
 import UpperRightIconButton from '../All/UpperRightIconButton';
 import { StyledGrid } from '../All/StyledComponents';
+import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
 
 // just a place holder needs props passed in and image etc
 export default function ResilienceMapActionCard(props) {
+  const dispatch = useDispatch();
+  const minimizeOnClick = () => {
+    dispatch(toggleAreaVisible());
+  };
   return (
     // There was a height of 250px here originally. Trying without it and seeing what it is like
     <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: '80px' }} >
 
       <Grid xs={12} >
-        <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', height: '60px' }} >
+        <Box px={1} py={0.75}
+          sx={{
+            display: 'flex', flexWrap: 'nowrap', alignItems: 'center', height: '60px'
+          }}
+        >
           <Typography px={1} sx={{ cursor: 'default', width: '100%', alignItems: 'center' }}>
             Click on a Resilience Core to start exploring
           </Typography>
           <UpperRightIconButton ariaLabel="Help">
             <Help />
           </UpperRightIconButton>
-          <UpperRightIconButton ariaLabel="Minimize">
-            <ArrowDropDownCircle />
+          <UpperRightIconButton ariaLabel="Minimize" onClick={minimizeOnClick}>
+            <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }}/>
           </UpperRightIconButton>
         </Box>
       </Grid>

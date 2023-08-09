@@ -1,21 +1,10 @@
-import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 import { betaShareLinkEndpoint } from '../../configuration/config';
-import {
-  changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded
-} from '../../reducers/mapPropertiesSlice';
-import { regionUserInitiated, changeRegion } from '../../reducers/regionSelectSlice';
-import { changeActiveTab, changeMenuOpen } from '../../reducers/NavBarSlice';
-/* import {
-  toggleVisible, toggleLayer,
-  toggleCollapsed, toggleLegend, replaceActiveLayerList
-} from '../../reducers/mapLayerListSlice'; */
-import { replaceActiveLayerList } from '../../reducers/mapLayerListSlice';
-/* import {
-  changeEmptyState, changeMore, changeGraphTable,
-  changeSortDirection, changeSortBy
-} from '../../reducers/analyzeAreaSlice'; */
+import { updateAllMapProperties } from '../../reducers/mapPropertiesSlice';
+import { updateAllAnalyze } from '../../reducers/analyzeAreaSlice';
+import { updateAllRegion } from '../../reducers/regionSelectSlice';
+import { updateAllNavbar } from '../../reducers/NavBarSlice';
+import { updateAllMapLayerList } from '../../reducers/mapLayerListSlice';
 import { loadState } from '../../localStorage';
 
 const endpoint = betaShareLinkEndpoint;
@@ -26,67 +15,25 @@ export const createShareURL = () => {
   xhr.open('POST', endpoint);
   xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   const uuid = v4();
-  const s3Location = 'beta/'.concat(uuid).concat('.json');
-  const shareUrl = window.location.href.concat('?').concat('shareUrl=').concat(uuid);
+  const date = new Date();
+  const padL = (nr, len = 2, chr = '0') => `${nr}`.padStart(2, chr);
+  const dateString = `${date.getFullYear()}-${padL(date.getMonth())}-${padL(date.getDate())}`;
+  const shareUrlString = uuid.concat(dateString);
+  const s3Location = 'beta/'.concat(shareUrlString).concat('.json');
+  const shareUrl = window.location.href.concat('?').concat('shareUrl=').concat(shareUrlString);
   const payload = JSON.stringify({ location: s3Location, state: loadState() });
   xhr.send(payload);
   return shareUrl;
 };
 
-export const UpdateRedux = (jsonData, dispatch) => {
-  // const dispatch = useDispatch();
+export const UpdateRedux = (jsonData, dispatch, setShareUrlComplete) => {
   if (!jsonData.mapProperties) {
     return;
   }
-
-  // TODO: Some redux state still needs to be implemented
-  /*
-  dispatch(toggleVisible(visble));
-  dispatch(toggleCollapsed(jsonData.mapLayerList.expandedCharts));
-  dispatch(toggleLegend(jsonData.mapLayerList.displayedLegends));
-  dispatch(changeEmptyState(jsonData.AnalyzeArea.isEmptyState));
-  dispatch(changeMore(jsonData.AnalyzeArea.isMore));
-  dispatch(changeGraphTable(jsonData.AnalyzeArea.isItAGraph));
-  dispatch(changeSortDirection(jsonData.AnalyzeArea.isSortASC));
-  dispatch(changeSortBy(jsonData.AnalyzeArea.sortBy));
-  */
-
-  dispatch(changeZoom(jsonData.mapProperties.zoom));
-  dispatch(changeCenter(jsonData.mapProperties.center));
-  dispatch(changeIdentifyCoordinates(jsonData.mapProperties.identifyCoordinates));
-  dispatch(changeIdentifyResults(jsonData.mapProperties.identifyResults));
-  dispatch(changeIdentifyIsLoaded(jsonData.mapProperties.identifyIsLoaded));
-  dispatch(regionUserInitiated(jsonData.selectedRegion.userInitiated));
-  dispatch(changeRegion(jsonData.selectedRegion.value));
-  dispatch(changeActiveTab(jsonData.navBar.activeTab));
-  dispatch(changeMenuOpen(jsonData.navBar.menuOpen));
-  dispatch(replaceActiveLayerList(jsonData.mapLayerList.activeLayerList));
+  dispatch(updateAllMapProperties(jsonData.mapProperties));
+  dispatch(updateAllAnalyze(jsonData.analyzeArea));
+  dispatch(updateAllMapLayerList(jsonData.mapLayerList));
+  dispatch(updateAllNavbar(jsonData.navBar));
+  dispatch(updateAllRegion(jsonData.selectedRegion));
+  setShareUrlComplete(true);
 };
-
-async function fetchShareUrl(fetchUrl, setHaveError) {
-  const response = await fetch(fetchUrl);
-  if (!response.ok) {
-    setHaveError(true);
-    return null;
-  }
-  const json = await response.json();
-  return json;
-}
-
-export function HaveShareUrlAndUpdateRedux(shareUrl, setShareUrlComplete, setHaveError) {
-  const dispatch = useDispatch();
-  if (shareUrl.length !== 36) {
-    setHaveError(true);
-    return null;
-  }
-  const fetchUrl = endpoint.concat('?shareUrl=').concat(shareUrl);
-  fetchShareUrl(fetchUrl, setHaveError).then((json) => {
-    if (!json) {
-      setHaveError(true);
-    }
-    if (json) {
-      UpdateRedux(json, dispatch);
-    }
-    setShareUrlComplete(true);
-  });
-}

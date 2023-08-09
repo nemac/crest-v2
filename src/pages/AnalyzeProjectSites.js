@@ -2,7 +2,7 @@ import React, {
   useEffect, useRef, useState
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AnalyzeProjectSiteLeftColumn from '../components/AnalyzeArea/AnalyzeProjectSitesLeftColumn';
 import GenericMapHolder from '../components/Map/GenericMapHolder';
@@ -12,7 +12,8 @@ import ChartsHolder from '../components/AnalyzeArea/AnalyzeProjectSitesChartsHol
 import MapCard from '../components/Map/AnalyzeProjectSitesMapCard';
 import ModelErrors from '../components/All/ModelErrors';
 import ShapeFileCorrectionMap from '../components/Map/ShapeFIleCorrectionMap';
-import { HaveShareUrlAndUpdateRedux } from '../components/Map/ShareMap';
+import { UpdateRedux } from '../components/Map/ShareMap';
+import { useGetShareMapQuery } from '../services/shareMap';
 
 const analyzeAreaSelector = (state) => state.analyzeArea;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
@@ -25,6 +26,7 @@ export default function AnalyzeProjectSite() {
   const bufferLayersFromState = useSelector(bufferLayersSelector);
   const region = useSelector(selectedRegionSelector);
 
+  const dispatch = useDispatch();
   const [shareUrlComplete, setShareUrlComplete] = useState(false);
   const [querySearchParams, setQuerySearchParams] = useSearchParams();
   const leafletFeatureGroupRef = useRef();
@@ -49,30 +51,44 @@ export default function AnalyzeProjectSite() {
     (feature) => JSON.stringify(feature.properties.region) === JSON.stringify(region)
   );
 
+  const queryParams = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop)
+  });
+  const shareUrl = queryParams.shareUrl;
+
+  const { data, error, isFetching } = useGetShareMapQuery({
+    shareUrl
+  }, { skip: !shareUrl });
+
+  if (isFetching) {
+    // eslint-disable-next-line no-console
+    console.log('fetching');
+  }
+
   useEffect(() => {
-    // Delete share url params from url when it's complete
-    if (shareUrlComplete) {
+    if (error) {
+      if (querySearchParams.has('shareUrl')) {
+        querySearchParams.delete('shareUrl');
+        setQuerySearchParams(querySearchParams);
+      }
+      setErrorState((previous) => ({
+        ...previous,
+        error: true,
+        errorTitle: 'Share Link Error',
+        errorMessage: `The following error occured with the share link: ${error.data}`
+      }));
+    }
+  }, [error, querySearchParams, setQuerySearchParams]);
+
+  useEffect(() => {
+    if (data) {
+      UpdateRedux(data, dispatch, setShareUrlComplete);
       if (querySearchParams.has('shareUrl')) {
         querySearchParams.delete('shareUrl');
         setQuerySearchParams(querySearchParams);
       }
     }
-  }, [shareUrlComplete, querySearchParams, setQuerySearchParams]);
-
-  const queryParams = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop)
-  });
-  const shareUrl = queryParams.shareUrl;
-  if (shareUrl) {
-    HaveShareUrlAndUpdateRedux(shareUrl, setShareUrlComplete);
-  }
-  if (shareUrl && !shareUrlComplete) {
-    return (
-      <div>
-        Loading Share Link. We need to eventually style this.
-      </div>
-    );
-  }
+  }, [data, querySearchParams, setQuerySearchParams, dispatch]);
 
   if (geoToRedraw?.features?.length > 0) {
     return (
@@ -81,6 +97,14 @@ export default function AnalyzeProjectSite() {
         setGeoToRedraw={setGeoToRedraw}
         setMap={setMap}
       />
+    );
+  }
+
+  if (shareUrl && !shareUrlComplete) {
+    return (
+      <div>
+        Loading...
+      </div>
     );
   }
 

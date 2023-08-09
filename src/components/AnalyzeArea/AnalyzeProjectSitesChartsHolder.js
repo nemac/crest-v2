@@ -54,7 +54,7 @@ export default function ChartsHolder(props) {
       {analyzeAreaState.isItAGraph ? (
         <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
           <Box>
-            {chartData.map((feature, index) => (
+            {chartData.reverse().map((feature, index) => (
               <ChartCard
                 key={feature.properties.areaName}
                 feature={feature}
@@ -74,7 +74,7 @@ export default function ChartsHolder(props) {
           sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}
         >
           <Box>
-            {chartData.map((feature, index) => (
+            {chartData.reverse().map((feature, index) => (
               <TableData key={`${feature.properties.areaName} + table`} data={feature} />
             ))}
           </Box>

@@ -61,8 +61,8 @@ export default function GenericMapHolder(props) {
         sm={12}
         md={4.5}
         // TODO: STILL NEED TO GET THIS VISIBILITY STYLING WORKING 100%
-        lg={(analyzeAreaVisible && layerListVisible) ? 5.25 : 8.25}
-        xl={(analyzeAreaVisible && layerListVisible) ? 6.25 : 9}
+        lg={(analyzeAreaVisible && layerListVisible) ? 5.25 : (analyzeAreaVisible || layerListVisible ) ? 8.25 : 12}
+        xl={(analyzeAreaVisible && layerListVisible) ? 6.25 : (analyzeAreaVisible || layerListVisible ) ? 9 : 12}
 
         order={{ xs: 1, sm: 1, md: 2 }}
       >

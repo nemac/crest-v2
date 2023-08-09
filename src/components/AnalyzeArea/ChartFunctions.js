@@ -54,7 +54,7 @@ export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {
   const newCenterArray = [newCenter.lat, newCenter.lng];
   dispatch(changeCenter(newCenterArray));
   dispatch(changeZoom(newZoom));
-  map.setView(newCenter, newZoom);
+  map.flyTo(newCenter, newZoom);
 };
 
 export const handleExportAllCSV = (event, chartData) => {

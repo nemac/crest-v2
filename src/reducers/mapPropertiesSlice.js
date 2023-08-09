@@ -24,6 +24,7 @@ export const mapPropertiesSlice = createSlice({
   name: 'mapProperties',
   initialState: startingState,
   reducers: {
+    updateAllMapProperties: (state, action) => ({ ...action.payload }),
     changeZoom: (state, action) => {
       state.zoom = action.payload;
     },
@@ -92,7 +93,7 @@ export const mapPropertiesSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  changeZoom, changeCenter, changeIdentifyCoordinates,
+  updateAllMapProperties, changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea,
   addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
   removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON,

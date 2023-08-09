@@ -12,6 +12,7 @@ export const mapLayerListSlice = createSlice({
   name: 'mapLayerList',
   initialState: startingState,
   reducers: {
+    updateAllMapLayerList: (state, action) => ({ ...action.payload }),
     toggleVisible: (state) => {
       state.visible = !state.visible;
     },
@@ -58,6 +59,7 @@ export const mapLayerListSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  updateAllMapLayerList,
   toggleVisible,
   toggleLayer,
   toggleCollapsed,

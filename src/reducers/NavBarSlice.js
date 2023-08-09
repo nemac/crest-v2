@@ -9,6 +9,7 @@ export const NavBarSlice = createSlice({
   name: 'navbar',
   initialState,
   reducers: {
+    updateAllNavbar: (state, action) => ({ ...action.payload }),
     changeActiveTab: (state, action) => {
       const activeTab = action.payload === '' ? 'Home' : action.payload;
       state.activeTab = activeTab;
@@ -21,6 +22,8 @@ export const NavBarSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { changeActiveTab, changeMenuOpen, resetNavBar } = NavBarSlice.actions;
+export const {
+  updateAllNavbar, changeActiveTab, changeMenuOpen, resetNavBar
+} = NavBarSlice.actions;
 
 export default NavBarSlice.reducer;

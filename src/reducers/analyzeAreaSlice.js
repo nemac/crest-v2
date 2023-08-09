@@ -14,6 +14,7 @@ export const AnalyzeAreaSlice = createSlice({
   name: 'analyzeArea',
   initialState,
   reducers: {
+    updateAllAnalyze: (state, action) => ({ ...action.payload }),
     changeEmptyState: (state, action) => {
       state.isEmptyState = !state.isEmptyState;
     },
@@ -44,6 +45,7 @@ export const AnalyzeAreaSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  updateAllAnalyze,
   setEmptyState,
   changeEmptyState,
   changeMore,

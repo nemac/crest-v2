@@ -24,7 +24,6 @@ export default function ActionButtons() {
   const layerListVisible = useSelector(listVisibleSelector);
 
   const areaVisiblityOnClick = () => {
-    console.log('area visible: ', areaVisible); // eslint-disable-line no-console
     dispatch(toggleAreaVisible());
   };
 
