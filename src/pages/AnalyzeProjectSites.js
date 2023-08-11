@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { PropTypes } from 'prop-types';
 
 import AnalyzeProjectSiteLeftColumn from '../components/AnalyzeArea/AnalyzeProjectSitesLeftColumn';
 import GenericMapHolder from '../components/Map/GenericMapHolder';
@@ -10,8 +11,7 @@ import MapActionCard from '../components/Map/MapActionCard';
 import EmptyState from '../components/AnalyzeArea/EmptyStateAnalyzeProject';
 import ChartsHolder from '../components/AnalyzeArea/AnalyzeProjectSitesChartsHolder';
 import MapCard from '../components/Map/AnalyzeProjectSitesMapCard';
-import ModelErrors from '../components/All/ModelErrors';
-import ShapeFileCorrectionMap from '../components/Map/ShapeFIleCorrectionMap';
+import ShapeFileCorrectionMap from '../components/Map/ShapeFileCorrectionMap';
 import { UpdateRedux } from '../components/Map/ShareMap';
 import { useGetShareMapQuery } from '../services/shareMap';
 
@@ -20,7 +20,8 @@ const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
-export default function AnalyzeProjectSite() {
+export default function AnalyzeProjectSite(props) {
+  const { setErrorState } = props;
   const analyzeAreaState = useSelector(analyzeAreaSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
   const bufferLayersFromState = useSelector(bufferLayersSelector);
@@ -34,16 +35,7 @@ export default function AnalyzeProjectSite() {
   const [bufferCheckbox, setBufferCheckbox] = useState(true);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [hover, setHover] = useState(false);
-  const [errorState, setErrorState] = useState({
-    error: false,
-    errorType: 'error', // error, warning, info, success (https://mui.com/material-ui/react-alert/)
-    errorTitle: 'Error',
-    errorMessage: 'An error as occurred.',
-    errorButtonText: 'Dismiss',
-    acceptButtonText: null,
-    errorClose: () => setErrorState((previous) => ({ ...previous, error: false })),
-    acceptButtonClose: () => setErrorState((previous) => ({ ...previous, error: false }))
-  });
+  const [skip, setSkip] = useState(true);
 
   const [geoToRedraw, setGeoToRedraw] = useState(null);
 
@@ -58,12 +50,36 @@ export default function AnalyzeProjectSite() {
 
   const { data, error, isFetching } = useGetShareMapQuery({
     shareUrl
-  }, { skip: !shareUrl });
+  }, { skip });
 
   if (isFetching) {
     // eslint-disable-next-line no-console
     console.log('fetching');
   }
+
+  useEffect(() => {
+    if (shareUrl) {
+      setErrorState((previous) => ({
+        ...previous,
+        error: true,
+        errorTitle: 'Share Link',
+        errorType: 'warning',
+        errorMessage: 'Warning: Opening this share link will erase your current state. Proceed?',
+        errorClose: () => {
+          setErrorState({ ...previous, error: false });
+          if (querySearchParams.has('shareUrl')) {
+            querySearchParams.delete('shareUrl');
+            setQuerySearchParams(querySearchParams);
+          }
+        },
+        acceptButtonText: 'Proceed',
+        acceptButtonClose: () => {
+          setErrorState({ ...previous, error: false });
+          setSkip(false);
+        }
+      }));
+    }
+  }, [shareUrl, setSkip, setErrorState, querySearchParams, setQuerySearchParams]);
 
   useEffect(() => {
     if (error) {
@@ -78,11 +94,12 @@ export default function AnalyzeProjectSite() {
         errorMessage: `The following error occured with the share link: ${error.data}`
       }));
     }
-  }, [error, querySearchParams, setQuerySearchParams]);
+  }, [error, querySearchParams, setErrorState, setQuerySearchParams]);
 
   useEffect(() => {
     if (data) {
       UpdateRedux(data, dispatch, setShareUrlComplete);
+      setSkip(true);
       if (querySearchParams.has('shareUrl')) {
         querySearchParams.delete('shareUrl');
         setQuerySearchParams(querySearchParams);
@@ -110,16 +127,6 @@ export default function AnalyzeProjectSite() {
 
   return (
     <>
-      <ModelErrors
-        contentTitle={errorState.errorTitle}
-        contentMessage={errorState.errorMessage}
-        buttonMessage={errorState.errorButtonText}
-        errorType={errorState.errorType}
-        onClose={errorState.errorClose}
-        open={errorState.error}
-        acceptButtonText={errorState.acceptButtonText}
-        acceptButtonClose={errorState.acceptButtonClose}
-      />
       <GenericMapHolder
         isItAGraph={analyzeAreaState.isItAGraph}
         leftColumn={
@@ -167,3 +174,7 @@ export default function AnalyzeProjectSite() {
     </>
   );
 }
+
+AnalyzeProjectSite.propTypes = {
+  setErrorState: PropTypes.func
+};

@@ -23,6 +23,8 @@ import basemapTopoImage from '../assets/images/basemap-topo.jpg';
 
 export const betaIdentifyEndpoint = 'https://api.resilientcoasts.org/beta/identify/';
 export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identify/';
+export const betaReadGeojsonEndpoint = 'https://api.resilientcoasts.org/beta/read_geojson';
+export const prodReadGeojsonEndpoint = 'https://api.resilientcoasts.org/prod/read_geojson';
 export const betaShareLinkEndpoint = 'https://api.resilientcoasts.org/beta/share-link';
 export const prodShareLinkEndpoint = 'https://api.resilientcoasts.org/prod/share-link';
 export const betaUploadShapeEndpoint = 'https://api.resilientcoasts.org/beta/upload_shape';

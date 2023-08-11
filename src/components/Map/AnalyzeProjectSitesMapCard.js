@@ -232,7 +232,10 @@ export default function MapCard(props) {
               color: hover.areaName === item.properties.areaName ? '#dda006' : '#4992f9'
             }}
           >
-            <StyledReactLeafletTooltip direction='center' position={item.properties.center} permanent>
+            {/* <StyledReactLeafletTooltip direction='center' position={item.properties.center} permanent>
+              {item.properties.areaName}
+            </StyledReactLeafletTooltip> */}
+            <StyledReactLeafletTooltip direction='center' permanent>
               {item.properties.areaName}
             </StyledReactLeafletTooltip>
           </GeoJSON>

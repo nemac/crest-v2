@@ -14,6 +14,7 @@ import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
 
 export default function Upload(props) {
   const { setGeoToRedraw, setErrorState } = props;
+  const [inputValue, setInputValue] = React.useState('');
   const dispatch = useDispatch();
   const errorTitle = 'Upload Error';
 
@@ -40,7 +41,23 @@ export default function Upload(props) {
         }
       });
       if (tooLargeFlag) {
-        setGeoToRedraw(geojson);
+        setErrorState((previous) => ({
+          ...previous,
+          error: true,
+          errorTitle: 'Invalid Shapefile',
+          errorType: 'warning',
+          errorMessage: 'There are invalid shapes in the shapefile. Proceed to the shape file correction screen?',
+          errorClose: () => {
+            setInputValue('');
+            setErrorState({ ...previous, error: false });
+          },
+          acceptButtonText: 'Proceed',
+          acceptButtonClose: () => {
+            setInputValue('');
+            setGeoToRedraw(geojson);
+            setErrorState({ ...previous, error: false });
+          }
+        }));
         return;
       }
       dispatch(uploadedShapeFileGeoJSON(geojson));
@@ -68,6 +85,7 @@ export default function Upload(props) {
         Upload Shapefile
         <input
           type="file"
+          value={inputValue}
           accept=".zip"
           max={1}
           onChange={handleFileChange}

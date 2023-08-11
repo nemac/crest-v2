@@ -8,6 +8,7 @@ import AnalyzeAreaReducer from './reducers/analyzeAreaSlice';
 import { zonalStatsApi } from './services/zonalstats';
 import { identifyApi } from './services/identify';
 import { shareMapApi } from './services/shareMap';
+import { readGeoApi } from './services/readGeojson';
 import { loadState } from './localStorage';
 
 const reducers = combineReducers({
@@ -18,7 +19,8 @@ const reducers = combineReducers({
   navBar: NavBarReducer,
   [zonalStatsApi.reducerPath]: zonalStatsApi.reducer,
   [identifyApi.reducerPath]: identifyApi.reducer,
-  [shareMapApi.reducerPath]: shareMapApi.reducer
+  [shareMapApi.reducerPath]: shareMapApi.reducer,
+  [readGeoApi.reducerPath]: readGeoApi.reducer
 });
 
 export const setupStore = (preloadedState) => configureStore({
@@ -31,7 +33,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(zonalStatsApi.middleware)
     .concat(identifyApi.middleware)
-    .concat(shareMapApi.middleware),
+    .concat(shareMapApi.middleware)
+    .concat(readGeoApi.middleware),
   reducer: reducers,
   // here we restore previously persisted state
   preloadedState: loadState()
