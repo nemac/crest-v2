@@ -26,8 +26,6 @@ Props
 */
 import React, { useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import html2canvas from 'html2canvas';
-import FileSaver, { saveAs } from 'file-saver';
 import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Unstable_Grid2';
@@ -46,42 +44,25 @@ const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 // just a place holder needs props passed in and image etc
 export default function ActionButtons(props) {
-  const { map } = props;
+  const { map, printRef } = props;
   const passedMap = useRef(map);
   const dispatch = useDispatch();
   if (map) {
-    console.log(map);
     passedMap.current = map;
-    // console.log(passedMap.current);
   }
   // const mapContainer = document.getElementById('map-container');
 
   const layerListVisible = useSelector(listVisibleSelector);
-
   const mapLayerVisiblityOnClick = () => {
     dispatch(toggleMapLayerVisibility());
   };
 
-  // place holder for later wanted to add a click handler for graph or Table
-  // TODO add addarea toggle
-  // TODO export
   const handleExportClick = useCallback(async () => {
-    // const mapContainer = document.getElementById('map-container');
-    // if (passedMap.current) {
-    //   console.log('found instance of map!');
-    //   console.log(passedMap.current);
-    //   await leafletImage(passedMap.current, (err, canvas) => {
-    //     if (err) {
-    //       console.error('Error capturing the map:', err);
-    //       return;
-    //     }
-
-    //     canvas.toBlob((blob) => {
-    //       // Save the image as a PNG file using the FileSaver library
-    //       saveAs(blob, 'map.png');
-    //     });
-    //   });
-    // }
+    if (passedMap.current) {
+      // Trigger the print method on the control
+      // printRef.current.printMap('A4Portrait page', 'Map');
+      printRef.current.printMap('CurrentSize', 'Map');
+    }
   }, []);
 
   const handleGenericClick = (event) => {
@@ -128,5 +109,6 @@ export default function ActionButtons(props) {
 }
 
 ActionButtons.propTypes = {
-  map: PropTypes.object
+  map: PropTypes.object,
+  printRef: PropTypes.useRef
 };

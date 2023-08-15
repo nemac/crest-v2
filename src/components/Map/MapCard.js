@@ -35,7 +35,7 @@ Props
 
 */
 import React, {
-  useState, useEffect, useCallback
+  useState, useEffect, useCallback, useRef
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
@@ -96,6 +96,9 @@ export default function MapCard(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
   // const analyzedAreas = useSelector(analyzedAreasSelector);
+
+  const mapPrint = useRef(null);
+  const dummyRef = useRef(null);
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region
@@ -234,10 +237,11 @@ export default function MapCard(props) {
           map = {map}
         >
         </ShowIdentifyPopup>
-        <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Print" />
-        <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Export as PNG" exportOnly />
+        {/* <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Print" printRef={dummyRef} />
+        <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Export as PNG" printRef={dummyRef} exportOnly /> */}
+        <MapPrint position="topleft" title="My Map" exportOnly={true} hidden={true} printRef={mapPrint} />
       </LeafletMapContainer>
-      <ActionButtons map={map}/>
+      <ActionButtons map={map} printRef={mapPrint}/>
     </div>
   );
 }
