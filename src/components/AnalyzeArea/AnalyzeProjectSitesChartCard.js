@@ -86,9 +86,9 @@ export default function ChartCard(props) {
 
   const chartActionButtons = [
     {
-      buttonLabel: analyzeAreaState.isMore[feature.areaName] ? 'Less' : 'More',
-      buttonName: analyzeAreaState.isMore[feature.areaName] ? 'Less' : 'More',
-      onClick: () => { handleMoreOnClick(dispatch, feature.areaName); },
+      buttonLabel: analyzeAreaState.isMore[feature.properties.areaName] ? 'Less' : 'More',
+      buttonName: analyzeAreaState.isMore[feature.properties.areaName] ? 'Less' : 'More',
+      onClick: () => { handleMoreOnClick(dispatch, feature.properties.areaName); },
       icon: <MoreHorizOutlined />
     },
     {
@@ -126,7 +126,7 @@ export default function ChartCard(props) {
 
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
-      {analyzeAreaState.isMore[feature.areaName] ? (
+      {analyzeAreaState.isMore[feature.properties.areaName] ? (
         <div style={{ width: '100%' }}>
           {Object.entries(chartValues).map(([key, value]) => (
             <Grid xs={12} key={key}>

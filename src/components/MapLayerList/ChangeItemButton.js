@@ -77,8 +77,7 @@ export default function ChangeItemButton(props) {
     menuItems,
     showMenu,
     onClick,
-    itemOnClick,
-    disabled
+    itemOnClick
   } = props;
 
   return (
@@ -155,6 +154,5 @@ ChangeItemButton.propTypes = {
   menuItems: PropTypes.object.isRequired,
   showMenu: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  itemOnClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  itemOnClick: PropTypes.func.isRequired
 };

@@ -12,6 +12,7 @@ import { changeEmptyState, changeMore } from '../../reducers/analyzeAreaSlice';
 import { mapConfig } from '../../configuration/config';
 
 export const handleMoreOnClick = (dispatch, areaName) => {
+  console.log('areaname', areaName);
   dispatch(changeMore(areaName));
 };
 
