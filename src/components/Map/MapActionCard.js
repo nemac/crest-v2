@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -20,7 +20,8 @@ import UpperRightIconButton from '../All/UpperRightIconButton';
 import { StyledGrid } from '../All/StyledComponents';
 import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
 
-// just a place holder needs props passed in and image etc
+const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
+
 export default function MapActionCard(props) {
   const {
     map,
@@ -32,13 +33,14 @@ export default function MapActionCard(props) {
   } = props;
 
   const dispatch = useDispatch();
+  const analyzeAreaVisible = useSelector(analyzeAreaVisibleSelector);
 
   const minimizeOnClick = () => {
     dispatch(toggleAreaVisible());
   };
 
   return (
-    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: '250px' }}>
+    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: analyzeAreaVisible ? '250px' : '50px' }}>
 
       <Grid xs={12}>
         <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
@@ -50,23 +52,26 @@ export default function MapActionCard(props) {
             <Help />
           </UpperRightIconButton>
           <UpperRightIconButton ariaLabel="Minimize" onClick={minimizeOnClick}>
-            <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }}/>
+            <ArrowDropDownCircle sx={{ transform: analyzeAreaVisible ? 'rotate(-180deg)' : 'none' }}/>
           </UpperRightIconButton>
         </Box>
       </Grid>
-
-      <Grid xs={12}>
-        <DrawArea map={map} disabled={drawAreaDisabled}/>
-      </Grid>
-      <Grid xs={12}>
-        <Upload setGeoToRedraw={setGeoToRedraw} setErrorState={setErrorState}/>
-      </Grid>
-      <Grid xs={12}>
-        <SearchCustom />
-      </Grid>
-      <Grid xs={12}>
-        <Buffer bufferCheckbox={bufferCheckbox} setBufferCheckbox={setBufferCheckbox}/>
-      </Grid>
+      { analyzeAreaVisible && (
+        <>
+        <Grid xs={12}>
+          <DrawArea map={map} disabled={drawAreaDisabled}/>
+        </Grid>
+        <Grid xs={12}>
+          <Upload setGeoToRedraw={setGeoToRedraw} setErrorState={setErrorState}/>
+        </Grid>
+        <Grid xs={12}>
+          <SearchCustom />
+        </Grid>
+        <Grid xs={12}>
+          <Buffer bufferCheckbox={bufferCheckbox} setBufferCheckbox={setBufferCheckbox}/>
+        </Grid>
+        </>
+      )}
 
     </StyledGrid>
   );
