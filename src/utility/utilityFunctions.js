@@ -8,8 +8,9 @@ export const calculateAreaOfPolygon = ((geojson) => {
 });
 
 /* this function determines if the polygon is valid per our checks:
-  1. max size is under 1000 sq km
+  1. max size is under 500 sq km
 */
+// TODO: Need to add more validation checks e.g. number of vertices
 export const validPolygon = ((geojson) => {
   const area = calculateAreaOfPolygon(geojson);
   const maxPolygonAreaSize = 500000000; // 500 sq km

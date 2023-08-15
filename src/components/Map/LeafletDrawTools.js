@@ -61,6 +61,11 @@ export default function LeafletDrawTools(props) {
     if (data) {
       dispatch(setEmptyState(false));
       currentDrawn.featureGroup.features.forEach((feature, index) => {
+        // TODO: Clarify what is happening here better.
+        // We are actually using geo and not the feature because otherwise
+        // we would just be saving the buffer geo to state with the featuregroup
+        // as opposed to the whole geojson with the bufferGeo property
+
         /* doing this crazy || because when you draw just one polygon
         currentDrawn.geo exists and we need that one. However, shape files
         can contain many many features and in that case we need to process them all
@@ -69,6 +74,10 @@ export default function LeafletDrawTools(props) {
         geo.properties.zonalStatsData = data.features[index].properties.mean;
         dispatch(addNewFeatureToDrawnLayers(geo));
       });
+      // TODO: This looks weird still on rendering. FIX!!!
+      // Clear all ref layers because we do not need them. Layers are tracked
+      // in geojson components
+      leafletFeatureGroupRef?.current?.clearLayers();
       setDrawAreaDisabled(false);
       setCurrentDrawn((previous) => ({ ...previous, skip: true }));
     }
@@ -79,6 +88,7 @@ export default function LeafletDrawTools(props) {
   }
 
   if (error) {
+    // TODO: Remove ModelErrors component and just use setErrorState
     return (
       <ModelErrors
         contentTitle={'Sketch an Area Error '}
@@ -122,10 +132,9 @@ export default function LeafletDrawTools(props) {
   function handleOnCreate(e) {
     // Toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
-    let geo = e.layer.toGeoJSON();
 
     // Check size of polygon and remove it and return if it is too large
-    if (!validPolygon(geo)) {
+    if (!validPolygon(e.layer.toGeoJSON())) {
       setErrorState((previous) => ({
         ...previous,
         error: true,
@@ -139,7 +148,7 @@ export default function LeafletDrawTools(props) {
     // disable draw until zonal stats done
     setDrawAreaDisabled(true);
 
-    geo = processGeojson(e.layer.toGeoJSON(), areaNumber);
+    const geo = processGeojson(e.layer.toGeoJSON(), areaNumber);
     dispatch(incrementAreaNumber());
     const layerToAnalyze = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : e.layer;
     const featureGroup = L.featureGroup().addLayer(layerToAnalyze).toGeoJSON();

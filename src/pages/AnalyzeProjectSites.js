@@ -17,14 +17,12 @@ import { useGetShareMapQuery } from '../services/shareMap';
 
 const analyzeAreaSelector = (state) => state.analyzeArea;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
-const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function AnalyzeProjectSite(props) {
   const { setErrorState } = props;
   const analyzeAreaState = useSelector(analyzeAreaSelector);
   const drawnLayersFromState = useSelector(drawnLayersSelector);
-  const bufferLayersFromState = useSelector(bufferLayersSelector);
   const region = useSelector(selectedRegionSelector);
 
   const dispatch = useDispatch();
@@ -163,9 +161,7 @@ export default function AnalyzeProjectSite(props) {
               bufferCheckbox={bufferCheckbox}
               leafletFeatureGroupRef={leafletFeatureGroupRef}
               setDrawAreaDisabled={setDrawAreaDisabled}
-              bufferFromState={bufferLayersFromState}
               hover={hover}
-              setGeoToRedraw={setGeoToRedraw}
               setErrorState={setErrorState}
             />
           </React.Fragment>

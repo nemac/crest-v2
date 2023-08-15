@@ -65,7 +65,6 @@ export default function ChartCard(props) {
     region,
     map,
     feature,
-    layerToRemove,
     setHover,
     featureGroupRef
   } = props;
@@ -95,19 +94,20 @@ export default function ChartCard(props) {
     {
       buttonLabel: 'Export',
       buttonName: 'Export',
+      // TODO: This probably needs to be a csv of just the area in question
       onClick: () => { handleExportImage('Summary Chart'); },
       icon: <CameraAlt />
     },
     {
       buttonLabel: 'Zoom',
       buttonName: 'Zoom',
-      onClick: (e) => { handleZoomClick(e, layerToRemove, map, dispatch); },
+      onClick: (e) => { handleZoomClick(e, feature, map, dispatch); },
       icon: <CenterFocusStrong />
     },
     {
       buttonLabel: 'Remove',
       buttonName: 'Remove',
-      onClick: (e) => { removeLayer(e, layerToRemove, dispatch, featureGroupRef); },
+      onClick: (e) => { removeLayer(e, feature, dispatch, featureGroupRef); },
       icon: <DeleteForever />
     }
   ];
@@ -224,7 +224,6 @@ export default function ChartCard(props) {
 ChartCard.propTypes = {
   region: PropTypes.string,
   map: PropTypes.object,
-  layerToRemove: PropTypes.object,
   setHover: PropTypes.func,
   feature: PropTypes.object,
   featureGroupRef: PropTypes.object

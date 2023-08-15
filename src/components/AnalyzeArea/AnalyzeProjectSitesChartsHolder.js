@@ -58,10 +58,8 @@ export default function ChartsHolder(props) {
               <ChartCard
                 key={feature.properties.areaName}
                 feature={feature}
-                areaIndex={index}
                 region={feature.properties.region}
                 zonalStatsData={feature.properties.zonalStatsData}
-                layerToRemove={feature}
                 featureGroupRef={featureGroupRef}
                 map={map}
                 setHover={setHover}
