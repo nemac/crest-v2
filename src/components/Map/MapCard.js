@@ -237,9 +237,7 @@ export default function MapCard(props) {
           map = {map}
         >
         </ShowIdentifyPopup>
-        {/* <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Print" printRef={dummyRef} />
-        <MapPrint position="topleft" sizeModes={['Current', 'A4Portrait', 'A4Landscape']} hideControlContainer={true} title="Export as PNG" printRef={dummyRef} exportOnly /> */}
-        <MapPrint position="topleft" title="My Map" exportOnly={true} hidden={true} printRef={mapPrint} />
+        <MapPrint position="topleft" title="My Map" sizeModes={['A4Portrait']} exportOnly={true} hidden={true} printRef={mapPrint} />
       </LeafletMapContainer>
       <ActionButtons map={map} printRef={mapPrint}/>
     </div>

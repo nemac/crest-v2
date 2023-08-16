@@ -36,6 +36,7 @@ import {
   // LibraryAddOutlined,
   LibraryAdd
 } from '@mui/icons-material';
+import { useMap } from 'react-leaflet';
 import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from '../All/ActionButton';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
@@ -45,11 +46,8 @@ const listVisibleSelector = (state) => state.mapLayerList.visible;
 // just a place holder needs props passed in and image etc
 export default function ActionButtons(props) {
   const { map, printRef } = props;
-  const passedMap = useRef(map);
   const dispatch = useDispatch();
-  if (map) {
-    passedMap.current = map;
-  }
+
   // const mapContainer = document.getElementById('map-container');
 
   const layerListVisible = useSelector(listVisibleSelector);
@@ -58,12 +56,11 @@ export default function ActionButtons(props) {
   };
 
   const handleExportClick = useCallback(async () => {
-    if (passedMap.current) {
+    if (map) {
       // Trigger the print method on the control
-      // printRef.current.printMap('A4Portrait page', 'Map');
-      printRef.current.printMap('CurrentSize', 'Map');
+      printRef.current.printMap('A4Portrait page', 'CREST Map');
     }
-  }, []);
+  }, [map]);
 
   const handleGenericClick = (event) => {
     event.stopPropagation();
