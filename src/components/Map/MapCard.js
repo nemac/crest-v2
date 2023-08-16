@@ -98,7 +98,6 @@ export default function MapCard(props) {
   // const analyzedAreas = useSelector(analyzedAreasSelector);
 
   const mapPrint = useRef(null);
-  const dummyRef = useRef(null);
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region

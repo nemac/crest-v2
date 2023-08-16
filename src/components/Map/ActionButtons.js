@@ -24,7 +24,7 @@ State needed
 Props
   - Not sure yet
 */
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -36,7 +36,6 @@ import {
   // LibraryAddOutlined,
   LibraryAdd
 } from '@mui/icons-material';
-import { useMap } from 'react-leaflet';
 import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from '../All/ActionButton';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
@@ -60,7 +59,7 @@ export default function ActionButtons(props) {
       // Trigger the print method on the control
       printRef.current.printMap('A4Portrait page', 'CREST Map');
     }
-  }, [map]);
+  }, [map, printRef]);
 
   const handleGenericClick = (event) => {
     event.stopPropagation();
