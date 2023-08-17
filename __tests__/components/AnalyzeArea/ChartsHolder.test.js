@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, cleanup } from '@testing-library/react';
 import { render } from '../../setup/testUtils';
 import { mapConfig } from '../../../src/configuration/config';
-import ChartsHolder from '../../../src/components/AnalyzeArea/ChartsHolder';
+import ChartsHolder from '../../../src/components/AnalyzeArea/AnalyzeProjectSitesChartsHolder';
 
 //Done
 describe('ChartsHolder', () => {

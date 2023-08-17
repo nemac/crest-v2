@@ -1,22 +1,3 @@
-/*
-Purpose
-  The About card/tab text htmnl for about crest
-
-Child Components
-  - Not sure yet
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yets
-
-State needed
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';

@@ -1,0 +1,91 @@
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Unstable_Grid2';
+
+import {
+  changeGraphTable,
+  changeSortDirection
+} from '../../reducers/analyzeAreaSlice';
+import ChartCard from './AnalyzeProjectSitesChartCard';
+import ChartHeaderActionButtons from './ChartHeaderActionButtons';
+import TableData from './AnalyzeProjectSitesTableData';
+import { handleExportAllCSV, HandleRemoveAllClick } from './ChartFunctions';
+
+// selector named functions for lint rules makes it easier to re-use if needed.
+const analyzeAreaSelector = (state) => state.analyzeArea;
+
+export default function ChartsHolder(props) {
+  const {
+    map, setHover, featureGroupRef, chartData
+  } = props;
+
+  const dispatch = useDispatch();
+  const analyzeAreaState = useSelector(analyzeAreaSelector);
+
+  // handle state change Graph/Table
+  const handleGraphOrTableClick = (newValue) => {
+    dispatch(changeGraphTable());
+  };
+
+  // handle state change sort
+  const handleSortClick = (newValue) => {
+    // TODO will need to change this to add a menu to pick index
+    //   aka Community Exposure, Resilience Hubs to sort by
+    //   will need to keep the user generated areas together as a group
+    dispatch(changeSortDirection());
+  };
+
+  return (
+    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} sx={{ height: '100%' }}>
+      <Grid xs={12} >
+        <ChartHeaderActionButtons
+          handleSortClick={handleSortClick}
+          handleGraphOrTableClick={handleGraphOrTableClick}
+          HandleRemoveAllClick={
+            (e) => { HandleRemoveAllClick(e, dispatch, featureGroupRef); }
+          }
+          handleExportClick={
+            (e) => { handleExportAllCSV(e, chartData); }} />
+      </Grid>
+
+      {analyzeAreaState.isItAGraph ? (
+        <Grid xs={12} sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}>
+          <Box>
+            {chartData.reverse().map((feature, index) => (
+              <ChartCard
+                key={feature.properties.areaName}
+                feature={feature}
+                region={feature.properties.region}
+                zonalStatsData={feature.properties.zonalStatsData}
+                featureGroupRef={featureGroupRef}
+                map={map}
+                setHover={setHover}
+              />
+            ))}
+          </Box>
+        </Grid>
+      ) : (
+        <Grid xs={12}
+          sx={{ height: 'calc(100% - 112px)', paddingRight: (theme) => theme.spacing(1.5), overflowY: 'scroll' }}
+        >
+          <Box>
+            {chartData.reverse().map((feature, index) => (
+              <TableData key={`${feature.properties.areaName} + table`} data={feature} />
+            ))}
+          </Box>
+        </Grid>
+      )}
+
+    </Grid>
+  );
+}
+
+ChartsHolder.propTypes = {
+  map: PropTypes.object,
+  setHover: PropTypes.func,
+  featureGroupRef: PropTypes.object,
+  chartData: PropTypes.array
+};

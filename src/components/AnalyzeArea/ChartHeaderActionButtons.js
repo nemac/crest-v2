@@ -62,18 +62,18 @@ const StyledGridContainer = styled(Grid)(({ theme }) => ({
 }));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
-const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
+const analyzeAreaSelector = (state) => state.analyzeArea;
 
 export default function ChartHeaderActionButtons(props) {
   const {
     handleSortClick,
     handleGraphOrTableClick,
     HandleRemoveAllClick,
-    handleGenericClick
+    handleExportClick
   } = props;
 
   // get the redux state for analyze area
-  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
+  const analyzeAreaState = useSelector(analyzeAreaSelector);
 
   return (
     <StyledGridContainer container spacing={0} p={0} mt={1} mb={1}>
@@ -96,7 +96,7 @@ export default function ChartHeaderActionButtons(props) {
         <ChartHeaderActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={handleGenericClick}>
+          onClick={handleExportClick}>
           <CameraAlt />
         </ChartHeaderActionButton>
       </Grid>
@@ -123,6 +123,6 @@ export default function ChartHeaderActionButtons(props) {
 ChartHeaderActionButtons.propTypes = {
   handleSortClick: PropTypes.func.isRequired,
   handleGraphOrTableClick: PropTypes.func.isRequired,
-  handleGenericClick: PropTypes.func.isRequired,
+  handleExportClick: PropTypes.func.isRequired,
   HandleRemoveAllClick: PropTypes.func.isRequired
 };

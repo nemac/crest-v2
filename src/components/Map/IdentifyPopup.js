@@ -31,9 +31,9 @@ Props
 // 2. Figure out why closing identify popup causes TypeError: el is null in firefox
 //    and why it causes TypeError: Cannot read properties of null (reading '_leaflet_disable_click')
 
-import React, { useEffect } from 'react';
-import { Popup, CircleMarker } from 'react-leaflet';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { Popup, CircleMarker, useMap } from 'react-leaflet';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -48,27 +48,8 @@ import {
   changeIdentifyResults,
   changeIdentifyIsLoaded
 } from '../../reducers/mapPropertiesSlice';
+import AnalyzeBarChart from '../AnalyzeArea/AnalyzeBarChart';
 // eslint-disable-next-line no-unused-vars
-import { betaIdentifyEndpoint, prodIdentifyEndpoint, mapConfig } from '../../configuration/config';
-
-export const IdentifyAPI = async (dispatch, coordinates, selectedRegion) => {
-  // uncomment the endpoint you want to use and comment out the other
-  const endPoint = betaIdentifyEndpoint;
-  // const endPoint = prodIdentifyEndpoint;
-  const lat = coordinates.lat;
-  const lng = coordinates.lng;
-  const fetchPoint = `${endPoint}?lat=${lat}&lng=${lng}&region=${mapConfig.regions[selectedRegion].regionName}`;
-
-  dispatch(changeIdentifyIsLoaded(false));
-  await fetch(fetchPoint)
-    .then((response) => (
-      response.json()
-    ))
-    .then((data) => {
-      dispatch(changeIdentifyIsLoaded(true));
-      dispatch(changeIdentifyResults(data));
-    });
-};
 
 const StyledPopup = styled(Popup)(({ theme }) => ({
   bottom: '-22px !important',
@@ -80,7 +61,7 @@ const StyledPopup = styled(Popup)(({ theme }) => ({
     color: `${theme.palette.CRESTGridBackground.contrastText} !important`,
     border: `1px solid ${theme.palette.CRESTBorderColor.main} !important`,
     width: '310px !important',
-    height: '215px !important',
+    height: '255px !important',
     overflow: 'clip !important'
   },
   '& .leaflet-popup-content': {
@@ -103,37 +84,27 @@ const StyledPopup = styled(Popup)(({ theme }) => ({
   }
 }));
 
-const StyledBoxNames = styled(Box)(({ theme }) => ({
+const ContentBox = styled(Box)(({ theme }) => ({
   display: 'flex',
+  width: '100%',
+  height: '160px',
+  maxHeight: '160px',
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: 'solid',
+  borderWidth: '1px',
   justifyContent: 'center',
   alignItems: 'center'
 }));
 
-const StyledBoxValues = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontWeight: 'bold',
-  fontSize: '2rem'
-}));
-
 export default function ShowIdentifyPopup(props) {
-  const { selectedRegion, map } = props;
+  const {
+    region, identifyItems, identifyIsLoaded, identifyCoordinates
+  } = props;
   const dispatch = useDispatch();
-  const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
-  const identifyIsLoadedSelector = (state) => state.mapProperties.identifyIsLoaded;
-  const identifyCoordinatesSelector = (state) => state.mapProperties.identifyCoordinates;
-  // identifyItems is items in order to shorten it for the .map function below. Yay linter errors.
-  const items = useSelector(identifyItemsSelector);
-  const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
-  const identifyCoordinates = useSelector(identifyCoordinatesSelector);
-
-  useEffect(() => {
-    if (!identifyCoordinates) {
-      return;
-    }
-    IdentifyAPI(dispatch, identifyCoordinates, selectedRegion);
-  }, [dispatch, identifyCoordinates, selectedRegion]);
+  const map = useMap();
+  const summaryIndices = ['hubs', 'exposure', 'threat', 'asset', 'wildlife'];
 
   const closePopups = () => {
     map.closePopup();
@@ -190,7 +161,7 @@ export default function ShowIdentifyPopup(props) {
         </Box>
         <Divider />
         { !identifyIsLoaded ? (
-          <Grid container spaceing={2} pt={2} alignItems="center" justifyContent="center">
+          <Grid container spacing={2} pt={2} alignItems="center" justifyContent="center">
             <Grid xs={12}>
               <Typography variant="h6" component="div" align="center" gutterBottom>
                 Loading...
@@ -198,51 +169,23 @@ export default function ShowIdentifyPopup(props) {
             </Grid>
           </Grid>
         ) : (
-          <Grid container spaceing={2} pt={2} alignItems="center" justifyContent="center">
+          <Grid container spacing={2} pt={2} alignItems="center" justifyContent="center">
             <Grid xs={12}>
               <Typography variant="h6" component="div" align="center" gutterBottom>
-                Need Graph here
+                <ContentBox components='fieldset'>
+                  <AnalyzeBarChart
+                    chartRegion={region}
+                    chartIndices={summaryIndices}
+                    zonalStatsData={identifyItems}
+                    barchartMargin={{
+                      top: 20,
+                      right: 0,
+                      left: -25,
+                      bottom: 20
+                    }}
+                  />
+                </ContentBox>
               </Typography>
-            </Grid>
-            <Grid xs={2.4}>
-              <StyledBoxNames>
-                Hubs
-              </StyledBoxNames>
-              <StyledBoxValues>
-                {items.hubs === '255' ? '-' : items.hubs }
-              </StyledBoxValues>
-            </Grid>
-            <Grid xs={2.4}>
-              <StyledBoxNames>
-                Exposure
-              </StyledBoxNames>
-              <StyledBoxValues>
-                {items.exposure === '255' ? '-' : items.exposure }
-              </StyledBoxValues>
-            </Grid>
-            <Grid xs={2.4}>
-              <StyledBoxNames>
-                Asset
-              </StyledBoxNames>
-              <StyledBoxValues>
-                {items.asset === '255' ? '-' : items.asset }
-              </StyledBoxValues>
-            </Grid>
-            <Grid xs={2.4}>
-              <StyledBoxNames>
-                Threat
-              </StyledBoxNames>
-              <StyledBoxValues>
-                {items.threat === '255' ? '-' : items.threat }
-              </StyledBoxValues>
-            </Grid>
-            <Grid xs={2.4}>
-              <StyledBoxNames>
-                Wildlife
-              </StyledBoxNames>
-              <StyledBoxValues>
-                {items.wildlife === '255' ? '-' : items.wildlife }
-              </StyledBoxValues>
             </Grid>
           </Grid>
         )}
@@ -259,6 +202,8 @@ export default function ShowIdentifyPopup(props) {
 }
 
 ShowIdentifyPopup.propTypes = {
-  selectedRegion: PropTypes.string,
-  map: PropTypes.object
+  region: PropTypes.string,
+  identifyItems: PropTypes.object,
+  identifyIsLoaded: PropTypes.bool,
+  identifyCoordinates: PropTypes.object
 };

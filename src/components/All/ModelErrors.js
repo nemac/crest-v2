@@ -15,7 +15,9 @@ export default function ModelErrors(props) {
     buttonMessage,
     errorType,
     onClose,
-    open
+    open,
+    acceptButtonText,
+    acceptButtonClose
   } = props;
 
   return (
@@ -37,6 +39,15 @@ export default function ModelErrors(props) {
           autoFocus>
           {buttonMessage}
         </Button>
+        {acceptButtonText && (
+          <Button
+          onClick={acceptButtonClose}
+          variant="contained"
+          color="CRESTPrimary"
+          autoFocus>
+          {acceptButtonText}
+        </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
@@ -48,5 +59,7 @@ ModelErrors.propTypes = {
   buttonMessage: PropTypes.string,
   errorType: PropTypes.string,
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
+  acceptButtonText: PropTypes.string,
+  acceptButtonClose: PropTypes.func
 };

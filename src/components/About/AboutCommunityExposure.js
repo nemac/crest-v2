@@ -1,22 +1,3 @@
-/*
-Purpose
-  The About card/tab text htmnl for about community exposure
-
-Child Components
-  - Not sure yet
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yets
-
-State needed
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
