@@ -35,7 +35,7 @@ Props
 
 */
 import React, {
-  useState, useEffect, useCallback, useRef
+  useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents, Circle } from 'react-leaflet';
