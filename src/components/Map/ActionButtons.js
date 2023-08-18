@@ -1,29 +1,3 @@
-/*
-Purpose
-  Holds all the Action button for the maps
-
-  the actions are one of the following:
-    - add area (open or expands the add area menu)
-    - export exports the map to png/svg
-    - map layers opens the map layer list
-
-Child Components
-  - ActionButton.js
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - map layer list open or not
-  - add area open or not NEW state item
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -39,8 +13,10 @@ import {
 } from '@mui/icons-material';
 import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from '../All/ActionButton';
+import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
 
+const areaVisibleSelector = (state) => state.analyzeArea.visible;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 // just a place holder needs props passed in and image etc
@@ -58,31 +34,38 @@ export default function ActionButtons(props) {
 
   // wire up map print for exporting map to png
   if (map) {
+    console.log('adding control');
     map.addControl(control);
   }
 
   // const mapContainer = document.getElementById('map-container');
 
+  const areaVisible = useSelector(areaVisibleSelector);
   const layerListVisible = useSelector(listVisibleSelector);
+
+  const areaVisiblityOnClick = () => {
+    dispatch(toggleAreaVisible());
+  };
   const mapLayerVisiblityOnClick = () => {
     dispatch(toggleMapLayerVisibility());
   };
 
   const handleExportClick = () => {
     // Trigger the print method on the control
-    const { x, y } = map.getSize();
-
-    // view Size is collected when button is pushed.
-    // a resize needs to be triggered to get the basemap layer
-    // 2 pixels are added to width and height to trigger resize
-    const viewSize = {
-      width: x + 2,
-      height: y + 2,
-      className: 'viewSize',
-      tooltip: 'user view size'
-    };
-    control.options.sizeModes = [viewSize];
-    control.printMap(viewSize.className, 'CREST Map');
+    if (map) {
+      const { x, y } = map.getSize();
+      // view Size is collected when button is pushed.
+      // a resize needs to be triggered to get the basemap layer
+      // 2 pixels are added to width and height to trigger resize
+      const viewSize = {
+        width: x + 2,
+        height: y + 2,
+        className: 'viewSize',
+        tooltip: 'user view size'
+      };
+      control.options.sizeModes = [viewSize];
+      control.printMap(viewSize.className, 'CREST Map');
+    }
   };
 
   const handleGenericClick = (event) => {
@@ -102,9 +85,9 @@ export default function ActionButtons(props) {
         <ActionButton
           buttonLabel={'Add Area'}
           buttonName={'Add Area'}
-          onClick={handleGenericClick}
+          onClick={areaVisiblityOnClick}
         >
-          <LibraryAdd />
+          {areaVisible ? <LibraryAdd /> : <LibraryAddOutlined />}
         </ActionButton>
       </Grid>
       <Grid xs={4}>

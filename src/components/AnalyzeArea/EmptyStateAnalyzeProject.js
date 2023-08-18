@@ -1,24 +1,3 @@
-/*
-Purpose
-  Any time the user arives at analze project sites or where should I do..
-  there will be empty state meaning they will need to do an action to see a chart.
-  They will need to either draw an area, upload an area, or choose/search for watershed or county
-
-  Child Components
-  -  None
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - More or less?
-
-Props
-  - Not sure yet
-*/
 import React from 'react';
 
 import Box from '@mui/material/Box';
@@ -30,9 +9,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   color: theme.palette.CRESTGridBackground.contrastText,
-  borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: 'solid',
-  borderWidth: '1px',
   height: '100%',
   overflow: 'hidden'
 }));
@@ -40,7 +16,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 // just a place holder needs props passed in and image etc
 export default function EmptyState(props) {
   return (
-    <StyledBox variant="outlined">
+    <StyledBox>
       <Box sx={{ height: 'calc(100% - 4px)', overflow: 'hidden' }}>
         <Typography variant="h6" gutterBottom>
           To get started

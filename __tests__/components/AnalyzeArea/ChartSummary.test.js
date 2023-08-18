@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, cleanup } from '@testing-library/react';
 import { render } from '../../setup/testUtils';
 import { mapConfig } from '../../../src/configuration/config';
-import ChartSummary from '../../../src/components/AnalyzeArea/ChartSummary';
+import ChartSummary from '../../../src/components/AnalyzeArea/AnalyzeBarChart';
 
 //Done
 const testArea = "Alaska";

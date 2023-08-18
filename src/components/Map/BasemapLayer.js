@@ -1,11 +1,10 @@
 import React, {
   useEffect, useCallback, useRef
 } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { vectorBasemapLayer } from 'esri-leaflet-vector';
-import { AttributionControl } from 'react-leaflet';
-import L from 'leaflet';
+import { AttributionControl, useMap } from 'react-leaflet';
 import { mapConfig } from '../../configuration/config';
 
 const basemaps = mapConfig.basemaps;
@@ -15,10 +14,10 @@ const baseMapSelector = (state) => state.mapProperties.basemap;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function BasemapLayer(props) {
-  const { map, examplePage } = props;
   const selectedBasemap = useSelector(baseMapSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const basemapRef = useRef(null);
+  const map = useMap();
 
   const handleBasemapChange = useCallback((basemapName) => {
     if (basemapRef.current !== null) {
@@ -47,6 +46,4 @@ export default function BasemapLayer(props) {
 }
 
 BasemapLayer.propTypes = {
-  map: PropTypes.object,
-  examplePage: PropTypes.bool
 };
