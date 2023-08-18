@@ -24,16 +24,17 @@ State needed
 Props
   - Not sure yet
 */
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import L from 'leaflet';
+import 'leaflet-easyprint';
 
 import Grid from '@mui/material/Unstable_Grid2';
 import {
   CameraAlt,
   LayersOutlined,
   Layers,
-  // LibraryAddOutlined,
   LibraryAdd
 } from '@mui/icons-material';
 import { StyledGrid } from '../All/StyledComponents';
@@ -44,8 +45,22 @@ const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 // just a place holder needs props passed in and image etc
 export default function ActionButtons(props) {
-  const { map, printRef } = props;
+  const { map } = props;
   const dispatch = useDispatch();
+
+  const control = L.easyPrint({
+    sizeModes: ['A4Portrait', ],
+    hidden: true,
+    exportOnly: true,
+    position: 'topleft',
+    title: 'My Map'
+  });
+
+  
+  // wire up map print for exporting map to png
+  if (map) {
+    map.addControl(control);
+  }
 
   // const mapContainer = document.getElementById('map-container');
 
@@ -54,12 +69,10 @@ export default function ActionButtons(props) {
     dispatch(toggleMapLayerVisibility());
   };
 
-  const handleExportClick = useCallback(async () => {
-    if (map) {
-      // Trigger the print method on the control
-      printRef.current.printMap('A4Portrait page', 'CREST Map');
-    }
-  }, [map, printRef]);
+  const handleExportClick = () => {
+    // Trigger the print method on the control
+    control.printMap('A4Portrait page', 'CREST Map');
+  };
 
   const handleGenericClick = (event) => {
     event.stopPropagation();
@@ -74,12 +87,12 @@ export default function ActionButtons(props) {
       alignItems="center"
       sx={{ height: (theme) => theme.spacing(8) }}
     >
-
       <Grid xs={4}>
         <ActionButton
           buttonLabel={'Add Area'}
           buttonName={'Add Area'}
-          onClick={handleGenericClick}>
+          onClick={handleGenericClick}
+        >
           <LibraryAdd />
         </ActionButton>
       </Grid>
@@ -87,7 +100,8 @@ export default function ActionButtons(props) {
         <ActionButton
           buttonLabel={'Export'}
           buttonName={'Export'}
-          onClick={handleExportClick}>
+          onClick={handleExportClick}
+        >
           <CameraAlt />
         </ActionButton>
       </Grid>
@@ -95,16 +109,15 @@ export default function ActionButtons(props) {
         <ActionButton
           buttonLabel={'Map Layers'}
           buttonName={'Map Layers'}
-          onClick={mapLayerVisiblityOnClick}>
+          onClick={mapLayerVisiblityOnClick}
+        >
           {layerListVisible ? <Layers /> : <LayersOutlined />}
         </ActionButton>
       </Grid>
-
     </StyledGrid>
   );
 }
 
 ActionButtons.propTypes = {
-  map: PropTypes.object,
-  printRef: PropTypes.useRef
+  map: PropTypes.object
 };

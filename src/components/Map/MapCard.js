@@ -38,7 +38,7 @@ import React, {
   useState, useEffect, useCallback, useRef
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import { useMapEvents, Circle } from 'react-leaflet';
 import ShareIcon from '@mui/icons-material/Share';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
@@ -61,7 +61,6 @@ import { createShareURL } from './ShareMap';
 import ModelErrors from '../All/ModelErrors';
 import ModalShare from '../All/ModalShare';
 import DrawnLayers from './DrawnLayers';
-import MapPrint from './MapPrint';
 
 // import Boxforlayout from './BoxForLayouts';
 
@@ -97,7 +96,8 @@ export default function MapCard(props) {
   const userInitiatedRegion = useSelector(userInitiatedSelector);
   // const analyzedAreas = useSelector(analyzedAreasSelector);
 
-  const mapPrint = useRef(null);
+  // need to create an invisible circle to trigger non-empty map for export
+  const dummyPoint = [51.505, -0.09]
 
   const handleRegionChange = useCallback((regionName, user) => {
     // catch bad region
@@ -203,6 +203,7 @@ export default function MapCard(props) {
             Share Map
           </Button>
         </Control>
+        <Circle center={dummyPoint} pathOptions={{opacity: 0}} radius={1} />
         <DrawnLayers
           map={map}
           leafletFeatureGroupRef={leafletFeatureGroupRef}
@@ -236,9 +237,9 @@ export default function MapCard(props) {
           map = {map}
         >
         </ShowIdentifyPopup>
-        <MapPrint position="topleft" title="My Map" sizeModes={['A4Portrait']} exportOnly={true} hidden={true} printRef={mapPrint} />
+        {/* <MapPrint position="topleft" title="My Map" sizeModes={['A4Portrait']} exportOnly={true} hidden={true} printRef={mapPrint} /> */}
       </LeafletMapContainer>
-      <ActionButtons map={map} printRef={mapPrint}/>
+      <ActionButtons map={map} />
     </div>
   );
 }
