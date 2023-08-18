@@ -24,7 +24,7 @@ State needed
 Props
   - Not sure yet
 */
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
@@ -49,14 +49,13 @@ export default function ActionButtons(props) {
   const dispatch = useDispatch();
 
   const control = L.easyPrint({
-    sizeModes: ['A4Portrait', ],
+    sizeModes: ['A4Portrait'], // Default to add something, updated on export
     hidden: true,
     exportOnly: true,
     position: 'topleft',
     title: 'My Map'
   });
 
-  
   // wire up map print for exporting map to png
   if (map) {
     map.addControl(control);
@@ -71,7 +70,19 @@ export default function ActionButtons(props) {
 
   const handleExportClick = () => {
     // Trigger the print method on the control
-    control.printMap('A4Portrait page', 'CREST Map');
+    const { x, y } = map.getSize();
+
+    // view Size is collected when button is pushed.
+    // a resize needs to be triggered to get the basemap layer
+    // 2 pixels are added to width and height to trigger resize
+    const viewSize = {
+      width: x + 2,
+      height: y + 2,
+      className: 'viewSize',
+      tooltip: 'user view size'
+    };
+    control.options.sizeModes = [viewSize];
+    control.printMap(viewSize.className, 'CREST Map');
   };
 
   const handleGenericClick = (event) => {
