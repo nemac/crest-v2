@@ -24,7 +24,7 @@ State needed
 Props
   - Not sure yet
 */
-import React, { useRef } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
