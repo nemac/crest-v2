@@ -38,28 +38,28 @@ export const mapConfig = {
     'Dark Gray': {
       label: 'Dark Gray',
       image: basemapDarkImage,
-      basemap: 'ArcGIS:DarkGray'
+      basemap: 'arcgis/dark-gray'
 
     },
     Imagery: {
       label: 'Imagery',
       image: basemapImageryImage,
-      basemap: 'ArcGIS:Imagery'
+      basemap: 'arcgis/imagery'
     },
     'Imagery - No Label': {
       label: 'Imagery - No Label',
       image: basemapImageryImage,
-      basemap: 'ArcGIS:Imagery:Standard'
+      basemap: 'arcgis/imagery/standard'
     },
     Streets: {
       label: 'Streets',
       image: basemapStreetImage,
-      basemap: 'ArcGIS:Streets'
+      basemap: 'arcgis/streets'
     },
     Topographic: {
       label: 'Topographic',
       image: basemapTopoImage,
-      basemap: 'ArcGIS:Topographic'
+      basemap: 'arcgis/topographic'
     }
   },
   regions: {
