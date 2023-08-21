@@ -31,7 +31,7 @@ const ContentMapBox = styled(Box)(({ theme }) => ({
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 export default function GenericMapHolder(props) {
-  const { leftColumn, mapCard } = props;
+  const { leftColumn, mapCard, map } = props;
   const layerListVisible = useSelector(listVisibleSelector);
 
   return (
@@ -65,7 +65,7 @@ export default function GenericMapHolder(props) {
       >
         <ContentMapBox>
           {mapCard}
-          <ActionButtons/>
+          <ActionButtons map={map} />
         </ContentMapBox>
       </ThreeColumnGrid>
 
@@ -83,5 +83,6 @@ export default function GenericMapHolder(props) {
 
 GenericMapHolder.propTypes = {
   leftColumn: PropTypes.node,
-  mapCard: PropTypes.node
+  mapCard: PropTypes.node,
+  map: PropTypes.object
 };

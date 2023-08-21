@@ -126,6 +126,7 @@ export default function AnalyzeProjectSite(props) {
   return (
     <>
       <GenericMapHolder
+        map={map}
         isItAGraph={analyzeAreaState.isItAGraph}
         leftColumn={
           <AnalyzeProjectSiteLeftColumn

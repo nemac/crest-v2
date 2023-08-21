@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useCallback
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMapEvents, GeoJSON } from 'react-leaflet';
+import { useMapEvents, GeoJSON, Circle } from 'react-leaflet';
 import { LayersClear, Share } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import Control from 'react-leaflet-custom-control';
@@ -71,6 +71,9 @@ export default function MapCard(props) {
   const identifyCoordinates = useSelector(identifyCoordinatesSelector);
   const identifyItems = useSelector(identifyItemsSelector);
   const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
+
+  // need to create an invisible circle to trigger non-empty map for export
+  const dummyPoint = [51.505, -0.09];
 
   const { data, error, isFetching } = useGetIdentifyQuery({
     region: mapConfig.regions[selectedRegion].regionName,
@@ -261,6 +264,7 @@ export default function MapCard(props) {
       />
       <ActiveTileLayers />
       <BasemapLayer />
+      <Circle center={dummyPoint} pathOptions={ { opacity: 0 } } radius={1} />
       <MapEventsComponent />
       <ShowIdentifyPopup
         region={selectedRegion}
