@@ -1,22 +1,3 @@
-/*
-Purpose
-  The About card/tab text htmnl for about crest
-
-Child Components
-  - Not sure yet
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yets
-
-State needed
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -50,7 +31,7 @@ export default function AboutCrest(props) {
         The Regional Assessments have since expanded to include Puerto Rico, the U.S. Virgin
         Islands, the Northern Mariana Islands, Hawaii, Guam, American Samoa, and Alaska. Owing to
         the uniqueness of each region, the methods will continue to be refined and enhanced. CREST
-        will be updated once the U.S. Great Lakes Regional Assessment is complete and as other
+        will be updated once the U.S. U.S. Great Lakes Regional Assessment is complete and as other
         Regional Assessments are updated.
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>

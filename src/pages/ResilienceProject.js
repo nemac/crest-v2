@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as esri from 'esri-leaflet';
-import { TableChart, BarChart, CameraAlt } from '@mui/icons-material';
+import { CameraAlt } from '@mui/icons-material';
 
-import { changeGraphTableResilience } from '../reducers/analyzeAreaSlice';
 import GenericMapHolder from '../components/Map/GenericMapHolder';
+import ResilienceLeftColumn from '../components/AnalyzeArea/ResilienceLeftColumn';
 import ResilienceMapActionCard from '../components/Map/ResilienceMapActionCard';
-import ResilienceChartCard from '../components/AnalyzeArea/GenericChartCard';
+import ResilienceChartCard from '../components/AnalyzeArea/ResilienceChartCard';
 import ResilienceMapCard from '../components/Map/ResilienceMapCard';
+import EmptyStateResilience from '../components/AnalyzeArea/EmptyStateResilience';
+import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions';
+
 import { mapConfig } from '../configuration/config';
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
-const AnalyzeAreaSelector = (state) => state.AnalyzeArea;
 const selectedResilienceHub = (state) => state.mapProperties.resilienceHub;
 
 export default function ResilienceProject() {
-  const dispatch = useDispatch();
   const [chartData, setChartData] = useState(null);
   const [averageHubScore, setAverageHubScore] = useState(0);
   const selectedRegion = useSelector(selectedRegionSelector);
-  const analyzeAreaState = useSelector(AnalyzeAreaSelector);
   const resilienceHub = useSelector(selectedResilienceHub);
   const hubsHexesUrl = mapConfig.regions[selectedRegion].hubsHexServer;
   const rankProperty = mapConfig.regions[selectedRegion].rankProperty;
@@ -32,29 +32,11 @@ export default function ResilienceProject() {
     });
   }
 
-  // handle state change Graph/Table
-  const handleGraphOrTableClick = () => {
-    dispatch(changeGraphTableResilience());
-  };
-
-  const chartHeaderActionButtons = [
-    {
-      buttonLabel: analyzeAreaState.isItAGraphResilience ? 'Table' : 'Chart',
-      buttonName: analyzeAreaState.isItAGraphResilience ? 'Table' : 'Chart',
-      onClick: handleGraphOrTableClick,
-      icon: analyzeAreaState.isItAGraphResilience ? (<TableChart />) : (<BarChart />)
-    }
-  ];
-
-  const handleExportClick = () => {
-    console.log('click');
-  };
-
   const chartActionButtons = [
     {
       buttonLabel: 'Export',
       buttonName: 'Export',
-      onClick: handleExportClick,
+      onClick: () => { handleExportImage('resilience-pie'); },
       icon: <CameraAlt />
     }
   ];
@@ -66,7 +48,7 @@ export default function ResilienceProject() {
       const calculatedData = [];
       let runningTotalScore = 0; // using this increment the hub core scores
       for (let i = 0; i < 10; i += 1) {
-        calculatedData[i] = { name: 'Hub Score = ' + parseInt((i + 1), 10), value: 0 };
+        calculatedData[i] = { name: `Hub Score = ${parseInt((i + 1), 10)}`, value: 0 };
       }
       const query = featureLayerHex.query().within(resilienceHub);
       query.run((error, featureCollection, response) => {
@@ -87,17 +69,25 @@ export default function ResilienceProject() {
         setChartData(calculatedData);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resilienceHub]);
 
   return (
     <GenericMapHolder
-      mapActionCard={<ResilienceMapActionCard/>}
-      chartHeaderActionButtons={chartHeaderActionButtons}
-      isItAGraph={analyzeAreaState.isItAGraphResilience}
-      chartCard={
-        <ResilienceChartCard chartData={chartData} chartActionButtons={chartActionButtons}/>
+      leftColumn={
+        <ResilienceLeftColumn
+          mapActionCard={<ResilienceMapActionCard/>}
+          chartCard={
+            <ResilienceChartCard
+              chartData={chartData}
+              chartActionButtons={chartActionButtons}
+              noDataState={EmptyStateResilience}
+              coreHubScore={averageHubScore}
+            />
+          }
+          noDataState={(resilienceHub === null) ? <EmptyStateResilience /> : null}
+        />
       }
-      tableData={<ResilienceMapActionCard/>}
       mapCard={<ResilienceMapCard/>}
     />
   );

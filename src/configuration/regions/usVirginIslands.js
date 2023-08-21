@@ -4,6 +4,19 @@ export const usVirginIslandsConfig = {
   label: 'US Virgin Islands',
   image: regionUSVirginIslandsImage,
   regionName: 'usVirginIslands',
+  reportEnglish: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2020-08/us-virgin-islands-coastal-resilience-assessment.pdf',
+    name: 'U.S. Virgin Islands Coastal Resilience Assessment'
+  },
+  reportNative: {
+    fileLink: null,
+    name: null
+  },
+  dataDownload: {
+    fileSize: '10 MB',
+    fileLink: 'https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/US_Virgin_Islands_Assessment_Data.zip',
+    name: 'U.S. Virgin Islands Data Download'
+  },
   mapProperties: {
     label: 'US Virgin Islands',
     center: [18.02, -64.70],

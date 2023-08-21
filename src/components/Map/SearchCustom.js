@@ -1,34 +1,14 @@
-/*
-Purpose
-  Search for places from somewhere in AGOL rest api.
-  this is for county or wathershed not sure how this
-  will work but thinking to put it all in one feature
-  layer and search by name get geojson or something
-  like that
-  we may want to pre run the zonal stats and store it
-  like we have done Hubs in the past. just some thoughts to make it easier
-
-Child Components
-  - map.js
-
-Libs
-  - Not sure yer
-
-API
-  - SearchKnown
-
-State needed
-  - Not sure yet
-
-Props
-  Not sure yet
-*/
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import { SearchOutlined } from '@mui/icons-material'; // for when we need it, Search } from '@mui/icons-material';
 import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import { addNewFeatureToDrawnLayers } from '../../reducers/mapPropertiesSlice';
+import { mapConfig } from '../../configuration/config';
+import { useGetReadGeoQuery } from '../../services/readGeojson';
 
 const StyledSearchBox = styled(Box)(({ theme }) => ({
   cursor: 'pointer',
@@ -92,20 +72,94 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   }
 }));
 
-// just a place holder needs props passed in and image etc
+const selectedRegionSelector = (state) => state.selectedRegion.value;
+
 export default function SearchCustom(props) {
+  const dispatch = useDispatch();
+  const selectedRegion = useSelector(selectedRegionSelector);
+  const [open, setOpen] = React.useState(false);
+  const [skip, setSkip] = React.useState(true);
+  const [selectedName, setSelectedName] = React.useState('');
+  const searchAreas = mapConfig.regions[selectedRegion].searchAreas;
+
+  const { data, error, isFetching } = useGetReadGeoQuery({
+    region: selectedRegion,
+    name: selectedName,
+    fileToRead: mapConfig.regions[selectedRegion].readGeoFile
+  }, { skip });
+
+  React.useEffect(() => {
+    if (data) {
+      dispatch(addNewFeatureToDrawnLayers(data));
+      setSelectedName('');
+      setSkip(true);
+    }
+  }, [data, dispatch]);
+
+  if (isFetching) {
+    // eslint-disable-next-line no-console
+    console.log('isFetching', isFetching);
+  }
+
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.log('error', error);
+  }
+
   return (
     <Box p={0.75} >
       <StyledSearchBox >
         <SearchOutlined sx={{ color: '#000000', margin: (theme) => theme.spacing(1) }}/>
-        <StyledTextField
+        {/* <StyledTextField
           id="input-custom-search"
           fullWidth
-          label="Search for a County or Watershed"
-          aria-label={'Search for a County or Watershed'}
+          label="Search for a State, County, or Watershed"
+          aria-label={'Search for a State, County, or Watershed'}
           variant="standard"
           InputProps={{ disableUnderline: true }}
+          type='search'
           InputLabelProps={{}}
+          onInput={(e) => {
+            setSearchQuery(e.target.value);
+          }}
+        /> */}
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          fullWidth
+          freeSolo
+          open={open}
+          value={selectedName}
+          onInputChange={(_, value) => {
+            if (value.length < 2) {
+              setOpen(false);
+            } else {
+              setOpen(true);
+            }
+          }}
+          onClose={() => setOpen(false)}
+          blurOnSelect={true}
+          clearOnBlur={true}
+          options={searchAreas}
+          // getOptionLabel={(option) => option.properties.areaName}
+          onChange={(event, newInputValue) => {
+            if (newInputValue !== null) {
+              setSelectedName(newInputValue);
+              setSkip(false);
+            }
+          }}
+          // sx={{ width: 300 }}
+          renderInput={(params) => <StyledTextField
+            id="input-custom-search"
+            fullWidth
+            {...params}
+            label="Search for a State, County, or Watershed"
+            aria-label={'Search for a State, County, or Watershed'}
+            variant="standard"
+            type="search"
+            // InputProps={{ disableUnderline: true }}
+            />
+          }
         />
       </StyledSearchBox>
     </Box>

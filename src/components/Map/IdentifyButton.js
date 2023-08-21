@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { useDispatch } from 'react-redux';
-import { changeIdentifyCoordinates } from '../../reducers/mapPropertiesSlice';
+import { changeIdentifyCoordinates, changeIdentifyIsLoaded, changeIdentifyResults } from '../../reducers/mapPropertiesSlice';
 
 const createIdentifyButonControl = (props) => {
   const { handler } = props;
@@ -51,7 +51,9 @@ export default function IdentifyButtonWrapper(props) {
     map.getContainer().style.cursor = 'crosshair';
     map.once('click', (event) => {
       const coordinates = event.latlng;
+      dispatch(changeIdentifyIsLoaded(false));
       dispatch(changeIdentifyCoordinates({ lat: coordinates.lat, lng: coordinates.lng }));
+      dispatch(changeIdentifyResults(null));
       map.getContainer().style.cursor = 'grab';
     });
   };

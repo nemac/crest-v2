@@ -1,25 +1,3 @@
-/*
-Purpose
-  The About tabs, used in larger screens
-
-Child Components
-  - AboutCrest.js
-  - AboutCommunityExposure.js
-  - AboutFishAndWildlife.js
-  - AboutResilienceHubs.js
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yets
-
-State needed
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
@@ -45,9 +23,7 @@ const StyledAboutTab = styled(Tab)(({ theme }) => ({
   },
   '&.Mui-selected': {
     backgroundColor: theme.palette.CRESTGridBackground.dark,
-    borderColor: theme.palette.CRESTBorderColor.main,
-    border: 1,
-    borderStyle: 'solid',
+    border: `1px solid ${theme.palette.CRESTBorderColor.main}`,
     '&:hover': {
       backgroundColor: theme.palette.CRESTDarkAlt.main
     },

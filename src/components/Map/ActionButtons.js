@@ -1,29 +1,3 @@
-/*
-Purpose
-  Holds all the Action button for the maps
-
-  the actions are one of the following:
-    - add area (open or expands the add area menu)
-    - export exports the map to png/svg
-    - map layers opens the map layer list
-
-Child Components
-  - ActionButton.js
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - map layer list open or not
-  - add area open or not NEW state item
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -32,19 +6,26 @@ import {
   CameraAlt,
   LayersOutlined,
   Layers,
-  // LibraryAddOutlined,
+  LibraryAddOutlined,
   LibraryAdd
 } from '@mui/icons-material';
 import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from '../All/ActionButton';
+import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
 
+const areaVisibleSelector = (state) => state.analyzeArea.visible;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 // just a place holder needs props passed in and image etc
 export default function ActionButtons() {
   const dispatch = useDispatch();
+  const areaVisible = useSelector(areaVisibleSelector);
   const layerListVisible = useSelector(listVisibleSelector);
+
+  const areaVisiblityOnClick = () => {
+    dispatch(toggleAreaVisible());
+  };
 
   const mapLayerVisiblityOnClick = () => {
     dispatch(toggleMapLayerVisibility());
@@ -71,8 +52,8 @@ export default function ActionButtons() {
         <ActionButton
           buttonLabel={'Add Area'}
           buttonName={'Add Area'}
-          onClick={handleGenericClick}>
-          <LibraryAdd />
+          onClick={areaVisiblityOnClick}>
+          {areaVisible ? <LibraryAdd /> : <LibraryAddOutlined /> }
         </ActionButton>
       </Grid>
       <Grid xs={4}>

@@ -7,7 +7,9 @@ import { StyledGrid } from './StyledComponents';
 
 export default function ActionButtonsHolder(props) {
   const {
-    actionButtons
+    actionButtons,
+    styledGridSx,
+    gridSx
   } = props;
 
   return (
@@ -17,10 +19,10 @@ export default function ActionButtonsHolder(props) {
       justifyContent="center"
       alignItems="center"
       p={0}
-      sx={{ height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
+      sx={ styledGridSx }
     >
       {actionButtons?.map((actionButton) => (
-        <Grid key={actionButton.buttonName} xs={3}>
+        <Grid key={actionButton.buttonName} xs={3} sx={ gridSx }>
           <ActionButton
             buttonLabel={actionButton.buttonLabel}
             buttonName={actionButton.buttonName}
@@ -35,5 +37,7 @@ export default function ActionButtonsHolder(props) {
 }
 
 ActionButtonsHolder.propTypes = {
-  actionButtons: PropTypes.array.isRequired
+  actionButtons: PropTypes.array.isRequired,
+  styledGridSx: PropTypes.object,
+  gridSx: PropTypes.object
 };

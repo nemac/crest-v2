@@ -1,29 +1,9 @@
-/*
-Purpose
-  The main menu (to the tabs) in big screens => laptops and big displays
-
-Child Components
-  - Not sure yet
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - More or less?
-
-Props
-- Not sure yet
-*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import LinkTab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -73,10 +53,10 @@ export default function NavBarTabsBigScreens(props) {
               })
             }}
           >
-            Coastal Resilience Evaluation and Siting Tool (CREST) MATERIAL UI 5
+            Coastal Resilience Evaluation and Siting Tool (CREST)
           </Typography>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={12}>
           <Tabs
             orientation="horizontal"
             variant="scrollable"
@@ -94,9 +74,6 @@ export default function NavBarTabsBigScreens(props) {
             <LinkTab value="StyleGuide" to='/StyleGuide' {...a11yProps(5, 'crest-tab')} component={RouterLink}label="Style Guide" />
             <LinkTab value="CodeTest" to='/CodeTest' {...a11yProps(6, 'crest-tab')} component={RouterLink}label="Code Test" />
           </Tabs>
-        </Grid>
-        <Grid item xs={2} px={5}>
-          <Button variant="contained" color="CRESTPrimary" onClick={() => { localStorage.clear(); location.reload(true); } }>Clear and Refresh</Button>
         </Grid>
       </Grid>
     </Grid>

@@ -4,6 +4,19 @@ export const northernMarianaIslandsConfig = {
   label: 'Northern Mariana Islands',
   image: regionNorthernMarianaIslandsImage,
   regionName: 'northern_mariana_islands',
+  reportEnglish: {
+    fileLink: 'https://www.nfwf.org/sites/default/files/2020-08/northern-mariana-islands-coastal-resilience-assessment.pdf',
+    name: 'Northern Mariana Islands Coastal Resilience Assessment'
+  },
+  reportNative: {
+    fileLink: null,
+    name: null
+  },
+  dataDownload: {
+    fileSize: '30 MB',
+    fileLink: 'https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/N_Mariana_Islands_Assessment_Data.zip',
+    name: 'Northern Mariana Islands Data Download'
+  },
   mapProperties: {
     label: 'Northern Mariana Islands',
     center: [14.67, 145.5],

@@ -1,27 +1,5 @@
-/*
-Purpose
-    Holds all the Analyze Area actions
-      - sketch area
-      - upload shapefile
-      - search county or water shed
-      - buffer
-
-Child Components
-  - upload.js
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  - Not sure yet
-
-Props
-  - Not sure yet
-*/
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -37,22 +15,32 @@ import {
 import Buffer from './Buffer';
 import DrawArea from './DrawArea';
 import SearchCustom from './SearchCustom';
-import Upload from './Upload';
+import Upload from './UploadShapeFile';
 import UpperRightIconButton from '../All/UpperRightIconButton';
 import { StyledGrid } from '../All/StyledComponents';
+import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
 
-// just a place holder needs props passed in and image etc
+const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
+
 export default function MapActionCard(props) {
   const {
     map,
     bufferCheckbox,
     setBufferCheckbox,
     drawAreaDisabled,
-    setTooLargeLayerOpen
+    setGeoToRedraw,
+    setErrorState
   } = props;
 
+  const dispatch = useDispatch();
+  const analyzeAreaVisible = useSelector(analyzeAreaVisibleSelector);
+
+  const minimizeOnClick = () => {
+    dispatch(toggleAreaVisible());
+  };
+
   return (
-    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: '250px' }}>
+    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: analyzeAreaVisible ? '250px' : '50px' }}>
 
       <Grid xs={12}>
         <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
@@ -63,24 +51,27 @@ export default function MapActionCard(props) {
           <UpperRightIconButton ariaLabel="Help">
             <Help />
           </UpperRightIconButton>
-          <UpperRightIconButton ariaLabel="Minimize">
-            <ArrowDropDownCircle />
+          <UpperRightIconButton ariaLabel="Minimize" onClick={minimizeOnClick}>
+            <ArrowDropDownCircle sx={{ transform: analyzeAreaVisible ? 'rotate(-180deg)' : 'none' }}/>
           </UpperRightIconButton>
         </Box>
       </Grid>
-
-      <Grid xs={12}>
-        <DrawArea map={map} disabled={drawAreaDisabled}/>
-      </Grid>
-      <Grid xs={12}>
-        <Upload setTooLargeLayerOpen={setTooLargeLayerOpen}/>
-      </Grid>
-      <Grid xs={12}>
-        <SearchCustom />
-      </Grid>
-      <Grid xs={12}>
-        <Buffer bufferCheckbox={bufferCheckbox} setBufferCheckbox={setBufferCheckbox}/>
-      </Grid>
+      { analyzeAreaVisible && (
+        <>
+        <Grid xs={12}>
+          <DrawArea map={map} disabled={drawAreaDisabled}/>
+        </Grid>
+        <Grid xs={12}>
+          <Upload setGeoToRedraw={setGeoToRedraw} setErrorState={setErrorState}/>
+        </Grid>
+        <Grid xs={12}>
+          <SearchCustom />
+        </Grid>
+        <Grid xs={12}>
+          <Buffer bufferCheckbox={bufferCheckbox} setBufferCheckbox={setBufferCheckbox}/>
+        </Grid>
+        </>
+      )}
 
     </StyledGrid>
   );
@@ -91,5 +82,6 @@ MapActionCard.propTypes = {
   map: PropTypes.object,
   setBufferCheckbox: PropTypes.func,
   drawAreaDisabled: PropTypes.bool,
-  setTooLargeLayerOpen: PropTypes.func
+  setGeoToRedraw: PropTypes.func,
+  setErrorState: PropTypes.func
 };

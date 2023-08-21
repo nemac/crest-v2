@@ -100,7 +100,7 @@ export default function NavBarTabsSmallScreens(props) {
                   })
                 }}
               >
-                Coastal Resilience Evaluation and Siting Tool (CREST) MATERIAL UI 5
+                Coastal Resilience Evaluation and Siting Tool (CREST)
               </Typography>
             </Grid>
             <Grid item xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>

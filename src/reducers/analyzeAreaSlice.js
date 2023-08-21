@@ -1,15 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  visible: true,
+  isEmptyState: true,
+  isMore: {},
+  isItAGraph: true,
+  isItAGraphResilience: true,
+  isSortASC: true,
+  sortBy: 'Resilience Hubs'
+};
+
 export const AnalyzeAreaSlice = createSlice({
   name: 'analyzeArea',
-  initialState: {
-    isEmptyState: true,
-    isMore: {},
-    isItAGraph: true,
-    isSortASC: true,
-    sortBy: 'Resilience Hubs'
-  },
+  initialState,
   reducers: {
+    updateAllAnalyze: (state, action) => ({ ...action.payload }),
     changeEmptyState: (state, action) => {
       state.isEmptyState = !state.isEmptyState;
     },
@@ -30,19 +35,26 @@ export const AnalyzeAreaSlice = createSlice({
     },
     changeSortBy: (state, action) => {
       state.sortBy = action.payload;
-    }
+    },
+    toggleAreaVisible: (state, action) => {
+      state.visible = !state.visible;
+    },
+    resetAnalyzeArea: () => initialState
   }
 });
 
 // Action creators are generated for each case reducer function
 export const {
+  updateAllAnalyze,
   setEmptyState,
   changeEmptyState,
   changeMore,
   changeGraphTable,
   changeGraphTableResilience,
   changeSortDirection,
-  changeSortBy
+  changeSortBy,
+  toggleAreaVisible,
+  resetAnalyzeArea
 } = AnalyzeAreaSlice.actions;
 
 export default AnalyzeAreaSlice.reducer;
