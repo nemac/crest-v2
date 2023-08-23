@@ -173,9 +173,10 @@ export default function AnalyzeBarChart(props) {
     });
   }
 
-  const sortedChartData = [...chartData];
-  sortedChartData.sort((a, b) => a.chartValue - b.chartValue);
-  const thisChartData = analyzeAreaState.chartSortASC ? sortedChartData : chartData;
+  // This code may come in handy at some point to sort the actual indices of each chart
+  // const sortedChartData = [...chartData];
+  // sortedChartData.sort((a, b) => a.chartValue - b.chartValue);
+  // const thisChartData = analyzeAreaState.chartSortASC ? sortedChartData : chartData;
 
   return (
     <ResponsiveContainer
@@ -188,7 +189,8 @@ export default function AnalyzeBarChart(props) {
     >
       <BarChart
         id={`${chartType}-barchart`}
-        data={thisChartData}
+        data={chartData}
+        // data={thisChartData} // Goes with sorting chart code
         sx={{
           width: '100%',
           height: '100%'
@@ -225,9 +227,13 @@ export default function AnalyzeBarChart(props) {
 
         <Tooltip content={<CustomTooltip />} />
         <Bar dataKey="chartValue">
-          {thisChartData.map((entry) => (
+          {chartData.map((entry) => (
             <Cell key={`cell-${entry.index}`} fill={barColors[entry.index]} />
           ))}
+          {/*
+          {thisChartData.map((entry) => ( // Also for sorting chart by indices
+            <Cell key={`cell-${entry.index}`} fill={barColors[entry.index]} />
+          ))} */}
         </Bar>
       </BarChart>
     </ResponsiveContainer>
