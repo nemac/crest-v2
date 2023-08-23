@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   visible: true,
@@ -15,11 +15,11 @@ const initialState = {
   //   'Threats Inputs': false,
   //   'Community Assets Inputs': false
   // },
-  sortBy: null,
+  sortBy: null
 };
 
 export const AnalyzeAreaSlice = createSlice({
-  name: "analyzeArea",
+  name: 'analyzeArea',
   initialState,
   reducers: {
     updateAllAnalyze: (state, action) => ({ ...action.payload }),
@@ -53,7 +53,7 @@ export const AnalyzeAreaSlice = createSlice({
     toggleAreaVisible: (state, action) => {
       state.visible = !state.visible;
     },
-    resetAnalyzeArea: () => initialState,
+    resetAnalyzeArea: () => initialState
   }
 });
 
@@ -70,7 +70,7 @@ export const {
   changeSortBy,
   changeChartSortDirection,
   toggleAreaVisible,
-  resetAnalyzeArea,
+  resetAnalyzeArea
 } = AnalyzeAreaSlice.actions;
 
 export default AnalyzeAreaSlice.reducer;
