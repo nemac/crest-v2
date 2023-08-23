@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   visible: true,
@@ -7,11 +7,19 @@ const initialState = {
   isItAGraph: true,
   isItAGraphResilience: true,
   isSortASC: true,
-  sortBy: 'Resilience Hubs'
+  isSortExpanded: false,
+  chartSortAsc: false,
+  // {
+  //   'Summary Chart': false,
+  //   'Fish and Wildlife Inputs': false,
+  //   'Threats Inputs': false,
+  //   'Community Assets Inputs': false
+  // },
+  sortBy: null,
 };
 
 export const AnalyzeAreaSlice = createSlice({
-  name: 'analyzeArea',
+  name: "analyzeArea",
   initialState,
   reducers: {
     updateAllAnalyze: (state, action) => ({ ...action.payload }),
@@ -30,16 +38,22 @@ export const AnalyzeAreaSlice = createSlice({
     changeGraphTableResilience: (state, action) => {
       state.isItAGraphResilience = !state.isItAGraphResilience;
     },
+    changeSortExpanded: (state, action) => {
+      state.isSortExpanded = !state.isSortExpanded;
+    },
     changeSortDirection: (state, action) => {
       state.isSortASC = !state.isSortASC;
     },
+    changeChartSortDirection: (state, action) => {
+      state.chartSortASC = !state.chartSortASC;
+    },
     changeSortBy: (state, action) => {
-      state.sortBy = action.payload;
+      state.sortBy = (action.payload !== state.sortBy) ? action.payload : null;
     },
     toggleAreaVisible: (state, action) => {
       state.visible = !state.visible;
     },
-    resetAnalyzeArea: () => initialState
+    resetAnalyzeArea: () => initialState,
   }
 });
 
@@ -51,10 +65,12 @@ export const {
   changeMore,
   changeGraphTable,
   changeGraphTableResilience,
+  changeSortExpanded,
   changeSortDirection,
   changeSortBy,
+  changeChartSortDirection,
   toggleAreaVisible,
-  resetAnalyzeArea
+  resetAnalyzeArea,
 } = AnalyzeAreaSlice.actions;
 
 export default AnalyzeAreaSlice.reducer;

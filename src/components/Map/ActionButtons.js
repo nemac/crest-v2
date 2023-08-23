@@ -34,7 +34,6 @@ export default function ActionButtons(props) {
 
   // wire up map print for exporting map to png
   if (map) {
-    console.log('adding control');
     map.addControl(control);
   }
 
