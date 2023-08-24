@@ -12,7 +12,7 @@ import {
 import ChartCard from './AnalyzeProjectSitesChartCard';
 import ChartHeaderActionButtons from './ChartHeaderActionButtons';
 import TableData from './AnalyzeProjectSitesTableData';
-import { ChartSortHolder } from './ChartSortHolder';
+import { ChartSort } from './ChartSort';
 import { handleExportAllCSV, HandleRemoveAllClick } from './ChartFunctions';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
@@ -76,7 +76,7 @@ export default function ChartsHolder(props) {
             handleExportAllCSV(e, chartData);
           }}
         />
-        {analyzeAreaState.isSortExpanded ? <ChartSortHolder /> : null}
+        {analyzeAreaState.isSortExpanded ? <ChartSort /> : null}
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
