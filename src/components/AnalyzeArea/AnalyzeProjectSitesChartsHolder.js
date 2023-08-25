@@ -27,20 +27,34 @@ export default function ChartsHolder(props) {
   const analyzeAreaState = useSelector(analyzeAreaSelector);
   const sortedChartData = useRef([...chartData]);
 
-  const sortCharts = useCallback((chartIndex) => {
-    sortedChartData.current = [...chartData];
-    if (analyzeAreaState.isSortASC) {
-      sortedChartData.current.sort(
-        (a, b) => b.properties.zonalStatsData[chartIndex] -
-          a.properties.zonalStatsData[chartIndex]
-      ); // Asending sort
-    } else {
-      sortedChartData.current.sort(
-        (a, b) => a.properties.zonalStatsData[chartIndex] -
-          b.properties.zonalStatsData[chartIndex]
-      ); // Descending sort
-    }
-  }, [analyzeAreaState.isSortASC, sortedChartData, chartData]);
+  const sortCharts = useCallback(
+    (chartIndex) => {
+      sortedChartData.current = [...chartData];
+
+      if (analyzeAreaState.isSortASC) {
+        if (chartIndex === 'areaNumber') {
+          sortedChartData.current.sort(
+            (a, b) => b.properties[chartIndex] - a.properties[chartIndex]
+          ); // Asending sort
+        } else {
+          sortedChartData.current.sort(
+            (a, b) => b.properties.zonalStatsData[chartIndex] -
+              a.properties.zonalStatsData[chartIndex]
+          ); // Asending sort
+        }
+      } else if (chartIndex === 'areaNumber') {
+        sortedChartData.current.sort(
+          (a, b) => a.properties[chartIndex] - b.properties[chartIndex]
+        ); // Descending sort
+      } else {
+        sortedChartData.current.sort(
+          (a, b) => a.properties.zonalStatsData[chartIndex] -
+              b.properties.zonalStatsData[chartIndex]
+        ); // Descending sort
+      }
+    },
+    [analyzeAreaState.isSortASC, sortedChartData, chartData]
+  );
 
   sortCharts(analyzeAreaState.sortBy);
 

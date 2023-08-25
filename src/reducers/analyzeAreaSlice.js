@@ -9,13 +9,7 @@ const initialState = {
   isSortASC: true,
   isSortExpanded: false,
   chartSortAsc: false,
-  // {
-  //   'Summary Chart': false,
-  //   'Fish and Wildlife Inputs': false,
-  //   'Threats Inputs': false,
-  //   'Community Assets Inputs': false
-  // },
-  sortBy: null
+  sortBy: 'areaNumber'
 };
 
 export const AnalyzeAreaSlice = createSlice({
@@ -48,7 +42,7 @@ export const AnalyzeAreaSlice = createSlice({
       state.chartSortASC = !state.chartSortASC;
     },
     changeSortBy: (state, action) => {
-      state.sortBy = (action.payload !== state.sortBy) ? action.payload : null;
+      state.sortBy = action.payload;
     },
     toggleAreaVisible: (state, action) => {
       state.visible = !state.visible;

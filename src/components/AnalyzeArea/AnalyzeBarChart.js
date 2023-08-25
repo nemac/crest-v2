@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
 import {
   ResponsiveContainer,
@@ -20,7 +19,6 @@ import { mapConfig } from '../../configuration/config';
 import ChartCustomLabels from './ChartCustomLabels';
 
 const regions = mapConfig.regions;
-const analyzeAreaSelector = (state) => state.analyzeArea;
 
 const ToolTipBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -47,7 +45,6 @@ export default function AnalyzeBarChart(props) {
   } = props;
 
   const region = regions[chartRegion];
-  const analyzeAreaState = useSelector(analyzeAreaSelector);
 
   const chartLabel = feature?.properties?.areaName ?
     `${chartType} ${feature?.properties?.areaName}` :

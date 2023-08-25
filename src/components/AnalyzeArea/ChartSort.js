@@ -29,7 +29,8 @@ const analyzeAreaSelector = (state) => state.analyzeArea;
 
 export const ChartSort = () => {
   const line = 'https://generation-sessions.s3.amazonaws.com/4f3040a399dc7d69bb97b9703d30cdc5/img/line-9-1.svg';
-  const charts = {
+  const sortIndices = {
+    Name: 'areaNumber',
     Hubs: 'hubs',
     Exposure: 'exposure',
     Threat: 'threat',
@@ -39,7 +40,7 @@ export const ChartSort = () => {
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 
-  const handleSortClick = (chartName, index) => {
+  const handleSortClick = (chartName) => {
     dispatch(changeSortBy(chartName));
   };
   const handleAscendingClick = () => {
@@ -67,13 +68,13 @@ export const ChartSort = () => {
         <Grid xs={12}>
         <img className={'line'} alt="Line" src={line} />
         </Grid>
-      {Object.entries(charts).map(([chart, chartName], index) => (
-        <Grid xs={2.3} key={`grid-${chart}`} sx={ { backgroundColor: (chartName === analyzeAreaState.sortBy) ? 'grey' : null } }>
+      {Object.entries(sortIndices).map(([chart, chartName], index) => (
+        <Grid xs={2} key={`grid-${chart}`} sx={ { backgroundColor: (chartName === analyzeAreaState.sortBy) ? 'grey' : null } }>
           <ActionButton
             key={`sort-button-${index}`}
             buttonLabel={chart}
             buttonName={chart}
-            onClick={(e) => handleSortClick(chartName, index, e.target)}
+            onClick={() => handleSortClick(chartName)}
           >
             {analyzeAreaState.isSortASC ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
           </ActionButton>
