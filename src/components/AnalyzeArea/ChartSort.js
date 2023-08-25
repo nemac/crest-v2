@@ -7,7 +7,7 @@ import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/system';
 import { useSelector, useDispatch } from 'react-redux';
-import { IconButton } from '@mui/material';
+import { IconButton, Divider } from '@mui/material';
 import { ArrowDropDownCircle, SortOutlined } from '@mui/icons-material';
 import ActionButton from '../All/ActionButton';
 // import './style.css';
@@ -28,7 +28,6 @@ const StyledGridContainer = styled(Grid)(({ theme }) => ({
 const analyzeAreaSelector = (state) => state.analyzeArea;
 
 export const ChartSort = () => {
-  const line = 'https://generation-sessions.s3.amazonaws.com/4f3040a399dc7d69bb97b9703d30cdc5/img/line-9-1.svg';
   const sortIndices = {
     Name: 'areaNumber',
     Hubs: 'hubs',
@@ -66,7 +65,7 @@ export const ChartSort = () => {
           </IconButton>
         </Grid>
         <Grid xs={12}>
-        <img className={'line'} alt="Line" src={line} />
+          <Divider />
         </Grid>
       {Object.entries(sortIndices).map(([chart, chartName], index) => (
         <Grid xs={2} key={`grid-${chart}`} sx={ { backgroundColor: (chartName === analyzeAreaState.sortBy) ? 'grey' : null } }>
