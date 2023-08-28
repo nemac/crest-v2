@@ -89,7 +89,7 @@ export default function ChartHeaderActionButtons(props) {
           buttonLabel={'Sort'}
           buttonName={'Sort'}
           onClick={handleSortClick}>
-          {analyzeAreaState.isSortASC ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
+          {analyzeAreaState.isSortASC[analyzeAreaState.sortBy] ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
         </ChartHeaderActionButton>
       </Grid>
       <Grid xs={3}>

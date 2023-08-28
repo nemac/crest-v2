@@ -9,7 +9,8 @@ import {
   CameraAlt,
   LayersOutlined,
   Layers,
-  LibraryAdd
+  LibraryAdd,
+  LibraryAddOutlined
 } from '@mui/icons-material';
 import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from '../All/ActionButton';
@@ -34,7 +35,6 @@ export default function ActionButtons(props) {
 
   // wire up map print for exporting map to png
   if (map) {
-    console.log('adding control');
     map.addControl(control);
   }
 

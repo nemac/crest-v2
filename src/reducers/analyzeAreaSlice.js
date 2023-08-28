@@ -6,8 +6,17 @@ const initialState = {
   isMore: {},
   isItAGraph: true,
   isItAGraphResilience: true,
-  isSortASC: true,
-  sortBy: 'Resilience Hubs'
+  isSortASC: {
+    areaNumber: true,
+    hubs: true,
+    exposure: true,
+    threat: true,
+    asset: true,
+    wildlife: true
+  },
+  isSortExpanded: false,
+  chartSortAsc: false,
+  sortBy: 'areaNumber'
 };
 
 export const AnalyzeAreaSlice = createSlice({
@@ -30,8 +39,14 @@ export const AnalyzeAreaSlice = createSlice({
     changeGraphTableResilience: (state, action) => {
       state.isItAGraphResilience = !state.isItAGraphResilience;
     },
+    changeSortExpanded: (state, action) => {
+      state.isSortExpanded = !state.isSortExpanded;
+    },
     changeSortDirection: (state, action) => {
-      state.isSortASC = !state.isSortASC;
+      state.isSortASC[action.payload] = !state.isSortASC[action.payload];
+    },
+    changeChartSortDirection: (state, action) => {
+      state.chartSortASC = !state.chartSortASC;
     },
     changeSortBy: (state, action) => {
       state.sortBy = action.payload;
@@ -51,8 +66,10 @@ export const {
   changeMore,
   changeGraphTable,
   changeGraphTableResilience,
+  changeSortExpanded,
   changeSortDirection,
   changeSortBy,
+  changeChartSortDirection,
   toggleAreaVisible,
   resetAnalyzeArea
 } = AnalyzeAreaSlice.actions;

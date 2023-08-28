@@ -52,10 +52,13 @@ export default function LeafletDrawTools(props) {
     skip: true // this tells the query not to run unless set to false
   });
 
-  const { data, error, isFetching } = useGetZonalStatsQuery({
-    region: mapConfig.regions[selectedRegion].regionName,
-    queryData: currentDrawn.featureGroup
-  }, { skip: currentDrawn.skip });
+  const { data, error, isFetching } = useGetZonalStatsQuery(
+    {
+      region: mapConfig.regions[selectedRegion].regionName,
+      queryData: currentDrawn.featureGroup
+    },
+    { skip: currentDrawn.skip }
+  );
 
   useEffect(() => {
     if (data) {
@@ -70,9 +73,23 @@ export default function LeafletDrawTools(props) {
         currentDrawn.geo exists and we need that one. However, shape files
         can contain many many features and in that case we need to process them all
         */
-        const geo = structuredClone(currentDrawn.geo) || structuredClone(feature);
-        geo.properties.zonalStatsData = data.features[index].properties.mean;
-        dispatch(addNewFeatureToDrawnLayers(geo));
+        const geo =
+          structuredClone(currentDrawn.geo) || structuredClone(feature);
+        const areaValid = !Object.values(
+          data.features[index].properties.mean
+        ).includes('NaN');
+        if (areaValid) {
+          geo.properties.zonalStatsData = data.features[index].properties.mean;
+          dispatch(addNewFeatureToDrawnLayers(geo));
+        } else {
+          setErrorState((previous) => ({
+            ...previous,
+            error: true,
+            errorTitle: 'Draw Error',
+            errorMessage:
+              'The area of the drawn layer returned no data, and is most likely outside of the specified region.'
+          }));
+        }
       });
       // TODO: This looks weird still on rendering. FIX!!!
       // Clear all ref layers because we do not need them. Layers are tracked
@@ -92,8 +109,10 @@ export default function LeafletDrawTools(props) {
     return (
       <ModelErrors
         contentTitle={'Sketch an Area Error '}
-        contentMessage={'There was an error in the area you sketched. Please try again.'}
-        buttonMessage='Dismiss'
+        contentMessage={
+          'There was an error in the area you sketched. Please try again.'
+        }
+        buttonMessage="Dismiss"
         errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
         onClose={() => {
           setDrawAreaDisabled(false);
@@ -118,7 +137,8 @@ export default function LeafletDrawTools(props) {
     geoCopy.properties.region = selectedRegion;
     const turfCenter = turf.center(geoCopy.geometry);
     geoCopy.properties.center = {
-      lat: turfCenter.geometry.coordinates[1], lng: turfCenter.geometry.coordinates[0]
+      lat: turfCenter.geometry.coordinates[1],
+      lng: turfCenter.geometry.coordinates[0]
     };
 
     let buffGeo;
@@ -139,7 +159,8 @@ export default function LeafletDrawTools(props) {
         ...previous,
         error: true,
         errorTitle: 'Draw Error',
-        errorMessage: 'The area of the drawn layer is too large. Please try again.'
+        errorMessage:
+          'The area of the drawn layer is too large. Please try again.'
       }));
       leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
@@ -150,7 +171,9 @@ export default function LeafletDrawTools(props) {
 
     const geo = processGeojson(e.layer.toGeoJSON(), areaNumber);
     dispatch(incrementAreaNumber());
-    const layerToAnalyze = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : e.layer;
+    const layerToAnalyze = geo.properties.buffGeo ?
+      L.geoJSON(geo.properties.buffGeo) :
+      e.layer;
     const featureGroup = L.featureGroup().addLayer(layerToAnalyze).toGeoJSON();
     setCurrentDrawn({
       geo,
@@ -168,7 +191,9 @@ export default function LeafletDrawTools(props) {
       const geo = processGeojson(feature, areaNum);
       areaNum += 1;
       dispatch(incrementAreaNumber());
-      const layer = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : L.geoJSON(geo);
+      const layer = geo.properties.buffGeo ?
+        L.geoJSON(geo.properties.buffGeo) :
+        L.geoJSON(geo);
       featureGroup.addLayer(layer);
     });
     dispatch(uploadedShapeFileGeoJSON(null));
@@ -182,7 +207,9 @@ export default function LeafletDrawTools(props) {
     const searchPlacesCopy = structuredClone(searchPlacesGeoJSON);
     const geo = processGeojson(searchPlacesCopy, areaNumber);
     dispatch(incrementAreaNumber());
-    const layer = geo.properties.buffGeo ? L.geoJSON(geo.properties.buffGeo) : L.geoJSON(geo);
+    const layer = geo.properties.buffGeo ?
+      L.geoJSON(geo.properties.buffGeo) :
+      L.geoJSON(geo);
     const featureGroup = L.featureGroup().addLayer(layer);
     setCurrentDrawn({
       featureGroup: featureGroup.toGeoJSON(),
@@ -197,8 +224,10 @@ export default function LeafletDrawTools(props) {
         {drawToolsEnabled && (
           <EditControl
             key={`edit-control-${areaNumber}`}
-            position='topleft'
-            onCreated={(e) => { handleOnCreate(e); }}
+            position="topleft"
+            onCreated={(e) => {
+              handleOnCreate(e);
+            }}
             draw={{
               polyline: false,
               polygon: false,
@@ -213,24 +242,27 @@ export default function LeafletDrawTools(props) {
             }}
           />
         )}
-        { isFetching &&
-            <div
-              style={{
-                position: 'absolute',
-                top: '0',
-                left: '0',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'rgba(255, 255, 255, 0.7)', // Use any desired background color with transparency
-                zIndex: 9999 // Set the overlay on top of everything
-              }}
-            >
-              <CircularProgress size={80} sx={{ position: 'absolute', top: '50%', left: '50%' }} />
-            </div>
-          }
+        {isFetching && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '0',
+              left: '0',
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(255, 255, 255, 0.7)', // Use any desired background color with transparency
+              zIndex: 9999 // Set the overlay on top of everything
+            }}
+          >
+            <CircularProgress
+              size={80}
+              sx={{ position: 'absolute', top: '50%', left: '50%' }}
+            />
+          </div>
+        )}
       </FeatureGroup>
     </React.Fragment>
   );

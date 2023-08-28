@@ -3,7 +3,7 @@ import regionUSVirginIslandsImage from '../../assets/images/zoomregion-uvi-v2.pn
 export const usVirginIslandsConfig = {
   label: 'US Virgin Islands',
   image: regionUSVirginIslandsImage,
-  regionName: 'usVirginIslands',
+  regionName: 'us_virgin_islands',
   reportEnglish: {
     fileLink: 'https://www.nfwf.org/sites/default/files/2020-08/us-virgin-islands-coastal-resilience-assessment.pdf',
     name: 'U.S. Virgin Islands Coastal Resilience Assessment'

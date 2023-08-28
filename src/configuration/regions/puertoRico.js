@@ -4,6 +4,12 @@ export const puertoRicoConfig = {
   label: 'Puerto Rico',
   image: regionPuertoRicoImage,
   regionName: 'puerto_rico',
+  mapProperties: {
+    label: 'Puerto Rico',
+    center: [18.22, -66.12],
+    extent: [-67.54431130541467, 17.46071271042981, -65.08612038744593, 18.895892559415024],
+    zoom: 8
+  },
   reportEnglish: {
     fileLink: 'https://www.nfwf.org/sites/default/files/2020-08/puerto-rico-coastal-resilience-assessment.pdf',
     name: 'Puerto Rico Coastal Resilience Assessment'
