@@ -31,7 +31,7 @@ export default function ChartsHolder(props) {
     (chartIndex) => {
       sortedChartData.current = [...chartData];
 
-      if (analyzeAreaState.isSortASC) {
+      if (analyzeAreaState.isSortASC[analyzeAreaState.sortBy]) {
         if (chartIndex === 'areaNumber') {
           sortedChartData.current.sort(
             (a, b) => b.properties[chartIndex] - a.properties[chartIndex]
@@ -53,7 +53,7 @@ export default function ChartsHolder(props) {
         ); // Descending sort
       }
     },
-    [analyzeAreaState.isSortASC, sortedChartData, chartData]
+    [chartData, analyzeAreaState.isSortASC, analyzeAreaState.sortBy]
   );
 
   sortCharts(analyzeAreaState.sortBy);

@@ -6,7 +6,14 @@ const initialState = {
   isMore: {},
   isItAGraph: true,
   isItAGraphResilience: true,
-  isSortASC: true,
+  isSortASC: {
+    areaNumber: true,
+    hubs: true,
+    exposure: true,
+    threat: true,
+    asset: true,
+    wildlife: true
+  },
   isSortExpanded: false,
   chartSortAsc: false,
   sortBy: 'areaNumber'
@@ -36,7 +43,7 @@ export const AnalyzeAreaSlice = createSlice({
       state.isSortExpanded = !state.isSortExpanded;
     },
     changeSortDirection: (state, action) => {
-      state.isSortASC = !state.isSortASC;
+      state.isSortASC[action.payload] = !state.isSortASC[action.payload];
     },
     changeChartSortDirection: (state, action) => {
       state.chartSortASC = !state.chartSortASC;

@@ -7,8 +7,7 @@ import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/system';
 import { useSelector, useDispatch } from 'react-redux';
-import { IconButton, Divider } from '@mui/material';
-import { ArrowDropDownCircle, SortOutlined } from '@mui/icons-material';
+import { SortOutlined } from '@mui/icons-material';
 import ActionButton from '../All/ActionButton';
 // import './style.css';
 import {
@@ -18,7 +17,7 @@ import {
 
 const StyledGridContainer = styled(Grid)(({ theme }) => ({
   display: 'flex',
-  height: theme.spacing(20),
+  height: theme.spacing(8),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
   borderStyle: 'solid',
@@ -40,42 +39,39 @@ export const ChartSort = () => {
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 
   const handleSortClick = (chartName) => {
-    dispatch(changeSortBy(chartName));
+    if (chartName !== analyzeAreaState.sortBy) {
+      dispatch(changeSortBy(chartName));
+    } else {
+      dispatch(changeSortDirection(chartName));
+    }
   };
-  const handleAscendingClick = () => {
-    dispatch(changeSortDirection());
-  };
+  // const handleAscendingClick = () => {
+  //   // This is to be combined with handleSortClick... if chartName is already sortBy, do this
+  //   dispatch(changeSortDirection());
+  // };
 
   return (
     <StyledGridContainer container spacing={0} p={0} mt={1} mb={1}>
-        <Grid xs={12}>
-          <div className={'div'}>Sort</div>
-          <IconButton
-            variant="contained"
-            color="CRESTPrimary"
-            aria-label="Minimize"
-            onClick={handleAscendingClick}
-            sx={{
-              height: (theme) => theme.spacing(4.5),
-              padding: (theme) => theme.spacing(0.375),
-              justifyContent: 'end'
-            }}
-            size="large">
-            <ArrowDropDownCircle sx={{ transform: analyzeAreaState.isSortASC ? 'rotate(-180deg)' : 'rotate(0deg)' }}/>
-          </IconButton>
-        </Grid>
-        <Grid xs={12}>
-          <Divider />
-        </Grid>
       {Object.entries(sortIndices).map(([chart, chartName], index) => (
-        <Grid xs={2} key={`grid-${chart}`} sx={ { backgroundColor: (chartName === analyzeAreaState.sortBy) ? 'grey' : null } }>
+        <Grid
+          xs={2}
+          key={`grid-${chart}`}
+          sx={{
+            backgroundColor:
+              chartName === analyzeAreaState.sortBy ? 'grey' : null
+          }}
+        >
           <ActionButton
             key={`sort-button-${index}`}
             buttonLabel={chart}
             buttonName={chart}
             onClick={() => handleSortClick(chartName)}
           >
-            {analyzeAreaState.isSortASC ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
+            {analyzeAreaState.isSortASC[chartName] ? (
+              <SortOutlined />
+            ) : (
+              <SortOutlined sx={{ transform: 'rotate(-180deg)' }} />
+            )}
           </ActionButton>
         </Grid>
       ))}
@@ -83,6 +79,4 @@ export const ChartSort = () => {
   );
 };
 
-ChartSort.propTypes = {
-
-};
+ChartSort.propTypes = {};
