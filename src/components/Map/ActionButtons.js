@@ -9,7 +9,8 @@ import {
   CameraAlt,
   LayersOutlined,
   Layers,
-  LibraryAdd
+  LibraryAdd,
+  LibraryAddOutlined
 } from '@mui/icons-material';
 import { StyledGrid } from '../All/StyledComponents';
 import ActionButton from '../All/ActionButton';
