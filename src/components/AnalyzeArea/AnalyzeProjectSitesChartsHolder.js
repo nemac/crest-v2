@@ -103,8 +103,7 @@ export default function ChartsHolder(props) {
           }}
         >
           <Box>
-            {analyzeAreaState.sortBy ?
-              sortedChartData.current.map((feature, index) => (
+            {sortedChartData.current.map((feature, index) => (
                   <ChartCard
                     key={feature.properties.areaName}
                     feature={feature}
@@ -114,20 +113,7 @@ export default function ChartsHolder(props) {
                     map={map}
                     setHover={setHover}
                   />
-              )) :
-              chartData
-                .reverse()
-                .map((feature, index) => (
-                    <ChartCard
-                      key={feature.properties.areaName}
-                      feature={feature}
-                      region={feature.properties.region}
-                      zonalStatsData={feature.properties.zonalStatsData}
-                      featureGroupRef={featureGroupRef}
-                      map={map}
-                      setHover={setHover}
-                    />
-                ))}
+            ))}
           </Box>
         </Grid>
       ) : (
@@ -140,7 +126,7 @@ export default function ChartsHolder(props) {
           }}
         >
           <Box>
-            {chartData.reverse().map((feature, index) => (
+            {sortedChartData.current.map((feature, index) => (
               <TableData
                 key={`${feature.properties.areaName} + table`}
                 data={feature}
