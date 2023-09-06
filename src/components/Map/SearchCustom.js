@@ -143,6 +143,7 @@ export default function SearchCustom(props) {
           options={searchAreas}
           // getOptionLabel={(option) => option.properties.areaName}
           onChange={(event, newInputValue) => {
+            console.log('jeff event', event);
             if (newInputValue !== null) {
               setSelectedName(newInputValue);
               setSkip(false);

@@ -78,7 +78,7 @@ export default function ChartCard(props) {
     'Community Assets Inputs': [
       'pop_density', 'crit_infra', 'transportation',
       'social_vuln', 'crit_facilities'],
-    Landcover: []
+    Landcover: ['landcover']
   };
 
   const dispatch = useDispatch();
