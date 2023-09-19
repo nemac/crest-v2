@@ -68,19 +68,6 @@ export const greatLakesConfig = {
         9: '#ca3600',
         10: '#c21500'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#ffc500',
-        2: '#f9b500',
-        3: '#f3a400',
-        4: '#ed9400',
-        5: '#e78300',
-        6: '#e07000',
-        7: '#d95e00',
-        8: '#d14c00',
-        9: '#ca3600',
-        10: '#c21500'
-      },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
@@ -101,19 +88,6 @@ export const greatLakesConfig = {
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffc500',
-        2: '#f9b500',
-        3: '#f3a400',
-        4: '#ed9400',
-        5: '#e78300',
-        6: '#e07000',
-        7: '#d95e00',
-        8: '#d14c00',
-        9: '#ca3600',
-        10: '#c21500'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffc500',
         2: '#f9b500',
@@ -151,19 +125,6 @@ export const greatLakesConfig = {
         9: '#933204',
         10: '#662506'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#1f6e6e',
-        2: '#3d8282',
-        3: '#7dad9c',
-        4: '#b7d4b2',
-        5: '#e9f2bb',
-        6: '#f5e9a9',
-        7: '#dbba7a',
-        8: '#b08042',
-        9: '#9b5526',
-        10: '#633319'
-      },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Community Exposure Index',
@@ -183,19 +144,6 @@ export const greatLakesConfig = {
       label: 'Community Asset Index',
       chartLabel: 'Community Asset',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#b6edf0',
-        2: '#98d2ed',
-        3: '#7cbbeb',
-        4: '#5ca3e6',
-        5: '#368de3',
-        6: '#2176d9',
-        7: '#2259c7',
-        8: '#1d3eb5',
-        9: '#1727a3',
-        10: '#090991'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#b6edf0',
         2: '#98d2ed',
@@ -238,19 +186,6 @@ export const greatLakesConfig = {
         9: '#c9251c',
         10: '#c40a0a'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#ffebd6',
-        2: '#f7d7bc',
-        3: '#f0c0a1',
-        4: '#eba988',
-        5: '#e3906f',
-        6: '#de775b',
-        7: '#d65d45',
-        8: '#d14030',
-        9: '#c9251c',
-        10: '#c40a0a'
-      },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Community Asset and Threat Indices',
@@ -280,15 +215,6 @@ export const greatLakesConfig = {
         8: '#B7528A',
         9: '#A33F8F',
         10: '#7E33A8'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#EEE7F8',
-        2: '#E9BBCB',
-        3: '#DB90A6',
-        4: '#D27C99',
-        5: '#B7528A',
-        6: '#7E33A8'
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
@@ -320,13 +246,6 @@ export const greatLakesConfig = {
         9: '#023858',
         10: '#01172C'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#CDE1E8',
-        2: '#82BCD1',
-        3: '#007E91',
-        4: '#005A62'
-      },
       chartInputName: 'fishandwildlife',
       ChartInputLabel: 'Fish and Wildlife Inputs',
       chartCSSSelector: 'aquatic',
@@ -357,13 +276,6 @@ export const greatLakesConfig = {
         9: '#114E0A',
         10: '#004900'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFE9C4',
-        2: '#DFC878',
-        3: '#385B23',
-        4: '#004900'
-      },
       chartInputName: 'fishandwildlife',
       ChartInputLabel: 'Fish and Wildlife Inputs',
       chartCSSSelector: 'terrestrial',
@@ -388,12 +300,6 @@ export const greatLakesConfig = {
         4: '#321699',
         5: '#270B59'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#abd2fa',
-        2: '#7692ff',
-        3: '#3a1459'
-      },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'social_vuln',
@@ -416,14 +322,6 @@ export const greatLakesConfig = {
         3: '#9eac37',
         4: '#2c8d7a',
         5: '#385a4c'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFF6D0',
-        2: '#EFC133',
-        3: '#9EAC37',
-        4: '#2C8D7A',
-        5: '#385A4C'
       },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
@@ -450,10 +348,6 @@ export const greatLakesConfig = {
         4: '#0084A8', // 5
         5: '#0084A8' // 5
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        5: '#0084A8'
-      },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_facilities',
@@ -479,14 +373,6 @@ export const greatLakesConfig = {
         4: '#A82B41', // 5
         5: '#A82B41' // 5
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        3: '#CCD1D2',
-        5: '#355C59',
-        8: '#E8B16D',
-        10: '#AD3541',
-        15: '#7B1733'
-      },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_infra',
@@ -509,14 +395,6 @@ export const greatLakesConfig = {
         2: '#FEBB47',
         3: '#F07818',
         4: '#B84203',
-        5: '#662506'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#feeba2',
-        2: '#febb47',
-        3: '#f07818',
-        4: '#b84203',
         5: '#662506'
       },
       chartInputName: 'threat',
@@ -544,14 +422,6 @@ export const greatLakesConfig = {
         4: '#61409B',
         5: '#3F007D'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#e2e2ef',
-        2: '#b6b6d8',
-        3: '#8683bd',
-        4: '#61409b',
-        5: '#3f007d'
-      },
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'floodprone_areas',
@@ -569,14 +439,6 @@ export const greatLakesConfig = {
       label: 'Areas of Low Slope',
       chartLabel: 'Areas of Low Slope',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#d3eecd',
-        2: '#98d594',
-        3: '#4bb062',
-        4: '#157f3b',
-        5: '#00441b'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#d3eecd',
         2: '#98d594',
@@ -608,14 +470,6 @@ export const greatLakesConfig = {
         4: '#786D00',
         5: '#4D4700'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#447604',
-        2: '#77D66F',
-        3: '#dce9f2',
-        4: '#755b69',
-        5: '#553555'
-      },
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'impermeable',
@@ -634,14 +488,6 @@ export const greatLakesConfig = {
 
       chartLabel: 'High Water Level',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#DBD8EA',
-        2: '#99B9D9',
-        3: '#4095C3',
-        4: '#027976',
-        5: '#014636'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#DBD8EA',
         2: '#99B9D9',
@@ -668,9 +514,6 @@ export const greatLakesConfig = {
       chartCSSColor: {
         0: '#E9ECEF'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF'
-      },
       chartInputName: 'VisualizationOverlays',
       ChartInputLabel: 'Additional Overlays',
       url: 'https://tiles.resilientcoasts.org/GL_AIANNHAIndexTiles/{z}/{x}/{y}.png',
@@ -687,9 +530,6 @@ export const greatLakesConfig = {
       label: 'Ceded Territory',
       chartLabel: 'Ceded Territory',
       chartCSSColor: {
-        0: '#E9ECEF'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF'
       },
       chartInputName: 'VisualizationOverlays',
@@ -711,9 +551,6 @@ export const greatLakesConfig = {
     //       //   chartCSSColor: {
     //     0: '#E9ECEF',
     //   },
-    //   chartCSSLegends: {
-    //    0: '#E9ECEF'
-    //    },
     //   chartInputName: 'VisualizationOverlays',
     //   ChartInputLabel: 'Additional Overlays',
     //   chartCSSSelector: 'VisualizationOverlay3',
@@ -733,9 +570,6 @@ export const greatLakesConfig = {
       chartCSSColor: {
         0: '#E9ECEF'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF'
-      },
       chartInputName: 'VisualizationOverlays',
       ChartInputLabel: 'Additional Overlays',
       url: 'https://tiles.resilientcoasts.org/GL_FetchIndexTiles/{z}/{x}/{y}.png',
@@ -752,9 +586,6 @@ export const greatLakesConfig = {
       label: 'Lake Level Fluctuation Zone',
       chartLabel: 'Lake Level Fluctuation Zone',
       chartCSSColor: {
-        0: '#E9ECEF'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF'
       },
       chartInputName: 'VisualizationOverlays',

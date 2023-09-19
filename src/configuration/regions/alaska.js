@@ -67,19 +67,6 @@ export const alaskaConfig = {
         9: '#f51b00',
         10: '#f50000'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#f5f500',
-        2: '#f5da00',
-        3: '#f5be00',
-        4: '#f5a300',
-        5: '#f58800',
-        6: '#f56d00',
-        7: '#f55200',
-        8: '#f53600',
-        9: '#f51b00',
-        10: '#f50000'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_HubsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -96,19 +83,6 @@ export const alaskaConfig = {
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubshex',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#f5f500',
-        2: '#f5da00',
-        3: '#f5be00',
-        4: '#f5a300',
-        5: '#f58800',
-        6: '#f56d00',
-        7: '#f55200',
-        8: '#f53600',
-        9: '#f51b00',
-        10: '#f50000'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#f5f500',
         2: '#f5da00',
@@ -150,19 +124,6 @@ export const alaskaConfig = {
         9: '#684217',
         10: '#593812'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#f7e4cb',
-        2: '#e5ceb1',
-        3: '#dcb897',
-        4: '#c0a27d',
-        5: '#ad8b62',
-        6: '#946d3f',
-        7: '#855621',
-        8: '#764c1c',
-        9: '#684217',
-        10: '#593812'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_ExposureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -191,19 +152,6 @@ export const alaskaConfig = {
         9: '#1727a3',
         10: '#090991'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#b6edf0',
-        2: '#98d2ed',
-        3: '#7cbbeb',
-        4: '#5ca3e6',
-        5: '#368de3',
-        6: '#2176d9',
-        7: '#2259c7',
-        8: '#1d3eb5',
-        9: '#1727a3',
-        10: '#090991'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_AssetsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -220,19 +168,6 @@ export const alaskaConfig = {
       ChartInputSubHeading: 'Community Asset and Threat Indices',
       chartCSSSelector: 'threat',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffebd6',
-        2: '#f7d7bc',
-        3: '#f0c0a1',
-        4: '#eba988',
-        5: '#e3906f',
-        6: '#de775b',
-        7: '#d65d45',
-        8: '#d14030',
-        9: '#c9251c',
-        10: '#c40a0a'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffebd6',
         2: '#f7d7bc',
@@ -274,19 +209,6 @@ export const alaskaConfig = {
         9: '#A33F8F',
         10: '#7E33A8'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#EEF8F3',
-        2: '#EDD0E0',
-        3: '#E9BBCB',
-        4: '#E3A6B7',
-        5: '#DB90A6',
-        6: '#D27C99',
-        7: '#C6678F',
-        8: '#B7528A',
-        9: '#A33F8F',
-        10: '#7E33A8'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_WildlifeIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -302,19 +224,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Fish and Wildlife Inputs',
       chartCSSSelector: 'aquatic',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#CDE1E8',
-        2: '#B6D2D9',
-        3: '#9FC3CA',
-        4: '#88B4BB',
-        5: '#71A5AC',
-        6: '#5B969D',
-        7: '#44878E',
-        8: '#2D787F',
-        9: '#166970',
-        10: '#005A62'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#CDE1E8',
         2: '#B6D2D9',
@@ -354,19 +263,6 @@ export const alaskaConfig = {
         9: '#114E0A',
         10: '#004900'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFFFE5',
-        2: '#F1E7B5',
-        3: '#E3CE84',
-        4: '#BAB065',
-        5: '#888F4C',
-        6: '#576F33',
-        7: '#32591F',
-        8: '#215415',
-        9: '#114E0A',
-        10: '#004900'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_TerrestrialIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -382,12 +278,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'social_vuln',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#9EBBD7',
-        2: '#43309D',
-        3: '#270B59'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#9EBBD7',
         2: '#43309D',
@@ -415,10 +305,6 @@ export const alaskaConfig = {
         4: '#0084A8',
         5: '#0084A8'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        5: '#0084A8'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -439,10 +325,6 @@ export const alaskaConfig = {
         2: '#A82B41',
         3: '#A82B41',
         4: '#A82B41',
-        5: '#A82B41'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
         5: '#A82B41'
       },
       url: 'https://tiles.resilientcoasts.org/AK_CommunityInfrastructurIndexTiles/{z}/{x}/{y}.png',
@@ -467,10 +349,6 @@ export const alaskaConfig = {
         4: '#FEB24C',
         5: '#FEB24C'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        5: '#FEB24C'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_TransporationInfrastructure/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -486,14 +364,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'erosion',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#FEEBA2',
-        2: '#FEBB47',
-        3: '#F07818',
-        4: '#B84203',
-        5: '#662506'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#FEEBA2',
         2: '#FEBB47',
@@ -523,14 +393,6 @@ export const alaskaConfig = {
         4: '#61409B',
         5: '#3F007D'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#E2E2EF',
-        2: '#B6B6D8',
-        3: '#8683BD',
-        4: '#61409B',
-        5: '#3F007D'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_FloodProneAreasIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -546,12 +408,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'tsunami',
       chartCSSColor: {
-        0: '#E9ECEF',
-        3: '#FB6A4A',
-        4: '#DE2D26',
-        5: '#A50F15'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         3: '#FB6A4A',
         4: '#DE2D26',
@@ -579,14 +435,6 @@ export const alaskaConfig = {
         4: '#2C7FB8',
         5: '#253494'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFFFCC',
-        2: '#A1DAB4',
-        3: '#41B6C4',
-        4: '#2C7FB8',
-        5: '#253494'
-      },
       url: 'https://tiles.resilientcoasts.org/AK_PermaFrostIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
       opacity: 0.75,
@@ -601,14 +449,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'low_areas',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#D3EECD',
-        2: '#98D594',
-        3: '#4BB062',
-        4: '#157F3B',
-        5: '#00441B'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#D3EECD',
         2: '#98D594',

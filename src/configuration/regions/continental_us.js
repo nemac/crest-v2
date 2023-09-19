@@ -178,7 +178,7 @@ export const continentalUSConfig = {
         5: '#B7528A',
         6: '#7E33A8'
       },
-            chartInputName: 'summary',
+      chartInputName: 'summary',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'wildlife',
@@ -252,7 +252,7 @@ export const continentalUSConfig = {
         5: '#385a4c'
       },
       chartCSSSelector: 'pop_density',
-            url: 'https://tiles.resilientcoasts.org/PopDensityIndexTiles/{z}/{x}/{y}.png',
+      url: 'https://tiles.resilientcoasts.org/PopDensityIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
       maxNativeZoom: 12,

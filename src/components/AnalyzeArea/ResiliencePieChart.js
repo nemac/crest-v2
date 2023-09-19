@@ -30,7 +30,6 @@ export default function ResiliencePieChart(props) {
     showLegend,
     chartType
   } = props;
-  console.log('pie chart data', data);
   const renderCustomizedLabel = ({
     cx, cy, midAngle, innerRadius, outerRadius, percent, index
   }) => {
