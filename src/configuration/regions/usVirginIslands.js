@@ -432,7 +432,7 @@ export const usVirginIslandsConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'slope',
+        chartCSSSelector: 'low_areas',
         url: 'https://tiles.resilientcoasts.org/USVI_SlopeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,

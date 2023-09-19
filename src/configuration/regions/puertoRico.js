@@ -434,7 +434,7 @@ export const puertoRicoConfig = {
         },
         chartInputName: 'threat',
         ChartInputLabel: 'Threats Inputs',
-        chartCSSSelector: 'slope',
+        chartCSSSelector: 'low_areas',
         url: 'https://tiles.resilientcoasts.org/PR_SlopeIndexTiles/{z}/{x}/{y}.png',
         attribution: 'NFWF 2020',
         opacity: 0.75,
