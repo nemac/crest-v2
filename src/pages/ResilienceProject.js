@@ -36,7 +36,7 @@ export default function ResilienceProject() {
     {
       buttonLabel: 'Export',
       buttonName: 'Export',
-      onClick: () => { handleExportImage('resilience-pie'); },
+      onClick: () => { handleExportImage('Core Variability'); },
       icon: <CameraAlt />
     }
   ];

@@ -97,6 +97,29 @@ export const mapConfig = {
     '#ca3600',
     '#c21500'
   ],
+  landcoverPieChartLegend: [
+    '#000000',
+    '#5475A8',
+    '#FFFFFF',
+    '#E8D1D1',
+    '#E29E8C',
+    '#ff0000',
+    '#B50000',
+    '#D2CDC0',
+    '#85C77E',
+    '#38814E',
+    '#D4E7B0',
+    '#AF963C',
+    '#DCCA8F',
+    '#FDE9AA',
+    '#D1D182',
+    '#A3CC51',
+    '#82BA9E',
+    '#FBF65D',
+    '#CA9146',
+    '#C8E6F8',
+    '#64B3D5'
+  ],
   examplePolygonFeature: {
     type: 'Feature',
     geometry: {

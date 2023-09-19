@@ -9,10 +9,12 @@ import { styled } from '@mui/system';
 import ResiliencePieChart from './ResiliencePieChart';
 import ResilienceHubScore from './ResilienceHubScore';
 import ActionButtonsHolder from '../All/ActionButtonsHolder';
+import { mapConfig } from '../../configuration/config';
 
 const StyledBackgroundBox = styled(Box)(({ theme }) => ({
   height: '100%'
 }));
+const pieChartLegendColors = mapConfig.resiliencePieChartLegend;
 
 export default function ChartCard(props) {
   const { chartData, chartActionButtons, coreHubScore } = props;
@@ -41,7 +43,20 @@ export default function ChartCard(props) {
           <ResilienceHubScore sx={{ height: '150px' }} coreHubScore={coreHubScore}/>
         </Grid>
         <Grid xs={12} px={0} pb={0} sx={{ width: '100%', height: '375px' }} >
-          <ResiliencePieChart coreHubScore={coreHubScore} data={chartData}/>
+            <Grid xs={12}>
+              <Typography variant="body" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+                Core Variability
+              </Typography>
+            </Grid>
+            <Grid xs={12} mx={1} sx={{ height: '320px' }}>
+              <ResiliencePieChart
+                coreHubScore={coreHubScore}
+                data={chartData}
+                legendColors={pieChartLegendColors}
+                showLegend={true}
+                chartType={'Core Variability'}
+              />
+            </Grid>
         </Grid>
         <Grid
           xs={12}

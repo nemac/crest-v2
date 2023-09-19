@@ -13,15 +13,18 @@ import {
 
 import ActionButtonsHolder from '../All/ActionButtonsHolder';
 import AnalyzeBarChart from './AnalyzeBarChart';
+import ResiliencePieChart from './ResiliencePieChart';
 import {
   handleExportImage,
   handleMoreOnClick,
   handleZoomClick,
   removeLayer
 } from './ChartFunctions';
+import { mapConfig } from '../../configuration/config';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
+const pieChartLegendColors = mapConfig.landcoverPieChartLegend;
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -60,6 +63,26 @@ const ContentBox = styled(Box)(({ theme }) => ({
   alignItems: 'center'
 }));
 
+const LandcoverChartTitle = (props) => {
+  const { title } = props;
+  return (
+    <text
+      x={400 / 2}
+      y={'10%'}
+      fill="white"
+      textAnchor="middle"
+      dominantBaseline="central"
+      style={{ fontFamily: 'Roboto, sans-serif' }}
+    >
+      <tspan style={{ fontSize: '1.25rem' }}>{title}</tspan>
+    </text>
+  );
+};
+
+LandcoverChartTitle.propTypes = {
+  title: PropTypes.string
+};
+
 export default function ChartCard(props) {
   const {
     region,
@@ -78,8 +101,39 @@ export default function ChartCard(props) {
     'Community Assets Inputs': [
       'pop_density', 'crit_infra', 'transportation',
       'social_vuln', 'crit_facilities'],
-    Landcover: ['landcover']
+    Landcover: ['landcover_empty', 'landcover_open_water', 'landcover_perenial_ice/snow',
+      'landcover_developed_open_space', 'landcover_developed_low_intensity',
+      'landcover_developed_medium_intensity', 'landcover_developed_high_intensity',
+      'landcover_barren_land', 'landcover_deciduous_forest', 'landcover_evergreen_forest',
+      'landcover_mixed_forest', 'landcover_dwarf_scrub', 'landcover_shrub/scrub',
+      'landcover_grassland/herbaceous', 'landcover_sedge/herbaceous', 'landcover_lichens',
+      'landcover_moss', 'landcover_pasture/hay-areas', 'landcover_cultivated_crops',
+      'landcover_woody_wetlands', 'landcover_emergent_herbaceous_wetlands']
   };
+
+  const landcoverData = [
+    { name: 'no data', value: feature.properties.zonalStatsData.landcover_empty },
+    { name: 'Open Water', value: feature.properties.zonalStatsData.landcover_open_water },
+    { name: 'Perennial Ice/Snow', value: feature.properties.zonalStatsData['landcover_perenial_ice/snow'] },
+    { name: 'Developed, Open Space', value: feature.properties.zonalStatsData.landcover_developed_open_space },
+    { name: 'Developed, Low Intensity', value: feature.properties.zonalStatsData.landcover_developed_low_intensity },
+    { name: 'Developed, Medium Intensity', value: feature.properties.zonalStatsData.landcover_developed_medium_intensity },
+    { name: 'Developed High Intensity', value: feature.properties.zonalStatsData.landcover_developed_high_intensity },
+    { name: 'Barren Land (Rock/Sand/Clay)', value: feature.properties.zonalStatsData.landcover_barren_land },
+    { name: 'Deciduous Forest', value: feature.properties.zonalStatsData.landcover_deciduous_forest },
+    { name: 'Evergreen Forest', value: feature.properties.zonalStatsData.landcover_evergreen_forest },
+    { name: 'Mixed Forest', value: feature.properties.zonalStatsData.landcover_mixed_forest },
+    { name: 'Dwarf Scrub', value: feature.properties.zonalStatsData.landcover_dwarf_scrub },
+    { name: 'Shrub/Scrub', value: feature.properties.zonalStatsData['landcover_shrub/scrub'] },
+    { name: 'Grassland/Herbaceous', value: feature.properties.zonalStatsData['landcover_grassland/herbaceous'] },
+    { name: 'Sedge/Herbaceous', value: feature.properties.zonalStatsData['landcover_sedge/herbaceous'] },
+    { name: 'Lichens', value: feature.properties.zonalStatsData.landcover_lichens },
+    { name: 'Moss', value: feature.properties.zonalStatsData.landcover_moss },
+    { name: 'Pasture/Hay', value: feature.properties.zonalStatsData['landcover_pasture/hay-areas'] },
+    { name: 'Cultivated Crops', value: feature.properties.zonalStatsData.landcover_cultivated_crops },
+    { name: 'Woody Wetlands', value: feature.properties.zonalStatsData.landcover_woody_wetlands },
+    { name: 'Emergent Herbaceous Wetlands', value: feature.properties.zonalStatsData.landcover_emergent_herbaceous_wetlands }
+  ];
 
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
@@ -137,20 +191,30 @@ export default function ChartCard(props) {
                   components='fieldset'
                   id={`${key}-chartbox`}
                 >
-                  <AnalyzeBarChart
-                    chartRegion={region}
-                    chartIndices={value}
-                    chartType={key}
-                    setHover={setHover}
-                    feature={feature}
-                    zonalStatsData={feature.properties.zonalStatsData}
-                    barchartMargin={{
-                      top: 90,
-                      right: 30,
-                      left: 0,
-                      bottom: 30
-                    }}
-                  />
+                  {key !== 'Landcover' ? (
+                    <AnalyzeBarChart
+                      chartRegion={region}
+                      chartIndices={value}
+                      chartType={key}
+                      setHover={setHover}
+                      feature={feature}
+                      zonalStatsData={feature.properties.zonalStatsData}
+                      barchartMargin={{
+                        top: 90,
+                        right: 30,
+                        left: 0,
+                        bottom: 30
+                      }}
+                    />
+                  ) : (
+                    <ResiliencePieChart
+                      data={landcoverData}
+                      legendColors={pieChartLegendColors}
+                      // chartTitle={<LandcoverChartTitle title={key.concat(' ').concat(feature.properties.areaName)} />}
+                      chartTitle={key.concat(' ').concat(feature.properties.areaName)}
+                      chartType={key}
+                    />
+                  )}
                 </ContentBox>
               </StyledBox>
               <ActionButtonsHolder
