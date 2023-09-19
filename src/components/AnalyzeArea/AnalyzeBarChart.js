@@ -130,9 +130,11 @@ export default function AnalyzeBarChart(props) {
   // Bar Color is functional based on value comparison with config
   const getData = (name, value) => {
     const colorValue = Math.round(value);
+    console.log('name', name);
     const selectedLayerData = layerList.find(
       (layer) => layer.chartCSSSelector === name
     );
+    console.log('selectedLayerData', selectedLayerData)
     const selectedChartLabel = selectedLayerData.chartLabel;
     const selectedColorChart = selectedLayerData.chartCSSColor;
     const selectedColor = selectedColorChart[colorValue];
