@@ -210,7 +210,6 @@ export default function ChartCard(props) {
                     <ResiliencePieChart
                       data={landcoverData}
                       legendColors={pieChartLegendColors}
-                      // chartTitle={<LandcoverChartTitle title={key.concat(' ').concat(feature.properties.areaName)} />}
                       chartTitle={key.concat(' ').concat(feature.properties.areaName)}
                       chartType={key}
                     />

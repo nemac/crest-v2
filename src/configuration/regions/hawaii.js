@@ -50,7 +50,6 @@ export const hawaiiConfig = {
         layer: 'Hubs TMS',
         label: 'Resilience Hubs',
         chartLabel: 'Resilience Hubs',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#ffc500',
@@ -93,7 +92,6 @@ export const hawaiiConfig = {
         layer: 'Exposure TMS',
         label: 'Community Exposure Index',
         chartLabel: 'Community Exposure',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#1f6e6e',
@@ -136,7 +134,6 @@ export const hawaiiConfig = {
         layer: 'Assets TMS',
         label: 'Community Asset Index',
         chartLabel: 'Community Asset',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#b6edf0',
@@ -179,7 +176,6 @@ export const hawaiiConfig = {
         layer: 'Threats TMS',
         label: 'Threat Index',
         chartLabel: 'Threat',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#ffebd6',
@@ -222,7 +218,6 @@ export const hawaiiConfig = {
         id: 'HI_FishAndWildlifeTMS',
         layer: 'FishAndWildlife TMS',
         chartLabel: 'Fish and Wildlife',
-        chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#EEE7F8',
@@ -258,7 +253,6 @@ export const hawaiiConfig = {
         layer: 'Marine TMS',
         label: 'Marine Index',
         chartLabel: 'Marine',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#CDE1E8',
@@ -288,7 +282,6 @@ export const hawaiiConfig = {
         layer: 'Terrestrial TMS',
         label: 'Terrestrial Index',
         chartLabel: 'Terrestrial',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#FFE9C4',
@@ -318,7 +311,6 @@ export const hawaiiConfig = {
         layer: 'Population Density TMS',
         label: 'Population Density',
         chartLabel: 'Population Density',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#dfc878',
@@ -350,7 +342,6 @@ export const hawaiiConfig = {
         layer: 'Social Vulnerability TMS',
         label: 'Social Vulnerability',
         chartLabel: 'Social Vulnerability',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#9EBBD7',
@@ -382,7 +373,6 @@ export const hawaiiConfig = {
         layer: 'Critical Facilities TMS',
         label: 'Critical Facilities',
         chartLabel: 'Critical Facilities',
-        chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#9EBBD7',
@@ -412,7 +402,6 @@ export const hawaiiConfig = {
         layer: 'Critical Infrastructure TMS',
         label: 'Critical Infrastructure',
         chartLabel: 'Critical Infrastructure',
-        chartLegendValues: 8,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#CCD1D2',
@@ -450,7 +439,6 @@ export const hawaiiConfig = {
         layer: 'Drainage TMS',
         label: 'Impermeable Soils',
         chartLabel: 'Impermeable Soils',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#447604',
@@ -482,7 +470,6 @@ export const hawaiiConfig = {
         layer: 'Erosion TMS',
         label: 'Soil Erodibility',
         chartLabel: 'Soil Erodibility',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#feeba2',
@@ -514,7 +501,6 @@ export const hawaiiConfig = {
         layer: 'Sea Level Rise TMS',
         label: 'Sea Level Rise',
         chartLabel: 'Sea Level Rise',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#99b9d9',
@@ -546,7 +532,6 @@ export const hawaiiConfig = {
         layer: 'Storm Surge TMS',
         label: 'Storm Surge',
         chartLabel: 'Storm Surge',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#d6efb3',
@@ -578,7 +563,6 @@ export const hawaiiConfig = {
         layer: 'Slope TMS',
         label: 'Areas of Low Slope',
         chartLabel: 'Areas of Low Slope',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#d3eecd',
@@ -610,7 +594,6 @@ export const hawaiiConfig = {
         layer: 'Flood Prone Areas TMS',
         label: 'Flood-Prone Areas',
         chartLabel: 'Flood Prone Areas',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#e2e2ef',
@@ -642,7 +625,6 @@ export const hawaiiConfig = {
         layer: 'Landslides',
         label: 'Geological Stressors',
         chartLabel: 'Geological Stressors',
-        chartLegendValues: 3,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#fbacb9',
@@ -670,7 +652,6 @@ export const hawaiiConfig = {
         layer: 'Tsunami',
         label: 'Tsunami',
         chartLabel: 'Tsunami',
-        chartLegendValues: 2,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#414488',

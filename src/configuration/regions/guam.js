@@ -52,7 +52,6 @@ export const guamConfig = {
         layer: 'Hubs TMS',
         label: 'Resilience Hubs',
         chartLabel: 'Resilience Hubs',
-        chartLegendValues: 10,
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Resilience Hubs',
@@ -96,7 +95,6 @@ export const guamConfig = {
         layer: 'Hubs Hex TMS',
         label: 'Resilience Hexagonal Grid',
         chartLabel: 'Resilience Hexagonal Grid',
-        chartLegendValues: 10,
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Resilience Hubs',
@@ -140,7 +138,6 @@ export const guamConfig = {
         layer: 'Exposure TMS',
         label: 'Community Exposure Index',
         chartLabel: 'Community Exposure',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#1f6e6e',
@@ -184,7 +181,6 @@ export const guamConfig = {
         layer: 'Assets TMS',
         label: 'Community Asset Index',
         chartLabel: 'Community Asset',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#b6edf0',
@@ -228,7 +224,6 @@ export const guamConfig = {
         layer: 'Threats TMS',
         label: 'Threat Index',
         chartLabel: 'Threat',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#ffebd6',
@@ -273,7 +268,6 @@ export const guamConfig = {
         layer: 'FishAndWildlife TMS',
         label: 'Fish and Wildlife Index',
         chartLabel: 'Fish and Wildlife',
-        chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#EEE7F8',
@@ -309,7 +303,6 @@ export const guamConfig = {
         layer: 'Marine TMS',
         label: 'Marine Index',
         chartLabel: 'Marine',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#CDE1E8',
@@ -340,7 +333,6 @@ export const guamConfig = {
         layer: 'Terrestrial TMS',
         label: 'Terrestrial Index',
         chartLabel: 'Terrestrial',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#FFE9C4',
@@ -371,7 +363,6 @@ export const guamConfig = {
         layer: 'Population Density TMS',
         label: 'Population Density',
         chartLabel: 'Population Density',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#FFF6D0',
@@ -404,7 +395,6 @@ export const guamConfig = {
         layer: 'Social Vulnerability TMS',
         label: 'Social Vulnerability',
         chartLabel: 'Social Vulnerability',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#EDF8FB',
@@ -435,7 +425,6 @@ export const guamConfig = {
         layer: 'Critical Facilities TMS',
         label: 'Critical Facilities',
         chartLabel: 'Critical Facilities',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#0084A8',
@@ -464,7 +453,6 @@ export const guamConfig = {
         layer: 'Critical Infrastructure TMS',
         label: 'Critical Infrastructure',
         chartLabel: 'Critical Infrastructure',
-        chartLegendValues: 15,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#CCD1D2',
@@ -507,7 +495,6 @@ export const guamConfig = {
         layer: 'Drainage TMS',
         label: 'Impermeable Soils',
         chartLabel: 'Impermeable Soils',
-        chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#447604',
@@ -539,7 +526,6 @@ export const guamConfig = {
         layer: 'Erosion TMS',
         label: 'Soil Erodibility',
         chartLabel: 'Soil Erodibility',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#feeba2',
@@ -572,7 +558,6 @@ export const guamConfig = {
         layer: 'Sea Level Rise TMS',
         label: 'Sea Level Rise',
         chartLabel: 'Sea Level Rise',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#dbd8ea',
@@ -605,7 +590,6 @@ export const guamConfig = {
         layer: 'Wave Driven TMS',
         label: 'Wave-Driven Flooding',
         chartLabel: 'Wave Driven Flooding',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#FFFFCC',
@@ -636,7 +620,6 @@ export const guamConfig = {
         layer: 'Slope TMS',
         label: 'Areas of Low Slope',
         chartLabel: 'Areas of Low Slope',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#d3eecd',
@@ -669,7 +652,6 @@ export const guamConfig = {
         layer: 'Flood Prone Areas TMS',
         label: 'Flood-Prone Areas',
         chartLabel: 'Flood Prone Areas',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#e2e2ef',
@@ -702,7 +684,6 @@ export const guamConfig = {
         layer: 'Tsunami',
         label: 'Tsunami',
         chartLabel: 'Tsunami',
-        chartLegendValues: 2,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#2171B5',
@@ -729,7 +710,6 @@ export const guamConfig = {
         layer: 'Wave Exposure',
         label: 'Wave Exposure',
         chartLabel: 'Wave Exposure',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#FEEDDE',
@@ -762,7 +742,6 @@ export const guamConfig = {
         layer: 'Landslides',
         label: 'Geological Stressors',
         chartLabel: 'Geological Stressors',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#FEEBE2',

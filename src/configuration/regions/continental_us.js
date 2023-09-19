@@ -41,6 +41,10 @@ export const continentalUSConfig = {
     {
       chartInputName: 'fishandwildlife',
       ChartInputLabel: 'Fish and Wildlife Inputs'
+    },
+    {
+      chartInputName: 'additional',
+      ChartInputLabel: 'Additional Overlays'
     }
   ],
   layerList: [
@@ -49,21 +53,7 @@ export const continentalUSConfig = {
       layer: 'Hubs TMS',
       label: 'Resilience Hubs',
       chartLabel: 'Resilience Hubs',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffc500',
-        2: '#f9b500',
-        3: '#f3a400',
-        4: '#ed9400',
-        5: '#e78300',
-        6: '#e07000',
-        7: '#d95e00',
-        8: '#d14c00',
-        9: '#ca3600',
-        10: '#c21500'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffc500',
         2: '#f9b500',
@@ -92,21 +82,7 @@ export const continentalUSConfig = {
       layer: 'Exposure TMS',
       label: 'Community Exposure Index',
       chartLabel: 'Community Exposure',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#1f6e6e',
-        2: '#3d8282',
-        3: '#7dad9c',
-        4: '#b7d4b2',
-        5: '#e9f2bb',
-        6: '#f5e9a9',
-        7: '#dbba7a',
-        8: '#b08042',
-        9: '#9b5526',
-        10: '#633319'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#1f6e6e',
         2: '#3d8282',
@@ -135,21 +111,7 @@ export const continentalUSConfig = {
       layer: 'Assets TMS',
       label: 'Community Asset Index',
       chartLabel: 'Community Asset',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#b6edf0',
-        2: '#98d2ed',
-        3: '#7cbbeb',
-        4: '#5ca3e6',
-        5: '#368de3',
-        6: '#2176d9',
-        7: '#2259c7',
-        8: '#1d3eb5',
-        9: '#1727a3',
-        10: '#090991'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#b6edf0',
         2: '#98d2ed',
@@ -178,21 +140,7 @@ export const continentalUSConfig = {
       layer: 'Threats TMS',
       label: 'Threat Index',
       chartLabel: 'Threat',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffebd6',
-        2: '#f7d7bc',
-        3: '#f0c0a1',
-        4: '#eba988',
-        5: '#e3906f',
-        6: '#de775b',
-        7: '#d65d45',
-        8: '#d14030',
-        9: '#c9251c',
-        10: '#c40a0a'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffebd6',
         2: '#f7d7bc',
@@ -221,7 +169,6 @@ export const continentalUSConfig = {
       layer: 'FishAndWildlife TMS',
       label: 'Fish and Wildlife Index',
       chartLabel: 'Fish and Wildlife',
-      chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#EEE7F8',
@@ -231,16 +178,7 @@ export const continentalUSConfig = {
         5: '#B7528A',
         6: '#7E33A8'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#EEE7F8',
-        2: '#E9BBCB',
-        3: '#DB90A6',
-        4: '#D27C99',
-        5: '#B7528A',
-        6: '#7E33A8'
-      },
-      chartInputName: 'summary',
+            chartInputName: 'summary',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'wildlife',
@@ -256,16 +194,7 @@ export const continentalUSConfig = {
       layer: 'Aquatic TMS',
       label: 'Aquatic Index',
       chartLabel: 'Aquatic',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#cde1e8',
-        2: '#82bcd1',
-        3: '#5ea5bb',
-        4: '#007e91',
-        5: '#005a62'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#cde1e8',
         2: '#82bcd1',
@@ -289,16 +218,7 @@ export const continentalUSConfig = {
       layer: 'Terrestrial TMS',
       label: 'Terrestrial Index',
       chartLabel: 'Terrestrial',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffe9c4',
-        2: '#dfc878',
-        3: '#79684e',
-        4: '#385b23',
-        5: '#004900'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffe9c4',
         2: '#dfc878',
@@ -323,7 +243,6 @@ export const continentalUSConfig = {
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
       chartLabel: 'Population Density',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#dfc878',
@@ -333,15 +252,7 @@ export const continentalUSConfig = {
         5: '#385a4c'
       },
       chartCSSSelector: 'pop_density',
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#dfc878',
-        2: '#efc133',
-        3: '#9eac37',
-        4: '#2c8d7a',
-        5: '#385a4c'
-      },
-      url: 'https://tiles.resilientcoasts.org/PopDensityIndexTiles/{z}/{x}/{y}.png',
+            url: 'https://tiles.resilientcoasts.org/PopDensityIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
       maxNativeZoom: 12,
@@ -353,14 +264,7 @@ export const continentalUSConfig = {
       layer: 'Social Vulnerability TMS',
       label: 'Social Vulnerability',
       chartLabel: 'Social Vulnerability',
-      chartLegendValues: 3,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#abd2fa',
-        2: '#7692ff',
-        3: '#3a1459'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#abd2fa',
         2: '#7692ff',
@@ -381,17 +285,12 @@ export const continentalUSConfig = {
       layer: 'Critical Facilities TMS',
       label: 'Critical Facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#0084a8',
         2: '#0084a8',
         3: '#0084a8',
         4: '#0084a8',
-        5: '#0084a8'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
         5: '#0084a8'
       },
       chartInputName: 'asset',
@@ -409,17 +308,7 @@ export const continentalUSConfig = {
       layer: 'Critical Infrastructure TMS',
       label: 'Critical Infrastructure',
       chartLabel: 'Critical Infrastructure',
-      chartLegendValues: 6,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ccd1d2',
-        2: '#355c59',
-        3: '#e8b16d',
-        4: '#b15a3c',
-        5: '#ad3541',
-        6: '#7b1733'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ccd1d2',
         2: '#355c59',
@@ -443,16 +332,7 @@ export const continentalUSConfig = {
       layer: 'Drainage TMS',
       label: 'Impermeable Soils',
       chartLabel: 'Impermeable Soils',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#447604',
-        2: '#77D66F',
-        3: '#dce9f2',
-        4: '#755b69',
-        5: '#553555'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#447604',
         2: '#77D66F',
@@ -475,16 +355,7 @@ export const continentalUSConfig = {
       layer: 'Erosion TMS',
       label: 'Soil Erodibility',
       chartLabel: 'Soil Erodibility',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#feeba2',
-        2: '#febb47',
-        3: '#f07818',
-        4: '#b84203',
-        5: '#662506'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#feeba2',
         2: '#febb47',
@@ -507,16 +378,7 @@ export const continentalUSConfig = {
       layer: 'Sea Level Rise TMS',
       label: 'Sea Level Rise',
       chartLabel: 'Sea Level Rise',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#dbd8ea',
-        2: '#99b9d9',
-        3: '#4095c3',
-        4: '#027976',
-        5: '#014636'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#dbd8ea',
         2: '#99b9d9',
@@ -539,16 +401,7 @@ export const continentalUSConfig = {
       layer: 'Storm Surge TMS',
       label: 'Storm Surge',
       chartLabel: 'Storm Surge',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#d6efb3',
-        2: '#73c8bd',
-        3: '#2498c1',
-        4: '#234da0',
-        5: '#081d58'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#d6efb3',
         2: '#73c8bd',
@@ -571,14 +424,7 @@ export const continentalUSConfig = {
       layer: 'Geo Stressors TMS',
       label: 'Geological Stressors',
       chartLabel: 'Geological Stressors',
-      chartLegendValues: 3,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#fbacb9',
-        2: '#cd238f',
-        3: '#49006a'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#fbacb9',
         2: '#cd238f',
@@ -599,16 +445,7 @@ export const continentalUSConfig = {
       layer: 'Slope TMS',
       label: 'Areas of Low Slope',
       chartLabel: 'Areas of Low Slope',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#d3eecd',
-        2: '#98d594',
-        3: '#4bb062',
-        4: '#157f3b',
-        5: '#00441b'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#d3eecd',
         2: '#98d594',
@@ -631,16 +468,7 @@ export const continentalUSConfig = {
       layer: 'Flood Prone Areas TMS',
       label: 'Flood-Prone Areas',
       chartLabel: 'Flood Prone Areas',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#e2e2ef',
-        2: '#b6b6d8',
-        3: '#8683bd',
-        4: '#61409b',
-        5: '#3f007d'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#e2e2ef',
         2: '#b6b6d8',
@@ -658,38 +486,12 @@ export const continentalUSConfig = {
       description: 'Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain.',
       region: 'continental_us'
     },
-    // landcover is going to appear as multiple layers but all of these are dummy layers aside
-    // from landcover itself. This is due to landcover on the chart being different than
-    // every other layer on the chart.
     {
       id: 'CONUS_landcover',
       layer: 'landcover',
       label: 'Landcover',
       chartLabel: 'Landcover',
-      chartLegendValues: 20,
-      chartCSSColor: { // TODO: Customize these colors for landcover to be correct
-        11: '#5475A8',
-        12: '#FFFFFF',
-        21: '#E8D1D1',
-        22: '#E29E8C',
-        23: '#ff0000',
-        24: '#B50000',
-        31: '#D2CDC0',
-        41: '#85C77E',
-        42: '#38814E',
-        43: '#D4E7B0',
-        51: '#AF963C',
-        52: '#DCCA8F',
-        71: '#FDE9AA',
-        72: '#D1D182',
-        73: '#A3CC51',
-        74: '#82BA9E',
-        81: '#FBF65D',
-        82: '#CA9146',
-        90: '#C8E6F8',
-        95: '#64B3D5'
-      },
-      chartCSSLegends: {
+      chartCSSColor: {
         11: '#5475A8',
         12: '#FFFFFF',
         21: '#E8D1D1',
@@ -712,7 +514,7 @@ export const continentalUSConfig = {
         95: '#64B3D5'
       },
       chartInputName: 'landcover',
-      ChartInputLabel: 'Threats Inputs', // change this
+      ChartInputLabel: 'Additional Overlays',
       chartCSSSelector: 'landcover',
       url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png', // TODO: WRONG WRONG WRONG CHANGE THIS
       attribution: 'NFWF 2020',

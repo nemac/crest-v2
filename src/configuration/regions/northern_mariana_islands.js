@@ -50,7 +50,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Hubs TMS',
         label: 'Resilience Hubs',
         chartLabel: 'Resilience Hubs',
-        chartLegendValues: 10,
         chartInputName: 'summary',
         ChartInputLabel: 'Summary',
         ChartInputSubHeading: 'Resilience Hubs',
@@ -93,7 +92,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Exposure TMS',
         label: 'Community Exposure Index',
         chartLabel: 'Community Exposure',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#1f6e6e',
@@ -136,7 +134,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Assets TMS',
         label: 'Community Asset Index',
         chartLabel: 'Community Asset',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#b6edf0',
@@ -179,7 +176,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Threats TMS',
         label: 'Threat Index',
         chartLabel: 'Threat',
-        chartLegendValues: 10,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#ffebd6',
@@ -223,7 +219,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'FishAndWildlife TMS',
         label: 'Fish and Wildlife Index',
         chartLabel: 'Fish and Wildlife',
-        chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#EEE7F8',
@@ -258,7 +253,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Marine TMS',
         label: 'Marine Index',
         chartLabel: 'Marine',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#CDE1E8',
@@ -288,7 +282,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Terrestrial TMS',
         label: 'Terrestrial Index',
         chartLabel: 'Terrestrial',
-        chartLegendValues: 4,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#FFE9C4',
@@ -318,7 +311,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Population Density TMS',
         label: 'Population Density',
         chartLabel: 'Population Density',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#dfc878',
@@ -350,7 +342,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Social Vulnerability TMS',
         label: 'Social Vulnerability',
         chartLabel: 'Social Vulnerability',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#9EBBD7',
@@ -382,7 +373,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Critical Facilities TMS',
         label: 'Critical Facilities',
         chartLabel: 'Critical Facilities',
-        chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#9EBBD7',
@@ -412,7 +402,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Critical Infrastructure TMS',
         label: 'Critical Infrastructure',
         chartLabel: 'Critical Infrastructure',
-        chartLegendValues: 6,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#ccd1d2',
@@ -446,7 +435,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Drainage TMS',
         label: 'Impermeable Soils',
         chartLabel: 'Impermeable Soils',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#447604',
@@ -478,7 +466,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Erosion TMS',
         label: 'Soil Erodibility',
         chartLabel: 'Soil Erodibility',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#feeba2',
@@ -510,7 +497,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Sea Level Rise TMS',
         label: 'Sea Level Rise',
         chartLabel: 'Sea Level Rise',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#dbd8ea',
@@ -542,7 +528,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Storm Surge TMS',
         label: 'Wave-Driven Flooding',
         chartLabel: 'Wave Driven Flooding',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#d6efb3',
@@ -574,7 +559,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Slope TMS',
         label: 'Areas of Low Slope',
         chartLabel: 'Areas of Low Slope',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#d3eecd',
@@ -606,7 +590,6 @@ export const northernMarianaIslandsConfig = {
         layer: 'Flood Prone Areas TMS',
         label: 'Flood-Prone Areas',
         chartLabel: 'Flood Prone Areas',
-        chartLegendValues: 5,
         chartCSSColor: {
           0: '#E9ECEF',
           1: '#e2e2ef',

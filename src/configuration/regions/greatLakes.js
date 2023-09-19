@@ -55,7 +55,6 @@ export const greatLakesConfig = {
       layer: 'Hubs TMS',
       label: 'Resilience Hubs',
       chartLabel: 'Resilience Hubs',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#ffc500',
@@ -98,7 +97,6 @@ export const greatLakesConfig = {
       layer: 'Hubs Hex TMS',
       label: 'Resilience Hub Grid',
       chartLabel: 'Resilience Hub Grid',
-      chartLegendValues: 10,
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
@@ -140,7 +138,6 @@ export const greatLakesConfig = {
       layer: 'Exposure TMS',
       label: 'Community Exposure Index',
       chartLabel: 'Community Exposure',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFFFE5',
@@ -185,7 +182,6 @@ export const greatLakesConfig = {
       layer: 'Assets TMS',
       label: 'Community Asset Index',
       chartLabel: 'Community Asset',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#b6edf0',
@@ -229,7 +225,6 @@ export const greatLakesConfig = {
       layer: 'Threats TMS',
       label: 'Threat Index',
       chartLabel: 'Threat',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#ffebd6',
@@ -273,7 +268,6 @@ export const greatLakesConfig = {
       layer: 'FishAndWildlife TMS',
       label: 'Fish and Wildlife Index',
       chartLabel: 'Fish and Wildlife',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#EEF8F3',
@@ -313,7 +307,6 @@ export const greatLakesConfig = {
       layer: 'Aquatic TMS',
       label: 'Aquatic Index',
       chartLabel: 'Aquatic',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFF7FB',
@@ -351,7 +344,6 @@ export const greatLakesConfig = {
       label: 'Terrestrial Index',
 
       chartLabel: 'Terrestrial',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFFFE5',
@@ -388,7 +380,6 @@ export const greatLakesConfig = {
       layer: 'Social Vulnerability TMS',
       label: 'Social Vulnerability',
       chartLabel: 'Social Vulnerability',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#9EBBD7',
@@ -418,7 +409,6 @@ export const greatLakesConfig = {
       layer: 'Population Density TMS',
       label: 'Population Density',
       chartLabel: 'Population Density',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#fff6d0',
@@ -452,7 +442,6 @@ export const greatLakesConfig = {
       label: 'Critical Facilities',
 
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#0084A8', // 5
@@ -482,7 +471,6 @@ export const greatLakesConfig = {
       label: 'Critical Infrastructure',
 
       chartLabel: 'Critical Infrastructure',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#A82B41', // 5
@@ -515,7 +503,6 @@ export const greatLakesConfig = {
       layer: 'Erosion TMS',
       label: 'Soil Erodibility',
       chartLabel: 'Soil Erodibility',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FEEBA2',
@@ -549,7 +536,6 @@ export const greatLakesConfig = {
       label: 'Flood-prone Areas',
 
       chartLabel: 'Flood-prone Areas',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#E2E2EF',
@@ -582,7 +568,6 @@ export const greatLakesConfig = {
       layer: 'Slope TMS',
       label: 'Areas of Low Slope',
       chartLabel: 'Areas of Low Slope',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#d3eecd',
@@ -615,7 +600,6 @@ export const greatLakesConfig = {
       layer: 'Drainage TMS',
       label: 'Impermeability',
       chartLabel: 'Impermeability',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#E9DD66',
@@ -649,7 +633,6 @@ export const greatLakesConfig = {
       label: 'High Water Level',
 
       chartLabel: 'High Water Level',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#DBD8EA',
@@ -682,7 +665,6 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay 1 TMS',
       label: 'American Indian/Alaska Native/Native Hawaiian (AIANNH) Areas',
       chartLabel: 'AIANNHA',
-      chartLegendValues: 15,
       chartCSSColor: {
         0: '#E9ECEF'
       },
@@ -704,7 +686,6 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay2 TMS',
       label: 'Ceded Territory',
       chartLabel: 'Ceded Territory',
-      chartLegendValues: 1,
       chartCSSColor: {
         0: '#E9ECEF'
       },
@@ -727,8 +708,7 @@ export const greatLakesConfig = {
     //   layer: "Visualization Overlay3 TMS",
     //   label: "Department of Defense Lands",
     //   chartLabel: 'Department of Defense Lands',
-    //   chartLegendValues: 1,
-    //   chartCSSColor: {
+    //       //   chartCSSColor: {
     //     0: '#E9ECEF',
     //   },
     //   chartCSSLegends: {
@@ -750,7 +730,6 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay4 TMS',
       label: 'Fetch',
       chartLabel: 'Fetch',
-      chartLegendValues: 1,
       chartCSSColor: {
         0: '#E9ECEF'
       },
@@ -772,7 +751,6 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay5 TMS',
       label: 'Lake Level Fluctuation Zone',
       chartLabel: 'Lake Level Fluctuation Zone',
-      chartLegendValues: 1,
       chartCSSColor: {
         0: '#E9ECEF'
       },

@@ -51,7 +51,6 @@ export const alaskaConfig = {
       layer: 'Hubs TMS',
       label: 'Resilience Hub Cores',
       chartLabel: 'Resilience Hub Cores',
-      chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubs',
@@ -93,7 +92,6 @@ export const alaskaConfig = {
       layer: 'Hubs Hex TMS',
       label: 'Resilience Hub Grid',
       chartLabel: 'Resilience Hub Grid',
-      chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubshex',
@@ -138,7 +136,6 @@ export const alaskaConfig = {
       chartLabel: 'Community Exposure',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Community Exposure Index',
-      chartLegendValues: 10,
       chartCSSSelector: 'exposure',
       chartCSSColor: {
         0: '#E9ECEF',
@@ -181,7 +178,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Community Asset and Threat Indices',
       chartCSSSelector: 'asset',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#b6edf0',
@@ -223,7 +219,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Community Asset and Threat Indices',
       chartCSSSelector: 'threat',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#ffebd6',
@@ -266,7 +261,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'wildlife',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#EEF8F3',
@@ -307,7 +301,6 @@ export const alaskaConfig = {
       chartLabel: 'Aquatic',
       ChartInputLabel: 'Fish and Wildlife Inputs',
       chartCSSSelector: 'aquatic',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#CDE1E8',
@@ -348,7 +341,6 @@ export const alaskaConfig = {
       chartLabel: 'Terrestrial',
       ChartInputLabel: 'Fish and Wildlife Inputs',
       chartCSSSelector: 'terrestrial',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFFFE5',
@@ -389,7 +381,6 @@ export const alaskaConfig = {
       chartLabel: 'Social Vulnerability',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'social_vuln',
-      chartLegendValues: 3,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#9EBBD7',
@@ -416,7 +407,6 @@ export const alaskaConfig = {
       chartLabel: 'Critical Facilities',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_facilities',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#0084A8',
@@ -443,7 +433,6 @@ export const alaskaConfig = {
       chartLabel: 'Critical Infrastructure',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_infra',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#A82B41',
@@ -470,7 +459,6 @@ export const alaskaConfig = {
       chartLabel: 'Critical Transportation',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'transportation',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FEB24C',
@@ -497,7 +485,6 @@ export const alaskaConfig = {
       chartLabel: 'Soil Erodibility',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'erosion',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FEEBA2',
@@ -528,7 +515,6 @@ export const alaskaConfig = {
       chartLabel: 'Flood-prone Areas',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'floodprone_areas',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#E2E2EF',
@@ -559,7 +545,6 @@ export const alaskaConfig = {
       chartLabel: 'Tsunami Inundation',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'tsunami',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         3: '#FB6A4A',
@@ -586,7 +571,6 @@ export const alaskaConfig = {
       chartLabel: 'Permafrost Thaw',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'permafrost',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFFFCC',
@@ -616,7 +600,6 @@ export const alaskaConfig = {
       chartLabel: 'Areas of Low Slope',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'low_areas',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#D3EECD',
