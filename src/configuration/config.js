@@ -85,6 +85,7 @@ export const mapConfig = {
     'Savannah River Watersheds': savannahRiverWatershedsConfig,
     'Jacksonville and Lower St. Johns River Watersheds': jacksonvilleAndLowerStJohnsRiverWatershedsConfig
   },
+  // Can delete
   resiliencePieChartLegend: [
     '#ffc500',
     '#f9b500',
@@ -97,6 +98,7 @@ export const mapConfig = {
     '#ca3600',
     '#c21500'
   ],
+  // Can delete
   landcoverPieChartLegend: [
     '#000000',
     '#5475A8',
@@ -120,6 +122,7 @@ export const mapConfig = {
     '#C8E6F8',
     '#64B3D5'
   ],
+  // Can delete
   nlcdLandcoverPieChartLegend: [
     '#000000',
     '#5475A8',
@@ -143,6 +146,30 @@ export const mapConfig = {
     '#C8E6F8',
     '#64B3D5'
   ],
+  nlcdLandcover: [
+    { name: 'No Data', value: 'landcover_no_data', color: '#000000' },
+    { name: 'Open Water', value: 'landcover_open_water', color: '#5475A8' },
+    { name: 'Perennial Ice/Snow', value: 'landcover_perennial_icesnow', color: '#FFFFFF' },
+    { name: 'Developed, Open Space', value: 'landcover_developed_open_space', color: '#E8D1D1' },
+    { name: 'Developed, Low Intensity', value: 'landcover_developed_low_intensity', color: '#E29E8C' },
+    { name: 'Developed, Medium Intensity', value: 'landcover_developed_medium_intensity', color: '#ff0000' },
+    { name: 'Developed High Intensity', value: 'landcover_developed_high_intensity', color: '#B50000' },
+    { name: 'Barren Land (Rock/Sand/Clay)', value: 'landcover_barren_land', color: '#D2CDC0' },
+    { name: 'Deciduous Forest', value: 'landcover_deciduous_forest', color: '#85C77E' },
+    { name: 'Evergreen Forest', value: 'landcover_evergreen_forest', color: '#38814E' },
+    { name: 'Mixed Forest', value: 'landcover_mixed_forest', color: '#D4E7B0' },
+    { name: 'Dwarf Scrub', value: 'landcover_dwarf_scrub', color: '#AF963C' },
+    { name: 'Shrub/Scrub', value: 'landcover_shrub_scrub', color: '#DCCA8F' },
+    { name: 'Grassland/Herbaceous', value: 'landcover_grassland_herbaceous', color: '#FDE9AA' },
+    { name: 'Sedge/Herbaceous', value: 'landcover_sedge_herbaceous', color: '#D1D182' },
+    { name: 'Lichens', value: 'landcover_lichens', color: '#A3CC51' },
+    { name: 'Moss', value: 'landcover_moss', color: '#82BA9E' },
+    { name: 'Pasture/Hay', value: 'landcover_pasture_hay-areas', color: '#FBF65D' },
+    { name: 'Cultivated Crops', value: 'landcover_cultivated_crops', color: '#CA9146' },
+    { name: 'Woody Wetlands', value: 'landcover_woody_wetlands', color: '#C8E6F8' },
+    { name: 'Emergent Herbaceous Wetlands', value: 'landcover_emergent_herbaceous_wetlands', color: '#64B3D5' }
+  ],
+  // Can delete
   ccapLandcoverPiechartLegend: [
     '#000000',
     '#F2F2F2',
@@ -169,6 +196,33 @@ export const mapConfig = {
     '#666FDB',
     '#F9D100',
     '#AAF9EF'
+  ],
+  ccapLandcover: [
+    { name: 'No Data', value: 'landcover_no_data', color: '#000000' },
+    { name: 'Developed, High Intensity', value: 'landcover_developed_high_intensity', color: '#F2F2F2' },
+    { name: 'Developed, Medium Intensity', value: 'landcover_developed_medium_intensity', color: '#AA9EAA' },
+    { name: 'Developed, Low Intensity', value: 'landcover_developed_low_intensity', color: '#917782' },
+    { name: 'Developed, Open Space', value: 'landcover_developed_open space', color: '#C1CC3D' },
+    { name: 'Cultivated Crops', value: 'landcover_cultivated_crops', color: '#592300' },
+    { name: 'Pasture/Hay', value: 'landcover_pasture_hay', color: '#C1A351' },
+    { name: 'Grassland/Herbaceous', value: 'landcover_grassland/herbaceous', color: '#F2BC8C' },
+    { name: 'Deciduous Forest', value: 'landcover_deciduous_forest', color: '#00F200' },
+    { name: 'Evergreen Forest', value: 'landcover_evergreen_forest', color: '#003D00' },
+    { name: 'Mixed Forest', value: 'landcover_mixed_forest', color: '#0AA33D' },
+    { name: 'Scrub/Shrub', value: 'landcover_scrub_shrub', color: '#707000' },
+    { name: 'Palustrine Forested Wetland', value: 'landcover_palustrine_forested_wetland', color: '#006060' },
+    { name: 'Palustrine Scrub/Shrub Wetland', value: 'landcover_palustrine_scrub_shrub_wetland', color: '#F27000' },
+    { name: 'Palustrine Emergent Wetland', value: 'landcover_palustrine_emergent_wetland', color: '#F200F2' },
+    { name: 'Estuarine Forested Wetland', value: 'landcover_estuarine_forested_wetland', color: '#3C003C' },
+    { name: 'Estuarine Scrub/Shrub Wetland', value: 'landcover_estuarine_scrub/shrub_wetland', color: '#6D006D' },
+    { name: 'Estuarine Emergent Wetland', value: 'landcover_estuarine_emergent_wetland', color: '#B200B2' },
+    { name: 'Unconsolidated Shore', value: 'landcover_unconsolidated_shore', color: '#00F2F2' },
+    { name: 'Bare Land', value: 'landcover_bare_land', color: '#F2F200' },
+    { name: 'Open Water', value: 'landcover_open_water', color: '#000070' },
+    { name: 'Palustrine Aquatic Bed', value: 'landcover_palustrine_aquatic_bed', color: '#0000ED' },
+    { name: 'Estuarine Aquatic Bed', value: 'landcover_estuarine_aquatic_bed', color: '#666FDB' },
+    { name: 'Tundra', value: 'landcover_tundra', color: '#F9D100' },
+    { name: 'Snow/Ice', value: 'landcover_snow_ice', color: '#AAF9EF' }
   ],
   examplePolygonFeature: {
     type: 'Feature',
