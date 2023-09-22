@@ -129,12 +129,10 @@ export default function AnalyzeBarChart(props) {
 
   // Bar Color is functional based on value comparison with config
   const getData = (name, value) => {
-    console.log('name and value in getData: ', name, value)
     const colorValue = Math.round(value);
     const selectedLayerData = layerList.find(
       (layer) => layer.chartCSSSelector === name
     );
-    console.log('selectedLayerData: ', selectedLayerData)
     const selectedChartLabel = selectedLayerData.chartLabel;
     const selectedColorChart = selectedLayerData.chartCSSColor;
     const selectedColor = selectedColorChart[colorValue];
@@ -154,10 +152,7 @@ export default function AnalyzeBarChart(props) {
     let skippedValues = 0;
     chartIndices.forEach((element, i) => {
       const value = zonalStatsData[element];
-      console.log('element: ', element)
-      console.log('value: ', value)
       if (value === undefined) {
-        console.log('yo')
         skippedValues += 1;
         return;
       }
