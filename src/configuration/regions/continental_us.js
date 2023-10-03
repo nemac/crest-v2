@@ -517,10 +517,10 @@ export const continentalUSConfig = {
       ChartInputLabel: 'Additional Overlays',
       chartCSSSelector: 'landcover',
       url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png', // TODO: WRONG WRONG WRONG CHANGE THIS
-      attribution: 'NFWF 2020',
+      attribution: 'NFWF 2020', // TODO: FIX ATTRIBUTION
       opacity: 0.75,
       maxNativeZoom: 12,
-      description: 'Insert Landcover Description Here',
+      description: 'Insert Landcover Description Here', // TODO: INSERT DESCRIPTION
       region: 'continental_us'
     }
   ],

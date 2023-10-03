@@ -598,6 +598,43 @@ export const greatLakesConfig = {
       maxNativeZoom: 14,
       description: 'Shows the spatial and temporal distribution of where non-permanent surface water occurred between 1984 and 2020. The layer captures both the intra and inter-annual variability and changes known as surface water occurrence.',
       region: 'great_lakes'
+    },
+    {
+      id: 'GL_landcover',
+      layer: 'landcover',
+      label: 'Landcover',
+      chartLabel: 'Landcover',
+      chartCSSColor: {
+        11: '#5475A8',
+        12: '#FFFFFF',
+        21: '#E8D1D1',
+        22: '#E29E8C',
+        23: '#ff0000',
+        24: '#B50000',
+        31: '#D2CDC0',
+        41: '#85C77E',
+        42: '#38814E',
+        43: '#D4E7B0',
+        51: '#AF963C',
+        52: '#DCCA8F',
+        71: '#FDE9AA',
+        72: '#D1D182',
+        73: '#A3CC51',
+        74: '#82BA9E',
+        81: '#FBF65D',
+        82: '#CA9146',
+        90: '#C8E6F8',
+        95: '#64B3D5'
+      },
+      chartInputName: 'landcover',
+      ChartInputLabel: 'Additional Overlays',
+      chartCSSSelector: 'landcover',
+      url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png', // TODO: WRONG WRONG WRONG CHANGE THIS
+      attribution: 'NFWF 2020', // TODO: FIX ATTRIBUTION
+      opacity: 0.75,
+      maxNativeZoom: 12,
+      description: 'Insert Landcover Description Here', // TODO: INSERT DESCRIPTION
+      region: 'great_lakes'
     }
   ]
 };

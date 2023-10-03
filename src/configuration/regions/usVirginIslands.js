@@ -41,6 +41,10 @@ export const usVirginIslandsConfig = {
     {
       chartInputName: 'fishandwildlife',
       ChartInputLabel: 'Fish and Wildlife Inputs'
+    },
+    {
+      chartInputName: 'additional',
+      ChartInputLabel: 'Additional Overlays'
     }
   ],
   layerList:
@@ -461,6 +465,48 @@ export const usVirginIslandsConfig = {
         opacity: 0.75,
         maxNativeZoom: 14,
         description: 'Areas considered by FEMA to be in the 100- and 500-year flood zones, as well as the floodway. Frequently and occasionally flooded soil designations are used to identify areas outside of FEMA coverage. Highest values suggest areas directly in the floodway, whereas low values suggest occasionally flooded soils outside of the floodplain.',
+        region: 'us_virgin_islands'
+      },
+      {
+        id: 'USVI_landcover',
+        layer: 'landcover',
+        label: 'Landcover',
+        chartLabel: 'Landcover',
+        chartCSSColor: {
+          0: '#000000',
+          1: '#F2F2F2',
+          2: '#AA9EAA',
+          3: '#917782',
+          4: '#C1CC3D',
+          5: '#592300',
+          6: '#C1A351',
+          7: '#F2BC8C',
+          8: '#00F200',
+          9: '#003D00',
+          10: '#0AA33D',
+          11: '#707000',
+          12: '#006060',
+          13: '#F27000',
+          14: '#F200F2',
+          15: '#3C003C',
+          16: '#6D006D',
+          17: '#B200B2',
+          18: '#00F2F2',
+          19: '#F2F200',
+          20: '#000070',
+          21: '#0000ED',
+          22: '#666FDB',
+          23: '#F9D100',
+          24: '#AAF9EF'
+        },
+        chartInputName: 'landcover',
+        ChartInputLabel: 'Additional Overlays',
+        chartCSSSelector: 'landcover',
+        url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png', // TODO: WRONG WRONG WRONG CHANGE THIS
+        attribution: 'NFWF 2020', // TODO: FIX ATTRIBUTION
+        opacity: 0.75,
+        maxNativeZoom: 12,
+        description: 'Insert Landcover Description Here', // TODO: ADD DESCRIPTION
         region: 'us_virgin_islands'
       }
     ]

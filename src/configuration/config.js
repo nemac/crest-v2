@@ -214,7 +214,7 @@ export const mapConfig = {
     { name: 'Palustrine Scrub/Shrub Wetland', value: 'landcover_palustrine_scrub_shrub_wetland', color: '#F27000' },
     { name: 'Palustrine Emergent Wetland', value: 'landcover_palustrine_emergent_wetland', color: '#F200F2' },
     { name: 'Estuarine Forested Wetland', value: 'landcover_estuarine_forested_wetland', color: '#3C003C' },
-    { name: 'Estuarine Scrub/Shrub Wetland', value: 'landcover_estuarine_scrub/shrub_wetland', color: '#6D006D' },
+    { name: 'Estuarine Scrub/Shrub Wetland', value: 'landcover_estuarine_scrub_shrub_wetland', color: '#6D006D' },
     { name: 'Estuarine Emergent Wetland', value: 'landcover_estuarine_emergent_wetland', color: '#B200B2' },
     { name: 'Unconsolidated Shore', value: 'landcover_unconsolidated_shore', color: '#00F2F2' },
     { name: 'Bare Land', value: 'landcover_bare_land', color: '#F2F200' },

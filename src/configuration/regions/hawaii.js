@@ -41,6 +41,10 @@ export const hawaiiConfig = {
     {
       chartInputName: 'fishandwildlife',
       ChartInputLabel: 'Fish and Wildlife Inputs'
+    },
+    {
+      chartInputName: 'additional',
+      ChartInputLabel: 'Additional Overlays'
     }
   ],
   layerList:
@@ -512,35 +516,40 @@ export const hawaiiConfig = {
         label: 'Landcover',
         chartLabel: 'Landcover',
         chartCSSColor: {
-          11: '#5475A8',
-          12: '#FFFFFF',
-          21: '#E8D1D1',
-          22: '#E29E8C',
-          23: '#ff0000',
-          24: '#B50000',
-          31: '#D2CDC0',
-          41: '#85C77E',
-          42: '#38814E',
-          43: '#D4E7B0',
-          51: '#AF963C',
-          52: '#DCCA8F',
-          71: '#FDE9AA',
-          72: '#D1D182',
-          73: '#A3CC51',
-          74: '#82BA9E',
-          81: '#FBF65D',
-          82: '#CA9146',
-          90: '#C8E6F8',
-          95: '#64B3D5'
+          0: '#000000',
+          1: '#F2F2F2',
+          2: '#AA9EAA',
+          3: '#917782',
+          4: '#C1CC3D',
+          5: '#592300',
+          6: '#C1A351',
+          7: '#F2BC8C',
+          8: '#00F200',
+          9: '#003D00',
+          10: '#0AA33D',
+          11: '#707000',
+          12: '#006060',
+          13: '#F27000',
+          14: '#F200F2',
+          15: '#3C003C',
+          16: '#6D006D',
+          17: '#B200B2',
+          18: '#00F2F2',
+          19: '#F2F200',
+          20: '#000070',
+          21: '#0000ED',
+          22: '#666FDB',
+          23: '#F9D100',
+          24: '#AAF9EF'
         },
         chartInputName: 'landcover',
         ChartInputLabel: 'Additional Overlays',
         chartCSSSelector: 'landcover',
         url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png', // TODO: WRONG WRONG WRONG CHANGE THIS
-        attribution: 'NFWF 2020',
+        attribution: 'NFWF 2020', // TODO: FIX ATTRIBUTION
         opacity: 0.75,
         maxNativeZoom: 12,
-        description: 'Insert Landcover Description Here',
+        description: 'Insert Landcover Description Here', // TODO: ADD DESCRIPTION
         region: 'hawaii'
       }
     ]
