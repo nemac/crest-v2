@@ -111,6 +111,7 @@ export default function AnalyzeProjectSite(props) {
         geoToRedraw={geoToRedraw}
         setGeoToRedraw={setGeoToRedraw}
         setMap={setMap}
+        map={map}
       />
     );
   }
