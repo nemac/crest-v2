@@ -49,56 +49,73 @@ function EditControlFC(props) {
     setLocalGeo,
     startIndex,
     endIndex,
-    steps
+    steps,
+    updateSteps,
+    setUpdateSteps
   } = props;
   const ref = React.useRef(null);
-
+  console.log(ref.current);
   useEffect(() => {
-    if (ref.current?.getLayers().length === 0 && localGeo) {
-      let count = 0;
+    console.log('use effect triggered...');
+    console.log('update steps is: ', updateSteps);
+    console.log('ref.current.getLayers(): ', ref.current.getLayers());
+    if (ref.current?.getLayers().length === 10 && updateSteps) {
+      console.log('10 layers found...');
+      ref.current.clearLayers();
+    }
+    if (ref.current?.getLayers().length === 0 && localGeo && updateSteps) {
+      let count = startIndex;
       console.log('count is: ', count);
       console.log('startIndex is: ', startIndex);
       console.log('endIndex is: ', endIndex);
-      L.geoJSON(localGeo).eachLayer((layer) => {
+      console.log('localGeo is: ', localGeo);
+      const thisSection = localGeo.features.slice(startIndex, endIndex + 1);
+      L.geoJSON(thisSection).eachLayer((layer) => {
         count += 1;
-        // I thiiink this is right, but the limits are busted somewhere else...
-        if (count <= endIndex && count >= startIndex) {
+        if (count <= endIndex + 1 && count > startIndex) {
           console.log('inside if with ', count);
-          const cloneLayer = layer;
-          const feature = layer.feature || {};
-          const geo = cloneLayer.toGeoJSON();
-          feature.type = feature.type || 'Feature';
-          const properties = feature.properties || {};
-          properties.id = count;
-          cloneLayer.feature = feature;
+          console.log('layer is: ', layer);
+      
+          // Create a deep copy of the feature
+          const feature = JSON.parse(JSON.stringify(layer.feature));
+      
+          // Modify the copied feature
+          feature.properties = feature.properties || {};
+          feature.properties.id = count;
+          const geo = layer.toGeoJSON();
+      
+          console.log('right before if statement...');
           if (!validPolygon(geo)) {
-            ref.current?.addLayer(cloneLayer.setStyle({ color: 'red' }));
+            ref.current?.addLayer(layer.setStyle({ color: 'red' }));
             const areaSize = calculateAreaOfPolygon(geo) / 1000000;
             steps.current?.push({
-              title: `Shape ${properties.id}`,
-              id: properties.id,
+              title: `Shape ${feature.properties.id}`,
+              id: feature.properties.id,
               isValid: false,
               text: `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)}`,
               color: 'red',
-              layer: cloneLayer.setStyle({ color: 'red' }),
+              layer: layer.setStyle({ color: 'red' }),
               center: layer.getCenter()
             });
           } else {
-            ref.current?.addLayer(cloneLayer.setStyle({ color: 'green' }));
+            ref.current?.addLayer(layer.setStyle({ color: 'green' }));
             steps.current?.push({
-              title: `Shape ${properties.id}`,
-              id: properties.id,
+              title: `Shape ${feature.properties.id}`,
+              id: feature.properties.id,
               isValid: true,
               text: 'VALID',
               color: 'green',
-              layer: cloneLayer.setStyle({ color: 'green' }),
+              layer: layer.setStyle({ color: 'green' }),
               center: layer.getCenter()
             });
           }
+          setUpdateSteps(false);
+          console.log('disabling update steps');
         }
       });
+      
     }
-  }, [endIndex, localGeo, startIndex, steps]);
+  }, [endIndex, localGeo, setUpdateSteps, startIndex, steps, updateSteps]);
 
   const handleChange = () => {
     const geo = ref.current?.toGeoJSON();
@@ -206,7 +223,9 @@ EditControlFC.propTypes = {
   setLocalGeo: PropTypes.func,
   startIndex: PropTypes.number,
   endIndex: PropTypes.number,
-  steps: PropTypes.object
+  steps: PropTypes.object,
+  updateSteps: PropTypes.bool,
+  setUpdateSteps: PropTypes.func
 };
 
 export default function ShapeFileCorrectionMap(props) {
@@ -216,22 +235,25 @@ export default function ShapeFileCorrectionMap(props) {
 
   const dispatch = useDispatch();
   const center = useSelector(selectedCenterSelector, () => true);
-  const zoom = useSelector(selectedZoomSelector, () => true);
+  // const zoom = useSelector(selectedZoomSelector, () => true);
+  const zoom = 10;
   console.log('geo to redraw: ', geoToRedraw);
   const [localGeo, setLocalGeo] = React.useState(geoToRedraw);
   const [activeStep, setActiveStep] = React.useState(0);
   const [batchNo, setBatchNo] = React.useState(0);
+  const [updateSteps, setUpdateSteps] = React.useState(true);
 
   const steps = React.useRef([]);
   const startIndex = batchNo * 10;
-  let endIndex;
-  if (steps.current.length === 0) {
-    endIndex = startIndex + 10;
-  } else {
-    endIndex = Math.min((startIndex + 10), steps.current.length - 1);
-  }
-  const totalBatches = steps.current.length / 10;
+  const endIndex = Math.min((startIndex + 9), localGeo.features.length - 1);
 
+  const totalBatches = localGeo.features.length / 10;
+  console.log('steps.current.length: ', steps.current.length);
+  console.log('activeStep: ', activeStep);
+  console.log('startIndex: ', startIndex);
+  console.log('endIndex: ', endIndex);
+  console.log('updateStep: ', updateSteps);
+  console.log('zoom: ', zoom);
   if (steps.current.length > activeStep) {
     map.flyTo(steps.current[activeStep].center, zoom);
   }
@@ -304,7 +326,8 @@ export default function ShapeFileCorrectionMap(props) {
                     nonLinear={true}
                     connector={null}
                   >
-                    {steps.current?.slice(startIndex, endIndex).map((item) => (
+                    {console.log(steps)}
+                    {steps.current?.slice(startIndex, endIndex + 1).map((item) => (
                       <Step key={item.title}>
                         <StepLabel StepIconComponent={(properties) => CustomStepIcon(properties, item.color, item.id)} />
                       </Step>
@@ -349,17 +372,9 @@ export default function ShapeFileCorrectionMap(props) {
                   )}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  {/* <ExampleActionButton
-                    buttonLabel={'View in CREST'}
-                    buttonName={'View in CREST'}
-                    onClick={viewExampleOnMap}
-                    buttonDisabled={false}
-                  >
-                    <MapIcon />
-                  </ExampleActionButton> */}
                 </Grid>
                 <Grid item xs={12} md={3}>
-                  {activeStep !== endIndex - 1 ? (
+                  {activeStep !== endIndex ? (
                     <ExampleActionButton
                       buttonLabel={'Next'}
                       buttonName={'Next'}
@@ -387,6 +402,8 @@ export default function ShapeFileCorrectionMap(props) {
                   if (batchNo < totalBatches) {
                     setBatchNo(batchNo + 1);
                     setActiveStep(endIndex + 1);
+                    setUpdateSteps(true);
+                    console.log('setting update steps');
                   } else {
                     setGeoToRedraw(null);
                   }
@@ -418,6 +435,8 @@ export default function ShapeFileCorrectionMap(props) {
             steps={steps}
             startIndex={startIndex}
             endIndex={endIndex}
+            updateSteps={updateSteps}
+            setUpdateSteps={setUpdateSteps}
           />
           <BasemapLayer />
         </LeafletMapContainer>
