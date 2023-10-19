@@ -51,7 +51,8 @@ function EditControlFC(props) {
     endIndex,
     steps,
     updateSteps,
-    setUpdateSteps
+    setUpdateSteps,
+    activeStep
   } = props;
   const ref = React.useRef(null);
   console.log(ref.current);
@@ -126,7 +127,8 @@ function EditControlFC(props) {
 
   const handleEditVertex = (e) => {
     const layer = e.poly;
-    const stepIndex = layer.feature.properties.id - 1;
+    console.log(layer);
+    const stepIndex = activeStep;
     const geo = layer.toGeoJSON();
     const thisStep = steps.current[stepIndex];
     if (validPolygon(geo)) {
@@ -143,20 +145,24 @@ function EditControlFC(props) {
       thisStep.isValid = false;
       thisStep.center = layer.getCenter();
     }
-    layer
-      .bindTooltip(
-        thisStep.text,
-        {
-          permanant: true,
-          direction: 'center'
-        }
-      )
-      .openTooltip();
+
+    // Remove existing tooltips
+    layer.unbindTooltip();
+
+    // Add a new tooltip
+    console.log('binding tooltip now...');
+    layer.bindTooltip(thisStep.text, {
+      permanent: true,
+      direction: 'center'
+    }).openTooltip();
+
     const newGeo = ref.current?.toGeoJSON();
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
     }
   };
+
+  
 
   const handleEditStop = (e) => {
     let featNum = 0;
@@ -225,7 +231,8 @@ EditControlFC.propTypes = {
   endIndex: PropTypes.number,
   steps: PropTypes.object,
   updateSteps: PropTypes.bool,
-  setUpdateSteps: PropTypes.func
+  setUpdateSteps: PropTypes.func,
+  activeStep: PropTypes.number
 };
 
 export default function ShapeFileCorrectionMap(props) {
@@ -437,6 +444,7 @@ export default function ShapeFileCorrectionMap(props) {
             endIndex={endIndex}
             updateSteps={updateSteps}
             setUpdateSteps={setUpdateSteps}
+            activeStep={activeStep}
           />
           <BasemapLayer />
         </LeafletMapContainer>
