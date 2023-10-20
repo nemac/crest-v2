@@ -112,6 +112,7 @@ export default function AnalyzeProjectSite(props) {
         setGeoToRedraw={setGeoToRedraw}
         setMap={setMap}
         map={map}
+        setErrorState={setErrorState}
       />
     );
   }
