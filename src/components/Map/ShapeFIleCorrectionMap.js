@@ -29,6 +29,7 @@ import GenericMapHolder from './GenericMapHolder';
 import ExampleActionButton from '../Example/ExampleActionButton';
 
 import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
+import { FormatShapes } from '@mui/icons-material';
 
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
@@ -48,7 +49,6 @@ function EditControlFC(props) {
     localGeo,
     setLocalGeo,
     geoToRedraw,
-    startIndex,
     endIndex,
     steps,
     updateSteps,
@@ -56,71 +56,99 @@ function EditControlFC(props) {
     activeStep
   } = props;
   const ref = React.useRef(null);
+  const dispatch = useDispatch();
+
   console.log('ref.current: ', ref.current);
   useEffect(() => {
-    console.log('use effect triggered...');
     console.log('update steps is: ', updateSteps);
-    console.log('ref.current.getLayers(): ', ref.current.getLayers());
-    if (ref.current?.getLayers().length === 10 && updateSteps) {
-      console.log('10 layers found...');
-      ref.current.clearLayers();
-    }
-    if (ref.current?.getLayers().length === 0 && geoToRedraw && updateSteps) {
-      let count = startIndex;
+    // console.log('ref.current.getLayers(): ', ref.current.getLayers());
+    // if (ref.current?.getLayers().length === 10 && updateSteps) {
+    //   console.log('10 layers found...');
+    //   ref.current.clearLayers();
+    // }
+    if (ref.current?.getLayers().length === 0 && localGeo && updateSteps) {
+      let count = 0;
+      let countValid = 0;
+      let countInvalid = 0;
+      let validBatch = {
+        type: 'FeatureCollection',
+        features: []
+      };
       console.log('count is: ', count);
-      console.log('startIndex is: ', startIndex);
-      console.log('endIndex is: ', endIndex);
+      // console.log('startIndex is: ', startIndex);
+      // console.log('endIndex is: ', endIndex);
       console.log('localGeo is: ', localGeo);
       console.log('geoToRedraw: ', geoToRedraw);
-      const thisSection = geoToRedraw.features.slice(startIndex, endIndex + 1);
-      L.geoJSON(thisSection).eachLayer((layer) => {
+      // const thisSection = geoToRedraw.features.slice(startIndex, endIndex + 1);
+      L.geoJSON(localGeo).eachLayer((layer) => {
         count += 1;
-        if (count <= endIndex + 1 && count > startIndex) {
-          console.log('inside if with ', count);
-          console.log('layer is: ', layer);
+        // if (count <= endIndex + 1 && count > startIndex) {
+        // if (count <= localGeo.length) {
+        console.log('inside if with ', count);
+        console.log('layer is: ', layer);
 
-          // Create a deep copy of the feature
-          const feature = JSON.parse(JSON.stringify(layer.feature));
+        // Create a deep copy of the feature
+        const feature = JSON.parse(JSON.stringify(layer.feature));
 
-          // Modify the copied feature
-          feature.properties = feature.properties || {};
-          feature.properties.id = count;
-          const geo = layer.toGeoJSON();
+        // Modify the copied feature
+        feature.properties = feature.properties || {};
+        feature.properties.id = count;
+        const geo = layer.toGeoJSON();
+        console.log('checking shapes...');
 
-          if (!validPolygon(geo)) {
-            ref.current?.addLayer(layer.setStyle({ color: 'red' }));
-            const areaSize = calculateAreaOfPolygon(geo) / 1000000;
-            steps.current?.push({
-              title: `Shape ${feature.properties.id}`,
-              id: feature.properties.id,
-              isValid: false,
-              text: `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)}`,
-              color: 'red',
-              layer: layer.setStyle({ color: 'red' }),
-              center: layer.getCenter()
-            });
-          } else {
-            ref.current?.addLayer(layer.setStyle({ color: 'green' }));
-            steps.current?.push({
-              title: `Shape ${feature.properties.id}`,
-              id: feature.properties.id,
-              isValid: true,
-              text: 'VALID',
-              color: 'green',
-              layer: layer.setStyle({ color: 'green' }),
-              center: layer.getCenter()
-            });
+        if (!validPolygon(geo)) {
+          console.log('bad shape found... adding to steps');
+          countInvalid += 1;
+          // ref.current?.addLayer(layer.setStyle({ color: 'red' }));
+          const areaSize = calculateAreaOfPolygon(geo) / 1000000;
+          steps.current?.push({
+            title: `Shape ${feature.properties.id}`,
+            id: feature.properties.id,
+            isValid: false,
+            text: `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)}`,
+            color: 'red',
+            layer: layer.setStyle({ color: 'red' }),
+            center: []
+            // center: layer.getCenter()
+          });
+        } else {
+          countValid += 1;
+          console.log('should be dispatching: ', layer);
+          console.log(validBatch);
+          validBatch.features.push(geo);
+          if (countValid >= 10 || count >= localGeo.features.length) {
+            console.log('reached end of good batch, dispatching now');
+            dispatch(uploadedShapeFileGeoJSON(validBatch));
+            validBatch = {
+              type: 'FeatureCollection',
+              features: []
+            };
+            countValid = 0;
           }
         }
-        const newGeo = ref.current?.toGeoJSON();
-        if (newGeo?.type === 'FeatureCollection') {
-          setLocalGeo(newGeo);
-        }
-        setUpdateSteps(false);
-        console.log('disabling update steps');
+        // }
+        // const newGeo = ref.current?.toGeoJSON();
+        // if (newGeo?.type === 'FeatureCollection') {
+        //   setLocalGeo(newGeo);
+        // }
+        // setUpdateSteps(false);
+        // console.log('disabling update steps');
       });
+      // NOW WE CAN STEP THROUGH STEPS AND RENDER TO MAP AND GET CENTER
+      console.log('current number invalid: ', steps.current.length);
+      if (steps.current.length >= 10) {
+        console.log('too many steps, updating in batches...');
+      } else {
+        console.log('number of steps: ', steps.current.length);
+        endIndex.current = steps.current.length - 1;
+        steps.current.forEach((invalidLayer) => {
+          ref.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+          invalidLayer.center = invalidLayer.layer.getCenter();
+        });
+      }
+
     }
-  }, [endIndex, localGeo, setUpdateSteps, startIndex, steps, updateSteps]);
+  }, [endIndex, localGeo, setUpdateSteps, steps, updateSteps]);
 
   const handleChange = () => {
     const newGeo = ref.current?.toGeoJSON();
@@ -232,8 +260,7 @@ EditControlFC.propTypes = {
   localGeo: PropTypes.object,
   setLocalGeo: PropTypes.func,
   geoToRedraw: PropTypes.object,
-  startIndex: PropTypes.number,
-  endIndex: PropTypes.number,
+  endIndex: PropTypes.object,
   steps: PropTypes.object,
   updateSteps: PropTypes.bool,
   setUpdateSteps: PropTypes.func,
@@ -252,23 +279,20 @@ export default function ShapeFileCorrectionMap(props) {
   console.log('geo to redraw: ', geoToRedraw);
   const [localGeo, setLocalGeo] = React.useState(geoToRedraw);
   const [activeStep, setActiveStep] = React.useState(0);
-  const [batchNo, setBatchNo] = React.useState(1);
   const [updateSteps, setUpdateSteps] = React.useState(true);
 
   const steps = React.useRef([]);
-  const startIndex = (batchNo - 1) * 10;
-  const endIndex = Math.min((startIndex + 9), geoToRedraw.features.length - 1);
-  const totalBatches = geoToRedraw.features.length / 10;
-  const numberInvalid = steps.current?.slice(startIndex, endIndex + 1).filter(
-    (step) => step.isValid === false
-  ).length;
+  const endIndex = React.useRef(0);
+  const numberInvalid = steps.current?.filter((step) => step.isValid === false).length;
 
-  console.log('steps.current.length: ', steps.current.length);
-  console.log('activeStep: ', activeStep);
-  console.log('startIndex: ', startIndex);
-  console.log('endIndex: ', endIndex);
-  console.log('updateStep: ', updateSteps);
-  console.log('zoom: ', zoom);
+  // console.log('steps.current.length: ', steps.current.length);
+  // console.log('activeStep: ', activeStep);
+  // console.log('startIndex: ', startIndex);
+  // console.log('endIndex: ', endIndex);
+  // console.log('updateStep: ', updateSteps);
+  // console.log('zoom: ', zoom);
+
+  // PROBABLY NEED TO UPDATE THIS TO MATCH NEW INDEXING
   if (steps.current.length > activeStep) {
     map.flyTo(steps.current[activeStep].center, zoom);
   }
@@ -342,7 +366,7 @@ export default function ShapeFileCorrectionMap(props) {
                     connector={null}
                   >
                     {console.log(steps)}
-                    {steps.current?.slice(startIndex, endIndex + 1).map((item) => (
+                    {steps.current?.slice(0, endIndex.current + 1).map((item) => (
                       <Step key={item.title}>
                         <StepLabel StepIconComponent={(properties) => CustomStepIcon(properties, item.color, item.id)} />
                       </Step>
@@ -366,7 +390,7 @@ export default function ShapeFileCorrectionMap(props) {
               </Grid>
               <Grid container spacing={0} p={0} m={0} sx={{ width: '100%' }}>
                 <Grid item xs={12} md={3}>
-                  {activeStep !== startIndex ? (
+                  {activeStep !== 0 ? (
                     <ExampleActionButton
                       buttonLabel={'Previous'}
                       buttonName={'Previous'}
@@ -389,7 +413,7 @@ export default function ShapeFileCorrectionMap(props) {
                 <Grid item xs={12} md={6}>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                  {activeStep !== endIndex ? (
+                  {activeStep !== endIndex.current ? (
                     <ExampleActionButton
                       buttonLabel={'Next'}
                       buttonName={'Next'}
@@ -414,8 +438,6 @@ export default function ShapeFileCorrectionMap(props) {
             <Grid xs={12}>
               <Button
                 onClick={() => {
-                  console.log('batchNo: ', batchNo);
-                  console.log('totalBatches: ', totalBatches);
                   console.log('numberInvalid: ', numberInvalid);
                   if (numberInvalid) {
                     setErrorState((previous) => ({
@@ -428,8 +450,8 @@ export default function ShapeFileCorrectionMap(props) {
                         setErrorState({ ...previous, error: false });
                       }
                     }));
-                  } else if (batchNo < totalBatches) {
-                    const remainingShapes = geoToRedraw.features.length - batchNo * 10;
+                  } else if (steps.current.length > 10) {
+                    const remainingShapes = steps.current.length - 10;
                     const nextBatchSize = Math.min(remainingShapes, 10);
                     setErrorState((previous) => ({
                       ...previous,
@@ -445,7 +467,7 @@ export default function ShapeFileCorrectionMap(props) {
                         dispatch(uploadedShapeFileGeoJSON(localGeo));
                         setErrorState({ ...previous, error: false });
                       },
-                      acceptButtonText: 'Edit Next Batch',
+                      acceptButtonText: `Edit Next ${nextBatchSize} Shapes`,
                       acceptButtonClose: () => {
                         setUpdateSteps(true);
                         console.log('setting update steps');
@@ -454,12 +476,13 @@ export default function ShapeFileCorrectionMap(props) {
                         setErrorState({ ...previous, error: false });
                       }
                     }));
-                    setBatchNo(batchNo + 1);
-                    setActiveStep(endIndex + 1);
+                    // setBatchNo(batchNo + 1);
+                    setActiveStep(endIndex.current + 1);
                   } else {
                     console.log('dispatching uploadShapeFileGeoJSON');
                     console.log('payload: ', localGeo);
                     setGeoToRedraw(null);
+                    // Also send remaining valid batch...
                     dispatch(uploadedShapeFileGeoJSON(localGeo));
                   }
                 }}
@@ -467,7 +490,7 @@ export default function ShapeFileCorrectionMap(props) {
                 Send shapes back to map
               </Button>
             </Grid>
-            <Grid xs={12}>
+            {/* <Grid xs={12}>
               <Button
                 onClick={() => {
                   if (batchNo < totalBatches) {
@@ -479,7 +502,7 @@ export default function ShapeFileCorrectionMap(props) {
               >
                 Skip to next shape batch
               </Button>
-            </Grid>
+            </Grid> */}
             {/* <Grid xs={12}>
               <Button
                 onClick={() => {
@@ -514,7 +537,6 @@ export default function ShapeFileCorrectionMap(props) {
             setLocalGeo={setLocalGeo}
             geoToRedraw={geoToRedraw}
             steps={steps}
-            startIndex={startIndex}
             endIndex={endIndex}
             updateSteps={updateSteps}
             setUpdateSteps={setUpdateSteps}

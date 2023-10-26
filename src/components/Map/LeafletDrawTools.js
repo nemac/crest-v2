@@ -8,10 +8,12 @@ import buffer from '@turf/buffer';
 import * as turf from '@turf/turf';
 import { CircularProgress } from '@mui/material';
 
+import { TurnSharpLeftOutlined } from '@mui/icons-material';
 import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
   uploadedShapeFileGeoJSON,
+  clearUploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
   incrementAreaNumber
 } from '../../reducers/mapPropertiesSlice';
@@ -42,7 +44,7 @@ export default function LeafletDrawTools(props) {
 
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
-  const shapeFileGeoJSON = useSelector(uploadedShapeFileSelector);
+  const shapeFileGeoJSONArray = useSelector(uploadedShapeFileSelector);
   const searchPlacesGeoJSON = useSelector(searchPlacesFileSelector);
   const areaNumber = useSelector(areaNumberSelector);
 
@@ -51,7 +53,8 @@ export default function LeafletDrawTools(props) {
     featureGroup: null, // this is the featureGroup that gets sent to zonalStats
     skip: true // this tells the query not to run unless set to false
   });
-
+  console.log('ok, triggering the zonalstats call now...');
+  console.log('sending: ', currentDrawn.featureGroup);
   const { data, error, isFetching } = useGetZonalStatsQuery(
     {
       region: mapConfig.regions[selectedRegion].regionName,
@@ -59,10 +62,13 @@ export default function LeafletDrawTools(props) {
     },
     { skip: currentDrawn.skip }
   );
-
+  console.log('data: ', data);
+  console.log('isfecthing: ', isFetching);
+  console.log('error: ', error);
   useEffect(() => {
     if (data) {
       dispatch(setEmptyState(false));
+      console.log('use effect triggered...');
       currentDrawn.featureGroup.features.forEach((feature, index) => {
         // TODO: Clarify what is happening here better.
         // We are actually using geo and not the feature because otherwise
@@ -181,28 +187,33 @@ export default function LeafletDrawTools(props) {
       skip: false
     });
   }
-
-  if (shapeFileGeoJSON) {
-    const featureGroup = L.featureGroup();
-    const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
-
-    let areaNum = areaNumber; // need an independent counter here since dispatch is batched
-    shapeFileFeatures.forEach((feature, index) => {
-      const geo = processGeojson(feature, areaNum);
-      areaNum += 1;
-      dispatch(incrementAreaNumber());
-      const layer = geo.properties.buffGeo ?
-        L.geoJSON(geo.properties.buffGeo) :
-        L.geoJSON(geo);
-      featureGroup.addLayer(layer);
+  if (shapeFileGeoJSONArray.length) {
+    console.log('found array: ', shapeFileGeoJSONArray);
+    console.log('before entering loop: ', L.featureGroup());
+    shapeFileGeoJSONArray.forEach((shapeFileGeoJSON) => {
+      const featureGroup = L.featureGroup();
+      console.log('before processing: ', featureGroup);
+      console.log('processing batch: ', shapeFileGeoJSON);
+      const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
+      let areaNum = areaNumber; // need an independent counter here since dispatch is batched
+      shapeFileFeatures.forEach((feature, index) => {
+        const geo = processGeojson(feature, areaNum);
+        areaNum += 1;
+        dispatch(incrementAreaNumber());
+        const layer = geo.properties.buffGeo ?
+          L.geoJSON(geo.properties.buffGeo) :
+          L.geoJSON(geo);
+        featureGroup.addLayer(layer);
+      });
+      console.log(featureGroup);
+      setCurrentDrawn({
+        featureGroup: featureGroup.toGeoJSON(),
+        skip: false
+      });
     });
-    dispatch(uploadedShapeFileGeoJSON(null));
-    setCurrentDrawn({
-      featureGroup: featureGroup.toGeoJSON(),
-      skip: false
-    });
+
+    dispatch(clearUploadedShapeFileGeoJSON());
   }
-
   if (searchPlacesGeoJSON) {
     const searchPlacesCopy = structuredClone(searchPlacesGeoJSON);
     const geo = processGeojson(searchPlacesCopy, areaNumber);

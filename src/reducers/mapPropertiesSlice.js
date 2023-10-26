@@ -11,7 +11,7 @@ const startingState = {
   identifyIsLoaded: false,
   basemap: 'Dark Gray',
   sketchArea: false,
-  uploadedShapeFile: null,
+  uploadedShapeFileGeoJSON: [],
   resilienceHub: null,
   areaNumber: 1,
   drawnLayers: {
@@ -73,7 +73,10 @@ export const mapPropertiesSlice = createSlice({
       state.drawnLayers = startingState.drawnLayers;
     },
     uploadedShapeFileGeoJSON: (state, action) => {
-      state.uploadedShapeFileGeoJSON = action.payload;
+      state.uploadedShapeFileGeoJSON.push(action.payload);
+    },
+    clearUploadedShapeFileGeoJSON: (state) => {
+      state.uploadedShapeFileGeoJSON = [];
     },
     addSearchPlacesGeoJSON: (state, action) => {
       state.searchPlacesFileGeoJSON = action.payload;
@@ -96,9 +99,9 @@ export const {
   updateAllMapProperties, changeZoom, changeCenter, changeIdentifyCoordinates,
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea,
   addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
-  removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON,
-  changeResilienceHub, updateDrawnLayers, removeFeatureByGeometry, incrementAreaNumber,
-  resetAreaNumber, resetMapProperties
+  removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, clearUploadedShapeFileGeoJSON,
+  addSearchPlacesGeoJSON, changeResilienceHub, updateDrawnLayers, removeFeatureByGeometry,
+  incrementAreaNumber, resetAreaNumber, resetMapProperties
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;
