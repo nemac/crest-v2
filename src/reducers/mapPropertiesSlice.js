@@ -78,6 +78,9 @@ export const mapPropertiesSlice = createSlice({
     clearUploadedShapeFileGeoJSON: (state) => {
       state.uploadedShapeFileGeoJSON = [];
     },
+    shiftUploadedShapeFileGeoJSON: (state) => {
+      state.uploadedShapeFileGeoJSON.shift();
+    },
     addSearchPlacesGeoJSON: (state, action) => {
       state.searchPlacesFileGeoJSON = action.payload;
     },
@@ -100,8 +103,8 @@ export const {
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea,
   addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers,
   removeAllFeaturesFromDrawnLayers, uploadedShapeFileGeoJSON, clearUploadedShapeFileGeoJSON,
-  addSearchPlacesGeoJSON, changeResilienceHub, updateDrawnLayers, removeFeatureByGeometry,
-  incrementAreaNumber, resetAreaNumber, resetMapProperties
+  shiftUploadedShapeFileGeoJSON, addSearchPlacesGeoJSON, changeResilienceHub, updateDrawnLayers,
+  removeFeatureByGeometry, incrementAreaNumber, resetAreaNumber, resetMapProperties
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

@@ -14,8 +14,9 @@ import {
   addNewFeatureToDrawnLayers,
   uploadedShapeFileGeoJSON,
   clearUploadedShapeFileGeoJSON,
+  shiftUploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
-  incrementAreaNumber
+  incrementAreaNumber,
 } from '../../reducers/mapPropertiesSlice';
 import { validPolygon } from '../../utility/utilityFunctions';
 import { useGetZonalStatsQuery } from '../../services/zonalstats';
@@ -54,7 +55,8 @@ export default function LeafletDrawTools(props) {
     skip: true // this tells the query not to run unless set to false
   });
   console.log('ok, triggering the zonalstats call now...');
-  console.log('sending: ', currentDrawn.featureGroup);
+  console.log('sending to zonalstats: ', currentDrawn.featureGroup);
+
   const { data, error, isFetching } = useGetZonalStatsQuery(
     {
       region: mapConfig.regions[selectedRegion].regionName,
@@ -69,6 +71,7 @@ export default function LeafletDrawTools(props) {
     if (data) {
       dispatch(setEmptyState(false));
       console.log('use effect triggered...');
+      console.log('drawing: ', currentDrawn.featureGroup);
       currentDrawn.featureGroup.features.forEach((feature, index) => {
         // TODO: Clarify what is happening here better.
         // We are actually using geo and not the feature because otherwise
@@ -187,32 +190,32 @@ export default function LeafletDrawTools(props) {
       skip: false
     });
   }
+
+  console.log('shapefileGeoJSONArray: ', shapeFileGeoJSONArray);
   if (shapeFileGeoJSONArray.length) {
+    const shapeFileGeoJSON = shapeFileGeoJSONArray[0];
     console.log('found array: ', shapeFileGeoJSONArray);
     console.log('before entering loop: ', L.featureGroup());
-    shapeFileGeoJSONArray.forEach((shapeFileGeoJSON) => {
-      const featureGroup = L.featureGroup();
-      console.log('before processing: ', featureGroup);
-      console.log('processing batch: ', shapeFileGeoJSON);
-      const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
-      let areaNum = areaNumber; // need an independent counter here since dispatch is batched
-      shapeFileFeatures.forEach((feature, index) => {
-        const geo = processGeojson(feature, areaNum);
-        areaNum += 1;
-        dispatch(incrementAreaNumber());
-        const layer = geo.properties.buffGeo ?
-          L.geoJSON(geo.properties.buffGeo) :
-          L.geoJSON(geo);
-        featureGroup.addLayer(layer);
-      });
-      console.log(featureGroup);
-      setCurrentDrawn({
-        featureGroup: featureGroup.toGeoJSON(),
-        skip: false
-      });
+    const featureGroup = L.featureGroup();
+    console.log('before processing: ', featureGroup);
+    console.log('processing batch: ', shapeFileGeoJSON);
+    const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
+    let areaNum = areaNumber; // need an independent counter here since dispatch is batched
+    shapeFileFeatures.forEach((feature, index) => {
+      const geo = processGeojson(feature, areaNum);
+      areaNum += 1;
+      dispatch(incrementAreaNumber());
+      const layer = geo.properties.buffGeo ?
+        L.geoJSON(geo.properties.buffGeo) :
+        L.geoJSON(geo);
+      featureGroup.addLayer(layer);
     });
-
-    dispatch(clearUploadedShapeFileGeoJSON());
+    console.log(featureGroup);
+    dispatch(shiftUploadedShapeFileGeoJSON());
+    setCurrentDrawn({
+      featureGroup: featureGroup.toGeoJSON(),
+      skip: false
+    });
   }
   if (searchPlacesGeoJSON) {
     const searchPlacesCopy = structuredClone(searchPlacesGeoJSON);
