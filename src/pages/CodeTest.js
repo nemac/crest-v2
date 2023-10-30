@@ -1,190 +1,64 @@
 import React from 'react';
-import { useGetZonalStatsQuery } from '../services/zonalstats';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+  useMutation
+} from '@tanstack/react-query';
+import axios from 'axios';
+import { betaZonalStatsEndpoint, prodZonalStatsEndpoint } from '../configuration/config';
 
-const App = () => {
-  const [skip, setSkip] = React.useState(true);
-  const region = 'great_lakes'; // Replace with the desired region value
-  const queryData = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'Polygon',
-          coordinates: [
-            [
-              [-85.63179, 44.75796],
-              [-85.60149, 44.75326],
-              [-85.59717, 44.77625],
-              [-85.63557, 44.77048],
-              [-85.63179, 44.75796]
-            ]
-          ]
-        }
-      }
-    ]
-  };
+const queryClient = new QueryClient()
 
-  const { data, error, isLoading } = useGetZonalStatsQuery({ region, queryData }, { skip });
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  )
+}
 
-  if (isLoading) {
-    console.log('loading');
-    return <div>Loading...</div>;
+function Example() {
+  const mutation = useMutation({
+    mutationFn: (data) => {
+      const url = betaZonalStatsEndpoint.concat(`/?region=${encodeURIComponent(data.region)}`);
+      return axios.post(url, data.post);
+    },
+    onSuccess: (data, error, variables, context) => {
+      // Called three times
+      console.log('inside mutation', data);
+    }
+  })
+
+  const guamData = '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[144.74343538284302,13.392604613355415],[144.74077463150024,13.38932734988023],[144.74549531936646,13.386300538244093],[144.7498512268066,13.391414784005304],[144.7441864013672,13.392813354740085],[144.74343538284302,13.392604613355415]]]}}]}';
+  const conusData = '{"type":"FeatureCollection","name":"test-ar","features":[{"type":"Feature","properties":{"id":"conus_poly"},"geometry":{"type":"Polygon","coordinates":[[[-80.01149654388428,32.887677980874706],[-80.01911401748657,32.88337138447869],[-80.01553058624268,32.87764094428261],[-80.00417947769165,32.882578515468],[-80.01149654388428,32.887677980874706]]]}}]}';
+  const prData = '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"id":"puerto_rico_poly"},"geometry":{"type":"Polygon","coordinates":[[[-66.19537353515625,18.374075820054482],[-66.2750244140625,18.312810846425442],[-66.15966796875,18.272390159624983],[-66.08963012695312,18.380592091462194],[-66.2091064453125,18.4209874751591],[-66.19537353515625,18.374075820054482]]]}}]}';
+
+  const dataOne = {post: guamData, region: 'guam'};
+  const dataTwo = {post: conusData, region: 'continental_us'};
+  const dataThree = {post: prData, region: 'puerto_rico'};
+
+  const mutateFunction = () => {
+    [dataOne, dataTwo, dataThree].forEach((dataBundle) => {
+      mutation.mutate(dataBundle, {
+        onSuccess: (data, error, variables, context) => {
+          // Will execute only once, for the last mutation (Todo 3),
+          // regardless which mutation resolves first
+          console.log('inside the button click', data)
+        },
+      })
+    })
   }
 
-  if (error) {
-    return <div>An error occurred: {error.message}</div>;
-  }
-
-  // Use the 'response' object here, which will contain the API response
-
-  if (data) {
-    return (
-      <div>
-        {Object.entries(data.features[0].properties.mean).map(([key, value]) => (
-          <p key={key}>
-            Key: {key}, Value: {value}
-          </p>
-        ))}
-      </div>
-    );
-  }
   return (
     <div>
-      <button onClick={() => {
-        setSkip(!skip);
-      }}>
-        set skip
+      <button
+        onClick={() => {
+          mutateFunction();
+        }}
+      >
+        Send it over
       </button>
     </div>
-  );
-};
-
-export default App;
-
-// /* eslint-disable no-console */
-// import React, { useEffect, useState } from 'react';
-// import Box from '@mui/material/Box';
-// import { TileLayer, GeoJSON, Polygon, MapContainer, useMap } from 'react-leaflet';
-// import PropTypes from 'prop-types';
-// import L from 'leaflet';
-// import CircularProgress from '@mui/material/CircularProgress';
-// import LeafletMapContainer from '../components/Map/LeafletMapContainer';
-
-// const center = [35.6, -82.6];
-
-// const DrawButton = ({ onDraw }) => (
-//   <button onClick={onDraw}>
-//     Start Drawing
-//   </button>
-// );
-// DrawButton.propTypes = {
-//   onDraw: PropTypes.func.isRequired
-// };
-
-// const LoaderButton = ({ isLoading, onClick }) => {
-//   return (
-//     <button onClick={onClick}>
-//       {isLoading ? 'Loading...' : 'Show Loader'}
-//     </button>
-//   );
-// };
-
-// function App() {
-//   // const [polygonCoords, setPolygonCoords] = useState([]);
-//   // const polyRef = React.useRef();
-//   // let draw;
-//   // if (map && draw === undefined) {
-//   //   console.log('bing');
-//   //   draw = new L.Draw.Polygon(map, { allowIntersection: false });
-//   // }
-
-//   // const map = useMap();
-//   const mapRef = React.useRef();
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   const handleButtonClick = () => {
-//     setIsLoading((prevIsLoading) => !prevIsLoading);
-//   };
-
-//   if (mapRef.current !== undefined) {
-//     console.log('map ref current', mapRef.current);
-//   }
-
-//   // useEffect(() => {
-//   //   console.log('map', map);
-//   // }, [map]);
-
-//   // const handleDraw = () => {
-//   //   if (map) {
-//   //     draw.enable();
-//   //     // const drawControl = new L.Control.Draw({
-//   //     //   draw: {
-//   //     //     polygon: true,
-//   //     //     marker: false,
-//   //     //     circle: false,
-//   //     //     circlemarker: false,
-//   //     //     rectangle: false
-//   //     //   }
-//   //     // });
-//   //     // map.addControl(drawControl);
-//   //     map.on('draw:created', (e) => {
-//   //       const layer = e.layer;
-//   //       const latLngs = layer.getLatLngs()[0].map(({ lat, lng }) => [lat, lng]);
-//   //       setPolygonCoords((previous) => [...previous, latLngs]);
-//   //       // draw.disable();
-//   //     });
-//   //   }
-//   // };
-
-//   // if (map) {
-//   //   if (loading) {
-//   //     map.setStyle({ opacity: 0.1 });
-//   //   } else {
-//   //     map.setStyle({ opacity: 1 });
-//   //   }
-//   // }
-
-//   return (
-//     <Box sx={{ height: '100%', position: 'relative' }}>
-//       <LoaderButton isLoading={isLoading} onClick={handleButtonClick} />
-//       {/* <DrawButton onDraw={handleDraw} /> */}
-//       {isLoading && (
-//         <CircularProgress
-//           color="primary"
-//           size={80}
-//           sx={{
-//             position: 'absolute',
-//             top: '50%',
-//             left: '50%',
-//             transform: 'translate(-50%, -50%)'
-//           }}
-//         />
-//       )}
-//         <MapContainer
-//           center={center}
-//           zoom={10}
-//           style={{
-//             height: 'calc(100% - 64px)',
-//             width: 'calc(100% - 1px)',
-//             transition: 'opacity 0.3s ease'
-//           }}
-//           ref={mapRef}
-//         >
-//         <TileLayer
-//           eventHandlers={{
-//             click: () => console.log('click')
-//           }}
-//           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//         />
-//         {/* {polygonCoords.length > 0 && <Polygon id={'jeff'} ref={polyRef} positions={polygonCoords} />} */}
-//         <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
-//         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
-//         <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>
-//       </MapContainer>
-//     </Box>
-//   );
-// }
-
-// export default App;
+  )
+}
