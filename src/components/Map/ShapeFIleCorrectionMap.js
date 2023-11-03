@@ -285,7 +285,7 @@ export default function ShapeFileCorrectionMap(props) {
   const steps = React.useRef([]);
   const endIndex = React.useRef(0);
   const numberInvalid = steps.current?.filter((step) => step.isValid === false).length;
-  const batchSize = 8
+  const batchSize = 10;
 
   // console.log('steps.current.length: ', steps.current.length);
   // console.log('activeStep: ', activeStep);
