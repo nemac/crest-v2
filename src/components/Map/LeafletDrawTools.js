@@ -12,14 +12,12 @@ import { TurnSharpLeftOutlined } from '@mui/icons-material';
 import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
-  uploadedShapeFileGeoJSON,
-  clearUploadedShapeFileGeoJSON,
   shiftUploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
-  incrementAreaNumber,
+  incrementAreaNumber
 } from '../../reducers/mapPropertiesSlice';
 import { validPolygon } from '../../utility/utilityFunctions';
-import { useGetZonalStatsQuery } from '../../services/zonalstats';
+import { useZonalStatsMutation } from '../../services/zonalstats';
 import ModelErrors from '../All/ModelErrors';
 import { setEmptyState } from '../../reducers/analyzeAreaSlice';
 import { mapConfig } from '../../configuration/config';
@@ -48,31 +46,42 @@ export default function LeafletDrawTools(props) {
   const shapeFileGeoJSONArray = useSelector(uploadedShapeFileSelector);
   const searchPlacesGeoJSON = useSelector(searchPlacesFileSelector);
   const areaNumber = useSelector(areaNumberSelector);
+  // currentDrawn is no longer used, except to trigger the useEffect!
+  // Otherwise drawin shapes and searching locations will not trigger
+  // This could probably be done more intelligently
+  const [currentDrawn, setCurrentDrawn] = useState(0);
+  const [currentDrawnArray, setCurrentDrawnArray] = useState([]);
+  // console.log('ok, triggering the zonalstats call now...');
+  // console.log('sending to zonalstats: ', currentDrawn.featureGroup);
+  // console.log('inside of currentDrawnArray: ', currentDrawnArray);
+  const [data, setData] = useState(null);
+  const mutateZonalStats = useZonalStatsMutation(setData);
+  const isFetching = null;
+  const error = null;
 
-  const [currentDrawn, setCurrentDrawn] = useState({
-    geo: null, // this is the originally drawn geo with enriched properties
-    featureGroup: null, // this is the featureGroup that gets sent to zonalStats
-    skip: true // this tells the query not to run unless set to false
-  });
-  console.log('ok, triggering the zonalstats call now...');
-  console.log('sending to zonalstats: ', currentDrawn.featureGroup);
+  useEffect(() => {
+    // console.log('sending zonal stats request');
+    mutateZonalStats(currentDrawnArray);
+  }, [currentDrawn]);
 
-  const { data, error, isFetching } = useGetZonalStatsQuery(
-    {
-      region: mapConfig.regions[selectedRegion].regionName,
-      queryData: currentDrawn.featureGroup
-    },
-    { skip: currentDrawn.skip }
-  );
-  console.log('data: ', data);
-  console.log('isfecthing: ', isFetching);
-  console.log('error: ', error);
+  // useEffect(() => {
+  //   console.log('sending currentDrawn to zonal stats');
+  //   mutateZonalStats(currentDrawn);
+  // }, []);
+
   useEffect(() => {
     if (data) {
       dispatch(setEmptyState(false));
-      console.log('use effect triggered...');
-      console.log('drawing: ', currentDrawn.featureGroup);
-      currentDrawn.featureGroup.features.forEach((feature, index) => {
+      // console.log('use effect triggered...');
+      // console.log('data we got: ', data);
+      // console.log('index is: ', data.index);
+      // console.log('array is: ', currentDrawnArray);
+      // console.log('currentDrawn is: ', currentDrawn);
+      const thisCurrentDrawn = currentDrawnArray.find((drawn) => drawn.index === data.index);
+      // console.log('drawing: ', currentDrawnArray.find((drawn) => drawn.index === data.index).featureGroup);
+      // setCurrentDrawn({ featureGroup: currentDrawnArray[data.index].post, skip: false });
+      // console.log('ok, just set currentDrawn to: ', thisCurrentDrawn);
+      thisCurrentDrawn.featureGroup.features.forEach((feature, index) => {
         // TODO: Clarify what is happening here better.
         // We are actually using geo and not the feature because otherwise
         // we would just be saving the buffer geo to state with the featuregroup
@@ -83,14 +92,20 @@ export default function LeafletDrawTools(props) {
         can contain many many features and in that case we need to process them all
         */
         const geo =
-          structuredClone(currentDrawn.geo) || structuredClone(feature);
+          structuredClone(thisCurrentDrawn.geo) || structuredClone(feature);
+        // console.log('geo: ', geo);
+        // console.log('in currentDrawn, geo would be: ', structuredClone(currentDrawn.geo) || structuredClone(feature));
+        // console.log('checking validity of: ', data);
         const areaValid = !Object.values(
           data.features[index].properties.mean
         ).includes('NaN');
         if (areaValid) {
           geo.properties.zonalStatsData = data.features[index].properties.mean;
+          // console.log('adding geo: ', geo);
           dispatch(addNewFeatureToDrawnLayers(geo));
         } else {
+          // console.log('bad area for data: ', data);
+          // console.log('geo is: ', geo);
           setErrorState((previous) => ({
             ...previous,
             error: true,
@@ -105,7 +120,14 @@ export default function LeafletDrawTools(props) {
       // in geojson components
       leafletFeatureGroupRef?.current?.clearLayers();
       setDrawAreaDisabled(false);
-      setCurrentDrawn((previous) => ({ ...previous, skip: true }));
+      // setCurrentDrawn((previous) => ({ ...previous, skip: true }));
+      // setCurrentDrawn([{ featureGroup: thisCurrentDrawn.featureGroup, skip: false }]);
+      const indexToRemove = currentDrawnArray.findIndex((current) => current.index === data.index);
+      const newArray = currentDrawnArray.slice(); // make a copy of the currentDrawn array
+      // console.log('removing ', indexToRemove);
+      // console.log('newArray: ', newArray);
+      newArray.splice(indexToRemove, 1); // remove the index we processed
+      setCurrentDrawnArray(newArray);
     }
   }, [data]);
 
@@ -125,7 +147,7 @@ export default function LeafletDrawTools(props) {
         errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
         onClose={() => {
           setDrawAreaDisabled(false);
-          setCurrentDrawn((previous) => ({ ...previous, skip: true }));
+          setCurrentDrawn([(previous) => ({ ...previous, skip: true })]);
         }}
         open={Boolean(error)}
       />
@@ -177,28 +199,39 @@ export default function LeafletDrawTools(props) {
 
     // disable draw until zonal stats done
     setDrawAreaDisabled(true);
-
+    // console.log('calling processGeojson');
     const geo = processGeojson(e.layer.toGeoJSON(), areaNumber);
     dispatch(incrementAreaNumber());
     const layerToAnalyze = geo.properties.buffGeo ?
       L.geoJSON(geo.properties.buffGeo) :
       e.layer;
+    // console.log('layerToAnalyze: ', layerToAnalyze);
     const featureGroup = L.featureGroup().addLayer(layerToAnalyze).toGeoJSON();
-    setCurrentDrawn({
+    setCurrentDrawn([{
       geo,
       featureGroup,
       skip: false
-    });
+    }]);
+    setCurrentDrawnArray(
+      [...currentDrawnArray,
+        {
+          geo,
+          featureGroup,
+          region: mapConfig.regions[selectedRegion].regionName,
+          index: currentDrawnArray.length
+        }]
+    );
   }
 
-  console.log('shapefileGeoJSONArray: ', shapeFileGeoJSONArray);
+  // console.log('shapefileGeoJSONArray: ', shapeFileGeoJSONArray);
   if (shapeFileGeoJSONArray.length) {
+    const arrayIndex = currentDrawnArray.length;
     const shapeFileGeoJSON = shapeFileGeoJSONArray[0];
-    console.log('found array: ', shapeFileGeoJSONArray);
-    console.log('before entering loop: ', L.featureGroup());
+    // console.log('found array: ', shapeFileGeoJSONArray);
+    // console.log('before entering loop: ', L.featureGroup());
     const featureGroup = L.featureGroup();
-    console.log('before processing: ', featureGroup);
-    console.log('processing batch: ', shapeFileGeoJSON);
+    // console.log('before processing: ', featureGroup);
+    // console.log('processing batch: ', shapeFileGeoJSON);
     const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
     let areaNum = areaNumber; // need an independent counter here since dispatch is batched
     shapeFileFeatures.forEach((feature, index) => {
@@ -210,12 +243,17 @@ export default function LeafletDrawTools(props) {
         L.geoJSON(geo);
       featureGroup.addLayer(layer);
     });
-    console.log(featureGroup);
+    // console.log('feature group: ', featureGroup);
     dispatch(shiftUploadedShapeFileGeoJSON());
-    setCurrentDrawn({
-      featureGroup: featureGroup.toGeoJSON(),
-      skip: false
-    });
+    setCurrentDrawnArray(
+      [...currentDrawnArray,
+        {
+          featureGroup: featureGroup.toGeoJSON(),
+          region: mapConfig.regions[selectedRegion].regionName,
+          index: arrayIndex
+        }]
+    );
+    // console.log('currentDrawnArray: ', currentDrawnArray);
   }
   if (searchPlacesGeoJSON) {
     const searchPlacesCopy = structuredClone(searchPlacesGeoJSON);
@@ -225,10 +263,18 @@ export default function LeafletDrawTools(props) {
       L.geoJSON(geo.properties.buffGeo) :
       L.geoJSON(geo);
     const featureGroup = L.featureGroup().addLayer(layer);
-    setCurrentDrawn({
+    setCurrentDrawn([{
       featureGroup: featureGroup.toGeoJSON(),
       skip: false
-    });
+    }]);
+    setCurrentDrawnArray(
+      [...currentDrawnArray,
+        {
+          featureGroup: featureGroup.toGeoJSON(),
+          region: mapConfig.regions[selectedRegion].regionName,
+          index: currentDrawnArray.length
+        }]
+    );
     dispatch(addSearchPlacesGeoJSON(null));
   }
 

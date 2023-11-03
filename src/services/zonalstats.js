@@ -1,27 +1,33 @@
-// Need to use the React-specific entry point to import createApi
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-// eslint-disable-next-line no-unused-vars
-import { betaZonalStatsEndpoint, prodZonalStatsEndpoint } from '../configuration/config';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { betaZonalStatsEndpoint } from '../configuration/config';
 
-// uncomment the endpoint you want to use and comment out the other
-const endpoint = betaZonalStatsEndpoint;
-// const endpoint = prodZonalStatsEndpoint;
+export const useZonalStatsMutation = (setData) => {
+  const mutation = useMutation({
+    mutationFn: (data) => {
+      // console.log('sending up : ', data);
+      const url = betaZonalStatsEndpoint.concat(`/?region=${encodeURIComponent(data.region)}`);
 
-// Define a service using a base URL and expected endpoints
-export const zonalStatsApi = createApi({
-  reducerPath: 'zonalStatsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: endpoint, timeout: 100000 }),
-  endpoints: (builder) => ({
-    getZonalStats: builder.query({
-      query: ({ region, queryData }) => ({
-        url: `/?region=${encodeURIComponent(region)}`,
-        method: 'POST',
-        body: JSON.stringify(queryData)
-      })
+      return axios.post(url, data.featureGroup);
+    },
+    onSuccess: (data) => {
+      // console.log('inside mutation', data);
+      setData(data.data);
+    },
+    onError: (data) => {
+      // console.log('mutation failed: ', data);
+    },
+    retry: 2
+
+  });
+
+  const mutateFunction = (dataArray) => dataArray.map(
+    (dataBundle) => mutation.mutateAsync(dataBundle).then((mutationResult) => {
+      mutationResult.data.index = dataBundle.index;
+      // console.log('setting data to: ', mutationResult);
+      setData(mutationResult.data);
     })
-  })
-});
+  );
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
-export const { useGetZonalStatsQuery } = zonalStatsApi;
+  return mutateFunction;
+};
