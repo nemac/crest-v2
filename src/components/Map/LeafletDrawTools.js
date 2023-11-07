@@ -8,7 +8,6 @@ import buffer from '@turf/buffer';
 import * as turf from '@turf/turf';
 import { CircularProgress } from '@mui/material';
 
-import { current } from '@reduxjs/toolkit';
 import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
