@@ -6,11 +6,14 @@ export const useZonalStatsMutation = (setData, setIsFetching) => {
   const mutation = useMutation({
     mutationFn: (data) => {
       const url = betaZonalStatsEndpoint.concat(`/?region=${encodeURIComponent(data.region)}`);
+      // console.log('in zonal stats processing: ', data);
       return axios.post(url, data.featureGroup);
     },
     onSuccess: (data) => {
+      // console.log('SUCCESS: ', data);
     },
     onError: (data) => {
+      // console.log('ERROR: ', data);
     },
     retry: 2
 

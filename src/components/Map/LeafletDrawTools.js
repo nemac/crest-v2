@@ -8,6 +8,7 @@ import buffer from '@turf/buffer';
 import * as turf from '@turf/turf';
 import { CircularProgress } from '@mui/material';
 
+import { current } from '@reduxjs/toolkit';
 import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
@@ -39,6 +40,7 @@ export default function LeafletDrawTools(props) {
 
   const bufferSize = 1;
   const bufferUnits = 'kilometers';
+  const batchSize = 10;
 
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -52,7 +54,6 @@ export default function LeafletDrawTools(props) {
   const [currentDrawnArray, setCurrentDrawnArray] = useState([]);
   const [data, setData] = useState(null);
   const mutateZonalStats = useZonalStatsMutation(setData);
-
 
   useEffect(() => {
     mutateZonalStats(currentDrawnArray);
@@ -170,11 +171,13 @@ export default function LeafletDrawTools(props) {
   }
 
   if (shapeFileGeoJSONArray.length) {
-    const arrayIndex = currentDrawnArray.length;
+    const newDrawn = currentDrawnArray;
+    let arrayIndex = newDrawn.length;
     const shapeFileGeoJSON = shapeFileGeoJSONArray[0];
-    const featureGroup = L.featureGroup();
+    let featureGroup = L.featureGroup();
     const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
     let areaNum = areaNumber; // need an independent counter here since dispatch is batched
+    let nextBatch = batchSize - 1;
     shapeFileFeatures.forEach((feature, index) => {
       const geo = processGeojson(feature, areaNum);
       areaNum += 1;
@@ -183,16 +186,22 @@ export default function LeafletDrawTools(props) {
         L.geoJSON(geo.properties.buffGeo) :
         L.geoJSON(geo);
       featureGroup.addLayer(layer);
-    });
-    dispatch(shiftUploadedShapeFileGeoJSON());
-    setCurrentDrawnArray(
-      [...currentDrawnArray,
-        {
+      if (index > nextBatch - 1 || index === shapeFileFeatures.length - 1) {
+        newDrawn.push({
           featureGroup: featureGroup.toGeoJSON(),
           region: mapConfig.regions[selectedRegion].regionName,
           index: arrayIndex
-        }]
+        });
+        arrayIndex += 1;
+        nextBatch += batchSize;
+        featureGroup = L.featureGroup(); // get a new featureGroup
+      }
+    });
+    dispatch(shiftUploadedShapeFileGeoJSON());
+    setCurrentDrawnArray(
+      newDrawn
     );
+    // ONLY to trigger re-render
     setCurrentDrawn({
       featureGroup: featureGroup.toGeoJSON(),
       region: mapConfig.regions[selectedRegion].regionName,
