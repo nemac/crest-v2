@@ -55,15 +55,15 @@ function EditControlFC(props) {
     setUpdateSteps,
     activeStep,
     setActiveStep,
-    batchSize
+    batchSize,
+    mapRef
   } = props;
-  const ref = React.useRef(null);
   const dispatch = useDispatch();
+  console.log(mapRef);
 
-  // console.log('ref.current: ', ref.current);
+  // console.log('mapRef.current: ', mapRef.current);
   useEffect(() => {
-
-    if (ref.current?.getLayers().length === 0 && localGeo && updateSteps) {
+    if (mapRef.current?.getLayers().length === 0 && localGeo && updateSteps) {
       let count = 0;
       let countValid = 0;
       let countInvalid = 0;
@@ -86,7 +86,7 @@ function EditControlFC(props) {
         if (!validPolygon(geo)) {
           // console.log('bad shape found... adding to steps');
           countInvalid += 1;
-          // ref.current?.addLayer(layer.setStyle({ color: 'red' }));
+          // mapRef.current?.addLayer(layer.setStyle({ color: 'red' }));
           const areaSize = calculateAreaOfPolygon(geo) / 1000000;
           steps.current?.push({
             title: `Shape ${feature.properties.id}`,
@@ -123,7 +123,7 @@ function EditControlFC(props) {
         console.log('now we slice: ', steps.current.slice(activeStep, endIndex.current));
         steps.current.slice(activeStep, endIndex.current + 1).forEach((invalidLayer) => {
           invalidLayer.layer.options.stepID = invalidLayer.id - 1;
-          ref.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+          mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
           // invalidLayer.center = invalidLayer.layer.getCenter();
         });
       } else {
@@ -131,14 +131,14 @@ function EditControlFC(props) {
         endIndex.current = steps.current.length - 1;
         steps.current.forEach((invalidLayer) => {
           invalidLayer.layer.options.stepID = invalidLayer.id - 1;
-          ref.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+          mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
         });
       }
     }
-  }, [endIndex, localGeo, setUpdateSteps, steps]);
+  }, [endIndex, localGeo, setUpdateSteps, steps, mapRef]);
 
   const handleChange = () => {
-    const newGeo = ref.current?.toGeoJSON();
+    const newGeo = mapRef.current?.toGeoJSON();
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
     }
@@ -174,7 +174,7 @@ function EditControlFC(props) {
       direction: 'center'
     }).openTooltip();
 
-    const newGeo = ref.current?.toGeoJSON();
+    const newGeo = mapRef.current?.toGeoJSON();
     // console.log('newGeo: ', newGeo);
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
@@ -183,7 +183,7 @@ function EditControlFC(props) {
 
   const handleEditStop = (e) => {
     let featNum = 0;
-    ref.current.eachLayer((layer) => {
+    mapRef.current.eachLayer((layer) => {
       const geo = layer.toGeoJSON();
       const thisStep = steps.current[featNum];
       featNum += 1;
@@ -211,7 +211,7 @@ function EditControlFC(props) {
         )
         .openTooltip();
     });
-    const newGeo = ref.current?.toGeoJSON();
+    const newGeo = mapRef.current?.toGeoJSON();
     // console.log('newGeo: ', newGeo);
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
@@ -219,7 +219,7 @@ function EditControlFC(props) {
   };
 
   return (
-    <FeatureGroup ref={ref}>
+    <FeatureGroup ref={mapRef}>
       <EditControl
         position="topleft"
         // onCreated={handleChange}
@@ -251,8 +251,9 @@ EditControlFC.propTypes = {
   updateSteps: PropTypes.bool,
   setUpdateSteps: PropTypes.func,
   activeStep: PropTypes.number,
-  setActiveStep: PropTypes.function,
-  batchSize: PropTypes.number
+  setActiveStep: PropTypes.func,
+  batchSize: PropTypes.number,
+  mapRef: PropTypes.object
 };
 
 export default function ShapeFileCorrectionMap(props) {
@@ -272,6 +273,8 @@ export default function ShapeFileCorrectionMap(props) {
   const steps = React.useRef([]);
   const endIndex = React.useRef(Math.min(batchSize - 1, steps.current.length));
   const startIndex = React.useRef(0);
+  const mapRef = React.useRef(null);
+
   // eslint-disable-next-line max-len
   const numberInvalid = steps.current?.slice(activeStep, endIndex.current + 1).filter((step) => step.isValid === false).length;
 
@@ -456,6 +459,7 @@ export default function ShapeFileCorrectionMap(props) {
                       errorClose: () => {
                         // console.log('dispatching uploadShapeFileGeoJSON');
                         setGeoToRedraw(null);
+                        console.log(ref.current);
                         dispatch(uploadedShapeFileGeoJSON(localGeo));
                         setErrorState({ ...previous, error: false });
                       },
@@ -464,6 +468,9 @@ export default function ShapeFileCorrectionMap(props) {
                         setActiveStep(endIndex.current + 1);
                         startIndex.current += batchSize;
                         endIndex.current += nextBatchSize;
+                        console.log('attempting to clear layers...');
+                        console.log('mapRef: ', mapRef.current);
+                        mapRef.current.clearLayers();
                         // console.log('setting update steps');
                         dispatch(uploadedShapeFileGeoJSON(localGeo));
                         setUpdateSteps(true);
@@ -538,6 +545,7 @@ export default function ShapeFileCorrectionMap(props) {
             activeStep={activeStep}
             setActiveStep={setActiveStep}
             batchSize={batchSize}
+            mapRef={mapRef}
           />
           <BasemapLayer />
         </LeafletMapContainer>
