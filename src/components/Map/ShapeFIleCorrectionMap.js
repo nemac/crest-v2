@@ -29,7 +29,6 @@ import GenericMapHolder from './GenericMapHolder';
 import ExampleActionButton from '../Example/ExampleActionButton';
 
 import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
-// import { FormatShapes } from '@mui/icons-material';
 
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
@@ -48,7 +47,6 @@ function EditControlFC(props) {
   const {
     localGeo,
     setLocalGeo,
-    geoToRedraw,
     endIndex,
     steps,
     updateSteps,
@@ -59,21 +57,19 @@ function EditControlFC(props) {
     mapRef
   } = props;
   const dispatch = useDispatch();
-  console.log(mapRef);
 
-  // console.log('mapRef.current: ', mapRef.current);
   useEffect(() => {
+    // Only trigger if we have an empty map and things to update
     if (mapRef.current?.getLayers().length === 0 && localGeo && updateSteps) {
-      let count = 0;
-      let countValid = 0;
-      let countInvalid = 0;
-      let validBatch = {
+      let count = 0; // All Layers
+      let countValid = 0; // Layers we don't need to fix, send immediately
+      let validBatch = { // data structure to hold good layers that don't need editing
         type: 'FeatureCollection',
         features: []
       };
+      // One time only we go through the loop to sort good and bad shapes
       L.geoJSON(localGeo).eachLayer((layer) => {
         count += 1;
-        console.log('count in localgeo: ', count);
         // Create a deep copy of the feature
         const feature = JSON.parse(JSON.stringify(layer.feature));
 
@@ -81,12 +77,9 @@ function EditControlFC(props) {
         feature.properties = feature.properties || {};
         feature.properties.id = count;
         const geo = layer.toGeoJSON();
-        // console.log('checking shapes...');
 
+        // If not valid, we will now push to our "steps" to work on
         if (!validPolygon(geo)) {
-          // console.log('bad shape found... adding to steps');
-          countInvalid += 1;
-          // mapRef.current?.addLayer(layer.setStyle({ color: 'red' }));
           const areaSize = calculateAreaOfPolygon(geo) / 1000000;
           steps.current?.push({
             title: `Shape ${feature.properties.id}`,
@@ -96,38 +89,31 @@ function EditControlFC(props) {
             color: 'red',
             layer: layer.setStyle({ color: 'red' })
           });
-        } else {
+        } else { // if it is valid, batch and send it when we reach our batch size
           countValid += 1;
 
           validBatch.features.push(geo);
           if (countValid >= batchSize || count >= localGeo.features.length) {
             dispatch(uploadedShapeFileGeoJSON(validBatch));
+            // after sending, we reset our valid batch to create the next batch
             validBatch = {
               type: 'FeatureCollection',
               features: []
             };
-            countValid = 0;
+            countValid = 0; // and our counter
           }
         }
-
       });
-      // NOW WE CAN STEP THROUGH STEPS AND RENDER TO MAP AND GET CENTER
-      // console.log('current number invalid: ', steps.current.length);
-      console.log('length of steps:', steps.current.length);
-      // console.log('active + batchsize: ', activeStep + batchSize - 1);
+      // NOW WE CAN STEP THROUGH STEPS AND RENDER TO MAP FOR THIS BAD BATCH
       endIndex.current = Math.min(steps.current.length, activeStep + batchSize - 1);
-      console.log('OK REACHED OUR CHECK FOR THE NEXT BIT...');
-      console.log('endIndex is: ', endIndex.current);
       if (steps.current.length >= batchSize) { // more than one batch total
-        // console.log('too many steps, updating in batches...');
-        console.log('now we slice: ', steps.current.slice(activeStep, endIndex.current));
+        // we will only look and operate in the range of this batch
         steps.current.slice(activeStep, endIndex.current + 1).forEach((invalidLayer) => {
+          // This seemed like the easiest way to match steps with the map layers
           invalidLayer.layer.options.stepID = invalidLayer.id - 1;
           mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
-          // invalidLayer.center = invalidLayer.layer.getCenter();
         });
-      } else {
-        console.log('number of steps: ', steps.current.length);
+      } else { // only one batch to work with, much simpler
         endIndex.current = steps.current.length - 1;
         steps.current.forEach((invalidLayer) => {
           invalidLayer.layer.options.stepID = invalidLayer.id - 1;
@@ -135,9 +121,11 @@ function EditControlFC(props) {
         });
       }
     }
-  }, [endIndex, localGeo, setUpdateSteps, steps, mapRef]);
+    // May not need to watch ALL of these variables, worth revisiting
+  }, [endIndex, localGeo, setUpdateSteps, steps, updateSteps]);
 
   const handleChange = () => {
+    // Update localGeo for dispatch
     const newGeo = mapRef.current?.toGeoJSON();
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
@@ -145,18 +133,20 @@ function EditControlFC(props) {
   };
 
   const handleEditVertex = (e) => {
+    // get the layer
     const layer = e.poly;
+    // we set active step based on the layer so that whatever shape
+    // the user chooses to edit, we can skip to that step
     setActiveStep(layer.options.stepID);
-    console.log(layer);
-    const stepIndex = activeStep;
     const geo = layer.toGeoJSON();
-    const thisStep = steps.current[stepIndex];
+    const thisStep = steps.current[layer.options.stepID];
+    // set properties for valid
     if (validPolygon(geo)) {
       layer.setStyle({ color: 'green' });
       thisStep.color = 'green';
       thisStep.text = 'VALID';
       thisStep.isValid = true;
-    } else {
+    } else { // update size and make sure we have invalid properties
       layer.setStyle({ color: 'red' });
       const areaSize = calculateAreaOfPolygon(geo) / 1000000;
       thisStep.color = 'red';
@@ -168,39 +158,36 @@ function EditControlFC(props) {
     layer.unbindTooltip();
 
     // Add a new tooltip
-    // console.log('binding tooltip now...');
     layer.bindTooltip(thisStep.text, {
       permanent: true,
       direction: 'center'
     }).openTooltip();
 
+    // Update localGeo for dispatch
     const newGeo = mapRef.current?.toGeoJSON();
-    // console.log('newGeo: ', newGeo);
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
     }
   };
 
   const handleEditStop = (e) => {
-    let featNum = 0;
     mapRef.current.eachLayer((layer) => {
       const geo = layer.toGeoJSON();
-      const thisStep = steps.current[featNum];
-      featNum += 1;
+      const thisStep = steps.current[layer.options.stepID];
+      // finalize updates for good / bad
       if (validPolygon(geo)) {
         layer.setStyle({ color: 'green' });
         thisStep.color = 'green';
         thisStep.isValid = true;
         thisStep.text = 'VALID';
       } else {
-        // only set new invalid layer if it is not already in the array
-        // stinks that we have to dig into layer but that seems to be the only way
         const areaSize = calculateAreaOfPolygon(geo) / 1000000;
         layer.setStyle({ color: 'red' });
         thisStep.color = 'red';
         thisStep.isValid = false;
         thisStep.text = `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)} / 500`;
       }
+      // make sure tooltips are open
       layer
         .bindTooltip(
           thisStep.text,
@@ -211,8 +198,8 @@ function EditControlFC(props) {
         )
         .openTooltip();
     });
+    // update localGeo for dispatch
     const newGeo = mapRef.current?.toGeoJSON();
-    // console.log('newGeo: ', newGeo);
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
     }
@@ -222,7 +209,6 @@ function EditControlFC(props) {
     <FeatureGroup ref={mapRef}>
       <EditControl
         position="topleft"
-        // onCreated={handleChange}
         onDeleted={handleChange}
         onEditVertex={handleEditVertex}
         onEditStop={handleEditStop}
@@ -245,7 +231,6 @@ function EditControlFC(props) {
 EditControlFC.propTypes = {
   localGeo: PropTypes.object,
   setLocalGeo: PropTypes.func,
-  geoToRedraw: PropTypes.object,
   endIndex: PropTypes.object,
   steps: PropTypes.object,
   updateSteps: PropTypes.bool,
@@ -264,49 +249,56 @@ export default function ShapeFileCorrectionMap(props) {
   const dispatch = useDispatch();
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
-  // console.log('geo to redraw: ', geoToRedraw);
   const [localGeo, setLocalGeo] = React.useState(geoToRedraw);
   const [activeStep, setActiveStep] = React.useState(0);
   const [updateSteps, setUpdateSteps] = React.useState(true);
+  // Kinda ugly way to do it, maybe we should pass batchSize down to here and leafletDrawTools
   const batchSize = 10;
-
-  const steps = React.useRef([]);
+  const mapRef = React.useRef(null); // For edit controls
+  const steps = React.useRef([]); // our dataset that needs to be fixed
+  // We slice into steps for batching, start and end indices are for slicing
   const endIndex = React.useRef(Math.min(batchSize - 1, steps.current.length));
   const startIndex = React.useRef(0);
-  const mapRef = React.useRef(null);
-
+  // numberInvalid is displayed to user and safeguards returning bad shapes
   // eslint-disable-next-line max-len
-  const numberInvalid = steps.current?.slice(activeStep, endIndex.current + 1).filter((step) => step.isValid === false).length;
+  const numberInvalid = steps.current?.slice(startIndex.current, endIndex.current + 1).filter((step) => step.isValid === false).length;
 
-  // console.log('steps.current.length: ', steps.current.length);
-  // console.log('activeStep: ', activeStep);
-  // console.log('startIndex: ', startIndex);
-  // console.log('endIndex: ', endIndex);
-  // console.log('updateStep: ', updateSteps);
-  // console.log('zoom: ', zoom);
-
-  // PROBABLY NEED TO UPDATE THIS TO MATCH NEW INDEXING
-  console.log('steps: ', steps);
-  console.log('activeStep: ', activeStep);
+  // Always make sure that we are zoomed in to the operating shape
   if (steps.current.length > activeStep) {
     const shape = steps.current[activeStep].layer.toGeoJSON();
     const bounds = L.geoJSON(shape).getBounds();
     map.fitBounds(bounds);
   }
 
+  // Next button logic to step through steps
   const handleNext = () => {
     const newStep = activeStep + 1;
     setActiveStep(newStep);
   };
 
+  // Previous button logic to step through steps
   const handlePrevious = () => {
     const newStep = activeStep - 1;
     setActiveStep(newStep);
   };
 
+  const handleEditMore = (nextBatchSize, previous) => {
+    setUpdateSteps(true);
+    setActiveStep(endIndex.current + 1);
+    startIndex.current += batchSize;
+    endIndex.current += nextBatchSize;
+    dispatch(uploadedShapeFileGeoJSON(localGeo));
+    mapRef.current.clearLayers();
+    const toAdd = steps.current.slice(startIndex.current, endIndex.current + 1);
+    toAdd.forEach((invalidLayer) => {
+      invalidLayer.layer.options.stepID = invalidLayer.id - 1;
+      mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+    });
+    setErrorState({ ...previous, error: false });
+  };
+
   const CustomStepIcon = (properties, color, id) => {
     const active = activeStep === id - 1;
-    // console.log(properties);
 
     return (
       <RectangleTwoToneIconStyled
@@ -330,7 +322,6 @@ export default function ShapeFileCorrectionMap(props) {
             <Grid xs={12}>
               Number of invalid layers: {numberInvalid}
             </Grid>
-            {/* <Grid container spacing={0} p={0} m={0} sx={{ width: '100%' }}> */}
               <Grid item xs={12} py={1}>
                 <Typography
                   variant="body2"
@@ -342,7 +333,6 @@ export default function ShapeFileCorrectionMap(props) {
                 >
                   {'Shapes to Upload'}
                 </Typography>
-                {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}
               </Grid>
               <Grid item xs={12} py={1}>
                 <Typography
@@ -434,7 +424,6 @@ export default function ShapeFileCorrectionMap(props) {
             <Grid xs={12}>
               <Button
                 onClick={() => {
-                  // console.log('numberInvalid: ', numberInvalid);
                   if (numberInvalid) {
                     setErrorState((previous) => ({
                       ...previous,
@@ -446,8 +435,8 @@ export default function ShapeFileCorrectionMap(props) {
                         setErrorState({ ...previous, error: false });
                       }
                     }));
-                  } else if (steps.current.length > batchSize) {
-                    const remainingShapes = steps.current.length - batchSize;
+                  } else if (steps.current.length > endIndex.current + 1) {
+                    const remainingShapes = steps.current.length - endIndex.current - 1;
                     const nextBatchSize = Math.min(remainingShapes, batchSize);
                     setErrorState((previous) => ({
                       ...previous,
@@ -457,32 +446,14 @@ export default function ShapeFileCorrectionMap(props) {
                       errorMessage: `Would you like to edit the next ${nextBatchSize} shapes?`,
                       errorButtonText: 'Send And Return To Map',
                       errorClose: () => {
-                        // console.log('dispatching uploadShapeFileGeoJSON');
                         setGeoToRedraw(null);
-                        console.log(ref.current);
                         dispatch(uploadedShapeFileGeoJSON(localGeo));
                         setErrorState({ ...previous, error: false });
                       },
                       acceptButtonText: `Edit Next ${nextBatchSize} Shapes`,
-                      acceptButtonClose: () => {
-                        setActiveStep(endIndex.current + 1);
-                        startIndex.current += batchSize;
-                        endIndex.current += nextBatchSize;
-                        console.log('attempting to clear layers...');
-                        console.log('mapRef: ', mapRef.current);
-                        mapRef.current.clearLayers();
-                        // console.log('setting update steps');
-                        dispatch(uploadedShapeFileGeoJSON(localGeo));
-                        setUpdateSteps(true);
-                        // console.log('sending back : ', localGeo);
-                        setErrorState({ ...previous, error: false });
-                      }
+                      acceptButtonClose: () => handleEditMore(nextBatchSize, previous)
                     }));
-                    // setBatchNo(batchNo + 1);
-                    // setActiveStep(endIndex.current + 1);
                   } else {
-                    // console.log('dispatching uploadShapeFileGeoJSON');
-                    // console.log('payload: ', localGeo);
                     setGeoToRedraw(null);
                     // Also send remaining valid batch...
                     dispatch(uploadedShapeFileGeoJSON(localGeo));
@@ -492,32 +463,6 @@ export default function ShapeFileCorrectionMap(props) {
                 Send shapes back to map
               </Button>
             </Grid>
-            {/* <Grid xs={12}>
-              <Button
-                onClick={() => {
-                  if (batchNo < totalBatches) {
-                    setBatchNo(batchNo + 1);
-                    setActiveStep(endIndex + 1);
-                    setUpdateSteps(true);
-                  }
-                }}
-              >
-                Skip to next shape batch
-              </Button>
-            </Grid> */}
-            {/* <Grid xs={12}>
-              <Button
-                onClick={() => {
-                  if (batchNo > 1) {
-                    setBatchNo(batchNo - 1);
-                    setActiveStep(startIndex - 10);
-                    setUpdateSteps(true);
-                  }
-                }}
-              >
-                Return to previous shape batch
-              </Button>
-            </Grid> */}
             <Grid xs={12}>
               <Button
                 onClick={() => {
@@ -528,7 +473,6 @@ export default function ShapeFileCorrectionMap(props) {
                 Download shapes to a new shapefile
               </Button>
             </Grid>
-          {/* </Grid> */}
         </Box>
       }
       mapCard={
