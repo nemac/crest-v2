@@ -111,7 +111,9 @@ function EditControlFC(props) {
         steps.current.slice(activeStep, endIndex.current + 1).forEach((invalidLayer) => {
           // This seemed like the easiest way to match steps with the map layers
           invalidLayer.layer.options.stepID = invalidLayer.id - 1;
-          mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+          if (invalidLayer.text !== 'DELETED') {
+            mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+          }
         });
       } else { // only one batch to work with, much simpler
         endIndex.current = steps.current.length - 1;
@@ -124,7 +126,17 @@ function EditControlFC(props) {
     // May not need to watch ALL of these variables, worth revisiting
   }, [endIndex, localGeo, setUpdateSteps, steps, updateSteps]);
 
-  const handleChange = () => {
+  const handleChange = (e) => {
+    // get deleted layers...
+    // don't like digging into _layers, but not sure how else to get id
+    const deletedLayers = Object.values(e.layers._layers);
+    deletedLayers.forEach((layer) => {
+      const thisStep = steps.current[layer.options.stepID];
+      thisStep.color = 'green';
+      thisStep.text = 'DELETED'; // this will keep us from re-rendering!
+      thisStep.isValid = true;
+    });
+
     // Update localGeo for dispatch
     const newGeo = mapRef.current?.toGeoJSON();
     if (newGeo?.type === 'FeatureCollection') {
