@@ -28,10 +28,14 @@ import GenericMapHolder from './GenericMapHolder';
 
 import ExampleActionButton from '../Example/ExampleActionButton';
 
-import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
+import {
+  uploadedShapeFileGeoJSON,
+  clearUploadedShapeFileGeoJSON
+} from '../../reducers/mapPropertiesSlice';
 
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
+const selectedUploadedShapeFile = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
 
 const RectangleTwoToneIconStyled = styled(RectangleTwoToneIcon)(
   ({ theme }) => ({
@@ -47,6 +51,7 @@ function EditControlFC(props) {
   const {
     localGeo,
     setLocalGeo,
+    geoToReturn,
     endIndex,
     steps,
     updateSteps,
@@ -69,6 +74,7 @@ function EditControlFC(props) {
       };
       // One time only we go through the loop to sort good and bad shapes
       L.geoJSON(localGeo).eachLayer((layer) => {
+        geoToReturn.current.features[count].properties.id = count;
         count += 1;
         // Create a deep copy of the feature
         const feature = JSON.parse(JSON.stringify(layer.feature));
@@ -119,7 +125,9 @@ function EditControlFC(props) {
         endIndex.current = steps.current.length - 1;
         steps.current.forEach((invalidLayer) => {
           invalidLayer.layer.options.stepID = invalidLayer.id - 1;
-          mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+          if (invalidLayer.text !== 'DELETED') {
+            mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+          }
         });
       }
     }
@@ -131,6 +139,10 @@ function EditControlFC(props) {
     // don't like digging into _layers, but not sure how else to get id
     const deletedLayers = Object.values(e.layers._layers);
     deletedLayers.forEach((layer) => {
+      const updatedFeatures = geoToReturn.current.features.filter(
+        (feature) => feature.properties.id !== layer.feature.properties.id
+      );
+      geoToReturn.current.features = updatedFeatures;
       const thisStep = steps.current[layer.options.stepID];
       thisStep.color = 'green';
       thisStep.text = 'DELETED'; // this will keep us from re-rendering!
@@ -183,6 +195,7 @@ function EditControlFC(props) {
   };
 
   const handleEditStop = (e) => {
+    const mapGeo = mapRef.current.toGeoJSON();
     mapRef.current.eachLayer((layer) => {
       const geo = layer.toGeoJSON();
       const thisStep = steps.current[layer.options.stepID];
@@ -199,6 +212,9 @@ function EditControlFC(props) {
         thisStep.isValid = false;
         thisStep.text = `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)} / 500`;
       }
+      // update geoToReturn in case we download this stuff
+      const thisFeature = mapGeo.features.find(feature => feature.properties.id === layer.feature.properties.id);
+      geoToReturn.current.features[layer.feature.properties.id] = thisFeature;
       // make sure tooltips are open
       layer
         .bindTooltip(
@@ -243,6 +259,7 @@ function EditControlFC(props) {
 EditControlFC.propTypes = {
   localGeo: PropTypes.object,
   setLocalGeo: PropTypes.func,
+  geoToReturn: PropTypes.object,
   endIndex: PropTypes.object,
   steps: PropTypes.object,
   updateSteps: PropTypes.bool,
@@ -261,6 +278,7 @@ export default function ShapeFileCorrectionMap(props) {
   const dispatch = useDispatch();
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
+  const uploadedShapeFileArray = useSelector(selectedUploadedShapeFile, () => true);
   const [localGeo, setLocalGeo] = React.useState(geoToRedraw);
   const [activeStep, setActiveStep] = React.useState(0);
   const [updateSteps, setUpdateSteps] = React.useState(true);
@@ -268,13 +286,13 @@ export default function ShapeFileCorrectionMap(props) {
   const batchSize = 10;
   const mapRef = React.useRef(null); // For edit controls
   const steps = React.useRef([]); // our dataset that needs to be fixed
+  const geoToReturn = React.useRef(geoToRedraw);
   // We slice into steps for batching, start and end indices are for slicing
   const endIndex = React.useRef(Math.min(batchSize - 1, steps.current.length));
   const startIndex = React.useRef(0);
   // numberInvalid is displayed to user and safeguards returning bad shapes
   // eslint-disable-next-line max-len
   const numberInvalid = steps.current?.slice(startIndex.current, endIndex.current + 1).filter((step) => step.isValid === false).length;
-
   // Always make sure that we are zoomed in to the operating shape
   if (steps.current.length > activeStep) {
     const shape = steps.current[activeStep].layer.toGeoJSON();
@@ -479,7 +497,8 @@ export default function ShapeFileCorrectionMap(props) {
               <Button
                 onClick={() => {
                   setGeoToRedraw(null);
-                  download(localGeo);
+                  dispatch(clearUploadedShapeFileGeoJSON());
+                  download(geoToReturn.current);
                 }}
               >
                 Download shapes to a new shapefile
@@ -493,7 +512,8 @@ export default function ShapeFileCorrectionMap(props) {
             position="topleft"
             localGeo={localGeo}
             setLocalGeo={setLocalGeo}
-            geoToRedraw={geoToRedraw}
+            geoToReturn={geoToReturn}
+            // geoToRedraw={geoToRedraw}
             steps={steps}
             endIndex={endIndex}
             updateSteps={updateSteps}

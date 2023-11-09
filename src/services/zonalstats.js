@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { betaZonalStatsEndpoint } from '../configuration/config';
 
-export const useZonalStatsMutation = (setData, setIsFetching) => {
+export const useZonalStatsMutation = (setData) => {
   const mutation = useMutation({
     mutationFn: (data) => {
       const url = betaZonalStatsEndpoint.concat(`/?region=${encodeURIComponent(data.region)}`);
