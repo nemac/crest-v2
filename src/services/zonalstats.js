@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { betaZonalStatsEndpoint } from '../configuration/config';
 
-export const useZonalStatsMutation = (setData) => {
+export const useZonalStatsMutation = (setData, setErrReq, errReq) => {
   const mutation = useMutation({
     mutationFn: (data) => {
       const url = betaZonalStatsEndpoint.concat(`/?region=${encodeURIComponent(data.region)}`);
@@ -14,6 +14,7 @@ export const useZonalStatsMutation = (setData) => {
     },
     onError: (data) => {
       // console.log('ERROR: ', data);
+      setErrReq(errReq + 1);
     },
     retry: 2
 

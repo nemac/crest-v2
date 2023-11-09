@@ -52,7 +52,8 @@ export default function LeafletDrawTools(props) {
   const [currentDrawn, setCurrentDrawn] = useState(0);
   const [currentDrawnArray, setCurrentDrawnArray] = useState([]);
   const [data, setData] = useState(null);
-  const mutateZonalStats = useZonalStatsMutation(setData);
+  const [errReq, setErrReq] = useState(0); // number of API error responses
+  const mutateZonalStats = useZonalStatsMutation(setData, setErrReq, errReq);
 
   useEffect(() => {
     mutateZonalStats(currentDrawnArray);
@@ -254,7 +255,7 @@ export default function LeafletDrawTools(props) {
             }}
           />
         )}
-        {currentDrawnArray.length && (
+        {currentDrawnArray.length - errReq && (
           <div
             style={{
               position: 'absolute',
