@@ -34,7 +34,6 @@ export const getLabel = (region, name) => {
   if (name.includes('landcover')) {
     return name;
   }
-  console.log(`calling getLabel on: region: ${region} for name: ${name}`);
   const thisLabel = mapConfig.regions[region].layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).label;
