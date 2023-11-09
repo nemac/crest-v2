@@ -31,6 +31,10 @@ export const handleExportImage = async (chartType) => {
 };
 
 export const getLabel = (region, name) => {
+  if (name.includes('landcover')) {
+    return name;
+  }
+  console.log(`calling getLabel on: region: ${region} for name: ${name}`);
   const thisLabel = mapConfig.regions[region].layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).label;
@@ -38,6 +42,9 @@ export const getLabel = (region, name) => {
 };
 
 export const getRange = (region, name) => {
+  if (name.includes('landcover')) {
+    return '0-100';
+  }
   const selectedColorChart = mapConfig.regions[region].layerList.find(
     ((layer) => layer.chartCSSSelector === name)
   ).chartCSSColor;
