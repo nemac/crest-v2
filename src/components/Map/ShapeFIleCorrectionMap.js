@@ -22,6 +22,7 @@ import BasemapLayer from './BasemapLayer';
 import LeafletMapContainer from './LeafletMapContainer';
 import {
   calculateAreaOfPolygon,
+  caclulatePolygonVertices,
   validPolygon
 } from '../../utility/utilityFunctions';
 import GenericMapHolder from './GenericMapHolder';
@@ -87,11 +88,20 @@ function EditControlFC(props) {
         // If not valid, we will now push to our "steps" to work on
         if (!validPolygon(geo)) {
           const areaSize = calculateAreaOfPolygon(geo) / 1000000;
+          const numVertices = caclulatePolygonVertices(geo);
+          let invalidText = '';
+          if (areaSize > 500000000 && numVertices > 1000) {
+            invalidText = `INVALID: Polygon is too large and contains too many vertices.\nSize: ${areaSize.toFixed(0)} / 500\nVertices: ${numVertices} / 1000`;
+          } else if (areaSize > 500000000) {
+            invalidText = `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)} / 500`;
+          } else if (numVertices > 1000) {
+            invalidText = `INVALID: Polygon contains too many vertices.\nVertices: ${numVertices} / 1000`;
+          }
           steps.current?.push({
             title: `Shape ${feature.properties.id}`,
             id: feature.properties.id,
             isValid: false,
-            text: `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)}`,
+            text: invalidText,
             color: 'red',
             layer: layer.setStyle({ color: 'red' })
           });
@@ -173,8 +183,17 @@ function EditControlFC(props) {
     } else { // update size and make sure we have invalid properties
       layer.setStyle({ color: 'red' });
       const areaSize = calculateAreaOfPolygon(geo) / 1000000;
+      const numVertices = caclulatePolygonVertices(geo);
+      let invalidText = '';
+      if (areaSize > 500000000 && numVertices > 1000) {
+        invalidText = `INVALID: Polygon is too large and contains too many vertices.\nSize: ${areaSize.toFixed(0)} / 500\nVertices: ${numVertices} / 1000`;
+      } else if (areaSize > 500000000) {
+        invalidText = `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)} / 500`;
+      } else if (numVertices > 1000) {
+        invalidText = `INVALID: Polygon contains too many vertices.\nVertices: ${numVertices} / 1000`;
+      }
       thisStep.color = 'red';
-      thisStep.text = `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)} / 500`;
+      thisStep.text = invalidText;
       thisStep.isValid = false;
     }
 
@@ -207,13 +226,22 @@ function EditControlFC(props) {
         thisStep.text = 'VALID';
       } else {
         const areaSize = calculateAreaOfPolygon(geo) / 1000000;
+        const numVertices = caclulatePolygonVertices(geo);
+        let invalidText = '';
+        if (areaSize > 500000000 && numVertices > 1000) {
+          invalidText = `INVALID: Polygon is too large and contains too many vertices.\nSize: ${areaSize.toFixed(0)} / 500\nVertices: ${numVertices} / 1000`;
+        } else if (areaSize > 500000000) {
+          invalidText = invalidText;
+        } else if (numVertices > 1000) {
+          invalidText = `INVALID: Polygon contains too many vertices.\nVertices: ${numVertices} / 1000`;
+        }
         layer.setStyle({ color: 'red' });
         thisStep.color = 'red';
         thisStep.isValid = false;
-        thisStep.text = `INVALID: Polygon is too large.\nSize: ${areaSize.toFixed(0)} / 500`;
+        thisStep.text = invalidText;
       }
       // update geoToReturn in case we download this stuff
-      const thisFeature = mapGeo.features.find(feature => feature.properties.id === layer.feature.properties.id);
+      const thisFeature = mapGeo.features.find((feature) => feature.properties.id === layer.feature.properties.id);
       geoToReturn.current.features[layer.feature.properties.id] = thisFeature;
       // make sure tooltips are open
       layer

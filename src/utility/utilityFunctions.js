@@ -7,22 +7,14 @@ export const calculateAreaOfPolygon = ((geojson) => {
   return area;
 });
 
-function isPolygonTooComplex(polygon, maxVertices = 1000) {
-  if (polygon && polygon.geometry && polygon.geometry.type === 'Polygon') {
-    const coordinates = polygon.geometry.coordinates;
-    let totalVertices = 0;
-
-    coordinates.forEach((ring) => {
-      totalVertices += ring.length;
-    });
-    if (totalVertices > maxVertices) {
-      return true;
-    }
-    return false;
-  }
-
-  return false; // Return false for non-polygon geometries or missing data
-}
+export const caclulatePolygonVertices = ((geojson) => {
+  const coordinates = geojson.geometry.coordinates;
+  let totalVertices = 0;
+  coordinates.forEach((ring) => {
+    totalVertices += ring.length;
+  });
+  return totalVertices;
+});
 
 /* this function determines if the polygon is valid per our checks:
   1. max size is under 500 sq km
@@ -32,7 +24,9 @@ function isPolygonTooComplex(polygon, maxVertices = 1000) {
 export const validPolygon = ((geojson) => {
   const area = calculateAreaOfPolygon(geojson);
   const maxPolygonAreaSize = 500000000; // 500 sq km
-  if (area > maxPolygonAreaSize || isPolygonTooComplex(geojson)) {
+  const vertices = caclulatePolygonVertices(geojson);
+  const maxVertices = 1000;
+  if (area > maxPolygonAreaSize || vertices > maxVertices) {
     return false;
   }
   return true;
