@@ -629,10 +629,10 @@ export const greatLakesConfig = {
       chartInputName: 'landcover',
       ChartInputLabel: 'Additional Overlays',
       chartCSSSelector: 'landcover',
-      url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png', // TODO: WRONG WRONG WRONG CHANGE THIS
-      attribution: 'NFWF 2020', // TODO: FIX ATTRIBUTION
+      url: 'https://tiles.resilientcoasts.org/GL_NLCDTiles/{z}/{x}/{y}.png',
+      attribution: 'NFWF 2023',
       opacity: 0.75,
-      maxNativeZoom: 12,
+      maxNativeZoom: 13,
       description: 'Insert Landcover Description Here', // TODO: INSERT DESCRIPTION
       region: 'great_lakes'
     }

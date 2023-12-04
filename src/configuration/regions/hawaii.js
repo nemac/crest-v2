@@ -545,10 +545,10 @@ export const hawaiiConfig = {
         chartInputName: 'landcover',
         ChartInputLabel: 'Additional Overlays',
         chartCSSSelector: 'landcover',
-        url: 'https://tiles.resilientcoasts.org/FloodProneAreasIndexTiles/{z}/{x}/{y}.png', // TODO: WRONG WRONG WRONG CHANGE THIS
-        attribution: 'NFWF 2020', // TODO: FIX ATTRIBUTION
+        url: 'https://tiles.resilientcoasts.org/HI_CCAPTiles/{z}/{x}/{y}.png',
+        attribution: 'NFWF 2023',
         opacity: 0.75,
-        maxNativeZoom: 12,
+        maxNativeZoom: 14,
         description: 'Insert Landcover Description Here', // TODO: ADD DESCRIPTION
         region: 'hawaii'
       }
