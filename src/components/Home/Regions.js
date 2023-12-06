@@ -37,7 +37,7 @@ export default function Regions() {
   const handleRegionButtonClick = (regionName) => {
     dispatch(changeActiveTab('AnalyzeProjectSites'));
 
-    dispatch(changeRegion(regions[regionName].label));
+    dispatch(changeRegion(regions[regionName].regionName));
     dispatch(regionUserInitiated(true));
 
     return null;

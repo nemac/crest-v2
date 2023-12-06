@@ -24,6 +24,7 @@ import { mapConfig } from '../../configuration/config';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
+const regions = mapConfig.regions;
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -111,7 +112,8 @@ export default function ChartCard(props) {
   };
 
   let landcoverConfigToUse = null;
-  if (region === 'continental_us' || region === 'alaska') {
+  const regionName = regions[region].regionName;
+  if (regionName === 'continental_us' || regionName === 'alaska' || regionName === 'great_lakes') {
     landcoverConfigToUse = mapConfig.nlcdLandcover;
   } else {
     landcoverConfigToUse = mapConfig.ccapLandcover;

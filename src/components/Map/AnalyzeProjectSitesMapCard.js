@@ -114,7 +114,7 @@ export default function MapCard(props) {
       );
 
       // Update redux store with new region, zoom, and center
-      dispatch(changeRegion(regions[regionName].label));
+      dispatch(changeRegion(regions[regionName].regionName));
       dispatch(changeZoom(regions[regionName].mapProperties.zoom));
       dispatch(changeCenter(regions[regionName].mapProperties.center));
       dispatch(regionUserInitiated(false));
