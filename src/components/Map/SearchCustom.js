@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as esri from 'esri-leaflet';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
@@ -82,66 +83,55 @@ export default function SearchCustom(props) {
   const [selectedName, setSelectedName] = React.useState('');
   const searchAreas = mapConfig.regions[selectedRegion].searchAreas;
 
-  const { data, error, isFetching } = useGetReadGeoQuery({
-    region: selectedRegion,
-    name: selectedName,
-    fileToRead: mapConfig.regions[selectedRegion].readGeoFile
-  }, { skip });
+  // const { data, error, isFetching } = useGetReadGeoQuery({
+  //   region: selectedRegion,
+  //   name: selectedName,
+  //   fileToRead: mapConfig.regions[selectedRegion].readGeoFile
+  // }, { skip });
 
-  React.useEffect(() => {
-    if (data) {
-      dispatch(addNewFeatureToDrawnLayers(data));
-      setSelectedName('');
-      setSkip(true);
+  // if (isFetching) {
+  //   // eslint-disable-next-line no-console
+  //   console.log('isFetching', isFetching);
+  // }
+
+  // if (error) {
+  //   // eslint-disable-next-line no-console
+  //   console.log('error', error);
+  // }
+
+  // copilot
+  const [options, setOptions] = React.useState([]);
+  const [data, setData] = React.useState(null);
+
+  const huc8FeatureLayer = esri.featureLayer({
+    url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/huc8_combined8_safe_to_delete/FeatureServer/0'
+  });
+
+  // Create a query that selects all features
+  const query = huc8FeatureLayer.query();
+  query.where = '1=1';
+  query.outFields = ['name']; // replace 'name' with the actual field name
+
+  query.run((error, featureCollection, response) => {
+    if (error) {
+      return;
     }
-  }, [data, dispatch]);
-
-  if (isFetching) {
-    // eslint-disable-next-line no-console
-    console.log('isFetching', isFetching);
-  }
-
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.log('error', error);
-  }
+    if (featureCollection.features.length === 0) {
+      return;
+    }
+    const newOptions = featureCollection.features.map(feature => ({
+      label: feature.attributes.name,  // replace 'name' with the actual field name
+      value: feature.attributes.name,  // replace 'name' with the actual field name
+    }));
+    setOptions(newOptions);
+  });
 
   return (
-    <Box p={0.75} >
-      <StyledSearchBox >
-        <SearchOutlined sx={{ color: '#000000', margin: (theme) => theme.spacing(1) }}/>
-        {/* <StyledTextField
-          id="input-custom-search"
-          fullWidth
-          label="Search for a State, County, or Watershed"
-          aria-label={'Search for a State, County, or Watershed'}
-          variant="standard"
-          InputProps={{ disableUnderline: true }}
-          type='search'
-          InputLabelProps={{}}
-          onInput={(e) => {
-            setSearchQuery(e.target.value);
-          }}
-        /> */}
+    <Box>
+      <StyledSearchBox>
         <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          fullWidth
-          freeSolo
-          open={open}
-          value={selectedName}
-          onInputChange={(_, value) => {
-            if (value.length < 2) {
-              setOpen(false);
-            } else {
-              setOpen(true);
-            }
-          }}
-          onClose={() => setOpen(false)}
-          blurOnSelect={true}
-          clearOnBlur={true}
-          options={searchAreas}
-          // getOptionLabel={(option) => option.properties.areaName}
+          options={options}
+          getOptionLabel={(option) => option.label}
           onChange={(event, newInputValue) => {
             console.log('jeff event', event);
             if (newInputValue !== null) {
@@ -149,7 +139,6 @@ export default function SearchCustom(props) {
               setSkip(false);
             }
           }}
-          // sx={{ width: 300 }}
           renderInput={(params) => <StyledTextField
             id="input-custom-search"
             fullWidth
@@ -158,11 +147,70 @@ export default function SearchCustom(props) {
             aria-label={'Search for a State, County, or Watershed'}
             variant="standard"
             type="search"
-            // InputProps={{ disableUnderline: true }}
             />
           }
         />
       </StyledSearchBox>
     </Box>
   );
+
+  // return (
+  //   <Box p={0.75} >
+  //     <StyledSearchBox >
+  //       <SearchOutlined sx={{ color: '#000000', margin: (theme) => theme.spacing(1) }}/>
+  //       {/* <StyledTextField
+  //         id="input-custom-search"
+  //         fullWidth
+  //         label="Search for a State, County, or Watershed"
+  //         aria-label={'Search for a State, County, or Watershed'}
+  //         variant="standard"
+  //         InputProps={{ disableUnderline: true }}
+  //         type='search'
+  //         InputLabelProps={{}}
+  //         onInput={(e) => {
+  //           setSearchQuery(e.target.value);
+  //         }}
+  //       /> */}
+  //       <Autocomplete
+  //         disablePortal
+  //         id="combo-box-demo"
+  //         fullWidth
+  //         freeSolo
+  //         open={open}
+  //         value={selectedName}
+  //         onInputChange={(_, value) => {
+  //           if (value.length < 2) {
+  //             setOpen(false);
+  //           } else {
+  //             setOpen(true);
+  //           }
+  //         }}
+  //         onClose={() => setOpen(false)}
+  //         blurOnSelect={true}
+  //         clearOnBlur={true}
+  //         options={searchAreas}
+  //         // getOptionLabel={(option) => option.properties.areaName}
+  //         onChange={(event, newInputValue) => {
+  //           console.log('jeff event', event);
+  //           if (newInputValue !== null) {
+  //             setSelectedName(newInputValue);
+  //             setSkip(false);
+  //           }
+  //         }}
+  //         // sx={{ width: 300 }}
+  //         renderInput={(params) => <StyledTextField
+  //           id="input-custom-search"
+  //           fullWidth
+  //           {...params}
+  //           label="Search for a State, County, or Watershed"
+  //           aria-label={'Search for a State, County, or Watershed'}
+  //           variant="standard"
+  //           type="search"
+  //           // InputProps={{ disableUnderline: true }}
+  //           />
+  //         }
+  //       />
+  //     </StyledSearchBox>
+  //   </Box>
+  // );
 }
