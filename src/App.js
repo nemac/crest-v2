@@ -4,11 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import {
-  QueryClient,
-  QueryClientProvider,
-
-} from '@tanstack/react-query';
 import About from './pages/About';
 import AnalyzeProjectSites from './pages/AnalyzeProjectSites';
 import CustomTheme from './CRESTTheme/CRESTCustomTheme';
@@ -20,8 +15,6 @@ import StyleGuide from './pages/StyleGuide';
 import NavBar from './components/NavBar/NavBar';
 import ModelErrors from './components/All/ModelErrors';
 import CodeTest from './pages/CodeTest'; // CAN DELETE THIS WHEN READY FOR PRODUCTION. BE SURE TO DELETE ROUTE BELOW TOO
-
-const queryClient = new QueryClient();
 
 export default function App() {
   const [errorState, setErrorState] = React.useState({
@@ -38,7 +31,6 @@ export default function App() {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={CustomTheme}>
-      <QueryClientProvider client={queryClient}>
         <CssBaseline/>
         <div className='App' style={{ height: '100%' }}>
           <Box px={0} pb={0.75}>
@@ -65,7 +57,6 @@ export default function App() {
             acceptButtonClose={errorState.acceptButtonClose}
           />
         </div>
-        </QueryClientProvider>
       </ThemeProvider>
     </StyledEngineProvider>
   );

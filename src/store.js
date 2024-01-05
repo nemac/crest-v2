@@ -5,7 +5,7 @@ import mapPropertiesReducer from './reducers/mapPropertiesSlice';
 import mapLayerListReducer from './reducers/mapLayerListSlice';
 import NavBarReducer from './reducers/NavBarSlice';
 import AnalyzeAreaReducer from './reducers/analyzeAreaSlice';
-import { useZonalStatsMutation } from './services/zonalstats';
+import { zonalStatsApi } from './services/zonalstats';
 import { identifyApi } from './services/identify';
 import { shareMapApi } from './services/shareMap';
 import { readGeoApi } from './services/readGeojson';
@@ -17,7 +17,7 @@ const reducers = combineReducers({
   analyzeArea: AnalyzeAreaReducer,
   mapLayerList: mapLayerListReducer,
   navBar: NavBarReducer,
-  [useZonalStatsMutation.reducerPath]: useZonalStatsMutation.reducer,
+  [zonalStatsApi.reducerPath]: zonalStatsApi.reducer,
   [identifyApi.reducerPath]: identifyApi.reducer,
   [shareMapApi.reducerPath]: shareMapApi.reducer,
   [readGeoApi.reducerPath]: readGeoApi.reducer
@@ -31,6 +31,7 @@ export const setupStore = (preloadedState) => configureStore({
 export const store = configureStore({
   devTools: true, // prob should turn off in prod
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(zonalStatsApi.middleware)
     .concat(identifyApi.middleware)
     .concat(shareMapApi.middleware)
     .concat(readGeoApi.middleware),

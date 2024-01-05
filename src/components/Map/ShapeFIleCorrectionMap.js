@@ -30,8 +30,7 @@ import GenericMapHolder from './GenericMapHolder';
 import ExampleActionButton from '../Example/ExampleActionButton';
 
 import {
-  uploadedShapeFileGeoJSON,
-  clearUploadedShapeFileGeoJSON
+  uploadedShapeFileGeoJSON
 } from '../../reducers/mapPropertiesSlice';
 
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
@@ -306,7 +305,6 @@ export default function ShapeFileCorrectionMap(props) {
   const dispatch = useDispatch();
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
-  const uploadedShapeFileArray = useSelector(selectedUploadedShapeFile, () => true);
   const [localGeo, setLocalGeo] = React.useState(geoToRedraw);
   const [activeStep, setActiveStep] = React.useState(0);
   const [updateSteps, setUpdateSteps] = React.useState(true);
@@ -525,7 +523,7 @@ export default function ShapeFileCorrectionMap(props) {
               <Button
                 onClick={() => {
                   setGeoToRedraw(null);
-                  dispatch(clearUploadedShapeFileGeoJSON());
+                  dispatch(uploadedShapeFileGeoJSON(null));
                   download(geoToReturn.current);
                 }}
               >
