@@ -35,7 +35,6 @@ import {
 
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
-const selectedUploadedShapeFile = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
 
 const RectangleTwoToneIconStyled = styled(RectangleTwoToneIcon)(
   ({ theme }) => ({
@@ -143,7 +142,7 @@ function EditControlFC(props) {
     // May not need to watch ALL of these variables, worth revisiting
   }, [endIndex, localGeo, setUpdateSteps, steps, updateSteps]);
 
-  const handleChange = (e) => {
+  const handleDelete = (e) => {
     // get deleted layers...
     // don't like digging into _layers, but not sure how else to get id
     const deletedLayers = Object.values(e.layers._layers);
@@ -264,7 +263,7 @@ function EditControlFC(props) {
     <FeatureGroup ref={mapRef}>
       <EditControl
         position="topleft"
-        onDeleted={handleChange}
+        onDeleted={handleDelete}
         onEditVertex={handleEditVertex}
         onEditStop={handleEditStop}
         draw={{
@@ -309,7 +308,9 @@ export default function ShapeFileCorrectionMap(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [updateSteps, setUpdateSteps] = React.useState(true);
   // Kinda ugly way to do it, maybe we should pass batchSize down to here and leafletDrawTools
-  const batchSize = 10;
+  // TODO: This was originally written to be batched but decided we can just send it all at once.
+  // it's easier to just set this batch to a ridiculous size for now and hopefully fix later
+  const batchSize = 1000000;
   const mapRef = React.useRef(null); // For edit controls
   const steps = React.useRef([]); // our dataset that needs to be fixed
   const geoToReturn = React.useRef(geoToRedraw);
@@ -338,21 +339,6 @@ export default function ShapeFileCorrectionMap(props) {
     setActiveStep(newStep);
   };
 
-  const handleEditMore = (nextBatchSize, previous) => {
-    setUpdateSteps(true);
-    setActiveStep(endIndex.current + 1);
-    startIndex.current += batchSize;
-    endIndex.current += nextBatchSize;
-    dispatch(uploadedShapeFileGeoJSON(localGeo));
-    mapRef.current.clearLayers();
-    const toAdd = steps.current.slice(startIndex.current, endIndex.current + 1);
-    toAdd.forEach((invalidLayer) => {
-      invalidLayer.layer.options.stepID = invalidLayer.id - 1;
-      mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
-    });
-    setErrorState({ ...previous, error: false });
-  };
-
   const CustomStepIcon = (properties, color, id) => {
     const active = activeStep === id - 1;
 
@@ -378,7 +364,7 @@ export default function ShapeFileCorrectionMap(props) {
             <Grid xs={12}>
               Number of invalid layers: {numberInvalid}
             </Grid>
-              <Grid item xs={12} py={1}>
+              <Grid xs={12} py={1}>
                 <Typography
                   variant="body2"
                   component="div"
@@ -390,7 +376,7 @@ export default function ShapeFileCorrectionMap(props) {
                   {'Shapes to Upload'}
                 </Typography>
               </Grid>
-              <Grid item xs={12} py={1}>
+              <Grid xs={12} py={1}>
                 <Typography
                   align="center"
                   variant="body2"
@@ -400,7 +386,7 @@ export default function ShapeFileCorrectionMap(props) {
                   Shape {activeStep + 1}
                 </Typography>
               </Grid>
-              <Grid item xs={12} py={1}>
+              <Grid xs={12} py={1}>
                 <Box sx={{ width: '100%' }}>
                   <Stepper
                     sx={{ display: 'flex', justifyContent: 'center' }}
@@ -416,7 +402,7 @@ export default function ShapeFileCorrectionMap(props) {
                   </Stepper>
                 </Box>
               </Grid>
-              <Grid item xs={12} py={1}>
+              <Grid xs={12} py={1}>
                 <Box sx={{ height: '175px' }}>
                   <Typography
                     variant="body1"
@@ -431,7 +417,7 @@ export default function ShapeFileCorrectionMap(props) {
                 </Box>
               </Grid>
               <Grid container spacing={0} p={0} m={0} sx={{ width: '100%' }}>
-                <Grid item xs={12} md={3}>
+                <Grid xs={12} md={3}>
                   {activeStep !== startIndex.current ? (
                     <ExampleActionButton
                       buttonLabel={'Previous'}
@@ -452,9 +438,9 @@ export default function ShapeFileCorrectionMap(props) {
                     </ExampleActionButton>
                   )}
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid xs={12} md={6}>
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid xs={12} md={3}>
                   {activeStep !== endIndex.current ? (
                     <ExampleActionButton
                       buttonLabel={'Next'}
@@ -491,28 +477,10 @@ export default function ShapeFileCorrectionMap(props) {
                         setErrorState({ ...previous, error: false });
                       }
                     }));
-                  } else if (steps.current.length > endIndex.current + 1) {
-                    const remainingShapes = steps.current.length - endIndex.current - 1;
-                    const nextBatchSize = Math.min(remainingShapes, batchSize);
-                    setErrorState((previous) => ({
-                      ...previous,
-                      error: true,
-                      errorTitle: 'Edit More Shapes',
-                      errorType: 'warning',
-                      errorMessage: `Would you like to edit the next ${nextBatchSize} shapes?`,
-                      errorButtonText: 'Send And Return To Map',
-                      errorClose: () => {
-                        setGeoToRedraw(null);
-                        dispatch(uploadedShapeFileGeoJSON(localGeo));
-                        setErrorState({ ...previous, error: false });
-                      },
-                      acceptButtonText: `Edit Next ${nextBatchSize} Shapes`,
-                      acceptButtonClose: () => handleEditMore(nextBatchSize, previous)
-                    }));
                   } else {
                     setGeoToRedraw(null);
-                    // Also send remaining valid batch...
-                    dispatch(uploadedShapeFileGeoJSON(localGeo));
+                    // Send all geoToReturn
+                    dispatch(uploadedShapeFileGeoJSON(geoToReturn.current));
                   }
                 }}
               >
