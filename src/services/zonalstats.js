@@ -1,10 +1,11 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // eslint-disable-next-line no-unused-vars
-import { betaZonalStatsEndpoint, prodZonalStatsEndpoint } from '../configuration/config';
+import { betaZonalStatsEndpoint, betaZonalStatsLambdaEndpoint, prodZonalStatsEndpoint } from '../configuration/config';
 
 // uncomment the endpoint you want to use and comment out the other
-const endpoint = betaZonalStatsEndpoint;
+// const endpoint = betaZonalStatsEndpoint;
+const endpoint = betaZonalStatsLambdaEndpoint;
 // const endpoint = prodZonalStatsEndpoint;
 
 // Define a service using a base URL and expected endpoints

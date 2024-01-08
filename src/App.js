@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-
 import About from './pages/About';
 import AnalyzeProjectSites from './pages/AnalyzeProjectSites';
 import CustomTheme from './CRESTTheme/CRESTCustomTheme';

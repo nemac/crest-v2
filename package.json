@@ -71,6 +71,7 @@
     "@turf/buffer": "^6.5.0",
     "@turf/turf": "^6.5.0",
     "@types/jest": "^27.5.2",
+    "axios": "^1.6.0",
     "buffer": "^6.0.3",
     "esri-leaflet": "^3.0.10",
     "esri-leaflet-geocoder": "^3.1.4",

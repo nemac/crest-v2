@@ -23,14 +23,23 @@ import basemapTopoImage from '../assets/images/basemap-topo.jpg';
 
 export const betaIdentifyEndpoint = 'https://api.resilientcoasts.org/beta/identify/';
 export const prodIdentifyEndpoint = 'https://api.resilientcoasts.org/prod/identify/';
+
 export const betaReadGeojsonEndpoint = 'https://api.resilientcoasts.org/beta/read_geojson';
 export const prodReadGeojsonEndpoint = 'https://api.resilientcoasts.org/prod/read_geojson';
+
 export const betaShareLinkEndpoint = 'https://api.resilientcoasts.org/beta/share-link';
 export const prodShareLinkEndpoint = 'https://api.resilientcoasts.org/prod/share-link';
+
 export const betaUploadShapeEndpoint = 'https://api.resilientcoasts.org/beta/upload_shape';
 export const prodUploadShapeEndpoint = 'https://api.resilientcoasts.org/prod/upload_shape';
+
 export const betaZonalStatsEndpoint = 'https://api.resilientcoasts.org/beta/zonal_stats';
 export const prodZonalStatsEndpoint = 'https://api.resilientcoasts.org/prod/zonal_stats';
+
+// these endpoints are functionally equivalent to the zonal stats but have longer timeouts
+export const betaZonalStatsLambdaEndpoint = 'https://5pdq4jsx6i7isl3pmhf3x6ouym0zjnfb.lambda-url.us-east-1.on.aws/';
+export const prodZonalStatsLambdaEndpoint = 'https://7bhdz7i43pe6fircjvkv3la6ry0tdaip.lambda-url.us-east-1.on.aws/';
+
 export const s3ShapeFileBucket = 'https://nfwf-tool-user-shapes.s3.amazonaws.com/';
 
 export const mapConfig = {
