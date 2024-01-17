@@ -63,7 +63,6 @@ export default function AnalyzeBarChart(props) {
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
-    // eslint-disable-next-line max-len
     if (
       active &&
       payload &&
@@ -111,9 +110,9 @@ export default function AnalyzeBarChart(props) {
               }}
               variant="h4"
               component="h2"
-            >{`${parseInt(payload[0].payload.value, 10).toFixed(
-              2
-            )}`}</Typography>
+            >
+              {`${parseFloat(payload[0].payload.value).toFixed(2)}`}
+            </Typography>
           </Box>
         </ToolTipBox>
       );

@@ -146,7 +146,7 @@ export default function MapCard(props) {
         );
       },
       zoomend: () => {
-        if (map.getZoom() >= 10) {
+        if (map.getZoom() >= 11) {
           return map.eachLayer((layer) => { layer.openTooltip(); });
         }
         return map.eachLayer((layer) => { layer.closeTooltip(); });
@@ -235,10 +235,7 @@ export default function MapCard(props) {
               color: hover.areaName === item.properties.areaName ? '#dda006' : '#4992f9'
             }}
           >
-            {/* <StyledReactLeafletTooltip direction='center' position={item.properties.center} permanent>
-              {item.properties.areaName}
-            </StyledReactLeafletTooltip> */}
-            <StyledReactLeafletTooltip direction='center' permanent>
+            <StyledReactLeafletTooltip direction='center' position={item.properties.center} permanent>
               {item.properties.areaName}
             </StyledReactLeafletTooltip>
           </GeoJSON>

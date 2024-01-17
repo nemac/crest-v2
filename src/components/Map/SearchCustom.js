@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as esri from 'esri-leaflet';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
@@ -10,6 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { addNewFeatureToDrawnLayers } from '../../reducers/mapPropertiesSlice';
 import { mapConfig } from '../../configuration/config';
 import { useGetReadGeoQuery } from '../../services/readGeojson';
+import { convertDataForZonalStats } from '../../utility/utilityFunctions';
 
 const StyledSearchBox = styled(Box)(({ theme }) => ({
   cursor: 'pointer',
@@ -76,69 +78,122 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function SearchCustom(props) {
+  const { setErrorState } = props;
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
+  const regionConfig = mapConfig.regions[selectedRegion];
+  const areasToSearch = regionConfig.statesList.concat(regionConfig.countiesList)
+    .concat(regionConfig.huc8List);
   const [open, setOpen] = React.useState(false);
-  const [skip, setSkip] = React.useState(true);
   const [selectedName, setSelectedName] = React.useState('');
-  const searchAreas = mapConfig.regions[selectedRegion].searchAreas;
 
-  // const { data, error, isFetching } = useGetReadGeoQuery({
-  //   region: selectedRegion,
-  //   name: selectedName,
-  //   fileToRead: mapConfig.regions[selectedRegion].readGeoFile
-  // }, { skip });
-
-  // if (isFetching) {
-  //   // eslint-disable-next-line no-console
-  //   console.log('isFetching', isFetching);
-  // }
-
-  // if (error) {
-  //   // eslint-disable-next-line no-console
-  //   console.log('error', error);
-  // }
-
-  // copilot
   const [options, setOptions] = React.useState([]);
   const [data, setData] = React.useState(null);
 
+  // const statesFeatureLayer = esri.featureLayer({
+  //   url: ''
+  // });
+
+  const countiesFeatureLayer = esri.featureLayer({
+    url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/cb_2022_us_county_500k_counties_crest/FeatureServer/0'
+  });
+
   const huc8FeatureLayer = esri.featureLayer({
-    url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/huc8_combined8_safe_to_delete/FeatureServer/0'
+    url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/huc8_all_crest/FeatureServer/0'
   });
 
   // Create a query that selects all features
-  const query = huc8FeatureLayer.query();
-  query.where = '1=1';
-  query.outFields = ['name']; // replace 'name' with the actual field name
+  // const stateQuery = statesFeatureLayer.query();
+  const countyQuery = countiesFeatureLayer.query();
+  const huc8Query = huc8FeatureLayer.query();
 
-  query.run((error, featureCollection, response) => {
-    if (error) {
-      return;
-    }
-    if (featureCollection.features.length === 0) {
-      return;
-    }
-    const newOptions = featureCollection.features.map(feature => ({
-      label: feature.attributes.name,  // replace 'name' with the actual field name
-      value: feature.attributes.name,  // replace 'name' with the actual field name
-    }));
-    setOptions(newOptions);
-  });
+  // Send query to arcgis and draw the state, county, or huc8 on the map
+  const runQuery = (query, type) => {
+    query.run((error, featureCollection, response) => {
+      if (error) {
+        return;
+      }
+      if (featureCollection.features.length === 0) {
+        return;
+      }
+      const feature = featureCollection.features[0]; // should only be one feature
+      if (type === 'county') {
+        feature.properties.NAME = `${feature.properties.NAMELSAD}, ${feature.properties.STUSPS}`;
+      }
+      if (type === 'huc8') {
+        feature.properties.NAME = feature.properties.huc8;
+      }
+      const zonalStatsKeys = regionConfig.zonalStatsKeys;
+      const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
+      dispatch(addNewFeatureToDrawnLayers(geoToDraw));
+    });
+  };
+
+  // React.useEffect(() => {
+  //   query.run((error, featureCollection, response) => {
+  //     if (error) {
+  //       return;
+  //     }
+  //     if (featureCollection.features.length === 0) {
+  //       return;
+  //     }
+  //     const newOptions = featureCollection.features.map((feature) => (
+  //       feature.properties.NAME
+  //     ));
+  //     const dataByName = featureCollection.features.reduce((acc, feature) => {
+  //       const accCopy = structuredClone(acc);
+  //       accCopy[feature.properties.NAME] = feature;
+  //       return accCopy;
+  //     }, {});
+  //     setData(dataByName);
+  //     setOptions(newOptions);
+  //   });
+  // }, []);
 
   return (
-    <Box>
+    <Box p={0.75}>
       <StyledSearchBox>
+        <SearchOutlined sx={{ color: '#000000', margin: (theme) => theme.spacing(1) }}/>
         <Autocomplete
-          options={options}
-          getOptionLabel={(option) => option.label}
-          onChange={(event, newInputValue) => {
-            console.log('jeff event', event);
-            if (newInputValue !== null) {
-              setSelectedName(newInputValue);
-              setSkip(false);
+          fullWidth
+          // freeSolo
+          autoComplete={true}
+          autoHighlight={true}
+          open={open}
+          options={areasToSearch}
+          onClose={() => setOpen(false)}
+          //blurOnSelect={true}
+          clearOnBlur={true}
+          onInputChange={(_, value) => {
+            if (value.length < 3) {
+              setOpen(false);
+            } else {
+              setOpen(true);
             }
           }}
+          onChange={(event, newInputValue) => {
+            if (regionConfig.statesList.includes(newInputValue)) { console.log(selectedRegion, 'state'); }
+            if (regionConfig.countiesList.includes(newInputValue)) {
+              const countySplit = newInputValue.split(','); // split county and state (e.g Washington County, NC)
+              countyQuery.where(`NAMELSAD='${countySplit[0]}'
+                AND region='${selectedRegion}'
+                AND STUSPS='${countySplit[1].trim()}'`);
+              runQuery(countyQuery, 'county');
+            }
+            if (regionConfig.huc8List.includes(newInputValue)) {
+              huc8Query.where(`huc8='${newInputValue}'`);
+              runQuery(huc8Query, 'huc8');
+            }
+            // const feature = data[newInputValue];
+            // const zonalStatsKeys = regionConfig.zonalStatsKeys;
+            // const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
+            // console.log(geoToDraw);
+            // dispatch(addNewFeatureToDrawnLayers(geoToDraw));
+            // if (newInputValue !== null) {
+            //   setSelectedName(newInputValue);
+            // }
+          }}
+          sx={{ width: 500 }}
           renderInput={(params) => <StyledTextField
             id="input-custom-search"
             fullWidth
@@ -214,3 +269,20 @@ export default function SearchCustom(props) {
   //   </Box>
   // );
 }
+SearchCustom.propTypes = {
+  setErrorState: PropTypes.func
+};
+
+{/* <StyledTextField
+          id="input-custom-search"
+          fullWidth
+          label="Search for a State, County, or Watershed"
+          aria-label={'Search for a State, County, or Watershed'}
+          variant="standard"
+          InputProps={{ disableUnderline: true }}
+          type='search'
+          InputLabelProps={{}}
+          onInput={(e) => {
+            console.log(e.target.value);
+          }}
+        /> */}
