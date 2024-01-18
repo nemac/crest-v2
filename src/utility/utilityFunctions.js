@@ -36,7 +36,6 @@ export const convertDataForZonalStats = (geojson, zonalStatsKeys) => {
     }, {});
   geoCopy.properties.isNull = Object.values(geoCopy.properties.zonalStatsData)
     .every((value) => value === null); // return null if all values are null
-  geoCopy.properties.areaName = geoCopy.properties.NAME;
   const turfCenter = turf.center(geoCopy.geometry);
   geoCopy.properties.center = {
     lat: turfCenter.geometry.coordinates[1],

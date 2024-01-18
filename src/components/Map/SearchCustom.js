@@ -74,21 +74,22 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   }
 }));
 
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function SearchCustom(props) {
   const { setErrorState } = props;
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
+  const drawnFromState = useSelector(drawnLayersSelector);
   const regionConfig = mapConfig.regions[selectedRegion];
-  const areasToSearch = regionConfig.statesList.concat(regionConfig.countiesList)
-    .concat(regionConfig.huc8List);
+  const areasToSearch = mapConfig.statesList.concat(mapConfig.countiesList)
+    .concat(mapConfig.huc8List);
   const [open, setOpen] = React.useState(false);
 
-  // TODO: Add state feature layer
-  // const statesFeatureLayer = esri.featureLayer({
-  //   url: ''
-  // });
+  const statesFeatureLayer = esri.featureLayer({
+    url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/cb_2022_us_state_crest/FeatureServer/0'
+  });
 
   const countiesFeatureLayer = esri.featureLayer({
     url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/cb_2022_us_county_500k_counties_crest/FeatureServer/0'
@@ -98,7 +99,7 @@ export default function SearchCustom(props) {
     url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/huc8_all_crest/FeatureServer/0'
   });
 
-  // const stateQuery = statesFeatureLayer.query();
+  const stateQuery = statesFeatureLayer.query();
   const countyQuery = countiesFeatureLayer.query();
   const huc8Query = huc8FeatureLayer.query();
 
@@ -112,11 +113,14 @@ export default function SearchCustom(props) {
         return;
       }
       const feature = featureCollection.features[0]; // should only be one feature
+      feature.properties.areaName = feature.properties.NAME; // need this for correct plotting
       if (type === 'county') {
         feature.properties.NAME = `${feature.properties.NAMELSAD}, ${feature.properties.STUSPS}`;
+        feature.properties.areaName = feature.properties.NAME; // need this for correct plotting
       }
       if (type === 'huc8') {
         feature.properties.NAME = feature.properties.huc8;
+        feature.properties.areaName = feature.properties.NAME; // need this for correct plotting
       }
       const zonalStatsKeys = regionConfig.zonalStatsKeys;
       const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
@@ -146,17 +150,41 @@ export default function SearchCustom(props) {
             }
           }}
           onChange={(event, newInputValue) => {
-            if (regionConfig.statesList.includes(newInputValue)) { console.log(selectedRegion, 'state'); }
-            if (regionConfig.countiesList.includes(newInputValue)) {
+            if (newInputValue === null) { return; }
+            // check if already drawn and if so - remove it
+            const previousDrawn = drawnFromState?.features?.filter((item) => (
+              item.properties.areaName === newInputValue &&
+              item.properties.region === selectedRegion
+            ));
+            if (previousDrawn && previousDrawn.length > 0) {
+              return;
+            }
+            if (regionConfig.statesList.includes(newInputValue)) {
+              stateQuery.where(`NAME='${newInputValue}'
+                AND region='${selectedRegion}'`);
+              runQuery(stateQuery, 'state');
+            } else if (regionConfig.countiesList.includes(newInputValue)) {
               const countySplit = newInputValue.split(','); // split county and state (e.g Washington County, NC)
               countyQuery.where(`NAMELSAD='${countySplit[0]}'
                 AND region='${selectedRegion}'
                 AND STUSPS='${countySplit[1].trim()}'`);
               runQuery(countyQuery, 'county');
-            }
-            if (regionConfig.huc8List.includes(newInputValue)) {
+            } else if (regionConfig.huc8List.includes(newInputValue)) {
               huc8Query.where(`huc8='${newInputValue}'`);
               runQuery(huc8Query, 'huc8');
+            } else {
+              setErrorState((previous) => ({
+                ...previous,
+                error: true,
+                errorType: 'info',
+                errorTitle: 'No Data Found',
+                errorMessage: 'There was no data found in this region for the selected state, county, or watershed',
+                // acceptButtonText: 'Proceed',
+                acceptButtonClose: () => {
+                  setErrorState({ ...previous, error: false });
+                  event.stopPropagation();
+                }
+              }));
             }
             // const feature = data[newInputValue];
             // const zonalStatsKeys = regionConfig.zonalStatsKeys;
