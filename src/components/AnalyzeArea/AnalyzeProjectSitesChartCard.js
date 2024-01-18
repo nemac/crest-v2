@@ -101,14 +101,7 @@ export default function ChartCard(props) {
     'Community Assets Inputs': [
       'pop_density', 'crit_infra', 'transportation',
       'social_vuln', 'crit_facilities'],
-    Landcover: ['landcover_empty', 'landcover_open_water', 'landcover_perenial_ice/snow',
-      'landcover_developed_open_space', 'landcover_developed_low_intensity',
-      'landcover_developed_medium_intensity', 'landcover_developed_high_intensity',
-      'landcover_barren_land', 'landcover_deciduous_forest', 'landcover_evergreen_forest',
-      'landcover_mixed_forest', 'landcover_dwarf_scrub', 'landcover_shrub/scrub',
-      'landcover_grassland/herbaceous', 'landcover_sedge/herbaceous', 'landcover_lichens',
-      'landcover_moss', 'landcover_pasture/hay-areas', 'landcover_cultivated_crops',
-      'landcover_woody_wetlands', 'landcover_emergent_herbaceous_wetlands']
+    Landcover: ['does not matter']
   };
 
   let landcoverConfigToUse = null;

@@ -33,7 +33,6 @@ export default function ResiliencePieChart(props) {
   const renderCustomizedLabel = ({
     entry, cx, cy, midAngle, innerRadius, outerRadius, percent, index
   }) => {
-    console.log('jeff', entry);
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);

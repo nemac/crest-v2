@@ -151,6 +151,8 @@ export default function SearchCustom(props) {
           }}
           onChange={(event, newInputValue) => {
             if (newInputValue === null) { return; }
+            let queryRegionName = selectedRegion;
+            if (selectedRegion === "Hawai'i") { queryRegionName = "Hawai''i"; } // gotta escape single quote
             // check if already drawn and if so - remove it
             const previousDrawn = drawnFromState?.features?.filter((item) => (
               item.properties.areaName === newInputValue &&
@@ -161,12 +163,12 @@ export default function SearchCustom(props) {
             }
             if (regionConfig.statesList.includes(newInputValue)) {
               stateQuery.where(`NAME='${newInputValue}'
-                AND region='${selectedRegion}'`);
+                AND region='${queryRegionName}'`);
               runQuery(stateQuery, 'state');
             } else if (regionConfig.countiesList.includes(newInputValue)) {
               const countySplit = newInputValue.split(','); // split county and state (e.g Washington County, NC)
               countyQuery.where(`NAMELSAD='${countySplit[0]}'
-                AND region='${selectedRegion}'
+                AND region='${queryRegionName}'
                 AND STUSPS='${countySplit[1].trim()}'`);
               runQuery(countyQuery, 'county');
             } else if (regionConfig.huc8List.includes(newInputValue)) {
