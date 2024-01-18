@@ -10,7 +10,6 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { addNewFeatureToDrawnLayers } from '../../reducers/mapPropertiesSlice';
 import { mapConfig } from '../../configuration/config';
-import { useGetReadGeoQuery } from '../../services/readGeojson';
 import { convertDataForZonalStats } from '../../utility/utilityFunctions';
 
 const StyledSearchBox = styled(Box)(({ theme }) => ({
@@ -85,11 +84,8 @@ export default function SearchCustom(props) {
   const areasToSearch = regionConfig.statesList.concat(regionConfig.countiesList)
     .concat(regionConfig.huc8List);
   const [open, setOpen] = React.useState(false);
-  const [selectedName, setSelectedName] = React.useState('');
 
-  const [options, setOptions] = React.useState([]);
-  const [data, setData] = React.useState(null);
-
+  // TODO: Add state feature layer
   // const statesFeatureLayer = esri.featureLayer({
   //   url: ''
   // });
@@ -102,7 +98,6 @@ export default function SearchCustom(props) {
     url: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/huc8_all_crest/FeatureServer/0'
   });
 
-  // Create a query that selects all features
   // const stateQuery = statesFeatureLayer.query();
   const countyQuery = countiesFeatureLayer.query();
   const huc8Query = huc8FeatureLayer.query();
@@ -129,27 +124,6 @@ export default function SearchCustom(props) {
     });
   };
 
-  // React.useEffect(() => {
-  //   query.run((error, featureCollection, response) => {
-  //     if (error) {
-  //       return;
-  //     }
-  //     if (featureCollection.features.length === 0) {
-  //       return;
-  //     }
-  //     const newOptions = featureCollection.features.map((feature) => (
-  //       feature.properties.NAME
-  //     ));
-  //     const dataByName = featureCollection.features.reduce((acc, feature) => {
-  //       const accCopy = structuredClone(acc);
-  //       accCopy[feature.properties.NAME] = feature;
-  //       return accCopy;
-  //     }, {});
-  //     setData(dataByName);
-  //     setOptions(newOptions);
-  //   });
-  // }, []);
-
   return (
     <Box p={0.75}>
       <StyledSearchBox>
@@ -162,7 +136,7 @@ export default function SearchCustom(props) {
           open={open}
           options={areasToSearch}
           onClose={() => setOpen(false)}
-          //blurOnSelect={true}
+          // blurOnSelect={true}
           clearOnBlur={true}
           onInputChange={(_, value) => {
             if (value.length < 3) {
@@ -272,17 +246,3 @@ export default function SearchCustom(props) {
 SearchCustom.propTypes = {
   setErrorState: PropTypes.func
 };
-
-{/* <StyledTextField
-          id="input-custom-search"
-          fullWidth
-          label="Search for a State, County, or Watershed"
-          aria-label={'Search for a State, County, or Watershed'}
-          variant="standard"
-          InputProps={{ disableUnderline: true }}
-          type='search'
-          InputLabelProps={{}}
-          onInput={(e) => {
-            console.log(e.target.value);
-          }}
-        /> */}

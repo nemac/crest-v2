@@ -146,7 +146,7 @@ export default function MapCard(props) {
         );
       },
       zoomend: () => {
-        if (map.getZoom() >= 11) {
+        if (map.getZoom() >= 9) {
           return map.eachLayer((layer) => { layer.openTooltip(); });
         }
         return map.eachLayer((layer) => { layer.closeTooltip(); });

@@ -547,6 +547,60 @@ export const americanSamoaConfig = {
       description: 'Insert Landcover Description Here', // TODO: ADD DESCRIPTION
       region: 'american_samoa'
     }
+  ],
+  zonalStatsKeys: [
+    'asset',
+    'crit_facilities',
+    'crit_infra',
+    'exposure',
+    'floodprone_areas',
+    'impermeable',
+    'slope',
+    'marine',
+    'pop_density',
+    'sea_level_rise',
+    'social_vuln',
+    'terrestrial',
+    'wave_flooding',
+    'threat',
+    'tsunami',
+    'wildlife',
+    'hubs',
+    'erosion',
+    'landcover_background',
+    'landcover_unclassified',
+    'landcover_developed_high_intensity',
+    'landcover_developed_medium_intensity',
+    'landcover_developed_low_intensity',
+    'landcover_developed_open_space',
+    'landcover_cultivated_crops',
+    'landcover_pasture_hay',
+    'landcover_grassland_herbaceous',
+    'landcover_deciduous_forest',
+    'landcover_evergreen_forest',
+    'landcover_mixed_forest',
+    'landcover_scrub_shrub',
+    'landcover_palustrine_forested_wetland',
+    'landcover_palustrine_scrub_shrub_wetland',
+    'landcover_palustrine_emergent_wetland',
+    'landcover_estuarine_forested_wetland',
+    'landcover_estuarine_scrub_shrub_wetland',
+    'landcover_estuarine_emergent_wetland',
+    'landcover_unconsolidated_shore',
+    'landcover_bare_land',
+    'landcover_open_water',
+    'landcover_palustrine_aquatic_bed',
+    'landcover_estuarine_aquatic_bed',
+    'landcover_tundra',
+    'landcover_snow_ice'
+  ],
+  statesList: [
+    'American Samoa'
+  ],
+  countiesList: [
+    'Eastern District, AS', 'Manu\'a District, AS', 'Western District, AS'
+  ],
+  huc8List: [
+    '22030001', '22030002', '22030003'
   ]
-
 };
