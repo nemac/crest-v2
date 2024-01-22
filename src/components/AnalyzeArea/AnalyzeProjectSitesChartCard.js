@@ -26,8 +26,8 @@ const analyzeAreaSelector = (state) => state.analyzeArea;
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
-  height: '340px',
-  maxHeight: '340px',
+  height: '250px',
+  maxHeight: '250px',
   [theme.breakpoints.down('sm')]: {
     height: '300px',
     maxHeight: '300px'
@@ -36,7 +36,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
   borderStyle: 'solid',
-  borderWidth: '1px',
+  borderWidth: '0px',
   borderBottom: '0px !important',
   justifyContent: 'center',
   alignItems: 'center'
@@ -45,8 +45,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const ContentBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
-  height: '340px',
-  maxHeight: '340px',
+  height: '250px',
+  maxHeight: '250px',
   [theme.breakpoints.down('sm')]: {
     height: '300px',
     maxHeight: '300px'
@@ -55,7 +55,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
   borderStyle: 'solid',
-  borderWidth: '1px',
+  borderWidth: '0px',
   justifyContent: 'center',
   alignItems: 'center'
 }));
@@ -124,12 +124,18 @@ export default function ChartCard(props) {
     setHover(false);
   };
 
+  // setup for dealing with expanded more charts
+  const transparentBorder = {  borderBottomWidth: '0px', borderBottomColor: 'transparent', borderBottomStyle: 'solid' };
+  const solidBorder = {  borderBottomWidth: '1px', borderBottomColor: '#555555', borderBottomStyle: 'solid' };
+  const dashedBorder = {  borderBottomWidth: '1px', borderBottomColor: '#555555', borderBottomStyle: 'dashed' };
+  let cnt = 1;
+
   return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
+    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
           {Object.entries(chartValues).map(([key, value]) => (
-            <Grid xs={12} key={key}>
+            <Grid xs={12} test={value} key={key} style={ (Object.entries(chartValues).length) === cnt++ ?  transparentBorder : dashedBorder }>
               <StyledBox >
                 <ContentBox
                   onMouseEnter={ setHover ? handleMouseEnter : null}
@@ -163,7 +169,7 @@ export default function ChartCard(props) {
                   }
                 ]}
                 styledGridSx={
-                  { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }
+                  { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px' }
                 }
               />
             </Grid>
@@ -173,7 +179,7 @@ export default function ChartCard(props) {
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
               styledGridSx={
-                { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }
+                {  height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px', borderTopWidth: '1px' }
               }
             />
           </Grid>
@@ -181,8 +187,8 @@ export default function ChartCard(props) {
 
       ) : (
 
-        <div style={{ width: '100%' }}>
-          <Grid xs={12} >
+        <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
+          <Grid xs={12}  >
             <ContentBox
               onMouseEnter={ setHover ? handleMouseEnter : null}
               onMouseLeave={ setHover ? handleMouseLeave : null}
@@ -210,7 +216,7 @@ export default function ChartCard(props) {
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
               styledGridSx={
-                { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }
+                { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px', borderTopWidth: '1px'}
               }
             />
           </Grid>

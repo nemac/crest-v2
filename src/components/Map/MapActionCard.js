@@ -38,10 +38,12 @@ export default function MapActionCard(props) {
   const minimizeOnClick = () => {
     dispatch(toggleAreaVisible());
   };
-
   return (
-    <StyledGrid container spacing={0} justifyContent="center" alignItems="center" sx={{ height: analyzeAreaVisible ? '250px' : '50px' }}>
-
+    <StyledGrid container spacing={0} 
+      justifyContent="center"
+      alignItems="center" 
+      sx={{ height: analyzeAreaVisible ? '250px' : '50px', minHeight: analyzeAreaVisible ? '250px' : '50px' }}
+      style={{  transition: 'all 0.333s ease-in-out' }} >
       <Grid xs={12}>
         <Box px={1} py={0.75} sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
           <LibraryAdd />

@@ -29,7 +29,7 @@ const ToolTipBox = styled(Box)(({ theme }) => ({
   borderColor: theme.palette.CRESTLightBorderColor.main,
   color: theme.palette.CRESTLight.contrastText,
   borderStyle: 'solid',
-  borderWidth: '1px',
+  borderWidth: '0px',
   justifyContent: 'center',
   alignItems: 'center'
 }));
