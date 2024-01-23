@@ -125,9 +125,16 @@ export default function ChartCard(props) {
   };
 
   // setup for dealing with expanded more charts
-  const transparentBorder = {  borderBottomWidth: '0px', borderBottomColor: 'transparent', borderBottomStyle: 'solid' };
-  const solidBorder = {  borderBottomWidth: '1px', borderBottomColor: '#555555', borderBottomStyle: 'solid' };
-  const dashedBorder = {  borderBottomWidth: '1px', borderBottomColor: '#555555', borderBottomStyle: 'dashed' };
+  const transparentBorder = {  display: 'none' };
+  const chartBreaker = {  
+    height: '4px',
+    padding: '0', 
+    margin: '0 5% 0 5%',
+    borderStyle: 'dashed none none',
+    borderWidth: '1px 0px 0px',
+    borderColor: '#555555 transparent transparent',
+    backgroundColor: '#0A0A0A'
+  };
   let cnt = 1;
 
   return (
@@ -135,7 +142,7 @@ export default function ChartCard(props) {
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
         <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
           {Object.entries(chartValues).map(([key, value]) => (
-            <Grid xs={12} test={value} key={key} style={ (Object.entries(chartValues).length) === cnt++ ?  transparentBorder : dashedBorder }>
+            <Grid xs={12} test={value} key={key} style={{ backgroundColor: '#0A0A0A' }}>
               <StyledBox >
                 <ContentBox
                   onMouseEnter={ setHover ? handleMouseEnter : null}
@@ -173,6 +180,7 @@ export default function ChartCard(props) {
                   { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px' }
                 }
               />
+              <hr style={ (Object.entries(chartValues).length) === cnt++ ?  transparentBorder : chartBreaker }/>
             </Grid>
           ))}
 

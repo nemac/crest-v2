@@ -199,8 +199,8 @@ export default function AnalyzeBarChart(props) {
         <text
           x="50%"
           y="10%"
-          dominant-baseline="middle"
-          text-anchor="middle"
+          dominantBaseline="middle"
+          textAnchor="middle"
           fill="white"
           style={{ fontFamily: 'Roboto, sans-serif' }}
         >
