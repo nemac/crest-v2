@@ -147,6 +147,7 @@ export default function ChartCard(props) {
                     chartRegion={region}
                     chartIndices={value}
                     chartType={key}
+                    areaName={feature.properties.areaName}
                     setHover={setHover}
                     feature={feature}
                     zonalStatsData={feature.properties.zonalStatsData}
@@ -199,6 +200,7 @@ export default function ChartCard(props) {
                 chartRegion={region}
                 chartIndices={chartValues['Summary Chart']}
                 chartType={'Summary Chart'}
+                areaName={feature.properties.areaName}
                 setHover={setHover}
                 feature={feature}
                 zonalStatsData={feature.properties.zonalStatsData}

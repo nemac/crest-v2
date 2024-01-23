@@ -29,7 +29,7 @@ const ToolTipBox = styled(Box)(({ theme }) => ({
   borderColor: theme.palette.CRESTLightBorderColor.main,
   color: theme.palette.CRESTLight.contrastText,
   borderStyle: 'solid',
-  borderWidth: '0px',
+  borderWidth: '1px',
   justifyContent: 'center',
   alignItems: 'center'
 }));
@@ -39,6 +39,7 @@ export default function AnalyzeBarChart(props) {
     chartRegion,
     chartIndices,
     chartType,
+    areaName,
     feature,
     zonalStatsData,
     barchartMargin
@@ -47,7 +48,7 @@ export default function AnalyzeBarChart(props) {
   const region = regions[chartRegion];
 
   const chartLabel = feature?.properties?.areaName ?
-    `${chartType} ${feature?.properties?.areaName}` :
+    `${chartType} - ${feature?.properties?.areaName}` :
     '';
   const layerList = region.layerList;
 
@@ -158,12 +159,13 @@ export default function AnalyzeBarChart(props) {
       }
       const index = i - skippedValues;
       const layerData = getData(element, value);
-      const { selectedColor, chartValue, selectedChartLabel } = layerData;
+      const { selectedColor, chartValue, selectedChartLabel, areaName, chartType } = layerData;
       chartData.push({
         name: element,
         value,
         chartValue,
         selectedChartLabel,
+        chartType,
         index
       });
       barColors.push(selectedColor);
@@ -195,14 +197,25 @@ export default function AnalyzeBarChart(props) {
         margin={barchartMargin}
       >
         <text
-          x={400 / 2}
-          y={'10%'}
+          x="50%"
+          y="10%"
+          dominant-baseline="middle"
+          text-anchor="middle"
           fill="white"
-          textAnchor="middle"
-          dominantBaseline="central"
           style={{ fontFamily: 'Roboto, sans-serif' }}
         >
-          <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
+          <tspan
+            x="50%"
+            style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+              {areaName}
+          </tspan>
+
+          <tspan
+            x="50%" 
+            dy={'25px'}
+            style={{ fontSize: '1rem'  }}>
+              {chartType}
+          </tspan>
         </text>
 
         <XAxis
