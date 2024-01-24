@@ -39,10 +39,6 @@ export const continentalUSConfig = {
       ChartInputLabel: 'Threats Inputs'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'additional',
       ChartInputLabel: 'Additional Overlays'
     }
@@ -97,7 +93,7 @@ export const continentalUSConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Exposure Index',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'exposure',
       url: 'https://tiles.resilientcoasts.org/ExposureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -126,7 +122,7 @@ export const continentalUSConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'asset',
       url: 'https://tiles.resilientcoasts.org/AssetsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -155,7 +151,7 @@ export const continentalUSConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'threat',
       url: 'https://tiles.resilientcoasts.org/ThreatsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -203,7 +199,7 @@ export const continentalUSConfig = {
         5: '#005a62'
       },
       chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'aquatic',
       url: 'https://tiles.resilientcoasts.org/AquaticIndexTiles/{z}/{x}/{y}.png',
@@ -227,7 +223,8 @@ export const continentalUSConfig = {
         5: '#004900'
       },
       chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'terrestrial',
       url: 'https://tiles.resilientcoasts.org/TerrestrialIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',

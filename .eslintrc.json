@@ -15,7 +15,7 @@
   },
   "env": {
     "browser": true,
-    "jquery": true
+    "es6": true
   },
   "ignorePatterns": ["*.test*.js"],
   "rules": {

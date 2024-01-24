@@ -12,8 +12,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-import Regions from '../components/Home/Regions';
-import TabCallToActions from '../components/Home/TabCallToActions';
+import Regions from '../components/Home/Regions.jsx';
+import TabCallToActions from '../components/Home/TabCallToActions.jsx';
 
 export default function Home() {
   return (

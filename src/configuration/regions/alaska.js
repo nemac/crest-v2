@@ -41,10 +41,6 @@ export const alaskaConfig = {
       ChartInputLabel: 'Threats Inputs'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'additional',
       ChartInputLabel: 'Additional Overlays'
     }
@@ -113,7 +109,7 @@ export const alaskaConfig = {
       label: 'Community Exposure Index',
       chartLabel: 'Community Exposure',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Exposure Index',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'exposure',
       chartCSSColor: {
         0: '#E9ECEF',
@@ -141,7 +137,7 @@ export const alaskaConfig = {
       label: 'Community Asset Index',
       chartLabel: 'Community Asset',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'asset',
       chartCSSColor: {
         0: '#E9ECEF',
@@ -169,7 +165,7 @@ export const alaskaConfig = {
       label: 'Threat Index',
       chartLabel: 'Threat',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'threat',
       chartCSSColor: {
         0: '#E9ECEF',
@@ -225,7 +221,8 @@ export const alaskaConfig = {
       layer: 'Aquatic TMS',
       label: 'Aquatic Index',
       chartLabel: 'Aquatic',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'aquatic',
       chartCSSColor: {
         0: '#E9ECEF',
@@ -252,7 +249,8 @@ export const alaskaConfig = {
       layer: 'Terrestrial TMS',
       label: 'Terrestrial Index',
       chartLabel: 'Terrestrial',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'terrestrial',
       chartCSSColor: {
         0: '#E9ECEF',

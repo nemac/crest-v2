@@ -41,10 +41,6 @@ export const greatLakesConfig = {
       ChartInputLabel: 'Threats Inputs'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'additional',
       ChartInputLabel: 'Additional Overlays'
     }
@@ -127,7 +123,7 @@ export const greatLakesConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Exposure Index',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'exposure',
       url: 'https://tiles.resilientcoasts.org/GL_ExposureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -158,7 +154,7 @@ export const greatLakesConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'asset',
       url: 'https://tiles.resilientcoasts.org/GL_AssetsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -188,7 +184,7 @@ export const greatLakesConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'threat',
       url: 'https://tiles.resilientcoasts.org/GL_ThreatsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -247,7 +243,8 @@ export const greatLakesConfig = {
         10: '#01172C'
       },
       chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'aquatic',
       url: 'https://tiles.resilientcoasts.org/GL_AquaticIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -277,7 +274,8 @@ export const greatLakesConfig = {
         10: '#004900'
       },
       chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'terrestrial',
       url: 'https://tiles.resilientcoasts.org/GL_TerrestrialIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
