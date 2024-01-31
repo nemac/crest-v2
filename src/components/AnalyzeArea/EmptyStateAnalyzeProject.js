@@ -9,6 +9,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   color: theme.palette.CRESTGridBackground.contrastText,
+  border: `1px solid ${theme.palette.CRESTBorderColor.main}`,
   height: '100%',
   overflow: 'hidden'
 }));

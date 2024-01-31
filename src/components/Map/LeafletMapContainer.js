@@ -14,9 +14,9 @@ export const StyledMapContainer = styled(MapContainer)(({ theme }) => ({
 
 export default function LeafletMapContainer(props) {
   const {
-    children, center, zoom, innerRef
+    children, center, zoom, innerRef, mapRef
   } = props;
-  // const dispatch = useDispatch();
+
   const extent = regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
 
   return (
@@ -32,8 +32,7 @@ export default function LeafletMapContainer(props) {
       attributionControl={false}
       worldCopyJump={true}
       preferCanvas={true}
-      renderer={L.canvas()}
-    >
+      renderer={L.canvas()}>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
       <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@latest/dist/leaflet.draw-src.css" />
       <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>
@@ -46,5 +45,6 @@ LeafletMapContainer.propTypes = {
   children: PropTypes.node,
   center: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
-  innerRef: PropTypes.func
+  innerRef: PropTypes.func,
+  mapRef: PropTypes.object
 };

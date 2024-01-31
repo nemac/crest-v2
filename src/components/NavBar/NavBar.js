@@ -79,7 +79,7 @@ export default function NavBar(props) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-      <StyledPaperCardBackground square={false} elevation={3} px={0} pb={0.75} >
+      <StyledPaperCardBackground square={true} elevation={0} px={0} pb={0.75} style={{ borderBottom: '1px solid #555555' }} >
         <Grid container spacing={0} justifyContent='center' alignItems='center'>
 
               {isSmallScreen ? (

@@ -32,7 +32,7 @@ export default function BasemapLayer(props) {
         attribution: regions[selectedRegion].attribution
       });
       newBasemap.addTo(map);
-      basemapRef.current = newBasemap;
+      basemapRef.current = newBasemap;  
     }
   }, [map, selectedRegion]);
 
