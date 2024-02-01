@@ -214,8 +214,12 @@ export default function ShapeFileCorrectionMap(props) {
               <Grid xs={12} px={2} pt={0} pb={0}>
                 <Box >
                   <Typography variant="h6" component="div">
-                    Please review and resolve the issues
+                    Area {activeStep+1}
                   </Typography>
+                  {isCurrentFixed ? (<></>) : (
+                  <Typography variant="h7" component="div">
+                    Please review and resolve the issues
+                  </Typography>)}
                 </Box>
               </Grid>          
               <Grid xs={12} px={2} pt={0} pb={0}>
