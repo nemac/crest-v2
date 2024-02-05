@@ -15,7 +15,7 @@ export default function ChartCustomLabels(props) {
 
   return (
     <g transform={`translate(${x},${y})`}>
-      {Object.entries(textWithOffset).map(([word, offset]) => <text key={word} x={0} y={8} dy={16} style={{ fontSize: '10px' }} textAnchor="middle" fill="#FFF">
+      {Object.entries(textWithOffset).map(([word, offset]) => <text key={word} x={0} y={8} dy={16} style={{ fontSize: '8px' }} textAnchor="middle" fill="#FFFFFF">
         <tspan textAnchor="middle" x="0" dy={offset}>{word}</tspan>
       </text>)}
     </g>

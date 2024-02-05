@@ -26,8 +26,8 @@ const analyzeAreaSelector = (state) => state.analyzeArea;
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
-  height: '340px',
-  maxHeight: '340px',
+  height: '250px',
+  maxHeight: '250px',
   [theme.breakpoints.down('sm')]: {
     height: '300px',
     maxHeight: '300px'
@@ -36,7 +36,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
   borderStyle: 'solid',
-  borderWidth: '1px',
+  borderWidth: '0px',
   borderBottom: '0px !important',
   justifyContent: 'center',
   alignItems: 'center'
@@ -45,8 +45,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const ContentBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
-  height: '340px',
-  maxHeight: '340px',
+  height: '250px',
+  maxHeight: '250px',
   [theme.breakpoints.down('sm')]: {
     height: '300px',
     maxHeight: '300px'
@@ -55,7 +55,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
   borderStyle: 'solid',
-  borderWidth: '1px',
+  borderWidth: '0px',
   justifyContent: 'center',
   alignItems: 'center'
 }));
@@ -124,12 +124,25 @@ export default function ChartCard(props) {
     setHover(false);
   };
 
+  // setup for dealing with expanded more charts
+  const transparentBorder = { display: 'none' };
+  const chartBreaker = {
+    height: '4px',
+    padding: '0',
+    margin: '0 5% 0 5%',
+    borderStyle: 'dashed none none',
+    borderWidth: '1px 0px 0px',
+    borderColor: '#555555 transparent transparent',
+    backgroundColor: '#0A0A0A'
+  };
+  let cnt = 1;
+
   return (
-    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={2} >
+    <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
           {Object.entries(chartValues).map(([key, value]) => (
-            <Grid xs={12} key={key}>
+            <Grid xs={12} test={value} key={key} style={{ backgroundColor: '#0A0A0A' }}>
               <StyledBox >
                 <ContentBox
                   onMouseEnter={ setHover ? handleMouseEnter : null}
@@ -141,6 +154,7 @@ export default function ChartCard(props) {
                     chartRegion={region}
                     chartIndices={value}
                     chartType={key}
+                    areaName={feature.properties.areaName}
                     setHover={setHover}
                     feature={feature}
                     zonalStatsData={feature.properties.zonalStatsData}
@@ -163,25 +177,29 @@ export default function ChartCard(props) {
                   }
                 ]}
                 styledGridSx={
-                  { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }
+                  { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px' }
                 }
               />
+              <hr style={ (Object.entries(chartValues).length) === cnt++ ? transparentBorder : chartBreaker }/>
             </Grid>
           ))}
 
           <Grid xs={12} >
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
-              styledGridSx={
-                { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }
-              }
+              styledGridSx={{
+                height: (theme) => theme.spacing(8),
+                maxHeight: (theme) => theme.spacing(8),
+                borderWidth: '0px',
+                borderTopWidth: '1px'
+              }}
             />
           </Grid>
         </div>
 
       ) : (
 
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
           <Grid xs={12} >
             <ContentBox
               onMouseEnter={ setHover ? handleMouseEnter : null}
@@ -193,6 +211,7 @@ export default function ChartCard(props) {
                 chartRegion={region}
                 chartIndices={chartValues['Summary Chart']}
                 chartType={'Summary Chart'}
+                areaName={feature.properties.areaName}
                 setHover={setHover}
                 feature={feature}
                 zonalStatsData={feature.properties.zonalStatsData}
@@ -209,9 +228,12 @@ export default function ChartCard(props) {
           <Grid xs={12} >
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
-              styledGridSx={
-                { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }
-              }
+              styledGridSx={{
+                height: (theme) => theme.spacing(8),
+                maxHeight: (theme) => theme.spacing(8),
+                borderWidth: '0px',
+                borderTopWidth: '1px'
+              }}
             />
           </Grid>
         </div>

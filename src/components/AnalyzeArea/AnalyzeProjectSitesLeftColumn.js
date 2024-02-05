@@ -28,7 +28,7 @@ export default function AnalyzeProjectSiteLeftColumn(props) {
         {!chartCard.props.chartData ? (
           noDataState
         ) : (
-          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={0} sx={{ height: '100%' }} >
+          <Grid container spacing={0} justifyContent="center" alignItems="center" px={0.5} pb={0} sx={{ height: '100%' }} >
             <Grid xs={12} sx={{ height: '100%', width: '100%' }} >
               {chartCard}
             </Grid>
