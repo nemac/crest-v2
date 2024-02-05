@@ -45,7 +45,6 @@ export default function LeafletDrawTools(props) {
   const shapeFileGeoJSON = useSelector(uploadedShapeFileSelector);
   const searchPlacesGeoJSON = useSelector(searchPlacesFileSelector);
   const areaNumber = useSelector(areaNumberSelector);
-
   const [currentDrawn, setCurrentDrawn] = useState({
     geo: null, // this is the originally drawn geo with enriched properties
     featureGroup: null, // this is the featureGroup that gets sent to zonalStats
@@ -168,7 +167,6 @@ export default function LeafletDrawTools(props) {
 
     // disable draw until zonal stats done
     setDrawAreaDisabled(true);
-
     const geo = processGeojson(e.layer.toGeoJSON(), areaNumber);
     dispatch(incrementAreaNumber());
     const layerToAnalyze = geo.properties.buffGeo ?
@@ -185,7 +183,6 @@ export default function LeafletDrawTools(props) {
   if (shapeFileGeoJSON) {
     const featureGroup = L.featureGroup();
     const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
-
     let areaNum = areaNumber; // need an independent counter here since dispatch is batched
     shapeFileFeatures.forEach((feature, index) => {
       const geo = processGeojson(feature, areaNum);
