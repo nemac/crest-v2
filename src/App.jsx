@@ -7,7 +7,7 @@ import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import About from './pages/About.jsx';
 import AnalyzeProjectSites from './pages/AnalyzeProjectSites.jsx';
-import CustomTheme from './CRESTTheme/CRESTCustomTheme.jsx';
+import CustomTheme from './CRESTTheme/CRESTCustomTheme';
 import DataAndReports from './pages/DataAndReports.jsx';
 import Examples from './pages/ExamplesPage.jsx';
 import Home from './pages/Home.jsx';

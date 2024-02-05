@@ -1,3 +1,4 @@
+import './init';
 import React from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { createRoot } from 'react-dom/client';
