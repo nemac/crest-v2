@@ -125,10 +125,10 @@ export default function ChartCard(props) {
   };
 
   // setup for dealing with expanded more charts
-  const transparentBorder = {  display: 'none' };
-  const chartBreaker = {  
+  const transparentBorder = { display: 'none' };
+  const chartBreaker = {
     height: '4px',
-    padding: '0', 
+    padding: '0',
     margin: '0 5% 0 5%',
     borderStyle: 'dashed none none',
     borderWidth: '1px 0px 0px',
@@ -180,16 +180,19 @@ export default function ChartCard(props) {
                   { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px' }
                 }
               />
-              <hr style={ (Object.entries(chartValues).length) === cnt++ ?  transparentBorder : chartBreaker }/>
+              <hr style={ (Object.entries(chartValues).length) === cnt++ ? transparentBorder : chartBreaker }/>
             </Grid>
           ))}
 
           <Grid xs={12} >
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
-              styledGridSx={
-                {  height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px', borderTopWidth: '1px' }
-              }
+              styledGridSx={{
+                height: (theme) => theme.spacing(8),
+                maxHeight: (theme) => theme.spacing(8),
+                borderWidth: '0px',
+                borderTopWidth: '1px'
+              }}
             />
           </Grid>
         </div>
@@ -197,7 +200,7 @@ export default function ChartCard(props) {
       ) : (
 
         <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
-          <Grid xs={12}  >
+          <Grid xs={12} >
             <ContentBox
               onMouseEnter={ setHover ? handleMouseEnter : null}
               onMouseLeave={ setHover ? handleMouseLeave : null}
@@ -225,9 +228,12 @@ export default function ChartCard(props) {
           <Grid xs={12} >
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
-              styledGridSx={
-                { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px', borderTopWidth: '1px'}
-              }
+              styledGridSx={{
+                height: (theme) => theme.spacing(8),
+                maxHeight: (theme) => theme.spacing(8),
+                borderWidth: '0px',
+                borderTopWidth: '1px'
+              }}
             />
           </Grid>
         </div>

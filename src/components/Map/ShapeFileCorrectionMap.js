@@ -20,6 +20,7 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
+import { download } from '@crmackey/shp-write';
 
 import BasemapLayer from './BasemapLayer';
 import LeafletMapContainer from './LeafletMapContainer';
@@ -27,16 +28,14 @@ import EditControlFC from './EditShapefileControl';
 import GenericMapHolder from './GenericMapHolder';
 import ShapeActionButton from './ShapeActionButton';
 
-
 import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
-import { download } from '@crmackey/shp-write';
 
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
 const StyledBox = styled(Box)(({ theme }) => ({
   height: '100%',
-  width: '100%', 
+  width: '100%',
   padding: theme.spacing(1.5),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
@@ -92,7 +91,7 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickEdit = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont 
+    // This works but its a bad pattern for react. But I dont care it works and I dont
     // want to spend more time figureit out
     const editButton = document.querySelector('.leaflet-draw-edit-edit');
     if (editButton) {
@@ -102,7 +101,7 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickCancel = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont 
+    // This works but its a bad pattern for react. But I dont care it works and I dont
     // want to spend more time figureit out
     const cancelButton = document.querySelector('a[title="Cancel editing, discards all changes"]');
     if (cancelButton) {
@@ -112,7 +111,7 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickSave = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont 
+    // This works but its a bad pattern for react. But I dont care it works and I dont
     // want to spend more time figureit out
     const saveButton = document.querySelector('a[title="Save changes"]');
     if (saveButton) {
@@ -123,7 +122,7 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickDelete = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont 
+    // This works but its a bad pattern for react. But I dont care it works and I dont
     // want to spend more time figureit out
     const deleteButton = document.querySelector('.leaflet-draw-edit-remove');
     if (deleteButton) {
@@ -133,15 +132,15 @@ export default function ShapeFileCorrectionMap(props) {
     }
 
     // again not the best approach but I cannot get anything else to work and I am out of time
-    const center = map.getCenter();
+    const newCenter = map.getCenter();
     map.fireEvent('click', {
-      latlng: center,
-      layerPoint: map.latLngToLayerPoint(center),
-      containerPoint: map.latLngToContainerPoint(center),
+      latlng: newCenter,
+      layerPoint: map.latLngToLayerPoint(newCenter),
+      containerPoint: map.latLngToContainerPoint(newCenter),
       originalEvent: {
-        target: map,
-      },
-    }); 
+        target: map
+      }
+    });
 
     // again not the best approach but I cannot get anything else to work and I am out of time
     // Check if there's any polygon at the center coordinates and trigger click on it
@@ -161,7 +160,7 @@ export default function ShapeFileCorrectionMap(props) {
       setIsEdit(false);
     }
   };
-  
+
   const isCurrentFixed = steps.current[activeStep]?.isFixed;
   const isCurrentDeleted = (steps.current[activeStep]?.howFixedText === 'DELETED');
 
@@ -172,18 +171,18 @@ export default function ShapeFileCorrectionMap(props) {
           <Grid container>
             <Grid xs={12} >
               { numberNotFixed === 0 ? (
-              <Alert severity={'success'} sx={{backgroundColor: '#444444'}}>
+              <Alert severity={'success'} sx={{ backgroundColor: '#444444' }}>
                 All issues have been resolved.
               </Alert>
               ) : (
-              <Alert severity={'warning'} sx={{backgroundColor: '#444444'}}>
-                While importing your shapefile we found {numberInvalid} {numberInvalid < 2 ? ' area with an issue' : ' areas with isssues'}. 
+              <Alert severity={'warning'} sx={{ backgroundColor: '#444444' }}>
+                While importing your shapefile we found {numberInvalid} {numberInvalid < 2 ? ' area with an issue' : ' areas with isssues'}.
               </Alert>
               ) }
             </Grid>
             <Grid container spacing={0} px={1} pt={2} pb={2} m={0} sx={{ width: '100%' }}>
 
-              <Grid container spacing={0} p={0} mt={2} mb={0} mx={0} sx={{ width: '100%' }} style={{backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))'}}>
+              <Grid container spacing={0} p={0} mt={2} mb={0} mx={0} sx={{ width: '100%' }} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))' }}>
                 <Grid xs={12} md={3}>
                     <ShapeActionButton
                       buttonLabel={'Back'}
@@ -194,8 +193,8 @@ export default function ShapeFileCorrectionMap(props) {
                       <ArrowCircleLeftIcon />
                     </ShapeActionButton>
                 </Grid>
-                <Grid xs={12} md={6} sx={{ display: 'flex', alignItems: 'center',justifyContent: 'center' }} >
-                  {activeStep+1} / {numberInvalid}
+                <Grid xs={12} md={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                  {activeStep + 1} / {numberInvalid}
                 </Grid>
                 <Grid xs={12} md={3}>
                     <ShapeActionButton
@@ -209,19 +208,19 @@ export default function ShapeFileCorrectionMap(props) {
                 </Grid>
               </Grid>
 
-            </Grid>         
+            </Grid>
             <Grid container spacing={0} px={2} pt={2} pb={1} m={0} sx={{ width: '100%' }}>
               <Grid xs={12} px={2} pt={0} pb={0}>
                 <Box >
                   <Typography variant="h6" component="div">
-                    Area {activeStep+1}
+                    Area {activeStep + 1}
                   </Typography>
                   {isCurrentFixed ? (<></>) : (
                   <Typography variant="h7" component="div">
                     Please review and resolve the issues
                   </Typography>)}
                 </Box>
-              </Grid>          
+              </Grid>
               <Grid xs={12} px={2} pt={0} pb={0}>
                 {isCurrentFixed ? (
                   isCurrentDeleted ? (
@@ -230,7 +229,7 @@ export default function ShapeFileCorrectionMap(props) {
                         <strong>{steps.current[activeStep]?.howFixedText}</strong>
                       </Alert>
                     </Box>
-                  ) : (                  
+                  ) : (
                     <Box>
                       <Alert severity="success">
                         <strong>{steps.current[activeStep]?.howFixedText}</strong>
@@ -241,30 +240,30 @@ export default function ShapeFileCorrectionMap(props) {
                   <Box>
                     <Alert severity="error">
                       {steps.current[activeStep]?.invalidText}
-                      <br />    
+                      <br />
                       {steps.current[activeStep]?.fixStatus} {steps.current[activeStep]?.fixStatusGoal}
                     </Alert>
                   </Box>
                 )}
-              </Grid>           
+              </Grid>
               <Grid xs={12} px={2} pt={2} pb={0}>
                 <Box >
-                  <Accordion style={{ padding: 0}} >
+                  <Accordion style={{ padding: 0 }} >
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1-content"
                       id="panel1-header">
-                      Tips fix this area
+                      Tips to fix this area
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography variant="body2" component="p">
-                        {steps.current[activeStep]?.fixText}                      
-                      </Typography>                     
+                        {steps.current[activeStep]?.fixText}
+                      </Typography>
                     </AccordionDetails>
                   </Accordion>
                 </Box>
-              </Grid>              
-            </Grid>         
+              </Grid>
+            </Grid>
           </Grid>
           <Grid container spacing={0} px={2} pt={1} pb={2} m={0} sx={{ width: '100%' }} >
             <Grid xs={12} px={2} pt={2} pb={0}
@@ -274,15 +273,15 @@ export default function ShapeFileCorrectionMap(props) {
               <Button
                 variant="contained"
                 color="CRESTPrimary"
-                aria-label={"edit"}
+                aria-label={'edit'}
                 fullWidth={true}
                 onClick={btnClickEdit}
-                style={{display: numberNotFixed > 0 ? 'inline-flex' : 'none' }}>
-                  <EditIcon style={{paddingRight: '8px'}}/>
+                style={{ display: numberNotFixed > 0 ? 'inline-flex' : 'none' }}>
+                  <EditIcon style={{ paddingRight: '8px' }}/>
                   Edit area
               </Button>
             </Grid>
-            <Grid container spacing={0} px={3} pt={1} pb={2} m={0} 
+            <Grid container spacing={0} px={3} pt={1} pb={2} m={0}
               sx={{ width: '100%' }}
               style={{
                 display: isEdit ? 'inline-flex' : 'none',
@@ -293,40 +292,40 @@ export default function ShapeFileCorrectionMap(props) {
                 <Button
                   variant="contained"
                   color="CRESTSecondary"
-                  aria-label={"Save"}
+                  aria-label={'Save'}
                   fullWidth={true}
                   onClick={btnClickSave}
-                  style={{display: isEdit ? 'inline-flex' : 'none', fontSize: '0.775rem' }}>
-                    <SaveIcon style={{paddingRight: '8px'}}/>
+                  style={{ display: isEdit ? 'inline-flex' : 'none', fontSize: '0.775rem' }}>
+                    <SaveIcon style={{ paddingRight: '8px' }}/>
                     Save edits
                 </Button>
-              </Grid>          
+              </Grid>
               <Grid xs={12} md={6} px={1} pt={2} pb={0}>
               < Button
                   variant="contained"
                   color="CRESTSecondary"
-                  aria-label={"Cancel"}
+                  aria-label={'Cancel'}
                   fullWidth={true}
                   onClick={btnClickCancel}
-                  style={{display: isEdit ? 'inline-flex' : 'none', fontSize: '0.775rem' }}>
-                    <CancelIcon style={{paddingRight: '8px'}}/>
+                  style={{ display: isEdit ? 'inline-flex' : 'none', fontSize: '0.775rem' }}>
+                    <CancelIcon style={{ paddingRight: '8px' }}/>
                     Cancel edits
                 </Button>
-              </Grid>              
+              </Grid>
             </Grid>
             <Grid xs={12} md={12} px={2} pt={2} pb={0}>
               <Button
                 variant="contained"
                 color="CRESTPrimary"
-                aria-label={"Delete"}
+                aria-label={'Delete'}
                 fullWidth={true}
                 onClick={btnClickDelete}
-                style={{display: numberNotFixed > 0 ? 'inline-flex' : 'none' }}>
-                  <DeleteForeverIcon style={{paddingRight: '8px'}}/>
+                style={{ display: numberNotFixed > 0 ? 'inline-flex' : 'none' }}>
+                  <DeleteForeverIcon style={{ paddingRight: '8px' }}/>
                   Delete area
               </Button>
-            </Grid>               
-            <Grid container spacing={0} p={0} mt={2} mb={0} mx={0} sx={{ width: '100%' }} style={{backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))'}}>
+            </Grid>
+            <Grid container spacing={0} p={0} mt={2} mb={0} mx={0} sx={{ width: '100%' }} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))' }}>
               <Grid xs={12} md={3}>
                   <ShapeActionButton
                     buttonLabel={'Back'}
@@ -337,8 +336,8 @@ export default function ShapeFileCorrectionMap(props) {
                     <ArrowCircleLeftIcon />
                   </ShapeActionButton>
               </Grid>
-              <Grid xs={12} md={6} sx={{ display: 'flex', alignItems: 'center',justifyContent: 'center' }} >
-                {activeStep+1} / {numberInvalid}
+              <Grid xs={12} md={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                {activeStep + 1} / {numberInvalid}
               </Grid>
               <Grid xs={12} md={3}>
                   <ShapeActionButton
@@ -356,14 +355,14 @@ export default function ShapeFileCorrectionMap(props) {
               <Button
                 variant="contained"
                 color="CRESTCta"
-                aria-label={"Save"}
+                aria-label={'Save'}
                 fullWidth={true}
-                style={{display: numberNotFixed === 0 ? 'inline-flex' : 'none' }}
+                style={{ display: numberNotFixed === 0 ? 'inline-flex' : 'none' }}
                 onClick={() => {
                   setGeoToRedraw(null);
                   dispatch(uploadedShapeFileGeoJSON(geoToReturn.current));
                 }}>
-                  <FileUploadOutlinedIcon style={{paddingRight: '8px'}}/>
+                  <FileUploadOutlinedIcon style={{ paddingRight: '8px' }}/>
                   Complete the upload
               </Button>
             </Grid>
@@ -371,11 +370,11 @@ export default function ShapeFileCorrectionMap(props) {
               <Button
                 variant="contained"
                 color="CRESTPrimary"
-                aria-label={"Save"}
+                aria-label={'Save'}
                 fullWidth={true}
-                style={{display: numberNotFixed === 0 ? 'inline-flex' : 'none' }}
+                style={{ display: numberNotFixed === 0 ? 'inline-flex' : 'none' }}
                 onClick={() => download(geoToReturn.current)}>
-                  <DownloadIcon style={{paddingRight: '8px'}}/>
+                  <DownloadIcon style={{ paddingRight: '8px' }}/>
                   Download the shapefile (with edits)
               </Button>
             </Grid>

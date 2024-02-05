@@ -211,9 +211,9 @@ export default function AnalyzeBarChart(props) {
           </tspan>
 
           <tspan
-            x="50%" 
+            x="50%"
             dy={'25px'}
-            style={{ fontSize: '1rem'  }}>
+            style={{ fontSize: '1rem' }}>
               {chartType}
           </tspan>
         </text>
@@ -251,6 +251,7 @@ export default function AnalyzeBarChart(props) {
 }
 
 AnalyzeBarChart.propTypes = {
+  areaName: PropTypes.string.isRequired,
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,
