@@ -12,7 +12,7 @@ import { ThreeColumnGrid } from '../All/StyledComponents.jsx';
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   height: 'calc(100% - 123px)',
   [theme.breakpoints.down('lg')]: {
-    height: 'calc(100% - 80px)'
+    height: 'calc(100% - 123px)'
   },
   [theme.breakpoints.down('md')]: {
     height: 'calc(60% - 80px)'

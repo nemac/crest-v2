@@ -72,7 +72,6 @@ export default function ActionButtons(props) {
     event.stopPropagation();
     console.log('clicked'); // eslint-disable-line no-console
   };
-
   return (
     <StyledGrid
       container

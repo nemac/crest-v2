@@ -39,6 +39,7 @@ export default function AnalyzeBarChart(props) {
     chartRegion,
     chartIndices,
     chartType,
+    areaName,
     feature,
     zonalStatsData,
     barchartMargin
@@ -47,7 +48,7 @@ export default function AnalyzeBarChart(props) {
   const region = regions[chartRegion];
 
   const chartLabel = feature?.properties?.areaName ?
-    `${chartType} ${feature?.properties?.areaName}` :
+    `${chartType} - ${feature?.properties?.areaName}` :
     '';
   const layerList = region.layerList;
 
@@ -157,12 +158,13 @@ export default function AnalyzeBarChart(props) {
       }
       const index = i - skippedValues;
       const layerData = getData(element, value);
-      const { selectedColor, chartValue, selectedChartLabel } = layerData;
+      const { selectedColor, chartValue, selectedChartLabel, areaName, chartType } = layerData;
       chartData.push({
         name: element,
         value,
         chartValue,
         selectedChartLabel,
+        chartType,
         index
       });
       barColors.push(selectedColor);
@@ -194,14 +196,25 @@ export default function AnalyzeBarChart(props) {
         margin={barchartMargin}
       >
         <text
-          x={400 / 2}
-          y={'10%'}
-          fill="white"
+          x="50%"
+          y="10%"
+          dominantBaseline="middle"
           textAnchor="middle"
-          dominantBaseline="central"
+          fill="white"
           style={{ fontFamily: 'Roboto, sans-serif' }}
         >
-          <tspan style={{ fontSize: '1.25rem' }}>{chartLabel}</tspan>
+          <tspan
+            x="50%"
+            style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+              {areaName}
+          </tspan>
+
+          <tspan
+            x="50%"
+            dy={'25px'}
+            style={{ fontSize: '1rem' }}>
+              {chartType}
+          </tspan>
         </text>
 
         <XAxis
@@ -237,6 +250,7 @@ export default function AnalyzeBarChart(props) {
 }
 
 AnalyzeBarChart.propTypes = {
+  areaName: PropTypes.string.isRequired,
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,

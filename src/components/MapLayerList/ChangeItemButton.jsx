@@ -97,6 +97,7 @@ export default function ChangeItemButton(props) {
             textTransform: 'none',
             display: 'flex',
             justifyContent: 'start',
+            height: 'fit-conent',
             '&:hover': {
               backgroundColor: '#6f6f6f'
             }
@@ -108,7 +109,7 @@ export default function ChangeItemButton(props) {
               sx={{
                 display: 'flex',
                 fontSize: '1rem',
-                fontWeight: '500',
+                fontWeight: '600',
                 justifyContent: 'start',
                 lineHeight: '1',
                 paddingBottom: (theme) => theme.spacing(0.5)
@@ -124,6 +125,7 @@ export default function ChangeItemButton(props) {
                 justifyContent: 'start',
                 width: '100%',
                 lineHeight: '1',
+                textAlign: 'left',
                 paddingTop: (theme) => theme.spacing(0.5)
               }}
             >

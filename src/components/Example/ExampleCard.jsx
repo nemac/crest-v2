@@ -270,7 +270,7 @@ export default function ExampleCard(props) {
 ExampleCard.propTypes = {
   map: PropTypes.object,
   setExamplePolyData: PropTypes.func,
-  expanded: PropTypes.string,
+  expanded: PropTypes.bool,
   handleExpanded: PropTypes.func,
   title: PropTypes.string,
   summaryText: PropTypes.string,
