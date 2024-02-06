@@ -41,10 +41,6 @@ export const greatLakesConfig = {
       ChartInputLabel: 'Threats Inputs'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
-    },
-    {
       chartInputName: 'additional',
       ChartInputLabel: 'Additional Overlays'
     }
@@ -55,21 +51,7 @@ export const greatLakesConfig = {
       layer: 'Hubs TMS',
       label: 'Resilience Hubs',
       chartLabel: 'Resilience Hubs',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffc500',
-        2: '#f9b500',
-        3: '#f3a400',
-        4: '#ed9400',
-        5: '#e78300',
-        6: '#e07000',
-        7: '#d95e00',
-        8: '#d14c00',
-        9: '#ca3600',
-        10: '#c21500'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffc500',
         2: '#f9b500',
@@ -98,24 +80,10 @@ export const greatLakesConfig = {
       layer: 'Hubs Hex TMS',
       label: 'Resilience Hub Grid',
       chartLabel: 'Resilience Hub Grid',
-      chartLegendValues: 10,
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffc500',
-        2: '#f9b500',
-        3: '#f3a400',
-        4: '#ed9400',
-        5: '#e78300',
-        6: '#e07000',
-        7: '#d95e00',
-        8: '#d14c00',
-        9: '#ca3600',
-        10: '#c21500'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffc500',
         2: '#f9b500',
@@ -140,7 +108,6 @@ export const greatLakesConfig = {
       layer: 'Exposure TMS',
       label: 'Community Exposure Index',
       chartLabel: 'Community Exposure',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFFFE5',
@@ -154,22 +121,9 @@ export const greatLakesConfig = {
         9: '#933204',
         10: '#662506'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#1f6e6e',
-        2: '#3d8282',
-        3: '#7dad9c',
-        4: '#b7d4b2',
-        5: '#e9f2bb',
-        6: '#f5e9a9',
-        7: '#dbba7a',
-        8: '#b08042',
-        9: '#9b5526',
-        10: '#633319'
-      },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Exposure Index',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'exposure',
       url: 'https://tiles.resilientcoasts.org/GL_ExposureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -185,21 +139,7 @@ export const greatLakesConfig = {
       layer: 'Assets TMS',
       label: 'Community Asset Index',
       chartLabel: 'Community Asset',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#b6edf0',
-        2: '#98d2ed',
-        3: '#7cbbeb',
-        4: '#5ca3e6',
-        5: '#368de3',
-        6: '#2176d9',
-        7: '#2259c7',
-        8: '#1d3eb5',
-        9: '#1727a3',
-        10: '#090991'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#b6edf0',
         2: '#98d2ed',
@@ -214,7 +154,7 @@ export const greatLakesConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'asset',
       url: 'https://tiles.resilientcoasts.org/GL_AssetsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -229,21 +169,7 @@ export const greatLakesConfig = {
       layer: 'Threats TMS',
       label: 'Threat Index',
       chartLabel: 'Threat',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffebd6',
-        2: '#f7d7bc',
-        3: '#f0c0a1',
-        4: '#eba988',
-        5: '#e3906f',
-        6: '#de775b',
-        7: '#d65d45',
-        8: '#d14030',
-        9: '#c9251c',
-        10: '#c40a0a'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffebd6',
         2: '#f7d7bc',
@@ -258,7 +184,7 @@ export const greatLakesConfig = {
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'threat',
       url: 'https://tiles.resilientcoasts.org/GL_ThreatsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -273,7 +199,6 @@ export const greatLakesConfig = {
       layer: 'FishAndWildlife TMS',
       label: 'Fish and Wildlife Index',
       chartLabel: 'Fish and Wildlife',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#EEF8F3',
@@ -286,15 +211,6 @@ export const greatLakesConfig = {
         8: '#B7528A',
         9: '#A33F8F',
         10: '#7E33A8'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#EEE7F8',
-        2: '#E9BBCB',
-        3: '#DB90A6',
-        4: '#D27C99',
-        5: '#B7528A',
-        6: '#7E33A8'
       },
       chartInputName: 'summary',
       ChartInputLabel: 'Summary',
@@ -313,7 +229,6 @@ export const greatLakesConfig = {
       layer: 'Aquatic TMS',
       label: 'Aquatic Index',
       chartLabel: 'Aquatic',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFF7FB',
@@ -327,15 +242,9 @@ export const greatLakesConfig = {
         9: '#023858',
         10: '#01172C'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#CDE1E8',
-        2: '#82BCD1',
-        3: '#007E91',
-        4: '#005A62'
-      },
       chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'aquatic',
       url: 'https://tiles.resilientcoasts.org/GL_AquaticIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -351,7 +260,6 @@ export const greatLakesConfig = {
       label: 'Terrestrial Index',
 
       chartLabel: 'Terrestrial',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFFFE5',
@@ -365,15 +273,9 @@ export const greatLakesConfig = {
         9: '#114E0A',
         10: '#004900'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFE9C4',
-        2: '#DFC878',
-        3: '#385B23',
-        4: '#004900'
-      },
       chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'terrestrial',
       url: 'https://tiles.resilientcoasts.org/GL_TerrestrialIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2022',
@@ -388,7 +290,6 @@ export const greatLakesConfig = {
       layer: 'Social Vulnerability TMS',
       label: 'Social Vulnerability',
       chartLabel: 'Social Vulnerability',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#9EBBD7',
@@ -396,12 +297,6 @@ export const greatLakesConfig = {
         3: '#43309D',
         4: '#321699',
         5: '#270B59'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#abd2fa',
-        2: '#7692ff',
-        3: '#3a1459'
       },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
@@ -418,7 +313,6 @@ export const greatLakesConfig = {
       layer: 'Population Density TMS',
       label: 'Population Density',
       chartLabel: 'Population Density',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#fff6d0',
@@ -426,14 +320,6 @@ export const greatLakesConfig = {
         3: '#9eac37',
         4: '#2c8d7a',
         5: '#385a4c'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFF6D0',
-        2: '#EFC133',
-        3: '#9EAC37',
-        4: '#2C8D7A',
-        5: '#385A4C'
       },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
@@ -452,7 +338,6 @@ export const greatLakesConfig = {
       label: 'Critical Facilities',
 
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#0084A8', // 5
@@ -460,10 +345,6 @@ export const greatLakesConfig = {
         3: '#0084A8', // 5
         4: '#0084A8', // 5
         5: '#0084A8' // 5
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        5: '#0084A8'
       },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
@@ -482,7 +363,6 @@ export const greatLakesConfig = {
       label: 'Critical Infrastructure',
 
       chartLabel: 'Critical Infrastructure',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#A82B41', // 5
@@ -490,14 +370,6 @@ export const greatLakesConfig = {
         3: '#A82B41', // 5
         4: '#A82B41', // 5
         5: '#A82B41' // 5
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        3: '#CCD1D2',
-        5: '#355C59',
-        8: '#E8B16D',
-        10: '#AD3541',
-        15: '#7B1733'
       },
       chartInputName: 'asset',
       ChartInputLabel: 'Community Assets Inputs',
@@ -515,21 +387,12 @@ export const greatLakesConfig = {
       layer: 'Erosion TMS',
       label: 'Soil Erodibility',
       chartLabel: 'Soil Erodibility',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FEEBA2',
         2: '#FEBB47',
         3: '#F07818',
         4: '#B84203',
-        5: '#662506'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#feeba2',
-        2: '#febb47',
-        3: '#f07818',
-        4: '#b84203',
         5: '#662506'
       },
       chartInputName: 'threat',
@@ -549,7 +412,6 @@ export const greatLakesConfig = {
       label: 'Flood-prone Areas',
 
       chartLabel: 'Flood-prone Areas',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#E2E2EF',
@@ -557,14 +419,6 @@ export const greatLakesConfig = {
         3: '#8683BD',
         4: '#61409B',
         5: '#3F007D'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#e2e2ef',
-        2: '#b6b6d8',
-        3: '#8683bd',
-        4: '#61409b',
-        5: '#3f007d'
       },
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs',
@@ -582,16 +436,7 @@ export const greatLakesConfig = {
       layer: 'Slope TMS',
       label: 'Areas of Low Slope',
       chartLabel: 'Areas of Low Slope',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#d3eecd',
-        2: '#98d594',
-        3: '#4bb062',
-        4: '#157f3b',
-        5: '#00441b'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#d3eecd',
         2: '#98d594',
@@ -615,7 +460,6 @@ export const greatLakesConfig = {
       layer: 'Drainage TMS',
       label: 'Impermeability',
       chartLabel: 'Impermeability',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#E9DD66',
@@ -623,14 +467,6 @@ export const greatLakesConfig = {
         3: '#A19400',
         4: '#786D00',
         5: '#4D4700'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#447604',
-        2: '#77D66F',
-        3: '#dce9f2',
-        4: '#755b69',
-        5: '#553555'
       },
       chartInputName: 'threat',
       ChartInputLabel: 'Threats Inputs',
@@ -649,16 +485,7 @@ export const greatLakesConfig = {
       label: 'High Water Level',
 
       chartLabel: 'High Water Level',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#DBD8EA',
-        2: '#99B9D9',
-        3: '#4095C3',
-        4: '#027976',
-        5: '#014636'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#DBD8EA',
         2: '#99B9D9',
@@ -682,11 +509,7 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay 1 TMS',
       label: 'American Indian/Alaska Native/Native Hawaiian (AIANNH) Areas',
       chartLabel: 'AIANNHA',
-      chartLegendValues: 15,
       chartCSSColor: {
-        0: '#E9ECEF'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF'
       },
       chartInputName: 'VisualizationOverlays',
@@ -704,11 +527,7 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay2 TMS',
       label: 'Ceded Territory',
       chartLabel: 'Ceded Territory',
-      chartLegendValues: 1,
       chartCSSColor: {
-        0: '#E9ECEF'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF'
       },
       chartInputName: 'VisualizationOverlays',
@@ -727,13 +546,9 @@ export const greatLakesConfig = {
     //   layer: "Visualization Overlay3 TMS",
     //   label: "Department of Defense Lands",
     //   chartLabel: 'Department of Defense Lands',
-    //   chartLegendValues: 1,
-    //   chartCSSColor: {
+    //       //   chartCSSColor: {
     //     0: '#E9ECEF',
     //   },
-    //   chartCSSLegends: {
-    //    0: '#E9ECEF'
-    //    },
     //   chartInputName: 'VisualizationOverlays',
     //   ChartInputLabel: 'Additional Overlays',
     //   chartCSSSelector: 'VisualizationOverlay3',
@@ -750,11 +565,7 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay4 TMS',
       label: 'Fetch',
       chartLabel: 'Fetch',
-      chartLegendValues: 1,
       chartCSSColor: {
-        0: '#E9ECEF'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF'
       },
       chartInputName: 'VisualizationOverlays',
@@ -772,11 +583,7 @@ export const greatLakesConfig = {
       layer: 'Visualization Overlay5 TMS',
       label: 'Lake Level Fluctuation Zone',
       chartLabel: 'Lake Level Fluctuation Zone',
-      chartLegendValues: 1,
       chartCSSColor: {
-        0: '#E9ECEF'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF'
       },
       chartInputName: 'VisualizationOverlays',
@@ -789,6 +596,163 @@ export const greatLakesConfig = {
       maxNativeZoom: 14,
       description: 'Shows the spatial and temporal distribution of where non-permanent surface water occurred between 1984 and 2020. The layer captures both the intra and inter-annual variability and changes known as surface water occurrence.',
       region: 'great_lakes'
+    },
+    {
+      id: 'GL_landcover',
+      layer: 'landcover',
+      label: 'Landcover',
+      chartLabel: 'Landcover',
+      chartCSSColor: {
+        11: '#5475A8',
+        12: '#FFFFFF',
+        21: '#E8D1D1',
+        22: '#E29E8C',
+        23: '#ff0000',
+        24: '#B50000',
+        31: '#D2CDC0',
+        41: '#85C77E',
+        42: '#38814E',
+        43: '#D4E7B0',
+        51: '#AF963C',
+        52: '#DCCA8F',
+        71: '#FDE9AA',
+        72: '#D1D182',
+        73: '#A3CC51',
+        74: '#82BA9E',
+        81: '#FBF65D',
+        82: '#CA9146',
+        90: '#C8E6F8',
+        95: '#64B3D5'
+      },
+      chartInputName: 'landcover',
+      ChartInputLabel: 'Additional Overlays',
+      chartCSSSelector: 'landcover',
+      url: 'https://tiles.resilientcoasts.org/GL_NLCDTiles/{z}/{x}/{y}.png',
+      attribution: 'NFWF 2023',
+      opacity: 0.75,
+      maxNativeZoom: 13,
+      description: 'Insert Landcover Description Here', // TODO: INSERT DESCRIPTION
+      region: 'great_lakes'
     }
+  ],
+  zonalStatsKeys: [
+    'aquatic',
+    'asset',
+    'crit_facilities',
+    'wildlife',
+    'crit_infra',
+    'erosion',
+    'exposure',
+    'floodprone_areas',
+    'highwater',
+    'hubs',
+    'impermeable',
+    'pop_density',
+    'slope',
+    'social_vuln',
+    'terrestrial',
+    'threat',
+    'wildlife',
+    'lc_no_data',
+    'lc_open_water',
+    'lc_perennial_icesnow',
+    'lc_developed_open_space',
+    'lc_developed_low_intensity',
+    'lc_developed_medium_intensity',
+    'lc_developed_high_intensity',
+    'lc_barren_land',
+    'lc_deciduous_forest',
+    'lc_evergreen_forest',
+    'lc_mixed_forest',
+    'lc_dwarf_scrub',
+    'lc_shrub_scrub',
+    'lc_grassland_herbaceous',
+    'lc_sedge_herbaceous',
+    'lc_lichens',
+    'lc_moss',
+    'lc_pasture_hay_areas',
+    'lc_cultivated_crops',
+    'lc_woody_wetlands',
+    'lc_emerg_herbaceous_wetlands'
+  ],
+  statesList: [
+    'Illinois', 'Indiana', 'Michigan', 'Minnesota', 'New York', 'Ohio', 'Pennsylvania', 'Wisconsin'
+  ],
+  countiesList: [
+    'Adams County, IN', 'Adams County, WI', 'Aitkin County, MN', 'Alcona County, MI', 'Alger County, MI',
+    'Allegan County, MI', 'Allegany County, NY', 'Allen County, IN', 'Allen County, OH', 'Alpena County, MI',
+    'Antrim County, MI', 'Arenac County, MI', 'Ashland County, OH', 'Ashland County, WI',
+    'Ashtabula County, OH', 'Auglaize County, OH', 'Baraga County, MI', 'Barry County, MI', 'Bay County, MI',
+    'Bayfield County, WI', 'Benzie County, MI', 'Berrien County, MI', 'Branch County, MI', 'Brown County, WI',
+    'Calhoun County, MI', 'Calumet County, WI', 'Carlton County, MN', 'Cass County, MI',
+    'Cattaraugus County, NY', 'Cayuga County, NY', 'Charlevoix County, MI', 'Chautauqua County, NY',
+    'Cheboygan County, MI', 'Chemung County, NY', 'Chippewa County, MI', 'Clare County, MI', 'Clinton County, MI',
+    'Columbia County, WI', 'Cook County, IL', 'Cook County, MN', 'Cortland County, NY',
+    'Crawford County, MI', 'Crawford County, OH', 'Crawford County, PA', 'Cuyahoga County, OH', 'DeKalb County, IN',
+    'Defiance County, OH', 'Delta County, MI', 'Dickinson County, MI', 'Dodge County, WI',
+    'Door County, WI', 'Douglas County, WI', 'DuPage County, IL', 'Eaton County, MI', 'Elkhart County, IN',
+    'Emmet County, MI', 'Erie County, NY', 'Erie County, OH', 'Erie County, PA', 'Florence County, WI',
+    'Fond du Lac County, WI', 'Ford County, IL', 'Forest County, WI', 'Franklin County, NY',
+    'Fulton County, IN', 'Fulton County, OH', 'Geauga County, OH', 'Genesee County, MI', 'Genesee County, NY',
+    'Gladwin County, MI', 'Gogebic County, MI', 'Grand Traverse County, MI', 'Gratiot County, MI',
+    'Green Lake County, WI', 'Grundy County, IL', 'Hamilton County, NY', 'Hancock County, OH',
+    'Hardin County, OH', 'Henry County, OH', 'Herkimer County, NY', 'Hillsdale County, MI',
+    'Houghton County, MI', 'Huron County, MI', 'Huron County, OH', 'Ingham County, MI', 'Ionia County, MI',
+    'Iosco County, MI', 'Iron County, MI', 'Iron County, WI', 'Iroquois County, IL', 'Isabella County, MI',
+    'Itasca County, MN', 'Jackson County, MI', 'Jasper County, IN', 'Jefferson County, NY',
+    'Kalamazoo County, MI', 'Kalkaska County, MI', 'Kane County, IL', 'Kankakee County, IL', 'Kendall County, IL',
+    'Kenosha County, WI', 'Kent County, MI', 'Kewaunee County, WI', 'Keweenaw County, MI',
+    'Kosciusko County, IN', 'LaGrange County, IN', 'LaPorte County, IN', 'Lake County, IL', 'Lake County, IN',
+    'Lake County, MI', 'Lake County, MN', 'Lake County, OH', 'Langlade County, WI', 'Lapeer County, MI',
+    'Leelanau County, MI', 'Lenawee County, MI', 'Lewis County, NY', 'Livingston County, MI',
+    'Livingston County, NY', 'Lorain County, OH', 'Lucas County, OH', 'Luce County, MI', 'Mackinac County, MI',
+    'Macomb County, MI', 'Madison County, NY', 'Manistee County, MI', 'Manitowoc County, WI',
+    'Marathon County, WI', 'Marinette County, WI', 'Marion County, OH', 'Marquette County, MI',
+    'Marquette County, WI', 'Marshall County, IN', 'Mason County, MI', 'Mecosta County, MI', 'Medina County, OH',
+    'Menominee County, MI', 'Menominee County, WI', 'Mercer County, OH', 'Midland County, MI',
+    'Milwaukee County, WI', 'Missaukee County, MI', 'Monroe County, MI', 'Monroe County, NY',
+    'Montcalm County, MI', 'Montmorency County, MI', 'Muskegon County, MI', 'Newaygo County, MI',
+    'Newton County, IN', 'Niagara County, NY', 'Noble County, IN', 'Oakland County, MI', 'Oceana County, MI',
+    'Oconto County, WI', 'Ogemaw County, MI', 'Oneida County, NY', 'Oneida County, WI', 'Onondaga County, NY',
+    'Ontario County, NY', 'Ontonagon County, MI', 'Orleans County, NY', 'Osceola County, MI',
+    'Oscoda County, MI', 'Oswego County, NY', 'Otsego County, MI', 'Ottawa County, MI', 'Ottawa County, OH',
+    'Outagamie County, WI', 'Ozaukee County, WI', 'Paulding County, OH', 'Pine County, MN',
+    'Portage County, OH', 'Portage County, WI', 'Porter County, IN', 'Potter County, PA', 'Presque Isle County, MI',
+    'Pulaski County, IN', 'Putnam County, OH', 'Racine County, WI', 'Richland County, OH',
+    'Roscommon County, MI', 'Saginaw County, MI', 'Sandusky County, OH', 'Sanilac County, MI',
+    'Schoolcraft County, MI', 'Schuyler County, NY', 'Seneca County, NY', 'Seneca County, OH', 'Shawano County, WI',
+    'Sheboygan County, WI', 'Shelby County, OH', 'Shiawassee County, MI', 'St. Clair County, MI',
+    'St. Joseph County, IN', 'St. Joseph County, MI', 'St. Lawrence County, NY', 'St. Louis County, MN',
+    'Stark County, OH', 'Starke County, IN', 'Steuben County, IN', 'Steuben County, NY',
+    'Summit County, OH', 'Tioga County, NY', 'Tompkins County, NY', 'Trumbull County, OH', 'Tuscola County, MI',
+    'Van Buren County, MI', 'Van Wert County, OH', 'Vilas County, WI', 'Washington County, WI',
+    'Washtenaw County, MI', 'Waukesha County, WI', 'Waupaca County, WI', 'Waushara County, WI',
+    'Wayne County, MI', 'Wayne County, NY', 'Wells County, IN', 'Wexford County, MI', 'Whitley County, IN',
+    'Will County, IL', 'Williams County, OH', 'Winnebago County, WI', 'Wood County, OH', 'Wyandot County, OH',
+    'Wyoming County, NY', 'Yates County, NY'
+  ],
+  huc8List: [
+    '02020001', '02020004', '02040102', '02040104', '02040105', '02040106', '02040203', '02040205',
+    '02050102', '02050103', '02050104', '02050105', '02050107', '02050205', '02050301', '02050305',
+    '02050306', '02060001', '02060002', '02060003', '02070004', '02070008', '02070009', '04010101',
+    '04010102', '04010201', '04010202', '04010301', '04010302', '04020101', '04020102', '04020103',
+    '04020104', '04020105', '04020201', '04020202', '04020203', '04030101', '04030102', '04030103',
+    '04030104', '04030105', '04030106', '04030107', '04030108', '04030109', '04030110', '04030111',
+    '04030112', '04030113', '04030114', '04030201', '04030202', '04030203', '04030204', '04040001',
+    '04040002', '04040003', '04050001', '04050002', '04050003', '04050004', '04050005', '04050006',
+    '04050007', '04060101', '04060102', '04060103', '04060104', '04060105', '04070003', '04070004',
+    '04070005', '04070006', '04070007', '04080101', '04080102', '04080103', '04080104', '04080201',
+    '04080202', '04080203', '04080204', '04080205', '04080206', '04090001', '04090002', '04090003',
+    '04090004', '04100001', '04100002', '04100003', '04100004', '04100005', '04100006', '04100007',
+    '04100008', '04100009', '04100010', '04100011', '04100012', '04100013', '04110001', '04110002',
+    '04110003', '04110004', '04120101', '04120102', '04120103', '04130001', '04130002', '04130003',
+    '04140101', '04140102', '04140201', '04140202', '04140203', '04140301', '04140302', '04180000',
+    '04190000', '04200001', '04200002', '04240002', '04260000', '04270101', '04280002', '04290001',
+    '04290002', '04290003', '04290004', '04290005', '04290006', '04290007', '04290008', '04300201',
+    '05010001', '05010002', '05010004', '05030102', '05030103', '05040001', '05040002', '05040003',
+    '05060001', '05080001', '05120101', '05120104', '05120106', '07010103', '07030001', '07030002',
+    '07030003', '07050001', '07050002', '07070001', '07070002', '07070003', '07070005', '07090001',
+    '07090002', '07120001', '07120002', '07120003', '07120004', '07120005', '07120006', '07120007',
+    '07130002', '09030001', '09030002', '09030005'
   ]
 };

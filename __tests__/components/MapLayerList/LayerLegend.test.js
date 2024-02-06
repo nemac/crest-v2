@@ -21,7 +21,7 @@ describe('LayerLegend', () => {
     describe('Colours and format as expected', () => {
 
         test('ColorChart not empty', () => {
-            expect(testLayer.chartCSSLegends).not.toBeNull()
+            expect(testLayer.chartCSSColor).not.toBeNull()
         })
 
         test('Function pickCSSBasedBgColor works', () => {

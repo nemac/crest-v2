@@ -13,9 +13,15 @@
   "parserOptions": {
     "ecmaVersion": 2022
   },
+  "plugins": [
+    "html",
+    "react",
+    "react-hooks",
+    "react-redux"
+  ],
   "env": {
     "browser": true,
-    "jquery": true
+    "es6": true
   },
   "ignorePatterns": ["*.test*.js"],
   "rules": {

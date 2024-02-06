@@ -41,8 +41,8 @@ export const americanSamoaConfig = {
       ChartInputLabel: 'Threats Inputs'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
+      chartInputName: 'additional',
+      ChartInputLabel: 'Additional Overlays'
     }
   ],
   layerList: [
@@ -51,24 +51,10 @@ export const americanSamoaConfig = {
       layer: 'Hubs TMS',
       label: 'Resilience Hubs',
       chartLabel: 'Resilience Hubs',
-      chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubs',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffc500',
-        2: '#f9b500',
-        3: '#f3a400',
-        4: '#ed9400',
-        5: '#e78300',
-        6: '#e07000',
-        7: '#d95e00',
-        8: '#d14c00',
-        9: '#ca3600',
-        10: '#c21500'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffc500',
         2: '#f9b500',
@@ -93,24 +79,10 @@ export const americanSamoaConfig = {
       layer: 'Hubs Hex TMS',
       label: 'Resilience Hexagonal Grid',
       chartLabel: 'Resilience Hexagonal Grid',
-      chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubsHex',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffc500',
-        2: '#f9b500',
-        3: '#f3a400',
-        4: '#ed9400',
-        5: '#e78300',
-        6: '#e07000',
-        7: '#d95e00',
-        8: '#d14c00',
-        9: '#ca3600',
-        10: '#c21500'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffc500',
         2: '#f9b500',
@@ -135,7 +107,6 @@ export const americanSamoaConfig = {
       layer: 'Exposure TMS',
       label: 'Community Exposure Index',
       chartLabel: 'Community Exposure',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#1f6e6e',
@@ -149,21 +120,8 @@ export const americanSamoaConfig = {
         9: '#9b5526',
         10: '#633319'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#1f6e6e',
-        2: '#3d8282',
-        3: '#7dad9c',
-        4: '#b7d4b2',
-        5: '#e9f2bb',
-        6: '#f5e9a9',
-        7: '#dbba7a',
-        8: '#b08042',
-        9: '#9b5526',
-        10: '#633319'
-      },
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Exposure Index',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'exposure',
       url: 'https://tiles.resilientcoasts.org/AS_ExposureIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -177,7 +135,6 @@ export const americanSamoaConfig = {
       layer: 'Assets TMS',
       label: 'Community Asset Index',
       chartLabel: 'Community Asset',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#b6edf0',
@@ -191,21 +148,8 @@ export const americanSamoaConfig = {
         9: '#1727a3',
         10: '#090991'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#b6edf0',
-        2: '#98d2ed',
-        3: '#7cbbeb',
-        4: '#5ca3e6',
-        5: '#368de3',
-        6: '#2176d9',
-        7: '#2259c7',
-        8: '#1d3eb5',
-        9: '#1727a3',
-        10: '#090991'
-      },
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'asset',
       url: 'https://tiles.resilientcoasts.org/AS_AssetsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -219,7 +163,6 @@ export const americanSamoaConfig = {
       layer: 'Threats TMS',
       label: 'Threat Index',
       chartLabel: 'Threat',
-      chartLegendValues: 10,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#ffebd6',
@@ -233,21 +176,8 @@ export const americanSamoaConfig = {
         9: '#c9251c',
         10: '#c40a0a'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#ffebd6',
-        2: '#f7d7bc',
-        3: '#f0c0a1',
-        4: '#eba988',
-        5: '#e3906f',
-        6: '#de775b',
-        7: '#d65d45',
-        8: '#d14030',
-        9: '#c9251c',
-        10: '#c40a0a'
-      },
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'threat',
       url: 'https://tiles.resilientcoasts.org/AS_ThreatsIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -262,17 +192,7 @@ export const americanSamoaConfig = {
       layer: 'FishAndWildlife TMS',
       label: 'Fish and Wildlife Index',
       chartLabel: 'Fish and Wildlife',
-      chartLegendValues: 6,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#EEE7F8',
-        2: '#E9BBCB',
-        3: '#DB90A6',
-        4: '#D27C99',
-        5: '#B7528A',
-        6: '#7E33A8'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#EEE7F8',
         2: '#E9BBCB',
@@ -296,7 +216,6 @@ export const americanSamoaConfig = {
       layer: 'Marine TMS',
       label: 'Marine Index',
       chartLabel: 'Marine',
-      chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#CDE1E8',
@@ -304,14 +223,8 @@ export const americanSamoaConfig = {
         3: '#007E91',
         4: '#005A62'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#CDE1E8',
-        2: '#82BCD1',
-        3: '#007E91',
-        4: '#005A62'
-      },
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'marine',
       url: 'https://tiles.resilientcoasts.org/AS_AquaticIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -325,7 +238,6 @@ export const americanSamoaConfig = {
       layer: 'Terrestrial TMS',
       label: 'Terrestrial Index',
       chartLabel: 'terrestrial',
-      chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFE9C4',
@@ -333,14 +245,8 @@ export const americanSamoaConfig = {
         3: '#385B23',
         4: '#004900'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFE9C4',
-        2: '#DFC878',
-        3: '#385B23',
-        4: '#004900'
-      },
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'terrestrial',
       url: 'https://tiles.resilientcoasts.org/AS_TerrestrialIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
@@ -354,7 +260,6 @@ export const americanSamoaConfig = {
       layer: 'Population Density TMS',
       label: 'Population Density',
       chartLabel: 'Population Density',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FFF6D0',
@@ -365,14 +270,6 @@ export const americanSamoaConfig = {
       },
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'pop_density',
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#FFF6D0',
-        2: '#EFC133',
-        3: '#9EAC37',
-        4: '#2C8D7A',
-        5: '#385A4C'
-      },
       url: 'https://tiles.resilientcoasts.org/AS_PopDensityIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -385,7 +282,6 @@ export const americanSamoaConfig = {
       layer: 'Social Vulnerability TMS',
       label: 'Social Vulnerability',
       chartLabel: 'Social Vulnerability',
-      chartLegendValues: 1,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#88419D',
@@ -393,10 +289,6 @@ export const americanSamoaConfig = {
       },
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'social_vuln',
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#88419D'
-      },
       url: 'https://tiles.resilientcoasts.org/AS_SocVulnIndexTiles/{z}/{x}/{y}.png',
       attribution: 'NFWF 2020',
       opacity: 0.75,
@@ -409,17 +301,12 @@ export const americanSamoaConfig = {
       layer: 'Critical Facilities TMS',
       label: 'Critical Facilities',
       chartLabel: 'Critical Facilities',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#0084A8',
         2: '#0084A8',
         3: '#0084A8',
         4: '#0084A8',
-        5: '#0084A8'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
         5: '#0084A8'
       },
       ChartInputLabel: 'Community Assets Inputs',
@@ -436,7 +323,6 @@ export const americanSamoaConfig = {
       layer: 'Critical Infrastructure TMS',
       label: 'Critical Infrastructure',
       chartLabel: 'Critical Infrastructure',
-      chartLegendValues: 15,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#CCD1D2',
@@ -455,14 +341,6 @@ export const americanSamoaConfig = {
         14: '#7B1733',
         15: '#7B1733'
       },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        3: '#CCD1D2',
-        5: '#355C59',
-        8: '#E8B16D',
-        10: '#AD3541',
-        15: '#7B1733'
-      },
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_infra',
       url: 'https://tiles.resilientcoasts.org/AS_CriticalInfrastructureIndexTiles/{z}/{x}/{y}.png',
@@ -477,7 +355,6 @@ export const americanSamoaConfig = {
       layer: 'Drainage TMS',
       label: 'Impermeable Soils',
       chartLabel: 'Impermeable Soils',
-      chartLegendValues: 6,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#447604',
@@ -486,12 +363,6 @@ export const americanSamoaConfig = {
         4: '#DCE9F2',
         5: '#553555',
         6: '#553555'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        1: '#447604',
-        3: '#DCE9F2',
-        5: '#553555'
       },
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'impermeable',
@@ -507,16 +378,7 @@ export const americanSamoaConfig = {
       layer: 'Erosion TMS',
       label: 'Soil Erodibility',
       chartLabel: 'Soil Erodibility',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#feeba2',
-        2: '#febb47',
-        3: '#f07818',
-        4: '#b84203',
-        5: '#662506'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#feeba2',
         2: '#febb47',
@@ -538,16 +400,7 @@ export const americanSamoaConfig = {
       layer: 'Sea Level Rise TMS',
       label: 'Sea Level Rise',
       chartLabel: 'Sea Level Rise',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#dbd8ea',
-        2: '#99b9d9',
-        3: '#4095c3',
-        4: '#027976',
-        5: '#014636'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#dbd8ea',
         2: '#99b9d9',
@@ -569,15 +422,7 @@ export const americanSamoaConfig = {
       layer: 'Wave Driven TMS',
       label: 'Wave-Driven Flooding',
       chartLabel: 'Wave Driven Flooding',
-      chartLegendValues: 4,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#FFFFCC',
-        2: '#A1DAB4',
-        3: '#41B6C4',
-        4: '#225EA8'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#FFFFCC',
         2: '#A1DAB4',
@@ -598,16 +443,7 @@ export const americanSamoaConfig = {
       layer: 'Slope TMS',
       label: 'Areas of Low Slope',
       chartLabel: 'Areas of Low Slope',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#d3eecd',
-        2: '#98d594',
-        3: '#4bb062',
-        4: '#157f3b',
-        5: '#00441b'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#d3eecd',
         2: '#98d594',
@@ -629,16 +465,7 @@ export const americanSamoaConfig = {
       layer: 'Flood Prone Areas TMS',
       label: 'Flood-Prone Areas',
       chartLabel: 'Flood Prone Areas',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#e2e2ef',
-        2: '#b6b6d8',
-        3: '#8683bd',
-        4: '#61409b',
-        5: '#3f007d'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#e2e2ef',
         2: '#b6b6d8',
@@ -660,17 +487,12 @@ export const americanSamoaConfig = {
       layer: 'Tsunami',
       label: 'Tsunami',
       chartLabel: 'Tsunami',
-      chartLegendValues: 4,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#2171b5',
         2: '#2171b5',
         3: '#2171b5',
         4: '#2171b5'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
-        3: '#2171b5'
       },
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'tsunami',
@@ -680,7 +502,102 @@ export const americanSamoaConfig = {
       maxNativeZoom: 14,
       description: 'Represents the maximum extent of inundation due to tsunami.',
       region: 'american_samoa'
+    },
+    {
+      id: 'AS_landcover',
+      layer: 'landcover',
+      label: 'Landcover',
+      chartLabel: 'Landcover',
+      chartCSSColor: {
+        0: '#000000',
+        1: '#F2F2F2',
+        2: '#AA9EAA',
+        3: '#917782',
+        4: '#C1CC3D',
+        5: '#592300',
+        6: '#C1A351',
+        7: '#F2BC8C',
+        8: '#00F200',
+        9: '#003D00',
+        10: '#0AA33D',
+        11: '#707000',
+        12: '#006060',
+        13: '#F27000',
+        14: '#F200F2',
+        15: '#3C003C',
+        16: '#6D006D',
+        17: '#B200B2',
+        18: '#00F2F2',
+        19: '#F2F200',
+        20: '#000070',
+        21: '#0000ED',
+        22: '#666FDB',
+        23: '#F9D100',
+        24: '#AAF9EF'
+      },
+      chartInputName: 'landcover',
+      ChartInputLabel: 'Additional Overlays',
+      chartCSSSelector: 'landcover',
+      url: 'https://tiles.resilientcoasts.org/AS_CCAPTiles/{z}/{x}/{y}.png',
+      attribution: 'NFWF 2023',
+      opacity: 0.75,
+      maxNativeZoom: 14,
+      description: 'Insert Landcover Description Here', // TODO: ADD DESCRIPTION
+      region: 'american_samoa'
     }
+  ],
+  zonalStatsKeys: [
+    'asset',
+    'crit_facilities',
+    'crit_infra',
+    'exposure',
+    'floodprone_areas',
+    'impermeable',
+    'slope',
+    'marine',
+    'pop_density',
+    'sea_level_rise',
+    'social_vuln',
+    'terrestrial',
+    'wave_flooding',
+    'threat',
+    'tsunami',
+    'wildlife',
+    'hubs',
+    'erosion',
+    'lc_no_data',
+    'lc_developed_high_intensity',
+    'lc_developed_medium_intensity',
+    'lc_developed_low_intensity',
+    'lc_developed_open space',
+    'lc_cultivated_crops',
+    'lc_pasture_hay',
+    'lc_grassland_herbaceous',
+    'lc_deciduous_forest',
+    'lc_evergreen_forest',
+    'lc_mixed_forest',
+    'lc_scrub_shrub',
+    'lc_palus_forested_wetland',
+    'lc_palus_scrub_shrub_wetland',
+    'lc_palus_emergent_wetland',
+    'lc_estuar_forested_wetland',
+    'lc_estuar_scrub_shrub_wetland',
+    'lc_estuar_emergent_wetland',
+    'lc_unconsolidated_shore',
+    'lc_bare_land',
+    'lc_open_water',
+    'lc_palustrine_aquatic_bed',
+    'lc_estuarine_aquatic_bed',
+    'lc_tundra',
+    'lc_snow_ice'
+  ],
+  statesList: [
+    'American Samoa'
+  ],
+  countiesList: [
+    'Eastern District, AS', 'Manu\'a District, AS', 'Western District, AS'
+  ],
+  huc8List: [
+    '22030001', '22030002', '22030003'
   ]
-
 };

@@ -1,9 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { mapConfig } from '../configuration/config';
 
+const regions = mapConfig.regions;
 const startingState = {
   // TODO add defaults for Resilience hubs
   visible: true,
-  activeLayerList: {},
+  // very brittle since the key is hardcoded and the value is hardcoded as layer 0
+  activeLayerList: {
+    AK_HubsTMS: regions.Alaska.layerList[0],
+    AS_HubsTMS: regions['American Samoa'].layerList[0],
+    CNMI_HubsTMS: regions['Northern Mariana Islands'].layerList[0],
+    CONUS_HubsTMS: regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].layerList[0],
+    GL_HubsTMS: regions['U.S. Great Lakes'].layerList[0],
+    GU_HubsTMS: regions.Guam.layerList[0],
+    HI_HubsTMS: regions['Hawai\'i'].layerList[0],
+    PR_HubsTMS: regions['Puerto Rico'].layerList[0],
+    USVI_HubsTMS: regions['US Virgin Islands'].layerList[0]
+  },
   expandedCharts: [],
   displayedLegends: {}
 };

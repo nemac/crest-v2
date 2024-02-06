@@ -41,8 +41,8 @@ export const alaskaConfig = {
       ChartInputLabel: 'Threats Inputs'
     },
     {
-      chartInputName: 'fishandwildlife',
-      ChartInputLabel: 'Fish and Wildlife Inputs'
+      chartInputName: 'additional',
+      ChartInputLabel: 'Additional Overlays'
     }
   ],
   layerList: [
@@ -51,24 +51,10 @@ export const alaskaConfig = {
       layer: 'Hubs TMS',
       label: 'Resilience Hub Cores',
       chartLabel: 'Resilience Hub Cores',
-      chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubs',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#f5f500',
-        2: '#f5da00',
-        3: '#f5be00',
-        4: '#f5a300',
-        5: '#f58800',
-        6: '#f56d00',
-        7: '#f55200',
-        8: '#f53600',
-        9: '#f51b00',
-        10: '#f50000'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#f5f500',
         2: '#f5da00',
@@ -93,24 +79,10 @@ export const alaskaConfig = {
       layer: 'Hubs Hex TMS',
       label: 'Resilience Hub Grid',
       chartLabel: 'Resilience Hub Grid',
-      chartLegendValues: 10,
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Resilience Hubs',
       chartCSSSelector: 'hubshex',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#f5f500',
-        2: '#f5da00',
-        3: '#f5be00',
-        4: '#f5a300',
-        5: '#f58800',
-        6: '#f56d00',
-        7: '#f55200',
-        8: '#f53600',
-        9: '#f51b00',
-        10: '#f50000'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#f5f500',
         2: '#f5da00',
@@ -137,23 +109,9 @@ export const alaskaConfig = {
       label: 'Community Exposure Index',
       chartLabel: 'Community Exposure',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Exposure Index',
-      chartLegendValues: 10,
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'exposure',
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#f7e4cb',
-        2: '#e5ceb1',
-        3: '#dcb897',
-        4: '#c0a27d',
-        5: '#ad8b62',
-        6: '#946d3f',
-        7: '#855621',
-        8: '#764c1c',
-        9: '#684217',
-        10: '#593812'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#f7e4cb',
         2: '#e5ceb1',
@@ -179,23 +137,9 @@ export const alaskaConfig = {
       label: 'Community Asset Index',
       chartLabel: 'Community Asset',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'asset',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#b6edf0',
-        2: '#98d2ed',
-        3: '#7cbbeb',
-        4: '#5ca3e6',
-        5: '#368de3',
-        6: '#2176d9',
-        7: '#2259c7',
-        8: '#1d3eb5',
-        9: '#1727a3',
-        10: '#090991'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#b6edf0',
         2: '#98d2ed',
@@ -221,23 +165,9 @@ export const alaskaConfig = {
       label: 'Threat Index',
       chartLabel: 'Threat',
       ChartInputLabel: 'Summary',
-      ChartInputSubHeading: 'Community Asset and Threat Indices',
+      ChartInputSubHeading: 'Community Exposure',
       chartCSSSelector: 'threat',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#ffebd6',
-        2: '#f7d7bc',
-        3: '#f0c0a1',
-        4: '#eba988',
-        5: '#e3906f',
-        6: '#de775b',
-        7: '#d65d45',
-        8: '#d14030',
-        9: '#c9251c',
-        10: '#c40a0a'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#ffebd6',
         2: '#f7d7bc',
@@ -266,21 +196,7 @@ export const alaskaConfig = {
       ChartInputLabel: 'Summary',
       ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'wildlife',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#EEF8F3',
-        2: '#EDD0E0',
-        3: '#E9BBCB',
-        4: '#E3A6B7',
-        5: '#DB90A6',
-        6: '#D27C99',
-        7: '#C6678F',
-        8: '#B7528A',
-        9: '#A33F8F',
-        10: '#7E33A8'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#EEF8F3',
         2: '#EDD0E0',
@@ -305,23 +221,10 @@ export const alaskaConfig = {
       layer: 'Aquatic TMS',
       label: 'Aquatic Index',
       chartLabel: 'Aquatic',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'aquatic',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#CDE1E8',
-        2: '#B6D2D9',
-        3: '#9FC3CA',
-        4: '#88B4BB',
-        5: '#71A5AC',
-        6: '#5B969D',
-        7: '#44878E',
-        8: '#2D787F',
-        9: '#166970',
-        10: '#005A62'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#CDE1E8',
         2: '#B6D2D9',
@@ -346,23 +249,10 @@ export const alaskaConfig = {
       layer: 'Terrestrial TMS',
       label: 'Terrestrial Index',
       chartLabel: 'Terrestrial',
-      ChartInputLabel: 'Fish and Wildlife Inputs',
+      ChartInputLabel: 'Summary',
+      ChartInputSubHeading: 'Fish and Wildlife',
       chartCSSSelector: 'terrestrial',
-      chartLegendValues: 10,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#FFFFE5',
-        2: '#F1E7B5',
-        3: '#E3CE84',
-        4: '#BAB065',
-        5: '#888F4C',
-        6: '#576F33',
-        7: '#32591F',
-        8: '#215415',
-        9: '#114E0A',
-        10: '#004900'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#FFFFE5',
         2: '#F1E7B5',
@@ -389,14 +279,7 @@ export const alaskaConfig = {
       chartLabel: 'Social Vulnerability',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'social_vuln',
-      chartLegendValues: 3,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#9EBBD7',
-        2: '#43309D',
-        3: '#270B59'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#9EBBD7',
         2: '#43309D',
@@ -416,17 +299,12 @@ export const alaskaConfig = {
       chartLabel: 'Critical Facilities',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_facilities',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#0084A8',
         2: '#0084A8',
         3: '#0084A8',
         4: '#0084A8',
-        5: '#0084A8'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
         5: '#0084A8'
       },
       url: 'https://tiles.resilientcoasts.org/AK_CriticalFacilitiesIndexTiles/{z}/{x}/{y}.png',
@@ -443,17 +321,12 @@ export const alaskaConfig = {
       chartLabel: 'Critical Infrastructure',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'crit_infra',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#A82B41',
         2: '#A82B41',
         3: '#A82B41',
         4: '#A82B41',
-        5: '#A82B41'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
         5: '#A82B41'
       },
       url: 'https://tiles.resilientcoasts.org/AK_CommunityInfrastructurIndexTiles/{z}/{x}/{y}.png',
@@ -470,17 +343,12 @@ export const alaskaConfig = {
       chartLabel: 'Critical Transportation',
       ChartInputLabel: 'Community Assets Inputs',
       chartCSSSelector: 'transportation',
-      chartLegendValues: 5,
       chartCSSColor: {
         0: '#E9ECEF',
         1: '#FEB24C',
         2: '#FEB24C',
         3: '#FEB24C',
         4: '#FEB24C',
-        5: '#FEB24C'
-      },
-      chartCSSLegends: {
-        0: '#E9ECEF',
         5: '#FEB24C'
       },
       url: 'https://tiles.resilientcoasts.org/AK_TransporationInfrastructure/{z}/{x}/{y}.png',
@@ -497,16 +365,7 @@ export const alaskaConfig = {
       chartLabel: 'Soil Erodibility',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'erosion',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#FEEBA2',
-        2: '#FEBB47',
-        3: '#F07818',
-        4: '#B84203',
-        5: '#662506'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#FEEBA2',
         2: '#FEBB47',
@@ -528,16 +387,7 @@ export const alaskaConfig = {
       chartLabel: 'Flood-prone Areas',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'floodprone_areas',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#E2E2EF',
-        2: '#B6B6D8',
-        3: '#8683BD',
-        4: '#61409B',
-        5: '#3F007D'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#E2E2EF',
         2: '#B6B6D8',
@@ -559,14 +409,7 @@ export const alaskaConfig = {
       chartLabel: 'Tsunami Inundation',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'tsunami',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        3: '#FB6A4A',
-        4: '#DE2D26',
-        5: '#A50F15'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         3: '#FB6A4A',
         4: '#DE2D26',
@@ -586,16 +429,7 @@ export const alaskaConfig = {
       chartLabel: 'Permafrost Thaw',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'permafrost',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#FFFFCC',
-        2: '#A1DAB4',
-        3: '#41B6C4',
-        4: '#2C7FB8',
-        5: '#253494'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#FFFFCC',
         2: '#A1DAB4',
@@ -616,16 +450,7 @@ export const alaskaConfig = {
       chartLabel: 'Areas of Low Slope',
       ChartInputLabel: 'Threats Inputs',
       chartCSSSelector: 'low_areas',
-      chartLegendValues: 5,
       chartCSSColor: {
-        0: '#E9ECEF',
-        1: '#D3EECD',
-        2: '#98D594',
-        3: '#4BB062',
-        4: '#157F3B',
-        5: '#00441B'
-      },
-      chartCSSLegends: {
         0: '#E9ECEF',
         1: '#D3EECD',
         2: '#98D594',
@@ -639,6 +464,116 @@ export const alaskaConfig = {
       maxNativeZoom: 13,
       description: 'Displays percent rise in elevation. High values represent low-lying areas that are more likely to retain water and flood. Data are not available for the entire study area; areas without data may or may not have a high likelihood to retain water. See Alaska Assessment report for data inputs, sources, and methods.',
       region: 'alaska'
+    },
+    {
+      id: 'AK_landcover',
+      layer: 'landcover',
+      label: 'Landcover',
+      chartLabel: 'Landcover',
+      chartCSSColor: {
+        11: '#5475A8',
+        12: '#FFFFFF',
+        21: '#E8D1D1',
+        22: '#E29E8C',
+        23: '#ff0000',
+        24: '#B50000',
+        31: '#D2CDC0',
+        41: '#85C77E',
+        42: '#38814E',
+        43: '#D4E7B0',
+        51: '#AF963C',
+        52: '#DCCA8F',
+        71: '#FDE9AA',
+        72: '#D1D182',
+        73: '#A3CC51',
+        74: '#82BA9E',
+        81: '#FBF65D',
+        82: '#CA9146',
+        90: '#C8E6F8',
+        95: '#64B3D5'
+      },
+      chartInputName: 'landcover',
+      ChartInputLabel: 'Additional Overlays',
+      chartCSSSelector: 'landcover',
+      url: 'https://tiles.resilientcoasts.org/AK_NLCDTiles/{z}/{x}/{y}.png',
+      attribution: 'NFWF 2023',
+      opacity: 0.75,
+      maxNativeZoom: 13,
+      description: 'Insert Landcover Description Here', // TODO: INSERT DESCRIPTION
+      region: 'alaska'
     }
+  ],
+  zonalStatsKeys: [
+    'exposure',
+    'asset',
+    'threat',
+    'wildlife',
+    'aquatic',
+    'terrestrial',
+    'hubs',
+    'crit_infra',
+    'crit_facilities',
+    'pop_density',
+    'social_vuln',
+    'drainage',
+    'erosion',
+    'floodprone_areas',
+    'geostress',
+    'sea_level_rise',
+    'slope',
+    'storm_surge',
+    'lc_no_data',
+    'lc_open_water',
+    'lc_perennial_icesnow',
+    'lc_developed_open_space',
+    'lc_developed_low_intensity',
+    'lc_developed_medium_intensity',
+    'lc_developed_high_intensity',
+    'lc_barren_land',
+    'lc_deciduous_forest',
+    'lc_evergreen_forest',
+    'lc_mixed_forest',
+    'lc_dwarf_scrub',
+    'lc_shrub_scrub',
+    'lc_grassland_herbaceous',
+    'lc_sedge_herbaceous',
+    'lc_lichens',
+    'lc_moss',
+    'lc_pasture_hay_areas',
+    'lc_cultivated_crops',
+    'lc_woody_wetlands',
+    'lc_emerg_herbaceous_wetlands'
+  ],
+  statesList: [
+    'Alaska'
+  ],
+  countiesList: [
+    'Aleutians East Borough, AK', 'Aleutians West Census Area, AK', 'Anchorage Municipality, AK',
+    'Bethel Census Area, AK', 'Bristol Bay Borough, AK', 'Chugach Census Area, AK', 'Copper River Census Area, AK',
+    'Denali Borough, AK', 'Dillingham Census Area, AK', 'Fairbanks North Star Borough, AK',
+    'Haines Borough, AK', 'Hoonah-Angoon Census Area, AK', 'Juneau City and Borough, AK', 'Kenai Peninsula Borough, AK',
+    'Ketchikan Gateway Borough, AK', 'Kodiak Island Borough, AK', 'Kusilvak Census Area, AK',
+    'Lake and Peninsula Borough, AK', 'Matanuska-Susitna Borough, AK', 'Nome Census Area, AK',
+    'North Slope Borough, AK', 'Northwest Arctic Borough, AK', 'Petersburg Borough, AK',
+    'Prince of Wales-Hyder Census Area, AK', 'Sitka City and Borough, AK', 'Skagway Municipality, AK',
+    'Southeast Fairbanks Census Area, AK', 'Wrangell City and Borough, AK', 'Yakutat City and Borough, AK',
+    'Yukon-Koyukuk Census Area, AK'
+  ],
+  huc8List: [
+    '19010102', '19010103', '19010104', '19010105', '19010106', '19010107', '19010204', '19010205',
+    '19010206', '19010207', '19010208', '19010209', '19010210', '19010211', '19010212', '19010301',
+    '19010302', '19010303', '19010304', '19010402', '19010403', '19010404', '19010405', '19010406',
+    '19010500', '19020102', '19020103', '19020104', '19020201', '19020202', '19020203', '19020301',
+    '19020302', '19020401', '19020402', '19020501', '19020502', '19020503', '19020504', '19020505',
+    '19020601', '19020602', '19020701', '19020702', '19020800', '19030101', '19030102', '19030103',
+    '19030104', '19030201', '19030202', '19030203', '19030204', '19030205', '19030206', '19030301',
+    '19030302', '19030303', '19030304', '19030305', '19030306', '19030405', '19030501', '19030502',
+    '19030503', '19050101', '19050102', '19050103', '19050104', '19050105', '19050201', '19050202',
+    '19050203', '19050301', '19050302', '19050303', '19050304', '19050402', '19050403', '19050404',
+    '19050405', '19050500', '19060101', '19060102', '19060103', '19060201', '19060202', '19060203',
+    '19060204', '19060205', '19060206', '19060301', '19060302', '19060303', '19060304', '19060401',
+    '19060402', '19060403', '19060501', '19060502', '19060504', '19060505', '19070101', '19070102',
+    '19070103', '19070104', '19080103', '19080104', '19080105', '19080201', '19080202', '19090101',
+    '19090106', '19090205', '19090301', '19090303', '19090304', '19090305'
   ]
 };
