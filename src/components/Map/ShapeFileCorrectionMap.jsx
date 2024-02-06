@@ -50,7 +50,7 @@ export default function ShapeFileCorrectionMap(props) {
   } = props;
 
   const dispatch = useDispatch();
-  const center = useSelector(selectedCenterSelector, () => true);
+  let center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
   const [localGeo, setLocalGeo] = useState(geoToRedraw);
   const [activeStep, setActiveStep] = useState(0);
@@ -132,11 +132,11 @@ export default function ShapeFileCorrectionMap(props) {
     }
 
     // again not the best approach but I cannot get anything else to work and I am out of time
-    const newCenter = map.getCenter();
+    center = map.getCenter();
     map.fireEvent('click', {
-      latlng: newCenter,
-      layerPoint: map.latLngToLayerPoint(newCenter),
-      containerPoint: map.latLngToContainerPoint(newCenter),
+      latlng: center,
+      layerPoint: map.latLngToLayerPoint(center),
+      containerPoint: map.latLngToContainerPoint(center),
       originalEvent: {
         target: map
       }
