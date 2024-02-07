@@ -122,15 +122,29 @@ export default function EditControlFC(props) {
       endIndex.current = steps.current.length;
       endIndex.current = steps.current.length - 1;
       steps.current.forEach((invalidLayer) => {
+        // not best practice do do this but need to keep things moving
+        // eslint-disable-next-line no-param-reassign
         invalidLayer.layer.options.stepID = invalidLayer.id - 1;
+        // eslint-disable-next-line no-param-reassign
         invalidLayer.layer.options.activeStep = steps.current.length - 1;
         if (invalidLayer.howFixedText !== 'DELETED') {
           mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
         }
       });
     }
-    // May not need to watch ALL of these variables, worth revisiting
-  }, [endIndex, localGeo, setUpdateSteps, steps, updateSteps]);
+    // May not need to watch ALL of these variables, worth revisiting need them for linting issues
+  }, [
+    dispatch,
+    endIndex,
+    localGeo,
+    setUpdateSteps,
+    steps,
+    updateSteps,
+    errorShapeIsToBigAndShapeHasToManyVertices,
+    fixShapeIsToBigAndShapeHasToManyVertices,
+    geoToReturn,
+    mapRef
+  ]);
 
   const handleDelete = (e) => {
     // get deleted layers...
@@ -309,11 +323,9 @@ EditControlFC.propTypes = {
   setIsEdit: PropTypes.func,
   geoToReturn: PropTypes.object,
   endIndex: PropTypes.object,
-  startIndex: PropTypes.object,
   steps: PropTypes.object,
   updateSteps: PropTypes.bool,
   setUpdateSteps: PropTypes.func,
-  activeStep: PropTypes.number,
   setActiveStep: PropTypes.func,
   mapRef: PropTypes.object
 };

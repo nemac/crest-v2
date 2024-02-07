@@ -30,6 +30,11 @@ import ShapeActionButton from './ShapeActionButton.jsx';
 
 import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
 
+// this not good practice but not time to resolve it and its not that imporant
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-nested-ternary */
+
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 

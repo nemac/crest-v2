@@ -156,9 +156,7 @@ export default function AnalyzeBarChart(props) {
       const {
         selectedColor,
         chartValue,
-        selectedChartLabel,
-        areaName,
-        chartType
+        selectedChartLabel
       } = layerData;
 
       chartData.push({

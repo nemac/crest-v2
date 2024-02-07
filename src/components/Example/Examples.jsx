@@ -30,10 +30,10 @@ import { mapConfig } from '../../configuration/config';
 // just a place holder needs props passed in and image etc
 export default function Example(props) {
   const { map, examplePolyData, setExamplePolyData } = props;
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState('false');
 
   const handleExpanded = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    setExpanded(isExpanded ? panel : 'false');
   };
 
   return (

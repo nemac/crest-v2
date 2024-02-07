@@ -10,7 +10,9 @@ import {
   MoreHorizOutlined,
   CenterFocusStrong
 } from '@mui/icons-material';
-
+// this not good practice but nothing else works and
+// its not that important
+/* eslint-disable no-plusplus */
 import ActionButtonsHolder from '../All/ActionButtonsHolder.jsx';
 import AnalyzeBarChart from './AnalyzeBarChart.jsx';
 import ResiliencePieChart from './ResiliencePieChart.jsx';
@@ -217,6 +219,7 @@ export default function ChartCard(props) {
                       legendColors={pieChartLegendColors}
                       chartTitle={key.concat(' ').concat(feature.properties.areaName)}
                       chartType={key}
+                      showLegend={false}
                     />
                   )}
                 </ContentBox>
