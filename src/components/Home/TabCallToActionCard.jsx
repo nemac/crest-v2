@@ -46,8 +46,7 @@ export default function TabCallToActionCard(props) {
   };
 
   return (
-    <Box sx={{ 
-      height: '100%' }}>
+    <Box sx={{ height: '100%' }}>
       <StyledPaper
         variant="outlined"
         square={false}

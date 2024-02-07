@@ -14,7 +14,7 @@ export const StyledMapContainer = styled(MapContainer)(({ theme }) => ({
 
 export default function LeafletMapContainer(props) {
   const {
-    children, center, zoom, innerRef, mapRef
+    children, center, zoom, innerRef
   } = props;
 
   const extent = regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.extent; // conus - TODO: I hate this how can I fix this?
@@ -45,6 +45,5 @@ LeafletMapContainer.propTypes = {
   children: PropTypes.node,
   center: PropTypes.array.isRequired,
   zoom: PropTypes.number.isRequired,
-  innerRef: PropTypes.func,
-  mapRef: PropTypes.object
+  innerRef: PropTypes.func
 };

@@ -68,10 +68,6 @@ export default function ActionButtons(props) {
     }
   };
 
-  const handleGenericClick = (event) => {
-    event.stopPropagation();
-    console.log('clicked'); // eslint-disable-line no-console
-  };
   return (
     <StyledGrid
       container

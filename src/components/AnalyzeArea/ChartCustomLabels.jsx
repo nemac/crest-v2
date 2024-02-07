@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function ChartCustomLabels(props) {
   const {
-    x, y, stroke, payload
+    x, y, payload
   } = props;
   const words = payload.value.match(/\b(\w+)\b/g);
   const textWithOffset = {};
   const vertHeight = 10;
-  const getText = (textWithOffset, word, index, vertHeight) => {
-    textWithOffset[word] = index * vertHeight;
-  }
+  const getText = (textWithOffsetText, word, index, vertHeightText) => {
+    textWithOffsetText[word] = index * vertHeightText;
+  };
   words.map((word, index) => getText(textWithOffset, word, index, vertHeight));
 
   return (
@@ -25,6 +25,5 @@ export default function ChartCustomLabels(props) {
 ChartCustomLabels.propTypes = {
   x: PropTypes.number,
   y: PropTypes.number,
-  stroke: PropTypes.string,
   payload: PropTypes.object
 };

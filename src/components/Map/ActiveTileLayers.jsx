@@ -10,7 +10,7 @@ const activeLayerListSelector = (state) => state.mapLayerList.activeLayerList;
 export default function ActiveTileLayers() {
   const regions = mapConfig.regions;
   const selectedRegion = useSelector(selectedRegionSelector);
-  const regionName = regions[selectedRegion].regionName // e.g. continental_us, etc
+  const regionName = regions[selectedRegion].regionName; // e.g. continental_us, etc
   const layerList = useSelector(activeLayerListSelector);
   const layers = Object.values(layerList)
     .filter((lyr) => lyr.region === regionName)

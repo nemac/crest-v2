@@ -49,7 +49,6 @@ import {
   changeIdentifyIsLoaded
 } from '../../reducers/mapPropertiesSlice';
 import AnalyzeBarChart from '../AnalyzeArea/AnalyzeBarChart.jsx';
-// eslint-disable-next-line no-unused-vars
 
 const StyledPopup = styled(Popup)(({ theme }) => ({
   bottom: '-22px !important',

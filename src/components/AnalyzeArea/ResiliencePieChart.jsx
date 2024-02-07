@@ -79,7 +79,14 @@ export default function ResiliencePieChart(props) {
   };
 
   return (
-    <ResponsiveContainer id={`${chartType}-container`}>
+    <ResponsiveContainer
+      id={`${chartType}-container`}
+      sx={{
+        padding: '20px',
+        width: '100%',
+        height: '100%'
+      }}
+    >
       <PieChart >
         chartTitle && (
           <text

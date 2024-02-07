@@ -40,16 +40,11 @@ export default function AnalyzeBarChart(props) {
     chartIndices,
     chartType,
     areaName,
-    feature,
     zonalStatsData,
     barchartMargin
   } = props;
 
   const region = regions[chartRegion];
-
-  const chartLabel = feature?.properties?.areaName ?
-    `${chartType} - ${feature?.properties?.areaName}` :
-    '';
   const layerList = region.layerList;
 
   const formatYAxis = (value) => {
@@ -158,7 +153,14 @@ export default function AnalyzeBarChart(props) {
       }
       const index = i - skippedValues;
       const layerData = getData(element, value);
-      const { selectedColor, chartValue, selectedChartLabel, areaName, chartType } = layerData;
+      const {
+        selectedColor,
+        chartValue,
+        selectedChartLabel,
+        areaName,
+        chartType
+      } = layerData;
+
       chartData.push({
         name: element,
         value,
@@ -175,7 +177,6 @@ export default function AnalyzeBarChart(props) {
   // const sortedChartData = [...chartData];
   // sortedChartData.sort((a, b) => a.chartValue - b.chartValue);
   // const thisChartData = analyzeAreaState.chartSortASC ? sortedChartData : chartData;
-
   return (
     <ResponsiveContainer
       id={`${chartType}-container`}
@@ -254,7 +255,6 @@ AnalyzeBarChart.propTypes = {
   chartRegion: PropTypes.string.isRequired,
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,
-  feature: PropTypes.object,
   zonalStatsData: PropTypes.object,
   barchartMargin: PropTypes.object
 };
