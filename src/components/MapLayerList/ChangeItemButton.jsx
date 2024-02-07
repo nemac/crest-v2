@@ -93,11 +93,10 @@ export default function ChangeItemButton(props) {
             width: '100%',
             borderRadius: (theme) => theme.spacing(0.5),
             paddingLeft: (theme) => theme.spacing(2),
-            height: '60px',
+            height: 'fit-content',
             textTransform: 'none',
             display: 'flex',
             justifyContent: 'start',
-            height: 'fit-conent',
             '&:hover': {
               backgroundColor: '#6f6f6f'
             }
