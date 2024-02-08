@@ -88,15 +88,28 @@ export default function ResiliencePieChart(props) {
             fill="white"
             textAnchor="middle"
             dominantBaseline="central"
-            style={{ fontFamily: 'Roboto, sans-serif' }}
-          >
-            <tspan style={{ fontSize: '1.25rem' }}>{chartTitle}</tspan>
+            style={{ fontFamily: 'Roboto, sans-serif' }}>
+            <tspan
+              x="50%"
+              style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+                {chartTitle}
+            </tspan>
+            { chartType > 0 ? (
+              <tspan
+                x="50%"
+                dy={'25px'}
+                style={{ fontSize: '1rem' }}>
+                {chartType}
+              </tspan>
+            ) : (
+              <></>
+            )}
           </text>
         )
         <Pie
           data={data}
           cx="50%"
-          cy="50%"
+          cy="60%"
           labelLine={false}
           innerRadius={'35%'}
           outerRadius={'75%'}

@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import * as esri from 'esri-leaflet';
 import { CameraAlt } from '@mui/icons-material';
+
+// this not good practice but not time to resolve it and its not that imporant
+/* eslint-disable no-unneeded-ternary */
 
 import GenericMapHolder from '../components/Map/GenericMapHolder.jsx';
 import ResilienceLeftColumn from '../components/AnalyzeArea/ResilienceLeftColumn.jsx';
@@ -16,7 +20,8 @@ import { mapConfig } from '../configuration/config';
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const selectedResilienceHub = (state) => state.mapProperties.resilienceHub;
 
-export default function ResilienceProject() {
+export default function ResilienceProject(props) {
+  const { setErrorState } = props;
   const [chartData, setChartData] = useState(null);
   const [averageHubScore, setAverageHubScore] = useState(0);
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -43,7 +48,12 @@ export default function ResilienceProject() {
 
   // Run query on hex server if it exists after feature clicked on
   React.useEffect(() => {
-    if (!featureLayerHex) { return; } // return if no hex layer to query
+    if (!featureLayerHex) {
+      const hubRankNoCore = resilienceHub ? resilienceHub.properties[rankProperty] : null;
+      setAverageHubScore(hubRankNoCore);
+      setChartData([]);
+      return;
+    } // return if no hex layer to query
     if (resilienceHub) {
       const calculatedData = [];
       let runningTotalScore = 0; // using this increment the hub core scores
@@ -72,23 +82,43 @@ export default function ResilienceProject() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resilienceHub]);
 
+  const hasCoreData = featureLayerHex ? true : false;
   return (
     <GenericMapHolder
       leftColumn={
         <ResilienceLeftColumn
-          mapActionCard={<ResilienceMapActionCard/>}
+          mapActionCard={
+            <ResilienceMapActionCard
+              setAverageHubScore={setAverageHubScore}
+              setChartData={setChartData}/>}
+          hasCoreData={hasCoreData}
+          coreHubScore={averageHubScore}
+          setChartData={setChartData}
+          setAverageHubScore={setAverageHubScore}
           chartCard={
             <ResilienceChartCard
               chartData={chartData}
               chartActionButtons={chartActionButtons}
               noDataState={EmptyStateResilience}
               coreHubScore={averageHubScore}
+              hasCoreData={hasCoreData}
             />
           }
-          noDataState={(resilienceHub === null) ? <EmptyStateResilience /> : null}
+          noDataState={
+            (resilienceHub === null) ? <EmptyStateResilience /> : <EmptyStateResilience />
+          }
         />
       }
-      mapCard={<ResilienceMapCard/>}
+      mapCard={
+        <ResilienceMapCard
+          setErrorState={setErrorState}
+          setAverageHubScore={setAverageHubScore}
+          setChartData={setChartData}/>
+      }
     />
   );
 }
+
+ResilienceProject.propTypes = {
+  setErrorState: PropTypes.func
+};

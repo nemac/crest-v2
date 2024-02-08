@@ -2,6 +2,10 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GeoJSON, useMapEvents } from 'react-leaflet';
 import * as esri from 'esri-leaflet';
+import Control from 'react-leaflet-custom-control';
+import PropTypes from 'prop-types';
+import { Button } from '@mui/material';
+import { LayersClear } from '@mui/icons-material';
 
 import LeafletMapContainer from './LeafletMapContainer.jsx';
 import ActiveTileLayers from './ActiveTileLayers.jsx';
@@ -18,7 +22,8 @@ const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedResilienceHub = (state) => state.mapProperties.resilienceHub;
 const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 
-export default function ResilienceMapCard() {
+export default function ResilienceMapCard(props) {
+  const { setAverageHubScore, setChartData, setErrorState } = props;
   const dispatch = useDispatch();
   const [ready, setReady] = useState(false);
   const [map, setMap] = useState(null);
@@ -61,10 +66,14 @@ export default function ResilienceMapCard() {
       );
 
       // Update redux store with new region, zoom, and center
+      dispatch(changeResilienceHub(null));
       dispatch(changeRegion(mapConfig.regions[regionName].label));
       dispatch(changeZoom(mapConfig.regions[regionName].mapProperties.zoom));
       dispatch(changeCenter(mapConfig.regions[regionName].mapProperties.center));
       dispatch(regionUserInitiated(false));
+      // reset hub data on region switch to avoid confusion
+      setAverageHubScore(null);
+      setChartData(null);
     }
     return null;
   }, [map, dispatch]);
@@ -100,14 +109,47 @@ export default function ResilienceMapCard() {
     return null;
   };
 
+  const clearHandler = (event) => {
+    event.stopPropagation();
+    setErrorState((previous) => ({
+      ...previous,
+      error: true,
+      errorType: 'warning',
+      errorTitle: 'Clear All State',
+      errorMessage: 'Warning. This will clear all state and reload the page. Do you want to proceed?',
+      acceptButtonText: 'Proceed',
+      acceptButtonClose: () => {
+        setErrorState({ ...previous, error: false });
+        localStorage.clear();
+        window.location.reload(true);
+      }
+    }));
+  };
+
   return (
     <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
+      <Control position='bottomleft'>
+        <Button
+          variant="contained"
+          startIcon={<LayersClear />}
+          onClick={clearHandler}
+          color="CRESTPrimary"
+          sx={{ margin: '0 0 20px 0', display: 'flex' }}
+        >
+          Clear
+        </Button>
+      </Control>
+
       {ready && (
-        <GeoJSON key={resilienceHub?.id} data={resilienceHub}>
+        resilienceHub ? (
+          <GeoJSON key={resilienceHub?.id} data={resilienceHub}>
           <StyledReactLeafletTooltip direction='center' permanent>
             {resilienceHub?.id}
           </StyledReactLeafletTooltip>
         </GeoJSON>
+        ) : (
+          <></>
+        )
       )}
       <ActiveTileLayers />
       <BasemapLayer map={map}/>
@@ -115,3 +157,9 @@ export default function ResilienceMapCard() {
     </LeafletMapContainer>
   );
 }
+
+ResilienceMapCard.propTypes = {
+  setAverageHubScore: PropTypes.func,
+  setChartData: PropTypes.func,
+  setErrorState: PropTypes.func
+};

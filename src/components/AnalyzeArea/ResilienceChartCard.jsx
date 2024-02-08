@@ -17,7 +17,19 @@ const StyledBackgroundBox = styled(Box)(({ theme }) => ({
 const pieChartLegendColors = mapConfig.resiliencePieChartLegend;
 
 export default function ChartCard(props) {
-  const { chartData, chartActionButtons, coreHubScore } = props;
+  const {
+    chartData,
+    chartActionButtons,
+    coreHubScore,
+    hasCoreData
+  } = props;
+  // very hacky and also changes overal perentages (by 1% so no reall a big deal)
+  //     but avoids label - key erorrs
+  const chartDataAdjust = chartData.map((feature) => {
+    const value = feature.value === 0 ? 0.00001 : feature.value;
+    const name = feature.name;
+    return { name, value };
+  });
 
   return (
     <StyledBackgroundBox mr={1}>
@@ -40,39 +52,47 @@ export default function ChartCard(props) {
           </Typography>
         </Grid>
         <Grid xs={12} px={0} pb={0} sx={{ flexGrow: '1' }}>
-          <ResilienceHubScore sx={{ height: '150px' }} coreHubScore={coreHubScore}/>
+          <ResilienceHubScore sx={{ height: '150px' }} hasCoreData={hasCoreData} coreHubScore={coreHubScore}/>
         </Grid>
-        <Grid xs={12} px={0} pb={0} sx={{ width: '100%', height: '375px' }} >
-            <Grid xs={12}>
-              <Typography variant="body" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
-                Core Variability
-              </Typography>
-            </Grid>
-            <Grid xs={12} mx={1} sx={{ height: '320px' }}>
-              <ResiliencePieChart
-                coreHubScore={coreHubScore}
-                data={chartData}
-                legendColors={pieChartLegendColors}
-                showLegend={true}
-                chartType={'Core Variability'}
-              />
-            </Grid>
-        </Grid>
-        <Grid
-          xs={12}
-          px={0}
-          sx={{
-            width: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center'
-          }} >
-          <ActionButtonsHolder
-            actionButtons={chartActionButtons}
-            styledGridSx={{ width: 'fit-content', height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
-            gridSx={ { width: 'fit-content' } }
-          />
-        </Grid>
+        {hasCoreData ? (
+          <Grid xs={12} px={0} pb={0} sx={{ width: '100%', height: '375px' }} >
+              <Grid xs={12}>
+                <Typography variant="body" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+                  Core Variability
+                </Typography>
+              </Grid>
+              <Grid xs={12} mx={1} sx={{ height: '320px' }}>
+                <ResiliencePieChart
+                  coreHubScore={coreHubScore}
+                  data={chartDataAdjust}
+                  legendColors={pieChartLegendColors}
+                  showLegend={true}
+                  chartType={'Core Variability'}
+                />
+              </Grid>
+          </Grid>
+        ) : (
+          <></>
+        )}
+        {hasCoreData ? (
+          <Grid
+            xs={12}
+            px={0}
+            sx={{
+              width: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
+            }} >
+            <ActionButtonsHolder
+              actionButtons={chartActionButtons}
+              styledGridSx={{ width: 'fit-content', height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8) }}
+              gridSx={ { width: 'fit-content' } }
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
       </Grid>
     </StyledBackgroundBox>
   );
@@ -81,5 +101,6 @@ export default function ChartCard(props) {
 ChartCard.propTypes = {
   chartData: PropTypes.array,
   chartActionButtons: PropTypes.array,
-  coreHubScore: PropTypes.number
+  coreHubScore: PropTypes.number,
+  hasCoreData: PropTypes.bool
 };

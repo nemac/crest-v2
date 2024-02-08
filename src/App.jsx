@@ -39,7 +39,7 @@ export default function App() {
           </Box>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='ResilienceProject' element={<ResilienceProject />} />
+            <Route path='ResilienceProject' element={<ResilienceProject setErrorState={setErrorState}/>} />
             <Route path='/AnalyzeProjectSites' element={<AnalyzeProjectSites setErrorState={setErrorState} />} />
             <Route path='/Examples' element={<Examples />} />
             <Route path='/DataAndReports' element={<DataAndReports />} />
