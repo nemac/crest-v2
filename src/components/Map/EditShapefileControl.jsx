@@ -18,11 +18,9 @@ export default function EditControlFC(props) {
     setLocalGeo,
     geoToReturn,
     endIndex,
-    startIndex,
     steps,
     updateSteps,
     setUpdateSteps,
-    activeStep,
     setActiveStep,
     mapRef,
     setIsEdit
@@ -42,10 +40,6 @@ export default function EditControlFC(props) {
   const fixShapeHasToManyVertices = 'Edit the area.\nThe dashed red lines indicate there is an issue.\nClick on a white square (vertice) to delete it.\nDelete squares (vertices) until the dashed line turns green.\nSave the changes.';
   const fixShapeIsToBig = 'Edit the area.\nThe dashed lines are red indicating there is an issue. Move the white squares (vertices) by dragging them so the area is smaller.\nYou can also delete squares (vertices) by clicking on them to reduce the size of the area.\nThe dashed lines will turn green when the size of the area meets the size requirement.\nSave the changes.';
   const fixShapeIsToBigAndShapeHasToManyVertices = `${fixShapeHasToManyVertices} and ${fixShapeIsToBig}`;
-
-  const checkGeo = ((geo) => {
-
-  });
 
   useEffect(() => {
     // Only trigger if we have an empty map and things to update
@@ -128,15 +122,29 @@ export default function EditControlFC(props) {
       endIndex.current = steps.current.length;
       endIndex.current = steps.current.length - 1;
       steps.current.forEach((invalidLayer) => {
+        // not best practice do do this but need to keep things moving
+        // eslint-disable-next-line no-param-reassign
         invalidLayer.layer.options.stepID = invalidLayer.id - 1;
+        // eslint-disable-next-line no-param-reassign
         invalidLayer.layer.options.activeStep = steps.current.length - 1;
         if (invalidLayer.howFixedText !== 'DELETED') {
           mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
         }
       });
     }
-    // May not need to watch ALL of these variables, worth revisiting
-  }, [endIndex, localGeo, setUpdateSteps, steps, updateSteps]);
+    // May not need to watch ALL of these variables, worth revisiting need them for linting issues
+  }, [
+    dispatch,
+    endIndex,
+    localGeo,
+    setUpdateSteps,
+    steps,
+    updateSteps,
+    errorShapeIsToBigAndShapeHasToManyVertices,
+    fixShapeIsToBigAndShapeHasToManyVertices,
+    geoToReturn,
+    mapRef
+  ]);
 
   const handleDelete = (e) => {
     // get deleted layers...
@@ -162,7 +170,6 @@ export default function EditControlFC(props) {
     if (newGeo?.type === 'FeatureCollection') {
       setLocalGeo(newGeo);
     }
-    //   setActiveStep(0)
   };
 
   const handleEditVertex = (e) => {
@@ -263,7 +270,7 @@ export default function EditControlFC(props) {
           fixText = fixShapeHasToManyVertices;
           fixStatus = `The current number of vertices is ${numVertices.toFixed(0)}`;
           fixStatusGoal = `and the number of vertices needs to be less than ${verticeThreshold}`;
-          thisStep.howFixedText = 'EDITIED VERTEX';
+          if (thisStep) thisStep.howFixedText = 'EDITIED VERTEX';
         }
         layer.setStyle({ color: 'red' });
         if (thisStep) {
@@ -274,7 +281,9 @@ export default function EditControlFC(props) {
         }
       }
       // update geoToReturn in case we download this stuff
-      const thisFeature = mapGeo.features.find((feature) => feature.properties.id === layer.feature.properties.id);
+      const thisFeature = mapGeo.features.find(
+        (feature) => feature.properties.id === layer.feature.properties.id
+      );
       geoToReturn.current.features[layer.feature.properties.id] = thisFeature;
     });
     // update localGeo for dispatch
@@ -314,11 +323,9 @@ EditControlFC.propTypes = {
   setIsEdit: PropTypes.func,
   geoToReturn: PropTypes.object,
   endIndex: PropTypes.object,
-  startIndex: PropTypes.object,
   steps: PropTypes.object,
   updateSteps: PropTypes.bool,
   setUpdateSteps: PropTypes.func,
-  activeStep: PropTypes.number,
   setActiveStep: PropTypes.func,
   mapRef: PropTypes.object
 };

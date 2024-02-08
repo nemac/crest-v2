@@ -10,7 +10,9 @@ import {
   MoreHorizOutlined,
   CenterFocusStrong
 } from '@mui/icons-material';
-
+// this not good practice but nothing else works and
+// its not that important
+/* eslint-disable no-plusplus */
 import ActionButtonsHolder from '../All/ActionButtonsHolder.jsx';
 import AnalyzeBarChart from './AnalyzeBarChart.jsx';
 import ResiliencePieChart from './ResiliencePieChart.jsx';
@@ -180,7 +182,12 @@ export default function ChartCard(props) {
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
-        <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
+        <div style={{
+          width: '100%',
+          borderWidth: '1px',
+          borderColor: '#555555',
+          borderStyle: 'solid'
+        }}>
           {Object.entries(chartValues).map(([key, value]) => (
             <Grid xs={12} test={value} key={key} style={{ backgroundColor: '#0A0A0A' }}>
               <StyledBox >
@@ -212,6 +219,7 @@ export default function ChartCard(props) {
                       legendColors={pieChartLegendColors}
                       chartTitle={key.concat(' ').concat(feature.properties.areaName)}
                       chartType={key}
+                      showLegend={false}
                     />
                   )}
                 </ContentBox>
@@ -229,7 +237,9 @@ export default function ChartCard(props) {
                   { height: (theme) => theme.spacing(8), maxHeight: (theme) => theme.spacing(8), borderWidth: '0px' }
                 }
               />
-              <hr style={ (Object.entries(chartValues).length) === cnt++ ? transparentBorder : chartBreaker }/>
+              <hr style={
+                (Object.entries(chartValues).length) === cnt++ ? transparentBorder : chartBreaker
+              }/>
             </Grid>
           ))}
 
@@ -248,7 +258,12 @@ export default function ChartCard(props) {
 
       ) : (
 
-        <div style={{ width: '100%', borderWidth: '1px', borderColor: '#555555', borderStyle: 'solid' }}>
+        <div style={{
+          width: '100%',
+          borderWidth: '1px',
+          borderColor: '#555555',
+          borderStyle: 'solid'
+        }}>
           <Grid xs={12} >
             <ContentBox
               onMouseEnter={ setHover ? handleMouseEnter : null}

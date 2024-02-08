@@ -3,15 +3,6 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/system';
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%'
-}));
 
 // just a place holder needs props passed in and image etc
 export default function ShapeActionButton(props) {
@@ -44,7 +35,11 @@ export default function ShapeActionButton(props) {
           }
         }}
         onClick={onClick}>
-        {isIconFirst ? (<>{children}&nbsp;&nbsp;{buttonLabel}</>) : (<>{buttonLabel}&nbsp;&nbsp;{children}</>)}
+        {isIconFirst ? (
+          <>{children}&nbsp;&nbsp;{buttonLabel}</>
+        ) : (
+          <>{buttonLabel}&nbsp;&nbsp;{children}</>
+        )}
       </Button>
     </Box>
   );

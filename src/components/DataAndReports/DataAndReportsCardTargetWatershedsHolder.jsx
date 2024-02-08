@@ -9,7 +9,11 @@ const targetedWatersheds = mapConfig.targetedWatersheds;
 export default function DataAndReportsCardTargetWatershedsHolder(props) {
   return (
     <Grid container spacing={1} justifyContent="center" alignItems="center" px={0.25} py={0.75}>
-      {Object.entries(targetedWatersheds).map(([targetedWatershedsName, targetedWatershedsNameConfig]) => <Grid item xs={12} key={targetedWatershedsName}>
+      {Object.entries(targetedWatersheds).map(
+        ([targetedWatershedsName, targetedWatershedsNameConfig]) => <Grid
+        item
+        xs={12}
+        key={targetedWatershedsName}>
             <DataAndReportsCardRegions
               regionName={targetedWatershedsName}
               dataDownloadName={targetedWatershedsNameConfig.dataDownload.name}
@@ -19,7 +23,8 @@ export default function DataAndReportsCardTargetWatershedsHolder(props) {
               reportNativeFileLink={targetedWatershedsNameConfig.reportNative.fileLink}
               reportEnglishName={targetedWatershedsNameConfig.reportEnglish.name}
               reportEnglishFileLink={targetedWatershedsNameConfig.reportEnglish.fileLink}/>
-              </Grid>)}
+              </Grid>
+      )}
     </Grid>
   );
 }

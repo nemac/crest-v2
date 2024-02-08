@@ -50,7 +50,7 @@ import {
   BarChart
 } from '@mui/icons-material';
 
-import ChartHeaderActionButton from './ChartHeaderActionButton';
+import ChartHeaderActionButton from './ChartHeaderActionButton.jsx';
 
 const StyledGridContainer = styled(Grid)(({ theme }) => ({
   display: 'flex',

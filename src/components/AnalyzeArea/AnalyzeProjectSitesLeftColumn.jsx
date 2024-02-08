@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { PropTypes } from 'prop-types';
+
+const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
 
 const StyledBox = styled(Box)(({ theme }) => ({
   marginTop: '8px',
@@ -12,8 +15,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   flexDirection: 'row',
   overflowY: 'visible',
   overflowX: 'clip',
-  width: '100%',
-  height: 'calc(100% - 258px)'
+  width: '100%'
 }));
 
 export default function AnalyzeProjectSiteLeftColumn(props) {
@@ -21,10 +23,12 @@ export default function AnalyzeProjectSiteLeftColumn(props) {
     mapActionCard, noDataState, chartCard
   } = props;
 
+  const analyzeAreaVisible = useSelector(analyzeAreaVisibleSelector);
+
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       {mapActionCard}
-      <StyledBox>
+      <StyledBox style={{ height: analyzeAreaVisible ? ' calc(100% - 258px)' : ' calc(100% - 58px)' }}>
         {!chartCard.props.chartData ? (
           noDataState
         ) : (

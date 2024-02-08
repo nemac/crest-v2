@@ -30,6 +30,11 @@ import ShapeActionButton from './ShapeActionButton.jsx';
 
 import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
 
+// this not good practice but not time to resolve it and its not that imporant
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-nested-ternary */
+
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
 const selectedCenterSelector = (state) => state.mapProperties.center;
 
@@ -70,6 +75,7 @@ export default function ShapeFileCorrectionMap(props) {
   // numberInvalid is displayed to user and safeguards returning bad shapes
   // eslint-disable-next-line max-len
   const numberInvalid = steps.current?.slice(startIndex.current, endIndex.current + 1).filter((step) => step.isValid === false).length;
+  // eslint-disable-next-line max-len
   const numberNotFixed = steps.current?.slice(startIndex.current, endIndex.current + 1).filter((step) => step.isFixed === false).length;
   // Always make sure that we are zoomed in to the operating shape
   if (steps.current.length > activeStep) {
@@ -241,7 +247,11 @@ export default function ShapeFileCorrectionMap(props) {
                     <Alert severity="error">
                       {steps.current[activeStep]?.invalidText}
                       <br />
-                      {steps.current[activeStep]?.fixStatus} {steps.current[activeStep]?.fixStatusGoal}
+                      {
+                        steps.current[activeStep]?.fixStatus}
+                        &nbsp;
+                        {steps.current[activeStep]?.fixStatusGoal
+                      }
                     </Alert>
                   </Box>
                 )}
@@ -408,6 +418,5 @@ ShapeFileCorrectionMap.propTypes = {
   setMap: PropTypes.func,
   map: PropTypes.object,
   geoToRedraw: PropTypes.object,
-  setGeoToRedraw: PropTypes.func,
-  setErrorState: PropTypes.func
+  setGeoToRedraw: PropTypes.func
 };

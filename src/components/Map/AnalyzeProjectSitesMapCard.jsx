@@ -225,7 +225,9 @@ export default function MapCard(props) {
         setCurrentDrawn={setCurrentDrawn}
         setErrorState={setErrorState}
       />
-      {drawnFromState?.features?.filter(item => item.properties.region === selectedRegion).map((item) => (
+      {drawnFromState?.features?.filter(
+        (item) => item.properties.region === selectedRegion
+      ).map((item) => (
         <React.Fragment key={item.geometry.coordinates} >
           <GeoJSON
             data={item}

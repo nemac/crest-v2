@@ -66,7 +66,6 @@ export default function ExampleCard(props) {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const [previousStep, setPreviousStep] = React.useState(0);
-
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     setPreviousStep(activeStep);
@@ -157,7 +156,7 @@ export default function ExampleCard(props) {
         }
       }
     }
-  }, [map, expanded, activeStep, setActiveStep, previousStep, setPreviousStep]);
+  }, [dispatch, map, expanded, activeStep, setActiveStep, previousStep, setPreviousStep]);
 
   // // This use effect is responsible for resetting the examples when accordions are collapsed
   // useEffect(() => {
@@ -270,7 +269,7 @@ export default function ExampleCard(props) {
 ExampleCard.propTypes = {
   map: PropTypes.object,
   setExamplePolyData: PropTypes.func,
-  expanded: PropTypes.bool,
+  expanded: PropTypes.string,
   handleExpanded: PropTypes.func,
   title: PropTypes.string,
   summaryText: PropTypes.string,
