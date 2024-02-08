@@ -31,18 +31,20 @@ export const handleExportImage = async (chartType) => {
 };
 
 export const getLabel = (region, name) => {
-  const thisLabel = mapConfig.regions[region].layerList.find(
+  const thisLabelOBJ = mapConfig.regions[region].layerList.find(
     ((layer) => layer.chartCSSSelector === name)
-  ).label;
+  );
+  const thisLabel = thisLabelOBJ ? thisLabelOBJ.label : '';
   return thisLabel;
 };
 
 export const getRange = (region, name) => {
-  const selectedColorChart = mapConfig.regions[region].layerList.find(
+  const selectedColorChartOBJ = mapConfig.regions[region].layerList.find(
     ((layer) => layer.chartCSSSelector === name)
-  ).chartCSSColor;
-  const allValues = Object.keys(selectedColorChart);
-  const thisRange = `${allValues[0]}-${allValues[allValues.length - 1]}`;
+  );
+  const selectedColorChart = selectedColorChartOBJ ? selectedColorChartOBJ.chartCSSColor : null;
+  const allValues = selectedColorChart ? Object.keys(selectedColorChart) : null;
+  const thisRange = allValues ? `${allValues[0]}-${allValues[allValues.length - 1]}` : '0';
   return thisRange;
 };
 
