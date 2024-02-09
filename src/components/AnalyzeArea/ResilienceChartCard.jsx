@@ -52,7 +52,7 @@ export default function ChartCard(props) {
           </Typography>
         </Grid>
         <Grid xs={12} px={0} pb={0} sx={{ flexGrow: '1' }}>
-          <ResilienceHubScore sx={{ height: '150px' }} hasCoreData={hasCoreData} coreHubScore={coreHubScore}/>
+          <ResilienceHubScore sx={{ height: '150px' }} coreHubScore={coreHubScore}/>
         </Grid>
         {hasCoreData ? (
           <Grid xs={12} px={0} pb={0} sx={{ width: '100%', height: '375px' }} >

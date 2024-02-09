@@ -94,7 +94,7 @@ export default function ResiliencePieChart(props) {
               style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
                 {chartTitle}
             </tspan>
-            { chartType > 0 ? (
+            { chartType === 'Landcover' ? (
               <tspan
                 x="50%"
                 dy={'25px'}

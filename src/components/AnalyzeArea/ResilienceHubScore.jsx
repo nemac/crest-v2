@@ -23,5 +23,6 @@ export default function ResilienceHubScore(props) {
 }
 
 ResilienceHubScore.propTypes = {
+  hasCoreData: PropTypes.number,
   coreHubScore: PropTypes.number
 };
