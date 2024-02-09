@@ -14,7 +14,10 @@ import BasemapLayer from './BasemapLayer.jsx';
 
 import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
 import {
-  changeZoom, changeCenter, changeIdentifyResults, changeIdentifyIsLoaded
+  changeZoom,
+  changeCenter,
+  changeIdentifyResults,
+  changeIdentifyIsLoaded
 } from '../../reducers/mapPropertiesSlice';
 import LeafletMapContainer from './LeafletMapContainer.jsx';
 import ShowIdentifyPopup from './IdentifyPopup.jsx';
@@ -41,6 +44,7 @@ const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const identifyCoordinatesSelector = (state) => state.mapProperties.identifyCoordinates;
 const identifyIsLoadedSelector = (state) => state.mapProperties.identifyIsLoaded;
 const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
+const useBufferSelector = (state) => state.mapProperties.useBuffer;
 // const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
 // const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
@@ -48,7 +52,7 @@ export default function MapCard(props) {
   const {
     map,
     setMap,
-    bufferCheckbox,
+    // bufferCheckbox,
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
     setCurrentDrawn,
@@ -71,6 +75,7 @@ export default function MapCard(props) {
   const identifyCoordinates = useSelector(identifyCoordinatesSelector);
   const identifyItems = useSelector(identifyItemsSelector);
   const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
+  const bufferCheckbox = useSelector(useBufferSelector);
 
   // need to create an invisible circle to trigger non-empty map for export
   const dummyPoint = [51.505, -0.09];
@@ -194,6 +199,35 @@ export default function MapCard(props) {
     }));
   };
 
+  const handleMouseover = (overColor, areaName) => (event) => {
+    const { target } = event;
+    target.setStyle({
+      color: overColor
+    });
+    const boxID = `#box-${areaName.toLowerCase().replaceAll(' ', '-')}`;
+    const moreGraphElem = document.querySelector(boxID);
+    if (moreGraphElem) moreGraphElem.style.border = `2px solid ${overColor}`;
+  };
+
+  const handleAreaClick = (areaName) => (event) => {
+    const elemID = `#btn-more-less-${areaName.toLowerCase().replaceAll(' ', '-')}`;
+    const moreLessButton = document.querySelector(elemID);
+    if (moreLessButton) {
+      moreLessButton.click();
+      moreLessButton.scrollIntoView({ block: 'end', inline: 'end' });
+    }
+  };
+
+  const handleMouseout = (outColor, areaName) => (event) => {
+    const { target } = event;
+    target.setStyle({
+      color: outColor
+    });
+    const boxID = `#box-${areaName.toLowerCase().replaceAll(' ', '-')}`;
+    const moreGraphElem = document.querySelector(boxID);
+    if (moreGraphElem) moreGraphElem.style.border = '1px solid #555555';
+  };
+
   return (
     <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
       <IdentifyButtonWrapper map={map} />
@@ -231,6 +265,13 @@ export default function MapCard(props) {
         <React.Fragment key={item.geometry.coordinates} >
           <GeoJSON
             data={item}
+            onEachFeature={(feature, layer) => {
+              layer.on({
+                mouseover: handleMouseover('#dda006', item.properties.areaName),
+                mouseout: handleMouseout('#4992f9', item.properties.areaName),
+                click: handleAreaClick(item.properties.areaName)
+              });
+            }}
             style={{
               weight: 2,
               opacity: 1,
@@ -243,6 +284,13 @@ export default function MapCard(props) {
           </GeoJSON>
           <GeoJSON
             data={item.properties.buffGeo}
+            onEachFeature={(feature, layer) => {
+              layer.on({
+                mouseover: handleMouseover('#ffc107', item.properties.areaName),
+                mouseout: handleMouseout('#99c3ff', item.properties.areaName),
+                click: handleAreaClick(item.properties.areaName)
+              });
+            }}
             style={{
               weight: 2,
               opacity: 1,
@@ -276,7 +324,6 @@ export default function MapCard(props) {
 }
 
 MapCard.propTypes = {
-  bufferCheckbox: PropTypes.bool,
   map: PropTypes.object,
   setMap: PropTypes.func,
   leafletFeatureGroupRef: PropTypes.object,

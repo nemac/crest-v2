@@ -133,12 +133,14 @@ export default function ChartCard(props) {
     {
       buttonLabel: analyzeAreaState.isMore[feature.properties.areaName] ? 'Less' : 'More',
       buttonName: analyzeAreaState.isMore[feature.properties.areaName] ? 'Less' : 'More',
+      id: `btn-more-less-${feature.properties.areaName.toLowerCase().replaceAll(' ', '-')}`,
       onClick: () => { handleMoreOnClick(dispatch, feature.properties.areaName); },
       icon: <MoreHorizOutlined />
     },
     {
       buttonLabel: 'Export',
       buttonName: 'Export',
+      id: `btn-export-${feature.properties.areaName}`,
       // TODO: This probably needs to be a csv of just the area in question
       onClick: () => { handleExportImage('Summary Chart'); },
       icon: <CameraAlt />
@@ -146,12 +148,14 @@ export default function ChartCard(props) {
     {
       buttonLabel: 'Zoom',
       buttonName: 'Zoom',
+      id: `btn-zoom-${feature.properties.areaName}`,
       onClick: (e) => { handleZoomClick(e, feature, map, dispatch); },
       icon: <CenterFocusStrong />
     },
     {
       buttonLabel: 'Remove',
       buttonName: 'Remove',
+      id: `btn-remove-${feature.properties.areaName}`,
       onClick: (e) => { removeLayer(e, feature, dispatch, featureGroupRef); },
       icon: <DeleteForever />
     }
@@ -185,14 +189,16 @@ export default function ChartCard(props) {
   return (
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
-        <div style={{
-          width: '100%',
-          borderWidth: '1px',
-          borderColor: '#555555',
-          borderStyle: 'solid'
-        }}>
+        <div
+          id={`box-${feature.properties.areaName.toLowerCase().replaceAll(' ', '-')}`}
+          style={{
+            width: '100%',
+            borderWidth: '1px',
+            borderColor: '#555555',
+            borderStyle: 'solid'
+          }}>
           {Object.entries(chartValues).map(([key, value]) => (
-            <Grid xs={12} test={value} key={key} style={{ backgroundColor: '#0A0A0A' }}>
+            <Grid xs={12} test={value} key={key} style={{ backgroundColor: '#0A0A0A' }} >
               <StyledBox >
                 <ContentBox
                   onMouseEnter={ setHover ? handleMouseEnter : null}
@@ -261,12 +267,14 @@ export default function ChartCard(props) {
 
       ) : (
 
-        <div style={{
-          width: '100%',
-          borderWidth: '1px',
-          borderColor: '#555555',
-          borderStyle: 'solid'
-        }}>
+        <div
+          id={`box-${feature.properties.areaName.toLowerCase().replaceAll(' ', '-')}`}
+          style={{
+            width: '100%',
+            borderWidth: '1px',
+            borderColor: '#555555',
+            borderStyle: 'solid'
+          }}>
           <Grid xs={12} >
             <ContentBox
               onMouseEnter={ setHover ? handleMouseEnter : null}

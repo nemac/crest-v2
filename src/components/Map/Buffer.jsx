@@ -1,20 +1,28 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { changeUseBuffer } from '../../reducers/mapPropertiesSlice';
+
+const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
 // just a place holder needs props passed in and image etc
-export default function Buffer(props) {
-  const { bufferCheckbox, setBufferCheckbox } = props;
+export default function Buffer() {
+  const dispatch = useDispatch();
+  const bufferCheckbox = useSelector(useBufferSelector);
+
+  const setBufferCheckbox = () => {
+    dispatch(changeUseBuffer());
+  };
 
   return (
     <Box p={0.75} >
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox defaultChecked/>}
+          control={<Checkbox checked={bufferCheckbox}/>}
           variant="text"
           color="CRESTPrimary"
           aria-label={'Include a Buffer for Nearby Impacts'}
@@ -26,8 +34,3 @@ export default function Buffer(props) {
     </Box>
   );
 }
-
-Buffer.propTypes = {
-  bufferCheckbox: PropTypes.bool,
-  setBufferCheckbox: PropTypes.func
-};
