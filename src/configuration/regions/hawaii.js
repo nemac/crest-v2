@@ -25,6 +25,7 @@ export const hawaiiConfig = {
   },
   attribution: 'NFWF 2020',
   hubsFeatureServer: 'https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/NFWF_CREST_Hawaii_Hubs_Cores_11242020/FeatureServer/0',
+  rankProperty: 'hub_rnk', // need this in config because the rank property is different for all of the regions
   chartInputs: [
     {
       chartInputName: 'summary',

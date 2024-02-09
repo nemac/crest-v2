@@ -119,8 +119,11 @@ export default function ChartCard(props) {
 
   for (let i = 0; i < landcoverConfigToUse.length; i += 1) {
     const value = feature.properties.zonalStatsData[landcoverConfigToUse[i].value];
-    landcoverData.push({ name: landcoverConfigToUse[i].name, value });
-    pieChartLegendColors.push(landcoverConfigToUse[i].color);
+    // no need to show low values also zero values cause errors with pie charts not sure why
+    if (value > 1) {
+      landcoverData.push({ name: landcoverConfigToUse[i].name, value });
+      pieChartLegendColors.push(landcoverConfigToUse[i].color);
+    }
   }
 
   const dispatch = useDispatch();
@@ -217,7 +220,7 @@ export default function ChartCard(props) {
                     <ResiliencePieChart
                       data={landcoverData}
                       legendColors={pieChartLegendColors}
-                      chartTitle={key.concat(' ').concat(feature.properties.areaName)}
+                      chartTitle={feature.properties.areaName}
                       chartType={key}
                       showLegend={false}
                     />

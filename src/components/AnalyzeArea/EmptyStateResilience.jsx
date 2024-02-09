@@ -22,14 +22,8 @@ export default function EmptyStateResilience(props) {
           To get started
         </Typography>
         <Typography variant="body1" gutterBottom>
-          If you are interested in getting detailed statistics about a specfic place or a potential
-          project site, you must add an area. This requires you to sketch an area on the map, upload
-          a shapefile, or search for county or watershed.
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          The results will allow you to examine and compare your project site(s) by proximity to
-          Resilience Hubs and explore and compare the Community Exposure and Fish and Wildlife
-          Indices in the surrounding area.
+          If you are interested in getting detailed statistics about a specfic hub please click on
+          a hub.
         </Typography>
       </Box>
     </StyledBox>
