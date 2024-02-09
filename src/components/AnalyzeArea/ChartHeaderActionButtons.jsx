@@ -64,6 +64,15 @@ const StyledGridContainer = styled(Grid)(({ theme }) => ({
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
 
+const sortIndices = {
+  areaNumber: 'Name',
+  hubs: 'Hubs',
+  exposure: 'Exposure',
+  threat: 'Threat',
+  asset: 'Assets',
+  wildlife: 'Wildlife'
+};
+
 export default function ChartHeaderActionButtons(props) {
   const {
     handleSortClick,
@@ -77,7 +86,6 @@ export default function ChartHeaderActionButtons(props) {
 
   return (
     <StyledGridContainer container spacing={0} p={0} mt={1} mb={1}>
-
       <Grid xs={12} >
         <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
           Analyzed project sites
@@ -86,8 +94,8 @@ export default function ChartHeaderActionButtons(props) {
       </Grid>
       <Grid xs={3} >
         <ChartHeaderActionButton
-          buttonLabel={'Sort'}
-          buttonName={'Sort'}
+          buttonLabel={`${sortIndices[analyzeAreaState.sortBy]}`}
+          buttonName={`Sort-(${analyzeAreaState.sortBy})`}
           onClick={handleSortClick}>
           {analyzeAreaState.isSortASC[analyzeAreaState.sortBy] ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
         </ChartHeaderActionButton>
