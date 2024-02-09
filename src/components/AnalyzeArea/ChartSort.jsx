@@ -51,7 +51,7 @@ export const ChartSort = () => {
   // };
 
   return (
-    <StyledGridContainer container spacing={0} p={0} mt={1} mb={1}>
+    <StyledGridContainer container spacing={0} p={0} mt={-1} mb={1}>
       {Object.entries(sortIndices).map(([chart, chartName], index) => (
         <Grid
           xs={2}

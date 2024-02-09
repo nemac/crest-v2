@@ -74,7 +74,7 @@ export default function ChartHeaderActionButton(props) {
         sx={{
           borderRadius: 0,
           maxHeight: (theme) => theme.spacing(8),
-          textTransform: 'none',
+          textTransform: 'capitalize',
           flexWrap: 'wrap',
           '&:hover': {
             backgroundColor: '#6f6f6f'
