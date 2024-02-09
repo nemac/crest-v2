@@ -17,7 +17,7 @@ const AllTheProviders = ({ children }) => (
     </ThemeProvider>
 );
 
-// eslint-disable-next-line max-len
+ 
 const customRender = (ui, options) => ({ store, ...render(ui, { wrapper: AllTheProviders, ...options }) });
 
 // re-export everything

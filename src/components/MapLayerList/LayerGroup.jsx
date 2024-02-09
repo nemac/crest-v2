@@ -16,7 +16,7 @@ export default function LayerGroup(props) {
 
   return (
     <Box px={0.5}>
-      {/* eslint-disable-next-line max-len */}
+      { }
       {Object.entries(subListings).map(([head, list]) => <SubGroup key={head} subHeading={head} subLayers={list} />)}
     </Box>
   );

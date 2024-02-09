@@ -73,9 +73,9 @@ export default function ShapeFileCorrectionMap(props) {
   const endIndex = useRef(steps.current.length);
   const startIndex = useRef(0);
   // numberInvalid is displayed to user and safeguards returning bad shapes
-  // eslint-disable-next-line max-len
+   
   const numberInvalid = steps.current?.slice(startIndex.current, endIndex.current + 1).filter((step) => step.isValid === false).length;
-  // eslint-disable-next-line max-len
+   
   const numberNotFixed = steps.current?.slice(startIndex.current, endIndex.current + 1).filter((step) => step.isFixed === false).length;
   // Always make sure that we are zoomed in to the operating shape
   if (steps.current.length > activeStep) {
