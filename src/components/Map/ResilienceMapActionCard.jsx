@@ -28,7 +28,6 @@ export default function ResilienceMapActionCard(props) {
           <Typography px={1} sx={{ cursor: 'default', width: '100%', alignItems: 'center' }}>
             Click on a Resilience Core to start exploring
           </Typography>
-          
           <UpperRightIconButton ariaLabel="Help">
             <Help />
           </UpperRightIconButton>

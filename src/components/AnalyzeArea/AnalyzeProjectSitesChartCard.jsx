@@ -221,7 +221,7 @@ export default function ChartCard(props) {
                       data={landcoverData}
                       legendColors={pieChartLegendColors}
                       chartTitle={feature.properties.areaName}
-                      chartType={key}
+                      chartType={'Landcover'}
                       showLegend={false}
                     />
                   )}
