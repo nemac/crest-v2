@@ -72,11 +72,11 @@ export const mapConfig = {
     }
   },
   regions: {
-    // eslint-disable-next-line quote-props
+     
     'Alaska': alaskaConfig,
     'American Samoa': americanSamoaConfig,
     'Atlantic, Gulf of Mexico, and Pacific Coasts': continentalUSConfig,
-    // eslint-disable-next-line quote-props
+     
     'Guam': guamConfig,
     'Hawai\'i': hawaiiConfig,
     'Northern Mariana Islands': northernMarianaIslandsConfig,
