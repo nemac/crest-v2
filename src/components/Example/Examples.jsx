@@ -87,6 +87,6 @@ export default function Example(props) {
 
 Example.propTypes = {
   map: PropTypes.any,
-  examplePolyData: PropTypes.array,
+  examplePolyData: PropTypes.object,
   setExamplePolyData: PropTypes.func
 };
