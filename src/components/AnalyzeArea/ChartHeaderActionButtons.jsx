@@ -85,8 +85,21 @@ export default function ChartHeaderActionButtons(props) {
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 
   return (
-    <StyledGridContainer container spacing={0} p={0} mt={1} mb={1}>
-      <Grid xs={12} >
+    <StyledGridContainer
+      container
+      spacing={0}
+      p={0}
+      mt={{
+        xs: 0,
+        sm: 0,
+        md: 1
+      }}
+      mb={{
+        xs: 0,
+        sm: 0,
+        md: 1
+      }} >
+      <Grid xs={12}>
         <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
           Analyzed project sites
         </Typography>

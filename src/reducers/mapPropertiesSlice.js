@@ -11,6 +11,7 @@ const startingState = {
   identifyIsLoaded: false,
   basemap: 'Dark Gray',
   sketchArea: false,
+  useBuffer: true,
   uploadedShapeFileGeoJSON: null,
   resilienceHub: null,
   areaNumber: 1,
@@ -45,6 +46,9 @@ export const mapPropertiesSlice = createSlice({
     },
     toggleSketchArea: (state) => {
       state.sketchArea = !state.sketchArea;
+    },
+    changeUseBuffer: (state, action) => {
+      state.useBuffer = !state.useBuffer;
     },
     updateDrawnLayers: (state, action) => {
       // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
@@ -97,7 +101,7 @@ export const {
   changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea,
   addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers, removeAllFeaturesFromDrawnLayers,
   uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON, changeResilienceHub, updateDrawnLayers,
-  removeFeatureByGeometry, incrementAreaNumber, resetAreaNumber, resetMapProperties
+  removeFeatureByGeometry, incrementAreaNumber, resetAreaNumber, resetMapProperties, changeUseBuffer
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

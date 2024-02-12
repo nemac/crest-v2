@@ -26,6 +26,7 @@ export default function ActionButtonsHolder(props) {
           <ActionButton
             buttonLabel={actionButton.buttonLabel}
             buttonName={actionButton.buttonName}
+            buttonId={actionButton.id}
             onClick={actionButton.onClick}
           >
             {actionButton.icon}

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import 'leaflet-easyprint';
+import { styled } from '@mui/system';
 
 import Grid from '@mui/material/Unstable_Grid2';
 import {
@@ -12,13 +13,29 @@ import {
   LibraryAdd,
   LibraryAddOutlined
 } from '@mui/icons-material';
-import { StyledGrid } from '../All/StyledComponents.jsx';
 import ActionButton from '../All/ActionButton.jsx';
 import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
 import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
 
 const areaVisibleSelector = (state) => state.analyzeArea.visible;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
+
+export const StyledGrid = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderTopColor: theme.palette.CRESTBorderColor.main,
+  borderTopStyle: 'solid',
+  borderTopWidth: '1px',
+  borderRightColor: 'transparent',
+  borderRightStyle: 'none',
+  borderRightWidth: '0px',
+  borderLeftColor: 'transparent',
+  borderLeftStyle: 'none',
+  borderLeftWidth: '0px',
+  borderBottomColor: 'transparent',
+  borderBottomStyle: 'none',
+  borderBottomWidth: '0px'
+}));
 
 // just a place holder needs props passed in and image etc
 export default function ActionButtons(props) {

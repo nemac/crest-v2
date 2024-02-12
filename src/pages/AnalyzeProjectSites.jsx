@@ -30,7 +30,6 @@ export default function AnalyzeProjectSite(props) {
   const [querySearchParams, setQuerySearchParams] = useSearchParams();
   const leafletFeatureGroupRef = useRef();
   const [map, setMap] = useState(null);
-  const [bufferCheckbox, setBufferCheckbox] = useState(true);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [hover, setHover] = useState(false);
   const [skip, setSkip] = useState(true);
@@ -135,8 +134,6 @@ export default function AnalyzeProjectSite(props) {
             mapActionCard={
               <MapActionCard
                 map={map}
-                bufferCheckbox={bufferCheckbox}
-                setBufferCheckbox={setBufferCheckbox}
                 drawAreaDisabled={drawAreaDisabled}
                 setGeoToRedraw={setGeoToRedraw}
                 setErrorState={setErrorState}
@@ -161,7 +158,6 @@ export default function AnalyzeProjectSite(props) {
             <MapCard
               map={map}
               setMap={setMap}
-              bufferCheckbox={bufferCheckbox}
               leafletFeatureGroupRef={leafletFeatureGroupRef}
               setDrawAreaDisabled={setDrawAreaDisabled}
               hover={hover}

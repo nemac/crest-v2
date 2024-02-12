@@ -29,14 +29,15 @@ export default function ActionButton(props) {
     children,
     buttonLabel,
     buttonName,
-    onClick
+    onClick,
+    buttonId
   } = props;
 
   return (
     <Box sx={{
       width: 'fit-content', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
     }}>
-      <StyledButton variant="text" color="CRESTPrimary" fullWidth={true} aria-label={buttonName} onClick={onClick}>
+      <StyledButton id={buttonId} variant="text" color="CRESTPrimary" fullWidth={true} aria-label={buttonName} onClick={onClick}>
         <StyledBox component="div" pt={0.5}>{children}</StyledBox>
         <StyledBox component="div" pb={0.5}>{buttonLabel}</StyledBox>
       </StyledButton>
@@ -48,5 +49,6 @@ ActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  buttonId: PropTypes.string
 };

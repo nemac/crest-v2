@@ -19,14 +19,14 @@ import Upload from './UploadShapeFile.jsx';
 import UpperRightIconButton from '../All/UpperRightIconButton.jsx';
 import { StyledGrid } from '../All/StyledComponents.jsx';
 import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
+import { changeUseBuffer } from '../../reducers/mapPropertiesSlice';
 
 const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
+const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
 export default function MapActionCard(props) {
   const {
     map,
-    bufferCheckbox,
-    setBufferCheckbox,
     drawAreaDisabled,
     setGeoToRedraw,
     setErrorState
@@ -34,10 +34,16 @@ export default function MapActionCard(props) {
 
   const dispatch = useDispatch();
   const analyzeAreaVisible = useSelector(analyzeAreaVisibleSelector);
+  const bufferCheckbox = useSelector(useBufferSelector);
 
   const minimizeOnClick = () => {
     dispatch(toggleAreaVisible());
   };
+
+  const setBufferCheckbox = () => {
+    dispatch(changeUseBuffer());
+  };
+
   return (
     <StyledGrid container spacing={0}
       justifyContent="center"
@@ -80,9 +86,7 @@ export default function MapActionCard(props) {
 }
 
 MapActionCard.propTypes = {
-  bufferCheckbox: PropTypes.bool,
   map: PropTypes.object,
-  setBufferCheckbox: PropTypes.func,
   drawAreaDisabled: PropTypes.bool,
   setGeoToRedraw: PropTypes.func,
   setErrorState: PropTypes.func

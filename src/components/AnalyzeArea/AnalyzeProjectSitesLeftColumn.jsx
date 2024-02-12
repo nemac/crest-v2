@@ -10,13 +10,16 @@ const analyzeAreaSortExpanded = (state) => state.analyzeArea.isSortExpanded;
 
 const StyledBox = styled(Box)(({ theme }) => ({
   marginTop: '8px',
-  backgroundColor: 'background.default',
+  backgroundColor: theme.palette.background.default,
   border: 'none',
   display: 'flex',
   flexDirection: 'row',
   overflowY: 'visible',
   overflowX: 'clip',
-  width: '100%'
+  width: '100%',
+  [theme.breakpoints.down('sm')]: {
+    marginTop: theme.spacing(0.5)
+  }
 }));
 
 export default function AnalyzeProjectSiteLeftColumn(props) {

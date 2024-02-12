@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
+import { styled } from '@mui/system';
 
 import {
   changeGraphTable,
@@ -17,6 +18,15 @@ import { handleExportAllCSV, HandleRemoveAllClick } from './ChartFunctions.jsx';
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
+
+const ChartHolderGrid = styled(Grid)(({ theme }) => ({
+  paddingRight: theme.spacing(1.5),
+  overflowY: 'scroll',
+  height: 'calc(100% - 112px)',
+  [theme.breakpoints.down('md')]: {
+    height: 'calc(100%)'
+  }
+}));
 
 export default function ChartsHolder(props) {
   const {
@@ -94,14 +104,7 @@ export default function ChartsHolder(props) {
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
-        <Grid
-          xs={12}
-          sx={{
-            height: 'calc(100% - 112px)',
-            paddingRight: (theme) => theme.spacing(1.5),
-            overflowY: 'scroll'
-          }}
-        >
+        <ChartHolderGrid xs={12}>
           <Box>
             {sortedChartData.current.map((feature, index) => (
                   <ChartCard
@@ -115,16 +118,9 @@ export default function ChartsHolder(props) {
                   />
             ))}
           </Box>
-        </Grid>
+        </ChartHolderGrid>
       ) : (
-        <Grid
-          xs={12}
-          sx={{
-            height: 'calc(100% - 112px)',
-            paddingRight: (theme) => theme.spacing(1.5),
-            overflowY: 'scroll'
-          }}
-        >
+        <ChartHolderGrid xs={12}>
           <Box>
             {sortedChartData.current.map((feature, index) => (
               <TableData
@@ -133,7 +129,7 @@ export default function ChartsHolder(props) {
               />
             ))}
           </Box>
-        </Grid>
+        </ChartHolderGrid>
       )}
     </Grid>
   );

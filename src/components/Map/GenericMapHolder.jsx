@@ -16,6 +16,9 @@ const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   },
   [theme.breakpoints.down('md')]: {
     height: 'calc(60% - 80px)'
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: 'calc(45%)'
   }
 }));
 
@@ -47,8 +50,8 @@ export default function GenericMapHolder(props) {
       {/* LEFT COLUMN */}
       <ThreeColumnGrid
         xs={12} sm={12} md={4} lg={3.75} xl={3}
-        sx={{ display: { xs: 'flex' } }}
-        order={{ xs: 3, sm: 3, md: 1 }}
+        sx={{ display: { xs: 'flex' }, height: { xs: 'fit-content', sm: 'fit-content', md: '100%' } }}
+        order={{ xs: 2, sm: 2, md: 1 }}
       >
         {leftColumn}
       </ThreeColumnGrid>
@@ -72,8 +75,8 @@ export default function GenericMapHolder(props) {
       {/* RIGHT COLUMN FOR LAYER LIST */}
       <ThreeColumnGrid
         xs={12} sm={12} md={3.5} lg={3} xl={2.75}
-        sx={{ display: { xs: layerListVisible ? 'flex' : 'none' } }}
-        order={{ xs: 2, sm: 2, md: 3 }}
+        sx={{ display: { xs: layerListVisible ? 'flex' : 'none' }, height: { xs: 'fit-content', sm: 'fit-content', md: '100%' } }}
+        order={{ xs: 3, sm: 3, md: 3 }}
       >
         <MapLayerList/>
       </ThreeColumnGrid>

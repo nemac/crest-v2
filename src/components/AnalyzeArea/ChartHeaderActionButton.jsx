@@ -44,7 +44,22 @@ const StyledBox = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   width: '100%',
   [theme.breakpoints.between('md', 'xl')]: {
-    fontSize: '0.75rem'
+    fontSize: '0.80rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.80rem'
+  }
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  paddingTop: theme.spacing(0.5),
+  paddingBottom: theme.spacing(0.5),
+  borderRadius: 0,
+  maxHeight: theme.spacing(10),
+  textTransform: 'capitalize',
+  flexWrap: 'wrap',
+  '&:hover': {
+    backgroundColor: '#6f6f6f'
   }
 }));
 
@@ -65,25 +80,16 @@ export default function ChartHeaderActionButton(props) {
     <Box sx={{
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
     }}>
-      <Button
+      <StyledButton
         variant="text"
         color="CRESTPrimary"
         fullWidth={true}
         aria-label={buttonName}
         value={buttonName}
-        sx={{
-          borderRadius: 0,
-          maxHeight: (theme) => theme.spacing(8),
-          textTransform: 'capitalize',
-          flexWrap: 'wrap',
-          '&:hover': {
-            backgroundColor: '#6f6f6f'
-          }
-        }}
         onClick={handleClick}>
-        <StyledBox component="div" pt={0.5}>{children}</StyledBox>
-        <StyledBox component="div" pb={0.5}>{buttonLabel}</StyledBox>
-      </Button>
+        <StyledBox component="div" pt={0}>{children}</StyledBox>
+        <StyledBox component="div" pb={0}>{buttonLabel}</StyledBox>
+      </StyledButton>
     </Box>
   );
 }
