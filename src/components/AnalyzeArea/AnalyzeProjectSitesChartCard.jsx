@@ -133,7 +133,7 @@ export default function ChartCard(props) {
     {
       buttonLabel: analyzeAreaState.isMore[feature.properties.areaName] ? 'Less' : 'More',
       buttonName: analyzeAreaState.isMore[feature.properties.areaName] ? 'Less' : 'More',
-      id: `btn-more-less-${feature.properties.areaName.toLowerCase().replaceAll(' ', '-')}`,
+      id: `btn-more-less-${feature.properties.areaName.toString().toLowerCase().replaceAll(' ', '-').replaceAll(',', '-')}`,
       onClick: () => { handleMoreOnClick(dispatch, feature.properties.areaName); },
       icon: <MoreHorizOutlined />
     },
@@ -190,7 +190,7 @@ export default function ChartCard(props) {
     <Grid container spacing={0} justifyContent="center" alignItems="center" px={0} pb={4} >
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
         <div
-          id={`box-${feature.properties.areaName.toLowerCase().replaceAll(' ', '-')}`}
+          id={`box-${feature.properties.areaName.toString().toLowerCase().replaceAll(' ', '-').replaceAll(',', '-')}`}
           style={{
             width: '100%',
             borderWidth: '1px',
@@ -211,7 +211,7 @@ export default function ChartCard(props) {
                       chartRegion={region}
                       chartIndices={value}
                       chartType={key}
-                      areaName={feature.properties.areaName}
+                      areaName={feature.properties.areaName.toString()}
                       setHover={setHover}
                       feature={feature}
                       zonalStatsData={feature.properties.zonalStatsData}
@@ -226,7 +226,7 @@ export default function ChartCard(props) {
                     <ResiliencePieChart
                       data={landcoverData}
                       legendColors={pieChartLegendColors}
-                      chartTitle={feature.properties.areaName}
+                      chartTitle={feature.properties.areaName.toString()}
                       chartType={'Landcover'}
                       showLegend={false}
                     />
@@ -268,7 +268,7 @@ export default function ChartCard(props) {
       ) : (
 
         <div
-          id={`box-${feature.properties.areaName.toLowerCase().replaceAll(' ', '-')}`}
+          id={`box-${feature.properties.areaName.toString().toLowerCase().replaceAll(' ', '-').replaceAll(',', '-')}`}
           style={{
             width: '100%',
             borderWidth: '1px',
@@ -286,7 +286,7 @@ export default function ChartCard(props) {
                 chartRegion={region}
                 chartIndices={chartValues['Summary Chart']}
                 chartType={'Summary Chart'}
-                areaName={feature.properties.areaName}
+                areaName={feature.properties.areaName.toString()}
                 setHover={setHover}
                 feature={feature}
                 zonalStatsData={feature.properties.zonalStatsData}

@@ -204,13 +204,13 @@ export default function MapCard(props) {
     target.setStyle({
       color: overColor
     });
-    const boxID = `#box-${areaName.toLowerCase().replaceAll(' ', '-')}`;
+    const boxID = `#box-${areaName.toString().toLowerCase().replaceAll(' ', '-').replaceAll(',', '-')}`;
     const moreGraphElem = document.querySelector(boxID);
     if (moreGraphElem) moreGraphElem.style.border = `2px solid ${overColor}`;
   };
 
   const handleAreaClick = (areaName) => (event) => {
-    const elemID = `#btn-more-less-${areaName.toLowerCase().replaceAll(' ', '-')}`;
+    const elemID = `#btn-more-less-${areaName.toString().toLowerCase().replaceAll(' ', '-').replaceAll(',', '-')}`;
     const moreLessButton = document.querySelector(elemID);
     if (moreLessButton) {
       moreLessButton.click();
@@ -223,7 +223,7 @@ export default function MapCard(props) {
     target.setStyle({
       color: outColor
     });
-    const boxID = `#box-${areaName.toLowerCase().replaceAll(' ', '-')}`;
+    const boxID = `#box-${areaName.toString().toLowerCase().replaceAll(' ', '-').replaceAll(',', '-')}`;
     const moreGraphElem = document.querySelector(boxID);
     if (moreGraphElem) moreGraphElem.style.border = '1px solid #555555';
   };

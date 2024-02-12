@@ -73,7 +73,7 @@ export default function MapActionCard(props) {
           <Upload setGeoToRedraw={setGeoToRedraw} setErrorState={setErrorState}/>
         </Grid>
         <Grid xs={12}>
-          <SearchCustom setErrorState={setErrorState}/>
+          <SearchCustom map={map} setErrorState={setErrorState}/>
         </Grid>
         <Grid xs={12}>
           <Buffer bufferCheckbox={bufferCheckbox} setBufferCheckbox={setBufferCheckbox}/>
