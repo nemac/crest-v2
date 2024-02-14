@@ -568,7 +568,7 @@ export const continentalUSConfig = {
     'Florida', 'Georgia', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts',
     'Mississippi', 'New Hampshire', 'New Jersey', 'New York', 'North Carolina',
     'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'Texas',
-    'Virigina', 'Washington'
+    'Virginia', 'Washington'
   ],
   countiesList: [
     'Acadia Parish, LA', 'Accomack County, VA', 'Adams County, PA', 'Aiken County, SC', 'Alachua County, FL',
