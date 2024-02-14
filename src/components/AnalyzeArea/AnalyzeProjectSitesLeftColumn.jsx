@@ -29,7 +29,7 @@ export default function AnalyzeProjectSiteLeftColumn(props) {
 
   const analyzeAreaVisible = useSelector(analyzeAreaVisibleSelector);
   const isSortExpanded = useSelector(analyzeAreaSortExpanded);
-  const extraSpace = isSortExpanded ? '64px' : '0px';
+  const extraSpace = isSortExpanded ? !chartCard.props.chartData ? '0px' : '64px' : '0px';
 
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
