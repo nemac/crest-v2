@@ -12,10 +12,8 @@ import DataAndReports from './pages/DataAndReports.jsx';
 import Examples from './pages/ExamplesPage.jsx';
 import Home from './pages/Home.jsx';
 import ResilienceProject from './pages/ResilienceProject.jsx';
-import StyleGuide from './pages/StyleGuide.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import ModelErrors from './components/All/ModelErrors.jsx';
-import CodeTest from './pages/CodeTest.jsx'; // CAN DELETE THIS WHEN READY FOR PRODUCTION. BE SURE TO DELETE ROUTE BELOW TOO
 
 export default function App() {
   const [errorState, setErrorState] = React.useState({
@@ -44,8 +42,6 @@ export default function App() {
             <Route path='/Examples' element={<Examples />} />
             <Route path='/DataAndReports' element={<DataAndReports />} />
             <Route path='/About' element={<About />} />
-            <Route path='/StyleGuide' element={<StyleGuide />} />
-            <Route path='/CodeTest' element={<CodeTest />} />
           </Routes>
           <ModelErrors
             contentTitle={errorState.errorTitle}

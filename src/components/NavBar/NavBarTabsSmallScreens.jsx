@@ -199,17 +199,6 @@ export default function NavBarTabsSmallScreens(props) {
                   label="About" >About
                 </StyledListItem>
               </StyledNavPaper>
-
-              <StyledNavPaper square={false} elevation={0}>
-                <StyledListItem
-                  selected={navBar.activeTab === 'StyleGuide'}
-                  onClick={(event) => handleClickNavTab(event, 'StyleGuide')}
-                  to='/StyleGuide'
-                  {...a11yProps(5)}
-                  component={RouterLink}
-                  label="Style Guide" >Style Guide
-                </StyledListItem>
-              </StyledNavPaper>
             </List>
           </Collapse>
         </Grid>
