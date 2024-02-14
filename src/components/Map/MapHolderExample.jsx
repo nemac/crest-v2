@@ -6,6 +6,7 @@ import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 
 import Example from '../Example/Examples.jsx';
 import LeafletMapContainer from './LeafletMapContainer.jsx';
@@ -107,6 +108,7 @@ export default function MapHolderExample() {
                 alignItems: 'center',
                 height: '80px'
               }} >
+              <StickyNote2Icon sx={{ marginRight: '4px'}} />
               <Typography
                 variant="h7"
                 component="div"
