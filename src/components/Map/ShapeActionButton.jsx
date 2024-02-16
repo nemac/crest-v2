@@ -1,8 +1,8 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
+import PropTypes from "prop-types";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 // just a place holder needs props passed in and image etc
 export default function ShapeActionButton(props) {
@@ -12,13 +12,18 @@ export default function ShapeActionButton(props) {
     buttonName,
     onClick,
     buttonDisabled,
-    isIconFirst
+    isIconFirst,
   } = props;
 
   return (
-    <Box sx={{
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Button
         variant="text"
         color="CRESTPrimary"
@@ -28,17 +33,22 @@ export default function ShapeActionButton(props) {
         sx={{
           borderRadius: 0,
           maxHeight: (theme) => theme.spacing(8),
-          textTransform: 'none',
-          flexWrap: 'wrap',
-          '&:hover': {
-            backgroundColor: '#6f6f6f'
-          }
+          textTransform: "none",
+          flexWrap: "wrap",
+          "&:hover": {
+            backgroundColor: "#6f6f6f",
+          },
         }}
-        onClick={onClick}>
+        onClick={onClick}
+      >
         {isIconFirst ? (
-          <>{children}&nbsp;&nbsp;{buttonLabel}</>
+          <>
+            {children}&nbsp;&nbsp;{buttonLabel}
+          </>
         ) : (
-          <>{buttonLabel}&nbsp;&nbsp;{children}</>
+          <>
+            {buttonLabel}&nbsp;&nbsp;{children}
+          </>
         )}
       </Button>
     </Box>
@@ -51,5 +61,5 @@ ShapeActionButton.propTypes = {
   buttonName: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   buttonDisabled: PropTypes.bool.isRequired,
-  isIconFirst: PropTypes.bool.isRequired
+  isIconFirst: PropTypes.bool.isRequired,
 };

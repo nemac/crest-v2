@@ -19,37 +19,38 @@ State needed
 Props
   - Not sure yet
 */
-import React from 'react';
-import { PropTypes } from 'prop-types';
+import React from "react";
+import { PropTypes } from "prop-types";
 
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import ExampleCard from './ExampleCard.jsx';
-import { mapConfig } from '../../configuration/config';
+import ExampleCard from "./ExampleCard.jsx";
+import { mapConfig } from "../../configuration/config";
 
 // just a place holder needs props passed in and image etc
 export default function Example(props) {
   const { map, examplePolyData, setExamplePolyData } = props;
-  const [expanded, setExpanded] = React.useState('false');
+  const [expanded, setExpanded] = React.useState("false");
 
   const handleExpanded = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : 'false');
+    setExpanded(isExpanded ? panel : "false");
   };
 
   return (
-    <Box variant="outlined"
+    <Box
+      variant="outlined"
       sx={{
-        '&': (theme) => ({
+        "&": (theme) => ({
           padding: theme.spacing(1),
           backgroundColor: theme.palette.CRESTGridBackground.dark,
           color: theme.palette.CRESTGridBackground.contrastText,
           borderColor: theme.palette.CRESTBorderColor.main,
-          borderStyle: 'solid',
-          borderWidth: '1px',
-          height: 'calc(100% - 123px)',
-          overflowX: 'clip',
-          overflowY: 'scroll'
-        })
+          borderStyle: "solid",
+          borderWidth: "1px",
+          height: "calc(100% - 123px)",
+          overflowX: "clip",
+          overflowY: "scroll",
+        }),
       }}
     >
       {mapConfig.examples.map((example) => {
@@ -88,5 +89,5 @@ export default function Example(props) {
 Example.propTypes = {
   map: PropTypes.any,
   examplePolyData: PropTypes.object,
-  setExamplePolyData: PropTypes.func
+  setExamplePolyData: PropTypes.func,
 };

@@ -2,6 +2,6 @@
 export default function a11yProps(index, name) {
   return {
     id: `${name}-${index}`,
-    'aria-controls': `${name}-${index}`
+    "aria-controls": `${name}-${index}`,
   };
 }

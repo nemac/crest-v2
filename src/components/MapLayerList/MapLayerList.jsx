@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import { IconButton } from '@mui/material/';
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import { IconButton } from "@mui/material/";
 import {
   ArrowDropDownCircle,
   Layers,
   GridViewRounded,
-  FilterNone
-} from '@mui/icons-material';
-import Typography from '@mui/material/Typography';
+  FilterNone,
+} from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
 
-import { mapConfig } from '../../configuration/config';
-import { toggleVisible } from '../../reducers/mapLayerListSlice';
-import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
-import { changeZoom, changeCenter, changeBasemap } from '../../reducers/mapPropertiesSlice';
-import ChangeItemButton from './ChangeItemButton.jsx';
-import DriverGroup from './DriverGroup.jsx';
-import LayerGroup from './LayerGroup.jsx';
+import { mapConfig } from "../../configuration/config";
+import { toggleVisible } from "../../reducers/mapLayerListSlice";
+import {
+  changeRegion,
+  regionUserInitiated,
+} from "../../reducers/regionSelectSlice";
+import {
+  changeZoom,
+  changeCenter,
+  changeBasemap,
+} from "../../reducers/mapPropertiesSlice";
+import ChangeItemButton from "./ChangeItemButton.jsx";
+import DriverGroup from "./DriverGroup.jsx";
+import LayerGroup from "./LayerGroup.jsx";
 
 const basemaps = mapConfig.basemaps;
 const regions = mapConfig.regions;
@@ -41,13 +48,13 @@ export default function MapLayerList() {
 
   // get summary charts configs
   const chartSummaryInputs = chartsInputs.filter((data) => {
-    const summaryValues = data.chartInputName === 'summary';
+    const summaryValues = data.chartInputName === "summary";
     return summaryValues;
   });
 
   // get driver charts configs
   const chartDriverInputs = chartsInputs.filter((data) => {
-    const driverValues = data.chartInputName !== 'summary';
+    const driverValues = data.chartInputName !== "summary";
     return driverValues;
   });
 
@@ -107,47 +114,61 @@ export default function MapLayerList() {
   */
   const renderAccordion = (chInLabel) => {
     const chartLayerList = getChartLayers(chInLabel);
-    const isSummary = (chInLabel === 'Summary');
+    const isSummary = chInLabel === "Summary";
     if (isSummary) {
       return (
-        <LayerGroup key={chInLabel} chartInputLabel={chInLabel} chartLayerList={chartLayerList} />
+        <LayerGroup
+          key={chInLabel}
+          chartInputLabel={chInLabel}
+          chartLayerList={chartLayerList}
+        />
       );
     }
     return (
-        <DriverGroup key={chInLabel} chartInputLabel={chInLabel} chartLayerList={chartLayerList} />
+      <DriverGroup
+        key={chInLabel}
+        chartInputLabel={chInLabel}
+        chartLayerList={chartLayerList}
+      />
     );
   };
 
   return (
-    <Grid container spacing={0}
+    <Grid
+      container
+      spacing={0}
       sx={{
-        height: '100%',
+        height: "100%",
         paddingRight: (theme) => theme.spacing(0),
-        overflowY: 'scroll',
+        overflowY: "scroll",
         backgroundColor: (theme) => theme.palette.CRESTGridBackground.dark,
         border: (theme) => `1px solid ${theme.palette.CRESTBorderColor.main}`,
-        placeContent: 'flex-start'
+        placeContent: "flex-start",
       }}
     >
-
       <Grid item xs={12}>
-        <Box px={1} py={0.75}
+        <Box
+          px={1}
+          py={0.75}
           sx={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '54px',
-            paddingBottom: (theme) => theme.spacing(0.5)
+            display: "flex",
+            flexWrap: "nowrap",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "54px",
+            paddingBottom: (theme) => theme.spacing(0.5),
           }}
         >
           <Layers />
-          <Typography px={1} variant="h6" component="div"
+          <Typography
+            px={1}
+            variant="h6"
+            component="div"
             sx={{
-              cursor: 'default',
-              display: 'flex',
-              width: '100%',
-              fontWeight: 'bold'
+              cursor: "default",
+              display: "flex",
+              width: "100%",
+              fontWeight: "bold",
             }}
           >
             Map Layers
@@ -160,14 +181,15 @@ export default function MapLayerList() {
             sx={{
               height: (theme) => theme.spacing(4.5),
               padding: (theme) => theme.spacing(0.375),
-              justifyContent: 'end'
+              justifyContent: "end",
             }}
-            size="large">
-            <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }}/>
+            size="large"
+          >
+            <ArrowDropDownCircle sx={{ transform: "rotate(-180deg)" }} />
           </IconButton>
         </Box>
-        <Grid container spacing={0} justifyContent="center" alignItems="center" >
-          <Grid item xs={12} >
+        <Grid container spacing={0} justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
             <Divider variant="middle" />
           </Grid>
         </Grid>
@@ -175,38 +197,41 @@ export default function MapLayerList() {
 
       <Grid item xs={12} pt={2} px={2}>
         <ChangeItemButton
-          buttonMainLabel={'Change Basemap'}
+          buttonMainLabel={"Change Basemap"}
           buttonNameLabel={selectedBasemap}
-          buttonName={'Change Basemap'}
+          buttonName={"Change Basemap"}
           showMenu={showBaseMapMenu}
           menuItems={basemaps}
           onClick={handleBaseMapClick}
-          itemOnClick={handleBaseMapMenuItemClick}>
-          {<GridViewRounded sx={{ fontSize: '1.75rem' }}/>}
+          itemOnClick={handleBaseMapMenuItemClick}
+        >
+          {<GridViewRounded sx={{ fontSize: "1.75rem" }} />}
         </ChangeItemButton>
       </Grid>
 
       <Grid item xs={12} pt={1} px={2}>
         <ChangeItemButton
-          buttonMainLabel={'Change Region'}
+          buttonMainLabel={"Change Region"}
           buttonNameLabel={selectedRegion}
-          buttonName={'Change Region'}
+          buttonName={"Change Region"}
           showMenu={showRegionMenu}
           menuItems={regions}
           onClick={handleRegionClick}
-          itemOnClick={handleRegionMenuItemClick}>
-          {<FilterNone sx={{ fontSize: '1.75rem' }}/>}
+          itemOnClick={handleRegionMenuItemClick}
+        >
+          {<FilterNone sx={{ fontSize: "1.75rem" }} />}
         </ChangeItemButton>
       </Grid>
 
       <Grid item xs={12} px={2} pt={1}>
-        { chartSummaryInputs.map((item) => renderAccordion(item.ChartInputLabel)) }
+        {chartSummaryInputs.map((item) =>
+          renderAccordion(item.ChartInputLabel),
+        )}
       </Grid>
 
       <Grid item xs={12} px={2} pt={1} mt={2} mb={1}>
-        { chartDriverInputs.map((item) => renderAccordion(item.ChartInputLabel)) }
+        {chartDriverInputs.map((item) => renderAccordion(item.ChartInputLabel))}
       </Grid>
-
     </Grid>
   );
 }

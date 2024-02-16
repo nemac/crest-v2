@@ -19,53 +19,53 @@ State needed
 Props
 - Not sure yet
 */
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link as RouterLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import Collapse from '@mui/material/Collapse';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
+import Collapse from "@mui/material/Collapse";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
 
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { MenuOutlined, ArrowDropDownCircle } from '@mui/icons-material';
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { MenuOutlined, ArrowDropDownCircle } from "@mui/icons-material";
 
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 
-import { changeMenuOpen } from '../../reducers/NavBarSlice';
-import a11yProps from '../../utility/a11yProps';
+import { changeMenuOpen } from "../../reducers/NavBarSlice";
+import a11yProps from "../../utility/a11yProps";
 
 const StyledNavPaper = styled(Paper)(({ theme }) => ({
-  padding: '3px 6px 3px 6px',
-  backgroundColor: theme.palette.CRESTGridBackground.main
+  padding: "3px 6px 3px 6px",
+  backgroundColor: theme.palette.CRESTGridBackground.main,
 }));
 
 const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '1rem',
+  fontSize: "1rem",
   paddingTop: theme.spacing(1),
-  paddingBottom: theme.spacing(1)
+  paddingBottom: theme.spacing(1),
 }));
 
 const StyledListItem = styled(ListItemButton)(({ theme }) => ({
-  color: '#FFFFFF',
-  backgroundColor: '#000000',
-  textTransform: 'capitalize',
+  color: "#FFFFFF",
+  backgroundColor: "#000000",
+  textTransform: "capitalize",
   boxShadow: 3,
-  padding: '12px',
-  '&:hover': {
-    backgroundColor: '#444444',
-    color: '#FFFFFF',
-    textTransform: 'capitalize'
+  padding: "12px",
+  "&:hover": {
+    backgroundColor: "#444444",
+    color: "#FFFFFF",
+    textTransform: "capitalize",
   },
-  '&.Mui-selected': {
-    color: '#FFFFFF',
-    backgroundColor: '#444444',
-    textTransform: 'capitalize'
-  }
+  "&.Mui-selected": {
+    color: "#FFFFFF",
+    backgroundColor: "#444444",
+    textTransform: "capitalize",
+  },
 }));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
@@ -84,131 +84,227 @@ export default function NavBarTabsSmallScreens(props) {
 
   return (
     <>
-    <Grid item xs={12} >
-      <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} >
-
-        <Grid item xs={12} onClick={handleMenuClick} sx={{ cursor: 'pointer', backgroundColor: 'CRESTGridBackground.main' }}>
-          <Grid container spacing={0} justifyContent='center' alignItems='center' px={0} pb={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
-            <Grid item xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
-              <Typography variant='h6' component='div' px={1} pt={1} align="left" gutterBottom
-                sx={{
-                  '&': (theme) => ({
-                    fontSize: '1rem',
-                    paddingLeft: theme.spacing(1),
-                    paddingTop: theme.spacing(2),
-                    paddingBottom: theme.spacing(0)
-                  })
-                }}
-              >
-                Coastal Resilience Evaluation and Siting Tool (CREST)
-              </Typography>
-            </Grid>
-            <Grid item xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
-              <Typography variant='h6' component='div' px={0} pt={2} mb={0} align="left" gutterBottom>
-                <MenuOutlined fontSize='medium' />
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Collapse in={navBar.menuOpen} timeout="auto" unmountOnExit sx={{ backgroundColor: 'CRESTGridBackground.main' }}>
-
-            <Grid container spacing={0} justifyContent='center' alignItems='center' px={0.75} pt={1} pb={0}
-              onClick={handleMenuClick} sx={{ cursor: 'pointer', backgroundColor: 'CRESTGridBackground.main' }}
+      <Grid item xs={12}>
+        <Grid
+          container
+          spacing={0}
+          justifyContent="center"
+          alignItems="center"
+          px={0}
+        >
+          <Grid
+            item
+            xs={12}
+            onClick={handleMenuClick}
+            sx={{
+              cursor: "pointer",
+              backgroundColor: "CRESTGridBackground.main",
+            }}
+          >
+            <Grid
+              container
+              spacing={0}
+              justifyContent="center"
+              alignItems="center"
+              px={0}
+              pb={1}
+              sx={{ backgroundColor: "CRESTDark.main" }}
             >
-              <Grid item xs={11} sx={{ backgroundColor: 'CRESTDark.main' }}>
-                <StyledTypographyTitle variant='h6' component='div' px={1} align="left">
-                  Navigation menu
-                </StyledTypographyTitle>
+              <Grid item xs={11} sx={{ backgroundColor: "CRESTDark.main" }}>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  px={1}
+                  pt={1}
+                  align="left"
+                  gutterBottom
+                  sx={{
+                    "&": (theme) => ({
+                      fontSize: "1rem",
+                      paddingLeft: theme.spacing(1),
+                      paddingTop: theme.spacing(2),
+                      paddingBottom: theme.spacing(0),
+                    }),
+                  }}
+                >
+                  Coastal Resilience Evaluation and Siting Tool (CREST)
+                </Typography>
               </Grid>
-              <Grid item xs={1} sx={{ backgroundColor: 'CRESTDark.main' }}>
-                <StyledTypographyTitle variant='h6' component='div' px={1} align="left">
-                  <ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)', fontSize: '1.20rem' }}/>
-                </StyledTypographyTitle>
-              </Grid>
-              <Grid item xs={12} sx={{ backgroundColor: 'CRESTDark.main' }}>
-                <Typography variant='h7' component='div' px={0} pb={0} mb={0} align="left" gutterBottom>
-                  <Divider sx={{ borderColor: 'CRESTPrimary.main' }}/>
+              <Grid item xs={1} sx={{ backgroundColor: "CRESTDark.main" }}>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  px={0}
+                  pt={2}
+                  mb={0}
+                  align="left"
+                  gutterBottom
+                >
+                  <MenuOutlined fontSize="medium" />
                 </Typography>
               </Grid>
             </Grid>
+          </Grid>
 
-            <List
-              value={navBar.activeTab}
-              aria-label="CREST Nabigation Tabs"
-              sx={{ paddingTop: '0px' }} >
+          <Grid item xs={12}>
+            <Collapse
+              in={navBar.menuOpen}
+              timeout="auto"
+              unmountOnExit
+              sx={{ backgroundColor: "CRESTGridBackground.main" }}
+            >
+              <Grid
+                container
+                spacing={0}
+                justifyContent="center"
+                alignItems="center"
+                px={0.75}
+                pt={1}
+                pb={0}
+                onClick={handleMenuClick}
+                sx={{
+                  cursor: "pointer",
+                  backgroundColor: "CRESTGridBackground.main",
+                }}
+              >
+                <Grid item xs={11} sx={{ backgroundColor: "CRESTDark.main" }}>
+                  <StyledTypographyTitle
+                    variant="h6"
+                    component="div"
+                    px={1}
+                    align="left"
+                  >
+                    Navigation menu
+                  </StyledTypographyTitle>
+                </Grid>
+                <Grid item xs={1} sx={{ backgroundColor: "CRESTDark.main" }}>
+                  <StyledTypographyTitle
+                    variant="h6"
+                    component="div"
+                    px={1}
+                    align="left"
+                  >
+                    <ArrowDropDownCircle
+                      sx={{ transform: "rotate(-180deg)", fontSize: "1.20rem" }}
+                    />
+                  </StyledTypographyTitle>
+                </Grid>
+                <Grid item xs={12} sx={{ backgroundColor: "CRESTDark.main" }}>
+                  <Typography
+                    variant="h7"
+                    component="div"
+                    px={0}
+                    pb={0}
+                    mb={0}
+                    align="left"
+                    gutterBottom
+                  >
+                    <Divider sx={{ borderColor: "CRESTPrimary.main" }} />
+                  </Typography>
+                </Grid>
+              </Grid>
 
-              <Paper square={false} elevation={0} sx={{ padding: '6px 6px 3px 6px', backgroundColor: 'CRESTGridBackground.main' }}>
-                <StyledListItem
-                  selected={navBar.activeTab === 'Home'}
-                  onClick={(event) => handleClickNavTab(event, 'Home')}
-                  to='/' {...a11yProps(0)}
-                  component={RouterLink}>Home
-                </StyledListItem>
-              </Paper>
+              <List
+                value={navBar.activeTab}
+                aria-label="CREST Nabigation Tabs"
+                sx={{ paddingTop: "0px" }}
+              >
+                <Paper
+                  square={false}
+                  elevation={0}
+                  sx={{
+                    padding: "6px 6px 3px 6px",
+                    backgroundColor: "CRESTGridBackground.main",
+                  }}
+                >
+                  <StyledListItem
+                    selected={navBar.activeTab === "Home"}
+                    onClick={(event) => handleClickNavTab(event, "Home")}
+                    to="/"
+                    {...a11yProps(0)}
+                    component={RouterLink}
+                  >
+                    Home
+                  </StyledListItem>
+                </Paper>
 
-              <StyledNavPaper square={false} elevation={0}>
-                <StyledListItem
-                  selected={navBar.activeTab === 'ResilienceProject'}
-                  onClick={(event) => handleClickNavTab(event, 'ResilienceProject')}
-                  to='/ResilienceProject'
-                  {...a11yProps(1)}
-                  component={RouterLink}>Explore Resilience Hubs
-                </StyledListItem>
-              </StyledNavPaper>
+                <StyledNavPaper square={false} elevation={0}>
+                  <StyledListItem
+                    selected={navBar.activeTab === "ResilienceProject"}
+                    onClick={(event) =>
+                      handleClickNavTab(event, "ResilienceProject")
+                    }
+                    to="/ResilienceProject"
+                    {...a11yProps(1)}
+                    component={RouterLink}
+                  >
+                    Explore Resilience Hubs
+                  </StyledListItem>
+                </StyledNavPaper>
 
-              <StyledNavPaper square={false} elevation={0}>
-                <StyledListItem
-                  selected={navBar.activeTab === 'AnalyzeProjectSites'}
-                  onClick={(event) => handleClickNavTab(event, 'AnalyzeProjectSites')}
-                  to='/AnalyzeProjectSites' {...a11yProps(2)}
-                  component={RouterLink}>Analyze Project Sites
-                </StyledListItem>
-              </StyledNavPaper>
+                <StyledNavPaper square={false} elevation={0}>
+                  <StyledListItem
+                    selected={navBar.activeTab === "AnalyzeProjectSites"}
+                    onClick={(event) =>
+                      handleClickNavTab(event, "AnalyzeProjectSites")
+                    }
+                    to="/AnalyzeProjectSites"
+                    {...a11yProps(2)}
+                    component={RouterLink}
+                  >
+                    Analyze Project Sites
+                  </StyledListItem>
+                </StyledNavPaper>
 
-              <StyledNavPaper square={false} elevation={0}>
-                <StyledListItem
-                  selected={navBar.activeTab === 'Examples'}
-                  onClick={(event) => handleClickNavTab(event, 'Examples')}
-                  to='/Examples'
-                  {...a11yProps(3)}
-                  component={RouterLink}>
-                  Examples
-                </StyledListItem>
-              </StyledNavPaper>
+                <StyledNavPaper square={false} elevation={0}>
+                  <StyledListItem
+                    selected={navBar.activeTab === "Examples"}
+                    onClick={(event) => handleClickNavTab(event, "Examples")}
+                    to="/Examples"
+                    {...a11yProps(3)}
+                    component={RouterLink}
+                  >
+                    Examples
+                  </StyledListItem>
+                </StyledNavPaper>
 
-              <StyledNavPaper square={false} elevation={0}>
-                <StyledListItem
-                  selected={navBar.activeTab === 'DataAndReports'}
-                  onClick={(event) => handleClickNavTab(event, 'DataAndReports')}
-                  to='/DataAndReports'
-                  {...a11yProps(0)}
-                  component={RouterLink}
-                  label="Data & Reports" >Data & Reports
-                </StyledListItem>
-              </StyledNavPaper>
+                <StyledNavPaper square={false} elevation={0}>
+                  <StyledListItem
+                    selected={navBar.activeTab === "DataAndReports"}
+                    onClick={(event) =>
+                      handleClickNavTab(event, "DataAndReports")
+                    }
+                    to="/DataAndReports"
+                    {...a11yProps(0)}
+                    component={RouterLink}
+                    label="Data & Reports"
+                  >
+                    Data & Reports
+                  </StyledListItem>
+                </StyledNavPaper>
 
-              <StyledNavPaper square={false} elevation={0}>
-                <StyledListItem
-                  selected={navBar.activeTab === 'About'}
-                  onClick={(event) => handleClickNavTab(event, 'About')}
-                  to='/About'
-                  {...a11yProps(4)}
-                  component={RouterLink}
-                  label="About" >About
-                </StyledListItem>
-              </StyledNavPaper>
-            </List>
-          </Collapse>
+                <StyledNavPaper square={false} elevation={0}>
+                  <StyledListItem
+                    selected={navBar.activeTab === "About"}
+                    onClick={(event) => handleClickNavTab(event, "About")}
+                    to="/About"
+                    {...a11yProps(4)}
+                    component={RouterLink}
+                    label="About"
+                  >
+                    About
+                  </StyledListItem>
+                </StyledNavPaper>
+              </List>
+            </Collapse>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
     </>
   );
 }
 
 NavBarTabsSmallScreens.propTypes = {
   handleClickNavTab: PropTypes.func.isRequired,
-  logo: PropTypes.string.isRequired
+  logo: PropTypes.string.isRequired,
 };

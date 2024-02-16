@@ -1,23 +1,23 @@
-import React from 'react';
-import { screen, cleanup } from '@testing-library/react';
-import { render } from '../../setup/testUtils';
-import { mapConfig } from '../../../src/configuration/config';
-import ChartSummary from '../../../src/components/AnalyzeArea/AnalyzeBarChart';
+import React from "react";
+import { screen, cleanup } from "@testing-library/react";
+import { render } from "../../setup/testUtils";
+import { mapConfig } from "../../../src/configuration/config";
+import ChartSummary from "../../../src/components/AnalyzeArea/AnalyzeBarChart";
 
 //Done
 const testArea = "Alaska";
 
-describe('ChartSummary', () => {
+describe("ChartSummary", () => {
   beforeEach(() => {
-    render(<ChartSummary areaName={testArea}/>).store;
+    render(<ChartSummary areaName={testArea} />).store;
   });
   afterEach(() => {
     cleanup();
   });
 
-  describe('Renders as expected: ', () => {
-    test('Screen as expected: ', () => {
-        expect(testArea).toBeInTheDocument;
-    })
-  })
-})
+  describe("Renders as expected: ", () => {
+    test("Screen as expected: ", () => {
+      expect(testArea).toBeInTheDocument;
+    });
+  });
+});

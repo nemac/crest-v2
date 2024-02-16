@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { CodeBlock, a11yDark } from 'react-code-blocks';
+import * as React from "react";
+import { CodeBlock, a11yDark } from "react-code-blocks";
 
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Unstable_Grid2';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Unstable_Grid2";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
 import {
   Addchart,
@@ -70,15 +70,15 @@ import {
   SortOutlined,
   TableChart,
   ToggleOff,
-  ToggleOn
-} from '@mui/icons-material';
+  ToggleOn,
+} from "@mui/icons-material";
 
-import StyleGuideButtonComponent from '../components/StyleGuide/StyleGuideButtonComponent.jsx';
-import StyleGuideIconComponent from '../components/StyleGuide/StyleGuideIconComponent.jsx';
-import StyleGuideBackgroundComponent from '../components/StyleGuide/StyleGuideBackgroundComponent.jsx';
+import StyleGuideButtonComponent from "../components/StyleGuide/StyleGuideButtonComponent.jsx";
+import StyleGuideIconComponent from "../components/StyleGuide/StyleGuideIconComponent.jsx";
+import StyleGuideBackgroundComponent from "../components/StyleGuide/StyleGuideBackgroundComponent.jsx";
 
 const codeBlockLink = '<Link href="#" >Link</Link>';
-const codeBlockDivider = '<Divider />';
+const codeBlockDivider = "<Divider />";
 // standard grid padding px={1.5} py={0.75} 12 and 6 pixels
 
 export default function StyleGuide() {
@@ -90,7 +90,13 @@ export default function StyleGuide() {
         </Typography>
       </Box>
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
+      <Grid
+        container
+        spacing={3}
+        justifyContent="start"
+        alignItems="start"
+        p={3}
+      >
         <Grid xs={12}>
           <Typography variant="h4" component="div" gutterBottom>
             Backgrounds and associated text
@@ -100,54 +106,60 @@ export default function StyleGuide() {
       </Grid>
 
       <StyleGuideBackgroundComponent
-        title='Default Background'
-        gridBackgroundColor='CRESTGridBackground.main'
-        gridTextColor='CRESTGridBackground.contrastText'
-        blockBackgroundColor='CRESTGridBackground.main'
-        gridBorderColor='CRESTBorderColor.main'
+        title="Default Background"
+        gridBackgroundColor="CRESTGridBackground.main"
+        gridTextColor="CRESTGridBackground.contrastText"
+        blockBackgroundColor="CRESTGridBackground.main"
+        gridBorderColor="CRESTBorderColor.main"
       />
 
       <StyleGuideBackgroundComponent
-        title='Dark Background'
-        gridBackgroundColor='CRESTGridBackground.dark'
-        gridTextColor='CRESTGridBackground.contrastText'
-        blockBackgroundColor='CRESTGridBackground.dark'
-        gridBorderColor='CRESTBorderColor.main'
+        title="Dark Background"
+        gridBackgroundColor="CRESTGridBackground.dark"
+        gridTextColor="CRESTGridBackground.contrastText"
+        blockBackgroundColor="CRESTGridBackground.dark"
+        gridBorderColor="CRESTBorderColor.main"
       />
 
       <StyleGuideBackgroundComponent
-        title='Dark Background Alternate'
-        gridBackgroundColor='CRESTDarkAlt.main'
-        gridTextColor='CRESTDarkAlt.contrastText'
-        blockBackgroundColor='CRESTDarkAlt.main'
-        gridBorderColor='CRESTBorderColor.main'
+        title="Dark Background Alternate"
+        gridBackgroundColor="CRESTDarkAlt.main"
+        gridTextColor="CRESTDarkAlt.contrastText"
+        blockBackgroundColor="CRESTDarkAlt.main"
+        gridBorderColor="CRESTBorderColor.main"
       />
 
       <StyleGuideBackgroundComponent
-        title='Light Background'
-        gridBackgroundColor='CRESTLight.main'
-        gridTextColor='CRESTLight.contrastText'
-        blockBackgroundColor='CRESTLight.main'
-        gridBorderColor='RESTLightBorderColor.main'
+        title="Light Background"
+        gridBackgroundColor="CRESTLight.main"
+        gridTextColor="CRESTLight.contrastText"
+        blockBackgroundColor="CRESTLight.main"
+        gridBorderColor="RESTLightBorderColor.main"
       />
 
       <StyleGuideBackgroundComponent
-        title='Examples Current Step'
-        gridBackgroundColor='CRESTExampleCurrentSteps.main'
-        gridTextColor='CRESTExampleCurrentSteps.contrastText'
-        blockBackgroundColor='CRESTExampleCurrentSteps.main'
-        gridBorderColor='CRESTExampleCurrentSteps.light'
+        title="Examples Current Step"
+        gridBackgroundColor="CRESTExampleCurrentSteps.main"
+        gridTextColor="CRESTExampleCurrentSteps.contrastText"
+        blockBackgroundColor="CRESTExampleCurrentSteps.main"
+        gridBorderColor="CRESTExampleCurrentSteps.light"
       />
 
       <StyleGuideBackgroundComponent
-        title='Examples Other Steps'
-        gridBackgroundColor='CRESTExampleOtherSteps.main'
-        gridTextColor='CRESTExampleOtherSteps.contrastText'
-        blockBackgroundColor='CRESTExampleOtherSteps.dark'
+        title="Examples Other Steps"
+        gridBackgroundColor="CRESTExampleOtherSteps.main"
+        gridTextColor="CRESTExampleOtherSteps.contrastText"
+        blockBackgroundColor="CRESTExampleOtherSteps.dark"
         gridBorderColor="CRESTExampleOtherSteps.main"
       />
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
+      <Grid
+        container
+        spacing={3}
+        justifyContent="start"
+        alignItems="start"
+        p={3}
+      >
         <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Buttons
@@ -157,30 +169,36 @@ export default function StyleGuide() {
       </Grid>
 
       <StyleGuideButtonComponent
-        title='Call to action button'
-        themeName='CRESTCta'
-        blockBackgroundColor='CRESTGridBackground.dark'
+        title="Call to action button"
+        themeName="CRESTCta"
+        blockBackgroundColor="CRESTGridBackground.dark"
       />
 
       <StyleGuideButtonComponent
-        title='Primary button'
-        themeName='CRESTPrimary'
-        blockBackgroundColor='CRESTGridBackground.dark'
+        title="Primary button"
+        themeName="CRESTPrimary"
+        blockBackgroundColor="CRESTGridBackground.dark"
       />
 
       <StyleGuideButtonComponent
-        title='Secondary button'
-        themeName='CRESTSecondary'
-        blockBackgroundColor='CRESTGridBackground.dark'
+        title="Secondary button"
+        themeName="CRESTSecondary"
+        blockBackgroundColor="CRESTGridBackground.dark"
       />
 
       <StyleGuideButtonComponent
-        title='Dark button'
-        themeName='CRESTDarkAlt'
-        blockBackgroundColor='CRESTGridBackground.dark'
+        title="Dark button"
+        themeName="CRESTDarkAlt"
+        blockBackgroundColor="CRESTGridBackground.dark"
       />
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
+      <Grid
+        container
+        spacing={3}
+        justifyContent="start"
+        alignItems="start"
+        p={3}
+      >
         <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Divider
@@ -190,11 +208,16 @@ export default function StyleGuide() {
       </Grid>
 
       <div>
-
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-          <Grid xs={1}>
-            &nbsp;
-          </Grid>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="start"
+          alignItems="start"
+          pb={1}
+          px={3}
+          pt={3}
+        >
+          <Grid xs={1}>&nbsp;</Grid>
           <Grid xs={11}>
             <Typography variant="h6" gutterBottom>
               Default Divider (color set in styleOverrides)
@@ -202,44 +225,70 @@ export default function StyleGuide() {
           </Grid>
         </Grid>
 
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
-          <Grid xs={1}>
-            &nbsp;
-          </Grid>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="start"
+          alignItems="start"
+          pb={1}
+          px={3}
+          pt={0}
+        >
+          <Grid xs={1}>&nbsp;</Grid>
           <Grid xs={3} pl={0}>
-            <Paper variant="outlined" square={false} sx={{ padding: '20px', backgroundColor: 'CRESTGridBackground.dark' }}>
-
-              <Grid container spacing={3} justifyContent="start" alignItems="start">
+            <Paper
+              variant="outlined"
+              square={false}
+              sx={{
+                padding: "20px",
+                backgroundColor: "CRESTGridBackground.dark",
+              }}
+            >
+              <Grid
+                container
+                spacing={3}
+                justifyContent="start"
+                alignItems="start"
+              >
                 <Grid xs={12}>
-                    <Divider />
+                  <Divider />
                 </Grid>
               </Grid>
-
             </Paper>
           </Grid>
-          <Grid xs={8}>
-            &nbsp;
-          </Grid>
+          <Grid xs={8}>&nbsp;</Grid>
         </Grid>
 
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-          <Grid xs={1}>
-            &nbsp;
-          </Grid>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="start"
+          alignItems="start"
+          pb={1}
+          px={3}
+          pt={1}
+        >
+          <Grid xs={1}>&nbsp;</Grid>
           <Grid xs={11}>
             <Box>
               <CodeBlock
                 theme={a11yDark}
                 text={codeBlockDivider}
-                language={'jsx'}
-                showLineNumbers={false} />
+                language={"jsx"}
+                showLineNumbers={false}
+              />
             </Box>
           </Grid>
         </Grid>
-
       </div>
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
+      <Grid
+        container
+        spacing={3}
+        justifyContent="start"
+        alignItems="start"
+        p={3}
+      >
         <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Links
@@ -249,11 +298,16 @@ export default function StyleGuide() {
       </Grid>
 
       <div>
-
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={3}>
-          <Grid xs={1}>
-            &nbsp;
-          </Grid>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="start"
+          alignItems="start"
+          pb={1}
+          px={3}
+          pt={3}
+        >
+          <Grid xs={1}>&nbsp;</Grid>
           <Grid xs={11}>
             <Typography variant="h6" gutterBottom>
               Default Link (color set in styleOverrides)
@@ -261,44 +315,70 @@ export default function StyleGuide() {
           </Grid>
         </Grid>
 
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={0}>
-          <Grid xs={1}>
-            &nbsp;
-          </Grid>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="start"
+          alignItems="start"
+          pb={1}
+          px={3}
+          pt={0}
+        >
+          <Grid xs={1}>&nbsp;</Grid>
           <Grid xs={3} pl={0}>
-            <Paper variant="outlined" square={false} sx={{ padding: '20px', backgroundColor: 'CRESTGridBackground.dark' }}>
-
-              <Grid container spacing={3} justifyContent="start" alignItems="start">
+            <Paper
+              variant="outlined"
+              square={false}
+              sx={{
+                padding: "20px",
+                backgroundColor: "CRESTGridBackground.dark",
+              }}
+            >
+              <Grid
+                container
+                spacing={3}
+                justifyContent="start"
+                alignItems="start"
+              >
                 <Grid xs={12}>
-                  <Link href="#" >Link</Link>
+                  <Link href="#">Link</Link>
                 </Grid>
               </Grid>
-
             </Paper>
           </Grid>
-          <Grid xs={8}>
-            &nbsp;
-          </Grid>
+          <Grid xs={8}>&nbsp;</Grid>
         </Grid>
 
-        <Grid container spacing={3} justifyContent="start" alignItems="start" pb={1} px={3} pt={1}>
-          <Grid xs={1}>
-            &nbsp;
-          </Grid>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="start"
+          alignItems="start"
+          pb={1}
+          px={3}
+          pt={1}
+        >
+          <Grid xs={1}>&nbsp;</Grid>
           <Grid xs={11}>
             <Box>
               <CodeBlock
                 theme={a11yDark}
                 text={codeBlockLink}
-                language={'jsx'}
-                showLineNumbers={false} />
+                language={"jsx"}
+                showLineNumbers={false}
+              />
             </Box>
           </Grid>
         </Grid>
-
       </div>
 
-      <Grid container spacing={3} justifyContent="start" alignItems="start" p={3}>
+      <Grid
+        container
+        spacing={3}
+        justifyContent="start"
+        alignItems="start"
+        p={3}
+      >
         <Grid xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
             Icons
@@ -308,304 +388,305 @@ export default function StyleGuide() {
       </Grid>
 
       <StyleGuideIconComponent
-        title='Add Area'
-        SelectedIconName='LibraryAdd'
-        UnselectedIconName='LibraryAddOutlined'
+        title="Add Area"
+        SelectedIconName="LibraryAdd"
+        UnselectedIconName="LibraryAddOutlined"
         selectedIcon={<LibraryAdd />}
         unSelectedIcon={<LibraryAddOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Change Basemap'
-        SelectedIconName='GridView'
-        UnselectedIconName='GridViewRounded'
+        title="Change Basemap"
+        SelectedIconName="GridView"
+        UnselectedIconName="GridViewRounded"
         selectedIcon={<GridView />}
         unSelectedIcon={<GridViewRounded />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Change Region'
-        SelectedIconName='FilterNone'
-        UnselectedIconName='FilterNoneOutlined'
+        title="Change Region"
+        SelectedIconName="FilterNone"
+        UnselectedIconName="FilterNoneOutlined"
         selectedIcon={<FilterNone />}
         unSelectedIcon={<FilterNoneOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Clear'
-        SelectedIconName='LayersClear'
-        UnselectedIconName='LayersClear'
+        title="Clear"
+        SelectedIconName="LayersClear"
+        UnselectedIconName="LayersClear"
         selectedIcon={<LayersClear />}
         unSelectedIcon={<LayersClear />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Close Modal'
-        SelectedIconName='Cancel'
-        UnselectedIconName='CancelOutlined'
+        title="Close Modal"
+        SelectedIconName="Cancel"
+        UnselectedIconName="CancelOutlined"
         selectedIcon={<Cancel />}
         unSelectedIcon={<CancelOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Close/Minimize Open/Maximize'
-        SelectedIconName='ArrowDropDownCircle'
-        UnselectedIconName='ArrowDropDownCircle'
-        selectedIcon={<ArrowDropDownCircle sx={{ transform: 'rotate(-180deg)' }}/>}
+        title="Close/Minimize Open/Maximize"
+        SelectedIconName="ArrowDropDownCircle"
+        UnselectedIconName="ArrowDropDownCircle"
+        selectedIcon={
+          <ArrowDropDownCircle sx={{ transform: "rotate(-180deg)" }} />
+        }
         unSelectedIcon={<ArrowDropDownCircle />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
         flip={true}
       />
 
       <StyleGuideIconComponent
-        title='Data Download'
-        SelectedIconName='FileDownload'
-        UnselectedIconName='FileDownloadOutlined'
+        title="Data Download"
+        SelectedIconName="FileDownload"
+        UnselectedIconName="FileDownloadOutlined"
         selectedIcon={<FileDownload />}
         unSelectedIcon={<FileDownloadOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Download Assesssment'
-        SelectedIconName='PictureAsPdf'
-        UnselectedIconName='PictureAsPdfOutlined'
+        title="Download Assesssment"
+        SelectedIconName="PictureAsPdf"
+        UnselectedIconName="PictureAsPdfOutlined"
         selectedIcon={<PictureAsPdf />}
         unSelectedIcon={<PictureAsPdfOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Error Wrong Descrption'
-        SelectedIconName='DisabledByDefault'
-        UnselectedIconName='DisabledByDefaultOutlined'
-        selectedIcon={<DisabledByDefault color='error'/>}
-        unSelectedIcon={<DisabledByDefaultOutlined color='error'/>}
-        blockBackgroundColor='CRESTGridBackground.main'
-        color='error'
+        title="Error Wrong Descrption"
+        SelectedIconName="DisabledByDefault"
+        UnselectedIconName="DisabledByDefaultOutlined"
+        selectedIcon={<DisabledByDefault color="error" />}
+        unSelectedIcon={<DisabledByDefaultOutlined color="error" />}
+        blockBackgroundColor="CRESTGridBackground.main"
+        color="error"
       />
       <StyleGuideIconComponent
-        title='Error Correct Descrption'
-        SelectedIconName='CheckBox'
-        UnselectedIconName='CheckBoxOutlined'
-        selectedIcon={<CheckBox color='success'/>}
-        unSelectedIcon={<CheckBoxOutlined color='success'/>}
-        blockBackgroundColor='CRESTGridBackground.main'
-        color='success'
+        title="Error Correct Descrption"
+        SelectedIconName="CheckBox"
+        UnselectedIconName="CheckBoxOutlined"
+        selectedIcon={<CheckBox color="success" />}
+        unSelectedIcon={<CheckBoxOutlined color="success" />}
+        blockBackgroundColor="CRESTGridBackground.main"
+        color="success"
       />
 
       <StyleGuideIconComponent
-        title='Example Previous'
-        SelectedIconName='ArrowCircleLeft'
-        UnselectedIconName='ArrowCircleLeftOutlined'
+        title="Example Previous"
+        SelectedIconName="ArrowCircleLeft"
+        UnselectedIconName="ArrowCircleLeftOutlined"
         selectedIcon={<ArrowCircleLeft />}
         unSelectedIcon={<ArrowCircleLeftOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Example Next'
-        SelectedIconName='ArrowCircleRight'
-        UnselectedIconName='ArrowCircleRightOutlined'
+        title="Example Next"
+        SelectedIconName="ArrowCircleRight"
+        UnselectedIconName="ArrowCircleRightOutlined"
         selectedIcon={<ArrowCircleRight />}
         unSelectedIcon={<ArrowCircleRightOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Export'
-        SelectedIconName='CameraAlt'
-        UnselectedIconName='CameraAlt'
+        title="Export"
+        SelectedIconName="CameraAlt"
+        UnselectedIconName="CameraAlt"
         selectedIcon={<CameraAlt />}
         unSelectedIcon={<CameraAlt />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Get statistcs/charts for location'
-        SelectedIconName='Addchart'
-        UnselectedIconName='AddchartOutline'
+        title="Get statistcs/charts for location"
+        SelectedIconName="Addchart"
+        UnselectedIconName="AddchartOutline"
         selectedIcon={<Addchart />}
         unSelectedIcon={<AddchartOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Help'
-        SelectedIconName='Help'
-        UnselectedIconName='HelpOutlineOutlined'
+        title="Help"
+        SelectedIconName="Help"
+        UnselectedIconName="HelpOutlineOutlined"
         selectedIcon={<Help />}
         unSelectedIcon={<HelpOutlineOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Graph-Table Toggle'
-        SelectedIconName='ToggleOn'
-        UnselectedIconName='ToggleOff'
+        title="Graph-Table Toggle"
+        SelectedIconName="ToggleOn"
+        UnselectedIconName="ToggleOff"
         selectedIcon={<ToggleOn />}
         unSelectedIcon={<ToggleOff />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Toggle to Table Alt'
-        SelectedIconName='TableChart'
-        UnselectedIconName='TableChart'
+        title="Toggle to Table Alt"
+        SelectedIconName="TableChart"
+        UnselectedIconName="TableChart"
         selectedIcon={<TableChart />}
         unSelectedIcon={<TableChart />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Toggle to Chart Alt'
-        SelectedIconName='BarChart'
-        UnselectedIconName='BarChart'
+        title="Toggle to Chart Alt"
+        SelectedIconName="BarChart"
+        UnselectedIconName="BarChart"
         selectedIcon={<BarChart />}
         unSelectedIcon={<BarChart />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Menu - Main Menu for Small Screen Only'
-        SelectedIconName='Menu'
-        UnselectedIconName='MenuOutlined'
+        title="Menu - Main Menu for Small Screen Only"
+        SelectedIconName="Menu"
+        UnselectedIconName="MenuOutlined"
         selectedIcon={<Menu />}
         unSelectedIcon={<MenuOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='More Information'
-        SelectedIconName='Info'
-        UnselectedIconName='InfoOutlined'
+        title="More Information"
+        SelectedIconName="Info"
+        UnselectedIconName="InfoOutlined"
         selectedIcon={<Info />}
         unSelectedIcon={<InfoOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Legend'
-        SelectedIconName='Ballot'
-        UnselectedIconName='BallotOutlined'
+        title="Legend"
+        SelectedIconName="Ballot"
+        UnselectedIconName="BallotOutlined"
         selectedIcon={<Ballot />}
         unSelectedIcon={<BallotOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Map Layers Icon'
-        SelectedIconName='Layers'
-        UnselectedIconName='LayersOutlined'
+        title="Map Layers Icon"
+        SelectedIconName="Layers"
+        UnselectedIconName="LayersOutlined"
         selectedIcon={<Layers />}
         unSelectedIcon={<LayersOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Map - go to map view in examples'
-        SelectedIconName='Map'
-        UnselectedIconName='MapOutlined'
+        title="Map - go to map view in examples"
+        SelectedIconName="Map"
+        UnselectedIconName="MapOutlined"
         selectedIcon={<Map />}
         unSelectedIcon={<MapOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Map Layer Toggle'
+        title="Map Layer Toggle"
         SelectedIconName="CheckBox"
         UnselectedIconName="CheckBoxOutlineBlank"
         selectedIcon={<CheckBox />}
         unSelectedIcon={<CheckBoxOutlineBlank />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='More - Less (with graphs)'
-        SelectedIconName='MoreHoriz'
-        UnselectedIconName='MoreHorizOutlined'
+        title="More - Less (with graphs)"
+        SelectedIconName="MoreHoriz"
+        UnselectedIconName="MoreHorizOutlined"
         selectedIcon={<MoreHoriz />}
         unSelectedIcon={<MoreHorizOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Remove - Remove All'
-        SelectedIconName='DeleteForever'
-        UnselectedIconName='DeleteForeverOutlined'
+        title="Remove - Remove All"
+        SelectedIconName="DeleteForever"
+        UnselectedIconName="DeleteForeverOutlined"
         selectedIcon={<DeleteForever />}
         unSelectedIcon={<DeleteForeverOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Search Location'
-        SelectedIconName='Search'
-        UnselectedIconName='SearchOutlined'
+        title="Search Location"
+        SelectedIconName="Search"
+        UnselectedIconName="SearchOutlined"
         selectedIcon={<Search />}
         unSelectedIcon={<SearchOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Search Location Collapse Box'
-        SelectedIconName='FastRewind'
-        UnselectedIconName='FastRewindOutlined'
+        title="Search Location Collapse Box"
+        SelectedIconName="FastRewind"
+        UnselectedIconName="FastRewindOutlined"
         selectedIcon={<FastRewind />}
         unSelectedIcon={<FastRewindOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Share Map'
+        title="Share Map"
         SelectedIconName="Share"
         UnselectedIconName="ShareOutlined"
         selectedIcon={<Share />}
         unSelectedIcon={<ShareOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Sketch Area'
-        SelectedIconName='Polyline'
-        UnselectedIconName='PolylineOutlined'
+        title="Sketch Area"
+        SelectedIconName="Polyline"
+        UnselectedIconName="PolylineOutlined"
         selectedIcon={<Polyline />}
         unSelectedIcon={<PolylineOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Sort Data'
-        SelectedIconName='Sort'
-        UnselectedIconName='SortOutlined'
+        title="Sort Data"
+        SelectedIconName="Sort"
+        UnselectedIconName="SortOutlined"
         selectedIcon={<Sort />}
         unSelectedIcon={<SortOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Upload a shapefile'
-        SelectedIconName='FileUpload'
-        UnselectedIconName='FileUploadOutlined'
+        title="Upload a shapefile"
+        SelectedIconName="FileUpload"
+        UnselectedIconName="FileUploadOutlined"
         selectedIcon={<FileUpload />}
         unSelectedIcon={<FileUploadOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
 
       <StyleGuideIconComponent
-        title='Zoom'
-        SelectedIconName='CenterFocusStrong'
-        UnselectedIconName='CenterFocusStrongOutlined'
+        title="Zoom"
+        SelectedIconName="CenterFocusStrong"
+        UnselectedIconName="CenterFocusStrongOutlined"
         selectedIcon={<CenterFocusStrong />}
         unSelectedIcon={<CenterFocusStrongOutlined />}
-        blockBackgroundColor='CRESTGridBackground.main'
+        blockBackgroundColor="CRESTGridBackground.main"
       />
-
     </div>
   );
 }

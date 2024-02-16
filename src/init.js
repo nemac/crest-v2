@@ -1,5 +1,5 @@
 // https://github.com/vitejs/vite/discussions/2785#discussioncomment-3579481
-import { Buffer } from 'buffer/';
+import { Buffer } from "buffer/";
 
 window.Buffer = Buffer;
 

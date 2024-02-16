@@ -1,11 +1,11 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Alert from '@mui/material/Alert';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
 
 export default function ModelErrors(props) {
   // errorType = error, warning, info, success (https://mui.com/material-ui/react-alert/)
@@ -17,7 +17,7 @@ export default function ModelErrors(props) {
     onClose,
     open,
     acceptButtonText,
-    acceptButtonClose
+    acceptButtonClose,
   } = props;
 
   return (
@@ -36,17 +36,19 @@ export default function ModelErrors(props) {
           onClick={onClose}
           variant="contained"
           color="CRESTPrimary"
-          autoFocus>
+          autoFocus
+        >
           {buttonMessage}
         </Button>
         {acceptButtonText && (
           <Button
-          onClick={acceptButtonClose}
-          variant="contained"
-          color="CRESTPrimary"
-          autoFocus>
-          {acceptButtonText}
-        </Button>
+            onClick={acceptButtonClose}
+            variant="contained"
+            color="CRESTPrimary"
+            autoFocus
+          >
+            {acceptButtonText}
+          </Button>
         )}
       </DialogActions>
     </Dialog>
@@ -61,5 +63,5 @@ ModelErrors.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
   acceptButtonText: PropTypes.string,
-  acceptButtonClose: PropTypes.func
+  acceptButtonClose: PropTypes.func,
 };

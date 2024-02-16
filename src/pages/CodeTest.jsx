@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // // Load the AWS SDK for Node.js
 // const AWS = require('aws-sdk');
@@ -32,10 +32,6 @@ import React from 'react';
 //   );
 // };
 
-const App = () => (
-  <>
-    Code Test
-  </>
-);
+const App = () => <>Code Test</>;
 
 export default App;

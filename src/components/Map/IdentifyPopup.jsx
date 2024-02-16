@@ -31,79 +31,78 @@ Props
 // 2. Figure out why closing identify popup causes TypeError: el is null in firefox
 //    and why it causes TypeError: Cannot read properties of null (reading '_leaflet_disable_click')
 
-import React from 'react';
-import { Popup, CircleMarker, useMap } from 'react-leaflet';
-import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import { IconButton } from '@mui/material/';
-import Grid from '@mui/material/Unstable_Grid2';
-import { styled } from '@mui/system';
-import Typography from '@mui/material/Typography';
-import CancelIcon from '@mui/icons-material/Cancel';
+import React from "react";
+import { Popup, CircleMarker, useMap } from "react-leaflet";
+import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import { IconButton } from "@mui/material/";
+import Grid from "@mui/material/Unstable_Grid2";
+import { styled } from "@mui/system";
+import Typography from "@mui/material/Typography";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 import {
   changeIdentifyCoordinates,
   changeIdentifyResults,
-  changeIdentifyIsLoaded
-} from '../../reducers/mapPropertiesSlice';
-import AnalyzeBarChart from '../AnalyzeArea/AnalyzeBarChart.jsx';
+  changeIdentifyIsLoaded,
+} from "../../reducers/mapPropertiesSlice";
+import AnalyzeBarChart from "../AnalyzeArea/AnalyzeBarChart.jsx";
 
 const StyledPopup = styled(Popup)(({ theme }) => ({
-  bottom: '-22px !important',
-  left: '-308px !important',
-  '& .leaflet-popup-content-wrapper': {
+  bottom: "-22px !important",
+  left: "-308px !important",
+  "& .leaflet-popup-content-wrapper": {
     padding: `${theme.spacing(1)} !important`,
     borderRadius: `${theme.spacing(0.5)} !important`,
     backgroundColor: `${theme.palette.CRESTGridBackground.dark} !important`,
     color: `${theme.palette.CRESTGridBackground.contrastText} !important`,
     border: `1px solid ${theme.palette.CRESTBorderColor.main} !important`,
-    width: '310px !important',
-    height: '255px !important',
-    overflow: 'clip !important'
+    width: "310px !important",
+    height: "255px !important",
+    overflow: "clip !important",
   },
-  '& .leaflet-popup-content': {
-    margin: '0px !important'
+  "& .leaflet-popup-content": {
+    margin: "0px !important",
   },
-  '& .leaflet-popup-tip': {
-    width: '0px !important',
-    height: '0px !important'
+  "& .leaflet-popup-tip": {
+    width: "0px !important",
+    height: "0px !important",
   },
-  '& a.leaflet-popup-close-button': {
-    paddingTop: '2px !important',
-    paddingLeft: '3px !important',
-    borderRadius: '20px !important',
-    width: '20px !important',
-    height: '20px !important',
-    top: '15px !important',
-    right: '10px !important',
+  "& a.leaflet-popup-close-button": {
+    paddingTop: "2px !important",
+    paddingLeft: "3px !important",
+    borderRadius: "20px !important",
+    width: "20px !important",
+    height: "20px !important",
+    top: "15px !important",
+    right: "10px !important",
     backgroundColor: `${theme.palette.CRESTLight.main} !important`,
-    color: `${theme.palette.CRESTLight.contrastText} !important`
-  }
+    color: `${theme.palette.CRESTLight.contrastText} !important`,
+  },
 }));
 
 const ContentBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
-  height: '160px',
-  maxHeight: '160px',
+  display: "flex",
+  width: "100%",
+  height: "160px",
+  maxHeight: "160px",
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: 'solid',
-  borderWidth: '1px',
-  justifyContent: 'center',
-  alignItems: 'center'
+  borderStyle: "solid",
+  borderWidth: "1px",
+  justifyContent: "center",
+  alignItems: "center",
 }));
 
 export default function ShowIdentifyPopup(props) {
-  const {
-    region, identifyItems, identifyIsLoaded, identifyCoordinates
-  } = props;
+  const { region, identifyItems, identifyIsLoaded, identifyCoordinates } =
+    props;
   const dispatch = useDispatch();
   const map = useMap();
-  const summaryIndices = ['hubs', 'exposure', 'threat', 'asset', 'wildlife'];
+  const summaryIndices = ["hubs", "exposure", "threat", "asset", "wildlife"];
 
   const closePopups = () => {
     map.closePopup();
@@ -123,19 +122,24 @@ export default function ShowIdentifyPopup(props) {
         autoPan={false}
         closeButton={false}
       >
-        <Box px={1} py={0.75}
+        <Box
+          px={1}
+          py={0.75}
           sx={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '54px',
-            paddingBottom: (theme) => theme.spacing(0.5)
+            display: "flex",
+            flexWrap: "nowrap",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "54px",
+            paddingBottom: (theme) => theme.spacing(0.5),
           }}
         >
           <Typography
             sx={{
-              cursor: 'default', display: 'flex', width: '100%', fontWeight: 'bold'
+              cursor: "default",
+              display: "flex",
+              width: "100%",
+              fontWeight: "bold",
             }}
             px={1}
             variant="h6"
@@ -147,7 +151,7 @@ export default function ShowIdentifyPopup(props) {
             sx={{
               height: (theme) => theme.spacing(4.5),
               padding: (theme) => theme.spacing(0.375),
-              justifyContent: 'end'
+              justifyContent: "end",
             }}
             variant="contained"
             color="CRESTPrimary"
@@ -159,19 +163,41 @@ export default function ShowIdentifyPopup(props) {
           </IconButton>
         </Box>
         <Divider />
-        { !identifyIsLoaded ? (
-          <Grid container spacing={2} pt={2} alignItems="center" justifyContent="center">
+        {!identifyIsLoaded ? (
+          <Grid
+            container
+            spacing={2}
+            pt={2}
+            alignItems="center"
+            justifyContent="center"
+          >
             <Grid xs={12}>
-              <Typography variant="h6" component="div" align="center" gutterBottom>
+              <Typography
+                variant="h6"
+                component="div"
+                align="center"
+                gutterBottom
+              >
                 Loading...
               </Typography>
             </Grid>
           </Grid>
         ) : (
-          <Grid container spacing={2} pt={2} alignItems="center" justifyContent="center">
+          <Grid
+            container
+            spacing={2}
+            pt={2}
+            alignItems="center"
+            justifyContent="center"
+          >
             <Grid xs={12}>
-              <Typography variant="h6" component="div" align="center" gutterBottom>
-                <ContentBox components='fieldset'>
+              <Typography
+                variant="h6"
+                component="div"
+                align="center"
+                gutterBottom
+              >
+                <ContentBox components="fieldset">
                   <AnalyzeBarChart
                     chartRegion={region}
                     chartIndices={summaryIndices}
@@ -180,7 +206,7 @@ export default function ShowIdentifyPopup(props) {
                       top: 20,
                       right: 0,
                       left: -25,
-                      bottom: 20
+                      bottom: 20,
                     }}
                   />
                 </ContentBox>
@@ -188,15 +214,15 @@ export default function ShowIdentifyPopup(props) {
             </Grid>
           </Grid>
         )}
-        </StyledPopup>
-        <CircleMarker
-          center={{ lat: identifyCoordinates.lat, lng: identifyCoordinates.lng }}
-          fillColor='#444444'
-          color='#555555'
-          fillOpacity='0.9'
-          radius={5}
-        />
-      </div>
+      </StyledPopup>
+      <CircleMarker
+        center={{ lat: identifyCoordinates.lat, lng: identifyCoordinates.lng }}
+        fillColor="#444444"
+        color="#555555"
+        fillOpacity="0.9"
+        radius={5}
+      />
+    </div>
   );
 }
 
@@ -204,5 +230,5 @@ ShowIdentifyPopup.propTypes = {
   region: PropTypes.string,
   identifyItems: PropTypes.object,
   identifyIsLoaded: PropTypes.bool,
-  identifyCoordinates: PropTypes.object
+  identifyCoordinates: PropTypes.object,
 };

@@ -32,13 +32,13 @@ State needed
 Props
   - Not sure yet
 */
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-import { styled } from '@mui/system';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
+import { styled } from "@mui/system";
+import Grid from "@mui/material/Unstable_Grid2";
+import Typography from "@mui/material/Typography";
 
 import {
   CameraAlt,
@@ -47,30 +47,30 @@ import {
   // ToggleOff, keeping incase we go back to this
   // ToggleOn, keeping incase we go back to this
   TableChart,
-  BarChart
-} from '@mui/icons-material';
+  BarChart,
+} from "@mui/icons-material";
 
-import ChartHeaderActionButton from './ChartHeaderActionButton.jsx';
+import ChartHeaderActionButton from "./ChartHeaderActionButton.jsx";
 
 const StyledGridContainer = styled(Grid)(({ theme }) => ({
-  display: 'flex',
+  display: "flex",
   height: theme.spacing(14),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: 'solid',
-  borderWidth: '1px'
+  borderStyle: "solid",
+  borderWidth: "1px",
 }));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
 
 const sortIndices = {
-  areaNumber: 'Name',
-  hubs: 'Hubs',
-  exposure: 'Exposure',
-  threat: 'Threat',
-  asset: 'Assets',
-  wildlife: 'Wildlife'
+  areaNumber: "Name",
+  hubs: "Hubs",
+  exposure: "Exposure",
+  threat: "Threat",
+  asset: "Assets",
+  wildlife: "Wildlife",
 };
 
 export default function ChartHeaderActionButtons(props) {
@@ -78,7 +78,7 @@ export default function ChartHeaderActionButtons(props) {
     handleSortClick,
     handleGraphOrTableClick,
     HandleRemoveAllClick,
-    handleExportClick
+    handleExportClick,
   } = props;
 
   // get the redux state for analyze area
@@ -92,48 +92,64 @@ export default function ChartHeaderActionButtons(props) {
       mt={{
         xs: 0,
         sm: 0,
-        md: 1
+        md: 1,
       }}
       mb={{
         xs: 0,
         sm: 0,
-        md: 1
-      }} >
+        md: 1,
+      }}
+    >
       <Grid xs={12}>
-        <Typography variant="body1" component="div" justifyContent="center" alignItems="center" p={1} sx={{ display: 'flex' }} >
+        <Typography
+          variant="body1"
+          component="div"
+          justifyContent="center"
+          alignItems="center"
+          p={1}
+          sx={{ display: "flex" }}
+        >
           Analyzed project sites
         </Typography>
         {/* <Divider sx={{ marginLeft: '6px', marginRight: '6px' }} /> */}
       </Grid>
-      <Grid xs={3} >
+      <Grid xs={3}>
         <ChartHeaderActionButton
           buttonLabel={`${sortIndices[analyzeAreaState.sortBy]}`}
           buttonName={`Sort-(${analyzeAreaState.sortBy})`}
-          onClick={handleSortClick}>
-          {analyzeAreaState.isSortASC[analyzeAreaState.sortBy] ? (<SortOutlined />) : (<SortOutlined sx={{ transform: 'rotate(-180deg)' }} />)}
+          onClick={handleSortClick}
+        >
+          {analyzeAreaState.isSortASC[analyzeAreaState.sortBy] ? (
+            <SortOutlined />
+          ) : (
+            <SortOutlined sx={{ transform: "rotate(-180deg)" }} />
+          )}
         </ChartHeaderActionButton>
       </Grid>
       <Grid xs={3}>
         <ChartHeaderActionButton
-          buttonLabel={'Export'}
-          buttonName={'Export'}
-          onClick={handleExportClick}>
+          buttonLabel={"Export"}
+          buttonName={"Export"}
+          onClick={handleExportClick}
+        >
           <CameraAlt />
         </ChartHeaderActionButton>
       </Grid>
       <Grid xs={3}>
         <ChartHeaderActionButton
-          buttonLabel={analyzeAreaState.isItAGraph ? 'Table' : 'Chart'}
-          buttonName={analyzeAreaState.isItAGraph ? 'Table' : 'Chart'}
-          onClick={handleGraphOrTableClick}>
-          {analyzeAreaState.isItAGraph ? (<TableChart />) : (<BarChart />)}
+          buttonLabel={analyzeAreaState.isItAGraph ? "Table" : "Chart"}
+          buttonName={analyzeAreaState.isItAGraph ? "Table" : "Chart"}
+          onClick={handleGraphOrTableClick}
+        >
+          {analyzeAreaState.isItAGraph ? <TableChart /> : <BarChart />}
         </ChartHeaderActionButton>
       </Grid>
       <Grid xs={3}>
         <ChartHeaderActionButton
-          buttonLabel={'Remove All'}
-          buttonName={'Remove All'}
-          onClick={HandleRemoveAllClick}>
+          buttonLabel={"Remove All"}
+          buttonName={"Remove All"}
+          onClick={HandleRemoveAllClick}
+        >
           <DeleteForever />
         </ChartHeaderActionButton>
       </Grid>
@@ -145,5 +161,5 @@ ChartHeaderActionButtons.propTypes = {
   handleSortClick: PropTypes.func.isRequired,
   handleGraphOrTableClick: PropTypes.func.isRequired,
   handleExportClick: PropTypes.func.isRequired,
-  HandleRemoveAllClick: PropTypes.func.isRequired
+  HandleRemoveAllClick: PropTypes.func.isRequired,
 };

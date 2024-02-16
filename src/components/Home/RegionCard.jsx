@@ -22,64 +22,62 @@ Props
   - Region CTA name
 */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
-import { Link as RouterLink } from 'react-router-dom';
-import { styled } from '@mui/system';
+import React from "react";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Unstable_Grid2";
+import Typography from "@mui/material/Typography";
+import { Link as RouterLink } from "react-router-dom";
+import { styled } from "@mui/system";
 
-import { StyledPaper } from '../All/StyledComponents.jsx';
+import { StyledPaper } from "../All/StyledComponents.jsx";
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  justifyContent: 'center',
-  alignItems: 'center',
-  display: 'flex',
-  width: '100%',
-  height: '150px',
-  [theme.breakpoints.up('xxl')]: {
-    height: '250px'
-  }
+  justifyContent: "center",
+  alignItems: "center",
+  display: "flex",
+  width: "100%",
+  height: "150px",
+  [theme.breakpoints.up("xxl")]: {
+    height: "250px",
+  },
 }));
 
 // just a place holder needs props passed in and image etc
 export default function RegionCard(props) {
-  const {
-    regionName,
-    regionImage,
-    onClick
-  } = props;
+  const { regionName, regionImage, onClick } = props;
 
   const regionClick = (value) => {
     onClick(value);
   };
 
   return (
-    <Box sx={{ height: '100%' }}>
+    <Box sx={{ height: "100%" }}>
       <StyledPaper
         variant="outlined"
         square={false}
         sx={{
-          display: 'flex',
-          height: '100%',
-          flexDirection: 'column'
-        }}>
+          display: "flex",
+          height: "100%",
+          flexDirection: "column",
+        }}
+      >
         <Typography variant="h6" component="div" align="center" gutterBottom>
           {regionName}
         </Typography>
         <Divider />
         <Grid container justifyContent="center" alignItems="center" pt={1.5}>
           <Grid xs={12}>
-            <StyledBox >
+            <StyledBox>
               <img
-              src={regionImage}
-              style={{
-                maxWidth: '50%',
-                alignSelf: 'center'
-              }} />
+                src={regionImage}
+                style={{
+                  maxWidth: "50%",
+                  alignSelf: "center",
+                }}
+              />
             </StyledBox>
           </Grid>
         </Grid>
@@ -89,24 +87,29 @@ export default function RegionCard(props) {
           alignContent="stretch"
           pt={1.5}
           sx={{
-            flexGrow: '1'
-          }}>
+            flexGrow: "1",
+          }}
+        >
           <Grid
             xs={12}
             sx={{
-              height: '100%',
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifycontent: 'flex-end'
+              height: "100%",
+              display: "flex",
+              alignItems: "flex-end",
+              justifycontent: "flex-end",
             }}
-            alignContent="end">
+            alignContent="end"
+          >
             <Button
               variant="contained"
               color="CRESTCta"
               fullWidth={true}
-              to='/AnalyzeProjectSites'
+              to="/AnalyzeProjectSites"
               component={RouterLink}
-              onClick={(event) => { regionClick(regionName); }}>
+              onClick={(event) => {
+                regionClick(regionName);
+              }}
+            >
               {regionName}
             </Button>
           </Grid>
@@ -119,5 +122,5 @@ export default function RegionCard(props) {
 RegionCard.propTypes = {
   regionName: PropTypes.string.isRequired,
   regionImage: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };

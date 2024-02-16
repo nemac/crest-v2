@@ -1,15 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { mapConfig } from '../configuration/config';
+import { createSlice } from "@reduxjs/toolkit";
+import { mapConfig } from "../configuration/config";
 
 const regions = mapConfig.regions;
 
 const initialState = {
   userInitiated: false,
-  value: regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].label // Continental US
+  value: regions["Atlantic, Gulf of Mexico, and Pacific Coasts"].label, // Continental US
 };
 
 export const regionSelectSlice = createSlice({
-  name: 'selectedRegion',
+  name: "selectedRegion",
   initialState,
   reducers: {
     updateAllRegion: (state, action) => ({ ...action.payload }),
@@ -23,13 +23,16 @@ export const regionSelectSlice = createSlice({
     regionUserInitiated: (state, action) => {
       state.userInitiated = action.payload;
     },
-    resetRegionSelect: () => initialState
-  }
+    resetRegionSelect: () => initialState,
+  },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  updateAllRegion, changeRegion, regionUserInitiated, resetRegionSelect
+  updateAllRegion,
+  changeRegion,
+  regionUserInitiated,
+  resetRegionSelect,
 } = regionSelectSlice.actions;
 
 export default regionSelectSlice.reducer;

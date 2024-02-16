@@ -1,45 +1,46 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styled } from '@mui/system';
-import Grid from '@mui/material/Unstable_Grid2';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { styled } from "@mui/system";
+import Grid from "@mui/material/Unstable_Grid2";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
-import { StyledGrid } from '../All/StyledComponents.jsx';
-import { getLabel, getRange } from './ChartFunctions.jsx';
+import { StyledGrid } from "../All/StyledComponents.jsx";
+import { getLabel, getRange } from "./ChartFunctions.jsx";
 
 export const StyledTableHead = styled(TableHead)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTBlack.dark,
   borderBottomColor: theme.palette.CRESTLight.main,
-  borderBottomStyle: 'solid',
-  borderBottomWidth: '2px',
-  paddingBottom: theme.spacing(2)
+  borderBottomStyle: "solid",
+  borderBottomWidth: "2px",
+  paddingBottom: theme.spacing(2),
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.CRESTDarkAlt.main
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.CRESTDarkAlt.main,
   },
-  '&:nth-of-type(even)': {
-    backgroundColor: theme.palette.CRESTGridBackground.dark
+  "&:nth-of-type(even)": {
+    backgroundColor: theme.palette.CRESTGridBackground.dark,
   },
   // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0
-  }
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
 }));
 
 export default function TableData(props) {
   const { data } = props;
 
   return (
-    <StyledGrid container
+    <StyledGrid
+      container
       spacing={0}
       justifyContent="center"
       alignItems="center"
@@ -47,9 +48,9 @@ export default function TableData(props) {
       pb={4}
       sx={{ padding: (theme) => theme.spacing(2) }}
     >
-      <Grid xs={12} >
+      <Grid xs={12}>
         <TableContainer component={Paper}>
-          <Table sx={{ width: '100%' }} aria-label="customized table">
+          <Table sx={{ width: "100%" }} aria-label="customized table">
             <StyledTableHead>
               <TableRow>
                 <TableCell align="left">Area&nbsp;Name</TableCell>
@@ -59,14 +60,24 @@ export default function TableData(props) {
               </TableRow>
             </StyledTableHead>
             <TableBody>
-              {Object.entries(data.properties.zonalStatsData).map(([key, value]) => (
-                <StyledTableRow key={`${data.properties.areaName}-${key}`}>
-                  <TableCell align="left">{data.properties.areaName}</TableCell>
-                  <TableCell align="left">{getLabel(data.properties.region, key)}</TableCell>
-                  <TableCell align="left">{Number.isNaN(Number(value)) ? '0.0' : value.toFixed(3)}</TableCell>
-                  <TableCell align="left">{getRange(data.properties.region, key)}</TableCell>
-                </StyledTableRow>
-              ))}
+              {Object.entries(data.properties.zonalStatsData).map(
+                ([key, value]) => (
+                  <StyledTableRow key={`${data.properties.areaName}-${key}`}>
+                    <TableCell align="left">
+                      {data.properties.areaName}
+                    </TableCell>
+                    <TableCell align="left">
+                      {getLabel(data.properties.region, key)}
+                    </TableCell>
+                    <TableCell align="left">
+                      {Number.isNaN(Number(value)) ? "0.0" : value.toFixed(3)}
+                    </TableCell>
+                    <TableCell align="left">
+                      {getRange(data.properties.region, key)}
+                    </TableCell>
+                  </StyledTableRow>
+                ),
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -76,5 +87,5 @@ export default function TableData(props) {
 }
 
 TableData.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
 };

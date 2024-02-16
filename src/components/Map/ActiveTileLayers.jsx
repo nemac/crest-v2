@@ -1,7 +1,7 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { TileLayer } from 'react-leaflet';
-import { mapConfig } from '../../configuration/config';
+import React from "react";
+import { useSelector } from "react-redux";
+import { TileLayer } from "react-leaflet";
+import { mapConfig } from "../../configuration/config";
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
@@ -19,12 +19,10 @@ export default function ActiveTileLayers() {
         key={lyr.id}
         url={lyr.url}
         opacity={lyr.opacity}
-        pane={'overlayPane'}
+        pane={"overlayPane"}
         maxNativeZoom={lyr.maxNativeZoom}
       />
     ));
 
-  return (
-    layers
-  );
+  return layers;
 }

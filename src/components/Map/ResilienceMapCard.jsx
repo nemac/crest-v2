@@ -1,20 +1,27 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GeoJSON, useMapEvents } from 'react-leaflet';
-import * as esri from 'esri-leaflet';
-import Control from 'react-leaflet-custom-control';
-import PropTypes from 'prop-types';
-import { Button } from '@mui/material';
-import { LayersClear } from '@mui/icons-material';
+import React, { useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GeoJSON, useMapEvents } from "react-leaflet";
+import * as esri from "esri-leaflet";
+import Control from "react-leaflet-custom-control";
+import PropTypes from "prop-types";
+import { Button } from "@mui/material";
+import { LayersClear } from "@mui/icons-material";
 
-import LeafletMapContainer from './LeafletMapContainer.jsx';
-import ActiveTileLayers from './ActiveTileLayers.jsx';
-import BasemapLayer from './BasemapLayer.jsx';
+import LeafletMapContainer from "./LeafletMapContainer.jsx";
+import ActiveTileLayers from "./ActiveTileLayers.jsx";
+import BasemapLayer from "./BasemapLayer.jsx";
 
-import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
-import { changeZoom, changeCenter, changeResilienceHub } from '../../reducers/mapPropertiesSlice';
-import { StyledReactLeafletTooltip } from '../All/StyledComponents.jsx';
-import { mapConfig } from '../../configuration/config';
+import {
+  changeRegion,
+  regionUserInitiated,
+} from "../../reducers/regionSelectSlice";
+import {
+  changeZoom,
+  changeCenter,
+  changeResilienceHub,
+} from "../../reducers/mapPropertiesSlice";
+import { StyledReactLeafletTooltip } from "../All/StyledComponents.jsx";
+import { mapConfig } from "../../configuration/config";
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const selectedCenterSelector = (state) => state.mapProperties.center;
@@ -35,13 +42,13 @@ export default function ResilienceMapCard(props) {
   const hubsURL = mapConfig.regions[selectedRegion].hubsFeatureServer;
 
   const featureLayerHubs = esri.featureLayer({
-    url: hubsURL
+    url: hubsURL,
   });
 
   // Change the map cursor style to pointer
   React.useEffect(() => {
     if (map) {
-      map.getContainer().style.cursor = 'pointer';
+      map.getContainer().style.cursor = "pointer";
       // I truly dislike that I have to set this timeout to get the tooltip in the right spot
       setTimeout(() => {
         setReady(true);
@@ -49,34 +56,39 @@ export default function ResilienceMapCard(props) {
     }
   }, [map]);
 
-  const handleRegionChange = useCallback((regionName, user) => {
-    // catch bad region
-    if (!mapConfig.regions[regionName]) return null;
+  const handleRegionChange = useCallback(
+    (regionName, user) => {
+      // catch bad region
+      if (!mapConfig.regions[regionName]) return null;
 
-    // check for user changing region as opposed to
-    //  state update on refresh
-    if (!user) return null;
+      // check for user changing region as opposed to
+      //  state update on refresh
+      if (!user) return null;
 
-    // ensure map has been instantiated
-    if (map) {
-      // zoom to region locations
-      map.setView(
-        mapConfig.regions[regionName].mapProperties.center,
-        mapConfig.regions[regionName].mapProperties.zoom
-      );
+      // ensure map has been instantiated
+      if (map) {
+        // zoom to region locations
+        map.setView(
+          mapConfig.regions[regionName].mapProperties.center,
+          mapConfig.regions[regionName].mapProperties.zoom,
+        );
 
-      // Update redux store with new region, zoom, and center
-      dispatch(changeResilienceHub(null));
-      dispatch(changeRegion(mapConfig.regions[regionName].label));
-      dispatch(changeZoom(mapConfig.regions[regionName].mapProperties.zoom));
-      dispatch(changeCenter(mapConfig.regions[regionName].mapProperties.center));
-      dispatch(regionUserInitiated(false));
-      // reset hub data on region switch to avoid confusion
-      setAverageHubScore(null);
-      setChartData(null);
-    }
-    return null;
-  }, [map, dispatch]);
+        // Update redux store with new region, zoom, and center
+        dispatch(changeResilienceHub(null));
+        dispatch(changeRegion(mapConfig.regions[regionName].label));
+        dispatch(changeZoom(mapConfig.regions[regionName].mapProperties.zoom));
+        dispatch(
+          changeCenter(mapConfig.regions[regionName].mapProperties.center),
+        );
+        dispatch(regionUserInitiated(false));
+        // reset hub data on region switch to avoid confusion
+        setAverageHubScore(null);
+        setChartData(null);
+      }
+      return null;
+    },
+    [map, dispatch],
+  );
 
   useEffect(() => {
     handleRegionChange(selectedRegion, userInitiatedRegion);
@@ -97,14 +109,11 @@ export default function ResilienceMapCard(props) {
           dispatch(changeResilienceHub(featureCollection.features[0]));
         });
       },
-      moveend: () => { // Send updated zoom and center to redux when moveend event occurs.
+      moveend: () => {
+        // Send updated zoom and center to redux when moveend event occurs.
         dispatch(changeZoom(map.getZoom()));
-        dispatch(
-          changeCenter(
-            [map.getCenter().lat, map.getCenter().lng]
-          )
-        );
-      }
+        dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]));
+      },
     });
     return null;
   };
@@ -114,46 +123,46 @@ export default function ResilienceMapCard(props) {
     setErrorState((previous) => ({
       ...previous,
       error: true,
-      errorType: 'warning',
-      errorTitle: 'Clear All State',
-      errorMessage: 'Warning. This will clear all state and reload the page. Do you want to proceed?',
-      acceptButtonText: 'Proceed',
+      errorType: "warning",
+      errorTitle: "Clear All State",
+      errorMessage:
+        "Warning. This will clear all state and reload the page. Do you want to proceed?",
+      acceptButtonText: "Proceed",
       acceptButtonClose: () => {
         setErrorState({ ...previous, error: false });
         localStorage.clear();
         window.location.reload(true);
-      }
+      },
     }));
   };
 
   return (
     <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-      <Control position='bottomleft'>
+      <Control position="bottomleft">
         <Button
           variant="contained"
           startIcon={<LayersClear />}
           onClick={clearHandler}
           color="CRESTPrimary"
-          sx={{ margin: '0 0 20px 0', display: 'flex' }}
+          sx={{ margin: "0 0 20px 0", display: "flex" }}
         >
           Clear
         </Button>
       </Control>
 
-      {ready && (
-        resilienceHub ? (
+      {ready &&
+        (resilienceHub ? (
           <GeoJSON key={resilienceHub?.id} data={resilienceHub}>
-          <StyledReactLeafletTooltip direction='center' permanent>
-            {resilienceHub?.id}
-          </StyledReactLeafletTooltip>
-        </GeoJSON>
+            <StyledReactLeafletTooltip direction="center" permanent>
+              {resilienceHub?.id}
+            </StyledReactLeafletTooltip>
+          </GeoJSON>
         ) : (
           <></>
-        )
-      )}
+        ))}
       <ActiveTileLayers />
-      <BasemapLayer map={map}/>
-      <MapEventsComponent/>
+      <BasemapLayer map={map} />
+      <MapEventsComponent />
     </LeafletMapContainer>
   );
 }
@@ -161,5 +170,5 @@ export default function ResilienceMapCard(props) {
 ResilienceMapCard.propTypes = {
   setAverageHubScore: PropTypes.func,
   setChartData: PropTypes.func,
-  setErrorState: PropTypes.func
+  setErrorState: PropTypes.func,
 };

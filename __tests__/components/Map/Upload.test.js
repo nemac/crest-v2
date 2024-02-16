@@ -1,10 +1,10 @@
-import React from 'react';
-import { screen, cleanup } from '@testing-library/react';
-import { render } from '../../setup/testUtils';
-import { mapConfig } from '../../../src/configuration/config';
-import Upload from '../../../src/components/Map/UploadShapeFile';
+import React from "react";
+import { screen, cleanup } from "@testing-library/react";
+import { render } from "../../setup/testUtils";
+import { mapConfig } from "../../../src/configuration/config";
+import Upload from "../../../src/components/Map/UploadShapeFile";
 
-describe('Upload', () => {
+describe("Upload", () => {
   beforeEach(() => {
     render(<Upload />).store;
   });
@@ -12,9 +12,9 @@ describe('Upload', () => {
     cleanup();
   });
 
-  describe('Renders as expected: ', () => {
-    test('Screen as expected: ', () => {
-      expect(screen.getByRole('button')).toBeInTheDocument();
-    })
-  })
-})
+  describe("Renders as expected: ", () => {
+    test("Screen as expected: ", () => {
+      expect(screen.getByRole("button")).toBeInTheDocument();
+    });
+  });
+});
