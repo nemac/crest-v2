@@ -1,10 +1,7 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-// eslint-disable-next-line no-unused-vars
-import {
-  betaShareLinkEndpoint,
-  prodShareLinkEndpoint,
-} from "../configuration/config";
+
+import { betaShareLinkEndpoint } from "../configuration/config";
 
 // uncomment the endpoint you want to use and comment out the other
 const endpoint = betaShareLinkEndpoint;
