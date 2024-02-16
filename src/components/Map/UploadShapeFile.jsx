@@ -1,22 +1,20 @@
-import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import shp from 'shpjs';
+import * as React from "react";
+import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import shp from "shpjs";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import {
-  FileUploadOutlined
-} from '@mui/icons-material';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { FileUploadOutlined } from "@mui/icons-material";
 
-import { validPolygon } from '../../utility/utilityFunctions';
-import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
+import { validPolygon } from "../../utility/utilityFunctions";
+import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
 
 export default function Upload(props) {
   const { setGeoToRedraw, setErrorState } = props;
-  const [inputValue, setInputValue] = React.useState('');
+  const [inputValue, setInputValue] = React.useState("");
   const dispatch = useDispatch();
-  const errorTitle = 'Upload Error';
+  const errorTitle = "Upload Error";
 
   const handleFileChange = async (e) => {
     try {
@@ -27,7 +25,8 @@ export default function Upload(props) {
           ...previous,
           error: true,
           errorTitle,
-          errorMessage: 'The file size of the uploaded file is too large. Please upload a file less than 10 MB.'
+          errorMessage:
+            "The file size of the uploaded file is too large. Please upload a file less than 10 MB.",
         }));
         return;
       }
@@ -44,19 +43,20 @@ export default function Upload(props) {
         setErrorState((previous) => ({
           ...previous,
           error: true,
-          errorTitle: 'Invalid Shapefile',
-          errorType: 'warning',
-          errorMessage: 'There are invalid shapes in the shapefile. Proceed to the shape file correction screen?',
+          errorTitle: "Invalid Shapefile",
+          errorType: "warning",
+          errorMessage:
+            "There are invalid shapes in the shapefile. Proceed to the shape file correction screen?",
           errorClose: () => {
-            setInputValue('');
+            setInputValue("");
             setErrorState({ ...previous, error: false });
           },
-          acceptButtonText: 'Proceed',
+          acceptButtonText: "Proceed",
           acceptButtonClose: () => {
-            setInputValue('');
+            setInputValue("");
             setGeoToRedraw(geojson);
             setErrorState({ ...previous, error: false });
-          }
+          },
         }));
         return;
       }
@@ -66,19 +66,23 @@ export default function Upload(props) {
         ...previous,
         error: true,
         errorTitle,
-        errorMessage: `Something wrong with zipfile. Please try another file. Error: ${error}`
+        errorMessage: `Something wrong with zipfile. Please try another file. Error: ${error}`,
       }));
     }
   };
 
   return (
-    <Box p={0.75} >
+    <Box p={0.75}>
       <Button
         variant="contained"
         color="CRESTPrimary"
         fullWidth={true}
-        aria-label={'Upload Shapefile'}
-        sx={{ height: (theme) => theme.spacing(4.5), textTransform: 'none', justifyContent: 'start' }}
+        aria-label={"Upload Shapefile"}
+        sx={{
+          height: (theme) => theme.spacing(4.5),
+          textTransform: "none",
+          justifyContent: "start",
+        }}
         component="label"
         startIcon={<FileUploadOutlined />}
       >
@@ -89,7 +93,8 @@ export default function Upload(props) {
           accept=".zip"
           max={1}
           onChange={handleFileChange}
-          style={{ display: 'none' }}/>
+          style={{ display: "none" }}
+        />
       </Button>
     </Box>
   );
@@ -97,5 +102,5 @@ export default function Upload(props) {
 
 Upload.propTypes = {
   setGeoToRedraw: PropTypes.func,
-  setErrorState: PropTypes.func
+  setErrorState: PropTypes.func,
 };

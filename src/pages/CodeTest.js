@@ -1,9 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export default function App() {
-  return (
-      <div>
-        hello world
-      </div>
-  );
+  return <div>hello world</div>;
 }

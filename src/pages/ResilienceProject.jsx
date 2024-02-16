@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import * as esri from 'esri-leaflet';
-import { CameraAlt } from '@mui/icons-material';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import * as esri from "esri-leaflet";
+import { CameraAlt } from "@mui/icons-material";
 
 // this not good practice but not time to resolve it and its not that imporant
 /* eslint-disable no-unneeded-ternary */
 
-import GenericMapHolder from '../components/Map/GenericMapHolder.jsx';
-import ResilienceLeftColumn from '../components/AnalyzeArea/ResilienceLeftColumn.jsx';
-import ResilienceMapActionCard from '../components/Map/ResilienceMapActionCard.jsx';
-import ResilienceChartCard from '../components/AnalyzeArea/ResilienceChartCard.jsx';
-import ResilienceMapCard from '../components/Map/ResilienceMapCard.jsx';
-import EmptyStateResilience from '../components/AnalyzeArea/EmptyStateResilience.jsx';
-import { handleExportImage } from '../components/AnalyzeArea/ChartFunctions.jsx';
+import GenericMapHolder from "../components/Map/GenericMapHolder.jsx";
+import ResilienceLeftColumn from "../components/AnalyzeArea/ResilienceLeftColumn.jsx";
+import ResilienceMapActionCard from "../components/Map/ResilienceMapActionCard.jsx";
+import ResilienceChartCard from "../components/AnalyzeArea/ResilienceChartCard.jsx";
+import ResilienceMapCard from "../components/Map/ResilienceMapCard.jsx";
+import EmptyStateResilience from "../components/AnalyzeArea/EmptyStateResilience.jsx";
+import { handleExportImage } from "../components/AnalyzeArea/ChartFunctions.jsx";
 
-import { mapConfig } from '../configuration/config';
+import { mapConfig } from "../configuration/config";
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const selectedResilienceHub = (state) => state.mapProperties.resilienceHub;
@@ -33,23 +33,27 @@ export default function ResilienceProject(props) {
   let featureLayerHex;
   if (hubsHexesUrl) {
     featureLayerHex = esri.featureLayer({
-      url: hubsHexesUrl
+      url: hubsHexesUrl,
     });
   }
 
   const chartActionButtons = [
     {
-      buttonLabel: 'Export',
-      buttonName: 'Export',
-      onClick: () => { handleExportImage('Core Variability'); },
-      icon: <CameraAlt />
-    }
+      buttonLabel: "Export",
+      buttonName: "Export",
+      onClick: () => {
+        handleExportImage("Core Variability");
+      },
+      icon: <CameraAlt />,
+    },
   ];
 
   // Run query on hex server if it exists after feature clicked on
   React.useEffect(() => {
     if (!featureLayerHex) {
-      const hubRankNoCore = resilienceHub ? resilienceHub.properties[rankProperty] : null;
+      const hubRankNoCore = resilienceHub
+        ? resilienceHub.properties[rankProperty]
+        : null;
       setAverageHubScore(hubRankNoCore);
       setChartData([]);
       return;
@@ -58,7 +62,10 @@ export default function ResilienceProject(props) {
       const calculatedData = [];
       let runningTotalScore = 0; // using this increment the hub core scores
       for (let i = 0; i < 10; i += 1) {
-        calculatedData[i] = { name: `Hub Score = ${parseInt((i + 1), 10)}`, value: 0 };
+        calculatedData[i] = {
+          name: `Hub Score = ${parseInt(i + 1, 10)}`,
+          value: 0,
+        };
       }
       const query = featureLayerHex.query().within(resilienceHub);
       query.run((error, featureCollection, response) => {
@@ -71,15 +78,20 @@ export default function ResilienceProject(props) {
         // Count occurrences of each rank
         featureCollection.features.forEach((obj) => {
           // Subtracting 1 because rankProperty 1 goes into 0th element etc
-          calculatedData[parseInt(obj.properties[rankProperty] - 1, 10)].value += 1;
+          calculatedData[
+            parseInt(obj.properties[rankProperty] - 1, 10)
+          ].value += 1;
           runningTotalScore += parseInt(obj.properties[rankProperty], 10);
         });
-        const round = Math.round((runningTotalScore / featureCollection.features.length) * 10) / 10;
+        const round =
+          Math.round(
+            (runningTotalScore / featureCollection.features.length) * 10,
+          ) / 10;
         setAverageHubScore(round);
         setChartData(calculatedData);
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resilienceHub]);
 
   const hasCoreData = featureLayerHex ? true : false;
@@ -90,7 +102,9 @@ export default function ResilienceProject(props) {
           mapActionCard={
             <ResilienceMapActionCard
               setAverageHubScore={setAverageHubScore}
-              setChartData={setChartData}/>}
+              setChartData={setChartData}
+            />
+          }
           hasCoreData={hasCoreData}
           coreHubScore={averageHubScore}
           setChartData={setChartData}
@@ -105,7 +119,11 @@ export default function ResilienceProject(props) {
             />
           }
           noDataState={
-            (resilienceHub === null) ? <EmptyStateResilience /> : <EmptyStateResilience />
+            resilienceHub === null ? (
+              <EmptyStateResilience />
+            ) : (
+              <EmptyStateResilience />
+            )
           }
         />
       }
@@ -113,12 +131,13 @@ export default function ResilienceProject(props) {
         <ResilienceMapCard
           setErrorState={setErrorState}
           setAverageHubScore={setAverageHubScore}
-          setChartData={setChartData}/>
+          setChartData={setChartData}
+        />
       }
     />
   );
 }
 
 ResilienceProject.propTypes = {
-  setErrorState: PropTypes.func
+  setErrorState: PropTypes.func,
 };

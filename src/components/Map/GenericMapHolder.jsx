@@ -1,34 +1,34 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Box } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import { styled } from '@mui/system';
-import PropTypes from 'prop-types';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Box } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import { styled } from "@mui/system";
+import PropTypes from "prop-types";
 
-import ActionButtons from './ActionButtons.jsx';
-import MapLayerList from '../MapLayerList/MapLayerList.jsx';
-import { ThreeColumnGrid } from '../All/StyledComponents.jsx';
+import ActionButtons from "./ActionButtons.jsx";
+import MapLayerList from "../MapLayerList/MapLayerList.jsx";
+import { ThreeColumnGrid } from "../All/StyledComponents.jsx";
 
 const ContentHolderGrid = styled(Grid)(({ theme }) => ({
-  height: 'calc(100% - 123px)',
-  [theme.breakpoints.down('lg')]: {
-    height: 'calc(100% - 123px)'
+  height: "calc(100% - 123px)",
+  [theme.breakpoints.down("lg")]: {
+    height: "calc(100% - 123px)",
   },
-  [theme.breakpoints.down('md')]: {
-    height: 'calc(60% - 80px)'
+  [theme.breakpoints.down("md")]: {
+    height: "calc(60% - 80px)",
   },
-  [theme.breakpoints.down('sm')]: {
-    height: 'calc(45%)'
-  }
+  [theme.breakpoints.down("sm")]: {
+    height: "calc(45%)",
+  },
 }));
 
 const ContentMapBox = styled(Box)(({ theme }) => ({
-  height: '100%',
+  height: "100%",
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: 'solid',
-  borderWidth: '1px'
+  borderStyle: "solid",
+  borderWidth: "1px",
 }));
 
 const listVisibleSelector = (state) => state.mapLayerList.visible;
@@ -38,7 +38,8 @@ export default function GenericMapHolder(props) {
   const layerListVisible = useSelector(listVisibleSelector);
 
   return (
-    <ContentHolderGrid container
+    <ContentHolderGrid
+      container
       spacing={0}
       rowSpacing={{ xs: 1, sm: 1, md: 0 }}
       px={1}
@@ -49,8 +50,15 @@ export default function GenericMapHolder(props) {
     >
       {/* LEFT COLUMN */}
       <ThreeColumnGrid
-        xs={12} sm={12} md={4} lg={3.75} xl={3}
-        sx={{ display: { xs: 'flex' }, height: { xs: 'fit-content', sm: 'fit-content', md: '100%' } }}
+        xs={12}
+        sm={12}
+        md={4}
+        lg={3.75}
+        xl={3}
+        sx={{
+          display: { xs: "flex" },
+          height: { xs: "fit-content", sm: "fit-content", md: "100%" },
+        }}
         order={{ xs: 2, sm: 2, md: 1 }}
       >
         {leftColumn}
@@ -63,7 +71,6 @@ export default function GenericMapHolder(props) {
         md={4.5}
         lg={layerListVisible ? 5.25 : 8.25}
         xl={layerListVisible ? 6.25 : 9}
-
         order={{ xs: 1, sm: 1, md: 2 }}
       >
         <ContentMapBox>
@@ -74,11 +81,18 @@ export default function GenericMapHolder(props) {
 
       {/* RIGHT COLUMN FOR LAYER LIST */}
       <ThreeColumnGrid
-        xs={12} sm={12} md={3.5} lg={3} xl={2.75}
-        sx={{ display: { xs: layerListVisible ? 'flex' : 'none' }, height: { xs: 'fit-content', sm: 'fit-content', md: '100%' } }}
+        xs={12}
+        sm={12}
+        md={3.5}
+        lg={3}
+        xl={2.75}
+        sx={{
+          display: { xs: layerListVisible ? "flex" : "none" },
+          height: { xs: "fit-content", sm: "fit-content", md: "100%" },
+        }}
         order={{ xs: 3, sm: 3, md: 3 }}
       >
-        <MapLayerList/>
+        <MapLayerList />
       </ThreeColumnGrid>
     </ContentHolderGrid>
   );
@@ -87,5 +101,5 @@ export default function GenericMapHolder(props) {
 GenericMapHolder.propTypes = {
   leftColumn: PropTypes.node,
   mapCard: PropTypes.node,
-  map: PropTypes.object
+  map: PropTypes.object,
 };
