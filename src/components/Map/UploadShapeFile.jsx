@@ -34,11 +34,74 @@ export default function Upload(props) {
       let tooLargeFlag = false;
       const buffer = await file.arrayBuffer();
       const geojson = await shp(buffer);
+      const countFeatures = geojson ? geojson.features.length : 0;
+
+      // Limiting many features for upload
+      // we may want to move this to a config file
+      const maxFeatures = 40;
+      const maxFeaturesCaution = 10;
+      if (countFeatures > maxFeatures) {
+        setErrorState((previous) => ({
+          ...previous,
+          error: true,
+          errorTitle: "There are too many shapes in the shapefile",
+          errorMessage: `CREST can process ${maxFeatures} or fewer shapes, and you included ${countFeatures}.
+            Please remove ${countFeatures - maxFeatures} shapes from the file and try again.`,
+        }));
+        return;
+      }
+
       geojson.features.forEach((feature) => {
         if (!validPolygon(feature)) {
           tooLargeFlag = true;
         }
       });
+
+      // this is not great but it is working so we can let it go
+      //   for now
+      // long process
+      if (countFeatures > maxFeaturesCaution) {
+        setErrorState((previous) => ({
+          ...previous,
+          error: true,
+          errorTitle: "Long processing warning",
+          errorType: "warning",
+          errorMessage: `Your shapfile contains ${maxFeaturesCaution} features and may take of 30 seconds to process. Do you want proceed?`,
+          errorClose: () => {
+            setInputValue("");
+            setErrorState({ ...previous, error: false });
+          },
+          acceptButtonText: "Proceed",
+          acceptButtonClose: () => {
+            // long process with invalid shapes
+            if (tooLargeFlag) {
+              setErrorState((previousToLarge) => ({
+                ...previousToLarge,
+                error: true,
+                errorTitle: "Invalid Shapefile",
+                errorType: "warning",
+                errorMessage:
+                  "There are invalid shapes in the shapefile. Proceed to the shape file correction screen?",
+                errorClose: () => {
+                  setInputValue("");
+                  setErrorState({ ...previousToLarge, error: false });
+                },
+                acceptButtonText: "Proceed",
+                acceptButtonClose: () => {
+                  setInputValue("");
+                  setGeoToRedraw(geojson);
+                  setErrorState({ ...previousToLarge, error: false });
+                },
+              }));
+            } else {
+              setInputValue("");
+              setErrorState({ ...previous, error: false });
+            }
+          },
+        }));
+        return;
+      }
+
       if (tooLargeFlag) {
         setErrorState((previous) => ({
           ...previous,
@@ -60,6 +123,7 @@ export default function Upload(props) {
         }));
         return;
       }
+
       dispatch(uploadedShapeFileGeoJSON(geojson));
     } catch (error) {
       setErrorState((previous) => ({
