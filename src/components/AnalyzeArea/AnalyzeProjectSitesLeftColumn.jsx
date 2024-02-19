@@ -8,6 +8,8 @@ import { PropTypes } from 'prop-types';
 const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
 const analyzeAreaSortExpanded = (state) => state.analyzeArea.isSortExpanded;
 
+/* eslint-disable no-nested-ternary */
+
 const StyledBox = styled(Box)(({ theme }) => ({
   marginTop: '8px',
   backgroundColor: theme.palette.background.default,

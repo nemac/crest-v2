@@ -35,7 +35,7 @@ export default function ActionButton(props) {
 
   return (
     <Box sx={{
-      width: 'fit-content', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+      width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
     }}>
       <StyledButton id={buttonId} variant="text" color="CRESTPrimary" fullWidth={true} aria-label={buttonName} onClick={onClick}>
         <StyledBox component="div" pt={0.5}>{children}</StyledBox>

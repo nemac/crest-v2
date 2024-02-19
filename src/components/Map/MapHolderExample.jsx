@@ -108,7 +108,7 @@ export default function MapHolderExample() {
                 alignItems: 'center',
                 height: '80px'
               }} >
-              <StickyNote2Icon sx={{ marginRight: '4px'}} />
+              <StickyNote2Icon sx={{ marginRight: '4px' }} />
               <Typography
                 variant="h7"
                 component="div"
