@@ -30,7 +30,7 @@ export default function ActionButton(props) {
   return (
     <Box
       sx={{
-        width: "fit-content",
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

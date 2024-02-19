@@ -42,6 +42,8 @@ export default function ActionButtons(props) {
   const { map } = props;
   const dispatch = useDispatch();
 
+  // I had to open cors to all sources on the s3 bucket to get this to work.
+  //    We will need to re-look at this later.
   const control = L.easyPrint({
     sizeModes: ["A4Portrait"], // Default to add something, updated on export
     hidden: true,
@@ -98,6 +100,7 @@ export default function ActionButtons(props) {
           buttonLabel={"Add Area"}
           buttonName={"Add Area"}
           onClick={areaVisiblityOnClick}
+          fullWidth={true}
         >
           {areaVisible ? <LibraryAdd /> : <LibraryAddOutlined />}
         </ActionButton>
