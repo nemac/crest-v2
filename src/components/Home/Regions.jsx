@@ -20,14 +20,17 @@ Props
   - config?
   - Not sure yet
 */
-import React from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
-import { useDispatch } from 'react-redux';
-import RegionCard from './RegionCard.jsx';
-import { mapConfig } from '../../configuration/config';
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useDispatch } from "react-redux";
+import RegionCard from "./RegionCard.jsx";
+import { mapConfig } from "../../configuration/config";
 
-import { changeRegion, regionUserInitiated } from '../../reducers/regionSelectSlice';
-import { changeActiveTab } from '../../reducers/NavBarSlice';
+import {
+  changeRegion,
+  regionUserInitiated,
+} from "../../reducers/regionSelectSlice";
+import { changeActiveTab } from "../../reducers/NavBarSlice";
 
 const regions = mapConfig.regions;
 
@@ -35,7 +38,7 @@ export default function Regions() {
   const dispatch = useDispatch();
 
   const handleRegionButtonClick = (regionName) => {
-    dispatch(changeActiveTab('AnalyzeProjectSites'));
+    dispatch(changeActiveTab("AnalyzeProjectSites"));
 
     dispatch(changeRegion(regions[regionName].label));
     dispatch(regionUserInitiated(true));
@@ -46,21 +49,22 @@ export default function Regions() {
   return (
     <Grid
       container
-      flexDirection='row'
+      flexDirection="row"
       spacing={3}
       justifyContent="center"
       alignContent="stretch"
       px={0.25}
-      py={0.75}>
-      { Object.keys(regions).map((region) => (
-        <Grid xs={12} sm={12} md={6} lg={3} xxl={2} key={regions[region].label} >
+      py={0.75}
+    >
+      {Object.keys(regions).map((region) => (
+        <Grid xs={12} sm={12} md={6} lg={3} xxl={2} key={regions[region].label}>
           <RegionCard
             regionName={regions[region].label}
             regionImage={regions[region].image}
-            onClick={handleRegionButtonClick}/>
+            onClick={handleRegionButtonClick}
+          />
         </Grid>
       ))}
-
     </Grid>
   );
 }

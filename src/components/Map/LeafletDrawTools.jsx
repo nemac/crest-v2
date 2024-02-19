@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import * as L from 'leaflet';
-import { FeatureGroup } from 'react-leaflet';
-import { EditControl } from 'react-leaflet-draw';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import buffer from '@turf/buffer';
-import * as turf from '@turf/turf';
-import { CircularProgress } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import * as L from "leaflet";
+import { FeatureGroup } from "react-leaflet";
+import { EditControl } from "react-leaflet-draw";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import buffer from "@turf/buffer";
+import * as turf from "@turf/turf";
+import { CircularProgress } from "@mui/material";
 
 import {
   toggleSketchArea,
   addNewFeatureToDrawnLayers,
   uploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
-  incrementAreaNumber
-} from '../../reducers/mapPropertiesSlice';
-import { validPolygon } from '../../utility/utilityFunctions';
-import { useGetZonalStatsQuery } from '../../services/zonalstats';
-import ModelErrors from '../All/ModelErrors.jsx';
-import { setEmptyState } from '../../reducers/analyzeAreaSlice';
-import { mapConfig } from '../../configuration/config';
+  incrementAreaNumber,
+} from "../../reducers/mapPropertiesSlice";
+import { validPolygon } from "../../utility/utilityFunctions";
+import { useGetZonalStatsQuery } from "../../services/zonalstats";
+import ModelErrors from "../All/ModelErrors.jsx";
+import { setEmptyState } from "../../reducers/analyzeAreaSlice";
+import { mapConfig } from "../../configuration/config";
 
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
-const uploadedShapeFileSelector = (state) => state.mapProperties.uploadedShapeFileGeoJSON;
-const searchPlacesFileSelector = (state) => state.mapProperties.searchPlacesFileGeoJSON;
+const uploadedShapeFileSelector = (state) =>
+  state.mapProperties.uploadedShapeFileGeoJSON;
+const searchPlacesFileSelector = (state) =>
+  state.mapProperties.searchPlacesFileGeoJSON;
 
 const areaNumberSelector = (state) => state.mapProperties.areaNumber;
 
@@ -33,12 +35,12 @@ export default function LeafletDrawTools(props) {
     bufferCheckbox,
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
-    setErrorState
+    setErrorState,
   } = props;
   const dispatch = useDispatch();
 
   const bufferSize = 1;
-  const bufferUnits = 'kilometers';
+  const bufferUnits = "kilometers";
 
   const drawToolsEnabled = useSelector(sketchAreaSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -48,15 +50,15 @@ export default function LeafletDrawTools(props) {
   const [currentDrawn, setCurrentDrawn] = useState({
     geo: null, // this is the originally drawn geo with enriched properties
     featureGroup: null, // this is the featureGroup that gets sent to zonalStats
-    skip: true // this tells the query not to run unless set to false
+    skip: true, // this tells the query not to run unless set to false
   });
 
   const { data, error, isFetching } = useGetZonalStatsQuery(
     {
       region: mapConfig.regions[selectedRegion].regionName,
-      queryData: currentDrawn.featureGroup
+      queryData: currentDrawn.featureGroup,
     },
-    { skip: currentDrawn.skip }
+    { skip: currentDrawn.skip },
   );
 
   useEffect(() => {
@@ -75,8 +77,8 @@ export default function LeafletDrawTools(props) {
         const geo =
           structuredClone(currentDrawn.geo) || structuredClone(feature);
         const areaValid = !Object.values(
-          data.features[index].properties.mean
-        ).includes('NaN');
+          data.features[index].properties.mean,
+        ).includes("NaN");
         if (areaValid) {
           geo.properties.zonalStatsData = data.features[index].properties.mean;
           dispatch(addNewFeatureToDrawnLayers(geo));
@@ -84,9 +86,9 @@ export default function LeafletDrawTools(props) {
           setErrorState((previous) => ({
             ...previous,
             error: true,
-            errorTitle: 'Draw Error',
+            errorTitle: "Draw Error",
             errorMessage:
-              'The area of the drawn layer returned no data, and is most likely outside of the specified region.'
+              "The area of the drawn layer returned no data, and is most likely outside of the specified region.",
           }));
         }
       });
@@ -107,12 +109,12 @@ export default function LeafletDrawTools(props) {
     // TODO: Remove ModelErrors component and just use setErrorState
     return (
       <ModelErrors
-        contentTitle={'Sketch an Area Error '}
+        contentTitle={"Sketch an Area Error "}
         contentMessage={
-          'There was an error in the area you sketched. Please try again.'
+          "There was an error in the area you sketched. Please try again."
         }
         buttonMessage="Dismiss"
-        errorType={'error'} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
+        errorType={"error"} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
         onClose={() => {
           setDrawAreaDisabled(false);
           setCurrentDrawn((previous) => ({ ...previous, skip: true }));
@@ -137,7 +139,7 @@ export default function LeafletDrawTools(props) {
     const turfCenter = turf.center(geoCopy.geometry);
     geoCopy.properties.center = {
       lat: turfCenter.geometry.coordinates[1],
-      lng: turfCenter.geometry.coordinates[0]
+      lng: turfCenter.geometry.coordinates[0],
     };
 
     let buffGeo;
@@ -157,9 +159,9 @@ export default function LeafletDrawTools(props) {
       setErrorState((previous) => ({
         ...previous,
         error: true,
-        errorTitle: 'Draw Error',
+        errorTitle: "Draw Error",
         errorMessage:
-          'The area of the drawn layer is too large. Please try again.'
+          "The area of the drawn layer is too large. Please try again.",
       }));
       leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
@@ -169,14 +171,14 @@ export default function LeafletDrawTools(props) {
     setDrawAreaDisabled(true);
     const geo = processGeojson(e.layer.toGeoJSON(), areaNumber);
     dispatch(incrementAreaNumber());
-    const layerToAnalyze = geo.properties.buffGeo ?
-      L.geoJSON(geo.properties.buffGeo) :
-      e.layer;
+    const layerToAnalyze = geo.properties.buffGeo
+      ? L.geoJSON(geo.properties.buffGeo)
+      : e.layer;
     const featureGroup = L.featureGroup().addLayer(layerToAnalyze).toGeoJSON();
     setCurrentDrawn({
       geo,
       featureGroup,
-      skip: false
+      skip: false,
     });
   }
 
@@ -188,15 +190,15 @@ export default function LeafletDrawTools(props) {
       const geo = processGeojson(feature, areaNum);
       areaNum += 1;
       dispatch(incrementAreaNumber());
-      const layer = geo.properties.buffGeo ?
-        L.geoJSON(geo.properties.buffGeo) :
-        L.geoJSON(geo);
+      const layer = geo.properties.buffGeo
+        ? L.geoJSON(geo.properties.buffGeo)
+        : L.geoJSON(geo);
       featureGroup.addLayer(layer);
     });
     dispatch(uploadedShapeFileGeoJSON(null));
     setCurrentDrawn({
       featureGroup: featureGroup.toGeoJSON(),
-      skip: false
+      skip: false,
     });
   }
 
@@ -204,13 +206,13 @@ export default function LeafletDrawTools(props) {
     const searchPlacesCopy = structuredClone(searchPlacesGeoJSON);
     const geo = processGeojson(searchPlacesCopy, areaNumber);
     dispatch(incrementAreaNumber());
-    const layer = geo.properties.buffGeo ?
-      L.geoJSON(geo.properties.buffGeo) :
-      L.geoJSON(geo);
+    const layer = geo.properties.buffGeo
+      ? L.geoJSON(geo.properties.buffGeo)
+      : L.geoJSON(geo);
     const featureGroup = L.featureGroup().addLayer(layer);
     setCurrentDrawn({
       featureGroup: featureGroup.toGeoJSON(),
-      skip: false
+      skip: false,
     });
     dispatch(addSearchPlacesGeoJSON(null));
   }
@@ -231,32 +233,32 @@ export default function LeafletDrawTools(props) {
               rectangle: false,
               circle: false,
               marker: false,
-              circlemarker: false
+              circlemarker: false,
             }}
             edit={{
               edit: false,
-              remove: false
+              remove: false,
             }}
           />
         )}
         {isFetching && (
           <div
             style={{
-              position: 'absolute',
-              top: '0',
-              left: '0',
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'rgba(255, 255, 255, 0.7)', // Use any desired background color with transparency
-              zIndex: 9999 // Set the overlay on top of everything
+              position: "absolute",
+              top: "0",
+              left: "0",
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "rgba(255, 255, 255, 0.7)", // Use any desired background color with transparency
+              zIndex: 9999, // Set the overlay on top of everything
             }}
           >
             <CircularProgress
               size={80}
-              sx={{ position: 'absolute', top: '50%', left: '50%' }}
+              sx={{ position: "absolute", top: "50%", left: "50%" }}
             />
           </div>
         )}
@@ -269,5 +271,5 @@ LeafletDrawTools.propTypes = {
   bufferCheckbox: PropTypes.bool,
   leafletFeatureGroupRef: PropTypes.object,
   setDrawAreaDisabled: PropTypes.func,
-  setErrorState: PropTypes.func
+  setErrorState: PropTypes.func,
 };

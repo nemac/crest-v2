@@ -1,47 +1,55 @@
-import * as React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import * as React from "react";
+import { Routes, Route } from "react-router-dom";
 
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 
-import About from './pages/About.jsx';
-import AnalyzeProjectSites from './pages/AnalyzeProjectSites.jsx';
-import CustomTheme from './CRESTTheme/CRESTCustomTheme';
-import DataAndReports from './pages/DataAndReports.jsx';
-import Examples from './pages/ExamplesPage.jsx';
-import Home from './pages/Home.jsx';
-import ResilienceProject from './pages/ResilienceProject.jsx';
-import NavBar from './components/NavBar/NavBar.jsx';
-import ModelErrors from './components/All/ModelErrors.jsx';
+import About from "./pages/About.jsx";
+import AnalyzeProjectSites from "./pages/AnalyzeProjectSites.jsx";
+import CustomTheme from "./CRESTTheme/CRESTCustomTheme";
+import DataAndReports from "./pages/DataAndReports.jsx";
+import Examples from "./pages/ExamplesPage.jsx";
+import Home from "./pages/Home.jsx";
+import ResilienceProject from "./pages/ResilienceProject.jsx";
+import NavBar from "./components/NavBar/NavBar.jsx";
+import ModelErrors from "./components/All/ModelErrors.jsx";
 
 export default function App() {
   const [errorState, setErrorState] = React.useState({
     error: false,
-    errorType: 'error', // error, warning, info, success (https://mui.com/material-ui/react-alert/)
-    errorTitle: 'Error',
-    errorMessage: 'An error has occurred.',
-    errorButtonText: 'Dismiss',
+    errorType: "error", // error, warning, info, success (https://mui.com/material-ui/react-alert/)
+    errorTitle: "Error",
+    errorMessage: "An error has occurred.",
+    errorButtonText: "Dismiss",
     acceptButtonText: null,
-    errorClose: () => setErrorState((previous) => ({ ...previous, error: false })),
-    acceptButtonClose: () => setErrorState((previous) => ({ ...previous, error: false }))
+    errorClose: () =>
+      setErrorState((previous) => ({ ...previous, error: false })),
+    acceptButtonClose: () =>
+      setErrorState((previous) => ({ ...previous, error: false })),
   });
 
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={CustomTheme}>
-        <CssBaseline/>
-        <div className='App' style={{ height: '100%' }}>
+        <CssBaseline />
+        <div className="App" style={{ height: "100%" }}>
           <Box px={0} pb={0.75}>
             <NavBar />
           </Box>
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='ResilienceProject' element={<ResilienceProject setErrorState={setErrorState}/>} />
-            <Route path='/AnalyzeProjectSites' element={<AnalyzeProjectSites setErrorState={setErrorState} />} />
-            <Route path='/Examples' element={<Examples />} />
-            <Route path='/DataAndReports' element={<DataAndReports />} />
-            <Route path='/About' element={<About />} />
+            <Route path="/" element={<Home />} />
+            <Route
+              path="ResilienceProject"
+              element={<ResilienceProject setErrorState={setErrorState} />}
+            />
+            <Route
+              path="/AnalyzeProjectSites"
+              element={<AnalyzeProjectSites setErrorState={setErrorState} />}
+            />
+            <Route path="/Examples" element={<Examples />} />
+            <Route path="/DataAndReports" element={<DataAndReports />} />
+            <Route path="/About" element={<About />} />
           </Routes>
           <ModelErrors
             contentTitle={errorState.errorTitle}

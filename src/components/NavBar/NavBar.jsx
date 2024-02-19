@@ -22,29 +22,29 @@ Props
   - collapsed (boolean) (to handle collapsing menu for small screen size)
   - Not sure yet
 */
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import { styled } from "@mui/system";
 
-import { changeActiveTab } from '../../reducers/NavBarSlice';
-import NavBarTabsSmallScreens from './NavBarTabsSmallScreens.jsx';
-import NavBarTabsBigScreens from './NavBarTabsBigScreens.jsx';
+import { changeActiveTab } from "../../reducers/NavBarSlice";
+import NavBarTabsSmallScreens from "./NavBarTabsSmallScreens.jsx";
+import NavBarTabsBigScreens from "./NavBarTabsBigScreens.jsx";
 
-import NFWFLogoImage from '../../assets/images/NFWF_logo_navbar.png';
+import NFWFLogoImage from "../../assets/images/NFWF_logo_navbar.png";
 
 export const StyledPaperCardBackground = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   color: theme.palette.CRESTGridBackground.contrastText,
   borderColor: theme.palette.CRESTBorderColor.main,
-  minHeight: '115px',
-  [theme.breakpoints.down('md')]: {
-    minHeight: '56px'
-  }
+  minHeight: "115px",
+  [theme.breakpoints.down("md")]: {
+    minHeight: "56px",
+  },
 }));
 
 // selector named functions for lint rules makes it easier to re-use if needed.
@@ -60,7 +60,7 @@ export default function NavBar(props) {
     // get path to check if path is different from state.
     // this will happen when a user copy and pastes or uses a shareurl
     // the tool will need to change the the tab accordingly
-    const locationPath = window.location.pathname.replace('/', '');
+    const locationPath = window.location.pathname.replace("/", "");
 
     if (!navBar || navBar !== locationPath) {
       dispatch(changeActiveTab(locationPath));
@@ -76,24 +76,29 @@ export default function NavBar(props) {
   // get breakpoint for small screens so we can make menu appear on side
   // also add show or hide the tabs
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-      <StyledPaperCardBackground square={true} elevation={0} px={0} pb={0.75} style={{ borderBottom: '1px solid #555555' }} >
-        <Grid container spacing={0} justifyContent='center' alignItems='center'>
-
-              {isSmallScreen ? (
-                <NavBarTabsSmallScreens
-                  handleClickNavTab={handleClickNavTab}
-                  logo={NFWFLogoImage}
-                />
-              ) : (
-                <NavBarTabsBigScreens
-                  handleClickNavTab={handleClickNavTab}
-                  logo={NFWFLogoImage}
-                />
-              )}
-        </Grid>
-      </StyledPaperCardBackground>
+    <StyledPaperCardBackground
+      square={true}
+      elevation={0}
+      px={0}
+      pb={0.75}
+      style={{ borderBottom: "1px solid #555555" }}
+    >
+      <Grid container spacing={0} justifyContent="center" alignItems="center">
+        {isSmallScreen ? (
+          <NavBarTabsSmallScreens
+            handleClickNavTab={handleClickNavTab}
+            logo={NFWFLogoImage}
+          />
+        ) : (
+          <NavBarTabsBigScreens
+            handleClickNavTab={handleClickNavTab}
+            logo={NFWFLogoImage}
+          />
+        )}
+      </Grid>
+    </StyledPaperCardBackground>
   );
 }

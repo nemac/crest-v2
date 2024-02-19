@@ -1,28 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { mapConfig } from '../configuration/config';
+import { createSlice } from "@reduxjs/toolkit";
+import { mapConfig } from "../configuration/config";
 
 const regions = mapConfig.regions;
 
 const startingState = {
-  zoom: regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.zoom, // conus - TODO: I hate this how can I fix this?
-  center: regions['Atlantic, Gulf of Mexico, and Pacific Coasts'].mapProperties.center, // conus - TODO: I hate this how can I fix this?
+  zoom: regions["Atlantic, Gulf of Mexico, and Pacific Coasts"].mapProperties
+    .zoom, // conus - TODO: I hate this how can I fix this?
+  center:
+    regions["Atlantic, Gulf of Mexico, and Pacific Coasts"].mapProperties
+      .center, // conus - TODO: I hate this how can I fix this?
   identifyCoordinates: null,
   identifyResults: null,
   identifyIsLoaded: false,
-  basemap: 'Dark Gray',
+  basemap: "Dark Gray",
   sketchArea: false,
   useBuffer: true,
   uploadedShapeFileGeoJSON: null,
   resilienceHub: null,
   areaNumber: 1,
   drawnLayers: {
-    type: 'FeatureCollection',
-    features: []
-  }
+    type: "FeatureCollection",
+    features: [],
+  },
 };
 
 export const mapPropertiesSlice = createSlice({
-  name: 'mapProperties',
+  name: "mapProperties",
   initialState: startingState,
   reducers: {
     updateAllMapProperties: (state, action) => ({ ...action.payload }),
@@ -58,26 +61,30 @@ export const mapPropertiesSlice = createSlice({
     addNewFeatureToDrawnLayers: (state, action) => {
       // drawnLayers is a list of the drawn layers geometry and whether or not there is a buffer
       // used to rebuild all of the layers on page refresh
-      state.drawnLayers.features = [...state.drawnLayers.features, action.payload];
+      state.drawnLayers.features = [
+        ...state.drawnLayers.features,
+        action.payload,
+      ];
     },
     removeFeatureFromDrawnLayers: (state, action) => {
       state.drawnLayers.features = [
         ...state.drawnLayers.features.slice(0, action.payload),
-        ...state.drawnLayers.features.slice(action.payload + 1)
+        ...state.drawnLayers.features.slice(action.payload + 1),
       ];
     },
     removeFeatureByGeometry: (state, action) => {
       state.drawnLayers.features = [
         ...state.drawnLayers.features.filter(
-          (feature) => JSON.stringify(feature.geometry) !== JSON.stringify(action.payload)
-        )
+          (feature) =>
+            JSON.stringify(feature.geometry) !== JSON.stringify(action.payload),
+        ),
       ];
     },
     removeAllFeaturesFromDrawnLayers: (state) => {
       state.drawnLayers = startingState.drawnLayers;
     },
     uploadedShapeFileGeoJSON: (state, action) => {
-      state.uploadedShapeFileGeoJSON = (action.payload);
+      state.uploadedShapeFileGeoJSON = action.payload;
     },
     addSearchPlacesGeoJSON: (state, action) => {
       state.searchPlacesFileGeoJSON = action.payload;
@@ -91,17 +98,32 @@ export const mapPropertiesSlice = createSlice({
     resetAreaNumber: (state) => {
       state.areaNumber = 1;
     },
-    resetMapProperties: () => startingState
-  }
+    resetMapProperties: () => startingState,
+  },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  updateAllMapProperties, changeZoom, changeCenter, changeIdentifyCoordinates,
-  changeIdentifyResults, changeIdentifyIsLoaded, changeBasemap, toggleSketchArea,
-  addNewFeatureToDrawnLayers, removeFeatureFromDrawnLayers, removeAllFeaturesFromDrawnLayers,
-  uploadedShapeFileGeoJSON, addSearchPlacesGeoJSON, changeResilienceHub, updateDrawnLayers,
-  removeFeatureByGeometry, incrementAreaNumber, resetAreaNumber, resetMapProperties, changeUseBuffer
+  updateAllMapProperties,
+  changeZoom,
+  changeCenter,
+  changeIdentifyCoordinates,
+  changeIdentifyResults,
+  changeIdentifyIsLoaded,
+  changeBasemap,
+  toggleSketchArea,
+  addNewFeatureToDrawnLayers,
+  removeFeatureFromDrawnLayers,
+  removeAllFeaturesFromDrawnLayers,
+  uploadedShapeFileGeoJSON,
+  addSearchPlacesGeoJSON,
+  changeResilienceHub,
+  updateDrawnLayers,
+  removeFeatureByGeometry,
+  incrementAreaNumber,
+  resetAreaNumber,
+  resetMapProperties,
+  changeUseBuffer,
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

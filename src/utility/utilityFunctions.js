@@ -1,27 +1,27 @@
-import * as turf from '@turf/turf';
+import * as turf from "@turf/turf";
 
-export const calculateAreaOfPolygon = ((geojson) => {
+export const calculateAreaOfPolygon = (geojson) => {
   const coordinates = geojson.geometry.coordinates;
   const polygon = turf.polygon(coordinates);
   const area = turf.area(polygon);
   return area;
-});
+};
 
-export const caclulatePolygonVertices = ((geojson) => {
+export const caclulatePolygonVertices = (geojson) => {
   const coordinates = geojson.geometry.coordinates;
   let totalVertices = 0;
   coordinates.forEach((ring) => {
     totalVertices += ring.length;
   });
   return totalVertices;
-});
+};
 
 /* this function determines if the polygon is valid per our checks:
   1. max size is under 500 sq km
   2. polygon has less than 1000 vertices
 */
 // TODO: Need to add more validation checks e.g. number of vertices
-export const validPolygon = ((geojson) => {
+export const validPolygon = (geojson) => {
   const area = calculateAreaOfPolygon(geojson);
   const maxPolygonAreaSize = 500000000; // 500 sq km
   const vertices = caclulatePolygonVertices(geojson);
@@ -30,7 +30,7 @@ export const validPolygon = ((geojson) => {
     return false;
   }
   return true;
-});
+};
 
 /*
   This function is necessary because the data coming back from the AGOL query
@@ -46,12 +46,13 @@ export const convertDataForZonalStats = (geojson, zonalStatsKeys) => {
       objCopy[key] = geoCopy.properties[key];
       return objCopy;
     }, {});
-  geoCopy.properties.isNull = Object.values(geoCopy.properties.zonalStatsData)
-    .every((value) => value === null); // return null if all values are null
+  geoCopy.properties.isNull = Object.values(
+    geoCopy.properties.zonalStatsData,
+  ).every((value) => value === null); // return null if all values are null
   const turfCenter = turf.center(geoCopy.geometry);
   geoCopy.properties.center = {
     lat: turfCenter.geometry.coordinates[1],
-    lng: turfCenter.geometry.coordinates[0]
+    lng: turfCenter.geometry.coordinates[0],
   };
   return geoCopy;
 };

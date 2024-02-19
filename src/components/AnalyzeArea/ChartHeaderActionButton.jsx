@@ -30,25 +30,25 @@ State needed
 Props
   - Not sure yet
 */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/system';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/system";
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  [theme.breakpoints.between('md', 'xl')]: {
-    fontSize: '0.80rem'
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  [theme.breakpoints.between("md", "xl")]: {
+    fontSize: "0.80rem",
   },
-  [theme.breakpoints.down('sm')]: {
-    fontSize: '0.80rem'
-  }
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "0.80rem",
+  },
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -56,39 +56,44 @@ const StyledButton = styled(Button)(({ theme }) => ({
   paddingBottom: theme.spacing(0.5),
   borderRadius: 0,
   maxHeight: theme.spacing(10),
-  textTransform: 'capitalize',
-  flexWrap: 'wrap',
-  '&:hover': {
-    backgroundColor: '#6f6f6f'
-  }
+  textTransform: "capitalize",
+  flexWrap: "wrap",
+  "&:hover": {
+    backgroundColor: "#6f6f6f",
+  },
 }));
 
 // just a place holder needs props passed in and image etc
 export default function ChartHeaderActionButton(props) {
-  const {
-    children,
-    buttonLabel,
-    buttonName,
-    onClick
-  } = props;
+  const { children, buttonLabel, buttonName, onClick } = props;
 
   const handleClick = (event) => {
     onClick(event);
   };
 
   return (
-    <Box sx={{
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <StyledButton
         variant="text"
         color="CRESTPrimary"
         fullWidth={true}
         aria-label={buttonName}
         value={buttonName}
-        onClick={handleClick}>
-        <StyledBox component="div" pt={0}>{children}</StyledBox>
-        <StyledBox component="div" pb={0}>{buttonLabel}</StyledBox>
+        onClick={handleClick}
+      >
+        <StyledBox component="div" pt={0}>
+          {children}
+        </StyledBox>
+        <StyledBox component="div" pb={0}>
+          {buttonLabel}
+        </StyledBox>
       </StyledButton>
     </Box>
   );
@@ -98,5 +103,5 @@ ChartHeaderActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };

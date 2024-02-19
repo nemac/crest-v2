@@ -4,11 +4,14 @@
   "author": "nemac",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 8080",
-    "start": "vite --port 8080",
     "build": "vite build",
+    "check": "prettier --check \"**/*.{js,jsx}\"",
+    "dev": "vite --port 8080",
+    "fixlint": "eslint . --ext js,jsx --report-unused-disable-directives --fix",
+    "format": "prettier --write \"**/*.{js,jsx}\"",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "vite --port 8080"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -54,9 +57,10 @@
     "leaflet-easyprint": "^2.1.9",
     "mapbox-gl": "^3.1.0",
     "maplibre-gl": "^2.4.0",
+    "prettier": "^3.2.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-code-blocks": "^0.0.9-0",
+    "react-code-blocks": "^0.1.6",
     "react-dom": "^18.2.0",
     "react-esri-leaflet": "^2.0.1",
     "react-leaflet": "^4.2.1",

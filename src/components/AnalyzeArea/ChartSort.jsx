@@ -3,37 +3,37 @@ We're constantly improving the code you see.
 Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcNg&d=1152665201300829
 */
 
-import React from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
-import { styled } from '@mui/system';
-import { useSelector, useDispatch } from 'react-redux';
-import { SortOutlined } from '@mui/icons-material';
-import ActionButton from '../All/ActionButton.jsx';
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import { styled } from "@mui/system";
+import { useSelector, useDispatch } from "react-redux";
+import { SortOutlined } from "@mui/icons-material";
+import ActionButton from "../All/ActionButton.jsx";
 // import './style.css';
 import {
   changeSortDirection,
-  changeSortBy
-} from '../../reducers/analyzeAreaSlice';
+  changeSortBy,
+} from "../../reducers/analyzeAreaSlice";
 
 const StyledGridContainer = styled(Grid)(({ theme }) => ({
-  display: 'flex',
+  display: "flex",
   height: theme.spacing(8),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: 'solid',
-  borderWidth: '1px'
+  borderStyle: "solid",
+  borderWidth: "1px",
 }));
 
 const analyzeAreaSelector = (state) => state.analyzeArea;
 
 export const ChartSort = () => {
   const sortIndices = {
-    Name: 'areaNumber',
-    Hubs: 'hubs',
-    Exposure: 'exposure',
-    Threat: 'threat',
-    Assets: 'asset',
-    Wildlife: 'wildlife'
+    Name: "areaNumber",
+    Hubs: "hubs",
+    Exposure: "exposure",
+    Threat: "threat",
+    Assets: "asset",
+    Wildlife: "wildlife",
   };
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
@@ -58,7 +58,7 @@ export const ChartSort = () => {
           key={`grid-${chart}`}
           sx={{
             backgroundColor:
-              chartName === analyzeAreaState.sortBy ? 'grey' : null
+              chartName === analyzeAreaState.sortBy ? "grey" : null,
           }}
         >
           <ActionButton
@@ -70,7 +70,7 @@ export const ChartSort = () => {
             {analyzeAreaState.isSortASC[chartName] ? (
               <SortOutlined />
             ) : (
-              <SortOutlined sx={{ transform: 'rotate(-180deg)' }} />
+              <SortOutlined sx={{ transform: "rotate(-180deg)" }} />
             )}
           </ActionButton>
         </Grid>

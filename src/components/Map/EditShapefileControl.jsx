@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { FeatureGroup } from 'react-leaflet';
-import { EditControl } from 'react-leaflet-draw';
-import PropTypes from 'prop-types';
-import * as L from 'leaflet';
-import { uploadedShapeFileGeoJSON } from '../../reducers/mapPropertiesSlice';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { FeatureGroup } from "react-leaflet";
+import { EditControl } from "react-leaflet-draw";
+import PropTypes from "prop-types";
+import * as L from "leaflet";
+import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
 
 import {
   calculateAreaOfPolygon,
   caclulatePolygonVertices,
-  validPolygon
-} from '../../utility/utilityFunctions';
+  validPolygon,
+} from "../../utility/utilityFunctions";
 
 export default function EditControlFC(props) {
   const {
@@ -23,7 +23,7 @@ export default function EditControlFC(props) {
     setUpdateSteps,
     setActiveStep,
     mapRef,
-    setIsEdit
+    setIsEdit,
   } = props;
   const dispatch = useDispatch();
 
@@ -32,13 +32,15 @@ export default function EditControlFC(props) {
   const verticeThreshold = 1000;
 
   // error messages
-  const errorShapeHasToManyVertices = 'This area has too many vertices.';
-  const errorShapeIsToBig = 'This area is too large.';
+  const errorShapeHasToManyVertices = "This area has too many vertices.";
+  const errorShapeIsToBig = "This area is too large.";
   const errorShapeIsToBigAndShapeHasToManyVertices = `${errorShapeHasToManyVertices} and ${errorShapeIsToBig}`;
 
   // fix messages
-  const fixShapeHasToManyVertices = 'Edit the area.\nThe dashed red lines indicate there is an issue.\nClick on a white square (vertice) to delete it.\nDelete squares (vertices) until the dashed line turns green.\nSave the changes.';
-  const fixShapeIsToBig = 'Edit the area.\nThe dashed lines are red indicating there is an issue. Move the white squares (vertices) by dragging them so the area is smaller.\nYou can also delete squares (vertices) by clicking on them to reduce the size of the area.\nThe dashed lines will turn green when the size of the area meets the size requirement.\nSave the changes.';
+  const fixShapeHasToManyVertices =
+    "Edit the area.\nThe dashed red lines indicate there is an issue.\nClick on a white square (vertice) to delete it.\nDelete squares (vertices) until the dashed line turns green.\nSave the changes.";
+  const fixShapeIsToBig =
+    "Edit the area.\nThe dashed lines are red indicating there is an issue. Move the white squares (vertices) by dragging them so the area is smaller.\nYou can also delete squares (vertices) by clicking on them to reduce the size of the area.\nThe dashed lines will turn green when the size of the area meets the size requirement.\nSave the changes.";
   const fixShapeIsToBigAndShapeHasToManyVertices = `${fixShapeHasToManyVertices} and ${fixShapeIsToBig}`;
 
   useEffect(() => {
@@ -47,11 +49,12 @@ export default function EditControlFC(props) {
       let count = 0; // All Layers
       let countValid = 0; // Layers we don't need to fix, send immediately
       let countInvalid = 0; // Layers we don't need to fix, send immediately
-      let validBatch = { // data structure to hold good layers that don't need editing
-        type: 'FeatureCollection',
-        features: []
+      let validBatch = {
+        // data structure to hold good layers that don't need editing
+        type: "FeatureCollection",
+        features: [],
       };
-        // One time only we go through the loop to sort good and bad shapes
+      // One time only we go through the loop to sort good and bad shapes
       L.geoJSON(localGeo).eachLayer((layer) => {
         geoToReturn.current.features[count].properties.id = count;
         count += 1;
@@ -68,10 +71,10 @@ export default function EditControlFC(props) {
           countInvalid += 1;
           const areaSize = calculateAreaOfPolygon(geo) / 1000000; // SQ KM
           const numVertices = caclulatePolygonVertices(geo);
-          let invalidText = '';
-          let fixText = '';
-          let fixStatus = '';
-          let fixStatusGoal = '';
+          let invalidText = "";
+          let fixText = "";
+          let fixStatus = "";
+          let fixStatusGoal = "";
           if (areaSize > areaThreshold && numVertices > verticeThreshold) {
             invalidText = errorShapeIsToBigAndShapeHasToManyVertices;
             fixText = fixShapeIsToBigAndShapeHasToManyVertices;
@@ -95,14 +98,15 @@ export default function EditControlFC(props) {
             isValid: false,
             isFixed: false,
             invalidText,
-            howFixedText: 'Needs to be fixed',
+            howFixedText: "Needs to be fixed",
             fixText,
             fixStatus,
             fixStatusGoal,
-            color: 'red',
-            layer: layer.setStyle({ color: 'red' })
+            color: "red",
+            layer: layer.setStyle({ color: "red" }),
           });
-        } else { // if it is valid, batch and send it when we reach our batch size
+        } else {
+          // if it is valid, batch and send it when we reach our batch size
           countValid += 1;
 
           validBatch.features.push(geo);
@@ -110,8 +114,8 @@ export default function EditControlFC(props) {
             dispatch(uploadedShapeFileGeoJSON(validBatch));
             // after sending, we reset our valid batch to create the next batch
             validBatch = {
-              type: 'FeatureCollection',
-              features: []
+              type: "FeatureCollection",
+              features: [],
             };
             countValid = 0; // and our counter
           }
@@ -127,8 +131,10 @@ export default function EditControlFC(props) {
         invalidLayer.layer.options.stepID = invalidLayer.id - 1;
         // eslint-disable-next-line no-param-reassign
         invalidLayer.layer.options.activeStep = steps.current.length - 1;
-        if (invalidLayer.howFixedText !== 'DELETED') {
-          mapRef.current?.addLayer(invalidLayer.layer.setStyle({ color: 'red' }));
+        if (invalidLayer.howFixedText !== "DELETED") {
+          mapRef.current?.addLayer(
+            invalidLayer.layer.setStyle({ color: "red" }),
+          );
         }
       });
     }
@@ -143,7 +149,7 @@ export default function EditControlFC(props) {
     errorShapeIsToBigAndShapeHasToManyVertices,
     fixShapeIsToBigAndShapeHasToManyVertices,
     geoToReturn,
-    mapRef
+    mapRef,
   ]);
 
   const handleDelete = (e) => {
@@ -153,21 +159,21 @@ export default function EditControlFC(props) {
     const deletedLayers = Object.values(e.layers._layers);
     deletedLayers.forEach((layer) => {
       const updatedFeatures = geoToReturn.current.features.filter(
-        (feature) => feature.properties.id !== layer.feature.properties.id
+        (feature) => feature.properties.id !== layer.feature.properties.id,
       );
       geoToReturn.current.features = updatedFeatures;
       const indexFeature = steps.current.filter(
-        (feature) => feature.id === layer.options.stepID + 1
+        (feature) => feature.id === layer.options.stepID + 1,
       );
       const thisStep = steps.current[indexFeature[0].invalidIndex - 1];
-      thisStep.color = 'green';
-      thisStep.howFixedText = 'DELETED'; // this will keep us from re-rendering!
+      thisStep.color = "green";
+      thisStep.howFixedText = "DELETED"; // this will keep us from re-rendering!
       thisStep.isFixed = true;
     });
 
     // Update localGeo for dispatch
     const newGeo = mapRef.current?.toGeoJSON();
-    if (newGeo?.type === 'FeatureCollection') {
+    if (newGeo?.type === "FeatureCollection") {
       setLocalGeo(newGeo);
     }
   };
@@ -180,18 +186,19 @@ export default function EditControlFC(props) {
     setActiveStep(layer.options.stepID);
     const geo = layer.toGeoJSON();
     const thisStep = steps.current[layer.options.stepID];
-    let invalidText = '';
-    let fixText = '';
-    let fixStatus = '';
-    let fixStatusGoal = '';
+    let invalidText = "";
+    let fixText = "";
+    let fixStatus = "";
+    let fixStatusGoal = "";
     // set properties for valid
     if (validPolygon(geo)) {
-      layer.setStyle({ color: 'green' });
-      thisStep.color = 'green';
+      layer.setStyle({ color: "green" });
+      thisStep.color = "green";
       thisStep.isFixed = true;
-      thisStep.howFixedText = 'FIXED';
-    } else { // update size and make sure we have invalid properties
-      layer.setStyle({ color: 'red' });
+      thisStep.howFixedText = "FIXED";
+    } else {
+      // update size and make sure we have invalid properties
+      layer.setStyle({ color: "red" });
       const areaSize = calculateAreaOfPolygon(geo) / 1000000;
       const numVertices = caclulatePolygonVertices(geo);
       if (areaSize > areaThreshold && numVertices > verticeThreshold) {
@@ -199,21 +206,21 @@ export default function EditControlFC(props) {
         fixText = fixShapeIsToBigAndShapeHasToManyVertices;
         fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km and the current number of vertices is ${numVertices.toFixed(0)}`;
         fixStatusGoal = `and the size neeeds to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
-        thisStep.howFixedText = 'EDITIED VERTEX';
+        thisStep.howFixedText = "EDITIED VERTEX";
       } else if (areaSize > areaThreshold) {
         invalidText = errorShapeIsToBig;
         fixText = fixShapeIsToBig;
         fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km`;
         fixStatusGoal = `and the size neeeds to be less than ${areaThreshold}`;
-        thisStep.howFixedText = 'EDITIED VERTEX';
+        thisStep.howFixedText = "EDITIED VERTEX";
       } else if (numVertices > verticeThreshold) {
         invalidText = errorShapeHasToManyVertices;
         fixText = fixShapeHasToManyVertices;
         fixStatus = `The current number of vertices is ${numVertices.toFixed(0)}`;
         fixStatusGoal = `and the number of vertices needs to be less than ${verticeThreshold}`;
-        thisStep.howFixedText = 'EDITIED VERTEX';
+        thisStep.howFixedText = "EDITIED VERTEX";
       }
-      thisStep.color = 'red';
+      thisStep.color = "red";
       if (thisStep) {
         thisStep.invalidText = invalidText;
         thisStep.fixText = fixText;
@@ -229,7 +236,7 @@ export default function EditControlFC(props) {
 
     // Update localGeo for dispatch
     const newGeo = mapRef.current?.toGeoJSON();
-    if (newGeo?.type === 'FeatureCollection') {
+    if (newGeo?.type === "FeatureCollection") {
       setLocalGeo(newGeo);
     }
   };
@@ -240,16 +247,16 @@ export default function EditControlFC(props) {
     mapRef.current.eachLayer((layer) => {
       const geo = layer.toGeoJSON();
       const thisStep = steps.current[layer.options.stepID];
-      let invalidText = '';
-      let fixText = '';
-      let fixStatus = '';
-      let fixStatusGoal = '';
+      let invalidText = "";
+      let fixText = "";
+      let fixStatus = "";
+      let fixStatusGoal = "";
       // finalize updates for good / bad
       if (validPolygon(geo)) {
-        layer.setStyle({ color: 'green' });
-        thisStep.color = 'green';
+        layer.setStyle({ color: "green" });
+        thisStep.color = "green";
         thisStep.isFixed = true;
-        thisStep.howFixedText = 'FIXED';
+        thisStep.howFixedText = "FIXED";
       } else {
         const areaSize = calculateAreaOfPolygon(geo) / 1000000;
         const numVertices = caclulatePolygonVertices(geo);
@@ -258,21 +265,21 @@ export default function EditControlFC(props) {
           fixText = fixShapeIsToBigAndShapeHasToManyVertices;
           fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km and the current number of vertices is ${numVertices.toFixed(0)}`;
           fixStatusGoal = `and the size neeeds to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
-          thisStep.howFixedText = 'EDITIED VERTEX';
+          thisStep.howFixedText = "EDITIED VERTEX";
         } else if (areaSize > areaThreshold) {
           invalidText = errorShapeIsToBig;
           fixText = fixShapeIsToBig;
           fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km`;
           fixStatusGoal = `and the size neeeds to be less than ${areaThreshold}`;
-          thisStep.howFixedText = 'EDITIED VERTEX';
+          thisStep.howFixedText = "EDITIED VERTEX";
         } else if (numVertices > verticeThreshold) {
           invalidText = errorShapeHasToManyVertices;
           fixText = fixShapeHasToManyVertices;
           fixStatus = `The current number of vertices is ${numVertices.toFixed(0)}`;
           fixStatusGoal = `and the number of vertices needs to be less than ${verticeThreshold}`;
-          if (thisStep) thisStep.howFixedText = 'EDITIED VERTEX';
+          if (thisStep) thisStep.howFixedText = "EDITIED VERTEX";
         }
-        layer.setStyle({ color: 'red' });
+        layer.setStyle({ color: "red" });
         if (thisStep) {
           thisStep.invalidText = invalidText;
           thisStep.fixText = fixText;
@@ -282,38 +289,38 @@ export default function EditControlFC(props) {
       }
       // update geoToReturn in case we download this stuff
       const thisFeature = mapGeo.features.find(
-        (feature) => feature.properties.id === layer.feature.properties.id
+        (feature) => feature.properties.id === layer.feature.properties.id,
       );
       geoToReturn.current.features[layer.feature.properties.id] = thisFeature;
     });
     // update localGeo for dispatch
     const newGeo = mapRef.current?.toGeoJSON();
-    if (newGeo?.type === 'FeatureCollection') {
+    if (newGeo?.type === "FeatureCollection") {
       setLocalGeo(newGeo);
     }
     //   setActiveStep(0)
   };
 
   return (
-      <FeatureGroup ref={mapRef}>
-        <EditControl
-          position="topleft"
-          onDeleted={handleDelete}
-          onEditVertex={handleEditVertex}
-          onEditStop={handleEditStop}
-          draw={{
-            rectangle: false,
-            circle: false,
-            polyline: false,
-            polygon: false,
-            marker: false,
-            circlemarker: false
-          }}
-          edit={{
-            poly: { allowIntersection: false }
-          }}
-        />
-      </FeatureGroup>
+    <FeatureGroup ref={mapRef}>
+      <EditControl
+        position="topleft"
+        onDeleted={handleDelete}
+        onEditVertex={handleEditVertex}
+        onEditStop={handleEditStop}
+        draw={{
+          rectangle: false,
+          circle: false,
+          polyline: false,
+          polygon: false,
+          marker: false,
+          circlemarker: false,
+        }}
+        edit={{
+          poly: { allowIntersection: false },
+        }}
+      />
+    </FeatureGroup>
   );
 }
 
@@ -327,5 +334,5 @@ EditControlFC.propTypes = {
   updateSteps: PropTypes.bool,
   setUpdateSteps: PropTypes.func,
   setActiveStep: PropTypes.func,
-  mapRef: PropTypes.object
+  mapRef: PropTypes.object,
 };

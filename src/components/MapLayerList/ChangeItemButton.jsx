@@ -49,22 +49,22 @@ State needed
 Props
   - Not sure yet
 */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
-import Button from '@mui/material/Button';
-import Collapse from '@mui/material/Collapse';
-import { styled } from '@mui/system';
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
+import Button from "@mui/material/Button";
+import Collapse from "@mui/material/Collapse";
+import { styled } from "@mui/system";
 
-import ChangeItemMenu from './ChangeItemMenu.jsx';
+import ChangeItemMenu from "./ChangeItemMenu.jsx";
 
-const StyledLabelDiv = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  justifyContent: 'start'
+const StyledLabelDiv = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  justifyContent: "start",
 }));
 
 // just a place holder needs props passed in and image etc
@@ -77,12 +77,16 @@ export default function ChangeItemButton(props) {
     menuItems,
     showMenu,
     onClick,
-    itemOnClick
+    itemOnClick,
   } = props;
 
   return (
-    <Grid container spacing={0} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
-      <Grid xs={12} >
+    <Grid
+      container
+      spacing={0}
+      sx={{ display: "flex", alignItems: "center", justifyContent: "start" }}
+    >
+      <Grid xs={12}>
         <Button
           variant="contained"
           color="CRESTDarkAlt"
@@ -90,42 +94,51 @@ export default function ChangeItemButton(props) {
           aria-label={buttonName}
           onClick={onClick}
           sx={{
-            width: '100%',
+            width: "100%",
             borderRadius: (theme) => theme.spacing(0.5),
             paddingLeft: (theme) => theme.spacing(2),
-            height: 'fit-content',
-            textTransform: 'none',
-            display: 'flex',
-            justifyContent: 'start',
-            '&:hover': {
-              backgroundColor: '#6f6f6f'
-            }
+            height: "fit-content",
+            textTransform: "none",
+            display: "flex",
+            justifyContent: "start",
+            "&:hover": {
+              backgroundColor: "#6f6f6f",
+            },
           }}
         >
-          <Box component="div" sx={{ display: 'flex', alignItems: 'center' }} pr={2}>{children}</Box>
+          <Box
+            component="div"
+            sx={{ display: "flex", alignItems: "center" }}
+            pr={2}
+          >
+            {children}
+          </Box>
           <StyledLabelDiv>
-            <Box component="div"
+            <Box
+              component="div"
               sx={{
-                display: 'flex',
-                fontSize: '1rem',
-                fontWeight: '600',
-                justifyContent: 'start',
-                lineHeight: '1',
-                paddingBottom: (theme) => theme.spacing(0.5)
+                display: "flex",
+                fontSize: "1rem",
+                fontWeight: "600",
+                justifyContent: "start",
+                lineHeight: "1",
+                paddingBottom: (theme) => theme.spacing(0.5),
               }}
             >
               {buttonMainLabel}
             </Box>
-            <Box component="div" pb={0.5}
+            <Box
+              component="div"
+              pb={0.5}
               sx={{
-                display: 'flex',
-                fontSize: '0.88rem',
-                fontWeight: '400',
-                justifyContent: 'start',
-                width: '100%',
-                lineHeight: '1',
-                textAlign: 'left',
-                paddingTop: (theme) => theme.spacing(0.5)
+                display: "flex",
+                fontSize: "0.88rem",
+                fontWeight: "400",
+                justifyContent: "start",
+                width: "100%",
+                lineHeight: "1",
+                textAlign: "left",
+                paddingTop: (theme) => theme.spacing(0.5),
               }}
             >
               {buttonNameLabel}
@@ -133,14 +146,15 @@ export default function ChangeItemButton(props) {
           </StyledLabelDiv>
         </Button>
       </Grid>
-      <Grid xs={12} >
-        <Collapse in={showMenu} >
+      <Grid xs={12}>
+        <Collapse in={showMenu}>
           <ChangeItemMenu
             selectedValue={buttonNameLabel}
             onClick={onClick}
             itemOnClick={itemOnClick}
             menuName={buttonName}
-            menuItems={menuItems}/>
+            menuItems={menuItems}
+          />
         </Collapse>
       </Grid>
     </Grid>
@@ -155,5 +169,5 @@ ChangeItemButton.propTypes = {
   menuItems: PropTypes.object.isRequired,
   showMenu: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  itemOnClick: PropTypes.func.isRequired
+  itemOnClick: PropTypes.func.isRequired,
 };

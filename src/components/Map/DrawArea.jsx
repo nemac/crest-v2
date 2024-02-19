@@ -1,23 +1,23 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { useDispatch, useSelector } from 'react-redux';
-import * as L from 'leaflet';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from "react-redux";
+import * as L from "leaflet";
+import PropTypes from "prop-types";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/system';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/system";
 import {
-  PolylineOutlined
+  PolylineOutlined,
   // Polyline
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
-import { toggleSketchArea } from '../../reducers/mapPropertiesSlice';
+import { toggleSketchArea } from "../../reducers/mapPropertiesSlice";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   height: theme.spacing(4.5),
-  textTransform: 'none',
-  justifyContent: 'start'
+  textTransform: "none",
+  justifyContent: "start",
 }));
 
 export default function DrawArea(props) {
@@ -42,12 +42,12 @@ export default function DrawArea(props) {
 
   if (!disabled) {
     return (
-      <Box p={0.75} >
+      <Box p={0.75}>
         <StyledButton
           variant="contained"
           color="CRESTPrimary"
           fullWidth={true}
-          aria-label={'Sketch an Area'}
+          aria-label={"Sketch an Area"}
           onClick={handleSketchClick}
           startIcon={<PolylineOutlined />}
         >
@@ -57,15 +57,16 @@ export default function DrawArea(props) {
     );
   }
   return (
-    <Box p={0.75} >
+    <Box p={0.75}>
       <StyledButton
         variant="contained"
         color="CRESTPrimary"
         fullWidth={true}
-        aria-label={'Sketch an Area'}
+        aria-label={"Sketch an Area"}
         onClick={handleSketchClick}
         startIcon={<PolylineOutlined />}
-      disabled>
+        disabled
+      >
         Sketch an Area
       </StyledButton>
     </Box>
@@ -74,5 +75,5 @@ export default function DrawArea(props) {
 
 DrawArea.propTypes = {
   map: PropTypes.object,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };

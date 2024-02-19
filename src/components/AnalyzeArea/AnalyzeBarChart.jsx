@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 import {
   ResponsiveContainer,
@@ -8,30 +8,30 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Cell
-} from 'recharts';
+  Cell,
+} from "recharts";
 
-import { styled } from '@mui/system';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { mapConfig } from '../../configuration/config';
+import { styled } from "@mui/system";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { mapConfig } from "../../configuration/config";
 
-import ChartCustomLabels from './ChartCustomLabels.jsx';
+import ChartCustomLabels from "./ChartCustomLabels.jsx";
 
 const regions = mapConfig.regions;
 
 const ToolTipBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  borderRadius: '4px',
+  display: "flex",
+  flexWrap: "wrap",
+  borderRadius: "4px",
   padding: theme.spacing(2),
   backgroundColor: theme.palette.CRESTLight.main,
   borderColor: theme.palette.CRESTLightBorderColor.main,
   color: theme.palette.CRESTLight.contrastText,
-  borderStyle: 'solid',
-  borderWidth: '1px',
-  justifyContent: 'center',
-  alignItems: 'center'
+  borderStyle: "solid",
+  borderWidth: "1px",
+  justifyContent: "center",
+  alignItems: "center",
 }));
 
 export default function AnalyzeBarChart(props) {
@@ -41,7 +41,7 @@ export default function AnalyzeBarChart(props) {
     chartType,
     areaName,
     zonalStatsData,
-    barchartMargin
+    barchartMargin,
   } = props;
 
   const region = regions[chartRegion];
@@ -50,11 +50,11 @@ export default function AnalyzeBarChart(props) {
   const formatYAxis = (value) => {
     switch (value) {
       case 1:
-        return 'High';
+        return "High";
       case 0:
-        return 'Low';
+        return "Low";
       default:
-        return '';
+        return "";
     }
   };
 
@@ -70,18 +70,18 @@ export default function AnalyzeBarChart(props) {
         <ToolTipBox>
           <Box
             sx={{
-              display: 'flex',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center'
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Typography
               sx={{
-                display: 'flex',
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center'
+                display: "flex",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
               }}
               variant="body2"
               component="div"
@@ -91,18 +91,18 @@ export default function AnalyzeBarChart(props) {
           </Box>
           <Box
             sx={{
-              display: 'flex',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center'
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Typography
               sx={{
-                display: 'flex',
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center'
+                display: "flex",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
               }}
               variant="h4"
               component="h2"
@@ -119,14 +119,14 @@ export default function AnalyzeBarChart(props) {
   CustomTooltip.propTypes = {
     active: PropTypes.bool,
     payload: PropTypes.array,
-    label: PropTypes.any
+    label: PropTypes.any,
   };
 
   // Bar Color is functional based on value comparison with config
   const getData = (name, value) => {
     const colorValue = Math.round(value);
     const selectedLayerData = layerList.find(
-      (layer) => layer.chartCSSSelector === name
+      (layer) => layer.chartCSSSelector === name,
     );
     const selectedChartLabel = selectedLayerData.chartLabel;
     const selectedColorChart = selectedLayerData.chartCSSColor;
@@ -153,11 +153,7 @@ export default function AnalyzeBarChart(props) {
       }
       const index = i - skippedValues;
       const layerData = getData(element, value);
-      const {
-        selectedColor,
-        chartValue,
-        selectedChartLabel
-      } = layerData;
+      const { selectedColor, chartValue, selectedChartLabel } = layerData;
 
       chartData.push({
         name: element,
@@ -165,7 +161,7 @@ export default function AnalyzeBarChart(props) {
         chartValue,
         selectedChartLabel,
         chartType,
-        index
+        index,
       });
       barColors.push(selectedColor);
     });
@@ -179,9 +175,9 @@ export default function AnalyzeBarChart(props) {
     <ResponsiveContainer
       id={`${chartType}-container`}
       sx={{
-        padding: '20px',
-        width: '100%',
-        height: '100%'
+        padding: "20px",
+        width: "100%",
+        height: "100%",
       }}
     >
       <BarChart
@@ -189,8 +185,8 @@ export default function AnalyzeBarChart(props) {
         data={chartData}
         // data={thisChartData} // Goes with sorting chart code
         sx={{
-          width: '100%',
-          height: '100%'
+          width: "100%",
+          height: "100%",
         }}
         margin={barchartMargin}
       >
@@ -200,19 +196,14 @@ export default function AnalyzeBarChart(props) {
           dominantBaseline="middle"
           textAnchor="middle"
           fill="white"
-          style={{ fontFamily: 'Roboto, sans-serif' }}
+          style={{ fontFamily: "Roboto, sans-serif" }}
         >
-          <tspan
-            x="50%"
-            style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-              {areaName}
+          <tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
+            {areaName}
           </tspan>
 
-          <tspan
-            x="50%"
-            dy={'25px'}
-            style={{ fontSize: '1rem' }}>
-              {chartType}
+          <tspan x="50%" dy={"25px"} style={{ fontSize: "1rem" }}>
+            {chartType}
           </tspan>
         </text>
 
@@ -220,16 +211,16 @@ export default function AnalyzeBarChart(props) {
           dataKey="selectedChartLabel"
           tick={<ChartCustomLabels />}
           style={{
-            fontFamily: 'Roboto, sans-serif',
-            fontSize: '10rem',
-            lineHeight: '2rem'
+            fontFamily: "Roboto, sans-serif",
+            fontSize: "10rem",
+            lineHeight: "2rem",
           }}
           interval={0}
         />
         <YAxis
           domain={[0, 1]}
           tickFormatter={formatYAxis}
-          style={{ fontFamily: 'Roboto, sans-serif', fontSize: '0.75rem' }}
+          style={{ fontFamily: "Roboto, sans-serif", fontSize: "0.75rem" }}
           interval={0}
         />
 
@@ -254,5 +245,5 @@ AnalyzeBarChart.propTypes = {
   chartIndices: PropTypes.array.isRequired,
   chartType: PropTypes.string,
   zonalStatsData: PropTypes.object,
-  barchartMargin: PropTypes.object
+  barchartMargin: PropTypes.object,
 };

@@ -3,7 +3,8 @@
     "airbnb-base",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:react-redux/recommended"
+    "plugin:react-redux/recommended",
+    "prettier"
   ],
   "settings": {
     "react": {
@@ -25,10 +26,8 @@
   },
   "ignorePatterns": ["*.test*.js"],
   "rules": {
-    "comma-dangle": ["error", "never"],
     "no-underscore-dangle": ["off"],
     "no-unused-vars": ["error", { "args": "none" }],
-    "operator-linebreak": ["error", "after"],
     "import/prefer-default-export": 0,
     "import/named": 0,
     "no-await-in-loop": ["off"],

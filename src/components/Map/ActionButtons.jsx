@@ -1,21 +1,21 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import L from 'leaflet';
-import 'leaflet-easyprint';
-import { styled } from '@mui/system';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import L from "leaflet";
+import "leaflet-easyprint";
+import { styled } from "@mui/system";
 
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from "@mui/material/Unstable_Grid2";
 import {
   CameraAlt,
   LayersOutlined,
   Layers,
   LibraryAdd,
-  LibraryAddOutlined
-} from '@mui/icons-material';
-import ActionButton from '../All/ActionButton.jsx';
-import { toggleAreaVisible } from '../../reducers/analyzeAreaSlice';
-import { toggleVisible as toggleMapLayerVisibility } from '../../reducers/mapLayerListSlice';
+  LibraryAddOutlined,
+} from "@mui/icons-material";
+import ActionButton from "../All/ActionButton.jsx";
+import { toggleAreaVisible } from "../../reducers/analyzeAreaSlice";
+import { toggleVisible as toggleMapLayerVisibility } from "../../reducers/mapLayerListSlice";
 
 const areaVisibleSelector = (state) => state.analyzeArea.visible;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
@@ -24,17 +24,17 @@ export const StyledGrid = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderTopColor: theme.palette.CRESTBorderColor.main,
-  borderTopStyle: 'solid',
-  borderTopWidth: '1px',
-  borderRightColor: 'transparent',
-  borderRightStyle: 'none',
-  borderRightWidth: '0px',
-  borderLeftColor: 'transparent',
-  borderLeftStyle: 'none',
-  borderLeftWidth: '0px',
-  borderBottomColor: 'transparent',
-  borderBottomStyle: 'none',
-  borderBottomWidth: '0px'
+  borderTopStyle: "solid",
+  borderTopWidth: "1px",
+  borderRightColor: "transparent",
+  borderRightStyle: "none",
+  borderRightWidth: "0px",
+  borderLeftColor: "transparent",
+  borderLeftStyle: "none",
+  borderLeftWidth: "0px",
+  borderBottomColor: "transparent",
+  borderBottomStyle: "none",
+  borderBottomWidth: "0px",
 }));
 
 // just a place holder needs props passed in and image etc
@@ -45,11 +45,11 @@ export default function ActionButtons(props) {
   // I had to open cors to all sources on the s3 bucket to get this to work.
   //    We will need to re-look at this later.
   const control = L.easyPrint({
-    sizeModes: ['A4Portrait'], // Default to add something, updated on export
+    sizeModes: ["A4Portrait"], // Default to add something, updated on export
     hidden: true,
     exportOnly: true,
-    position: 'topleft',
-    title: 'My Map'
+    position: "topleft",
+    title: "My Map",
   });
 
   // wire up map print for exporting map to png
@@ -79,11 +79,11 @@ export default function ActionButtons(props) {
       const viewSize = {
         width: x + 2,
         height: y + 2,
-        className: 'viewSize',
-        tooltip: 'user view size'
+        className: "viewSize",
+        tooltip: "user view size",
       };
       control.options.sizeModes = [viewSize];
-      control.printMap(viewSize.className, 'CREST Map');
+      control.printMap(viewSize.className, "CREST Map");
     }
   };
 
@@ -97,8 +97,8 @@ export default function ActionButtons(props) {
     >
       <Grid xs={4}>
         <ActionButton
-          buttonLabel={'Add Area'}
-          buttonName={'Add Area'}
+          buttonLabel={"Add Area"}
+          buttonName={"Add Area"}
           onClick={areaVisiblityOnClick}
           fullWidth={true}
         >
@@ -107,8 +107,8 @@ export default function ActionButtons(props) {
       </Grid>
       <Grid xs={4}>
         <ActionButton
-          buttonLabel={'Export'}
-          buttonName={'Export'}
+          buttonLabel={"Export"}
+          buttonName={"Export"}
           onClick={handleExportClick}
         >
           <CameraAlt />
@@ -116,8 +116,8 @@ export default function ActionButtons(props) {
       </Grid>
       <Grid xs={4}>
         <ActionButton
-          buttonLabel={'Map Layers'}
-          buttonName={'Map Layers'}
+          buttonLabel={"Map Layers"}
+          buttonName={"Map Layers"}
           onClick={mapLayerVisiblityOnClick}
         >
           {layerListVisible ? <Layers /> : <LayersOutlined />}
@@ -128,5 +128,5 @@ export default function ActionButtons(props) {
 }
 
 ActionButtons.propTypes = {
-  map: PropTypes.object
+  map: PropTypes.object,
 };

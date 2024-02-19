@@ -1,37 +1,35 @@
-import React, { useCallback, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useCallback, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
-import { styled } from '@mui/system';
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
+import { styled } from "@mui/system";
 
 import {
   changeGraphTable,
-  changeSortExpanded
-} from '../../reducers/analyzeAreaSlice';
-import ChartCard from './AnalyzeProjectSitesChartCard.jsx';
-import ChartHeaderActionButtons from './ChartHeaderActionButtons.jsx';
-import TableData from './AnalyzeProjectSitesTableData.jsx';
-import { ChartSort } from './ChartSort.jsx';
-import { handleExportAllCSV, HandleRemoveAllClick } from './ChartFunctions.jsx';
+  changeSortExpanded,
+} from "../../reducers/analyzeAreaSlice";
+import ChartCard from "./AnalyzeProjectSitesChartCard.jsx";
+import ChartHeaderActionButtons from "./ChartHeaderActionButtons.jsx";
+import TableData from "./AnalyzeProjectSitesTableData.jsx";
+import { ChartSort } from "./ChartSort.jsx";
+import { handleExportAllCSV, HandleRemoveAllClick } from "./ChartFunctions.jsx";
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
 
 const ChartHolderGrid = styled(Grid)(({ theme }) => ({
   paddingRight: theme.spacing(1.5),
-  overflowY: 'scroll',
-  height: 'calc(100% - 112px)',
-  [theme.breakpoints.down('md')]: {
-    height: 'calc(100%)'
-  }
+  overflowY: "scroll",
+  height: "calc(100% - 112px)",
+  [theme.breakpoints.down("md")]: {
+    height: "calc(100%)",
+  },
 }));
 
 export default function ChartsHolder(props) {
-  const {
-    map, setHover, featureGroupRef, chartData
-  } = props;
+  const { map, setHover, featureGroupRef, chartData } = props;
 
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
@@ -42,28 +40,30 @@ export default function ChartsHolder(props) {
       sortedChartData.current = [...chartData];
 
       if (analyzeAreaState.isSortASC[analyzeAreaState.sortBy]) {
-        if (chartIndex === 'areaNumber') {
+        if (chartIndex === "areaNumber") {
           sortedChartData.current.sort(
-            (a, b) => b.properties[chartIndex] - a.properties[chartIndex]
+            (a, b) => b.properties[chartIndex] - a.properties[chartIndex],
           ); // Asending sort
         } else {
           sortedChartData.current.sort(
-            (a, b) => b.properties.zonalStatsData[chartIndex] -
-              a.properties.zonalStatsData[chartIndex]
+            (a, b) =>
+              b.properties.zonalStatsData[chartIndex] -
+              a.properties.zonalStatsData[chartIndex],
           ); // Asending sort
         }
-      } else if (chartIndex === 'areaNumber') {
+      } else if (chartIndex === "areaNumber") {
         sortedChartData.current.sort(
-          (a, b) => a.properties[chartIndex] - b.properties[chartIndex]
+          (a, b) => a.properties[chartIndex] - b.properties[chartIndex],
         ); // Descending sort
       } else {
         sortedChartData.current.sort(
-          (a, b) => a.properties.zonalStatsData[chartIndex] -
-              b.properties.zonalStatsData[chartIndex]
+          (a, b) =>
+            a.properties.zonalStatsData[chartIndex] -
+            b.properties.zonalStatsData[chartIndex],
         ); // Descending sort
       }
     },
-    [chartData, analyzeAreaState.isSortASC, analyzeAreaState.sortBy]
+    [chartData, analyzeAreaState.isSortASC, analyzeAreaState.sortBy],
   );
 
   sortCharts(analyzeAreaState.sortBy);
@@ -87,7 +87,7 @@ export default function ChartsHolder(props) {
       alignItems="center"
       px={0}
       pb={2}
-      sx={{ height: '100%' }}
+      sx={{ height: "100%" }}
     >
       <Grid xs={12}>
         <ChartHeaderActionButtons
@@ -107,15 +107,15 @@ export default function ChartsHolder(props) {
         <ChartHolderGrid xs={12}>
           <Box>
             {sortedChartData.current.map((feature, index) => (
-                  <ChartCard
-                    key={feature.properties.areaName}
-                    feature={feature}
-                    region={feature.properties.region}
-                    zonalStatsData={feature.properties.zonalStatsData}
-                    featureGroupRef={featureGroupRef}
-                    map={map}
-                    setHover={setHover}
-                  />
+              <ChartCard
+                key={feature.properties.areaName}
+                feature={feature}
+                region={feature.properties.region}
+                zonalStatsData={feature.properties.zonalStatsData}
+                featureGroupRef={featureGroupRef}
+                map={map}
+                setHover={setHover}
+              />
             ))}
           </Box>
         </ChartHolderGrid>
@@ -139,5 +139,5 @@ ChartsHolder.propTypes = {
   map: PropTypes.object,
   setHover: PropTypes.func,
   featureGroupRef: PropTypes.object,
-  chartData: PropTypes.array
+  chartData: PropTypes.array,
 };
