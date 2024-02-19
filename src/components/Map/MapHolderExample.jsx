@@ -16,6 +16,7 @@ import ActiveTileLayers from "./ActiveTileLayers.jsx";
 import MapLayerList from "../MapLayerList/MapLayerList.jsx";
 import { mapConfig } from "../../configuration/config";
 import { StyledGrid } from "../All/StyledComponents.jsx";
+import HelpPopup from "../All/HelpPopup.jsx";
 
 const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(0.2),
@@ -68,11 +69,10 @@ export default function MapHolderExample() {
   const listVisibleSelector = (state) => state.mapLayerList.visible;
   const layerListVisible = useSelector(listVisibleSelector);
 
-  // React.useEffect(() => {
-  //   if (map) {
-  //     console.log(map._layers);
-  //   }
-  // }, [map, examplePolyData]);
+  const helperTitle = "Examples";
+  const helpDescription =
+    "Step through one of the examples to learn how to use the Coastal " +
+    "Resilience Evaluation and Siting Tool (CREST)";
 
   return (
     <ContentHolderGrid
@@ -133,6 +133,11 @@ export default function MapHolderExample() {
                 Step through one of the examples to learn how to use the Coastal
                 Resilience Evaluation and Siting Tool (CREST)
               </Typography>
+              <HelpPopup
+                helpTitle={helperTitle}
+                helpDescription={helpDescription}
+                useExamplesLink={false}
+              />
             </Box>
           </Grid>
         </StyledGrid>
