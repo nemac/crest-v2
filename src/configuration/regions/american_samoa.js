@@ -27,6 +27,8 @@ export const americanSamoaConfig = {
     zoom: 9,
   },
   attribution: "NFWF 2020",
+  limitMessage:
+    "Before planning any resilience projects in American Samoa, it is important to first consult local matai, or chiefs, to explore opportunities in areas governed by traditional land-tenure.",
   hubsFeatureServer:
     "https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/CREST_American_Samoa_Hub_Cores_API_100421/FeatureServer/0",
   hubsHexServer:

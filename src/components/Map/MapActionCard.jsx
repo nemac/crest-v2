@@ -14,9 +14,11 @@ import SearchCustom from "./SearchCustom.jsx";
 import Upload from "./UploadShapeFile.jsx";
 import UpperRightIconButton from "../All/UpperRightIconButton.jsx";
 import HelpPopup from "../All/HelpPopup.jsx";
+import HelpAlert from "../All/HelpAlert.jsx";
 import { StyledGrid } from "../All/StyledComponents.jsx";
 import { toggleAreaVisible } from "../../reducers/analyzeAreaSlice";
 import { changeUseBuffer } from "../../reducers/mapPropertiesSlice";
+import { mapConfig } from "../../configuration/config";
 
 const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
 const useBufferSelector = (state) => state.mapProperties.useBuffer;
@@ -27,6 +29,9 @@ export default function MapActionCard(props) {
   const dispatch = useDispatch();
   const analyzeAreaVisible = useSelector(analyzeAreaVisibleSelector);
   const bufferCheckbox = useSelector(useBufferSelector);
+  const regionSelector = (state) => state.selectedRegion.value;
+  const selectedRegion = useSelector(regionSelector);
+  const isLimitMessage = mapConfig.regions[selectedRegion].limitMessage;
 
   const minimizeOnClick = () => {
     dispatch(toggleAreaVisible());
@@ -96,11 +101,32 @@ export default function MapActionCard(props) {
           <Grid xs={12}>
             <SearchCustom map={map} setErrorState={setErrorState} />
           </Grid>
-          <Grid xs={12}>
+          <Grid xs={10}>
             <Buffer
               bufferCheckbox={bufferCheckbox}
               setBufferCheckbox={setBufferCheckbox}
             />
+          </Grid>
+          <Grid xs={2} sx={{ alignItems: "flex-end" }}>
+            <Box
+              mt={1}
+              pr={1}
+              sx={{
+                width: "100%",
+                display: "flex",
+                cursor: "pointer",
+                justifyContent: "flex-end",
+              }}
+            >
+              {isLimitMessage ? (
+                <HelpAlert
+                  helpTitle={`Data warnings for ${selectedRegion}`}
+                  helpDescription={isLimitMessage}
+                />
+              ) : (
+                <></>
+              )}
+            </Box>
           </Grid>
         </>
       )}

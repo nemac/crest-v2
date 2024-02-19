@@ -141,7 +141,7 @@ export default function ChangeItemButton(props) {
                 paddingTop: (theme) => theme.spacing(0.5),
               }}
             >
-              {buttonNameLabel}
+              {buttonNameLabel}{" "}
             </Box>
           </StyledLabelDiv>
         </Button>

@@ -25,6 +25,8 @@ export const alaskaConfig = {
     extent: [-185.977, 46.073, -95.801, 73.751],
     zoom: 4,
   },
+  limitMessage:
+    "The Alaska Coastal Resilience Assessment methods differ from other regional assessments due to differences in flood-related hazards, data availability, and other factors. Please review the Alaska Assessment report for details.",
   attribution: "NFWF 2022",
   hubsFeatureServer:
     "https://services1.arcgis.com/PwLrOgCfU0cYShcG/ArcGIS/rest/services/ak_hubs_core_030722/FeatureServer/0",

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
-import { Help, Cancel } from "@mui/icons-material";
+import Alert from "@mui/material/Alert";
+import Cancel from "@mui/icons-material/Cancel";
+import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import { IconButton, Popper, Box, Typography } from "@mui/material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Link from "@mui/material/Link";
 
 const PopupBox = styled(Box)(({ theme }) => ({
   width: "450px",
@@ -40,30 +40,13 @@ const PopupTitleBox = styled(Box)(({ theme }) => ({
 const PopupContentBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTLight.main,
   color: theme.palette.CRESTLight.contrastText,
-  padding: theme.spacing(1),
   borderBottomRightRadius: theme.spacing(0.5),
   borderBottomLeftRadius: theme.spacing(0.5),
   whiteSpace: "pre-wrap",
 }));
 
-const PopupFooterBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.CRESTLight.dark,
-  color: theme.palette.CRESTLight.contrastText,
-  padding: theme.spacing(3),
-  whiteSpace: "pre-wrap",
-  fontSize: "0.85rem",
-  borderBottomRightRadius: theme.spacing(0.5),
-  borderBottomLeftRadius: theme.spacing(0.5),
-}));
-
-export const ExamplesLink = () => (
-  <Link value="Examples" to="/Examples" component={RouterLink}>
-    examples
-  </Link>
-);
-
-export default function HelpPopup(props) {
-  const { helpTitle, helpDescription, useExamplesLink } = props;
+export default function HelpAlert(props) {
+  const { helpTitle, helpDescription } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [clicked, setClicked] = useState(false);
 
@@ -96,17 +79,14 @@ export default function HelpPopup(props) {
     <ClickAwayListener
       onClickAway={anchorEl === null ? () => {} : handleClickAway}
     >
-      <IconButton
-        variant="contained"
-        aria-owns={open ? "mouse-over-popover" : undefined}
-        aria-haspopup="true"
-        onMouseEnter={handlePopoverOpen}
-        onMouseLeave={handlePopoverClose}
-        onClick={handleClick}
-        sx={{ padding: (theme) => theme.spacing(0.5) }}
-        size="large"
-      >
-        <Help sx={{ fontSize: "1.40rem" }} />
+      <Box p={0} m={0}>
+        <WarningAmberOutlinedIcon
+          onMouseEnter={handlePopoverOpen}
+          onMouseLeave={handlePopoverClose}
+          onClick={handleClick}
+          color="warning"
+          sx={{ fontSize: "1.25rem", marginLeft: (theme) => theme.spacing(2) }}
+        />
         <Popper
           id={id}
           open={open}
@@ -140,28 +120,19 @@ export default function HelpPopup(props) {
               </IconButton>
             </PopupHeaderBox>
             <PopupContentBox>
-              <Typography variant="body2" component="p">
-                {helpDescription}
-              </Typography>
+              <Alert severity="warning" sx={{ borderRadius: 0 }}>
+                <Typography variant="body2" component="p">
+                  {helpDescription}
+                </Typography>
+              </Alert>
             </PopupContentBox>
-            {useExamplesLink ? (
-              <PopupFooterBox>
-                Still have questions? Learn how to add areas by stepping through
-                some&nbsp;
-                <ExamplesLink />
-                &nbsp; of the we have provided.
-              </PopupFooterBox>
-            ) : (
-              <></>
-            )}
           </PopupBox>
         </Popper>
-      </IconButton>
+      </Box>
     </ClickAwayListener>
   );
 }
-HelpPopup.propTypes = {
+HelpAlert.propTypes = {
   helpTitle: PropTypes.string.isRequired,
   helpDescription: PropTypes.string.isRequired,
-  useExamplesLink: PropTypes.bool,
 };
