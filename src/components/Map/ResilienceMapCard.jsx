@@ -87,7 +87,7 @@ export default function ResilienceMapCard(props) {
       }
       return null;
     },
-    [map, dispatch],
+    [map, dispatch, setAverageHubScore, setChartData],
   );
 
   useEffect(() => {
@@ -126,7 +126,7 @@ export default function ResilienceMapCard(props) {
       errorType: "warning",
       errorTitle: "Clear All State",
       errorMessage:
-        "Warning. This will clear all state and reload the page. Do you want to proceed?",
+        "Warning. This will clear all map and chart data then reload the page. Do you want to proceed",
       acceptButtonText: "Proceed",
       acceptButtonClose: () => {
         setErrorState({ ...previous, error: false });

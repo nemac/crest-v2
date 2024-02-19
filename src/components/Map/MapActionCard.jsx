@@ -6,13 +6,14 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
-import { ArrowDropDownCircle, Help, LibraryAdd } from "@mui/icons-material";
+import { ArrowDropDownCircle, LibraryAdd } from "@mui/icons-material";
 
 import Buffer from "./Buffer.jsx";
 import DrawArea from "./DrawArea.jsx";
 import SearchCustom from "./SearchCustom.jsx";
 import Upload from "./UploadShapeFile.jsx";
 import UpperRightIconButton from "../All/UpperRightIconButton.jsx";
+import HelpPopup from "../All/HelpPopup.jsx";
 import { StyledGrid } from "../All/StyledComponents.jsx";
 import { toggleAreaVisible } from "../../reducers/analyzeAreaSlice";
 import { changeUseBuffer } from "../../reducers/mapPropertiesSlice";
@@ -34,6 +35,13 @@ export default function MapActionCard(props) {
   const setBufferCheckbox = () => {
     dispatch(changeUseBuffer());
   };
+
+  const helperTitle = "How to add an area";
+  const helpDescription =
+    "If you are interested in getting detailed statistics about a specfic place or a potential project site, " +
+    "you must add an area. This requires you to sketch an area on the map, upload a shapefile, or search for county or watershed.\n\n" +
+    "The results will allow you to examine and compare your project site(s) by proximity to Resilience Hubs and explore and compare the " +
+    "Community Exposure and Fish and Wildlife Indices in the surrounding area.";
 
   return (
     <StyledGrid
@@ -60,9 +68,11 @@ export default function MapActionCard(props) {
           >
             Add an area to analyze
           </Typography>
-          <UpperRightIconButton ariaLabel="Help">
-            <Help />
-          </UpperRightIconButton>
+          <HelpPopup
+            helpTitle={helperTitle}
+            helpDescription={helpDescription}
+            useExamplesLink={true}
+          />
           <UpperRightIconButton ariaLabel="Minimize" onClick={minimizeOnClick}>
             <ArrowDropDownCircle
               sx={{

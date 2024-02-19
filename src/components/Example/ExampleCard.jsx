@@ -183,15 +183,15 @@ export default function ExampleCard(props) {
     setActiveStep,
     previousStep,
     setPreviousStep,
+    examplePolygonCenter,
+    examplePolygonGeojson,
+    examplePolygonLabel,
+    mapCoordinates,
+    setExamplePolyData,
+    steps,
+    title,
+    zoom,
   ]);
-
-  // // This use effect is responsible for resetting the examples when accordions are collapsed
-  // useEffect(() => {
-  //   if (expanded !== title) {
-  //     setActiveStep(0);
-  //     setPreviousStep(null);
-  //   }
-  // }, [expanded, activeStep, setActiveStep, previousStep, setPreviousStep, title]);
 
   return (
     <Accordion expanded={expanded === title} onChange={handleExpanded(title)}>

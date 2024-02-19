@@ -21,6 +21,14 @@ import ModelErrors from "../All/ModelErrors.jsx";
 import { setEmptyState } from "../../reducers/analyzeAreaSlice";
 import { mapConfig } from "../../configuration/config";
 
+// this not good practice but not time to resolve it and its not that imporant
+//    but following this:
+//     React Hook useEffect has missing dependencies: 'currentDrawn.featureGroup.features',
+//        'currentDrawn.geo', 'leafletFeatureGroupRef', and 'setDrawAreaDisabled'
+//     cause redraw and other errors
+
+/* eslint-disable react-hooks/exhaustive-deps */
+
 const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const uploadedShapeFileSelector = (state) =>
@@ -99,7 +107,7 @@ export default function LeafletDrawTools(props) {
       setDrawAreaDisabled(false);
       setCurrentDrawn((previous) => ({ ...previous, skip: true }));
     }
-  }, [data]);
+  }, [data, dispatch, setErrorState]);
 
   if (isFetching) {
     // console.log('loading');

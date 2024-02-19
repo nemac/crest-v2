@@ -30,8 +30,6 @@ import LeafletDrawTools from "./LeafletDrawTools.jsx";
 import { StyledReactLeafletTooltip } from "../All/StyledComponents.jsx";
 import { useGetIdentifyQuery } from "../../services/identify";
 
-// import Boxforlayout from './BoxForLayouts';
-
 const regions = mapConfig.regions;
 
 // selector named functions for lint rules makes it easier to re-use if needed.
@@ -48,14 +46,11 @@ const identifyIsLoadedSelector = (state) =>
   state.mapProperties.identifyIsLoaded;
 const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
 const useBufferSelector = (state) => state.mapProperties.useBuffer;
-// const bufferLayersSelector = (state) => state.mapProperties.bufferLayers;
-// const analyzedAreasSelector = (state) => state.mapProperties.analyzedAreas;
 
 export default function MapCard(props) {
   const {
     map,
     setMap,
-    // bufferCheckbox,
     leafletFeatureGroupRef,
     setDrawAreaDisabled,
     setCurrentDrawn,
@@ -73,8 +68,6 @@ export default function MapCard(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
   const drawnFromState = useSelector(drawnLayersSelector);
-  // const bufferLayersFromState = useSelector(bufferLayersSelector);
-  // const analyzedAreas = useSelector(analyzedAreasSelector);
   const identifyCoordinates = useSelector(identifyCoordinatesSelector);
   const identifyItems = useSelector(identifyItemsSelector);
   const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
@@ -200,7 +193,7 @@ export default function MapCard(props) {
       errorType: "warning",
       errorTitle: "Clear All State",
       errorMessage:
-        "Warning. This will clear all state and reload the page. Do you want to proceed?",
+        "Warning. This will clear all map and chart data then reload the page. Do you want to proceed?",
       acceptButtonText: "Proceed",
       acceptButtonClose: () => {
         setErrorState({ ...previous, error: false });
