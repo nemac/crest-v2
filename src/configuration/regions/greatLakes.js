@@ -55,6 +55,7 @@ export const greatLakesConfig = {
       layer: "Hubs TMS",
       label: "Resilience Hubs",
       chartLabel: "Resilience Hubs",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffc500",
@@ -88,6 +89,7 @@ export const greatLakesConfig = {
       chartInputName: "summary",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffc500",
@@ -114,6 +116,7 @@ export const greatLakesConfig = {
       layer: "Exposure TMS",
       label: "Community Exposure Index",
       chartLabel: "Community Exposure",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFFFE5",
@@ -146,6 +149,7 @@ export const greatLakesConfig = {
       layer: "Assets TMS",
       label: "Community Asset Index",
       chartLabel: "Community Asset",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#b6edf0",
@@ -177,6 +181,7 @@ export const greatLakesConfig = {
       layer: "Threats TMS",
       label: "Threat Index",
       chartLabel: "Threat",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffebd6",
@@ -208,6 +213,7 @@ export const greatLakesConfig = {
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
       chartLabel: "Fish and Wildlife",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#EEF8F3",
@@ -239,6 +245,7 @@ export const greatLakesConfig = {
       layer: "Aquatic TMS",
       label: "Aquatic Index",
       chartLabel: "Aquatic",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFF7FB",
@@ -271,6 +278,7 @@ export const greatLakesConfig = {
       label: "Terrestrial Index",
 
       chartLabel: "Terrestrial",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFFFE5",
@@ -302,6 +310,7 @@ export const greatLakesConfig = {
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
       chartLabel: "Social Vulnerability",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#9EBBD7",
@@ -326,6 +335,7 @@ export const greatLakesConfig = {
       layer: "Population Density TMS",
       label: "Population Density",
       chartLabel: "Population Density",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#fff6d0",
@@ -352,6 +362,7 @@ export const greatLakesConfig = {
       label: "Critical Facilities",
 
       chartLabel: "Critical Facilities",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#0084A8", // 5
@@ -378,6 +389,7 @@ export const greatLakesConfig = {
       label: "Critical Infrastructure",
 
       chartLabel: "Critical Infrastructure",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#A82B41", // 5
@@ -403,6 +415,7 @@ export const greatLakesConfig = {
       layer: "Erosion TMS",
       label: "Soil Erodibility",
       chartLabel: "Soil Erodibility",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FEEBA2",
@@ -429,6 +442,7 @@ export const greatLakesConfig = {
       label: "Flood-prone Areas",
 
       chartLabel: "Flood-prone Areas",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#E2E2EF",
@@ -454,6 +468,7 @@ export const greatLakesConfig = {
       layer: "Slope TMS",
       label: "Areas of Low Slope",
       chartLabel: "Areas of Low Slope",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#d3eecd",
@@ -479,6 +494,7 @@ export const greatLakesConfig = {
       layer: "Drainage TMS",
       label: "Impermeability",
       chartLabel: "Impermeability",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#E9DD66",
@@ -505,6 +521,7 @@ export const greatLakesConfig = {
       label: "High Water Level",
 
       chartLabel: "High Water Level",
+      isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#DBD8EA",
@@ -530,9 +547,14 @@ export const greatLakesConfig = {
       layer: "Visualization Overlay 1 TMS",
       label: "American Indian/Alaska Native/Native Hawaiian (AIANNH) Areas",
       chartLabel: "AIANNHA",
-      chartCSSColor: {
-        0: "#E9ECEF",
-      },
+      isLegendCustom: true,
+      chartCSSColor: [
+        {
+          backgroundColor: "#02C5FE",
+          borderColor: "#02C5FE",
+          label: "All areas",
+        },
+      ],
       chartInputName: "VisualizationOverlays",
       ChartInputLabel: "Additional Overlays",
       url: "https://tiles.resilientcoasts.org/GL_AIANNHAIndexTiles/{z}/{x}/{y}.png",
@@ -549,9 +571,19 @@ export const greatLakesConfig = {
       layer: "Visualization Overlay2 TMS",
       label: "Ceded Territory",
       chartLabel: "Ceded Territory",
-      chartCSSColor: {
-        0: "#E9ECEF",
-      },
+      isLegendCustom: true,
+      chartCSSColor: [
+        {
+          backgroundColor: "transparent",
+          borderColor: "#97363C",
+          label: "Ceded Territory",
+        },
+        {
+          backgroundColor: "#FCB7BC",
+          borderColor: "#97363C",
+          label: "Ceded Territory - Disputed",
+        },
+      ],
       chartInputName: "VisualizationOverlays",
       ChartInputLabel: "Additional Overlays",
       url: "https://tiles.resilientcoasts.org/GL_CededTerritoryIndexTiles/{z}/{x}/{y}.png",
@@ -563,34 +595,78 @@ export const greatLakesConfig = {
         "U.S. Great Lakes Indian Fish and Wildlife Commission representation of the boundaries of the 1836, 1837, 1842 and 1854 treaty areas of the Ojibwe ceded territories in Michigan, Minnesota and Wisconsin.",
       region: "great_lakes",
     },
-    // DOD data un comment when ready also uncomment the layer int maplayers_list.html
     // {
     //   id: "GL_VisualizationOverlay3TMS",
     //   layer: "Visualization Overlay3 TMS",
     //   label: "Department of Defense Lands",
-    //   chartLabel: 'Department of Defense Lands',
-    //       //   chartCSSColor: {
-    //     0: '#E9ECEF',
-    //   },
-    //   chartInputName: 'VisualizationOverlays',
-    //   ChartInputLabel: 'Additional Overlays',
-    //   chartCSSSelector: 'VisualizationOverlay3',
-    //   url: "https://tiles.resilientcoasts.org/GL_USA_Department_of_Defense_LandsIndexTiles/{z}/{x}/{y}.png",
-    //   attribution: "NFWF 2020",
-    //   format: "image/png",
-    //   opacity: 0.75,
-    //   maxNativeZoom: 14,
-    //   description: "Visualization Overlay Two, needs a description",
-    //   region: 'great_lakes'
+    //   chartLabel: "Department of Defense Lands",
+    //   isLegendCustom: true,
+    //   chartCSSColor: [
+    //     {
+    //       backgroundColor: "#FCE479",
+    //       borderColor: "#FCE479",
+    //       label: "Bureau of Land Management",
+    //     },
+    //     {
+    //       backgroundColor: "#FFFFB5",
+    //       borderColor: "#FFFFB5",
+    //       label: "Bureau of Reclamation",
+    //     },
+    //     {
+    //       backgroundColor: "#FAB4CE",
+    //       borderColor: "#FAB4CE",
+    //       label: "Department of Defense",
+    //     },
+    //     {
+    //       backgroundColor: "#81CCA8",
+    //       borderColor: "#81CCA8",
+    //       label: "Fish and Wildlife Service",
+    //     },
+    //     {
+    //       backgroundColor: "#CDEBC5",
+    //       borderColor: "#CDEBC5",
+    //       label: "Forest Service",
+    //     },
+    //     {
+    //       backgroundColor: "#C9BDDB",
+    //       borderColor: "#C9BDDB",
+    //       label: "National Park Service",
+    //     },
+    //   ],
     // },
     {
       id: "GL_VisualizationOverlay4TMS",
       layer: "Visualization Overlay4 TMS",
       label: "Fetch",
       chartLabel: "Fetch",
-      chartCSSColor: {
-        0: "#E9ECEF",
-      },
+      isLegendCustom: true,
+      chartCSSColor: [
+        {
+          backgroundColor: "#C7E9B4",
+          borderColor: "#C7E9B4",
+          label: "1",
+        },
+        {
+          backgroundColor: "#7FCDBB",
+          borderColor: "#7FCDBB",
+          label: "2",
+        },
+        {
+          backgroundColor: "#41B6C4",
+          borderColor: "#41B6C4",
+          label: "3",
+        },
+        {
+          backgroundColor: "#2B7FB8",
+          borderColor: "#2B7FB8",
+          label: "4",
+        },
+        {
+          backgroundColor: "#253493",
+          borderColor: "#253493",
+          label: "5",
+        },
+      ],
       chartInputName: "VisualizationOverlays",
       ChartInputLabel: "Additional Overlays",
       url: "https://tiles.resilientcoasts.org/GL_FetchIndexTiles/{z}/{x}/{y}.png",
@@ -607,9 +683,14 @@ export const greatLakesConfig = {
       layer: "Visualization Overlay5 TMS",
       label: "Lake Level Fluctuation Zone",
       chartLabel: "Lake Level Fluctuation Zone",
-      chartCSSColor: {
-        0: "#E9ECEF",
-      },
+      isLegendCustom: true,
+      chartCSSColor: [
+        {
+          backgroundColor: "#005CE6",
+          borderColor: "#005CE6",
+          label: "All areas",
+        },
+      ],
       chartInputName: "VisualizationOverlays",
       ChartInputLabel: "Additional Overlays",
       chartCSSSelector: "VisualizationOverlay5",
@@ -627,28 +708,109 @@ export const greatLakesConfig = {
       layer: "landcover",
       label: "Landcover",
       chartLabel: "Landcover",
-      chartCSSColor: {
-        11: "#5475A8",
-        12: "#FFFFFF",
-        21: "#E8D1D1",
-        22: "#E29E8C",
-        23: "#ff0000",
-        24: "#B50000",
-        31: "#D2CDC0",
-        41: "#85C77E",
-        42: "#38814E",
-        43: "#D4E7B0",
-        51: "#AF963C",
-        52: "#DCCA8F",
-        71: "#FDE9AA",
-        72: "#D1D182",
-        73: "#A3CC51",
-        74: "#82BA9E",
-        81: "#FBF65D",
-        82: "#CA9146",
-        90: "#C8E6F8",
-        95: "#64B3D5",
-      },
+      isLegendCustom: true,
+      chartCSSColor: [
+        {
+          backgroundColor: "#5475A8",
+          borderColor: "#5475A8",
+          label: "Open Water",
+        },
+        {
+          backgroundColor: "#FFFFFF",
+          borderColor: "#FFFFFF",
+          label: "Perennial Ice/Snow",
+        },
+        {
+          backgroundColor: "#E8D1D1",
+          borderColor: "#E8D1D1",
+          label: "Developed, Open Space",
+        },
+        {
+          backgroundColor: "#E29E8C",
+          borderColor: "#E29E8C",
+          label: "Developed, Low Intensity",
+        },
+        {
+          backgroundColor: "#ff0000",
+          borderColor: "#ff0000",
+          label: "Developed, Medium Intensity",
+        },
+        {
+          backgroundColor: "#B50000",
+          borderColor: "#B50000",
+          label: "Developed High Intensity",
+        },
+        {
+          backgroundColor: "#D2CDC0",
+          borderColor: "#D2CDC0",
+          label: "Barren Land (Rock/Sand/Clay)",
+        },
+        {
+          backgroundColor: "#85C77E",
+          borderColor: "#85C77E",
+          label: "Deciduous Forest",
+        },
+        {
+          backgroundColor: "#38814E",
+          borderColor: "#38814E",
+          label: "Evergreen Forest",
+        },
+        {
+          backgroundColor: "#D4E7B0",
+          borderColor: "#D4E7B0",
+          label: "Mixed Forest",
+        },
+        {
+          backgroundColor: "#AF963C",
+          borderColor: "#AF963C",
+          label: "Dwarf Scrub",
+        },
+        {
+          backgroundColor: "#DCCA8F",
+          borderColor: "#DCCA8F",
+          label: "Shrub/Scrub",
+        },
+        {
+          backgroundColor: "#FDE9AA",
+          borderColor: "#FDE9AA",
+          label: "Grassland/Herbaceous",
+        },
+        {
+          backgroundColor: "#D1D182",
+          borderColor: "#D1D182",
+          label: "Sedge/Herbaceous",
+        },
+        {
+          backgroundColor: "#A3CC51",
+          borderColor: "#A3CC51",
+          label: "Lichens",
+        },
+        {
+          backgroundColor: "#82BA9E",
+          borderColor: "#82BA9E",
+          label: "Moss",
+        },
+        {
+          backgroundColor: "#FBF65D",
+          borderColor: "#FBF65D",
+          label: "Pasture/Hay",
+        },
+        {
+          backgroundColor: "#CA9146",
+          borderColor: "#CA9146",
+          label: "Cultivated Crops",
+        },
+        {
+          backgroundColor: "#C8E6F8",
+          borderColor: "#C8E6F8",
+          label: "Woody Wetlands",
+        },
+        {
+          backgroundColor: "#64B3D5",
+          borderColor: "#64B3D5",
+          label: "Emergent Herbaceous Wetlands",
+        },
+      ],
       chartInputName: "landcover",
       ChartInputLabel: "Additional Overlays",
       chartCSSSelector: "landcover",
