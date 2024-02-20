@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
-import { HelpOutlineOutlined, Cancel } from "@mui/icons-material";
+import { Help, HelpOutlineOutlined, Cancel } from "@mui/icons-material";
 import { IconButton, Popper, Box } from "@mui/material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
@@ -46,24 +46,31 @@ export default function LayerDescription(props) {
   const { layerName, layerDescription } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [clicked, setClicked] = useState(false);
+  const [mouseOver, setMouseOver] = useState(false);
 
   const handlePopoverOpen = (e) => {
     setAnchorEl(e.currentTarget);
+    setMouseOver(true);
   };
 
   const handlePopoverClose = () => {
     if (!clicked) {
       setAnchorEl(null);
+      setMouseOver(false);
+      setClicked(false);
     }
   };
 
   const handlePopoverButtonClose = () => {
     setAnchorEl(null);
+    setMouseOver(false);
+    setClicked(false);
   };
 
   const handleClickAway = () => {
     setAnchorEl(null);
     setClicked(false);
+    setMouseOver(false);
   };
   const handleClick = () => {
     setClicked(!clicked);
@@ -86,13 +93,13 @@ export default function LayerDescription(props) {
         sx={{ padding: (theme) => theme.spacing(0.5) }}
         size="large"
       >
-        <HelpOutlineOutlined />
+        {clicked || mouseOver ? <Help /> : <HelpOutlineOutlined />}
         <Popper
           id={id}
           open={open}
           placement={"bottom-end"}
           anchorEl={anchorEl}
-          sx={{ zIndex: 500, borderRadius: (theme) => theme.spacing(0.5) }}
+          sx={{ zIndex: 1500, borderRadius: (theme) => theme.spacing(0.5) }}
         >
           <PopupBox>
             <PopupHeaderBox>

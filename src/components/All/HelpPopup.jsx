@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
-import { Help, Cancel } from "@mui/icons-material";
+import { Help, HelpOutlineOutlined, Cancel } from "@mui/icons-material";
 import { IconButton, Popper, Box, Typography } from "@mui/material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Link from "@mui/material/Link";
@@ -16,7 +16,7 @@ const PopupBox = styled(Box)(({ theme }) => ({
   },
   backgroundColor: theme.palette.CRESTLight.main,
   color: theme.palette.CRESTLight.contrastText,
-  border: `1px solid ${theme.palette.CRESTLightBorderColor.main}`,
+  border: `2px solid ${theme.palette.CRESTLightBorderColor.main}`,
 }));
 
 const PopupHeaderBox = styled(Box)(({ theme }) => ({
@@ -66,24 +66,30 @@ export default function HelpPopup(props) {
   const { helpTitle, helpDescription, useExamplesLink } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [clicked, setClicked] = useState(false);
+  const [mouseOver, setMouseOver] = useState(false);
 
   const handlePopoverOpen = (e) => {
     setAnchorEl(e.currentTarget);
+    setMouseOver(true);
   };
 
   const handlePopoverClose = () => {
     if (!clicked) {
       setAnchorEl(null);
+      setMouseOver(false);
     }
   };
 
   const handlePopoverButtonClose = () => {
     setAnchorEl(null);
+    setMouseOver(false);
+    setClicked(false);
   };
 
   const handleClickAway = () => {
     setAnchorEl(null);
     setClicked(false);
+    setMouseOver(false);
   };
   const handleClick = () => {
     setClicked(!clicked);
@@ -106,7 +112,11 @@ export default function HelpPopup(props) {
         sx={{ padding: (theme) => theme.spacing(0.5) }}
         size="large"
       >
-        <Help sx={{ fontSize: "1.40rem" }} />
+        {clicked || mouseOver ? (
+          <Help sx={{ fontSize: "1.40rem" }} />
+        ) : (
+          <HelpOutlineOutlined sx={{ fontSize: "1.40rem" }} />
+        )}
         <Popper
           id={id}
           open={open}
