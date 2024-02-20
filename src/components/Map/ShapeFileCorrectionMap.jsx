@@ -10,6 +10,7 @@ import Alert from "@mui/material/Alert";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CancelIcon from "@mui/icons-material/Cancel";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
@@ -392,7 +393,7 @@ export default function ShapeFileCorrectionMap(props) {
                 <Button
                   variant="contained"
                   color="CRESTSecondary"
-                  aria-label={"Cancel"}
+                  aria-label={"Cancel edits"}
                   fullWidth={true}
                   onClick={btnClickCancel}
                   style={{
@@ -418,6 +419,20 @@ export default function ShapeFileCorrectionMap(props) {
                 Delete area
               </Button>
             </Grid>
+
+            <Grid xs={12} px={1} pt={2} pb={0}>
+              <Button
+                variant="contained"
+                color="CRESTPrimary"
+                aria-label={"Cancel upload"}
+                fullWidth={true}
+                onClick={() => setGeoToRedraw(null)}
+              >
+                <DisabledByDefaultIcon style={{ paddingRight: "8px" }} />
+                Cancel upload
+              </Button>
+            </Grid>
+
             <Grid
               container
               spacing={0}
@@ -470,7 +485,7 @@ export default function ShapeFileCorrectionMap(props) {
               <Button
                 variant="contained"
                 color="CRESTCta"
-                aria-label={"Save"}
+                aria-label={"Complete the upload"}
                 fullWidth={true}
                 style={{
                   display: numberNotFixed === 0 ? "inline-flex" : "none",
@@ -488,7 +503,7 @@ export default function ShapeFileCorrectionMap(props) {
               <Button
                 variant="contained"
                 color="CRESTPrimary"
-                aria-label={"Save"}
+                aria-label={"Download the shapefile"}
                 fullWidth={true}
                 style={{
                   display: numberNotFixed === 0 ? "inline-flex" : "none",

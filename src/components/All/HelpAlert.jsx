@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { styled } from "@mui/system";
 import Alert from "@mui/material/Alert";
 import Cancel from "@mui/icons-material/Cancel";
-import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
+import { WarningAmberOutlined, Warning } from "@mui/icons-material";
 import { IconButton, Popper, Box, Typography } from "@mui/material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
@@ -16,7 +16,7 @@ const PopupBox = styled(Box)(({ theme }) => ({
   },
   backgroundColor: theme.palette.CRESTLight.main,
   color: theme.palette.CRESTLight.contrastText,
-  border: `1px solid ${theme.palette.CRESTLightBorderColor.main}`,
+  border: `2px solid ${theme.palette.CRESTLightBorderColor.light}`,
 }));
 
 const PopupHeaderBox = styled(Box)(({ theme }) => ({
@@ -49,27 +49,33 @@ export default function HelpAlert(props) {
   const { helpTitle, helpDescription } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [clicked, setClicked] = useState(false);
+  const [mouseOver, setMouseOver] = useState(false);
 
   const handlePopoverOpen = (e) => {
     setAnchorEl(e.currentTarget);
+    setMouseOver(true);
   };
 
   const handlePopoverClose = () => {
     if (!clicked) {
       setAnchorEl(null);
+      setMouseOver(false);
     }
   };
 
   const handlePopoverButtonClose = () => {
     setAnchorEl(null);
+    setMouseOver(false);
+    setClicked(false);
   };
 
   const handleClickAway = () => {
     setAnchorEl(null);
     setClicked(false);
+    setMouseOver(false);
   };
   const handleClick = () => {
-    setClicked(!clicked);
+    setClicked(true);
   };
 
   const open = Boolean(anchorEl);
@@ -80,13 +86,38 @@ export default function HelpAlert(props) {
       onClickAway={anchorEl === null ? () => {} : handleClickAway}
     >
       <Box p={0} m={0}>
-        <WarningAmberOutlinedIcon
-          onMouseEnter={handlePopoverOpen}
-          onMouseLeave={handlePopoverClose}
-          onClick={handleClick}
-          color="warning"
-          sx={{ fontSize: "1.25rem", marginLeft: (theme) => theme.spacing(2) }}
-        />
+        {clicked || mouseOver ? (
+          <span
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+            onClick={handleClick}
+            style={{ width: "100%", height: "100%" }}
+          >
+            <Warning
+              color="warning"
+              sx={{
+                fontSize: "1.25rem",
+                marginLeft: (theme) => theme.spacing(2),
+              }}
+            />
+          </span>
+        ) : (
+          <span
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+            onClick={handleClick}
+            style={{ width: "100%", height: "100%" }}
+          >
+            <WarningAmberOutlined
+              color="warning"
+              sx={{
+                fontSize: "1.25rem",
+                marginLeft: (theme) => theme.spacing(2),
+              }}
+            />
+          </span>
+        )}
+
         <Popper
           id={id}
           open={open}

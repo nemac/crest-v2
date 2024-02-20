@@ -15,7 +15,10 @@ import {
   addSearchPlacesGeoJSON,
   incrementAreaNumber,
 } from "../../reducers/mapPropertiesSlice";
-import { validPolygon } from "../../utility/utilityFunctions";
+import {
+  validPolygon,
+  calculateAreaOfPolygon,
+} from "../../utility/utilityFunctions";
 import { useGetZonalStatsQuery } from "../../services/zonalstats";
 import ModelErrors from "../All/ModelErrors.jsx";
 import { setEmptyState } from "../../reducers/analyzeAreaSlice";
@@ -162,14 +165,19 @@ export default function LeafletDrawTools(props) {
     // Toggle sketch area off since new area was just created
     dispatch(toggleSketchArea());
 
+    // error thresholds
+    const areaThreshold = 500;
+    const geoJ = e.layer.toGeoJSON();
+
+    const areaSize = calculateAreaOfPolygon(geoJ) / 1000000; // SQ KM
+
     // Check size of polygon and remove it and return if it is too large
-    if (!validPolygon(e.layer.toGeoJSON())) {
+    if (!validPolygon(geoJ)) {
       setErrorState((previous) => ({
         ...previous,
         error: true,
         errorTitle: "Draw Error",
-        errorMessage:
-          "The area of the drawn layer is too large. Please try again.",
+        errorMessage: `Sketched areas need to have an area less than ${areaThreshold} (sq km). The size of the current sketched area is ${areaSize.toFixed(0)} (sq km). Please sketch an area less than ${areaThreshold} (sq km) `,
       }));
       leafletFeatureGroupRef.current.removeLayer(e.layer);
       return;
