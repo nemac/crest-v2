@@ -5,11 +5,13 @@ import { BallotOutlined, Ballot } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import Collapse from "@mui/material/Collapse";
+import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLayer, toggleLegend } from "../../reducers/mapLayerListSlice";
 import LayerDescription from "./LayerDescription.jsx";
 import LayerLegend from "./LayerLegend.jsx";
+import LayerLegendCustom from "./LayerLegendCustom.jsx";
 
 export default function Layer(props) {
   const { layerData } = props;
@@ -56,12 +58,24 @@ export default function Layer(props) {
             height: "auto",
           }}
         >
-          <Checkbox
-            color="CRESTPrimary"
-            checked={checked}
-            onClick={handleToggleLayerClick}
-          />
-          {layerData.label}
+          <Grid container spacing={0} p={0} m={0}>
+            <Grid item xs={2} p={0} m={0}>
+              <Checkbox
+                color="CRESTPrimary"
+                checked={checked}
+                onClick={handleToggleLayerClick}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={10}
+              p={0}
+              m={0}
+              sx={{ alignItems: "center", display: "flex" }}
+            >
+              {layerData.label}
+            </Grid>
+          </Grid>
         </Box>
         <Box>
           <IconButton
@@ -78,7 +92,11 @@ export default function Layer(props) {
         />
       </Box>
       <Collapse in={layerData.id in displayedLegends}>
-        <LayerLegend layer={layerData} />
+        {layerData.isLegendCustom ? (
+          <LayerLegendCustom layer={layerData} />
+        ) : (
+          <LayerLegend layer={layerData} />
+        )}
       </Collapse>
     </div>
   );
