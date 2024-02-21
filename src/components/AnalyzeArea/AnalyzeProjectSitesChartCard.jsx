@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/material";
@@ -16,6 +16,7 @@ import {
 import ActionButtonsHolder from "../All/ActionButtonsHolder.jsx";
 import AnalyzeBarChart from "./AnalyzeBarChart.jsx";
 import ResiliencePieChart from "./ResiliencePieChart.jsx";
+import ChartDescriptionCard from "./ChartDescriptionCard.jsx";
 import {
   handleExportImage,
   handleMoreOnClick,
@@ -87,6 +88,9 @@ LandcoverChartTitle.propTypes = {
 
 export default function ChartCard(props) {
   const { region, map, feature, setHover, featureGroupRef } = props;
+  const [chartDescription, setChartDescription] = useState(null);
+  const [chartLabel, setChartLabel] = useState(null);
+  const [chartDescriptionFor, setChartDescriptionFor] = useState(null);
 
   const chartValues = {
     "Summary Chart": ["hubs", "exposure", "threat", "asset", "wildlife"],
@@ -154,6 +158,9 @@ export default function ChartCard(props) {
       id: `btn-more-less-${feature.properties.areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`,
       onClick: () => {
         handleMoreOnClick(dispatch, feature.properties.areaName);
+        setChartDescription(null);
+        setChartLabel(null);
+        setChartDescriptionFor(null);
       },
       icon: <MoreHorizOutlined />,
     },
@@ -253,6 +260,9 @@ export default function ChartCard(props) {
                       areaName={feature.properties.areaName.toString()}
                       setHover={setHover}
                       feature={feature}
+                      setChartDescription={setChartDescription}
+                      setChartLabel={setChartLabel}
+                      setChartDescriptionFor={setChartDescriptionFor}
                       zonalStatsData={feature.properties.zonalStatsData}
                       barchartMargin={{
                         top: 90,
@@ -272,6 +282,17 @@ export default function ChartCard(props) {
                   )}
                 </ContentBox>
               </StyledBox>
+              {chartDescription && chartDescriptionFor === key ? (
+                <ChartDescriptionCard
+                  chartLabel={chartLabel}
+                  chartDescription={chartDescription}
+                  setChartDescription={setChartDescription}
+                  setChartLabel={setChartLabel}
+                  setChartDescriptionFor={setChartDescriptionFor}
+                />
+              ) : (
+                <></>
+              )}
               <ActionButtonsHolder
                 actionButtons={[
                   {
@@ -298,7 +319,6 @@ export default function ChartCard(props) {
               />
             </Grid>
           ))}
-
           <Grid xs={12}>
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
@@ -336,6 +356,9 @@ export default function ChartCard(props) {
                 setHover={setHover}
                 feature={feature}
                 zonalStatsData={feature.properties.zonalStatsData}
+                setChartDescription={setChartDescription}
+                setChartLabel={setChartLabel}
+                setChartDescriptionFor={setChartDescriptionFor}
                 barchartMargin={{
                   top: 90,
                   right: 30,
@@ -345,7 +368,19 @@ export default function ChartCard(props) {
               />
             </ContentBox>
           </Grid>
-
+          {chartDescription ? (
+            <Grid xs={12} p={0}>
+              <ChartDescriptionCard
+                chartLabel={chartLabel}
+                chartDescription={chartDescription}
+                setChartDescription={setChartDescription}
+                setChartLabel={setChartLabel}
+                setChartDescriptionFor={setChartDescriptionFor}
+              />
+            </Grid>
+          ) : (
+            <></>
+          )}
           <Grid xs={12}>
             <ActionButtonsHolder
               actionButtons={chartActionButtons}
