@@ -69,5 +69,5 @@ ChartCustomLabels.propTypes = {
   setChartLabel: PropTypes.func,
   setChartDescription: PropTypes.func,
   setChartDescriptionFor: PropTypes.func,
-  chartData: PropTypes.array
+  chartData: PropTypes.array,
 };

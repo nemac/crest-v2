@@ -168,9 +168,15 @@ export default function ChartCard(props) {
       buttonLabel: "Export",
       buttonName: "Export",
       id: `btn-export-${feature.properties.areaName}`,
-      // TODO: This probably needs to be a csv of just the area in question
       onClick: () => {
-        handleExportImage("Summary Chart");
+        // export all or just summary map depending on expanded details
+        if (analyzeAreaState.isMore[feature.properties.areaName]) {
+          Object.entries(chartValues).map(([key, value]) =>
+            handleExportImage(key),
+          );
+        } else {
+          handleExportImage("Summary Chart");
+        }
       },
       icon: <CameraAlt />,
     },

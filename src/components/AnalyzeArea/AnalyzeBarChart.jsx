@@ -178,7 +178,7 @@ export default function AnalyzeBarChart(props) {
         >
           {chartData.map((entry, index) => (
             <Cell
-              id={`cell-${entry.index}-daveism`}
+              id={`cell-${entry.index}`}
               key={`cell-${entry.index}`}
               fill={barColors[entry.index]}
               style={{ cursor: "pointer" }}
