@@ -24,8 +24,9 @@ export const handleExportImage = async (chartType) => {
     allowTaint: true, // Allow images from other domains
     useUnsafeCSS: true, // Allow unsafe CSS (if needed)
   }).then((canvas) => {
+    const today = new Date().toISOString().slice(0, 10);
     const png = canvas.toDataURL("image/png", 1.0);
-    const fileName = `${chartType}.png`;
+    const fileName = `${chartType}-${today}.png`;
     FileSaver.saveAs(png, fileName);
   });
 };
