@@ -16,7 +16,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   border: "none",
   display: "flex",
   flexDirection: "row",
-  overflowY: "visible",
+  overflowY: "overlay",
   overflowX: "clip",
   width: "100%",
   [theme.breakpoints.down("sm")]: {

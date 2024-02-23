@@ -55,6 +55,14 @@ export const prodZonalStatsLambdaEndpoint =
 export const s3ShapeFileBucket =
   "https://nfwf-tool-user-shapes.s3.amazonaws.com/";
 
+export const sketchShapeThresholds = {
+  areaThreshold: 500,
+  verticeThreshold: 1000,
+  maxFeatures: 40,
+  maxFeaturesWarning: 10,
+  maxFileSize: 10000000,
+};
+
 export const mapConfig = {
   basemaps: {
     "Dark Gray": {

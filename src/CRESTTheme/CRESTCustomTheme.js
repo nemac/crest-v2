@@ -98,9 +98,10 @@ const CustomTheme = createTheme({
           scrollbarWidth: "thin",
           "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
             width: "12px",
+            background: "none",
           },
           "&::-webkit-scrollbar-track, & *::-webkit-scrollbar-track": {
-            background: "#0A0A0A",
+            background: "none",
           },
           "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
             backgroundColor: "#F8F9FA",

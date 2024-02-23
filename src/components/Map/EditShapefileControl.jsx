@@ -5,6 +5,7 @@ import { EditControl } from "react-leaflet-draw";
 import PropTypes from "prop-types";
 import * as L from "leaflet";
 import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
+import { sketchShapeThresholds } from "../../configuration/config";
 
 import {
   calculateAreaOfPolygon,
@@ -28,8 +29,8 @@ export default function EditControlFC(props) {
   const dispatch = useDispatch();
 
   // error thresholds
-  const areaThreshold = 500;
-  const verticeThreshold = 1000;
+  const areaThreshold = sketchShapeThresholds.areaThreshold;
+  const verticeThreshold = sketchShapeThresholds.verticeThreshold;
 
   // error messages
   const errorShapeHasToManyVertices = "This area has too many vertices.";
@@ -88,7 +89,7 @@ export default function EditControlFC(props) {
           } else if (numVertices > verticeThreshold) {
             invalidText = errorShapeHasToManyVertices;
             fixText = fixShapeHasToManyVertices;
-            fixStatus = `The current number of vertices is${numVertices.toFixed(0)}`;
+            fixStatus = `The current number of vertices is ${numVertices.toFixed(0)}`;
             fixStatusGoal = `and the number of vertices needs to be less than ${verticeThreshold}`;
           }
           steps.current?.push({
@@ -150,6 +151,8 @@ export default function EditControlFC(props) {
     fixShapeIsToBigAndShapeHasToManyVertices,
     geoToReturn,
     mapRef,
+    areaThreshold,
+    verticeThreshold,
   ]);
 
   const handleDelete = (e) => {

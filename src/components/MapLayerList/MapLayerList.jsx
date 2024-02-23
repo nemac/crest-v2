@@ -27,6 +27,7 @@ import {
 import ChangeItemButton from "./ChangeItemButton.jsx";
 import DriverGroup from "./DriverGroup.jsx";
 import LayerGroup from "./LayerGroup.jsx";
+import HelpAlert from "../All/HelpAlert.jsx";
 
 const basemaps = mapConfig.basemaps;
 const regions = mapConfig.regions;
@@ -39,6 +40,7 @@ export default function MapLayerList() {
   const dispatch = useDispatch();
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
+  const isLimitMessage = mapConfig.regions[selectedRegion].limitMessage;
 
   const basemapSelector = (state) => state.mapProperties.basemap;
   const selectedBasemap = useSelector(basemapSelector);
@@ -218,11 +220,26 @@ export default function MapLayerList() {
           menuItems={regions}
           onClick={handleRegionClick}
           itemOnClick={handleRegionMenuItemClick}
+          isLimitMessage={isLimitMessage}
         >
           {<FilterNone sx={{ fontSize: "1.75rem" }} />}
         </ChangeItemButton>
+        {isLimitMessage ? (
+          <Box
+            component="div"
+            p={1}
+            sx={{ display: "flex", alignItems: "start", width: "100%" }}
+          >
+            <HelpAlert
+              helpTitle={`There are data alerts for ${selectedRegion}`}
+              helpDescription={isLimitMessage}
+              useText={true}
+            />
+          </Box>
+        ) : (
+          <></>
+        )}
       </Grid>
-
       <Grid item xs={12} px={2} pt={1}>
         {chartSummaryInputs.map((item) =>
           renderAccordion(item.ChartInputLabel),

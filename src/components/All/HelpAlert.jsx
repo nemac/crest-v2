@@ -46,7 +46,7 @@ const PopupContentBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function HelpAlert(props) {
-  const { helpTitle, helpDescription } = props;
+  const { helpTitle, helpDescription, useText } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [clicked, setClicked] = useState(false);
   const [mouseOver, setMouseOver] = useState(false);
@@ -85,36 +85,80 @@ export default function HelpAlert(props) {
     <ClickAwayListener
       onClickAway={anchorEl === null ? () => {} : handleClickAway}
     >
-      <Box p={0} m={0}>
+      <Box p={0} m={0} width="100%">
         {clicked || mouseOver ? (
           <span
             onMouseEnter={handlePopoverOpen}
             onMouseLeave={handlePopoverClose}
             onClick={handleClick}
-            style={{ width: "100%", height: "100%" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "4px",
+              borderRadius: "4px",
+              justifyItems: "center",
+              backgroundColor: "rgba(255,167,38,0.3)",
+            }}
           >
             <Warning
               color="warning"
               sx={{
                 fontSize: "1.25rem",
-                marginLeft: (theme) => theme.spacing(2),
+                marginLeft: (theme) => theme.spacing(0),
+                justifyItems: "center",
               }}
             />
+            {useText ? (
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  paddingLeft: "8px",
+                  color: "#FFA726",
+                  justifyItems: "center",
+                }}
+              >
+                {helpTitle}{" "}
+              </span>
+            ) : (
+              <></>
+            )}
           </span>
         ) : (
           <span
             onMouseEnter={handlePopoverOpen}
             onMouseLeave={handlePopoverClose}
             onClick={handleClick}
-            style={{ width: "100%", height: "100%" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "4px",
+              borderRadius: "4px",
+              justifyItems: "center",
+              backgroundColor: "rgba(255,167,38,0)",
+            }}
           >
             <WarningAmberOutlined
               color="warning"
               sx={{
                 fontSize: "1.25rem",
-                marginLeft: (theme) => theme.spacing(2),
+                marginLeft: (theme) => theme.spacing(0),
+                justifyItems: "center",
               }}
             />
+            {useText ? (
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  paddingLeft: "8px",
+                  color: "#FFA726",
+                  justifyItems: "center",
+                }}
+              >
+                {helpTitle}{" "}
+              </span>
+            ) : (
+              <></>
+            )}
           </span>
         )}
 
@@ -166,4 +210,5 @@ export default function HelpAlert(props) {
 HelpAlert.propTypes = {
   helpTitle: PropTypes.string.isRequired,
   helpDescription: PropTypes.string.isRequired,
+  useText: PropTypes.bool,
 };

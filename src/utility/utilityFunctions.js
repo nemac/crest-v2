@@ -1,4 +1,5 @@
 import * as turf from "@turf/turf";
+import { sketchShapeThresholds } from "../configuration/config";
 
 export const calculateAreaOfPolygon = (geojson) => {
   const coordinates = geojson.geometry.coordinates;
@@ -22,10 +23,13 @@ export const caclulatePolygonVertices = (geojson) => {
 */
 // TODO: Need to add more validation checks e.g. number of vertices
 export const validPolygon = (geojson) => {
+  const areaThreshold = sketchShapeThresholds.areaThreshold;
+  const verticeThreshold = sketchShapeThresholds.verticeThreshold;
+
   const area = calculateAreaOfPolygon(geojson);
-  const maxPolygonAreaSize = 500000000; // 500 sq km
+  const maxPolygonAreaSize = areaThreshold * 1000000; // sq km
   const vertices = caclulatePolygonVertices(geojson);
-  const maxVertices = 1000;
+  const maxVertices = verticeThreshold;
   if (area > maxPolygonAreaSize || vertices > maxVertices) {
     return false;
   }
