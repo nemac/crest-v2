@@ -54,7 +54,7 @@ export default function ChartCustomLabels(props) {
             style={{ cursor: "pointer" }}
             onClick={handleClick}
           >
-            {word} {&#9432}
+            {word}
           </tspan>
         </text>
       ))}
@@ -69,5 +69,5 @@ ChartCustomLabels.propTypes = {
   setChartLabel: PropTypes.func,
   setChartDescription: PropTypes.func,
   setChartDescriptionFor: PropTypes.func,
-  chartData: PropTypes.array,
+  chartData: PropTypes.array
 };
