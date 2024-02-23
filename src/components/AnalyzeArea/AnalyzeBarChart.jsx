@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import {
   ResponsiveContainer,
   BarChart,
@@ -11,28 +10,11 @@ import {
   Cell,
 } from "recharts";
 
-import { styled } from "@mui/system";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { mapConfig } from "../../configuration/config";
-
 import ChartCustomLabels from "./ChartCustomLabels.jsx";
+import CustomToolTip from "./CustomToolTip.jsx";
 
 const regions = mapConfig.regions;
-
-const ToolTipBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexWrap: "wrap",
-  borderRadius: "4px",
-  padding: theme.spacing(2),
-  backgroundColor: theme.palette.CRESTLight.main,
-  borderColor: theme.palette.CRESTLightBorderColor.main,
-  color: theme.palette.CRESTLight.contrastText,
-  borderStyle: "solid",
-  borderWidth: "1px",
-  justifyContent: "center",
-  alignItems: "center",
-}));
 
 export default function AnalyzeBarChart(props) {
   const {
@@ -42,6 +24,9 @@ export default function AnalyzeBarChart(props) {
     areaName,
     zonalStatsData,
     barchartMargin,
+    setChartDescription,
+    setChartLabel,
+    setChartDescriptionFor,
   } = props;
 
   const region = regions[chartRegion];
@@ -58,70 +43,6 @@ export default function AnalyzeBarChart(props) {
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (
-      active &&
-      payload &&
-      payload.length &&
-      Number.isFinite(payload[0].value) &&
-      zonalStatsData
-    ) {
-      return (
-        <ToolTipBox>
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              variant="body2"
-              component="div"
-            >
-              {label}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              variant="h4"
-              component="h2"
-            >
-              {`${parseFloat(payload[0].payload.value).toFixed(2)}`}
-            </Typography>
-          </Box>
-        </ToolTipBox>
-      );
-    }
-    return null;
-  };
-
-  CustomTooltip.propTypes = {
-    active: PropTypes.bool,
-    payload: PropTypes.array,
-    label: PropTypes.any,
-  };
-
   // Bar Color is functional based on value comparison with config
   const getData = (name, value) => {
     const colorValue = Math.round(value);
@@ -130,11 +51,17 @@ export default function AnalyzeBarChart(props) {
     );
     const selectedChartLabel = selectedLayerData.chartLabel;
     const selectedColorChart = selectedLayerData.chartCSSColor;
+    const selectChartLabelDescription = selectedLayerData.description;
     const selectedColor = selectedColorChart[colorValue];
     const allValues = Object.keys(selectedColorChart);
     const maxValue = allValues[allValues.length - 1];
     const chartValue = value / maxValue;
-    const retData = { selectedColor, chartValue, selectedChartLabel };
+    const retData = {
+      selectedColor,
+      chartValue,
+      selectedChartLabel,
+      selectChartLabelDescription,
+    };
     return retData;
   };
 
@@ -153,19 +80,34 @@ export default function AnalyzeBarChart(props) {
       }
       const index = i - skippedValues;
       const layerData = getData(element, value);
-      const { selectedColor, chartValue, selectedChartLabel } = layerData;
+      const {
+        selectedColor,
+        chartValue,
+        selectedChartLabel,
+        selectChartLabelDescription,
+      } = layerData;
 
       chartData.push({
         name: element,
         value,
         chartValue,
         selectedChartLabel,
+        selectChartLabelDescription,
         chartType,
         index,
       });
       barColors.push(selectedColor);
     });
   }
+
+  const handleChartClick = (event) => {
+    if (event && event.activePayload) {
+      const chartItem = event.activePayload[0].payload;
+      setChartLabel(chartItem.selectedChartLabel);
+      setChartDescription(chartItem.selectChartLabelDescription);
+      setChartDescriptionFor(chartItem.chartType);
+    }
+  };
 
   // This code may come in handy at some point to sort the actual indices of each chart
   // const sortedChartData = [...chartData];
@@ -174,20 +116,12 @@ export default function AnalyzeBarChart(props) {
   return (
     <ResponsiveContainer
       id={`${chartType}-container`}
-      sx={{
-        padding: "20px",
-        width: "100%",
-        height: "100%",
-      }}
+      style={{ overflow: "visible", paddingTop: "8px", marginBottom: "16px" }}
     >
       <BarChart
         id={`${chartType}-barchart`}
+        onClick={handleChartClick}
         data={chartData}
-        // data={thisChartData} // Goes with sorting chart code
-        sx={{
-          width: "100%",
-          height: "100%",
-        }}
         margin={barchartMargin}
       >
         <text
@@ -209,30 +143,48 @@ export default function AnalyzeBarChart(props) {
 
         <XAxis
           dataKey="selectedChartLabel"
-          tick={<ChartCustomLabels />}
+          tick={
+            <ChartCustomLabels
+              chartData={chartData}
+              setChartDescription={setChartDescription}
+              setChartLabel={setChartLabel}
+              setChartDescriptionFor={setChartDescriptionFor}
+            />
+          }
           style={{
             fontFamily: "Roboto, sans-serif",
             fontSize: "10rem",
             lineHeight: "2rem",
+            overflow: "visible",
           }}
           interval={0}
         />
         <YAxis
           domain={[0, 1]}
           tickFormatter={formatYAxis}
-          style={{ fontFamily: "Roboto, sans-serif", fontSize: "0.75rem" }}
+          style={{
+            fontFamily: "Roboto, sans-serif",
+            fontSize: "0.75rem",
+            overflow: "visible",
+          }}
           interval={0}
         />
 
-        <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey="chartValue">
-          {chartData.map((entry) => (
-            <Cell key={`cell-${entry.index}`} fill={barColors[entry.index]} />
+        <Tooltip onClick={handleChartClick} content={<CustomToolTip />} />
+        <Bar
+          dataKey="chartValue"
+          onClick={handleChartClick}
+          style={{ overflow: "visible", cursor: "pointer" }}
+        >
+          {chartData.map((entry, index) => (
+            <Cell
+              id={`cell-${entry.index}-daveism`}
+              key={`cell-${entry.index}`}
+              fill={barColors[entry.index]}
+              style={{ cursor: "pointer" }}
+              onClick={handleChartClick}
+            />
           ))}
-          {/*
-          {thisChartData.map((entry) => ( // Also for sorting chart by indices
-            <Cell key={`cell-${entry.index}`} fill={barColors[entry.index]} />
-          ))} */}
         </Bar>
       </BarChart>
     </ResponsiveContainer>
@@ -246,4 +198,7 @@ AnalyzeBarChart.propTypes = {
   chartType: PropTypes.string,
   zonalStatsData: PropTypes.object,
   barchartMargin: PropTypes.object,
+  setChartLabel: PropTypes.func,
+  setChartDescription: PropTypes.func,
+  setChartDescriptionFor: PropTypes.func,
 };
