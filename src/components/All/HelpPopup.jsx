@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
@@ -7,6 +8,7 @@ import { Help, HelpOutlineOutlined, Cancel } from "@mui/icons-material";
 import { IconButton, Popper, Box, Typography } from "@mui/material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Link from "@mui/material/Link";
+import { changeActiveTab } from "../../reducers/NavBarSlice";
 
 const PopupBox = styled(Box)(({ theme }) => ({
   width: "450px",
@@ -56,11 +58,19 @@ const PopupFooterBox = styled(Box)(({ theme }) => ({
   borderBottomLeftRadius: theme.spacing(0.5),
 }));
 
-export const ExamplesLink = () => (
-  <Link value="Examples" to="/Examples" component={RouterLink}>
-    examples
-  </Link>
-);
+export const ExamplesLink = () => {
+  const dispatch = useDispatch();
+  return (
+    <Link
+      value="Examples"
+      to="/Examples"
+      component={RouterLink}
+      onClick={() => dispatch(changeActiveTab("Examples"))}
+    >
+      examples
+    </Link>
+  );
+};
 
 export default function HelpPopup(props) {
   const { helpTitle, helpDescription, useExamplesLink } = props;

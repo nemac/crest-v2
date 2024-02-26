@@ -242,6 +242,7 @@ export default function ChartCard(props) {
             borderWidth: "1px",
             borderColor: "#555555",
             borderStyle: "solid",
+            paddingRight: "0px",
           }}
         >
           {Object.entries(chartValues).map(([key, value]) => (
@@ -345,6 +346,7 @@ export default function ChartCard(props) {
             borderWidth: "1px",
             borderColor: "#555555",
             borderStyle: "solid",
+            paddingRight: "0px",
           }}
         >
           <Grid xs={12}>

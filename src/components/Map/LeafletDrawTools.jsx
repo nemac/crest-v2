@@ -22,7 +22,7 @@ import {
 import { useGetZonalStatsQuery } from "../../services/zonalstats";
 import ModelErrors from "../All/ModelErrors.jsx";
 import { setEmptyState } from "../../reducers/analyzeAreaSlice";
-import { mapConfig } from "../../configuration/config";
+import { mapConfig, sketchShapeThresholds } from "../../configuration/config";
 
 // this not good practice but not time to resolve it and its not that imporant
 //    but following this:
@@ -166,7 +166,7 @@ export default function LeafletDrawTools(props) {
     dispatch(toggleSketchArea());
 
     // error thresholds
-    const areaThreshold = 500;
+    const areaThreshold = sketchShapeThresholds.areaThreshold;
     const geoJ = e.layer.toGeoJSON();
 
     const areaSize = calculateAreaOfPolygon(geoJ) / 1000000; // SQ KM

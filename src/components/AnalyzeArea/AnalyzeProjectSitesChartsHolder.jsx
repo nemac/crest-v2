@@ -20,8 +20,9 @@ import { handleExportAllCSV, HandleRemoveAllClick } from "./ChartFunctions.jsx";
 const analyzeAreaSelector = (state) => state.analyzeArea;
 
 const ChartHolderGrid = styled(Grid)(({ theme }) => ({
-  paddingRight: theme.spacing(1.5),
-  overflowY: "scroll",
+  paddingRight: theme.spacing(0),
+  overflowY: "auto",
+  overflowX: "clip",
   height: "calc(100% - 112px)",
   [theme.breakpoints.down("md")]: {
     height: "calc(100%)",
@@ -104,8 +105,9 @@ export default function ChartsHolder(props) {
       </Grid>
 
       {analyzeAreaState.isItAGraph ? (
-        <ChartHolderGrid xs={12}>
-          <Box>
+        // This is the place the scroll bar overflows in chrome
+        <ChartHolderGrid style={{ paddingRight: "0px" }} xs={12}>
+          <Box pr={0} style={{ overflowX: "visible" }}>
             {sortedChartData.current.map((feature, index) => (
               <ChartCard
                 key={feature.properties.areaName}

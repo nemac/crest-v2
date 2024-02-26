@@ -1,11 +1,13 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
 import { CancelOutlined } from "@mui/icons-material";
 import { Box, Grid, Typography, IconButton } from "@mui/material";
 import Link from "@mui/material/Link";
+import { changeActiveTab } from "../../reducers/NavBarSlice";
 
 const ChartDescriptionGrid = styled(Grid)(({ theme }) => ({
   display: "flex",
@@ -35,11 +37,19 @@ const PopupFooterBox = styled(Box)(({ theme }) => ({
   borderBottomLeftRadius: theme.spacing(0.5),
 }));
 
-export const DataAndReportsLink = () => (
-  <Link value="DataAndReports " to="/DataAndReports" component={RouterLink}>
-    Data and Reports
-  </Link>
-);
+export const DataAndReportsLink = () => {
+  const dispatch = useDispatch();
+  return (
+    <Link
+      value="DataAndReports "
+      to="/DataAndReports"
+      component={RouterLink}
+      onClick={() => dispatch(changeActiveTab("DataAndReports"))}
+    >
+      Data and Reports
+    </Link>
+  );
+};
 
 export default function ChartDescriptionCard(props) {
   const { chartLabel, chartDescription, setChartDescription } = props;
@@ -107,7 +117,7 @@ export default function ChartDescriptionCard(props) {
       >
         <PopupFooterBox>
           Still have questions? Learn more about what data went into calculating{" "}
-          {chartLabel} in the final report @ &nbsp;
+          {chartLabel} in the final report at &nbsp;
           <DataAndReportsLink />.
         </PopupFooterBox>
       </Grid>

@@ -9,18 +9,22 @@ import { FileUploadOutlined } from "@mui/icons-material";
 
 import { validPolygon } from "../../utility/utilityFunctions";
 import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
+import { sketchShapeThresholds } from "../../configuration/config";
 
 export default function Upload(props) {
   const { setGeoToRedraw, setErrorState } = props;
   const [inputValue, setInputValue] = React.useState("");
   const dispatch = useDispatch();
   const errorTitle = "Upload Error";
+  const maxFileSize = sketchShapeThresholds.maxFileSize;
+  const maxFeatures = sketchShapeThresholds.maxFeatures;
+  const maxFeaturesCaution = sketchShapeThresholds.maxFeaturesWarning;
 
   const handleFileChange = async (e) => {
     try {
       const file = e.target.files[0];
       // reject incoming file if the size is greater than 10 MB
-      if (file.size > 10000000) {
+      if (file.size > maxFileSize) {
         setErrorState((previous) => ({
           ...previous,
           error: true,
@@ -38,8 +42,6 @@ export default function Upload(props) {
 
       // Limiting many features for upload
       // we may want to move this to a config file
-      const maxFeatures = 40;
-      const maxFeaturesCaution = 10;
       if (countFeatures > maxFeatures) {
         setErrorState((previous) => ({
           ...previous,

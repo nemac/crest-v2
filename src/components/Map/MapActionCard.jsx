@@ -60,7 +60,7 @@ export default function MapActionCard(props) {
       }}
       style={{ transition: "all 0.333s ease-in-out" }}
     >
-      <Grid xs={12}>
+      <Grid px={2} xs={12}>
         <Box
           px={1}
           py={0.75}
@@ -89,25 +89,25 @@ export default function MapActionCard(props) {
       </Grid>
       {analyzeAreaVisible && (
         <>
-          <Grid xs={12}>
+          <Grid px={2} xs={12}>
             <DrawArea map={map} disabled={drawAreaDisabled} />
           </Grid>
-          <Grid xs={12}>
+          <Grid px={2} xs={12}>
             <Upload
               setGeoToRedraw={setGeoToRedraw}
               setErrorState={setErrorState}
             />
           </Grid>
-          <Grid xs={12}>
+          <Grid px={2} xs={12}>
             <SearchCustom map={map} setErrorState={setErrorState} />
           </Grid>
-          <Grid xs={10}>
+          <Grid px={2} xs={10}>
             <Buffer
               bufferCheckbox={bufferCheckbox}
               setBufferCheckbox={setBufferCheckbox}
             />
           </Grid>
-          <Grid xs={2} sx={{ alignItems: "flex-end" }}>
+          <Grid px={2} xs={2} sx={{ alignItems: "flex-end" }}>
             <Box
               mt={1}
               pr={1}
