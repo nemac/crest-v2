@@ -31,10 +31,17 @@ export const betaReadGeojsonEndpoint =
 export const prodReadGeojsonEndpoint =
   "https://api.resilientcoasts.org/prod/read_geojson";
 
-export const betaShareLinkEndpoint =
-  "https://api.resilientcoasts.org/beta/share-link";
-export const prodShareLinkEndpoint =
-  "https://api.resilientcoasts.org/prod/share-link";
+// endpoints for reading share links from s3
+export const betaShareLinkReadEndpoint =
+  "https://api.resilientcoasts.org/beta/read_s3";
+export const prodShareLinkReadEndpoint =
+  "https://api.resilientcoasts.org/prod/read_s3";
+
+// endpoints for writing share links to s3
+export const betaShareLinkWriteEndpoint =
+  "https://api.resilientcoasts.org/beta/write_s3";
+export const prodShareLinkWriteEndpoint =
+  "https://api.resilientcoasts.org/prod/write_s3";
 
 export const betaUploadShapeEndpoint =
   "https://api.resilientcoasts.org/beta/upload_shape";

@@ -1,11 +1,11 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { betaShareLinkEndpoint } from "../configuration/config";
+import { betaShareLinkReadEndpoint } from "../configuration/config";
 
 // uncomment the endpoint you want to use and comment out the other
-const endpoint = betaShareLinkEndpoint;
-// const endpoint = prodShareLinkEndpoint;
+const endpoint = betaShareLinkReadEndpoint;
+// const endpoint = prodShareLinkReadEndpoint;
 
 // Define a service using a base URL and expected endpoints
 export const shareMapApi = createApi({
