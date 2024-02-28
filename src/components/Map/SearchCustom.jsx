@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as esri from "esri-leaflet";
 import L from "leaflet";
@@ -7,12 +7,25 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { SearchOutlined } from "@mui/icons-material"; // for when we need it, Search } from '@mui/icons-material';
+import { SearchOutlined, HelpOutlineOutlined } from "@mui/icons-material"; // for when we need it, Search } from '@mui/icons-material';
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { addNewFeatureToDrawnLayers } from "../../reducers/mapPropertiesSlice";
 import { mapConfig } from "../../configuration/config";
 import { convertDataForZonalStats } from "../../utility/utilityFunctions";
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#F8F9FA",
+    color: "#000000",
+    boxShadow: theme.shadows[1],
+    border: "1px solid #2c2c2c",
+    fontSize: "0.75rem",
+  },
+}));
 
 // Custom theme for search by area
 const customAutoCompleteTheme = createTheme({
@@ -161,38 +174,24 @@ const StyledSearchBox = styled(Box)(({ theme }) => ({
   borderRadius: theme.spacing(0.75),
 }));
 
-const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 
 export default function SearchCustom(props) {
-  const { setErrorState, map } = props;
+  const { map } = props;
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
-  const drawnFromState = useSelector(drawnLayersSelector);
   const regionConfig = mapConfig.regions[selectedRegion];
-  const areasToSearch = mapConfig.statesList
-    .concat(mapConfig.countiesList)
-    .concat(mapConfig.huc8List);
   const [open, setOpen] = React.useState(false);
+  const [options, setOptions] = useState([]);
+  const [noOptionsText, setNoOptionsText] = useState("Nothing to search yet");
 
-  const statesFeatureLayer = esri.featureLayer({
-    url: "https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/cb_2022_us_state_crest/FeatureServer/0",
+  const allFeatureLayer = esri.featureLayer({
+    url: "https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/CREST_SEARCH/FeatureServer/0",
   });
 
-  const countiesFeatureLayer = esri.featureLayer({
-    url: "https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/cb_2022_us_county_500k_counties_crest/FeatureServer/0",
-  });
-
-  const huc8FeatureLayer = esri.featureLayer({
-    url: "https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/huc8_all_crest/FeatureServer/0",
-  });
-
-  const stateQuery = statesFeatureLayer.query();
-  const countyQuery = countiesFeatureLayer.query();
-  const huc8Query = huc8FeatureLayer.query();
-
+  const allQuery = allFeatureLayer.query();
   // Send query to arcgis and draw the state, county, or huc8 on the map
-  const runQuery = (query, type) => {
+  const runQuerySearching = (query) => {
     query.run((error, featureCollection, response) => {
       if (error) {
         return;
@@ -200,77 +199,73 @@ export default function SearchCustom(props) {
       if (featureCollection.features.length === 0) {
         return;
       }
-      const feature = featureCollection.features[0]; // should only be one feature
-      feature.properties.areaName = feature.properties.NAME; // need this for correct plotting
-      if (type === "county") {
-        feature.properties.NAME = `${feature.properties.NAMELSAD}, ${feature.properties.STUSPS}`;
-        feature.properties.areaName = feature.properties.NAME; // need this for correct plotting
-      }
-      if (type === "huc8") {
-        feature.properties.NAME = feature.properties.huc8;
-        feature.properties.areaName = feature.properties.NAME; // need this for correct plotting
-      }
-      const zonalStatsKeys = regionConfig.zonalStatsKeys;
-      const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
-      map.fitBounds(L.geoJSON(geoToDraw).getBounds());
-      dispatch(addNewFeatureToDrawnLayers(geoToDraw));
+      setOptions(featureCollection.features);
     });
   };
 
-  const onHandleSearchChange = (event, newInputValue) => {
-    if (newInputValue === null) {
+  const onHandleSearchChange = (_, feature) => {
+    if (feature === null) {
       return;
     }
-    let queryRegionName = selectedRegion;
-    if (selectedRegion === "Hawai'i") {
-      queryRegionName = "Hawai''i";
-    } // gotta escape single quote
-    // check if already drawn and if so - remove it
-    const previousDrawn = drawnFromState?.features?.filter(
-      (item) =>
-        item.properties.areaName === newInputValue &&
-        item.properties.region === selectedRegion,
-    );
-    if (previousDrawn && previousDrawn.length > 0) {
-      return;
-    }
-    if (regionConfig.statesList.includes(newInputValue)) {
-      stateQuery.where(`NAME='${newInputValue}'
-        AND region='${queryRegionName}'`);
-      runQuery(stateQuery, "state");
-    } else if (regionConfig.countiesList.includes(newInputValue)) {
-      const countySplit = newInputValue.split(","); // split county and state (e.g Washington County, NC)
-      countyQuery.where(`NAMELSAD='${countySplit[0]}'
-        AND region='${queryRegionName}'
-        AND STUSPS='${countySplit[1].trim()}'`);
-      runQuery(countyQuery, "county");
-    } else if (regionConfig.huc8List.includes(newInputValue)) {
-      huc8Query.where(`huc8='${newInputValue}'`);
-      runQuery(huc8Query, "huc8");
-    } else {
-      setErrorState((previous) => ({
-        ...previous,
-        error: true,
-        errorType: "info",
-        errorTitle: "No Data Found",
-        errorMessage:
-          "There was no data found in this region for the selected state, county, or watershed",
-        // acceptButtonText: 'Proceed',
-        acceptButtonClose: () => {
-          setErrorState({ ...previous, error: false });
-          event.stopPropagation();
-        },
-      }));
-    }
+
+    // eslint-disable-next-line no-param-reassign
+    feature.properties.NAME = feature.properties.search_field;
+    // eslint-disable-next-line no-param-reassign
+    feature.properties.areaName = feature.properties.search_field;
+    const zonalStatsKeys = regionConfig.zonalStatsKeys;
+    const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
+    map.fitBounds(L.geoJSON(geoToDraw).getBounds());
+    dispatch(addNewFeatureToDrawnLayers(geoToDraw));
   };
 
-  const handleInputChange = (_, value) => {
-    if (value.length < 3) {
+  const handleInputChange = (_, newInputValue) => {
+    if (newInputValue.length < 3) {
       setOpen(false);
     } else {
+      allQuery.where(
+        `search_field LIKE '%${newInputValue}%' AND region = '${selectedRegion.replace("'", "''")}'`,
+      );
+      const optionText = `Searching for an area matching "${newInputValue}"? 
+        CREST includes areas near coastal areas, and areas 
+        matching "${newInputValue}" may not fit within the coastal area assessed, or is outside the curent region '${selectedRegion.replace("'", "''")}'`;
+      setNoOptionsText(optionText);
+      runQuerySearching(allQuery);
       setOpen(true);
     }
   };
+
+  const renderInput = (params) => (
+    <StyledSearchBox>
+      <SearchOutlined
+        sx={{
+          fontSize: "20px",
+          color: "#000000",
+          padding: "0px",
+          marginRight: "8px",
+        }}
+      />
+      <TextField
+        sx={{ margin: "0px", padding: "0px" }}
+        fullWidth
+        {...params}
+        label="Search for a State, County, or Watershed"
+        aria-label={"Search for a State, County, or Watershed"}
+        id="search-area-textfield"
+        variant="standard"
+        type="search"
+      />
+      <LightTooltip title={noOptionsText}>
+        <HelpOutlineOutlined
+          sx={{
+            fontSize: "20px",
+            color: "#000000",
+            padding: "0px",
+            margin: "0px",
+          }}
+        />
+      </LightTooltip>
+    </StyledSearchBox>
+  );
 
   return (
     <Box p={0.75}>
@@ -281,33 +276,21 @@ export default function SearchCustom(props) {
           autoComplete={true}
           autoHighlight={true}
           open={open}
-          options={areasToSearch}
+          options={options}
+          isOptionEqualToValue={(option, value) =>
+            option.properties.search_field === value.properties.search_field
+          }
           onClose={() => setOpen(false)}
+          // getOptionLabel={(option) => `${option.properties.search_field} - (${option.properties.source.toUpperCase()})`}
+          getOptionLabel={(option) =>
+            option.properties.search_field.replace("Hawaii", "Hawai'i")
+          }
+          getOptionKey={(option) => option.properties.fid}
+          noOptionsText={noOptionsText}
           clearOnBlur={false}
-          onInputChange={handleInputChange}
           onChange={onHandleSearchChange}
-          renderInput={(params) => (
-            <StyledSearchBox>
-              <SearchOutlined
-                sx={{
-                  fontSize: "20px",
-                  color: "#000000",
-                  padding: "0px",
-                  marginRight: "8px",
-                }}
-              />
-              <TextField
-                sx={{ margin: "0px", padding: "0px" }}
-                fullWidth
-                {...params}
-                label="Search for a State, County, or Watershed"
-                aria-label={"Search for a State, County, or Watershed"}
-                id="search-area-textfield"
-                variant="standard"
-                type="search"
-              />
-            </StyledSearchBox>
-          )}
+          onInputChange={handleInputChange}
+          renderInput={renderInput}
         />
       </ThemeProvider>
     </Box>
@@ -315,5 +298,4 @@ export default function SearchCustom(props) {
 }
 SearchCustom.propTypes = {
   map: PropTypes.object,
-  setErrorState: PropTypes.func,
 };

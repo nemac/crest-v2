@@ -8,7 +8,10 @@ import {
   YAxis,
   Tooltip,
   Cell,
+  CartesianGrid,
 } from "recharts";
+
+/* eslint-disable no-nested-ternary */
 
 import { mapConfig } from "../../configuration/config";
 import ChartCustomLabels from "./ChartCustomLabels.jsx";
@@ -49,8 +52,13 @@ export default function AnalyzeBarChart(props) {
     const selectedLayerData = layerList.find(
       (layer) => layer.chartCSSSelector === name,
     );
+    if (!selectedLayerData) {
+      return null;
+    }
+
     const selectedChartLabel = selectedLayerData.chartLabel;
     const selectedColorChart = selectedLayerData.chartCSSColor;
+    const chartOrder = selectedLayerData.chartOrder;
     const selectChartLabelDescription = selectedLayerData.description;
     const selectedColor = selectedColorChart[colorValue];
     const allValues = Object.keys(selectedColorChart);
@@ -61,6 +69,7 @@ export default function AnalyzeBarChart(props) {
       chartValue,
       selectedChartLabel,
       selectChartLabelDescription,
+      chartOrder,
     };
     return retData;
   };
@@ -73,18 +82,27 @@ export default function AnalyzeBarChart(props) {
   if (zonalStatsData) {
     let skippedValues = 0;
     chartIndices.forEach((element, i) => {
-      const value = zonalStatsData[element];
-      if (value === undefined) {
+      const value =
+        zonalStatsData[element] === "NaN"
+          ? 0.000000000001
+          : zonalStatsData[element] === 0
+            ? 0.000000000001
+            : zonalStatsData[element];
+
+      if (!value) {
         skippedValues += 1;
         return;
       }
       const index = i - skippedValues;
       const layerData = getData(element, value);
+      if (!layerData) return;
+
       const {
         selectedColor,
         chartValue,
         selectedChartLabel,
         selectChartLabelDescription,
+        chartOrder,
       } = layerData;
 
       chartData.push({
@@ -93,12 +111,20 @@ export default function AnalyzeBarChart(props) {
         chartValue,
         selectedChartLabel,
         selectChartLabelDescription,
+        chartOrder,
         chartType,
         index,
       });
       barColors.push(selectedColor);
     });
   }
+
+  const chartDataSorted = chartData.sort((a, b) => {
+    if (a.chartOrder) {
+      return a.chartOrder - b.chartOrder;
+    }
+    return 0;
+  });
 
   const handleChartClick = (event) => {
     if (event && event.activePayload) {
@@ -133,19 +159,24 @@ export default function AnalyzeBarChart(props) {
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
           <tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
-            {areaName}
+            {areaName.replace("Hawaii", "Hawai'i")}
           </tspan>
 
           <tspan x="50%" dy={"25px"} style={{ fontSize: "1rem" }}>
             {chartType}
           </tspan>
         </text>
-
+        <CartesianGrid
+          strokeDasharray="1"
+          stroke="#555555"
+          horizontalCoordinatesGenerator={null}
+          verticalCoordinatesGenerator={(something) => [0]}
+        />
         <XAxis
           dataKey="selectedChartLabel"
           tick={
             <ChartCustomLabels
-              chartData={chartData}
+              chartData={chartDataSorted}
               setChartDescription={setChartDescription}
               setChartLabel={setChartLabel}
               setChartDescriptionFor={setChartDescriptionFor}
@@ -176,7 +207,7 @@ export default function AnalyzeBarChart(props) {
           onClick={handleChartClick}
           style={{ overflow: "visible", cursor: "pointer" }}
         >
-          {chartData.map((entry, index) => (
+          {chartDataSorted.map((entry, index) => (
             <Cell
               id={`cell-${entry.index}`}
               key={`cell-${entry.index}`}

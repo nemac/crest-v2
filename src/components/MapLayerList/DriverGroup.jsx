@@ -18,6 +18,13 @@ export default function DriverGroup(props) {
   const expandedCharts = useSelector(expandedChartsSelector);
   const isExpanded = expandedCharts.includes(chartInputLabel);
 
+  const chartLayerListSorted = chartLayerList.sort((a, b) => {
+    if (a.chartOrder) {
+      return a.chartOrder - b.chartOrder;
+    }
+    return 0;
+  });
+
   const onClick = () => {
     dispatch(toggleCollapsed(chartInputLabel));
   };
@@ -71,7 +78,7 @@ export default function DriverGroup(props) {
       </Grid>
       <AccordionDetails sx={{ padding: (theme) => theme.spacing(0) }}>
         <Box p={0.5}>
-          {chartLayerList.map((layer) => (
+          {chartLayerListSorted.map((layer) => (
             <Layer key={layer.id} layerData={layer} />
           ))}
         </Box>

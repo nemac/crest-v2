@@ -6,9 +6,15 @@ import Layer from "./Layer.jsx";
 
 export default function SubGroup(props) {
   const { subHeading, subLayers } = props;
+  const subLayersSorted = subLayers.sort((a, b) => {
+    if (a.chartOrder) {
+      return a.chartOrder - b.chartOrder;
+    }
+    return 0;
+  });
 
   const buildSubListings = (value) =>
-    subLayers.map((layer) => (
+    subLayersSorted.map((layer) => (
       <Layer key={layer.id} layerData={layer} layerName={value} />
     ));
 

@@ -52,6 +52,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_HubsTMS",
       layer: "Hubs TMS",
       label: "Resilience Hubs",
+      chartOrder: 1,
       chartLabel: "Resilience Hubs",
       chartInputName: "summary",
       ChartInputLabel: "Summary",
@@ -82,6 +83,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_ExposureTMS",
       layer: "Exposure TMS",
       label: "Community Exposure Index",
+      chartOrder: 2,
       chartLabel: "Community Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -98,7 +100,7 @@ export const northernMarianaIslandsConfig = {
       },
       chartInputName: "summary",
       ChartInputLabel: "Summary",
-      ChartInputSubHeading: "Community Exposure Index",
+      ChartInputSubHeading: "Community Exposure",
       chartCSSSelector: "exposure",
       url: "https://tiles.resilientcoasts.org/CNMI_ExposureIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2020",
@@ -112,6 +114,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_AssetsTMS",
       layer: "Assets TMS",
       label: "Community Asset Index",
+      chartOrder: 3,
       chartLabel: "Community Asset",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -142,6 +145,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_ThreatsTMS",
       layer: "Threats TMS",
       label: "Threat Index",
+      chartOrder: 4,
       chartLabel: "Threat",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -168,11 +172,11 @@ export const northernMarianaIslandsConfig = {
         "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.",
       region: "northern_mariana_islands",
     },
-
     {
       id: "CNMI_FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
+      chartOrder: 5,
       chartLabel: "Fish and Wildlife",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -199,6 +203,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_AquaticTMS",
       layer: "Marine TMS",
       label: "Marine Index",
+      chartOrder: 6,
       chartLabel: "Marine",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -223,6 +228,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_TerrestrialTMS",
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
+      chartOrder: 7,
       chartLabel: "Terrestrial",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -247,6 +253,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_PopDensityTMS",
       layer: "Population Density TMS",
       label: "Population Density",
+      chartOrder: 10,
       chartLabel: "Population Density",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -271,6 +278,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_SocVulnTMS",
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
+      chartOrder: 11,
       chartLabel: "Social Vulnerability",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -295,6 +303,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
+      chartOrder: 8,
       chartLabel: "Critical Facilities",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -320,6 +329,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_CriticalInfrastructureTMS",
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
+      chartOrder: 9,
       chartLabel: "Critical Infrastructure",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -345,6 +355,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_DrainageTMS",
       layer: "Drainage TMS",
       label: "Impermeable Soils",
+      chartOrder: 14,
       chartLabel: "Impermeable Soils",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -369,6 +380,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_ErosionTMS",
       layer: "Erosion TMS",
       label: "Soil Erodibility",
+      chartOrder: 16,
       chartLabel: "Soil Erodibility",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -393,6 +405,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_SLRTMS",
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
+      chartOrder: 15,
       chartLabel: "Sea Level Rise",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -417,6 +430,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_StormSurgeTMS",
       layer: "Storm Surge TMS",
       label: "Wave-Driven Flooding",
+      chartOrder: 17,
       chartLabel: "Wave Driven Flooding",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -441,6 +455,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_SlopeTMS",
       layer: "Slope TMS",
       label: "Areas of Low Slope",
+      chartOrder: 12,
       chartLabel: "Areas of Low Slope",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -465,6 +480,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
+      chartOrder: 13,
       chartLabel: "Flood Prone Areas",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -489,6 +505,7 @@ export const northernMarianaIslandsConfig = {
       id: "CNMI_landcover",
       layer: "landcover",
       label: "Landcover",
+      chartOrder: 18,
       chartLabel: "Landcover",
       isLegendCustom: true,
       chartCSSColor: [
@@ -632,6 +649,7 @@ export const northernMarianaIslandsConfig = {
     "exposure",
     "floodprone_areas",
     "impermeable",
+    "landslides",
     "low_areas",
     "marine",
     "pop_density",
@@ -668,11 +686,4 @@ export const northernMarianaIslandsConfig = {
     "lc_tundra",
     "lc_snow_ice",
   ],
-  statesList: ["Commonwealth of the Northern Mariana Islands"],
-  countiesList: [
-    "Rota Municipality, MP",
-    "Saipan Municipality, MP",
-    "Tinian Municipality, MP",
-  ],
-  huc8List: ["22020101", "22020102", "22020104"],
 };
