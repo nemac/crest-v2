@@ -70,7 +70,9 @@ export default function TableData(props) {
                       {getLabel(data.properties.region, key)}
                     </TableCell>
                     <TableCell align="left">
-                      {Number.isNaN(Number(value)) ? "0.0" : value.toFixed(3)}
+                      {Number.isNaN(Number(value))
+                        ? 0.0
+                        : Number(value).toFixed(3)}
                     </TableCell>
                     <TableCell align="left">
                       {getRange(data.properties.region, key)}
