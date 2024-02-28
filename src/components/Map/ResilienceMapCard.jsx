@@ -6,10 +6,7 @@ import Control from "react-leaflet-custom-control";
 import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import { LayersClear } from "@mui/icons-material";
-
-import LeafletMapContainer from "./LeafletMapContainer.jsx";
-import ActiveTileLayers from "./ActiveTileLayers.jsx";
-import BasemapLayer from "./BasemapLayer.jsx";
+import MapCardModule from "./MapCardModule.jsx";
 
 import {
   changeRegion,
@@ -34,8 +31,6 @@ export default function ResilienceMapCard(props) {
   const dispatch = useDispatch();
   const [ready, setReady] = useState(false);
   const [map, setMap] = useState(null);
-  const center = useSelector(selectedCenterSelector, () => true);
-  const zoom = useSelector(selectedZoomSelector, () => true);
   const selectedRegion = useSelector(selectedRegionSelector);
   const resilienceHub = useSelector(selectedResilienceHub);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
@@ -94,28 +89,24 @@ export default function ResilienceMapCard(props) {
     handleRegionChange(selectedRegion, userInitiatedRegion);
   }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
 
-  // This component exists solely for the useMapEvents hook
-  const MapEventsComponent = () => {
-    useMapEvents({
-      click: (e) => {
-        const query = featureLayerHubs.query().nearby(e.latlng, 0);
-        query.run((error, featureCollection, response) => {
-          if (error) {
-            return;
-          }
-          if (featureCollection.features.length === 0) {
-            return;
-          }
-          dispatch(changeResilienceHub(featureCollection.features[0]));
-        });
-      },
-      moveend: () => {
-        // Send updated zoom and center to redux when moveend event occurs.
-        dispatch(changeZoom(map.getZoom()));
-        dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]));
-      },
-    });
-    return null;
+  const mapEventHandlers = {
+    click: (e) => {
+      const query = featureLayerHubs.query().nearby(e.latlng, 0);
+      query.run((error, featureCollection, response) => {
+        if (error) {
+          return;
+        }
+        if (featureCollection.features.length === 0) {
+          return;
+        }
+        dispatch(changeResilienceHub(featureCollection.features[0]));
+      });
+    },
+    moveend: () => {
+      // Send updated zoom and center to redux when moveend event occurs.
+      dispatch(changeZoom(map.getZoom()));
+      dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]));
+    },
   };
 
   const clearHandler = (event) => {
@@ -137,7 +128,11 @@ export default function ResilienceMapCard(props) {
   };
 
   return (
-    <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
+    <MapCardModule
+      setMap={setMap}
+      map={map}
+      mapEventHandlers={mapEventHandlers}
+    >
       <Control position="bottomleft">
         <Button
           variant="contained"
@@ -160,10 +155,7 @@ export default function ResilienceMapCard(props) {
         ) : (
           <></>
         ))}
-      <ActiveTileLayers />
-      <BasemapLayer map={map} />
-      <MapEventsComponent />
-    </LeafletMapContainer>
+    </MapCardModule>
   );
 }
 

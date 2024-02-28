@@ -6,9 +6,8 @@ import { Button } from "@mui/material";
 import Control from "react-leaflet-custom-control";
 import PropTypes from "prop-types";
 
-import ActiveTileLayers from "./ActiveTileLayers.jsx";
 import SearchPlaces from "./SearchPlaces.jsx";
-import BasemapLayer from "./BasemapLayer.jsx";
+import MapCardModule from "./MapCardModule.jsx";
 
 import {
   changeRegion,
@@ -20,7 +19,7 @@ import {
   changeIdentifyResults,
   changeIdentifyIsLoaded,
 } from "../../reducers/mapPropertiesSlice";
-import LeafletMapContainer from "./LeafletMapContainer.jsx";
+
 import ShowIdentifyPopup from "./IdentifyPopup.jsx";
 import IdentifyButtonWrapper from "./IdentifyButton.jsx";
 import { mapConfig } from "../../configuration/config";
@@ -35,8 +34,6 @@ const regions = mapConfig.regions;
 // selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
-const selectedZoomSelector = (state) => state.mapProperties.zoom;
-const selectedCenterSelector = (state) => state.mapProperties.center;
 const areaVisibleSelector = (state) => state.mapProperties.areaVisible;
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
@@ -47,7 +44,7 @@ const identifyIsLoadedSelector = (state) =>
 const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
 const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
-export default function MapCard(props) {
+export default function AnalyzeProjectSitesMapCard(props) {
   const {
     map,
     setMap,
@@ -61,8 +58,7 @@ export default function MapCard(props) {
   const [shareUrl, setShareUrl] = useState("");
   const dispatch = useDispatch();
   // setting "() => true" for both center and zoom ensures that value is only read from store once
-  const center = useSelector(selectedCenterSelector, () => true);
-  const zoom = useSelector(selectedZoomSelector, () => true);
+
   const areaVisible = useSelector(areaVisibleSelector);
   const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
@@ -142,26 +138,22 @@ export default function MapCard(props) {
     handleRegionChange(selectedRegion, userInitiatedRegion);
   }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
 
-  // This component exists solely for the useMapEvents hook
-  const MapEventsComponent = () => {
-    useMapEvents({
-      moveend: () => {
-        // Send updated zoom and center to redux when moveend event occurs.
-        dispatch(changeZoom(map.getZoom()));
-        dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]));
-      },
-      zoomend: () => {
-        if (map.getZoom() >= 9) {
-          return map.eachLayer((layer) => {
-            layer.openTooltip();
-          });
-        }
+  const mapEventHandlers = {
+    moveend: () => {
+      // Send updated zoom and center to redux when moveend event occurs.
+      dispatch(changeZoom(map.getZoom()));
+      dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]));
+    },
+    zoomend: () => {
+      if (map.getZoom() >= 9) {
         return map.eachLayer((layer) => {
-          layer.closeTooltip();
+          layer.openTooltip();
         });
-      },
-    });
-    return null;
+      }
+      return map.eachLayer((layer) => {
+        layer.closeTooltip();
+      });
+    },
   };
 
   const handleShareLinkClose = (event) => {
@@ -234,7 +226,11 @@ export default function MapCard(props) {
   };
 
   return (
-    <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
+    <MapCardModule
+      setMap={setMap}
+      map={map}
+      mapEventHandlers={mapEventHandlers}
+    >
       <IdentifyButtonWrapper map={map} />
       <SearchPlaces map={map} leafletFeatureGroupRef={leafletFeatureGroupRef} />
       <Control position="bottomleft">
@@ -330,21 +326,18 @@ export default function MapCard(props) {
         secondaryButtonMessage="Copy Map URL"
         open={shareLinkOpen}
       />
-      <ActiveTileLayers />
-      <BasemapLayer />
       <Circle center={dummyPoint} pathOptions={{ opacity: 0 }} radius={1} />
-      <MapEventsComponent />
       <ShowIdentifyPopup
         region={selectedRegion}
         identifyItems={identifyItems}
         identifyIsLoaded={identifyIsLoaded}
         identifyCoordinates={identifyCoordinates}
       />
-    </LeafletMapContainer>
+    </MapCardModule>
   );
 }
 
-MapCard.propTypes = {
+AnalyzeProjectSitesMapCard.propTypes = {
   map: PropTypes.object,
   setMap: PropTypes.func,
   leafletFeatureGroupRef: PropTypes.object,
