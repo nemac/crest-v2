@@ -97,7 +97,7 @@ export default function AnalyzeProjectSite(props) {
         ...previous,
         error: true,
         errorTitle: "Share Link Error",
-        errorMessage: `The following error occured with the share link: ${error.data}`,
+        errorMessage: `The following error occurred with the share link: ${error.data}`,
       }));
     }
   }, [error, querySearchParams, setErrorState, setQuerySearchParams]);

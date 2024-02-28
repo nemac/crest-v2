@@ -454,7 +454,7 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
-        title="Download Assesssment"
+        title="Download Assessment"
         SelectedIconName="PictureAsPdf"
         UnselectedIconName="PictureAsPdfOutlined"
         selectedIcon={<PictureAsPdf />}
@@ -463,7 +463,7 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
-        title="Error Wrong Descrption"
+        title="Error Wrong Description"
         SelectedIconName="DisabledByDefault"
         UnselectedIconName="DisabledByDefaultOutlined"
         selectedIcon={<DisabledByDefault color="error" />}
@@ -472,7 +472,7 @@ export default function StyleGuide() {
         color="error"
       />
       <StyleGuideIconComponent
-        title="Error Correct Descrption"
+        title="Error Correct Description"
         SelectedIconName="CheckBox"
         UnselectedIconName="CheckBoxOutlined"
         selectedIcon={<CheckBox color="success" />}
@@ -509,7 +509,7 @@ export default function StyleGuide() {
       />
 
       <StyleGuideIconComponent
-        title="Get statistcs/charts for location"
+        title="Get statistics/charts for location"
         SelectedIconName="Addchart"
         UnselectedIconName="AddchartOutline"
         selectedIcon={<Addchart />}

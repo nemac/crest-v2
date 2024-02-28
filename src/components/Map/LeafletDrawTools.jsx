@@ -25,7 +25,7 @@ import ModelErrors from "../All/ModelErrors.jsx";
 import { setEmptyState } from "../../reducers/analyzeAreaSlice";
 import { mapConfig, sketchShapeThresholds } from "../../configuration/config";
 
-// this not good practice but not time to resolve it and its not that imporant
+// this not good practice but not time to resolve it and its not that important
 //    but following this:
 //     React Hook useEffect has missing dependencies: 'currentDrawn.featureGroup.features',
 //        'currentDrawn.geo', 'leafletFeatureGroupRef', and 'setDrawAreaDisabled'

@@ -8,7 +8,7 @@ export const calculateAreaOfPolygon = (geojson) => {
   return area;
 };
 
-export const caclulatePolygonVertices = (geojson) => {
+export const calculatePolygonVertices = (geojson) => {
   const coordinates = geojson.geometry.coordinates;
   let totalVertices = 0;
   coordinates.forEach((ring) => {
@@ -28,7 +28,7 @@ export const validPolygon = (geojson) => {
 
   const area = calculateAreaOfPolygon(geojson);
   const maxPolygonAreaSize = areaThreshold * 1000000; // sq km
-  const vertices = caclulatePolygonVertices(geojson);
+  const vertices = calculatePolygonVertices(geojson);
   const maxVertices = verticeThreshold;
   if (area > maxPolygonAreaSize || vertices > maxVertices) {
     return false;

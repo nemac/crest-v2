@@ -31,7 +31,7 @@ import ShapeActionButton from "./ShapeActionButton.jsx";
 
 import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
 
-// this not good practice but not time to resolve it and its not that imporant
+// this not good practice but not time to resolve it and its not that important
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-nested-ternary */
@@ -100,8 +100,8 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickEdit = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont
-    // want to spend more time figureit out
+    // This works but its a bad pattern for react. But I don't care it works and I don't
+    // want to spend more time figure it out
     const editButton = document.querySelector(".leaflet-draw-edit-edit");
     if (editButton) {
       editButton.click();
@@ -110,8 +110,8 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickCancel = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont
-    // want to spend more time figureit out
+    // This works but its a bad pattern for react. But I don't care it works and I don't
+    // want to spend more time figure it out
     const cancelButton = document.querySelector(
       'a[title="Cancel editing, discards all changes"]',
     );
@@ -122,8 +122,8 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickSave = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont
-    // want to spend more time figureit out
+    // This works but its a bad pattern for react. But I don't care it works and I don't
+    // want to spend more time figure it out
     const saveButton = document.querySelector('a[title="Save changes"]');
     if (saveButton) {
       saveButton.click();
@@ -133,8 +133,8 @@ export default function ShapeFileCorrectionMap(props) {
   };
 
   const btnClickDelete = (e) => {
-    // This works but its a bad pattern for react. But I dont care it works and I dont
-    // want to spend more time figureit out
+    // This works but its a bad pattern for react. But I don't care it works and I don't
+    // want to spend more time figure it out
     const deleteButton = document.querySelector(".leaflet-draw-edit-remove");
     if (deleteButton) {
       deleteButton.click();

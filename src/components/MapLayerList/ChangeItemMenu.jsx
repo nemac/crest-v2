@@ -1,7 +1,7 @@
 /*
 Purpose
-  menu for changing basemap/region will contain the differnt option
-  we will need to switch this to a vector map the old base maps are depericated
+  menu for changing basemap/region will contain the different option
+  we will need to switch this to a vector map the old base maps are depreciated
 
   where should logic for switch this live?
 
@@ -14,7 +14,7 @@ Purpose
   region
     - Alaska
     - American Samoa
-    - Contiental U.S.
+    - Continental U.S.
     - U.S. Great Lakes
     - Guam
     - Hawai'i

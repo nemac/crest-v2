@@ -23,7 +23,7 @@ export default function AboutCommunityExposure(props) {
       </Grid>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         The Community Exposure Index explores the relationship between potential
-        flooding threats and the presence ofcommunity assets by combining two
+        flooding threats and the presence of community assets by combining two
         composite indices: the Threat Index and the Community Asset Index. The
         Threat Index utilizes landscape characteristics and flood-related data.
         The Community Asset Index helps to understand where critical
