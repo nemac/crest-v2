@@ -182,6 +182,8 @@ export default function SearchCustom(props) {
   const selectedRegion = useSelector(selectedRegionSelector);
   const regionConfig = mapConfig.regions[selectedRegion];
   const [open, setOpen] = React.useState(false);
+  const [aPlaceFound, setAPlaceFound] = React.useState(false);
+  const [thePlaceFound, setThePlaceFound] = React.useState("");
   const [options, setOptions] = useState([]);
   const [noOptionsText, setNoOptionsText] = useState("Nothing to search yet");
 
@@ -192,6 +194,7 @@ export default function SearchCustom(props) {
   const allQuery = allFeatureLayer.query();
   // Send query to arcgis and draw the state, county, or huc8 on the map
   const runQuerySearching = (query) => {
+    setAPlaceFound(false);
     query.run((error, featureCollection, response) => {
       if (error) {
         return;
@@ -208,6 +211,10 @@ export default function SearchCustom(props) {
       return;
     }
 
+    setAPlaceFound(true);
+    setThePlaceFound(
+      `Found an an area matching "${feature.properties.search_field}"`,
+    );
     // eslint-disable-next-line no-param-reassign
     feature.properties.NAME = feature.properties.search_field;
     // eslint-disable-next-line no-param-reassign
@@ -221,6 +228,7 @@ export default function SearchCustom(props) {
   const handleInputChange = (_, newInputValue) => {
     if (newInputValue.length < 3) {
       setOpen(false);
+      setAPlaceFound(false);
     } else {
       allQuery.where(
         `search_field LIKE '%${newInputValue}%' AND region = '${selectedRegion.replace("'", "''")}'`,
@@ -231,6 +239,7 @@ export default function SearchCustom(props) {
       setNoOptionsText(optionText);
       runQuerySearching(allQuery);
       setOpen(true);
+      setAPlaceFound(false);
     }
   };
 
@@ -254,7 +263,7 @@ export default function SearchCustom(props) {
         variant="standard"
         type="search"
       />
-      <LightTooltip title={noOptionsText}>
+      <LightTooltip title={aPlaceFound ? thePlaceFound : noOptionsText}>
         <HelpOutlineOutlined
           sx={{
             fontSize: "20px",
