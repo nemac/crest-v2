@@ -108,6 +108,8 @@ export default function ChartCard(props) {
       "permafrost",
       "wave_flooding",
       "geostress",
+      "landslides",
+      "highwater",
     ],
     "Community Assets Inputs": [
       "pop_density",
@@ -218,7 +220,7 @@ export default function ChartCard(props) {
     height: "4px",
     padding: "0",
     margin: "0 5% 0 5%",
-    borderStyle: "dashed none none",
+    borderStyle: "solid none none",
     borderWidth: "1px 0px 0px",
     borderColor: "#555555 transparent transparent",
     backgroundColor: "#0A0A0A",

@@ -49,15 +49,29 @@ export default function MapLayerList() {
   const chartsInputs = regions[selectedRegion].chartInputs;
 
   // get summary charts configs
-  const chartSummaryInputs = chartsInputs.filter((data) => {
+  const chartSummaryInputsUnsorted = chartsInputs.filter((data) => {
     const summaryValues = data.chartInputName === "summary";
     return summaryValues;
   });
 
+  const chartSummaryInputs = chartSummaryInputsUnsorted.sort((a, b) => {
+    if (a.chartOrder) {
+      return a.chartOrder - b.chartOrder;
+    }
+    return 0;
+  });
+
   // get driver charts configs
-  const chartDriverInputs = chartsInputs.filter((data) => {
+  const chartDriverInputsUnsorted = chartsInputs.filter((data) => {
     const driverValues = data.chartInputName !== "summary";
     return driverValues;
+  });
+
+  const chartDriverInputs = chartDriverInputsUnsorted.sort((a, b) => {
+    if (a.chartOrder) {
+      return a.chartOrder - b.chartOrder;
+    }
+    return 0;
   });
 
   // Create state for layer list visibility
@@ -102,6 +116,13 @@ export default function MapLayerList() {
         return true;
       }
       return false;
+    });
+
+    chartLayers.sort((a, b) => {
+      if (a.chartOrder) {
+        return a.chartOrder - b.chartOrder;
+      }
+      return 0;
     });
 
     if (chartLayers.length > 0) {

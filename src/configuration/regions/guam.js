@@ -54,6 +54,7 @@ export const guamConfig = {
       id: "GU_HubsTMS",
       layer: "Hubs TMS",
       label: "Resilience Hubs",
+      chartOrder: 1,
       chartLabel: "Resilience Hubs",
       chartInputName: "summary",
       ChartInputLabel: "Summary",
@@ -85,6 +86,7 @@ export const guamConfig = {
       id: "GU_HubsHexTMS",
       layer: "Hubs Hex TMS",
       label: "Resilience Hexagonal Grid",
+      chartOrder: 2,
       chartLabel: "Resilience Hexagonal Grid",
       chartInputName: "summary",
       ChartInputLabel: "Summary",
@@ -116,6 +118,7 @@ export const guamConfig = {
       id: "GU_ExposureTMS",
       layer: "Exposure TMS",
       label: "Community Exposure Index",
+      chartOrder: 3,
       chartLabel: "Community Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -147,6 +150,7 @@ export const guamConfig = {
       id: "GU_AssetsTMS",
       layer: "Assets TMS",
       label: "Community Asset Index",
+      chartOrder: 4,
       chartLabel: "Community Asset",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -178,6 +182,7 @@ export const guamConfig = {
       id: "GU_ThreatsTMS",
       layer: "Threats TMS",
       label: "Threat Index",
+      chartOrder: 5,
       chartLabel: "Threat",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -205,11 +210,11 @@ export const guamConfig = {
         "Index of flood-related datasets, including storm surge scenarios and landscape characteristics that exacerbate flood potential. High values in the Index represent those areas on the landscape where there are multiple high values of individual inputs.",
       region: "guam",
     },
-
     {
       id: "GU_FishAndWildlifeTMS",
       layer: "FishAndWildlife TMS",
       label: "Fish and Wildlife Index",
+      chartOrder: 6,
       chartLabel: "Fish and Wildlife",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -237,6 +242,7 @@ export const guamConfig = {
       id: "GU_AquaticTMS",
       layer: "Marine TMS",
       label: "Marine Index",
+      chartOrder: 7,
       chartLabel: "Marine",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -262,6 +268,7 @@ export const guamConfig = {
       id: "GU_TerrestrialTMS",
       layer: "Terrestrial TMS",
       label: "Terrestrial Index",
+      chartOrder: 8,
       chartLabel: "Terrestrial",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -287,6 +294,7 @@ export const guamConfig = {
       id: "GU_PopDensityTMS",
       layer: "Population Density TMS",
       label: "Population Density",
+      chartOrder: 11,
       chartLabel: "Population Density",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -312,6 +320,7 @@ export const guamConfig = {
       id: "GU_SocVulnTMS",
       layer: "Social Vulnerability TMS",
       label: "Social Vulnerability",
+      chartOrder: 12,
       chartLabel: "Social Vulnerability",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -336,6 +345,7 @@ export const guamConfig = {
       id: "GU_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",
       label: "Critical Facilities",
+      chartOrder: 9,
       chartLabel: "Critical Facilities",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -361,6 +371,7 @@ export const guamConfig = {
       id: "GU_CriticalInfrastructureTMS",
       layer: "Critical Infrastructure TMS",
       label: "Critical Infrastructure",
+      chartOrder: 10,
       chartLabel: "Critical Infrastructure",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -396,6 +407,7 @@ export const guamConfig = {
       id: "GU_DrainageTMS",
       layer: "Drainage TMS",
       label: "Impermeable Soils",
+      chartOrder: 15,
       chartLabel: "Impermeable Soils",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -422,6 +434,7 @@ export const guamConfig = {
       id: "GU_ErosionTMS",
       layer: "Erosion TMS",
       label: "Soil Erodibility",
+      chartOrder: 17,
       chartLabel: "Soil Erodibility",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -447,6 +460,7 @@ export const guamConfig = {
       id: "GU_SLRTMS",
       layer: "Sea Level Rise TMS",
       label: "Sea Level Rise",
+      chartOrder: 16,
       chartLabel: "Sea Level Rise",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -472,6 +486,7 @@ export const guamConfig = {
       id: "GU_WaveDrivenFloodingTMS",
       layer: "Wave Driven TMS",
       label: "Wave-Driven Flooding",
+      chartOrder: 18,
       chartLabel: "Wave Driven Flooding",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -496,6 +511,7 @@ export const guamConfig = {
       id: "GU_SlopeTMS",
       layer: "Slope TMS",
       label: "Areas of Low Slope",
+      chartOrder: 12,
       chartLabel: "Areas of Low Slope",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -521,6 +537,7 @@ export const guamConfig = {
       id: "GU_FloodProneAreasTMS",
       layer: "Flood Prone Areas TMS",
       label: "Flood-Prone Areas",
+      chartOrder: 13,
       chartLabel: "Flood Prone Areas",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -546,6 +563,7 @@ export const guamConfig = {
       id: "GU_TsunamiIndexTiles",
       layer: "Tsunami",
       label: "Tsunami",
+      chartOrder: 18,
       chartLabel: "Tsunami",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -568,6 +586,7 @@ export const guamConfig = {
       id: "GU_WaveExposureTiles",
       layer: "Wave Exposure",
       label: "Wave Exposure",
+      chartOrder: 19,
       chartLabel: "Wave Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -593,6 +612,7 @@ export const guamConfig = {
       id: "GU_LandslideIndexTiles",
       layer: "Landslides",
       label: "Geological Stressors",
+      chartOrder: 14,
       chartLabel: "Geological Stressors",
       chartCSSColor: {
         0: "#E9ECEF",
@@ -603,7 +623,7 @@ export const guamConfig = {
       },
       chartInputName: "threat",
       ChartInputLabel: "Threats Inputs",
-      chartCSSSelector: "geostress",
+      chartCSSSelector: "landslides",
       url: "https://tiles.resilientcoasts.org/GU_LandslideIndexTiles/{z}/{x}/{y}.png",
       attribution: "NFWF 2020",
       format: "image/png",
@@ -617,6 +637,7 @@ export const guamConfig = {
       id: "GU_landcover",
       layer: "landcover",
       label: "Landcover",
+      chartOrder: 21,
       chartLabel: "Landcover",
       isLegendCustom: true,
       chartCSSColor: [
@@ -799,7 +820,4 @@ export const guamConfig = {
     "lc_tundra",
     "lc_snow_ice",
   ],
-  statesList: ["Guam"],
-  countiesList: ["Guam, GU"],
-  huc8List: ["22010000"],
 };

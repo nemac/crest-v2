@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import * as L from "leaflet";
 import { FeatureGroup } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
@@ -87,9 +88,16 @@ export default function LeafletDrawTools(props) {
         */
         const geo =
           structuredClone(currentDrawn.geo) || structuredClone(feature);
-        const areaValid = !Object.values(
-          data.features[index].properties.mean,
-        ).includes("NaN");
+
+        const obj = data.features[index].properties.mean;
+        // one NaN is kicking out some good data so checking when they match out of region is all Nan's
+        const testForBadDataObj = Object.fromEntries(
+          Object.entries(obj).filter(([key]) => Number.isNaN(Number(obj[key]))),
+        );
+        const areaValid =
+          Object.entries(testForBadDataObj).length !==
+          Object.entries(obj).length;
+
         if (areaValid) {
           geo.properties.zonalStatsData = data.features[index].properties.mean;
           dispatch(addNewFeatureToDrawnLayers(geo));
@@ -97,9 +105,11 @@ export default function LeafletDrawTools(props) {
           setErrorState((previous) => ({
             ...previous,
             error: true,
-            errorTitle: "Draw Error",
-            errorMessage:
-              "The area of the drawn layer returned no data, and is most likely outside of the specified region.",
+            errorTitle: "Sketch an Area Error",
+            errorMessage: `The sketched area returned no data and is most likely outside the 
+              specified region (${selectedRegion}). Also, CREST 
+              currently includes areas near coastal areas, and the sketched area
+              may not fit within the coastal area assessed`,
           }));
         }
       });
@@ -121,9 +131,10 @@ export default function LeafletDrawTools(props) {
     return (
       <ModelErrors
         contentTitle={"Sketch an Area Error "}
-        contentMessage={
-          "There was an error in the area you sketched. Please try again."
-        }
+        contentMessage={`The sketched area returned no data and is most likely outside the 
+          specified region (${selectedRegion}). Also, CREST 
+          currently includes areas near coastal areas, and the sketched area
+          may not fit within the coastal area assessed`}
         buttonMessage="Dismiss"
         errorType={"error"} // error, warning, info, success (https://mui.com/material-ui/react-alert/)
         onClose={() => {

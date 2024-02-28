@@ -5,8 +5,15 @@ import SubGroup from "./SubGroup.jsx";
 
 export default function LayerGroup(props) {
   const { chartLayerList } = props;
+  const chartLayerListSorted = chartLayerList.sort((a, b) => {
+    if (a.chartOrder) {
+      return a.chartOrder - b.chartOrder;
+    }
+    return 0;
+  });
+
   const subListings = {};
-  chartLayerList.forEach((layer) => {
+  chartLayerListSorted.forEach((layer) => {
     if (!(layer.ChartInputSubHeading in subListings)) {
       subListings[layer.ChartInputSubHeading] = [layer];
     } else {
