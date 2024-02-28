@@ -67,7 +67,7 @@ export default function ChartDescriptionCard(props) {
         }}
       >
         <Typography variant="h6" component="div">
-          How &ldquo;{chartLabel}&rdquo; was caclulated
+          How &ldquo;{chartLabel}&rdquo; was calculated
         </Typography>
       </Grid>
       <Grid

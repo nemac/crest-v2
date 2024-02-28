@@ -235,7 +235,7 @@ export default function SearchCustom(props) {
       );
       const optionText = `Searching for an area matching "${newInputValue}"? 
         CREST includes areas near coastal areas, and areas 
-        matching "${newInputValue}" may not fit within the coastal area assessed, or is outside the curent region '${selectedRegion.replace("'", "''")}'`;
+        matching "${newInputValue}" may not fit within the coastal area assessed, or is outside the current region '${selectedRegion.replace("'", "''")}'`;
       setNoOptionsText(optionText);
       runQuerySearching(allQuery);
       setOpen(true);

@@ -9,7 +9,7 @@ import { sketchShapeThresholds } from "../../configuration/config";
 
 import {
   calculateAreaOfPolygon,
-  caclulatePolygonVertices,
+  calculatePolygonVertices,
   validPolygon,
 } from "../../utility/utilityFunctions";
 
@@ -71,7 +71,7 @@ export default function EditControlFC(props) {
         if (!validPolygon(geo)) {
           countInvalid += 1;
           const areaSize = calculateAreaOfPolygon(geo) / 1000000; // SQ KM
-          const numVertices = caclulatePolygonVertices(geo);
+          const numVertices = calculatePolygonVertices(geo);
           let invalidText = "";
           let fixText = "";
           let fixStatus = "";
@@ -80,12 +80,12 @@ export default function EditControlFC(props) {
             invalidText = errorShapeIsToBigAndShapeHasToManyVertices;
             fixText = fixShapeIsToBigAndShapeHasToManyVertices;
             fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km and the current number of vertices is ${numVertices.toFixed(0)}`;
-            fixStatusGoal = `and the size neeeds to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
+            fixStatusGoal = `and the size needs to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
           } else if (areaSize > areaThreshold) {
             invalidText = errorShapeIsToBig;
             fixText = fixShapeIsToBig;
             fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km`;
-            fixStatusGoal = `and the size neeeds to be less than ${areaThreshold}`;
+            fixStatusGoal = `and the size needs to be less than ${areaThreshold}`;
           } else if (numVertices > verticeThreshold) {
             invalidText = errorShapeHasToManyVertices;
             fixText = fixShapeHasToManyVertices;
@@ -203,25 +203,25 @@ export default function EditControlFC(props) {
       // update size and make sure we have invalid properties
       layer.setStyle({ color: "red" });
       const areaSize = calculateAreaOfPolygon(geo) / 1000000;
-      const numVertices = caclulatePolygonVertices(geo);
+      const numVertices = calculatePolygonVertices(geo);
       if (areaSize > areaThreshold && numVertices > verticeThreshold) {
         invalidText = errorShapeIsToBigAndShapeHasToManyVertices;
         fixText = fixShapeIsToBigAndShapeHasToManyVertices;
         fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km and the current number of vertices is ${numVertices.toFixed(0)}`;
-        fixStatusGoal = `and the size neeeds to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
-        thisStep.howFixedText = "EDITIED VERTEX";
+        fixStatusGoal = `and the size needs to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
+        thisStep.howFixedText = "EDITED VERTEX";
       } else if (areaSize > areaThreshold) {
         invalidText = errorShapeIsToBig;
         fixText = fixShapeIsToBig;
         fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km`;
-        fixStatusGoal = `and the size neeeds to be less than ${areaThreshold}`;
-        thisStep.howFixedText = "EDITIED VERTEX";
+        fixStatusGoal = `and the size needs to be less than ${areaThreshold}`;
+        thisStep.howFixedText = "EDITED VERTEX";
       } else if (numVertices > verticeThreshold) {
         invalidText = errorShapeHasToManyVertices;
         fixText = fixShapeHasToManyVertices;
         fixStatus = `The current number of vertices is ${numVertices.toFixed(0)}`;
         fixStatusGoal = `and the number of vertices needs to be less than ${verticeThreshold}`;
-        thisStep.howFixedText = "EDITIED VERTEX";
+        thisStep.howFixedText = "EDITED VERTEX";
       }
       thisStep.color = "red";
       if (thisStep) {
@@ -262,25 +262,25 @@ export default function EditControlFC(props) {
         thisStep.howFixedText = "FIXED";
       } else {
         const areaSize = calculateAreaOfPolygon(geo) / 1000000;
-        const numVertices = caclulatePolygonVertices(geo);
+        const numVertices = c(geo);
         if (areaSize > areaThreshold && numVertices > verticeThreshold) {
           invalidText = errorShapeIsToBigAndShapeHasToManyVertices;
           fixText = fixShapeIsToBigAndShapeHasToManyVertices;
           fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km and the current number of vertices is ${numVertices.toFixed(0)}`;
-          fixStatusGoal = `and the size neeeds to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
-          thisStep.howFixedText = "EDITIED VERTEX";
+          fixStatusGoal = `and the size needs to be less than ${areaThreshold} and the number of vertices needs to be less than ${verticeThreshold}`;
+          thisStep.howFixedText = "EDITED VERTEX";
         } else if (areaSize > areaThreshold) {
           invalidText = errorShapeIsToBig;
           fixText = fixShapeIsToBig;
           fixStatus = `The current size of the area is ${areaSize.toFixed(0)} sq km`;
-          fixStatusGoal = `and the size neeeds to be less than ${areaThreshold}`;
-          thisStep.howFixedText = "EDITIED VERTEX";
+          fixStatusGoal = `and the size needs to be less than ${areaThreshold}`;
+          thisStep.howFixedText = "EDITED VERTEX";
         } else if (numVertices > verticeThreshold) {
           invalidText = errorShapeHasToManyVertices;
           fixText = fixShapeHasToManyVertices;
           fixStatus = `The current number of vertices is ${numVertices.toFixed(0)}`;
           fixStatusGoal = `and the number of vertices needs to be less than ${verticeThreshold}`;
-          if (thisStep) thisStep.howFixedText = "EDITIED VERTEX";
+          if (thisStep) thisStep.howFixedText = "EDITED VERTEX";
         }
         layer.setStyle({ color: "red" });
         if (thisStep) {

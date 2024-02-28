@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import * as esri from "esri-leaflet";
 import { CameraAlt } from "@mui/icons-material";
 
-// this not good practice but not time to resolve it and its not that imporant
+// this not good practice but not time to resolve it and its not that important
 /* eslint-disable no-unneeded-ternary */
 
 import GenericMapHolder from "../components/Map/GenericMapHolder.jsx";

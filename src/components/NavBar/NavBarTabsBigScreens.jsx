@@ -71,7 +71,7 @@ export default function NavBarTabsBigScreens(props) {
               allowScrollButtonsMobile={true}
               value={navBar.activeTab}
               onChange={handleClickNavTab}
-              aria-label="CREST Nabigation Tabs"
+              aria-label="CREST Navigation Tabs"
             >
               <LinkTab
                 value="Home"

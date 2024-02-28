@@ -206,7 +206,7 @@ export default function NavBarTabsSmallScreens(props) {
 
               <List
                 value={navBar.activeTab}
-                aria-label="CREST Nabigation Tabs"
+                aria-label="CREST Navigation Tabs"
                 sx={{ paddingTop: "0px" }}
               >
                 <Paper
