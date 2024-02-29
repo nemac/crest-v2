@@ -146,6 +146,8 @@ export default function ChartCard(props) {
     }
   }
 
+  const landcoverDataSort = landcoverData.sort((a, b) => a.value - b.value);
+
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 
@@ -282,7 +284,7 @@ export default function ChartCard(props) {
                     />
                   ) : (
                     <ResiliencePieChart
-                      data={landcoverData}
+                      data={landcoverDataSort}
                       legendColors={pieChartLegendColors}
                       chartTitle={feature.properties.areaName.toString()}
                       chartType={"Landcover"}

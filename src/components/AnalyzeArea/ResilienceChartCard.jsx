@@ -18,13 +18,15 @@ const pieChartLegendColors = mapConfig.resiliencePieChartLegend;
 
 export default function ChartCard(props) {
   const { chartData, chartActionButtons, coreHubScore, hasCoreData } = props;
-  // very hacky and also changes overal perentages (by 1% so no reall a big deal)
-  //     but avoids label - key erorrs
+  // very hacky and also changes overall percentages (by 1% so no real a big deal)
+  //     but avoids label - key errors
   const chartDataAdjust = chartData.map((feature) => {
     const value = feature.value === 0 ? 0.00001 : feature.value;
     const name = feature.name;
     return { name, value };
   });
+
+  const chartDataAdjustSort = chartDataAdjust.sort((a, b) => a.value - b.value);
 
   return (
     <StyledBackgroundBox mr={1}>
@@ -77,7 +79,7 @@ export default function ChartCard(props) {
             <Grid xs={12} mx={1} sx={{ height: "320px" }}>
               <ResiliencePieChart
                 coreHubScore={coreHubScore}
-                data={chartDataAdjust}
+                data={chartDataAdjustSort}
                 legendColors={pieChartLegendColors}
                 showLegend={true}
                 chartType={"Core Variability"}
