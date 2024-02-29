@@ -84,7 +84,7 @@ export default function AnalyzeBarChart(props) {
     chartIndices.forEach((element, i) => {
       const value =
         zonalStatsData[element] === "NaN"
-          ? 0.000000000001
+          ? null
           : zonalStatsData[element] === 0
             ? 0.000000000001
             : zonalStatsData[element];

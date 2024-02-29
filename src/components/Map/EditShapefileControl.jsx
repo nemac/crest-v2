@@ -262,7 +262,7 @@ export default function EditControlFC(props) {
         thisStep.howFixedText = "FIXED";
       } else {
         const areaSize = calculateAreaOfPolygon(geo) / 1000000;
-        const numVertices = c(geo);
+        const numVertices = calculatePolygonVertices(geo);
         if (areaSize > areaThreshold && numVertices > verticeThreshold) {
           invalidText = errorShapeIsToBigAndShapeHasToManyVertices;
           fixText = fixShapeIsToBigAndShapeHasToManyVertices;
