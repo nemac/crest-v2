@@ -175,11 +175,14 @@ const StyledSearchBox = styled(Box)(({ theme }) => ({
 }));
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
 export default function SearchCustom(props) {
   const { map } = props;
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
+  const drawnLayers = useSelector(drawnLayersSelector);
+
   const regionConfig = mapConfig.regions[selectedRegion];
   const [open, setOpen] = React.useState(false);
   const [aPlaceFound, setAPlaceFound] = React.useState(false);
@@ -215,6 +218,11 @@ export default function SearchCustom(props) {
     setThePlaceFound(
       `Found an an area matching "${feature.properties.search_field}"`,
     );
+    // check for custom area already added
+    const isFeatureAdded = drawnLayers.features.filter(
+      (key) => key.properties.search_field === feature.properties.search_field,
+    );
+    if (isFeatureAdded.length > 0) return;
     // eslint-disable-next-line no-param-reassign
     feature.properties.NAME = feature.properties.search_field;
     // eslint-disable-next-line no-param-reassign

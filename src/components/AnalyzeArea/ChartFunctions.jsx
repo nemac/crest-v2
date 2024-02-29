@@ -73,7 +73,7 @@ export const handleExportAllCSV = (event, chartData) => {
       const thisRow = [];
       thisRow.push(feature.properties.areaName);
       thisRow.push(getLabel(feature.properties.region, key)); // need to get label here
-      thisRow.push(Number.isNaN(Number(value)) ? "0.0" : value.toFixed(3)); // need to get value here
+      thisRow.push(Number.isNaN(Number(value)) ? 0.0 : value.toFixed(3)); // need to get value here
       thisRow.push(getRange(feature.properties.region, key)); // need to get range here
       dataRows.push(thisRow);
       return thisRow;
