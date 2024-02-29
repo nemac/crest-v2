@@ -21,43 +21,27 @@ import basemapImageryImage from "../assets/images/basemap-imagery.png";
 import basemapStreetImage from "../assets/images/basemap-street.jpg";
 import basemapTopoImage from "../assets/images/basemap-topo.jpg";
 
-export const betaIdentifyEndpoint =
-  "https://api.resilientcoasts.org/beta/identify/";
-export const prodIdentifyEndpoint =
-  "https://api.resilientcoasts.org/prod/identify/";
+const environment = "beta" // change to "prod" for production
 
-export const betaReadGeojsonEndpoint =
-  "https://api.resilientcoasts.org/beta/read_geojson";
-export const prodReadGeojsonEndpoint =
-  "https://api.resilientcoasts.org/prod/read_geojson";
+export const identifyEndpoint =
+  `https://api.resilientcoasts.org/${environment}/identify/`;
 
-// endpoints for reading share links from s3
-export const betaShareLinkReadEndpoint =
-  "https://api.resilientcoasts.org/beta/read_s3";
-export const prodShareLinkReadEndpoint =
-  "https://api.resilientcoasts.org/prod/read_s3";
+export const shareLinkReadEndpoint =
+  `https://api.resilientcoasts.org/${environment}/read_s3`;
 
-// endpoints for writing share links to s3
-export const betaShareLinkWriteEndpoint =
-  "https://api.resilientcoasts.org/beta/write_s3";
-export const prodShareLinkWriteEndpoint =
-  "https://api.resilientcoasts.org/prod/write_s3";
+export const shareLinkWriteEndpoint =
+  `https://api.resilientcoasts.org/${environment}/write_s3`;
 
-export const betaUploadShapeEndpoint =
-  "https://api.resilientcoasts.org/beta/upload_shape";
-export const prodUploadShapeEndpoint =
-  "https://api.resilientcoasts.org/prod/upload_shape";
+export const uploadShapeEndpoint =
+  `https://api.resilientcoasts.org/${environment}/upload_shape`;
 
-export const betaZonalStatsEndpoint =
-  "https://api.resilientcoasts.org/beta/zonal_stats";
-export const prodZonalStatsEndpoint =
-  "https://api.resilientcoasts.org/prod/zonal_stats";
+export const zonalStatsEndpoint =
+  `https://api.resilientcoasts.org/${environment}/zonal_stats`;
 
-// these endpoints are functionally equivalent to the zonal stats but have longer timeouts
-export const betaZonalStatsLambdaEndpoint =
-  "https://5pdq4jsx6i7isl3pmhf3x6ouym0zjnfb.lambda-url.us-east-1.on.aws/";
-export const prodZonalStatsLambdaEndpoint =
-  "https://7bhdz7i43pe6fircjvkv3la6ry0tdaip.lambda-url.us-east-1.on.aws/";
+// this endpoint is functionally equivalent to the zonal stats but has a longer timeout
+export const zonalStatsLambdaEndpoint = environment === 'beta' ?
+  'https://5pdq4jsx6i7isl3pmhf3x6ouym0zjnfb.lambda-url.us-east-1.on.aws/' : // beta
+  'https://7bhdz7i43pe6fircjvkv3la6ry0tdaip.lambda-url.us-east-1.on.aws/' // prod
 
 export const s3ShapeFileBucket =
   "https://nfwf-tool-user-shapes.s3.amazonaws.com/";

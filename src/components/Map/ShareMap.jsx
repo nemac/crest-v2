@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { betaShareLinkWriteEndpoint } from "../../configuration/config";
+import { shareLinkWriteEndpoint } from "../../configuration/config";
 import { updateAllMapProperties } from "../../reducers/mapPropertiesSlice";
 import { updateAllAnalyze } from "../../reducers/analyzeAreaSlice";
 import { updateAllRegion } from "../../reducers/regionSelectSlice";
@@ -7,12 +7,9 @@ import { updateAllNavbar } from "../../reducers/NavBarSlice";
 import { updateAllMapLayerList } from "../../reducers/mapLayerListSlice";
 import { loadState } from "../../localStorage";
 
-const endpoint = betaShareLinkWriteEndpoint;
-// const endpoint = prodShareLinkWriteEndpoint;
-
 export const createShareURL = () => {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", endpoint);
+  xhr.open("POST", shareLinkWriteEndpoint);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   const uuid = v4();
   const date = new Date();
