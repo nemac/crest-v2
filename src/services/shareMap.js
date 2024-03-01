@@ -1,16 +1,12 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { betaShareLinkEndpoint } from "../configuration/config";
-
-// uncomment the endpoint you want to use and comment out the other
-const endpoint = betaShareLinkEndpoint;
-// const endpoint = prodShareLinkEndpoint;
+import { shareLinkReadEndpoint } from "../configuration/config";
 
 // Define a service using a base URL and expected endpoints
 export const shareMapApi = createApi({
   reducerPath: "shareMapApi",
-  baseQuery: fetchBaseQuery({ baseUrl: endpoint }),
+  baseQuery: fetchBaseQuery({ baseUrl: shareLinkReadEndpoint }),
   endpoints: (builder) => ({
     getShareMap: builder.query({
       query: ({ shareUrl }) => ({

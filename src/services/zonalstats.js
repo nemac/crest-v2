@@ -1,17 +1,15 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { betaZonalStatsLambdaEndpoint } from "../configuration/config";
-
-// uncomment the endpoint you want to use and comment out the other
-// const endpoint = betaZonalStatsEndpoint;
-const endpoint = betaZonalStatsLambdaEndpoint;
-// const endpoint = prodZonalStatsEndpoint;
+import { zonalStatsLambdaEndpoint } from "../configuration/config";
 
 // Define a service using a base URL and expected endpoints
 export const zonalStatsApi = createApi({
   reducerPath: "zonalStatsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: endpoint, timeout: 100000 }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: zonalStatsLambdaEndpoint,
+    timeout: 100000,
+  }),
   endpoints: (builder) => ({
     getZonalStats: builder.query({
       query: ({ region, queryData }) => ({
