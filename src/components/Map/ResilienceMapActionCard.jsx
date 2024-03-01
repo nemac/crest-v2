@@ -25,7 +25,7 @@ export default function ResilienceMapActionCard(props) {
     >
       <Grid xs={12}>
         <Box
-          px={1}
+          px={3}
           py={0.75}
           sx={{
             display: "flex",
