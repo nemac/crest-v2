@@ -6,7 +6,10 @@ import { zonalStatsLambdaEndpoint } from "../configuration/config";
 // Define a service using a base URL and expected endpoints
 export const zonalStatsApi = createApi({
   reducerPath: "zonalStatsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: zonalStatsLambdaEndpoint, timeout: 100000 }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: zonalStatsLambdaEndpoint,
+    timeout: 100000,
+  }),
   endpoints: (builder) => ({
     getZonalStats: builder.query({
       query: ({ region, queryData }) => ({

@@ -21,27 +21,23 @@ import basemapImageryImage from "../assets/images/basemap-imagery.png";
 import basemapStreetImage from "../assets/images/basemap-street.jpg";
 import basemapTopoImage from "../assets/images/basemap-topo.jpg";
 
-const environment = "beta" // change to "prod" for production
+const environment = "beta"; // change to "prod" for production
 
-export const identifyEndpoint =
-  `https://api.resilientcoasts.org/${environment}/identify/`;
+export const identifyEndpoint = `https://api.resilientcoasts.org/${environment}/identify/`;
 
-export const shareLinkReadEndpoint =
-  `https://api.resilientcoasts.org/${environment}/read_s3`;
+export const shareLinkReadEndpoint = `https://api.resilientcoasts.org/${environment}/read_s3`;
 
-export const shareLinkWriteEndpoint =
-  `https://api.resilientcoasts.org/${environment}/write_s3`;
+export const shareLinkWriteEndpoint = `https://api.resilientcoasts.org/${environment}/write_s3`;
 
-export const uploadShapeEndpoint =
-  `https://api.resilientcoasts.org/${environment}/upload_shape`;
+export const uploadShapeEndpoint = `https://api.resilientcoasts.org/${environment}/upload_shape`;
 
-export const zonalStatsEndpoint =
-  `https://api.resilientcoasts.org/${environment}/zonal_stats`;
+export const zonalStatsEndpoint = `https://api.resilientcoasts.org/${environment}/zonal_stats`;
 
 // this endpoint is functionally equivalent to the zonal stats but has a longer timeout
-export const zonalStatsLambdaEndpoint = environment === 'beta' ?
-  'https://5pdq4jsx6i7isl3pmhf3x6ouym0zjnfb.lambda-url.us-east-1.on.aws/' : // beta
-  'https://7bhdz7i43pe6fircjvkv3la6ry0tdaip.lambda-url.us-east-1.on.aws/' // prod
+export const zonalStatsLambdaEndpoint =
+  environment === "beta"
+    ? "https://5pdq4jsx6i7isl3pmhf3x6ouym0zjnfb.lambda-url.us-east-1.on.aws/" // beta
+    : "https://7bhdz7i43pe6fircjvkv3la6ry0tdaip.lambda-url.us-east-1.on.aws/"; // prod
 
 export const s3ShapeFileBucket =
   "https://nfwf-tool-user-shapes.s3.amazonaws.com/";

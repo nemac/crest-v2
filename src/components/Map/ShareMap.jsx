@@ -13,7 +13,7 @@ export const createShareURL = () => {
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   const uuid = v4();
   const date = new Date();
-  const monthString = date.toLocaleString('default', { month: 'short' });
+  const monthString = date.toLocaleString("default", { month: "short" });
   const padL = (nr, len = 2, chr = "0") => `${nr}`.padStart(2, chr);
   const dateString = `_${date.getFullYear()}-${padL(monthString)}-${padL(date.getDate())}`;
   const shareUrlString = uuid.concat(dateString);
