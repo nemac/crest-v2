@@ -41,7 +41,7 @@ export default function Example(props) {
       variant="outlined"
       sx={{
         "&": (theme) => ({
-          padding: theme.spacing(1),
+          padding: theme.spacing(2),
           backgroundColor: theme.palette.CRESTGridBackground.dark,
           color: theme.palette.CRESTGridBackground.contrastText,
           borderColor: theme.palette.CRESTBorderColor.main,

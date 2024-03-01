@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/system";
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(1),
+  padding: theme.spacing(3),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   color: theme.palette.CRESTGridBackground.contrastText,
   height: "100%",
