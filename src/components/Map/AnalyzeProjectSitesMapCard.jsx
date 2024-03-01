@@ -204,19 +204,21 @@ export default function MapCard(props) {
     }));
   };
 
+  const escapeSelector = (selector) => (selector.replace(/[()]/g, '\\\$&'));
+
   const handleMouseover = (overColor, areaName) => (event) => {
     const { target } = event;
     target.setStyle({
       color: overColor,
     });
     const boxID = `#box-${areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`;
-    const moreGraphElem = document.querySelector(boxID);
+    const moreGraphElem = document.querySelector(escapeSelector(boxID));
     if (moreGraphElem) moreGraphElem.style.border = `2px solid ${overColor}`;
   };
 
   const handleAreaClick = (areaName) => (event) => {
     const elemID = `#btn-more-less-${areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`;
-    const moreLessButton = document.querySelector(elemID);
+    const moreLessButton = document.querySelector(escapeSelector(elemID));
     if (moreLessButton) {
       moreLessButton.click();
       moreLessButton.scrollIntoView({ block: "end", inline: "end" });
@@ -229,7 +231,7 @@ export default function MapCard(props) {
       color: outColor,
     });
     const boxID = `#box-${areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`;
-    const moreGraphElem = document.querySelector(boxID);
+    const moreGraphElem = document.querySelector(escapeSelector(boxID));
     if (moreGraphElem) moreGraphElem.style.border = "1px solid #555555";
   };
 
