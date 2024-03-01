@@ -88,11 +88,8 @@ const ContentBox = styled(Box)(({ theme }) => ({
   width: "100%",
   height: "160px",
   maxHeight: "160px",
-  padding: theme.spacing(0),
+  padding: theme.spacing(1),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
-  borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: "solid",
-  borderWidth: "1px",
   justifyContent: "center",
   alignItems: "center",
 }));
@@ -199,6 +196,7 @@ export default function ShowIdentifyPopup(props) {
               >
                 <ContentBox components="fieldset">
                   <AnalyzeBarChart
+                    areaName={""}
                     chartRegion={region}
                     chartIndices={summaryIndices}
                     zonalStatsData={identifyItems}
