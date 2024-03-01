@@ -204,7 +204,7 @@ export default function MapCard(props) {
     }));
   };
 
-  const escapeSelector = (selector) => (selector.replace(/[()]/g, '\\\$&'));
+  const escapeSelector = (selector) => selector.replace(/[()]/g, "\\$&");
 
   const handleMouseover = (overColor, areaName) => (event) => {
     const { target } = event;
