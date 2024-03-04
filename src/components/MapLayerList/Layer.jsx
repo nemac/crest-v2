@@ -69,7 +69,9 @@ export default function Layer(props) {
             <Grid
               item
               xs={10}
-              p={0}
+              pr={0}
+              py={0}
+              pl={{ sm: 0, md: 1, lg: 1 }}
               m={0}
               sx={{ alignItems: "center", display: "flex" }}
             >
