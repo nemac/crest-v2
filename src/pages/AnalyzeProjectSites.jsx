@@ -8,7 +8,7 @@ import GenericMapHolder from "../components/Map/GenericMapHolder.jsx";
 import MapActionCard from "../components/Map/MapActionCard.jsx";
 import EmptyState from "../components/AnalyzeArea/EmptyStateAnalyzeProject.jsx";
 import ChartsHolder from "../components/AnalyzeArea/AnalyzeProjectSitesChartsHolder.jsx";
-import MapCard from "../components/Map/AnalyzeProjectSitesMapCard.jsx";
+import AnalyzeProjectSitesMapCard from "../components/Map/AnalyzeProjectSitesMapCard.jsx";
 import ShapeFileCorrectionMap from "../components/Map/ShapeFileCorrectionMap.jsx";
 import { UpdateRedux } from "../components/Map/ShareMap.jsx";
 import { useGetShareMapQuery } from "../services/shareMap";
@@ -162,7 +162,7 @@ export default function AnalyzeProjectSite(props) {
         tableData="Insert Table Data Here"
         mapCard={
           <React.Fragment>
-            <MapCard
+            <AnalyzeProjectSitesMapCard
               map={map}
               setMap={setMap}
               leafletFeatureGroupRef={leafletFeatureGroupRef}
