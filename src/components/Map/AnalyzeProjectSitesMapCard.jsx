@@ -47,7 +47,7 @@ const identifyIsLoadedSelector = (state) =>
 const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
 const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
-export default function MapCard(props) {
+export default function AnalyzeProjectSitesMapCard(props) {
   const {
     map,
     setMap,
