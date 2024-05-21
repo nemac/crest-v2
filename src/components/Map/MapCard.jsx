@@ -2,9 +2,22 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useMapEvents } from "react-leaflet";
+import { styled } from "@mui/system";
+import { Box } from "@mui/material";
+
 import LeafletMapContainer from "./LeafletMapContainer.jsx";
 import ActiveTileLayers from "./ActiveTileLayers.jsx";
 import BasemapLayer from "./BasemapLayer.jsx";
+import ActionButtons from "./ActionButtons.jsx";
+
+const ContentMapBox = styled(Box)(({ theme }) => ({
+  height: "100%",
+  padding: theme.spacing(0),
+  backgroundColor: theme.palette.CRESTGridBackground.dark,
+  borderColor: theme.palette.CRESTBorderColor.main,
+  borderStyle: "solid",
+  borderWidth: "1px",
+}));
 
 export default function MapCard({ children, map, setMap, mapEventHandlers }) {
   const selectedCenterSelector = (state) => state.mapProperties.center;
@@ -31,12 +44,15 @@ export default function MapCard({ children, map, setMap, mapEventHandlers }) {
   };
 
   return (
-    <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-      {children}
-      <ActiveTileLayers />
-      <BasemapLayer map={map} />
-      <MapEventsComponent />
-    </LeafletMapContainer>
+    <ContentMapBox>
+      <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
+        {children}
+        <ActiveTileLayers />
+        <BasemapLayer map={map} />
+        <MapEventsComponent />
+      </LeafletMapContainer>
+      <ActionButtons map={map} />
+    </ContentMapBox>
   );
 }
 
