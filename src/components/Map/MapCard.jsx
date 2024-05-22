@@ -32,5 +32,5 @@ MapCard.propTypes = {
   map: PropTypes.object,
   setMap: PropTypes.func,
   mapEventHandlers: PropTypes.objectOf(PropTypes.func),
-  children: PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.node,
 };
