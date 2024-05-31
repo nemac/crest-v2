@@ -130,50 +130,45 @@ export default function AnalyzeProjectSite(props) {
   }
 
   return (
-    <>
-      <GenericMapHolder
-        map={map}
-        isItAGraph={analyzeAreaState.isItAGraph}
-        leftColumn={
-          <AnalyzeProjectSiteLeftColumn
-            mapActionCard={
-              <MapActionCard
-                map={map}
-                drawAreaDisabled={drawAreaDisabled}
-                setGeoToRedraw={setGeoToRedraw}
-                setErrorState={setErrorState}
-              />
-            }
-            chartCard={
-              <ChartsHolder
-                map={map}
-                featureGroupRef={leafletFeatureGroupRef}
-                setHover={setHover}
-                chartData={
-                  featuresForCurrentRegion.length > 0
-                    ? featuresForCurrentRegion
-                    : null
-                }
-              />
-            }
-            noDataState={<EmptyState />}
-          />
-        }
-        tableData="Insert Table Data Here"
-        mapCard={
-          <React.Fragment>
-            <AnalyzeProjectSitesMapCard
+    <GenericMapHolder
+      isItAGraph={analyzeAreaState.isItAGraph}
+      leftColumn={
+        <AnalyzeProjectSiteLeftColumn
+          mapActionCard={
+            <MapActionCard
               map={map}
-              setMap={setMap}
-              leafletFeatureGroupRef={leafletFeatureGroupRef}
-              setDrawAreaDisabled={setDrawAreaDisabled}
-              hover={hover}
+              drawAreaDisabled={drawAreaDisabled}
+              setGeoToRedraw={setGeoToRedraw}
               setErrorState={setErrorState}
             />
-          </React.Fragment>
-        }
-      />
-    </>
+          }
+          chartCard={
+            <ChartsHolder
+              map={map}
+              featureGroupRef={leafletFeatureGroupRef}
+              setHover={setHover}
+              chartData={
+                featuresForCurrentRegion.length > 0
+                  ? featuresForCurrentRegion
+                  : null
+              }
+            />
+          }
+          noDataState={<EmptyState />}
+        />
+      }
+      tableData="Insert Table Data Here"
+      mapCard={
+        <AnalyzeProjectSitesMapCard
+          map={map}
+          setMap={setMap}
+          leafletFeatureGroupRef={leafletFeatureGroupRef}
+          setDrawAreaDisabled={setDrawAreaDisabled}
+          hover={hover}
+          setErrorState={setErrorState}
+        />
+      }
+    />
   );
 }
 

@@ -1,11 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { styled } from "@mui/system";
 import PropTypes from "prop-types";
 
-import ActionButtons from "./ActionButtons.jsx";
 import MapLayerList from "../MapLayerList/MapLayerList.jsx";
 import { ThreeColumnGrid } from "../All/StyledComponents.jsx";
 
@@ -22,19 +20,10 @@ const ContentHolderGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
-const ContentMapBox = styled(Box)(({ theme }) => ({
-  height: "100%",
-  padding: theme.spacing(0),
-  backgroundColor: theme.palette.CRESTGridBackground.dark,
-  borderColor: theme.palette.CRESTBorderColor.main,
-  borderStyle: "solid",
-  borderWidth: "1px",
-}));
-
 const listVisibleSelector = (state) => state.mapLayerList.visible;
 
 export default function GenericMapHolder(props) {
-  const { leftColumn, mapCard, map } = props;
+  const { leftColumn, mapCard } = props;
   const layerListVisible = useSelector(listVisibleSelector);
 
   return (
@@ -73,10 +62,7 @@ export default function GenericMapHolder(props) {
         xl={layerListVisible ? 6.25 : 9}
         order={{ xs: 1, sm: 1, md: 2 }}
       >
-        <ContentMapBox>
-          {mapCard}
-          <ActionButtons map={map} />
-        </ContentMapBox>
+        {mapCard}
       </ThreeColumnGrid>
 
       {/* RIGHT COLUMN FOR LAYER LIST */}
@@ -101,5 +87,4 @@ export default function GenericMapHolder(props) {
 GenericMapHolder.propTypes = {
   leftColumn: PropTypes.node,
   mapCard: PropTypes.node,
-  map: PropTypes.object,
 };
