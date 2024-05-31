@@ -34,8 +34,6 @@ const regions = mapConfig.regions;
 // selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
-const areaVisibleSelector = (state) => state.mapProperties.areaVisible;
-const listVisibleSelector = (state) => state.mapLayerList.visible;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 const identifyCoordinatesSelector = (state) =>
   state.mapProperties.identifyCoordinates;
@@ -59,8 +57,6 @@ export default function AnalyzeProjectSitesMapCard(props) {
   const dispatch = useDispatch();
   // setting "() => true" for both center and zoom ensures that value is only read from store once
 
-  const areaVisible = useSelector(areaVisibleSelector);
-  const layerListVisible = useSelector(listVisibleSelector);
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
   const drawnFromState = useSelector(drawnLayersSelector);
@@ -125,14 +121,6 @@ export default function AnalyzeProjectSitesMapCard(props) {
     },
     [map, dispatch],
   );
-
-  useEffect(() => {
-    let timer;
-    if (map) {
-      timer = setTimeout(() => map.invalidateSize(), 10);
-    }
-    return () => clearTimeout(timer);
-  }, [map, areaVisible, layerListVisible]);
 
   useEffect(() => {
     handleRegionChange(selectedRegion, userInitiatedRegion);
