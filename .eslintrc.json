@@ -37,6 +37,7 @@
       "object": false
     }, {
       "enforceForRenamedProperties": false
-    }]
+    }],
+    "allowTernary": true
   }
 }

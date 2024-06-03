@@ -176,10 +176,10 @@ export default function ChartCard(props) {
         // export all or just summary map depending on expanded details
         if (analyzeAreaState.isMore[feature.properties.areaName]) {
           Object.entries(chartValues).map(([key, value]) =>
-            handleExportImage(key),
+            handleExportImage(`${key}-${feature.properties.areaName}`),
           );
         } else {
-          handleExportImage("Summary Chart");
+          handleExportImage(`Summary Chart-${feature.properties.areaName}`);
         }
       },
       icon: <CameraAlt />,
@@ -310,7 +310,7 @@ export default function ChartCard(props) {
                     buttonLabel: "Export",
                     buttonName: "Export",
                     onClick: () => {
-                      handleExportImage(key);
+                      handleExportImage(`${key}-${feature.properties.areaName}`);
                     },
                     icon: <CameraAlt />,
                   },
