@@ -146,7 +146,9 @@ export default function ResiliencePieChart(props) {
               {chartType}
             </tspan>
           ) : (
-            <></>
+            <tspan x="200" dy={"-1%"} style={{ fontSize: "1.25rem" }}>
+              {chartType}
+            </tspan>
           )}
         </text>
         )

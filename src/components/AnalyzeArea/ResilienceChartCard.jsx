@@ -64,18 +64,6 @@ export default function ChartCard(props) {
         </Grid>
         {hasCoreData ? (
           <Grid xs={12} px={0} pb={0} sx={{ width: "100%", height: "375px" }}>
-            <Grid xs={12}>
-              <Typography
-                variant="body"
-                component="div"
-                justifyContent="center"
-                alignItems="center"
-                p={1}
-                sx={{ display: "flex" }}
-              >
-                Core Variability
-              </Typography>
-            </Grid>
             <Grid xs={12} mx={1} sx={{ height: "320px" }}>
               <ResiliencePieChart
                 coreHubScore={coreHubScore}
