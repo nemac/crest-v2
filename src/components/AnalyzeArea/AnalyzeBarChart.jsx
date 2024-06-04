@@ -141,11 +141,11 @@ export default function AnalyzeBarChart(props) {
   // const thisChartData = analyzeAreaState.chartSortASC ? sortedChartData : chartData;
   return (
     <ResponsiveContainer
-      id={`${chartType}-container`}
+      id={`${chartType}-${areaName}-container`}
       style={{ overflow: "visible", paddingTop: "8px", marginBottom: "16px" }}
     >
       <BarChart
-        id={`${chartType}-barchart`}
+        id={`${chartType}-${areaName}-barchart`}
         onClick={handleChartClick}
         data={chartData}
         margin={barchartMargin}

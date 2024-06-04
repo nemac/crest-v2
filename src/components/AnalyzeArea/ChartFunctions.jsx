@@ -31,6 +31,22 @@ export const handleExportImage = async (chartType) => {
   });
 };
 
+// This feels poorly done and should be refactored
+// Not great that the chart types are hardcoded and each called individually
+export const exportAllImages = (event, chartData, isMore) => {
+  event.stopPropagation();
+  chartData.forEach((feature) => {
+    const areaName = feature.properties.areaName;
+    handleExportImage(`Summary Chart-${areaName}`);
+    if (isMore[areaName]) {
+      handleExportImage(`Fish and Wildlife Inputs-${areaName}`);
+      handleExportImage(`Threats Inputs-${areaName}`);
+      handleExportImage(`Community Assets Inputs-${areaName}`);
+      handleExportImage(`Landcover-${areaName}`);
+    }
+  });
+};
+
 export const getLabel = (region, name) => {
   const thisLabelOBJ = mapConfig.regions[region].layerList.find(
     (layer) => layer.chartCSSSelector === name,

@@ -27,6 +27,7 @@
   "ignorePatterns": ["*.test*.js"],
   "rules": {
     "no-underscore-dangle": ["off"],
+    "no-unused-expressions": ["error", { "allowTernary": true }],
     "no-unused-vars": ["error", { "args": "none" }],
     "import/prefer-default-export": 0,
     "import/named": 0,
