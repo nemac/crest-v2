@@ -35,7 +35,7 @@ export const handleExportImage = async (chartType) => {
 // Not great that the chart types are hardcoded and each called individually
 export const exportAllImages = (event, chartData, isMore) => {
   event.stopPropagation();
-  chartData.map((feature) => {
+  chartData.forEach((feature) => {
     const areaName = feature.properties.areaName;
     handleExportImage(`Summary Chart-${areaName}`);
     if (isMore[areaName]) {
