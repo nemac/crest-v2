@@ -310,7 +310,9 @@ export default function ChartCard(props) {
                     buttonLabel: "Export",
                     buttonName: "Export",
                     onClick: () => {
-                      handleExportImage(`${key}-${feature.properties.areaName}`);
+                      handleExportImage(
+                        `${key}-${feature.properties.areaName}`,
+                      );
                     },
                     icon: <CameraAlt />,
                   },

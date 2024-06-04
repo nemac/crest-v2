@@ -14,7 +14,11 @@ import ChartCard from "./AnalyzeProjectSitesChartCard.jsx";
 import ChartHeaderActionButtons from "./ChartHeaderActionButtons.jsx";
 import TableData from "./AnalyzeProjectSitesTableData.jsx";
 import { ChartSort } from "./ChartSort.jsx";
-import { handleExportAllCSV, HandleRemoveAllClick, exportAllImages } from "./ChartFunctions.jsx";
+import {
+  handleExportAllCSV,
+  HandleRemoveAllClick,
+  exportAllImages,
+} from "./ChartFunctions.jsx";
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
@@ -99,8 +103,12 @@ export default function ChartsHolder(props) {
           }}
           handleExportClick={(e) => {
             analyzeAreaState.isItAGraph
-              ? exportAllImages(e, sortedChartData.current, analyzeAreaState.isMore)
-              : handleExportAllCSV(e, sortedChartData.current)
+              ? exportAllImages(
+                  e,
+                  sortedChartData.current,
+                  analyzeAreaState.isMore,
+                )
+              : handleExportAllCSV(e, sortedChartData.current);
           }}
         />
         {analyzeAreaState.isSortExpanded ? <ChartSort /> : null}

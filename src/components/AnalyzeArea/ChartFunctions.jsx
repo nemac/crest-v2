@@ -44,7 +44,7 @@ export const exportAllImages = (event, chartData, isMore) => {
       handleExportImage(`Community Assets Inputs-${areaName}`);
       handleExportImage(`Landcover-${areaName}`);
     }
-  })
+  });
 };
 
 export const getLabel = (region, name) => {
