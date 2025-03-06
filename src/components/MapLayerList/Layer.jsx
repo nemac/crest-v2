@@ -8,10 +8,18 @@ import Collapse from "@mui/material/Collapse";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleLayer, toggleLegend } from "../../reducers/mapLayerListSlice";
+import {
+  setOpacity,
+  toggleLayer,
+  toggleLegend,
+} from "../../reducers/mapLayerListSlice";
 import LayerDescription from "./LayerDescription.jsx";
 import LayerLegend from "./LayerLegend.jsx";
 import LayerLegendCustom from "./LayerLegendCustom.jsx";
+import BrightnessLowIcon from "@mui/icons-material/BrightnessLow.js";
+import Slider from "@mui/material/Slider";
+import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh.js";
+import Stack from "@mui/material/Stack";
 
 export default function Layer(props) {
   const { layerData } = props;
@@ -93,6 +101,28 @@ export default function Layer(props) {
           layerDescription={layerData.description}
         />
       </Box>
+      {layerData.id in activeLayerList && (
+        <Stack
+          spacing={2}
+          direction="row"
+          sx={{ alignItems: "center", mb: 1, ml: 5, mr: 5 }}
+        >
+          <BrightnessLowIcon />
+          <Slider
+            aria-label="Opacity"
+            min={0}
+            max={1}
+            onChange={(e) => {
+              dispatch(
+                setOpacity({ layerId: layerData.id, opacity: e.target.value }),
+              );
+            }}
+            step={0.01}
+            value={activeLayerList[layerData.id]?.opacity}
+          />
+          <BrightnessHighIcon />
+        </Stack>
+      )}
       <Collapse in={layerData.id in displayedLegends}>
         {layerData.isLegendCustom ? (
           <LayerLegendCustom layer={layerData} />
