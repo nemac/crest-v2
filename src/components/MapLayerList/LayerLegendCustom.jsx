@@ -41,6 +41,4 @@ export default function LayerLegendCustom(props) {
 
 LayerLegendCustom.propTypes = {
   layer: PropTypes.object.isRequired,
-  layerOpacity: PropTypes.number,
-  setLayerOpacity: PropTypes.func,
 };
