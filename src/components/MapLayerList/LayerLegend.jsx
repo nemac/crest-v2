@@ -1,13 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
+import Stack from "@mui/material/Stack";
+import Slider from "@mui/material/Slider";
+import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
+import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
+
+import { setOpacity } from "../../reducers/mapLayerListSlice";
 
 const legendLightColor = "#ffffff";
 const legendDarkColor = "#000000";
 
 export default function LayerLegend(props) {
   const { layer } = props;
+  const layerListSelector = (state) => state.mapLayerList.activeLayerList;
+  const dispatch = useDispatch();
+  const activeLayerList = useSelector(layerListSelector);
   const colorChart = Object.values(layer.chartCSSColor).slice(1);
   const colorEntries1 = Object.entries(layer.chartCSSColor)
     .slice(1)
@@ -37,9 +47,30 @@ export default function LayerLegend(props) {
     const L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
     return L > lightDarkThresh ? legendDarkColor : legendLightColor;
   }
-
   return (
     <Box m={1.5}>
+      {layer.id in activeLayerList && (
+        <Stack
+          spacing={2}
+          direction="row"
+          sx={{ alignItems: "center", mb: 1, ml: 5, mr: 5 }}
+        >
+          <BrightnessLowIcon />
+          <Slider
+            aria-label="Opacity"
+            min={0}
+            max={1}
+            onChange={(e) => {
+              dispatch(
+                setOpacity({ layerId: layer.id, opacity: e.target.value }),
+              );
+            }}
+            step={0.01}
+            value={activeLayerList[layer.id]?.opacity}
+          />
+          <BrightnessHighIcon />
+        </Stack>
+      )}
       <Grid container spacing={0}>
         <Grid
           xs={2}
