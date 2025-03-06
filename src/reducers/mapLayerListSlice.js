@@ -68,6 +68,10 @@ export const mapLayerListSlice = createSlice({
       state.displayedLegends = startingState.displayedLegends;
     },
     resetMapLayerList: () => startingState,
+    setOpacity: (state, action) => {
+      const layerId = action.payload.layerId;
+      state.activeLayerList[layerId].opacity = action.payload.opacity;
+    },
   },
 });
 
@@ -81,6 +85,7 @@ export const {
   replaceActiveLayerList,
   initializeState,
   resetMapLayerList,
+  setOpacity,
 } = mapLayerListSlice.actions;
 
 export default mapLayerListSlice.reducer;
