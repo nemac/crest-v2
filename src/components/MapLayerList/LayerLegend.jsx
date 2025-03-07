@@ -8,7 +8,6 @@ const legendDarkColor = "#000000";
 
 export default function LayerLegend(props) {
   const { layer } = props;
-  const layerListSelector = (state) => state.mapLayerList.activeLayerList;
   const colorChart = Object.values(layer.chartCSSColor).slice(1);
   const colorEntries1 = Object.entries(layer.chartCSSColor)
     .slice(1)
