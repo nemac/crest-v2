@@ -11,9 +11,6 @@ import {
   Cell,
   CartesianGrid,
 } from "recharts";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 /* eslint-disable no-nested-ternary */
 
