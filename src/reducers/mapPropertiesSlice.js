@@ -98,6 +98,24 @@ export const mapPropertiesSlice = createSlice({
     resetAreaNumber: (state) => {
       state.areaNumber = 1;
     },
+    changeAreaName: (state, action) => {
+      // Find the index of the feature we want to update
+      const featureIndex = state.drawnLayers.features.findIndex(
+        (feature) => feature.properties.areaName === action.payload.oldAreaName,
+      );
+
+      // If the feature exists (index is not -1)
+      if (featureIndex !== -1) {
+        // Update only the areaName property while keeping everything else the same
+        state.drawnLayers.features[featureIndex] = {
+          ...state.drawnLayers.features[featureIndex],
+          properties: {
+            ...state.drawnLayers.features[featureIndex].properties,
+            areaName: action.payload.newAreaName,
+          },
+        };
+      }
+    },
     resetMapProperties: () => startingState,
   },
 });
@@ -124,6 +142,7 @@ export const {
   resetAreaNumber,
   resetMapProperties,
   changeUseBuffer,
+  changeAreaName,
 } = mapPropertiesSlice.actions;
 
 export default mapPropertiesSlice.reducer;

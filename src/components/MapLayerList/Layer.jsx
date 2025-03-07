@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 
 import { BallotOutlined, Ballot } from "@mui/icons-material";
 import Box from "@mui/material/Box";
+import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
+import Slider from "@mui/material/Slider";
+import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
+import Stack from "@mui/material/Stack";
 import Checkbox from "@mui/material/Checkbox";
 import Collapse from "@mui/material/Collapse";
 import Grid from "@mui/material/Grid";
@@ -16,10 +20,6 @@ import {
 import LayerDescription from "./LayerDescription.jsx";
 import LayerLegend from "./LayerLegend.jsx";
 import LayerLegendCustom from "./LayerLegendCustom.jsx";
-import BrightnessLowIcon from "@mui/icons-material/BrightnessLow.js";
-import Slider from "@mui/material/Slider";
-import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh.js";
-import Stack from "@mui/material/Stack";
 
 export default function Layer(props) {
   const { layerData } = props;

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import {
   ResponsiveContainer,
   BarChart,
@@ -16,6 +17,7 @@ import {
 import { mapConfig } from "../../configuration/config";
 import ChartCustomLabels from "./ChartCustomLabels.jsx";
 import CustomToolTip from "./CustomToolTip.jsx";
+import { changeAreaName } from "../../reducers/mapPropertiesSlice";
 
 const regions = mapConfig.regions;
 
@@ -31,6 +33,13 @@ export default function AnalyzeBarChart(props) {
     setChartLabel,
     setChartDescriptionFor,
   } = props;
+
+  const dispatch = useDispatch();
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [title, setTitle] = React.useState(
+    areaName.replace("Hawaii", "Hawai'i"),
+  );
+  const [inputValue, setInputValue] = React.useState(title);
 
   const region = regions[chartRegion];
   const layerList = region.layerList;
@@ -135,6 +144,33 @@ export default function AnalyzeBarChart(props) {
     }
   };
 
+  const handleTitleClick = () => {
+    setIsEditing(true);
+    setInputValue(title);
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputBlur = () => {
+    setTitle(inputValue);
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      setTitle(inputValue);
+      setIsEditing(false);
+      dispatch(
+        changeAreaName({ oldAreaName: areaName, newAreaName: e.target.value }),
+      );
+    } else if (e.key === "Escape") {
+      setIsEditing(false);
+      setInputValue(title);
+    }
+  };
+
   // This code may come in handy at some point to sort the actual indices of each chart
   // const sortedChartData = [...chartData];
   // sortedChartData.sort((a, b) => a.chartValue - b.chartValue);
@@ -144,6 +180,31 @@ export default function AnalyzeBarChart(props) {
       id={`${chartType}-${areaName}-container`}
       style={{ overflow: "visible", paddingTop: "8px", marginBottom: "16px" }}
     >
+      {isEditing ? (
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          onKeyDown={handleKeyDown}
+          style={{
+            fontSize: "1.25rem",
+            fontWeight: "bold",
+            backgroundColor: "white",
+          }}
+          autoFocus
+        />
+      ) : (
+        <tspan
+          x="50%"
+          style={{ fontSize: "1.25rem", fontWeight: "bold" }}
+          className="text-xl font-bold cursor-pointer hover:text-blue-500"
+          onClick={handleTitleClick}
+        >
+          {title}
+          <tspan className="ml-2 text-sm text-gray-400">(click to edit)</tspan>
+        </tspan>
+      )}
       <BarChart
         id={`${chartType}-${areaName}-barchart`}
         onClick={handleChartClick}
@@ -158,9 +219,9 @@ export default function AnalyzeBarChart(props) {
           fill="white"
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
-          <tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
-            {areaName.replace("Hawaii", "Hawai'i")}
-          </tspan>
+          {/*<tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}>*/}
+          {/*  {areaName.replace("Hawaii", "Hawai'i")}*/}
+          {/*</tspan>*/}
 
           <tspan x="50%" dy={"25px"} style={{ fontSize: "1rem" }}>
             {chartType}

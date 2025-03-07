@@ -5,7 +5,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 
 export default function LayerLegendCustom(props) {
   const { layer } = props;
-  const layerListSelector = (state) => state.mapLayerList.activeLayerList;
   const legend = layer.chartCSSColor ? layer.chartCSSColor : [];
 
   return (
