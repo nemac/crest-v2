@@ -32,13 +32,15 @@ State needed
 Props
   - Not sure yet
 */
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
 import { styled } from "@mui/system";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 import {
   CameraAlt,
@@ -78,11 +80,22 @@ export default function ChartHeaderActionButtons(props) {
     handleSortClick,
     handleGraphOrTableClick,
     HandleRemoveAllClick,
-    handleExportClick,
+    handleExportImage,
+    handleExportAllCSV,
   } = props;
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   // get the redux state for analyze area
   const analyzeAreaState = useSelector(analyzeAreaSelector);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <StyledGridContainer
@@ -130,9 +143,35 @@ export default function ChartHeaderActionButtons(props) {
         <ChartHeaderActionButton
           buttonLabel={"Export"}
           buttonName={"Export"}
-          onClick={handleExportClick}
+          onClick={handleClick}
         >
           <CameraAlt />
+          <Menu
+            id="export-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "export-button",
+            }}
+          >
+            <MenuItem
+              onClick={(e) => {
+                handleClose();
+                handleExportImage(e);
+              }}
+            >
+              Export Image
+            </MenuItem>
+            <MenuItem
+              onClick={(e) => {
+                handleClose();
+                handleExportAllCSV(e);
+              }}
+            >
+              Export CSV
+            </MenuItem>
+          </Menu>
         </ChartHeaderActionButton>
       </Grid>
       <Grid xs={3}>
@@ -160,6 +199,7 @@ export default function ChartHeaderActionButtons(props) {
 ChartHeaderActionButtons.propTypes = {
   handleSortClick: PropTypes.func.isRequired,
   handleGraphOrTableClick: PropTypes.func.isRequired,
-  handleExportClick: PropTypes.func.isRequired,
   HandleRemoveAllClick: PropTypes.func.isRequired,
+  handleExportImage: PropTypes.func.isRequired,
+  handleExportAllCSV: PropTypes.func.isRequired,
 };

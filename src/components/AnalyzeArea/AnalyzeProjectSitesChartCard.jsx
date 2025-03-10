@@ -374,10 +374,10 @@ export default function ChartCard(props) {
                 setChartLabel={setChartLabel}
                 setChartDescriptionFor={setChartDescriptionFor}
                 barchartMargin={{
-                  top: 90,
+                  top: 60,
                   right: 30,
                   left: 0,
-                  bottom: 30,
+                  bottom: 60,
                 }}
               />
             </ContentBox>
