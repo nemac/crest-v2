@@ -101,15 +101,16 @@ export default function ChartsHolder(props) {
           HandleRemoveAllClick={(e) => {
             HandleRemoveAllClick(e, dispatch, featureGroupRef);
           }}
-          handleExportClick={(e) => {
-            analyzeAreaState.isItAGraph
-              ? exportAllImages(
-                  e,
-                  sortedChartData.current,
-                  analyzeAreaState.isMore,
-                )
-              : handleExportAllCSV(e, sortedChartData.current);
+          handleExportImage={(e) => {
+            exportAllImages(
+              e,
+              sortedChartData.current,
+              analyzeAreaState.isMore,
+            );
           }}
+          handleExportAllCSV={(e) =>
+            handleExportAllCSV(e, sortedChartData.current)
+          }
         />
         {analyzeAreaState.isSortExpanded ? <ChartSort /> : null}
       </Grid>

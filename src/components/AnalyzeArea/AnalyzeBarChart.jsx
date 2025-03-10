@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {
   ResponsiveContainer,
   BarChart,
@@ -18,6 +19,7 @@ import { mapConfig } from "../../configuration/config";
 import ChartCustomLabels from "./ChartCustomLabels.jsx";
 import CustomToolTip from "./CustomToolTip.jsx";
 import { changeAreaName } from "../../reducers/mapPropertiesSlice";
+import { EditOutlined } from "@mui/icons-material";
 
 const regions = mapConfig.regions;
 
@@ -178,33 +180,67 @@ export default function AnalyzeBarChart(props) {
   return (
     <ResponsiveContainer
       id={`${chartType}-${areaName}-container`}
-      style={{ overflow: "visible", paddingTop: "8px", marginBottom: "16px" }}
+      style={{ overflow: "visible", paddingTop: "16px", marginBottom: "16px" }}
     >
-      {isEditing ? (
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
-          onKeyDown={handleKeyDown}
-          style={{
-            fontSize: "1.25rem",
-            fontWeight: "bold",
-            backgroundColor: "white",
-          }}
-          autoFocus
-        />
-      ) : (
-        <tspan
-          x="50%"
-          style={{ fontSize: "1.25rem", fontWeight: "bold" }}
-          className="text-xl font-bold cursor-pointer hover:text-blue-500"
-          onClick={handleTitleClick}
-        >
-          {title}
-          <tspan className="ml-2 text-sm text-gray-400">(click to edit)</tspan>
-        </tspan>
-      )}
+      <div className="w-full mb-0">
+        {isEditing ? (
+          <span
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+              display: "block",
+              textAlign: "center",
+            }}
+            className="text-xl font-bold cursor-pointer hover:text-blue-500"
+          >
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              onKeyDown={handleKeyDown}
+              style={{
+                fontSize: "1.25rem",
+                fontWeight: "bold",
+                backgroundColor: "white",
+                textAlign: "center",
+                width: "80%",
+                maxWidth: "400px",
+              }}
+              autoFocus
+              className="text-xl font-bold cursor-pointer hover:text-blue-500"
+            />
+          </span>
+        ) : (
+          <div className="w-full mb-0">
+            <span
+              style={{
+                fontSize: "1.25rem",
+                fontWeight: "bold",
+                display: "block",
+                textAlign: "center",
+                cursor: "pointer",
+                marginBottom: "0px",
+              }}
+              className="text-xl font-bold cursor-pointer hover:text-blue-500"
+              onClick={handleTitleClick}
+            >
+              {title}
+              <span
+                className="ml-2 text-gray-400 inline-flex items-center"
+                style={{
+                  verticalAlign: "middle",
+                  marginLeft: "8px",
+                  position: "relative",
+                  top: "2px", // Fine-tune vertical alignment if needed
+                }}
+              >
+                <EditOutlined fontSize="small" />
+              </span>
+            </span>
+          </div>
+        )}
+      </div>
       <BarChart
         id={`${chartType}-${areaName}-barchart`}
         onClick={handleChartClick}
@@ -213,7 +249,7 @@ export default function AnalyzeBarChart(props) {
       >
         <text
           x="50%"
-          y="10%"
+          y="5%"
           dominantBaseline="middle"
           textAnchor="middle"
           fill="white"
@@ -223,7 +259,7 @@ export default function AnalyzeBarChart(props) {
           {/*  {areaName.replace("Hawaii", "Hawai'i")}*/}
           {/*</tspan>*/}
 
-          <tspan x="50%" dy={"25px"} style={{ fontSize: "1rem" }}>
+          <tspan x="50%" dy={"15px"} style={{ fontSize: "1rem" }}>
             {chartType}
           </tspan>
         </text>
