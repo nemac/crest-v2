@@ -180,7 +180,7 @@ export default function AnalyzeBarChart(props) {
   return (
     <ResponsiveContainer
       id={`${chartType}-${areaName}-container`}
-      style={{ overflow: "visible", paddingTop: "8px", marginBottom: "8px" }}
+      style={{ overflow: "visible", paddingTop: "16px", marginBottom: "32px" }}
     >
       <div className="w-full mb-0">
         {isEditing ? (
