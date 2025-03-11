@@ -461,7 +461,7 @@ export default function ChartCard(props) {
         <MenuItem
           onClick={() => {
             handleCloseExportSummary();
-            exportFeatureToCSV(feature);
+            exportFeatureToCSV(feature, "Summary Chart");
           }}
         >
           Export CSV
