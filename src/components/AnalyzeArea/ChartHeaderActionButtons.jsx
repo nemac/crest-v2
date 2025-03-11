@@ -143,36 +143,46 @@ export default function ChartHeaderActionButtons(props) {
         <ChartHeaderActionButton
           buttonLabel={"Export"}
           buttonName={"Export"}
-          onClick={handleClick}
+          onClick={(e) => {
+            if (analyzeAreaState.isItAGraph) {
+              handleClick(e);
+            } else {
+              handleExportAllCSV(e);
+            }
+          }}
+          id="export-button"
+          aria-controls={open ? "export-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
         >
           <CameraAlt />
-          <Menu
-            id="export-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "export-button",
+        </ChartHeaderActionButton>
+        <Menu
+          id="export-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "export-button",
+          }}
+        >
+          <MenuItem
+            onClick={(e) => {
+              handleClose();
+              handleExportImage(e);
             }}
           >
-            <MenuItem
-              onClick={(e) => {
-                handleClose();
-                handleExportImage(e);
-              }}
-            >
-              Export Image
-            </MenuItem>
-            <MenuItem
-              onClick={(e) => {
-                handleClose();
-                handleExportAllCSV(e);
-              }}
-            >
-              Export CSV
-            </MenuItem>
-          </Menu>
-        </ChartHeaderActionButton>
+            Export Image
+          </MenuItem>
+          <MenuItem
+            onClick={(e) => {
+              handleClose();
+              handleExportAllCSV(e);
+            }}
+          >
+            Export CSV
+          </MenuItem>
+        </Menu>
       </Grid>
       <Grid xs={3}>
         <ChartHeaderActionButton

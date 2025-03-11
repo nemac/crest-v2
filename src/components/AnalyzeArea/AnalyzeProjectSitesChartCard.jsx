@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Grid from "@mui/material/Unstable_Grid2";
 import { styled } from "@mui/system";
 import {
@@ -18,6 +20,7 @@ import AnalyzeBarChart from "./AnalyzeBarChart.jsx";
 import ResiliencePieChart from "./ResiliencePieChart.jsx";
 import ChartDescriptionCard from "./ChartDescriptionCard.jsx";
 import {
+  exportFeatureToCSV,
   handleExportImage,
   handleMoreOnClick,
   handleZoomClick,
@@ -91,6 +94,13 @@ export default function ChartCard(props) {
   const [chartDescription, setChartDescription] = useState(null);
   const [chartLabel, setChartLabel] = useState(null);
   const [chartDescriptionFor, setChartDescriptionFor] = useState(null);
+  const [anchorElSummaryMenu, setAnchorElSummaryMenu] = useState(null);
+  const [anchorElMoreIndividual, setAnchorElMoreIndividual] = useState(null);
+  const [anchorElMoreAll, setAnchorElMoreAll] = useState(null);
+  const clickedExport = useRef(null); // this ref is used to determine where the isMore export click happened
+  const isSummaryMenuOpen = Boolean(anchorElSummaryMenu);
+  const isMoreIndividualOpen = Boolean(anchorElMoreIndividual);
+  const isMoreAllOpen = Boolean(anchorElMoreAll);
 
   const chartValues = {
     "Summary Chart": ["hubs", "exposure", "threat", "asset", "wildlife"],
@@ -151,6 +161,30 @@ export default function ChartCard(props) {
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 
+  const handleClickExportSummary = (event) => {
+    setAnchorElSummaryMenu(event.currentTarget);
+  };
+
+  const handleClickExportMoreIndividual = (event) => {
+    setAnchorElMoreIndividual(event.currentTarget);
+  };
+
+  const handleClickExportMoreAll = (event) => {
+    setAnchorElMoreAll(event.currentTarget);
+  };
+
+  const handleCloseExportSummary = () => {
+    setAnchorElSummaryMenu(null);
+  };
+
+  const handleCloseExportMoreIndividual = () => {
+    setAnchorElMoreIndividual(null);
+  };
+
+  const handleCloseExportMoreAll = () => {
+    setAnchorElMoreAll(null);
+  };
+
   const chartActionButtons = [
     {
       buttonLabel: analyzeAreaState.isMore[feature.properties.areaName]
@@ -172,14 +206,12 @@ export default function ChartCard(props) {
       buttonLabel: "Export",
       buttonName: "Export",
       id: `btn-export-${feature.properties.areaName}`,
-      onClick: () => {
+      onClick: (e) => {
         // export all or just summary map depending on expanded details
         if (analyzeAreaState.isMore[feature.properties.areaName]) {
-          Object.entries(chartValues).map(([key, value]) =>
-            handleExportImage(`${key}-${feature.properties.areaName}`),
-          );
+          handleClickExportMoreAll(e);
         } else {
-          handleExportImage(`Summary Chart-${feature.properties.areaName}`);
+          handleClickExportSummary(e);
         }
       },
       icon: <CameraAlt />,
@@ -309,10 +341,9 @@ export default function ChartCard(props) {
                   {
                     buttonLabel: "Export",
                     buttonName: "Export",
-                    onClick: () => {
-                      handleExportImage(
-                        `${key}-${feature.properties.areaName}`,
-                      );
+                    onClick: (e) => {
+                      handleClickExportMoreIndividual(e);
+                      clickedExport.current = `${key}`;
                     },
                     icon: <CameraAlt />,
                   },
@@ -408,6 +439,96 @@ export default function ChartCard(props) {
           </Grid>
         </div>
       )}
+      {/* This is the dropdown export menu for when "More" is NOT pressed and you want to export summary */}
+      <Menu
+        id="export-menu"
+        anchorEl={anchorElSummaryMenu}
+        open={isSummaryMenuOpen}
+        onClose={handleCloseExportSummary}
+        MenuListProps={{
+          "aria-labelledby": "export-button",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleCloseExportSummary();
+            console.log("Less Summary Export Image");
+            handleExportImage(`Summary Chart-${feature.properties.areaName}`);
+          }}
+        >
+          Export Image
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleCloseExportSummary();
+            exportFeatureToCSV(feature);
+          }}
+        >
+          Export CSV
+        </MenuItem>
+      </Menu>
+      {/* This is the dropdown export menu for when "Less" is pressed and you want to export individual chart/csv */}
+      <Menu
+        id="export-menu"
+        anchorEl={anchorElMoreIndividual}
+        open={isMoreIndividualOpen}
+        onClose={handleCloseExportMoreIndividual}
+        MenuListProps={{
+          "aria-labelledby": "export-button",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleCloseExportMoreIndividual();
+            handleExportImage(
+              `${clickedExport.current}-${feature.properties.areaName}`,
+            );
+            console.log("is more export image individual ");
+          }}
+        >
+          Export Image
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleCloseExportMoreIndividual();
+            console.log(clickedExport.current);
+            exportFeatureToCSV(feature, clickedExport.current);
+          }}
+        >
+          Export CSV
+        </MenuItem>
+      </Menu>
+      {/* This is the dropdown export menu for when "Less" is pressed and you want to export all charts/csv */}
+      <Menu
+        id="export-menu"
+        anchorEl={anchorElMoreAll}
+        open={isMoreAllOpen}
+        onClose={handleCloseExportMoreAll}
+        MenuListProps={{
+          "aria-labelledby": "export-button",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleCloseExportMoreAll();
+            Object.entries(chartValues).map(([key, value]) =>
+              handleExportImage(`${key}-${feature.properties.areaName}`),
+            );
+            console.log("is more export image ALL");
+          }}
+        >
+          Export Image
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleCloseExportMoreAll();
+            console.log("is more export csv ALL");
+            exportFeatureToCSV(feature, "All");
+          }}
+        >
+          Export CSV
+        </MenuItem>
+      </Menu>
     </Grid>
   );
 }

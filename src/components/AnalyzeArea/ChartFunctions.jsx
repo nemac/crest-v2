@@ -10,6 +10,7 @@ import {
 } from "../../reducers/mapPropertiesSlice";
 import { changeEmptyState, changeMore } from "../../reducers/analyzeAreaSlice";
 import { mapConfig } from "../../configuration/config";
+import { featureReduce } from "@turf/turf";
 
 export const handleMoreOnClick = (dispatch, areaName) => {
   dispatch(changeMore(areaName));
@@ -78,6 +79,117 @@ export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {
   dispatch(changeCenter(newCenterArray));
   dispatch(changeZoom(newZoom));
   map.flyTo(newCenter, newZoom);
+};
+
+const extractMatchingZonalStats = (layersList, zonalStatsData) => {
+  // Create an object to store matching key/value pairs
+  const matchingPairs = {};
+
+  // Loop through each layer to get the chartCSSSelector
+  layersList.forEach((layer) => {
+    const selector = layer.chartCSSSelector;
+
+    // Check if this selector exists as a key in zonalStatsData
+    if (zonalStatsData.hasOwnProperty(selector)) {
+      // Add this key/value pair to our result
+      matchingPairs[selector] = zonalStatsData[selector];
+    }
+  });
+
+  return matchingPairs;
+};
+
+// This function digs through the feature and explicitly exports to csv based on what is requested
+export const exportFeatureToCSV = (feature, type) => {
+  const region = feature.properties.region;
+  let featureDataToExport = []; // initialize so we can use it in switch statement
+  let layerDataFromConfig = []; // initialize so we can use it in switch statement
+  let exportName = "CSV";
+  switch (type) {
+    case "Summary Chart":
+      exportName = "Summary Chart";
+      layerDataFromConfig = mapConfig.regions[region].layerList.filter(
+        (layer) => layer.chartInputName === "summary",
+      );
+      featureDataToExport = extractMatchingZonalStats(
+        layerDataFromConfig,
+        feature.properties.zonalStatsData,
+      );
+      break;
+    case "Fish and Wildlife Inputs":
+      exportName = "Fish and Wildlife Inputs";
+      layerDataFromConfig = mapConfig.regions[region].layerList.filter(
+        (layer) => layer.chartInputName === "fishandwildlife",
+      );
+      featureDataToExport = extractMatchingZonalStats(
+        layerDataFromConfig,
+        feature.properties.zonalStatsData,
+      );
+      break;
+    case "Threats Inputs":
+      exportName = "Threats Inputs";
+      layerDataFromConfig = mapConfig.regions[region].layerList.filter(
+        (layer) => layer.chartInputName === "threat",
+      );
+      featureDataToExport = extractMatchingZonalStats(
+        layerDataFromConfig,
+        feature.properties.zonalStatsData,
+      );
+      break;
+    case "Community Assets Inputs":
+      exportName = "Community Assets Inputs";
+      layerDataFromConfig = mapConfig.regions[region].layerList.filter(
+        (layer) => layer.chartInputName === "asset",
+      );
+      featureDataToExport = extractMatchingZonalStats(
+        layerDataFromConfig,
+        feature.properties.zonalStatsData,
+      );
+      break;
+    case "Landcover":
+      exportName = "Landcover";
+      layerDataFromConfig = mapConfig.regions[region].layerList.filter(
+        (layer) => layer.chartInputName === "landcover",
+      );
+      featureDataToExport = extractMatchingZonalStats(
+        layerDataFromConfig,
+        feature.properties.zonalStatsData,
+      );
+      break;
+    case "All":
+      exportName = "All Data";
+      featureDataToExport = feature.properties.zonalStatsData;
+      break;
+    default:
+      console.log("Unknown Export");
+  }
+  const dataRows = [];
+  Object.entries(featureDataToExport).map(([key, value]) => {
+    const thisRow = [];
+    thisRow.push(feature.properties.areaName);
+    thisRow.push(getLabel(region, key)); // need to get label here
+    thisRow.push(Number.isNaN(Number(value)) ? 0.0 : value.toFixed(3)); // need to get value here
+    thisRow.push(getRange(region, key)); // need to get range here
+    dataRows.push(thisRow);
+    return thisRow;
+  });
+  const rows = [["Area", "Index", "Values", "Range(s)"]];
+  dataRows.map((row) => {
+    rows.push(row);
+    return rows;
+  });
+  // Get date and time, replace all special characters with '-'
+  const dateString = new Date().toLocaleString().replace(/ |\/|,|:/g, "-");
+  // concatenate type, area name, and date-time for filename
+  const filename = `${exportName}-${region.replace(/ |\/|,|:|\./g, "-")}-${dateString}.csv`;
+  const csvData = rows.map((e) => e.join(",")).join("\n");
+  const csvContent = `data:text/csv;charset=utf-8,${csvData}`;
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename);
+  document.body.appendChild(link); // invisible link for download
+  link.click(); // This will download the data file using invisible link
 };
 
 export const handleExportAllCSV = (event, chartData) => {
