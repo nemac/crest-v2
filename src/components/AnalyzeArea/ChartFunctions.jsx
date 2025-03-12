@@ -10,7 +10,6 @@ import {
 } from "../../reducers/mapPropertiesSlice";
 import { changeEmptyState, changeMore } from "../../reducers/analyzeAreaSlice";
 import { mapConfig } from "../../configuration/config";
-import { featureReduce } from "@turf/turf";
 
 export const handleMoreOnClick = (dispatch, areaName) => {
   dispatch(changeMore(areaName));

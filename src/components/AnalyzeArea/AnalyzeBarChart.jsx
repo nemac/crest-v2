@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {
   ResponsiveContainer,
   BarChart,
@@ -12,6 +11,7 @@ import {
   Cell,
   CartesianGrid,
 } from "recharts";
+import { EditOutlined } from "@mui/icons-material";
 
 /* eslint-disable no-nested-ternary */
 
@@ -19,7 +19,6 @@ import { mapConfig } from "../../configuration/config";
 import ChartCustomLabels from "./ChartCustomLabels.jsx";
 import CustomToolTip from "./CustomToolTip.jsx";
 import { changeAreaName } from "../../reducers/mapPropertiesSlice";
-import { EditOutlined } from "@mui/icons-material";
 
 const regions = mapConfig.regions;
 
@@ -255,9 +254,9 @@ export default function AnalyzeBarChart(props) {
           fill="white"
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
-          {/*<tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}>*/}
-          {/*  {areaName.replace("Hawaii", "Hawai'i")}*/}
-          {/*</tspan>*/}
+          {/* <tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}> */}
+          {/*  {areaName.replace("Hawaii", "Hawai'i")} */}
+          {/* </tspan> */}
 
           <tspan x="50%" dy={"15px"} style={{ fontSize: "1rem" }}>
             {chartType}
