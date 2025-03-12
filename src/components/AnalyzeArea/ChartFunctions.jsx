@@ -48,7 +48,33 @@ export const exportAllImages = (event, chartData, isMore) => {
   });
 };
 
+const landcoverLabels = {
+  lc_open_water: "Open Water",
+  lc_perennial_icesnow: "Perennial Ice/Snow",
+  lc_developed_open_space: "Developed Open Space",
+  lc_developed_low_intensity: "Developed Low Intensity",
+  lc_developed_medium_intensity: "Developed Medium Intensity",
+  lc_developed_high_intensity: "Developed High Intensity",
+  lc_barren_land: "Barren Land (Rock/Sand/Clay)",
+  lc_deciduous_forest: "Deciduous Forest",
+  lc_evergreen_forest: "Evergreen Forest",
+  lc_mixed_forest: "Mixed Forest",
+  lc_dwarf_scrub: "Dwarf Scrub",
+  lc_shrub_scrub: "Shrub/Scrub",
+  lc_grassland_herbaceous: "Grassland/Herbaceous",
+  lc_sedge_herbaceous: "Sedge/Herbaceous",
+  lc_lichens: "Lichens",
+  lc_moss: "Moss",
+  lc_pasture_hay_areas: "Pasture/Hay",
+  lc_cultivated_crops: "Cultivated Crops",
+  lc_woody_wetlands: "Woody Wetlands",
+  lc_emerg_herbaceous_wetlands: "Emergent Herbacious Wetlands",
+};
+
 export const getLabel = (region, name) => {
+  if (name.startsWith("lc_")) {
+    return landcoverLabels[name];
+  }
   const thisLabelOBJ = mapConfig.regions[region].layerList.find(
     (layer) => layer.chartCSSSelector === name,
   );
@@ -148,12 +174,12 @@ export const exportFeatureToCSV = (feature, type) => {
       break;
     case "Landcover":
       exportName = "Landcover";
-      layerDataFromConfig = mapConfig.regions[region].layerList.filter(
-        (layer) => layer.chartInputName === "landcover",
-      );
-      featureDataToExport = extractMatchingZonalStats(
-        layerDataFromConfig,
-        feature.properties.zonalStatsData,
+      Object.entries(feature.properties.zonalStatsData).forEach(
+        ([key, value]) => {
+          if (key.startsWith("lc_")) {
+            featureDataToExport[key] = value;
+          }
+        },
       );
       break;
     case "All":

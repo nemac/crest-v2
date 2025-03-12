@@ -1,4 +1,5 @@
 import * as turf from "@turf/turf";
+import * as L from "leaflet";
 import { sketchShapeThresholds } from "../configuration/config";
 
 export const calculateAreaOfPolygon = (geojson) => {
@@ -59,4 +60,44 @@ export const convertDataForZonalStats = (geojson, zonalStatsKeys) => {
     lng: turfCenter.geometry.coordinates[0],
   };
   return geoCopy;
+};
+
+export const findCenterOfCenters = (features) => {
+  // Check if there are features
+  if (!features || features.length === 0) {
+    console.error("No features provided");
+    return null;
+  }
+
+  // If there's only one feature, return its center
+  if (features.length === 1) {
+    const layer = L.geoJSON(features[0]);
+    return layer.getBounds().getCenter();
+  }
+
+  // For multiple features, calculate the sum of coordinates
+  let totalLat = 0;
+  let totalLng = 0;
+  let validFeatureCount = 0;
+
+  features.forEach((feature) => {
+    try {
+      const layer = L.geoJSON(feature);
+      const center = layer.getBounds().getCenter();
+
+      totalLat += center.lat;
+      totalLng += center.lng;
+      validFeatureCount += 1;
+    } catch (error) {
+      console.warn("Error processing feature:", error);
+    }
+  });
+
+  // Calculate the average coordinates
+  if (validFeatureCount > 0) {
+    return L.latLng(totalLat / validFeatureCount, totalLng / validFeatureCount);
+  } else {
+    console.error("No valid features found");
+    return null;
+  }
 };
