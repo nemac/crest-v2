@@ -65,7 +65,6 @@ export const convertDataForZonalStats = (geojson, zonalStatsKeys) => {
 export const findCenterOfCenters = (features) => {
   // Check if there are features
   if (!features || features.length === 0) {
-    console.error("No features provided");
     return null;
   }
 
@@ -81,23 +80,18 @@ export const findCenterOfCenters = (features) => {
   let validFeatureCount = 0;
 
   features.forEach((feature) => {
-    try {
-      const layer = L.geoJSON(feature);
-      const center = layer.getBounds().getCenter();
+    const layer = L.geoJSON(feature);
+    const center = layer.getBounds().getCenter();
 
-      totalLat += center.lat;
-      totalLng += center.lng;
-      validFeatureCount += 1;
-    } catch (error) {
-      console.warn("Error processing feature:", error);
-    }
+    totalLat += center.lat;
+    totalLng += center.lng;
+    validFeatureCount += 1;
   });
 
   // Calculate the average coordinates
   if (validFeatureCount > 0) {
     return L.latLng(totalLat / validFeatureCount, totalLng / validFeatureCount);
   } else {
-    console.error("No valid features found");
     return null;
   }
 };

@@ -451,8 +451,8 @@ export default function ChartCard(props) {
       >
         <MenuItem
           onClick={() => {
+            // Less Summary Export Image
             handleCloseExportSummary();
-            console.log("Less Summary Export Image");
             handleExportImage(`Summary Chart-${feature.properties.areaName}`);
           }}
         >
@@ -479,11 +479,11 @@ export default function ChartCard(props) {
       >
         <MenuItem
           onClick={() => {
+            // isMore export image individual
             handleCloseExportMoreIndividual();
             handleExportImage(
               `${clickedExport.current}-${feature.properties.areaName}`,
             );
-            console.log("is more export image individual ");
           }}
         >
           Export Image
@@ -509,11 +509,11 @@ export default function ChartCard(props) {
       >
         <MenuItem
           onClick={() => {
+            // isMore export image all
             handleCloseExportMoreAll();
             Object.entries(chartValues).map(([key, value]) =>
               handleExportImage(`${key}-${feature.properties.areaName}`),
             );
-            console.log("is more export image ALL");
           }}
         >
           Export Image
