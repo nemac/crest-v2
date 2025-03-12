@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import * as L from "leaflet";
-import { FeatureGroup } from "react-leaflet";
+import { FeatureGroup, useMap } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -15,10 +15,12 @@ import {
   uploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
   incrementAreaNumber,
+  changeZoom,
 } from "../../reducers/mapPropertiesSlice";
 import {
   validPolygon,
   calculateAreaOfPolygon,
+  findCenterOfCenters,
 } from "../../utility/utilityFunctions";
 import { useGetZonalStatsQuery } from "../../services/zonalstats";
 import ModelErrors from "../All/ModelErrors.jsx";
@@ -64,6 +66,7 @@ export default function LeafletDrawTools(props) {
     featureGroup: null, // this is the featureGroup that gets sent to zonalStats
     skip: true, // this tells the query not to run unless set to false
   });
+  const map = useMap();
 
   const { data, error, isFetching } = useGetZonalStatsQuery(
     {
@@ -227,6 +230,23 @@ export default function LeafletDrawTools(props) {
       featureGroup: featureGroup.toGeoJSON(),
       skip: false,
     });
+
+    // Get the center of centers for all features
+    const centerOfCenters = findCenterOfCenters(shapeFileGeoJSON.features);
+
+    // Calculate an appropriate zoom level
+    // This is trickier with multiple features
+    const allFeaturesLayer = L.geoJSON(shapeFileGeoJSON);
+    const bounds = allFeaturesLayer.getBounds();
+    const zoom = map.getBoundsZoom(bounds, false, [50, 50]);
+
+    // Fly to the center of centers with appropriate zoom
+    if (centerOfCenters) {
+      map.flyTo([centerOfCenters.lat, centerOfCenters.lng], zoom, {
+        animate: true,
+        duration: 1,
+      });
+    }
   }
 
   if (searchPlacesGeoJSON) {
