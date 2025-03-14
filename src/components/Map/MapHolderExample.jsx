@@ -162,11 +162,11 @@ export default function MapHolderExample() {
         <ContentMapBox>
           <LeafletMapContainer
             center={
-              mapConfig.regions["Atlantic, Gulf of Mexico, and Pacific Coasts"]
+              mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
                 .mapProperties.center
             }
             zoom={
-              mapConfig.regions["Atlantic, Gulf of Mexico, and Pacific Coasts"]
+              mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
                 .mapProperties.zoom
             }
             innerRef={setMap}

@@ -15,7 +15,6 @@ import {
   uploadedShapeFileGeoJSON,
   addSearchPlacesGeoJSON,
   incrementAreaNumber,
-  changeZoom,
 } from "../../reducers/mapPropertiesSlice";
 import {
   validPolygon,

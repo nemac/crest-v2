@@ -56,32 +56,37 @@ export const mapConfig = {
       label: "Dark Gray",
       image: basemapDarkImage,
       basemap: "arcgis/dark-gray",
+      worldview: "unitedStatesOfAmerica",
     },
     Imagery: {
       label: "Imagery",
       image: basemapImageryImage,
       basemap: "arcgis/imagery",
+      worldview: "unitedStatesOfAmerica",
     },
     "Imagery - No Label": {
       label: "Imagery - No Label",
       image: basemapImageryImage,
       basemap: "arcgis/imagery/standard",
+      worldview: "unitedStatesOfAmerica",
     },
     Streets: {
       label: "Streets",
       image: basemapStreetImage,
       basemap: "arcgis/streets",
+      worldview: "unitedStatesOfAmerica",
     },
     Topographic: {
       label: "Topographic",
       image: basemapTopoImage,
       basemap: "arcgis/topographic",
+      worldview: "unitedStatesOfAmerica",
     },
   },
   regions: {
     Alaska: alaskaConfig,
     "American Samoa": americanSamoaConfig,
-    "Atlantic, Gulf of Mexico, and Pacific Coasts": continentalUSConfig,
+    "Atlantic, Gulf of America, and Pacific Coasts": continentalUSConfig,
 
     Guam: guamConfig,
     "Hawai'i": hawaiiConfig,
@@ -387,7 +392,7 @@ export const mapConfig = {
             type: "Feature",
             properties: {
               areaName: "White Horse Pike",
-              region: "Atlantic, Gulf of Mexico, and Pacific Coasts",
+              region: "Atlantic, Gulf of America, and Pacific Coasts",
               zonalStatsData: {
                 exposure: 8.095615479621243,
                 asset: 2.0521819678880195,
@@ -512,7 +517,7 @@ export const mapConfig = {
             type: "Feature",
             properties: {
               areaName: "Buffalo Bayou",
-              region: "Atlantic, Gulf of Mexico, and Pacific Coasts",
+              region: "Atlantic, Gulf of America, and Pacific Coasts",
               zonalStatsData: {
                 exposure: 9.513333333333334,
                 asset: 3.981333333333333,
@@ -631,7 +636,7 @@ export const mapConfig = {
             type: "Feature",
             properties: {
               areaName: "Water Street",
-              region: "Atlantic, Gulf of Mexico, and Pacific Coasts",
+              region: "Atlantic, Gulf of America, and Pacific Coasts",
               zonalStatsData: {
                 exposure: 8.430505117200395,
                 asset: 2.693298118190822,
