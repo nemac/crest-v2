@@ -68,7 +68,6 @@ export const mapConfig = {
       label: "Imagery - No Label",
       image: basemapImageryImage,
       basemap: "arcgis/imagery/standard",
-      worldview: "unitedStatesOfAmerica",
     },
     Streets: {
       label: "Streets",
