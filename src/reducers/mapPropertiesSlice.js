@@ -4,10 +4,10 @@ import { mapConfig } from "../configuration/config";
 const regions = mapConfig.regions;
 
 const startingState = {
-  zoom: regions["Atlantic, Gulf of Mexico, and Pacific Coasts"].mapProperties
+  zoom: regions["Atlantic, Gulf of America, and Pacific Coasts"].mapProperties
     .zoom, // conus - TODO: I hate this how can I fix this?
   center:
-    regions["Atlantic, Gulf of Mexico, and Pacific Coasts"].mapProperties
+    regions["Atlantic, Gulf of America, and Pacific Coasts"].mapProperties
       .center, // conus - TODO: I hate this how can I fix this?
   identifyCoordinates: null,
   identifyResults: null,

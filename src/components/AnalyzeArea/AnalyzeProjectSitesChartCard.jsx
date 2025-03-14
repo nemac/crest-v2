@@ -519,9 +519,9 @@ export default function ChartCard(props) {
           Export Image
         </MenuItem>
         <MenuItem
+          // isMore export csv all
           onClick={() => {
             handleCloseExportMoreAll();
-            console.log("is more export csv ALL");
             exportFeatureToCSV(feature, "All");
           }}
         >

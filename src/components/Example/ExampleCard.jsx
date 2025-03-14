@@ -106,10 +106,10 @@ export default function ExampleCard(props) {
     }
 
     const activeStepLayer =
-      mapConfig.regions["Atlantic, Gulf of Mexico, and Pacific Coasts"]
+      mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
         .layerList[steps[activeStep].layerIndex];
     const previousStepLayer =
-      mapConfig.regions["Atlantic, Gulf of Mexico, and Pacific Coasts"]
+      mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
         .layerList[steps[previousStep].layerIndex];
 
     // zero out the active and previous step if not expanded, toggle layer, and reset map
@@ -117,10 +117,10 @@ export default function ExampleCard(props) {
       setActiveStep(0);
       setPreviousStep(0);
       const defaultCenter =
-        mapConfig.regions["Atlantic, Gulf of Mexico, and Pacific Coasts"]
+        mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
           .mapProperties.center;
       const defaultZoom =
-        mapConfig.regions["Atlantic, Gulf of Mexico, and Pacific Coasts"]
+        mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
           .mapProperties.zoom;
       flyToLocation(map, defaultCenter, defaultZoom);
       if (activeStep >= 2) {

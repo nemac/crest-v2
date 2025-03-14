@@ -16,7 +16,7 @@ export default function LeafletMapContainer(props) {
   const { children, center, zoom, innerRef } = props;
 
   const extent =
-    regions["Atlantic, Gulf of Mexico, and Pacific Coasts"].mapProperties
+    regions["Atlantic, Gulf of America, and Pacific Coasts"].mapProperties
       .extent; // conus - TODO: I hate this how can I fix this?
 
   return (

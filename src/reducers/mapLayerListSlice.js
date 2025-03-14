@@ -11,7 +11,7 @@ const startingState = {
     AS_HubsTMS: regions["American Samoa"].layerList[0],
     CNMI_HubsTMS: regions["Northern Mariana Islands"].layerList[0],
     CONUS_HubsTMS:
-      regions["Atlantic, Gulf of Mexico, and Pacific Coasts"].layerList[0],
+      regions["Atlantic, Gulf of America, and Pacific Coasts"].layerList[0],
     GL_HubsTMS: regions["U.S. Great Lakes"].layerList[0],
     GU_HubsTMS: regions.Guam.layerList[0],
     HI_HubsTMS: regions["Hawai'i"].layerList[0],

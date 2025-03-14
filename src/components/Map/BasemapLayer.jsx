@@ -30,6 +30,7 @@ export default function BasemapLayer(props) {
           pane: "mapPane",
           version: 2,
           attribution: regions[selectedRegion].attribution,
+          worldview: basemaps[basemapName].worldview,
         });
         newBasemap.addTo(map);
         basemapRef.current = newBasemap;

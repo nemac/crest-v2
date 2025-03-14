@@ -1,13 +1,13 @@
 import regionContinentalUSImage from "../../assets/images/zoomregion-cus-v2.png";
 
 export const continentalUSConfig = {
-  label: "Atlantic, Gulf of Mexico, and Pacific Coasts",
+  label: "Atlantic, Gulf of America, and Pacific Coasts",
   image: regionContinentalUSImage,
   regionName: "continental_us",
   reportEnglish: {
     fileLink:
       "https://www.nfwf.org/sites/default/files/coastalresilience/Documents/regional-coastal-resilience-assessment.pdf",
-    name: "Atlantic, Gulf of Mexico, and Pacific Coasts Resilience Assessment",
+    name: "Atlantic, Gulf of America, and Pacific Coasts Resilience Assessment",
   },
   reportNative: {
     fileLink: null,
@@ -17,10 +17,10 @@ export const continentalUSConfig = {
     fileSize: "958 MB",
     fileLink:
       "https://nfwf-tool.s3.amazonaws.com/nfwf_download_data/Continental_US_Assessment_Data.zip",
-    name: "Atlantic, Gulf of Mexico, and Pacific Coasts Data Download",
+    name: "Atlantic, Gulf of America, and Pacific Coasts Data Download",
   },
   mapProperties: {
-    label: "Atlantic, Gulf of Mexico, and Pacific Coasts",
+    label: "Atlantic, Gulf of America, and Pacific Coasts",
     center: [40.98, -95.48],
     extent: [-132.97, 25.16, -62.49, 50.0],
     zoom: 4,

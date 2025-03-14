@@ -91,7 +91,5 @@ export const findCenterOfCenters = (features) => {
   // Calculate the average coordinates
   if (validFeatureCount > 0) {
     return L.latLng(totalLat / validFeatureCount, totalLng / validFeatureCount);
-  } else {
-    return null;
   }
 };

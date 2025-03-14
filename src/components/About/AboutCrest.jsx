@@ -34,7 +34,7 @@ export default function AboutCrest(props) {
         the implementation of nature-based solutions have potential to maximize
         benefits for human community resilience to flooding threats and fish and
         wildlife habitat. In 2019, NFWF launched CREST to share results of the
-        Regional Assessments for the U.S. Atlantic, Gulf of Mexico, and Pacific
+        Regional Assessments for the U.S. Atlantic, Gulf of America, and Pacific
         coastlines, which use a standardized methodology to combine information
         about flooding threats, human community assets, and fish and wildlife
         species to identify Resilience Hubs. The Regional Assessments have since
