@@ -259,7 +259,7 @@ export default function AnalyzeProjectSitesMapCard(props) {
         setErrorState={setErrorState}
       />
       {drawnFromState?.features
-        ?.filter((item) => item.properties.region === selectedRegion)
+        ?.filter((item) => item.properties.region === selectedRegion) // .replace("of America","of Mexico") temp fix for region in json data on AOGL
         .map((item) => (
           <React.Fragment key={item.geometry.coordinates}>
             <GeoJSON

@@ -5,9 +5,10 @@ import L from "leaflet";
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
+import Alert from '@mui/material/Alert';
 import { styled } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { SearchOutlined, HelpOutlineOutlined } from "@mui/icons-material"; // for when we need it, Search } from '@mui/icons-material';
+import { SearchOutlined, HelpOutlineOutlined, Warning } from "@mui/icons-material"; // for when we need it, Search } from '@mui/icons-material';
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -150,7 +151,9 @@ const customAutoCompleteTheme = createTheme({
         },
         noOptions: {
           // no options
-          color: "#000000",
+          backgroundColor: "#0a0a0a",
+          color: "#FFFFFF",
+          border: `1px solid #555555`,
           fontSize: "0.875rem",
           fontWeight: "500",
         },
@@ -227,6 +230,7 @@ export default function SearchCustom(props) {
     feature.properties.NAME = feature.properties.search_field;
     // eslint-disable-next-line no-param-reassign
     feature.properties.areaName = feature.properties.search_field;
+    feature.properties.region = feature.properties.region.replace("Mexico","America")
     const zonalStatsKeys = regionConfig.zonalStatsKeys;
     const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
     map.fitBounds(L.geoJSON(geoToDraw).getBounds());
@@ -234,16 +238,18 @@ export default function SearchCustom(props) {
   };
 
   const handleInputChange = (_, newInputValue) => {
+    console.log(`selectedRegion ${selectedRegion}`)
+    const tempRegion = selectedRegion.replace("'", "''").replace("America","Mexico")
     if (newInputValue.length < 3) {
       setOpen(false);
       setAPlaceFound(false);
     } else {
       allQuery.where(
-        `search_field LIKE '%${newInputValue}%' AND region = '${selectedRegion.replace("'", "''")}'`,
+        `search_field LIKE '%${newInputValue}%' AND region = '${tempRegion}'`,
       );
-      const optionText = `Searching for an area matching "${newInputValue}"? 
-        CREST includes areas near coastal areas, and areas 
-        matching "${newInputValue}" may not fit within the coastal area assessed, or is outside the current region '${selectedRegion.replace("'", "''")}'`;
+      const warningText = `CREST includes coastal areas only! "${newInputValue}" may be outside a coastal zone or not in the current region.`
+      const optionText = (<Alert severity="warning" sx={{ backgroundColor: 'rgba(255, 165, 0, 0.1)', color: '#fff', borderRadius: '4px' }}> {warningText}</Alert>)
+      //  `CREST only includes coastal areas! "${newInputValue}" may be outside a coastal zone or not in the current region: '${selectedRegion.replace("'", "''")}'`
       setNoOptionsText(optionText);
       runQuerySearching(allQuery);
       setOpen(true);
