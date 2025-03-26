@@ -124,6 +124,7 @@ const extractMatchingZonalStats = (layersList, zonalStatsData) => {
   return matchingPairs;
 };
 
+// .replace("of America","of Mexico") // temp fix for region in json data on AOGL
 // This function digs through the feature and explicitly exports to csv based on what is requested
 export const exportFeatureToCSV = (feature, type) => {
   const region = feature.properties.region;
