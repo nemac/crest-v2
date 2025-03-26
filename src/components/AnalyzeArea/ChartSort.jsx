@@ -7,7 +7,8 @@ import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { styled } from "@mui/system";
 import { useSelector, useDispatch } from "react-redux";
-import { SortOutlined } from "@mui/icons-material";
+import { SortOutlined, SwapVertOutlined } from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
 import ActionButton from "../All/ActionButton.jsx";
 // import './style.css';
 import {
@@ -17,7 +18,7 @@ import {
 
 const StyledGridContainer = styled(Grid)(({ theme }) => ({
   display: "flex",
-  height: theme.spacing(8),
+  height: theme.spacing(14),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
   borderColor: theme.palette.CRESTBorderColor.main,
   borderStyle: "solid",
@@ -52,6 +53,18 @@ export const ChartSort = () => {
 
   return (
     <StyledGridContainer container spacing={0} p={0} mt={-1} mb={1}>
+      <Grid xs={12}>
+        <Typography
+          variant="body1"
+          component="div"
+          justifyContent="center"
+          alignItems="center"
+          p={1}
+          sx={{ display: "flex" }}
+        >
+          Sort by:
+        </Typography>
+      </Grid>
       {Object.entries(sortIndices).map(([chart, chartName], index) => (
         <Grid
           xs={2}
@@ -60,7 +73,7 @@ export const ChartSort = () => {
             backgroundColor:
               chartName === analyzeAreaState.sortBy ? "grey" : null,
           }}
-        >
+        >         
           <ActionButton
             key={`sort-button-${index}`}
             buttonLabel={chart}

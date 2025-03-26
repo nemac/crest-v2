@@ -46,6 +46,8 @@ import {
   CameraAlt,
   DeleteForever,
   SortOutlined,
+  SortByAlphaOutlined,
+  SwapVertOutlined,
   // ToggleOff, keeping incase we go back to this
   // ToggleOn, keeping incase we go back to this
   TableChart,
@@ -128,7 +130,8 @@ export default function ChartHeaderActionButtons(props) {
       </Grid>
       <Grid xs={3}>
         <ChartHeaderActionButton
-          buttonLabel={`${sortIndices[analyzeAreaState.sortBy]}`}
+          // buttonLabel={`Sort by${sortIndices[analyzeAreaState.sortBy]}`}
+          buttonLabel={`Sort Charts`}
           buttonName={`Sort-(${analyzeAreaState.sortBy})`}
           onClick={handleSortClick}
         >
