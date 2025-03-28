@@ -66,8 +66,13 @@ const EditName = (props) => {
   };
 
   return (
-    <Grid container spacing={0} mb={0} sx={{ display: "flex", height: "auto" }}>
-      <Grid width="100%" p={0}>
+    <Grid
+      container
+      spacing={0}
+      mb={0}
+      sx={{ display: "flex", height: "auto", width: "100%" }}
+    >
+      <Grid width="100%" px={2} py={0}>
         <Typography
           variant="body1"
           component="div"
@@ -77,6 +82,7 @@ const EditName = (props) => {
           sx={{ display: "flex", fontSize: "1.2rem", width: "100%" }}
         >
           <OutlinedInput
+            fullWidth
             inputRef={inputRef} // Attach ref to input
             defaultValue={inputValue}
             variant="outlined"
