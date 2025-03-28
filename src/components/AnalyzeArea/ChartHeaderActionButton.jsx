@@ -37,7 +37,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/system";
 
-
 const StyledButton = styled(Button)(({ theme }) => ({
   paddingTop: theme.spacing(0.5),
   paddingBottom: theme.spacing(0.5),
@@ -63,7 +62,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
     fontSize: "0.80rem",
   },
 }));
-
 
 // just a place holder needs props passed in and image etc
 export default function ChartHeaderActionButton(props) {
