@@ -35,11 +35,11 @@ const regions = mapConfig.regions;
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
   width: "100%",
-  height: "250px",
-  maxHeight: "250px",
+  height: "350px",
+  maxHeight: "350px",
   [theme.breakpoints.down("sm")]: {
-    height: "300px",
-    maxHeight: "300px",
+    height: "400px",
+    maxHeight: "400px",
   },
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,

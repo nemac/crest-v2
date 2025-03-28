@@ -11,7 +11,13 @@ import {
   Cell,
   CartesianGrid,
 } from "recharts";
-import { EditOutlined } from "@mui/icons-material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+
+import { EditOutlined, SaveOutlined } from "@mui/icons-material";
 
 /* eslint-disable no-nested-ternary */
 
@@ -21,6 +27,80 @@ import CustomToolTip from "./CustomToolTip.jsx";
 import { changeAreaName } from "../../reducers/mapPropertiesSlice";
 
 const regions = mapConfig.regions;
+
+const EditName = (props) => {
+  const {
+    title,
+    handleInputChange,
+    handleKeyDown,
+    handleTitleClick,
+    isEditing,
+    inputValue,
+    setIsEditing,
+    setInputValue,
+    areaName,
+  } = props;
+
+  const dispatch = useDispatch();
+  const inputRef = React.useRef();
+
+  const handleInputBlur = (e) => {
+    setInputValue(title);
+    // hacky but so what
+    e.target.value = title;
+    setIsEditing(false);  
+  };
+
+  const handleAdornmentClick = (e) => {
+    if (isEditing) {
+      e.preventDefault();
+      e.stopPropagation(); 
+      const newName = inputRef.current.value.trim(); // Always use the state value
+      if (newName) {
+        dispatch(changeAreaName({ oldAreaName: areaName, newAreaName: newName }));
+      }
+      setIsEditing(false);
+    }
+  };
+  
+  return (
+  <Grid container spacing={0} mb={0} sx={{display: "flex", height: "auto"}}>
+    <Grid width="100%" p={0} >
+      <Typography
+        variant="body1"
+        component="div"
+        justifyContent="center"
+        alignItems="center"
+        p={1}
+        sx={{ display: "flex", fontSize: '1.2rem', width: "100%"  }}
+      >
+        <OutlinedInput
+          inputRef={inputRef} // Attach ref to input
+          defaultValue={inputValue}
+          variant="outlined"
+          size="small"
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          onKeyDown={handleKeyDown}
+          onClick={handleTitleClick}
+          endAdornment={<InputAdornment position="end">
+            <IconButton
+              type="text"
+              color="CRESTPrimary"
+              aria-label={'Edit Name'}
+              value={'Edit Name'}
+              onMouseDown={handleAdornmentClick}
+            >
+              {isEditing ? ( <SaveOutlined fontSize="small"/> ) : (<EditOutlined fontSize="small" />)} 
+            </IconButton>
+          </InputAdornment>}
+          >
+        </OutlinedInput>   
+      </Typography> 
+    </Grid>
+  </Grid>
+  )
+}
 
 export default function AnalyzeBarChart(props) {
   const {
@@ -145,18 +225,13 @@ export default function AnalyzeBarChart(props) {
     }
   };
 
-  const handleTitleClick = () => {
+  const handleTitleClick = (e) => {
     setIsEditing(true);
     setInputValue(title);
   };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-  };
-
-  const handleInputBlur = () => {
-    setTitle(inputValue);
-    setIsEditing(false);
   };
 
   const handleKeyDown = (e) => {
@@ -167,8 +242,8 @@ export default function AnalyzeBarChart(props) {
         changeAreaName({ oldAreaName: areaName, newAreaName: e.target.value }),
       );
     } else if (e.key === "Escape") {
-      setIsEditing(false);
       setInputValue(title);
+      setIsEditing(false);
     }
   };
 
@@ -181,65 +256,19 @@ export default function AnalyzeBarChart(props) {
       id={`${chartType}-${areaName}-container`}
       style={{ overflow: "visible", paddingTop: "16px", marginBottom: "16px" }}
     >
-      <div className="w-full mb-0">
-        {isEditing ? (
-          <span
-            style={{
-              fontSize: "1.25rem",
-              fontWeight: "bold",
-              display: "block",
-              textAlign: "center",
-            }}
-            className="text-xl font-bold cursor-pointer hover:text-blue-500"
-          >
-            <input
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              onBlur={handleInputBlur}
-              onKeyDown={handleKeyDown}
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: "bold",
-                backgroundColor: "white",
-                textAlign: "center",
-                width: "80%",
-                maxWidth: "400px",
-              }}
-              autoFocus
-              className="text-xl font-bold cursor-pointer hover:text-blue-500"
-            />
-          </span>
-        ) : (
-          <div className="w-full mb-0">
-            <span
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: "bold",
-                display: "block",
-                textAlign: "center",
-                cursor: "pointer",
-                marginBottom: "0px",
-              }}
-              className="text-xl font-bold cursor-pointer hover:text-blue-500"
-              onClick={handleTitleClick}
-            >
-              {title}
-              <span
-                className="ml-2 text-gray-400 inline-flex items-center"
-                style={{
-                  verticalAlign: "middle",
-                  marginLeft: "8px",
-                  position: "relative",
-                  top: "2px", // Fine-tune vertical alignment if needed
-                }}
-              >
-                <EditOutlined fontSize="small" />
-              </span>
-            </span>
-          </div>
-        )}
-      </div>
+    <EditName 
+        title={title}
+        inputValue={inputValue}
+        handleInputChange={handleInputChange}
+        handleKeyDown={handleKeyDown}
+        handleTitleClick={handleTitleClick}
+        isEditing={isEditing}
+        setTitle={setTitle}
+        setIsEditing={setIsEditing}
+        areaName={areaName}
+        setInputValue={setInputValue}
+   />
+
       <BarChart
         id={`${chartType}-${areaName}-barchart`}
         onClick={handleChartClick}
@@ -328,4 +357,17 @@ AnalyzeBarChart.propTypes = {
   setChartLabel: PropTypes.func,
   setChartDescription: PropTypes.func,
   setChartDescriptionFor: PropTypes.func,
+};
+
+
+EditName.propTypes = {
+  title: PropTypes.string.isRequired,
+  handleInputChange: PropTypes.func,
+  handleKeyDown: PropTypes.func,
+  handleTitleClick: PropTypes.func,
+  isEditing: PropTypes.bool.isRequired,
+  inputValue: PropTypes.string.isRequired,
+  setIsEditing: PropTypes.func,
+  setInputValue: PropTypes.func,
+  areaName: PropTypes.string.isRequired,
 };

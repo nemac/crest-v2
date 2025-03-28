@@ -92,4 +92,5 @@ export const findCenterOfCenters = (features) => {
   if (validFeatureCount > 0) {
     return L.latLng(totalLat / validFeatureCount, totalLng / validFeatureCount);
   }
+  return null;
 };

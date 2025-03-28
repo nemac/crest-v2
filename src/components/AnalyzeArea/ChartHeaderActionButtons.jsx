@@ -46,8 +46,6 @@ import {
   CameraAlt,
   DeleteForever,
   SortOutlined,
-  SortByAlphaOutlined,
-  SwapVertOutlined,
   // ToggleOff, keeping incase we go back to this
   // ToggleOn, keeping incase we go back to this
   TableChart,
@@ -67,15 +65,6 @@ const StyledGridContainer = styled(Grid)(({ theme }) => ({
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
-
-const sortIndices = {
-  areaNumber: "Name",
-  hubs: "Hubs",
-  exposure: "Exposure",
-  threat: "Threat",
-  asset: "Assets",
-  wildlife: "Wildlife",
-};
 
 export default function ChartHeaderActionButtons(props) {
   const {
@@ -131,7 +120,7 @@ export default function ChartHeaderActionButtons(props) {
       <Grid xs={3}>
         <ChartHeaderActionButton
           // buttonLabel={`Sort by${sortIndices[analyzeAreaState.sortBy]}`}
-          buttonLabel={`Sort Charts`}
+          buttonLabel={`Sort`}
           buttonName={`Sort-(${analyzeAreaState.sortBy})`}
           onClick={handleSortClick}
         >

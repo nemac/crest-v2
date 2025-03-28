@@ -37,6 +37,19 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/system";
 
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  paddingTop: theme.spacing(0.5),
+  paddingBottom: theme.spacing(0.5),
+  borderRadius: 0,
+  maxHeight: theme.spacing(10),
+  textTransform: "capitalize",
+  flexWrap: "wrap",
+  "&:hover": {
+    backgroundColor: "#6f6f6f",
+  },
+}));
+
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -51,17 +64,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  paddingTop: theme.spacing(0.5),
-  paddingBottom: theme.spacing(0.5),
-  borderRadius: 0,
-  maxHeight: theme.spacing(10),
-  textTransform: "capitalize",
-  flexWrap: "wrap",
-  "&:hover": {
-    backgroundColor: "#6f6f6f",
-  },
-}));
 
 // just a place holder needs props passed in and image etc
 export default function ChartHeaderActionButton(props) {
