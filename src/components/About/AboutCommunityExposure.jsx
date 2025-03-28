@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Link as RouterLink } from "react-router-dom";
+// import { Link as RouterLink } from "react-router-dom";
 
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 
 import { AboutImage } from "../All/StyledComponents.jsx";
 import AboutComunityExposureImage from "../../assets/images/about_comunity_exposure.png";
@@ -32,14 +32,15 @@ export default function AboutCommunityExposure(props) {
         community assets overlap with flood threats, also known as exposure.
         While individual data inputs vary regionally, the Regional Coastal
         Resilience Assessments utilize standardized methods to calculate the
-        Community Exposure Index. For details, review the&nbsp;
+        Community Exposure Index.
+        {/* For details, review the&nbsp;
         <Link
           value="DataAndReports"
           to="/DataAndReports"
           component={RouterLink}
         >
           final reports
-        </Link>
+        </Link> */}
       </Typography>
     </div>
   );

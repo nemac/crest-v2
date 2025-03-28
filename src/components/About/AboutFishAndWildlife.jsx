@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Link as RouterLink } from "react-router-dom";
+// import { Link as RouterLink } from "react-router-dom";
 
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 
 import { AboutImage } from "../All/StyledComponents.jsx";
 import AboutFishAndWildlifeImage from "../../assets/images/about_fish_and_wildlife.png";
@@ -45,7 +45,8 @@ export default function AboutFishAndWildlife(props) {
         contour, utilizing the best available data to identify marine habitat
         types capable of supporting significant biodiversity (e.g., coral reefs,
         mangroves, and seagrass beds). CREST automatically displays the results
-        for each region based on the method applied. For details, review
+        for each region based on the method applied.
+        {/* For details, review
         the&nbsp;
         <Link
           value="DataAndReports"
@@ -53,7 +54,7 @@ export default function AboutFishAndWildlife(props) {
           component={RouterLink}
         >
           final reports
-        </Link>
+        </Link> */}
         .
       </Typography>
     </div>

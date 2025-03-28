@@ -8,7 +8,7 @@ import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import About from "./pages/About.jsx";
 import AnalyzeProjectSites from "./pages/AnalyzeProjectSites.jsx";
 import CustomTheme from "./CRESTTheme/CRESTCustomTheme";
-import DataAndReports from "./pages/DataAndReports.jsx";
+// import DataAndReports from "./pages/DataAndReports.jsx";
 import Examples from "./pages/ExamplesPage.jsx";
 import Home from "./pages/Home.jsx";
 import ResilienceProject from "./pages/ResilienceProject.jsx";
@@ -48,7 +48,7 @@ export default function App() {
               element={<AnalyzeProjectSites setErrorState={setErrorState} />}
             />
             <Route path="/Examples" element={<Examples />} />
-            <Route path="/DataAndReports" element={<DataAndReports />} />
+            {/* <Route path="/DataAndReports" element={<DataAndReports />} /> */}
             <Route path="/About" element={<About />} />
           </Routes>
           <ModelErrors

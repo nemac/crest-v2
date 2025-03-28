@@ -258,19 +258,19 @@ export default function NavBarTabsSmallScreens(props) {
 
                 <StyledNavPaper square={false} elevation={0}>
                   <StyledListItem
-                    selected={navBar.activeTab === "Examples"}
+                    selected={navBar.activeTab === "Getting Started"}
                     onClick={(event) => handleClickNavTab(event, "Examples")}
                     to="/Examples"
                     {...a11yProps(3)}
                     component={RouterLink}
                   >
-                    Examples
+                    Getting Started
                   </StyledListItem>
                 </StyledNavPaper>
 
-                <StyledNavPaper square={false} elevation={0}>
+                {/* <StyledNavPaper square={false} elevation={0}>
                   <StyledListItem
-                    selected={navBar.activeTab === "DataAndReports"}
+                    selected={navBar.activeTab === "c"}
                     onClick={(event) =>
                       handleClickNavTab(event, "DataAndReports")
                     }
@@ -281,7 +281,7 @@ export default function NavBarTabsSmallScreens(props) {
                   >
                     Data & Reports
                   </StyledListItem>
-                </StyledNavPaper>
+                </StyledNavPaper> */}
 
                 <StyledNavPaper square={false} elevation={0}>
                   <StyledListItem
