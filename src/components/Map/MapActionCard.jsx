@@ -44,7 +44,7 @@ export default function MapActionCard(props) {
   const helperTitle = "How to add an area";
   const helpDescription =
     "If you are interested in getting detailed statistics about a specific place or a potential project site, " +
-    "you must add an area. This requires you to sketch an area on the map, upload a shapefile, or search for county or watershed.\n\n" +
+    "you must add an area. This requires you to sketch an area on the map, upload a shapefile, or search for county or (HUC-8).\n\n" +
     "The results will allow you to examine and compare your project site(s) by proximity to Resilience Hubs and explore and compare the " +
     "Community Exposure and Fish and Wildlife Indices in the surrounding area.";
 

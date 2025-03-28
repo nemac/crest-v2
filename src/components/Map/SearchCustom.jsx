@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Alert from '@mui/material/Alert';
 import { styled } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { SearchOutlined, HelpOutlineOutlined, Warning } from "@mui/icons-material"; // for when we need it, Search } from '@mui/icons-material';
+import { SearchOutlined, HelpOutlineOutlined } from "@mui/icons-material"; // for when we need it, Search } from '@mui/icons-material';
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -156,6 +156,7 @@ const customAutoCompleteTheme = createTheme({
           border: `1px solid #555555`,
           fontSize: "0.875rem",
           fontWeight: "500",
+          whiteSpace: 'pre-line',
         },
         popper: {
           inset: "8px auto auto 0px !important",
@@ -230,6 +231,7 @@ export default function SearchCustom(props) {
     feature.properties.NAME = feature.properties.search_field;
     // eslint-disable-next-line no-param-reassign
     feature.properties.areaName = feature.properties.search_field;
+      // eslint-disable-next-line no-param-reassign
     feature.properties.region = feature.properties.region.replace("Mexico","America")
     const zonalStatsKeys = regionConfig.zonalStatsKeys;
     const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
@@ -238,7 +240,6 @@ export default function SearchCustom(props) {
   };
 
   const handleInputChange = (_, newInputValue) => {
-    console.log(`selectedRegion ${selectedRegion}`)
     const tempRegion = selectedRegion.replace("'", "''").replace("America","Mexico")
     if (newInputValue.length < 3) {
       setOpen(false);
@@ -247,7 +248,7 @@ export default function SearchCustom(props) {
       allQuery.where(
         `search_field LIKE '%${newInputValue}%' AND region = '${tempRegion}'`,
       );
-      const warningText = `CREST includes coastal areas only! "${newInputValue}" may be outside a coastal zone or not in the current region.`
+      const warningText = `CREST includes coastal areas only! "${newInputValue}" may be outside a coastal zone or not in the current region. `
       const optionText = (<Alert severity="warning" sx={{ backgroundColor: 'rgba(255, 165, 0, 0.1)', color: '#fff', borderRadius: '4px' }}> {warningText}</Alert>)
       //  `CREST only includes coastal areas! "${newInputValue}" may be outside a coastal zone or not in the current region: '${selectedRegion.replace("'", "''")}'`
       setNoOptionsText(optionText);
@@ -271,7 +272,7 @@ export default function SearchCustom(props) {
         sx={{ margin: "0px", padding: "0px" }}
         fullWidth
         {...params}
-        label="Search for a State, County, or Watershed"
+        label="Search for a State, County, or Watershed (HUC-8)"
         aria-label={"Search for a State, County, or Watershed"}
         id="search-area-textfield"
         variant="standard"

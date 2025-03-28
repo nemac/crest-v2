@@ -115,6 +115,7 @@ const extractMatchingZonalStats = (layersList, zonalStatsData) => {
     const selector = layer.chartCSSSelector;
 
     // Check if this selector exists as a key in zonalStatsData
+    // eslint-disable-next-line no-prototype-builtins
     if (zonalStatsData.hasOwnProperty(selector)) {
       // Add this key/value pair to our result
       matchingPairs[selector] = zonalStatsData[selector];
@@ -187,6 +188,7 @@ export const exportFeatureToCSV = (feature, type) => {
       featureDataToExport = feature.properties.zonalStatsData;
       break;
     default:
+      // eslint-disable-next-line no-console
       console.log("Unknown Export");
   }
   const dataRows = [];
