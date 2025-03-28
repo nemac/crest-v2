@@ -73,7 +73,7 @@ export const ChartSort = () => {
             backgroundColor:
               chartName === analyzeAreaState.sortBy ? "grey" : null,
           }}
-        >         
+        >
           <ActionButton
             key={`sort-button-${index}`}
             buttonLabel={chart}

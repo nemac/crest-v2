@@ -13,9 +13,9 @@ import {
 } from "recharts";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 import { EditOutlined, SaveOutlined } from "@mui/icons-material";
 
@@ -48,59 +48,66 @@ const EditName = (props) => {
     setInputValue(title);
     // hacky but so what
     e.target.value = title;
-    setIsEditing(false);  
+    setIsEditing(false);
   };
 
   const handleAdornmentClick = (e) => {
     if (isEditing) {
       e.preventDefault();
-      e.stopPropagation(); 
+      e.stopPropagation();
       const newName = inputRef.current.value.trim(); // Always use the state value
       if (newName) {
-        dispatch(changeAreaName({ oldAreaName: areaName, newAreaName: newName }));
+        dispatch(
+          changeAreaName({ oldAreaName: areaName, newAreaName: newName }),
+        );
       }
       setIsEditing(false);
     }
   };
-  
+
   return (
-  <Grid container spacing={0} mb={0} sx={{display: "flex", height: "auto"}}>
-    <Grid width="100%" p={0} >
-      <Typography
-        variant="body1"
-        component="div"
-        justifyContent="center"
-        alignItems="center"
-        p={1}
-        sx={{ display: "flex", fontSize: '1.2rem', width: "100%"  }}
-      >
-        <OutlinedInput
-          inputRef={inputRef} // Attach ref to input
-          defaultValue={inputValue}
-          variant="outlined"
-          size="small"
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
-          onKeyDown={handleKeyDown}
-          onClick={handleTitleClick}
-          endAdornment={<InputAdornment position="end">
-            <IconButton
-              type="text"
-              color="CRESTPrimary"
-              aria-label={'Edit Name'}
-              value={'Edit Name'}
-              onMouseDown={handleAdornmentClick}
-            >
-              {isEditing ? ( <SaveOutlined fontSize="small"/> ) : (<EditOutlined fontSize="small" />)} 
-            </IconButton>
-          </InputAdornment>}
-          >
-        </OutlinedInput>   
-      </Typography> 
+    <Grid container spacing={0} mb={0} sx={{ display: "flex", height: "auto" }}>
+      <Grid width="100%" p={0}>
+        <Typography
+          variant="body1"
+          component="div"
+          justifyContent="center"
+          alignItems="center"
+          p={1}
+          sx={{ display: "flex", fontSize: "1.2rem", width: "100%" }}
+        >
+          <OutlinedInput
+            inputRef={inputRef} // Attach ref to input
+            defaultValue={inputValue}
+            variant="outlined"
+            size="small"
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            onKeyDown={handleKeyDown}
+            onClick={handleTitleClick}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  type="text"
+                  color="CRESTPrimary"
+                  aria-label={"Edit Name"}
+                  value={"Edit Name"}
+                  onMouseDown={handleAdornmentClick}
+                >
+                  {isEditing ? (
+                    <SaveOutlined fontSize="small" />
+                  ) : (
+                    <EditOutlined fontSize="small" />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
+          ></OutlinedInput>
+        </Typography>
+      </Grid>
     </Grid>
-  </Grid>
-  )
-}
+  );
+};
 
 export default function AnalyzeBarChart(props) {
   const {
@@ -256,7 +263,7 @@ export default function AnalyzeBarChart(props) {
       id={`${chartType}-${areaName}-container`}
       style={{ overflow: "visible", paddingTop: "16px", marginBottom: "16px" }}
     >
-    <EditName 
+      <EditName
         title={title}
         inputValue={inputValue}
         handleInputChange={handleInputChange}
@@ -267,7 +274,7 @@ export default function AnalyzeBarChart(props) {
         setIsEditing={setIsEditing}
         areaName={areaName}
         setInputValue={setInputValue}
-   />
+      />
 
       <BarChart
         id={`${chartType}-${areaName}-barchart`}
@@ -358,7 +365,6 @@ AnalyzeBarChart.propTypes = {
   setChartDescription: PropTypes.func,
   setChartDescriptionFor: PropTypes.func,
 };
-
 
 EditName.propTypes = {
   title: PropTypes.string.isRequired,
