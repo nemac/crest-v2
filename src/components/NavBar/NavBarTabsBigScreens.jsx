@@ -99,15 +99,15 @@ export default function NavBarTabsBigScreens(props) {
                 to="/Examples"
                 {...a11yProps(3, "crest-tab")}
                 component={RouterLink}
-                label="Examples"
+                label="Getting Started"
               />
-              <LinkTab
+              {/* <LinkTab
                 value="DataAndReports"
                 to="/DataAndReports"
                 {...a11yProps(0, "crest-tab")}
                 component={RouterLink}
                 label="Data & Reports"
-              />
+              /> */}
               <LinkTab
                 value="About"
                 to="/About"

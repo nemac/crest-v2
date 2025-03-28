@@ -125,7 +125,7 @@ export default function ChartCard(props) {
       "pop_density",
       "crit_infra",
       "transportation",
-      "social_vuln",
+      // "social_vuln",
       "crit_facilities",
     ],
     Landcover: ["does not matter"],

@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Link as RouterLink } from "react-router-dom";
+// import { Link as RouterLink } from "react-router-dom";
 
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 
 import { AboutImage } from "../All/StyledComponents.jsx";
 import AboutResilienceHubsImage from "../../assets/images/about_resilience_hubs.png";
@@ -30,7 +30,8 @@ export default function AboutResilienceHubs(props) {
         Resilience Assessments, Resilience Hubs are common to all regions.
         However, the methods used to develop Resilience Hubs do vary regionally,
         with significant methodological enhancements made in Puerto Rico, the
-        U.S. Virgin Islands, and the Northern Mariana Islands. For details,
+        U.S. Virgin Islands, and the Northern Mariana Islands.
+        {/* For details,
         review the{" "}
         <Link
           value="DataAndReports"
@@ -38,7 +39,7 @@ export default function AboutResilienceHubs(props) {
           component={RouterLink}
         >
           final reports
-        </Link>
+        </Link> */}
       </Typography>
     </div>
   );

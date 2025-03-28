@@ -69,7 +69,7 @@ export default function TabCallToActions() {
           onClick={handleActionClick}
         />
       </Grid>
-      <Grid xs={12} sm={12} md={6} lg={3}>
+      {/* <Grid xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
           tabLabel={"Download Data and Access Reports"}
           tabLocation={"DataAndReports"}
@@ -80,7 +80,7 @@ export default function TabCallToActions() {
           }
           onClick={handleActionClick}
         />
-      </Grid>
+      </Grid> */}
       <Grid xs={12} sm={12} md={6} lg={3}>
         <TabCallToActionCard
           tabLabel={"Learn About the Assessment"}
