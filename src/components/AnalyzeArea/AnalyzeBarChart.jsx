@@ -108,6 +108,20 @@ const EditName = (props) => {
                 </IconButton>
               </InputAdornment>
             }
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderWidth: "none",
+                borderStyle: "none",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderWidth: "1px",
+                borderStyle: "solid",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderWidth: "2px",
+                borderStyle: "solid",
+              },
+            }}
           ></OutlinedInput>
         </Typography>
       </Grid>
