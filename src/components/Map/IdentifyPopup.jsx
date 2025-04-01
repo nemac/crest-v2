@@ -48,7 +48,7 @@ import {
   changeIdentifyResults,
   changeIdentifyIsLoaded,
 } from "../../reducers/mapPropertiesSlice";
-import IdentifyBarChart from "../AnalyzeArea/IdentifyBarChart";
+import IdentifyBarChart from "../AnalyzeArea/IdentifyBarChart.jsx";
 
 const StyledPopup = styled(Popup)(({ theme }) => ({
   bottom: "-22px !important",
