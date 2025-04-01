@@ -21,7 +21,7 @@ import basemapImageryImage from "../assets/images/basemap-imagery.png";
 import basemapStreetImage from "../assets/images/basemap-street.jpg";
 import basemapTopoImage from "../assets/images/basemap-topo.jpg";
 
-const environment = "prod-v2"; // change to "prod" for production
+const environment = "beta"; // change to "prod" for production
 
 export const identifyEndpoint = `https://api.resilientcoasts.org/${environment}/identify/`;
 
