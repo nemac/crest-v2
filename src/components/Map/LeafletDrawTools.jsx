@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactGA from "react-ga4";
 
 import * as L from "leaflet";
 import { FeatureGroup, useMap } from "react-leaflet";
@@ -103,6 +104,11 @@ export default function LeafletDrawTools(props) {
         if (areaValid) {
           geo.properties.zonalStatsData = data.features[index].properties.mean;
           dispatch(addNewFeatureToDrawnLayers(geo));
+          ReactGA.event({
+            category: "engagement",
+            action: "add_area_sketch_area",
+            label: "sketch_area",
+          });
         } else {
           setErrorState((previous) => ({
             ...previous,

@@ -1,4 +1,6 @@
 import React from "react";
+import ReactGA from "react-ga4";
+
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import L from "leaflet";
@@ -84,6 +86,11 @@ export default function ActionButtons(props) {
       };
       control.options.sizeModes = [viewSize];
       control.printMap(viewSize.className, "CREST Map");
+      ReactGA.event({
+        category: "engagement",
+        action: "export_map",
+        label: "export map",
+      });
     }
   };
 

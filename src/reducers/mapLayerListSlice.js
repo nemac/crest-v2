@@ -1,3 +1,4 @@
+import ReactGA from "react-ga4";
 import { createSlice } from "@reduxjs/toolkit";
 import { mapConfig } from "../configuration/config";
 
@@ -35,8 +36,18 @@ export const mapLayerListSlice = createSlice({
       const layerId = layer.id;
       if (layerId in state.activeLayerList) {
         delete state.activeLayerList[layerId];
+        ReactGA.event({
+          category: "engagement",
+          action: "map_layer_toggle",
+          label: `${layerId} off`,
+        });
       } else {
         state.activeLayerList[layerId] = layer;
+        ReactGA.event({
+          category: "engagement",
+          action: "map_layer_toggle",
+          label: `${layerId} on`,
+        });
       }
     },
     toggleCollapsed: (state, action) => {
@@ -71,6 +82,11 @@ export const mapLayerListSlice = createSlice({
     setOpacity: (state, action) => {
       const layerId = action.payload.layerId;
       state.activeLayerList[layerId].opacity = action.payload.opacity;
+      ReactGA.event({
+        category: "engagement",
+        action: "map_layer_opacity",
+        label: `${layerId} off`,
+      });
     },
   },
 });
