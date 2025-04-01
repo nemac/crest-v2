@@ -37,11 +37,11 @@ const regions = mapConfig.regions;
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
   width: "100%",
-  height: "350px",
-  maxHeight: "350px",
+  // height: "375px",
+  maxHeight: "375px",
   [theme.breakpoints.down("sm")]: {
-    height: "400px",
-    maxHeight: "400px",
+    // height: "425px",
+    maxHeight: "425px",
   },
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
@@ -148,9 +148,12 @@ export default function ChartCard(props) {
   const landcoverData = [];
   const pieChartLegendColors = [];
 
+  // console.log(`landcoverConfigToUse ${landcoverConfigToUse[1].name}`)
+
   for (let i = 0; i < landcoverConfigToUse.length; i += 1) {
     const value =
       feature.properties.zonalStatsData[landcoverConfigToUse[i].value];
+      console.log(`landcover ${JSON.stringify(feature.properties.zonalStatsData)}`)
     // no need to show low values also zero values cause errors with pie charts not sure why
     if (value > 1) {
       landcoverData.push({ name: landcoverConfigToUse[i].name, value });
@@ -159,7 +162,7 @@ export default function ChartCard(props) {
   }
 
   const landcoverDataSort = landcoverData.sort((a, b) => a.value - b.value);
-
+  
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 
@@ -310,10 +313,10 @@ export default function ChartCard(props) {
                       setChartDescriptionFor={setChartDescriptionFor}
                       zonalStatsData={feature.properties.zonalStatsData}
                       barchartMargin={{
-                        top: 90,
+                        top: 60,
                         right: 30,
                         left: 0,
-                        bottom: 30,
+                        bottom: 60,
                       }}
                     />
                   ) : (
