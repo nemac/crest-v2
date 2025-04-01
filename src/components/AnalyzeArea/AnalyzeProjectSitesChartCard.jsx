@@ -148,12 +148,9 @@ export default function ChartCard(props) {
   const landcoverData = [];
   const pieChartLegendColors = [];
 
-  // console.log(`landcoverConfigToUse ${landcoverConfigToUse[1].name}`)
-
   for (let i = 0; i < landcoverConfigToUse.length; i += 1) {
     const value =
       feature.properties.zonalStatsData[landcoverConfigToUse[i].value];
-      console.log(`landcover ${JSON.stringify(feature.properties.zonalStatsData)}`)
     // no need to show low values also zero values cause errors with pie charts not sure why
     if (value > 1) {
       landcoverData.push({ name: landcoverConfigToUse[i].name, value });
@@ -162,7 +159,7 @@ export default function ChartCard(props) {
   }
 
   const landcoverDataSort = landcoverData.sort((a, b) => a.value - b.value);
-  
+
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 

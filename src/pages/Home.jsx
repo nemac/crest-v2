@@ -164,8 +164,28 @@ export default function Home() {
                   >
                     Methods and data sources vary by region, but all assessments
                     allow you to view and interact with all model inputs and
-                    results. Assessment for all other US regions are underway
-                    and will be added to CREST once available.
+                    results. Assessments for all other US regions are being
+                    updated, Updated data and reports will be added to CREsT
+                    once available.
+                  </Typography>
+                </ListItem>
+
+                <ListItem component="div" disablePadding>
+                  <ListItemIcon>
+                    <InfoOutlined />
+                  </ListItemIcon>
+                  <Typography
+                    variant="body"
+                    component="div"
+                    px={1.5}
+                    gutterBottom
+                  >
+                    The CREST user interface was updated in April 2025 to
+                    improve functionality and enhance the user experience. If
+                    you have any questions about the new interface, please
+                    contact Greg Dobson at{" "}
+                    <Link href="mailto:gdobson@unca.edu">gdobson@unca.edu</Link>
+                    .
                   </Typography>
                 </ListItem>
 

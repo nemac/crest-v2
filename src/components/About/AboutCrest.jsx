@@ -26,8 +26,8 @@ export default function AboutCrest(props) {
         Asheville’s National Environmental Modeling and Analysis Center (NEMAC)
         and in consultation with the U.S. Army Corps of Engineers and
         NatureServe. The Coastal Resilience Evaluation and Siting Tool (CREST)
-        provides an interactive platform to view, download, and interact with
-        the results of the Regional Coastal Resilience Assessments.
+        provides an interactive platform to view and interact with the results
+        of the Regional Coastal Resilience Assessments.
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         The Regional Assessments seek to identify areas on the landscape where
@@ -39,10 +39,11 @@ export default function AboutCrest(props) {
         about flooding threats, human community assets, and fish and wildlife
         species to identify Resilience Hubs. The Regional Assessments have since
         expanded to include Puerto Rico, the U.S. Virgin Islands, the Northern
-        Mariana Islands, Hawaii, Guam, American Samoa, and Alaska. Owing to the
-        uniqueness of each region, the methods will continue to be refined and
-        enhanced. CREST will be updated once the U.S. U.S. Great Lakes Regional
-        Assessment is complete and as other Regional Assessments are updated.
+        Mariana Islands, Hawaii, Guam, American Samoa, Alaska, and the U.S.
+        Great Lakes. Owing to the uniqueness of each region, the methods will
+        continue to be refined and enhanced. Assessments for all other U.S.
+        regions are being updated. Updated data and reports will be added to
+        CREST once available.
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         CREST provides an online, interactive environment to access Regional
@@ -54,16 +55,14 @@ export default function AboutCrest(props) {
           </li>
           <li>
             Analyze potential project sites and quantify results from the
-            Assessment models,
+            Assessment models, and
           </li>
-          <li>
-            Search Resilience Hubs to identify potential project sites, and
-          </li>
-          <li>
+          <li>Search Resilience Hubs to identify potential project sites.</li>
+          {/* <li>
             Provide advanced GIS users with the ability to download all of the
             final Regional Assessment datasets for use in their own GIS
             platform.
-          </li>
+          </li> */}
         </CrestList>
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
@@ -84,7 +83,24 @@ export default function AboutCrest(props) {
         projects based on dual benefits for habitats and human communities.
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
-        For additional information about the Regional Coastal Resilience
+        In April 2025, the CREST user interface was updated to improve
+        functionality and enhance the user experience. Changes improve the
+        overall design while allowing users to more easily export results and
+        maps, search for areas and watersheds of interest, and view LandCover
+        data. The redesigned Explore Resilience Hubs tab allows users to explore
+        Resilience Hubs in their area of interest and identify variation within
+        Hub scores in regions where a Resilience Hub Grid is available (Guam,
+        American Samoa, Alaska, and the U.S. Great Lakes). For additional
+        information about the Regional Coastal Resilience Assessments, visit the
+        NFWF&nbsp;
+        <Link
+          target="_blank"
+          href="https://www.nfwf.org/programs/national-coastal-resilience-fund/regional-coastal-resilience-assessment"
+        >
+          Regional Coastal Resilience Assessment page
+        </Link>
+        .
+        {/* For additional information about the Regional Coastal Resilience
         Assessments and to access final reports, visit the NFWF&nbsp;
         <Link
           target="_blank"
@@ -95,7 +111,7 @@ export default function AboutCrest(props) {
         . In addition to the Regional Coastal Resilience Assessments, NFWF and
         NOAA partnered with NatureServe to complete Targeted Watershed
         Assessments for eight watersheds throughout the U.S. CREST also features
-        the results from each targeted watershed.
+        the results from each targeted watershed. */}
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         Please send questions, comments, or issues to{" "}
