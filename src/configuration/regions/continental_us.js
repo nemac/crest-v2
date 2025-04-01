@@ -196,7 +196,7 @@ export const continentalUSConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Fish and wildlife needs a description currently this text is just a placeholder.",
+        "Identifies valuable habitat for species of concern in both the terrestrial and marine environments. Higher values indicate more valuable habitat areas for both.",
       region: "continental_us",
     },
     {
