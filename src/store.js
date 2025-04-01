@@ -39,6 +39,7 @@ const getPersistedState = () => {
     }
     // If state is invalid, clear localStorage
     localStorage.clear();
+    // eslint-disable-next-line no-console
     console.warn(
       "Invalid state structure detected. Local storage has been cleared.",
     );
@@ -46,6 +47,7 @@ const getPersistedState = () => {
   } catch (error) {
     // If there's any error, clear localStorage
     localStorage.clear();
+    // eslint-disable-next-line no-console
     console.error(
       "Error loading state, local storage has been cleared:",
       error,
