@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
+import ReactGA from "react-ga4";
+
 import { useSelector, useDispatch } from "react-redux";
 import { GeoJSON, Circle } from "react-leaflet";
 import { LayersClear, Share } from "@mui/icons-material";
@@ -120,6 +122,11 @@ export default function AnalyzeProjectSitesMapCard(props) {
         dispatch(changeZoom(regions[regionName].mapProperties.zoom));
         dispatch(changeCenter(regions[regionName].mapProperties.center));
         dispatch(regionUserInitiated(false));
+        ReactGA.event({
+          category: "engagement",
+          action: "change_region",
+          label: regions[regionName].label,
+        });
       }
       return null;
     },
@@ -176,6 +183,11 @@ export default function AnalyzeProjectSitesMapCard(props) {
     event.stopPropagation();
     setShareUrl(createShareURL());
     setShareLinkOpen(true);
+    ReactGA.event({
+      category: "engagement",
+      action: "share_map",
+      label: "share map",
+    });
   };
 
   const clearHandler = (event) => {

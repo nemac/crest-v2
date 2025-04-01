@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ReactGA from "react-ga4";
+
 import { useDispatch, useSelector } from "react-redux";
 import * as esri from "esri-leaflet";
 import L from "leaflet";
@@ -253,6 +255,11 @@ export default function SearchCustom(props) {
       allQuery.where(
         `search_field LIKE '%${newInputValue}%' AND region = '${tempRegion}'`,
       );
+      ReactGA.event({
+        category: "engagement",
+        action: "add_area_search",
+        label: newInputValue,
+      });
       const warningText = `CREST includes coastal areas only! "${newInputValue}" may be outside a coastal zone or not in the current region. `;
       const optionText = (
         <Alert

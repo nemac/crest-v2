@@ -1,3 +1,4 @@
+import ReactGA from "react-ga4";
 import { createSlice } from "@reduxjs/toolkit";
 import { mapConfig } from "../configuration/config";
 
@@ -85,6 +86,11 @@ export const mapPropertiesSlice = createSlice({
     },
     uploadedShapeFileGeoJSON: (state, action) => {
       state.uploadedShapeFileGeoJSON = action.payload;
+      ReactGA.event({
+        category: "engagement",
+        action: "add_area_upload",
+        label: "upload shapefile",
+      });
     },
     addSearchPlacesGeoJSON: (state, action) => {
       state.searchPlacesFileGeoJSON = action.payload;
@@ -103,6 +109,12 @@ export const mapPropertiesSlice = createSlice({
       const featureIndex = state.drawnLayers.features.findIndex(
         (feature) => feature.properties.areaName === action.payload.oldAreaName,
       );
+
+      ReactGA.event({
+        category: "engagement",
+        action: "add_area_change_name",
+        label: action.payload.newAreaName,
+      });
 
       // If the feature exists (index is not -1)
       if (featureIndex !== -1) {

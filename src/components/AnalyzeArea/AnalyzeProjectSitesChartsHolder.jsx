@@ -1,4 +1,6 @@
 import React, { useCallback, useRef } from "react";
+import ReactGA from "react-ga4";
+
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -107,10 +109,20 @@ export default function ChartsHolder(props) {
               sortedChartData.current,
               analyzeAreaState.isMore,
             );
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: "image all",
+            });
           }}
-          handleExportAllCSV={(e) =>
-            handleExportAllCSV(e, sortedChartData.current)
-          }
+          handleExportAllCSV={(e) => {
+            handleExportAllCSV(e, sortedChartData.current);
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: "image all",
+            });
+          }}
         />
         {analyzeAreaState.isSortExpanded ? <ChartSort /> : null}
       </Grid>

@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import ReactGA from "react-ga4";
+
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/material";
@@ -454,6 +456,11 @@ export default function ChartCard(props) {
             // Less Summary Export Image
             handleCloseExportSummary();
             handleExportImage(`Summary Chart-${feature.properties.areaName}`);
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: "summary image",
+            });
           }}
         >
           Export Image
@@ -462,6 +469,11 @@ export default function ChartCard(props) {
           onClick={() => {
             handleCloseExportSummary();
             exportFeatureToCSV(feature, "Summary Chart");
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: "summary csv",
+            });
           }}
         >
           Export CSV
@@ -484,6 +496,11 @@ export default function ChartCard(props) {
             handleExportImage(
               `${clickedExport.current}-${feature.properties.areaName}`,
             );
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: `image ${clickedExport.current}`,
+            });
           }}
         >
           Export Image
@@ -492,6 +509,11 @@ export default function ChartCard(props) {
           onClick={() => {
             handleCloseExportMoreIndividual();
             exportFeatureToCSV(feature, clickedExport.current);
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: `csv ${clickedExport.current}`,
+            });
           }}
         >
           Export CSV
@@ -514,6 +536,11 @@ export default function ChartCard(props) {
             Object.entries(chartValues).map(([key, value]) =>
               handleExportImage(`${key}-${feature.properties.areaName}`),
             );
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: "image all",
+            });
           }}
         >
           Export Image
@@ -523,6 +550,11 @@ export default function ChartCard(props) {
           onClick={() => {
             handleCloseExportMoreAll();
             exportFeatureToCSV(feature, "All");
+            ReactGA.event({
+              category: "engagement",
+              action: "export_chart",
+              label: "csv all",
+            });
           }}
         >
           Export CSV
