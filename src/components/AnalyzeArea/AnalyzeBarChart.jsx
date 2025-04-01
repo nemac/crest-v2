@@ -281,7 +281,7 @@ export default function AnalyzeBarChart(props) {
   return (
     <ResponsiveContainer
       id={`${chartType}-${areaName}-container`}
-      style={{ overflow: "visible", paddingTop: "16px", marginBottom: "16px" }}
+      style={{ overflow: "clip", paddingTop: "16px", marginBottom: "16px" }}
     >
       <EditName
         title={title}

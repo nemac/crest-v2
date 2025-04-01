@@ -37,11 +37,11 @@ const regions = mapConfig.regions;
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
   width: "100%",
-  height: "350px",
-  maxHeight: "350px",
+  // height: "375px",
+  maxHeight: "375px",
   [theme.breakpoints.down("sm")]: {
-    height: "400px",
-    maxHeight: "400px",
+    // height: "425px",
+    maxHeight: "425px",
   },
   padding: theme.spacing(0),
   backgroundColor: theme.palette.CRESTGridBackground.dark,
@@ -310,10 +310,10 @@ export default function ChartCard(props) {
                       setChartDescriptionFor={setChartDescriptionFor}
                       zonalStatsData={feature.properties.zonalStatsData}
                       barchartMargin={{
-                        top: 90,
+                        top: 60,
                         right: 30,
                         left: 0,
-                        bottom: 30,
+                        bottom: 60,
                       }}
                     />
                   ) : (

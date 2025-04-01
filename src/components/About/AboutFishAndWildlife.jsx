@@ -28,7 +28,7 @@ export default function AboutFishAndWildlife(props) {
         or state-designated species of concern. While the Regional Coastal
         Resilience Assessments consistently combine species data to create a
         single Fish and Wildlife Index, methods vary between the Atlantic, Gulf
-        of America, and Pacific Coasts. (CONUS) and other regional assessments.
+        of America, and Pacific Coasts (CONUS) and other regional assessments.
         In CONUS, a Terrestrial and Aquatic Index are combined based principally
         on rarity-weighted richness. Importantly, in CONUS, the Aquatic Index
         includes both freshwater and marine species, but focuses almost
@@ -36,16 +36,17 @@ export default function AboutFishAndWildlife(props) {
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         Implementing significant enhancements to the Fish and Wildlife Index
-        methods, regional assessments in Puerto Rico, the U.S. Virgin Islands,
-        and the Northern Mariana Islands combine Terrestrial and Marine Indices.
-        Unlike CONUS, the Terrestrial Index attempts to identify suitable
-        habitat based on the habitat preferences of major taxonomic groups
-        (e.g., birds, reptiles, mammals, amphibians, and freshwater fishes and
-        invertebrates). The Marine Index considers habitat to a 30-meter depth
+        methods, all other regional assessments combine a Terrestrial and an
+        Aquatic or Marine Index. Unlike CONUS, the Terrestrial Index attempts to
+        identify suitable habitat based on the habitat preferences of major
+        taxonomic groups (e.g., birds, reptiles, mammals, amphibians). Where
+        relevant, the Marine Index considers habitat to a 30-meter depth
         contour, utilizing the best available data to identify marine habitat
         types capable of supporting significant biodiversity (e.g., coral reefs,
-        mangroves, and seagrass beds). CREST automatically displays the results
-        for each region based on the method applied.
+        mangroves, and seagrass beds). In other regions, an Aquatic Index
+        combines habitat preferences of major freshwater aquatic and/or marine
+        taxonomic groups. CREST automatically displays the results for each
+        region based on the method applied.
         {/* For details, review
         the&nbsp;
         <Link
@@ -55,7 +56,7 @@ export default function AboutFishAndWildlife(props) {
         >
           final reports
         </Link> */}
-        .
+        {/* . */}
       </Typography>
     </div>
   );
