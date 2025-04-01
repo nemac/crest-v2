@@ -37,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableData(props) {
   const { data } = props;
-  // remove this if we redo social vulnerability 
+  // remove this if we redo social vulnerability
   const keyToRemove = "social_vuln";
   delete data.properties.zonalStatsData[keyToRemove];
 
