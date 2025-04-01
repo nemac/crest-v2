@@ -48,7 +48,7 @@ import {
   changeIdentifyResults,
   changeIdentifyIsLoaded,
 } from "../../reducers/mapPropertiesSlice";
-import AnalyzeBarChart from "../AnalyzeArea/AnalyzeBarChart.jsx";
+import IdentifyBarChart from "../AnalyzeArea/IdentifyBarChart";
 
 const StyledPopup = styled(Popup)(({ theme }) => ({
   bottom: "-22px !important",
@@ -195,7 +195,7 @@ export default function ShowIdentifyPopup(props) {
                 gutterBottom
               >
                 <ContentBox components="fieldset">
-                  <AnalyzeBarChart
+                  <IdentifyBarChart
                     areaName={""}
                     chartRegion={region}
                     chartIndices={summaryIndices}
