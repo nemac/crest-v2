@@ -46,7 +46,7 @@ export default function CustomToolTip({ active, payload, label }) {
             variant="body2"
             component="div"
           >
-            {label}
+            {payload[0].payload.selectedChartTipLabel}
           </Typography>
         </Box>
         <Box

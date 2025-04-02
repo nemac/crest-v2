@@ -56,6 +56,7 @@ export const greatLakesConfig = {
       label: "Resilience Hubs",
       chartOrder: 1,
       chartLabel: "Resilience Hubs",
+      chartTipLabel: "Resilience Score",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -88,6 +89,7 @@ export const greatLakesConfig = {
       label: "Resilience Hub Grid",
       chartOrder: 2,
       chartLabel: "Resilience Hub Grid",
+      chartTipLabel: "Resilience Hub Grid",
       chartInputName: "summary",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
@@ -119,6 +121,7 @@ export const greatLakesConfig = {
       chartOrder: 3,
       label: "Community Exposure Index",
       chartLabel: "Community Exposure",
+      chartTipLabel: "Community Exposure",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -153,6 +156,7 @@ export const greatLakesConfig = {
       label: "Community Asset Index",
       chartOrder: 4,
       chartLabel: "Community Asset",
+      chartTipLabel: "Community Asset",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -188,6 +192,7 @@ export const greatLakesConfig = {
       label: "Threat Index",
       chartOrder: 5,
       chartLabel: "Threat",
+      chartTipLabel: "Threat",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -221,6 +226,7 @@ export const greatLakesConfig = {
       label: "Fish and Wildlife Index",
       chartOrder: 6,
       chartLabel: "Fish and Wildlife",
+      chartTipLabel: "Fish and Wildlife",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -254,6 +260,7 @@ export const greatLakesConfig = {
       label: "Aquatic Index",
       chartOrder: 7,
       chartLabel: "Aquatic",
+      chartTipLabel: "Aquatic",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -287,6 +294,7 @@ export const greatLakesConfig = {
       label: "Terrestrial Index",
       chartOrder: 8,
       chartLabel: "Terrestrial",
+      chartTipLabel: "Terrestrial",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -320,6 +328,7 @@ export const greatLakesConfig = {
     //   label: "Social Vulnerability",
     //   chartOrder: 12,
     //   chartLabel: "Social Vulnerability",
+    // chartTipLabel: "Social Vulnerability",
     //   isLegendCustom: false,
     //   chartCSSColor: {
     //     0: "#E9ECEF",
@@ -346,6 +355,7 @@ export const greatLakesConfig = {
       label: "Population Density",
       chartOrder: 11,
       chartLabel: "Population Density",
+      chartTipLabel: "Population Density",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -373,6 +383,7 @@ export const greatLakesConfig = {
       label: "Critical Facilities",
       chartOrder: 9,
       chartLabel: "Critical Facilities",
+      chartTipLabel: "Critical Facilities",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -400,6 +411,7 @@ export const greatLakesConfig = {
       label: "Critical Infrastructure",
       chartOrder: 10,
       chartLabel: "Critical Infrastructure",
+      chartTipLabel: "Critical Infrastructure",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -427,6 +439,7 @@ export const greatLakesConfig = {
       label: "Soil Erodibility",
       chartOrder: 17,
       chartLabel: "Soil Erodibility",
+      chartTipLabel: "Soil Erodibility",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -454,6 +467,7 @@ export const greatLakesConfig = {
       label: "Flood-prone Areas",
       chartOrder: 14,
       chartLabel: "Flood-prone Areas",
+      chartTipLabel: "Flood-prone Areas",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -481,6 +495,7 @@ export const greatLakesConfig = {
       label: "Areas of Low Slope",
       chartOrder: 13,
       chartLabel: "Areas of Low Slope",
+      chartTipLabel: "Areas of Low Slope",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -508,6 +523,7 @@ export const greatLakesConfig = {
       label: "Impermeability",
       chartOrder: 16,
       chartLabel: "Impermeability",
+      chartTipLabel: "Impermeability",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -535,6 +551,7 @@ export const greatLakesConfig = {
       label: "High Water Level",
       chartOrder: 15,
       chartLabel: "High Water Level",
+      chartTipLabel: "High Water Level",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -562,6 +579,7 @@ export const greatLakesConfig = {
       label: "American Indian/Alaska Native/Native Hawaiian (AIANNH) Areas",
       chartOrder: 18,
       chartLabel: "AIANNHA",
+      chartTipLabel: "AIANNHA",
       isLegendCustom: true,
       chartCSSColor: [
         {
@@ -587,6 +605,7 @@ export const greatLakesConfig = {
       label: "Ceded Territory",
       chartOrder: 19,
       chartLabel: "Ceded Territory",
+      chartTipLabel: "Ceded Territory",
       isLegendCustom: true,
       chartCSSColor: [
         {
@@ -616,6 +635,7 @@ export const greatLakesConfig = {
     //   layer: "Visualization Overlay3 TMS",
     //   label: "Department of Defense Lands",
     //   chartLabel: "Department of Defense Lands",
+    // chartTipLabel: "Department of Defense Lands",
     //   isLegendCustom: true,
     //   chartCSSColor: [
     //     {
@@ -656,6 +676,7 @@ export const greatLakesConfig = {
       label: "Fetch",
       chartOrder: 20,
       chartLabel: "Fetch",
+      chartTipLabel: "Fetch",
       isLegendCustom: true,
       chartCSSColor: [
         {
@@ -701,6 +722,7 @@ export const greatLakesConfig = {
       label: "Lake Level Fluctuation Zone",
       chartOrder: 21,
       chartLabel: "Lake Level Fluctuation Zone",
+      chartTipLabel: "Lake Level Fluctuation Zone",
       isLegendCustom: true,
       chartCSSColor: [
         {
@@ -727,6 +749,7 @@ export const greatLakesConfig = {
       label: "Landcover",
       chartOrder: 22,
       chartLabel: "Landcover",
+      chartTipLabel: "Landcover",
       isLegendCustom: true,
       chartCSSColor: [
         {
