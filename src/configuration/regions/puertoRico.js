@@ -58,6 +58,7 @@ export const puertoRicoConfig = {
       label: "Resilience Hubs",
       chartOrder: 1,
       chartLabel: "Resilience Hubs",
+      chartTipLabel: "Resilience Score",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffc500",
@@ -89,6 +90,7 @@ export const puertoRicoConfig = {
       label: "Community Exposure Index",
       chartOrder: 2,
       chartLabel: "Community Exposure",
+      chartTipLabel: "Community Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#1f6e6e",
@@ -120,6 +122,7 @@ export const puertoRicoConfig = {
       label: "Community Asset Index",
       chartOrder: 3,
       chartLabel: "Community Asset",
+      chartTipLabel: "Community Asset",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#b6edf0",
@@ -151,6 +154,7 @@ export const puertoRicoConfig = {
       label: "Threat Index",
       chartOrder: 4,
       chartLabel: "Threat",
+      chartTipLabel: "Threat",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffebd6",
@@ -181,6 +185,7 @@ export const puertoRicoConfig = {
       layer: "FishAndWildlife TMS",
       chartOrder: 5,
       chartLabel: "Fish and Wildlife",
+      chartTipLabel: "Fish and Wildlife",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#EEE7F8",
@@ -209,6 +214,7 @@ export const puertoRicoConfig = {
       label: "Marine Index",
       chartOrder: 6,
       chartLabel: "Marine",
+      chartTipLabel: "Marine",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#CDE1E8",
@@ -234,6 +240,7 @@ export const puertoRicoConfig = {
       label: "Terrestrial Index",
       chartOrder: 7,
       chartLabel: "Terrestrial",
+      chartTipLabel: "Terrestrial",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFE9C4",
@@ -259,6 +266,7 @@ export const puertoRicoConfig = {
       label: "Population Density",
       chartOrder: 10,
       chartLabel: "Population Density",
+      chartTipLabel: "Population Density",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#dfc878",
@@ -284,6 +292,7 @@ export const puertoRicoConfig = {
     //   label: "Social Vulnerability",
     //   chartOrder: 11,
     //   chartLabel: "Social Vulnerability",
+    // chartTipLabel: "Social Vulnerability",
     //   chartCSSColor: {
     //     0: "#E9ECEF",
     //     1: "#9EBBD7",
@@ -309,6 +318,7 @@ export const puertoRicoConfig = {
       label: "Critical Facilities",
       chartOrder: 8,
       chartLabel: "Critical Facilities",
+      chartTipLabel: "Critical Facilities",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#9EBBD7",
@@ -335,6 +345,7 @@ export const puertoRicoConfig = {
       label: "Critical Infrastructure",
       chartOrder: 9,
       chartLabel: "Critical Infrastructure",
+      chartTipLabel: "Critical Infrastructure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#CCD1D2",
@@ -363,6 +374,7 @@ export const puertoRicoConfig = {
       label: "Impermeable Soils",
       chartOrder: 15,
       chartLabel: "Impermeable Soils",
+      chartTipLabel: "Impermeable Soils",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#447604",
@@ -388,6 +400,7 @@ export const puertoRicoConfig = {
       label: "Soil Erodibility",
       chartOrder: 17,
       chartLabel: "Soil Erodibility",
+      chartTipLabel: "Soil Erodibility",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#feeba2",
@@ -413,6 +426,7 @@ export const puertoRicoConfig = {
       label: "Sea Level Rise",
       chartOrder: 16,
       chartLabel: "Sea Level Rise",
+      chartTipLabel: "Sea Level Rise",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#dbd8ea",
@@ -438,6 +452,7 @@ export const puertoRicoConfig = {
       label: "Storm Surge",
       chartOrder: 18,
       chartLabel: "Storm Surge",
+      chartTipLabel: "Storm Surge",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#d6efb3",
@@ -463,6 +478,7 @@ export const puertoRicoConfig = {
       label: "Areas of Low Slope",
       chartOrder: 12,
       chartLabel: "Areas of Low Slope",
+      chartTipLabel: "Areas of Low Slope",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#d3eecd",
@@ -488,6 +504,7 @@ export const puertoRicoConfig = {
       label: "Flood-Prone Areas",
       chartOrder: 13,
       chartLabel: "Flood Prone Areas",
+      chartTipLabel: "Flood Prone Areas",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#e2e2ef",
@@ -513,6 +530,7 @@ export const puertoRicoConfig = {
       label: "Geological Stressors",
       chartOrder: 14,
       chartLabel: "Geological Stressors",
+      chartTipLabel: "Geological Stressors",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#fbacb9",
@@ -535,6 +553,7 @@ export const puertoRicoConfig = {
       label: "Tsunami",
       chartOrder: 19,
       chartLabel: "Tsunami",
+      chartTipLabel: "Tsunami",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#414488",
@@ -560,6 +579,7 @@ export const puertoRicoConfig = {
       label: "Landcover",
       chartOrder: 20,
       chartLabel: "Landcover",
+      chartTipLabel: "Landcover",
       isLegendCustom: true,
       chartCSSColor: [
         {

@@ -57,6 +57,7 @@ export const usVirginIslandsConfig = {
       label: "Resilience Hubs",
       chartOrder: 1,
       chartLabel: "Resilience Hubs",
+      chartTipLabel: "Resilience Score",
       chartInputName: "summary",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
@@ -88,6 +89,7 @@ export const usVirginIslandsConfig = {
       label: "Community Exposure Index",
       chartOrder: 2,
       chartLabel: "Community Exposure",
+      chartTipLabel: "Community Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#1f6e6e",
@@ -119,6 +121,7 @@ export const usVirginIslandsConfig = {
       label: "Community Asset Index",
       chartOrder: 3,
       chartLabel: "Community Asset",
+      chartTipLabel: "Community Asset",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#b6edf0",
@@ -150,6 +153,7 @@ export const usVirginIslandsConfig = {
       label: "Threat Index",
       chartOrder: 4,
       chartLabel: "Threat",
+      chartTipLabel: "Threat",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffebd6",
@@ -182,6 +186,7 @@ export const usVirginIslandsConfig = {
       label: "Fish and Wildlife Index",
       chartOrder: 5,
       chartLabel: "Fish and Wildlife",
+      chartTipLabel: "Fish and Wildlife",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#EEE7F8",
@@ -209,6 +214,7 @@ export const usVirginIslandsConfig = {
       label: "Marine Index",
       chartOrder: 6,
       chartLabel: "Marine",
+      chartTipLabel: "Marine",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#CDE1E8",
@@ -234,6 +240,7 @@ export const usVirginIslandsConfig = {
       label: "Terrestrial Index",
       chartOrder: 7,
       chartLabel: "Terrestrial",
+      chartTipLabel: "Terrestrial",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFE9C4",
@@ -259,6 +266,7 @@ export const usVirginIslandsConfig = {
       label: "Population Density",
       chartOrder: 10,
       chartLabel: "Population Density",
+      chartTipLabel: "Population Density",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#dfc878",
@@ -284,6 +292,7 @@ export const usVirginIslandsConfig = {
     //   label: "Social Vulnerability",
     //   chartOrder: 11,
     //   chartLabel: "Social Vulnerability",
+    // chartTipLabel: "Social Vulnerability",
     //   chartCSSColor: {
     //     0: "#E9ECEF",
     //     1: "#9EBBD7",
@@ -309,6 +318,7 @@ export const usVirginIslandsConfig = {
       label: "Critical Facilities",
       chartOrder: 8,
       chartLabel: "Critical Facilities",
+      chartTipLabel: "Critical Facilities",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#0084a8",
@@ -335,6 +345,7 @@ export const usVirginIslandsConfig = {
       label: "Critical Infrastructure",
       chartOrder: 9,
       chartLabel: "Critical Infrastructure",
+      chartTipLabel: "Critical Infrastructure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ccd1d2",
@@ -361,6 +372,7 @@ export const usVirginIslandsConfig = {
       label: "Impermeable Soils",
       chartOrder: 14,
       chartLabel: "Impermeable Soils",
+      chartTipLabel: "Impermeable Soils",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#447604",
@@ -386,6 +398,7 @@ export const usVirginIslandsConfig = {
       label: "Soil Erodibility",
       chartOrder: 16,
       chartLabel: "Soil Erodibility",
+      chartTipLabel: "Soil Erodibility",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#feeba2",
@@ -411,6 +424,7 @@ export const usVirginIslandsConfig = {
       label: "Sea Level Rise",
       chartOrder: 15,
       chartLabel: "Sea Level Rise",
+      chartTipLabel: "Sea Level Rise",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#dbd8ea",
@@ -436,6 +450,7 @@ export const usVirginIslandsConfig = {
       label: "Storm Surge",
       chartOrder: 17,
       chartLabel: "Storm Surge",
+      chartTipLabel: "Storm Surge",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#d6efb3",
@@ -461,6 +476,7 @@ export const usVirginIslandsConfig = {
       label: "Areas of Low Slope",
       chartOrder: 12,
       chartLabel: "Areas of Low Slope",
+      chartTipLabel: "Areas of Low Slope",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#d3eecd",
@@ -486,6 +502,7 @@ export const usVirginIslandsConfig = {
       label: "Flood-Prone Areas",
       chartOrder: 13,
       chartLabel: "Flood Prone Areas",
+      chartTipLabel: "Flood Prone Areas",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#e2e2ef",
@@ -511,6 +528,7 @@ export const usVirginIslandsConfig = {
       label: "Landcover",
       chartOrder: 19,
       chartLabel: "Landcover",
+      chartTipLabel: "Landcover",
       isLegendCustom: true,
       chartCSSColor: [
         {

@@ -95,6 +95,7 @@ export default function ChartCard(props) {
   const { region, map, feature, setHover, featureGroupRef } = props;
   const [chartDescription, setChartDescription] = useState(null);
   const [chartLabel, setChartLabel] = useState(null);
+  const [chartTipLabel, setChartTipLabel] = useState(null);
   const [chartDescriptionFor, setChartDescriptionFor] = useState(null);
   const [anchorElSummaryMenu, setAnchorElSummaryMenu] = useState(null);
   const [anchorElMoreIndividual, setAnchorElMoreIndividual] = useState(null);
@@ -200,6 +201,7 @@ export default function ChartCard(props) {
         handleMoreOnClick(dispatch, feature.properties.areaName);
         setChartDescription(null);
         setChartLabel(null);
+        setChartTipLabel(null);
         setChartDescriptionFor(null);
       },
       icon: <MoreHorizOutlined />,
@@ -300,6 +302,7 @@ export default function ChartCard(props) {
                   {key !== "Landcover" ? (
                     <AnalyzeBarChart
                       chartRegion={region}
+                      chartTipLabel={chartTipLabel}
                       chartIndices={value}
                       chartType={key}
                       areaName={feature.properties.areaName.toString()}
@@ -307,6 +310,7 @@ export default function ChartCard(props) {
                       feature={feature}
                       setChartDescription={setChartDescription}
                       setChartLabel={setChartLabel}
+                      setChartTipLabel={setChartTipLabel}
                       setChartDescriptionFor={setChartDescriptionFor}
                       zonalStatsData={feature.properties.zonalStatsData}
                       barchartMargin={{
@@ -330,9 +334,11 @@ export default function ChartCard(props) {
               {chartDescription && chartDescriptionFor === key ? (
                 <ChartDescriptionCard
                   chartLabel={chartLabel}
+                  chartTipLabel={chartTipLabel}
                   chartDescription={chartDescription}
                   setChartDescription={setChartDescription}
                   setChartLabel={setChartLabel}
+                  setChartTipLabel={setChartTipLabel}
                   setChartDescriptionFor={setChartDescriptionFor}
                 />
               ) : (
@@ -397,6 +403,7 @@ export default function ChartCard(props) {
             >
               <AnalyzeBarChart
                 chartRegion={region}
+                chartTipLabel={chartTipLabel}
                 chartIndices={chartValues["Summary Chart"]}
                 chartType={"Summary Chart"}
                 areaName={feature.properties.areaName.toString()}
@@ -405,6 +412,7 @@ export default function ChartCard(props) {
                 zonalStatsData={feature.properties.zonalStatsData}
                 setChartDescription={setChartDescription}
                 setChartLabel={setChartLabel}
+                setChartTipLabel={setChartTipLabel}
                 setChartDescriptionFor={setChartDescriptionFor}
                 barchartMargin={{
                   top: 60,
@@ -419,9 +427,11 @@ export default function ChartCard(props) {
             <Grid xs={12} p={0}>
               <ChartDescriptionCard
                 chartLabel={chartLabel}
+                chartTipLabel={chartTipLabel}
                 chartDescription={chartDescription}
                 setChartDescription={setChartDescription}
                 setChartLabel={setChartLabel}
+                setChartTipLabel={setChartTipLabel}
                 setChartDescriptionFor={setChartDescriptionFor}
               />
             </Grid>

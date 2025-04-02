@@ -56,6 +56,7 @@ export const guamConfig = {
       label: "Resilience Hubs",
       chartOrder: 1,
       chartLabel: "Resilience Hubs",
+      chartTipLabel: "Resilience Score",
       chartInputName: "summary",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
@@ -88,6 +89,7 @@ export const guamConfig = {
       label: "Resilience Hexagonal Grid",
       chartOrder: 2,
       chartLabel: "Resilience Hexagonal Grid",
+      chartTipLabel: "Resilience Hexagonal Grid",
       chartInputName: "summary",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
@@ -120,6 +122,7 @@ export const guamConfig = {
       label: "Community Exposure Index",
       chartOrder: 3,
       chartLabel: "Community Exposure",
+      chartTipLabel: "Community Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#1f6e6e",
@@ -152,6 +155,7 @@ export const guamConfig = {
       label: "Community Asset Index",
       chartOrder: 4,
       chartLabel: "Community Asset",
+      chartTipLabel: "Community Asset",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#b6edf0",
@@ -184,6 +188,7 @@ export const guamConfig = {
       label: "Threat Index",
       chartOrder: 5,
       chartLabel: "Threat",
+      chartTipLabel: "Threat",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffebd6",
@@ -216,6 +221,7 @@ export const guamConfig = {
       label: "Fish and Wildlife Index",
       chartOrder: 6,
       chartLabel: "Fish and Wildlife",
+      chartTipLabel: "Fish and Wildlife",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#EEE7F8",
@@ -244,6 +250,7 @@ export const guamConfig = {
       label: "Marine Index",
       chartOrder: 7,
       chartLabel: "Marine",
+      chartTipLabel: "Marine",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#CDE1E8",
@@ -270,6 +277,7 @@ export const guamConfig = {
       label: "Terrestrial Index",
       chartOrder: 8,
       chartLabel: "Terrestrial",
+      chartTipLabel: "Terrestrial",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFE9C4",
@@ -296,6 +304,7 @@ export const guamConfig = {
       label: "Population Density",
       chartOrder: 11,
       chartLabel: "Population Density",
+      chartTipLabel: "Population Density",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFF6D0",
@@ -322,6 +331,7 @@ export const guamConfig = {
     //   label: "Social Vulnerability",
     //   chartOrder: 12,
     //   chartLabel: "Social Vulnerability",
+    // chartTipLabel: "Social Vulnerability",
     //   chartCSSColor: {
     //     0: "#E9ECEF",
     //     1: "#EDF8FB",
@@ -347,6 +357,7 @@ export const guamConfig = {
       label: "Critical Facilities",
       chartOrder: 9,
       chartLabel: "Critical Facilities",
+      chartTipLabel: "Critical Facilities",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#0084A8",
@@ -373,6 +384,7 @@ export const guamConfig = {
       label: "Critical Infrastructure",
       chartOrder: 10,
       chartLabel: "Critical Infrastructure",
+      chartTipLabel: "Critical Infrastructure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#CCD1D2",
@@ -409,6 +421,7 @@ export const guamConfig = {
       label: "Impermeable Soils",
       chartOrder: 15,
       chartLabel: "Impermeable Soils",
+      chartTipLabel: "Impermeable Soils",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#447604",
@@ -436,6 +449,7 @@ export const guamConfig = {
       label: "Soil Erodibility",
       chartOrder: 17,
       chartLabel: "Soil Erodibility",
+      chartTipLabel: "Soil Erodibility",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#feeba2",
@@ -462,6 +476,7 @@ export const guamConfig = {
       label: "Sea Level Rise",
       chartOrder: 16,
       chartLabel: "Sea Level Rise",
+      chartTipLabel: "Sea Level Rise",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#dbd8ea",
@@ -488,6 +503,7 @@ export const guamConfig = {
       label: "Wave-Driven Flooding",
       chartOrder: 18,
       chartLabel: "Wave Driven Flooding",
+      chartTipLabel: "Wave Driven Flooding",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFFFCC",
@@ -513,6 +529,7 @@ export const guamConfig = {
       label: "Areas of Low Slope",
       chartOrder: 12,
       chartLabel: "Areas of Low Slope",
+      chartTipLabel: "Areas of Low Slope",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#d3eecd",
@@ -539,6 +556,7 @@ export const guamConfig = {
       label: "Flood-Prone Areas",
       chartOrder: 13,
       chartLabel: "Flood Prone Areas",
+      chartTipLabel: "Flood Prone Areas",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#e2e2ef",
@@ -565,6 +583,7 @@ export const guamConfig = {
       label: "Tsunami",
       chartOrder: 18,
       chartLabel: "Tsunami",
+      chartTipLabel: "Tsunami",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#2171B5",
@@ -588,6 +607,7 @@ export const guamConfig = {
       label: "Wave Exposure",
       chartOrder: 19,
       chartLabel: "Wave Exposure",
+      chartTipLabel: "Wave Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FEEDDE",
@@ -614,6 +634,7 @@ export const guamConfig = {
       label: "Geological Stressors",
       chartOrder: 14,
       chartLabel: "Geological Stressors",
+      chartTipLabel: "Geological Stressors",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FEEBE2",
@@ -639,6 +660,7 @@ export const guamConfig = {
       label: "Landcover",
       chartOrder: 21,
       chartLabel: "Landcover",
+      chartTipLabel: "Landcover",
       isLegendCustom: true,
       chartCSSColor: [
         {

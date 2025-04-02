@@ -59,6 +59,7 @@ export const americanSamoaConfig = {
       label: "Resilience Hubs",
       chartOrder: 1,
       chartLabel: "Resilience Hubs",
+      chartTipLabel: "Resilience Score",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
       chartCSSSelector: "hubs",
@@ -89,6 +90,7 @@ export const americanSamoaConfig = {
       label: "Resilience Hexagonal Grid",
       chartOrder: 2,
       chartLabel: "Resilience Hexagonal Grid",
+      chartTipLabel: "Resilience Hexagonal Grid",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
       chartCSSSelector: "hubsHex",
@@ -119,6 +121,7 @@ export const americanSamoaConfig = {
       label: "Community Exposure Index",
       chartOrder: 3,
       chartLabel: "Community Exposure",
+      chartTipLabel: "Community Exposure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#1f6e6e",
@@ -149,6 +152,7 @@ export const americanSamoaConfig = {
       label: "Community Asset Index",
       chartOrder: 4,
       chartLabel: "Community Asset",
+      chartTipLabel: "Community Asset",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#b6edf0",
@@ -179,6 +183,7 @@ export const americanSamoaConfig = {
       label: "Threat Index",
       chartOrder: 5,
       chartLabel: "Threat",
+      chartTipLabel: "Threat",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffebd6",
@@ -210,6 +215,7 @@ export const americanSamoaConfig = {
       label: "Fish and Wildlife Index",
       chartOrder: 6,
       chartLabel: "Fish and Wildlife",
+      chartTipLabel: "Fish and Wildlife",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#EEE7F8",
@@ -236,6 +242,7 @@ export const americanSamoaConfig = {
       label: "Marine Index",
       chartOrder: 7,
       chartLabel: "Marine",
+      chartTipLabel: "Marine",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#CDE1E8",
@@ -260,6 +267,7 @@ export const americanSamoaConfig = {
       label: "Terrestrial Index",
       chartOrder: 8,
       chartLabel: "terrestrial",
+      chartTipLabel: "terrestrial",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFE9C4",
@@ -284,6 +292,7 @@ export const americanSamoaConfig = {
       label: "Population Density",
       chartOrder: 11,
       chartLabel: "Population Density",
+      chartTipLabel: "Population Density",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFF6D0",
@@ -308,6 +317,7 @@ export const americanSamoaConfig = {
     //   label: "Social Vulnerability",
     //   chartOrder: 12,
     //   chartLabel: "Social Vulnerability",
+    // chartTipLabel: "Social Vulnerability",
     //   chartCSSColor: {
     //     0: "#E9ECEF",
     //     1: "#88419D",
@@ -329,6 +339,7 @@ export const americanSamoaConfig = {
       label: "Critical Facilities",
       chartOrder: 9,
       chartLabel: "Critical Facilities",
+      chartTipLabel: "Critical Facilities",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#0084A8",
@@ -353,6 +364,7 @@ export const americanSamoaConfig = {
       label: "Critical Infrastructure",
       chartOrder: 10,
       chartLabel: "Critical Infrastructure",
+      chartTipLabel: "Critical Infrastructure",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#CCD1D2",
@@ -387,6 +399,7 @@ export const americanSamoaConfig = {
       label: "Impermeable Soils",
       chartOrder: 15,
       chartLabel: "Impermeable Soils",
+      chartTipLabel: "Impermeable Soils",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#447604",
@@ -412,6 +425,7 @@ export const americanSamoaConfig = {
       label: "Soil Erodibility",
       chartOrder: 17,
       chartLabel: "Soil Erodibility",
+      chartTipLabel: "Soil Erodibility",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#feeba2",
@@ -436,6 +450,7 @@ export const americanSamoaConfig = {
       label: "Sea Level Rise",
       chartOrder: 16,
       chartLabel: "Sea Level Rise",
+      chartTipLabel: "Sea Level Rise",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#dbd8ea",
@@ -459,6 +474,7 @@ export const americanSamoaConfig = {
       layer: "Wave Driven TMS",
       label: "Wave-Driven Flooding",
       chartLabel: "Wave Driven Flooding",
+      chartTipLabel: "Wave Driven Flooding",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#FFFFCC",
@@ -482,6 +498,7 @@ export const americanSamoaConfig = {
       label: "Areas of Low Slope",
       chartOrder: 13,
       chartLabel: "Areas of Low Slope",
+      chartTipLabel: "Areas of Low Slope",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#d3eecd",
@@ -506,6 +523,7 @@ export const americanSamoaConfig = {
       label: "Flood-Prone Areas",
       chartOrder: 14,
       chartLabel: "Flood Prone Areas",
+      chartTipLabel: "Flood Prone Areas",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#e2e2ef",
@@ -530,6 +548,7 @@ export const americanSamoaConfig = {
       label: "Tsunami",
       chartOrder: 18,
       chartLabel: "Tsunami",
+      chartTipLabel: "Tsunami",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#2171b5",
@@ -553,6 +572,7 @@ export const americanSamoaConfig = {
       label: "Landcover",
       chartOrder: 19,
       chartLabel: "Landcover",
+      chartTipLabel: "Landcover",
       isLegendCustom: true,
       chartCSSColor: [
         {

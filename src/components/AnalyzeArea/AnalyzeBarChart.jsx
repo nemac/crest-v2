@@ -172,8 +172,8 @@ export default function AnalyzeBarChart(props) {
     if (!selectedLayerData) {
       return null;
     }
-
     const selectedChartLabel = selectedLayerData.chartLabel;
+    const selectedChartTipLabel = selectedLayerData.chartTipLabel;
     const selectedColorChart = selectedLayerData.chartCSSColor;
     const chartOrder = selectedLayerData.chartOrder;
     const selectChartLabelDescription = selectedLayerData.description;
@@ -185,6 +185,7 @@ export default function AnalyzeBarChart(props) {
       selectedColor,
       chartValue,
       selectedChartLabel,
+      selectedChartTipLabel,
       selectChartLabelDescription,
       chartOrder,
     };
@@ -218,6 +219,7 @@ export default function AnalyzeBarChart(props) {
         selectedColor,
         chartValue,
         selectedChartLabel,
+        selectedChartTipLabel,
         selectChartLabelDescription,
         chartOrder,
       } = layerData;
@@ -227,6 +229,7 @@ export default function AnalyzeBarChart(props) {
         value,
         chartValue,
         selectedChartLabel,
+        selectedChartTipLabel,
         selectChartLabelDescription,
         chartOrder,
         chartType,
