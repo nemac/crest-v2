@@ -464,22 +464,24 @@ export const mapConfig = {
         {
           title: "Start",
           text: "Explore the Atlantic City case study",
+          layerIndex: 0, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Location",
           text: "U.S. Route 30 (White Horse Pike) is one of the main entry points into Atlantic City, NJ.",
+          layerIndex: 0, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Critical Infrastructure",
           text: `White Horse Pike appears in the Critical Infrastructure input as 
           both a major road and an evacuation route, giving it a value of 2.`,
-          layerIndex: 10, // do not love this but it is easy way to dig into the layer to toggle
+          layerIndex: 9, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Storm Surge",
           text: `White Horse Pike could be inundated under storm surge scenarios 
           with conditions as low as Category 1 storms.`,
-          layerIndex: 14, // do not love this but it is easy way to dig into the layer to toggle
+          layerIndex: 13, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Community Exposure Index",
@@ -582,11 +584,13 @@ export const mapConfig = {
         {
           title: "Start",
           text: "Explore the Buffalo Bayou case study.",
+          layerIndex: 0, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Location",
           text: `Buffalo Bayou, a slow-moving river that flows through Houston, Texas, 
           is surrounded by parks and established neighborhoods. Buffalo Bayou Park is outlined here.`,
+          layerIndex: 0, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Population Density",
@@ -598,7 +602,7 @@ export const mapConfig = {
           title: "Flood-Prone Areas",
           text: `This input shows flood-prone areas identified by FEMA and soils outside of those 
           zones with the potential for flooding. The majority of the area identified here is part of the Park.`,
-          layerIndex: 17, // do not love this but it is easy way to dig into the layer to toggle
+          layerIndex: 16, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Community Exposure Index",
@@ -708,10 +712,12 @@ export const mapConfig = {
         {
           title: "Start",
           text: "Explore the Wilmington case study.",
+          layerIndex: 0, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Location",
           text: "Water Street is in Wilmington’s historic riverfront area, located on the Cape Fear River.",
+          layerIndex: 0, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Population Density",
@@ -723,7 +729,7 @@ export const mapConfig = {
           title: "Storm Surge",
           text: `Storm surge data from the National Hurricane Center suggests that this area of Water Street could be inundated 
           by storms that are rated as Categories 1-5. It is important to visualize this threat in low-lying coastal areas.`,
-          layerIndex: 14, // do not love this but it is easy way to dig into the layer to toggle
+          layerIndex: 13, // do not love this but it is easy way to dig into the layer to toggle
         },
         {
           title: "Community Exposure Index",

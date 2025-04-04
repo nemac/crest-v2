@@ -56,10 +56,10 @@ export const alaskaConfig = {
     {
       id: "AK_HubsTMS",
       layer: "Hubs TMS",
-      label: "Resilience Hub Cores",
+      label: "Resilience Hubs Score",
       chartOrder: 1,
-      chartLabel: "Resilience Hub Cores",
-      chartTipLabel: "Resilience Hub Cores",
+      chartLabel: "Resilience Hubs Score",
+      chartTipLabel: "Resilience Hubs Score",
       ChartInputLabel: "Summary",
       ChartInputSubHeading: "Resilience Hubs",
       chartCSSSelector: "hubs",
@@ -269,7 +269,8 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Identifies habitat suitable for species of conservation concern, species with federally-designated Essential Fish Habitat, and/or subsistence species that utilize riverine, lacustrine, and/or nearshore marine habitats (≤20m in depth). High values represent areas important for numerous species. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Identifies habitat suitable for species of conservation concern, species with federally-designated Essential Fish Habitat, and/or subsistence species that utilize riverine, lacustrine, and/or nearshore marine habitats (≤20m in depth). High values represent areas important for numerous species.",
+      // "Identifies habitat suitable for species of conservation concern, species with federally-designated Essential Fish Habitat, and/or subsistence species that utilize riverine, lacustrine, and/or nearshore marine habitats (≤20m in depth). High values represent areas important for numerous species.",
       region: "alaska",
     },
     {
@@ -300,7 +301,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Identifies habitat suitable for species of conservation concern, Important Bird Areas, and/or subsistence species that utilize terrestrial habitats. High values represent areas important for numerous species. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Identifies habitat suitable for species of conservation concern, Important Bird Areas, and/or subsistence species that utilize terrestrial habitats. High values represent areas important for numerous species.",
       region: "alaska",
     },
     // {
@@ -348,7 +349,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Identifies facilities that provide important recovery and operational support during and following flood events (e.g., schools, medical facilities, post offices, emergency service stations). All critical facilities are given the same rank based on presence. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Identifies facilities that provide important recovery and operational support during and following flood events (e.g., schools, medical facilities, post offices, emergency service stations). All critical facilities are given the same rank based on presence.",
       region: "alaska",
     },
     {
@@ -373,7 +374,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Infrastructure integral to a community’s ability to recover from a flood event (e.g., power plants, wastewater treatment facilities, petroleum terminals). All critical infrastructure is given the same rank based on presence. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Infrastructure integral to a community’s ability to recover from a flood event (e.g., power plants, wastewater treatment facilities, petroleum terminals). All critical infrastructure is given the same rank based on presence.",
       region: "alaska",
     },
     {
@@ -398,7 +399,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Incorporates critical transportation services that provide access to commodities, evacuation routes, and emergency response (e.g., roads, railways, airports, ferry terminals, ports, harbors). All critical transportation infrastructure is given the same rank based on presence. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Incorporates critical transportation services that provide access to commodities, evacuation routes, and emergency response (e.g., roads, railways, airports, ferry terminals, ports, harbors). All critical transportation infrastructure is given the same rank based on presence.",
       region: "alaska",
     },
     {
@@ -424,7 +425,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Identifies areas susceptible to erosion using multiple data sources. High values represent areas with higher potential for erosion from flooding or heavy precipitation. Data are not available for the entire study area; areas without data may or may not have erodible soils. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Identifies areas susceptible to erosion using multiple data sources. High values represent areas with higher potential for erosion from flooding or heavy precipitation. Data are not available for the entire study area; areas without data may or may not have erodible soils.",
       region: "alaska",
     },
     {
@@ -449,7 +450,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Identifies areas prone to flooding using multiple data sources. Data are not available for the entire study area; areas without data may or may not be prone to flooding. Areas greater than 20m in elevation were excluded from this input as they are unlikely to experience flooding. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Identifies areas prone to flooding using multiple data sources. Data are not available for the entire study area; areas without data may or may not be prone to flooding. Areas greater than 20m in elevation were excluded from this input as they are unlikely to experience flooding.",
       region: "alaska",
     },
     {
@@ -473,7 +474,7 @@ export const alaskaConfig = {
       maxNativeZoom: 13,
       legend: "AK_tsunami",
       description:
-        "Communities that have been mapped that may experience tsunami inundation. Data are not available for all communities in the study area; areas without data may or may not be susceptible to tsunami inundation. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Communities that have been mapped that may experience tsunami inundation. Data are not available for all communities in the study area; areas without data may or may not be susceptible to tsunami inundation.",
       region: "alaska",
     },
     {
@@ -497,7 +498,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Identifies areas thought to be susceptible to permafrost thaw and degradation. Values are based on results from multiple studies that provide a direct indicator of permafrost-related flooding threats. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Identifies areas thought to be susceptible to permafrost thaw and degradation. Values are based on results from multiple studies that provide a direct indicator of permafrost-related flooding threats.",
       region: "alaska",
     },
     {
@@ -521,7 +522,7 @@ export const alaskaConfig = {
       opacity: 0.75,
       maxNativeZoom: 13,
       description:
-        "Displays percent rise in elevation. High values represent low-lying areas that are more likely to retain water and flood. Data are not available for the entire study area; areas without data may or may not have a high likelihood to retain water. See Alaska Assessment report for data inputs, sources, and methods.",
+        "Displays percent rise in elevation. High values represent low-lying areas that are more likely to retain water and flood. Data are not available for the entire study area; areas without data may or may not have a high likelihood to retain water.",
       region: "alaska",
     },
     {

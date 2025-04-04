@@ -27,6 +27,9 @@ import {
   toggleCollapsed,
   initializeState,
 } from "../../reducers/mapLayerListSlice";
+
+import { changeRegion } from "../../reducers/regionSelectSlice";
+
 import {
   changeZoom,
   changeCenter,
@@ -37,6 +40,8 @@ import { changeActiveTab } from "../../reducers/NavBarSlice";
 import ExampleActionButton from "./ExampleActionButton.jsx";
 import { flyToLocation } from "./StepActions.jsx";
 import { mapConfig } from "../../configuration/config";
+
+const regions = mapConfig.regions;
 
 const RectangleTwoToneIconStyled = styled(RectangleTwoToneIcon)(
   ({ theme }) => ({
@@ -105,25 +110,25 @@ export default function ExampleCard(props) {
       setExamplePolyData(null);
     }
 
+    const regionName = examplePolygonGeojson.features[0]?.properties?.region;
+    dispatch(changeRegion(regions[regionName].label));
     const activeStepLayer =
-      mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
-        .layerList[steps[activeStep].layerIndex];
+      mapConfig.regions[regionName].layerList[steps[activeStep].layerIndex];
     const previousStepLayer =
-      mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
-        .layerList[steps[previousStep].layerIndex];
+      mapConfig.regions[regionName].layerList[steps[previousStep].layerIndex];
 
     // zero out the active and previous step if not expanded, toggle layer, and reset map
     if (map && expanded !== title) {
       setActiveStep(0);
       setPreviousStep(0);
+      const regionNameMap =
+        examplePolygonGeojson.features[0]?.properties?.region;
+      dispatch(changeRegion(regions[regionNameMap].label));
       const defaultCenter =
-        mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
-          .mapProperties.center;
-      const defaultZoom =
-        mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
-          .mapProperties.zoom;
+        mapConfig.regions[regionNameMap].mapProperties.center;
+      const defaultZoom = mapConfig.regions[regionNameMap].mapProperties.zoom;
       flyToLocation(map, defaultCenter, defaultZoom);
-      if (activeStep >= 2) {
+      if (activeStep >= 1) {
         dispatch(toggleLayer(activeStepLayer));
         dispatch(toggleLegend(activeStepLayer));
         dispatch(toggleCollapsed(activeStepLayer.ChartInputLabel));
@@ -136,6 +141,8 @@ export default function ExampleCard(props) {
         setExamplePolyData(null);
         dispatch(initializeState());
         dispatch(changeBasemap("Dark Gray"));
+        const layerID = mapConfig.regions[regionName].layerList[0]; // gets rid if initial hubs on
+        dispatch(toggleLayer(layerID));
       }
 
       // Always draw poly and make sure you are at the correct location on the map
@@ -155,20 +162,20 @@ export default function ExampleCard(props) {
         }));
       }
 
-      // Special case to make sure the layer turned on from Step 3 (previousStep 2) is toggled off
-      if (activeStep === 1 && previousStep === 2) {
-        dispatch(toggleLayer(previousStepLayer));
-        dispatch(toggleLegend(previousStepLayer));
-        dispatch(toggleCollapsed(previousStepLayer.ChartInputLabel));
-      }
+      // // Special case to make sure the layer turned on from Step 3 (previousStep 2) is toggled off
+      // if (activeStep === 1 && previousStep === 2) {
+      //   dispatch(toggleLayer(previousStepLayer));
+      //   dispatch(toggleLegend(previousStepLayer));
+      //   dispatch(toggleCollapsed(previousStepLayer.ChartInputLabel));
+      // }
 
       // turn on layer for the active step and turn off layer for previous step
-      if (activeStep >= 2) {
+      if (activeStep >= 1) {
         dispatch(toggleLayer(activeStepLayer));
         dispatch(toggleLegend(activeStepLayer));
         dispatch(toggleCollapsed(activeStepLayer.ChartInputLabel));
         // have to check and make sure previous step is not 1 since there is no layer to toggle in 1
-        if (previousStep !== 1) {
+        if (previousStep >= 1) {
           dispatch(toggleLayer(previousStepLayer));
           dispatch(toggleLegend(previousStepLayer));
           dispatch(toggleCollapsed(previousStepLayer.ChartInputLabel));

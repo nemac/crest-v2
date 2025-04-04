@@ -51,10 +51,10 @@ export const continentalUSConfig = {
     {
       id: "CONUS_HubsTMS",
       layer: "Hubs TMS",
-      label: "Resilience Hubs",
+      label: "Resilience Hubs Score",
       chartOrder: 1,
-      chartLabel: "Resilience Hubs",
-      chartTipLabel: "Resilience Score",
+      chartLabel: "Resilience Hubs Score",
+      chartTipLabel: "Resilience Hubs Score",
       chartCSSColor: {
         0: "#E9ECEF",
         1: "#ffc500",

@@ -53,10 +53,10 @@ export const greatLakesConfig = {
     {
       id: "GL_HubsTMS",
       layer: "Hubs TMS",
-      label: "Resilience Hubs",
+      label: "Resilience Hubs Score",
       chartOrder: 1,
-      chartLabel: "Resilience Hubs",
-      chartTipLabel: "Resilience Score",
+      chartLabel: "Resilience Hubs Score",
+      chartTipLabel: "Resilience Hubs Score",
       isLegendCustom: false,
       chartCSSColor: {
         0: "#E9ECEF",
@@ -80,7 +80,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Resilience Hub Cores represent contiguous, unfragmented habitat cores proximate to human community assets ranked by combining Community Exposure and Fish and Wildlife Index values with other key inputs. Resilience Hub Cores provide a coarse-scale view of Resilience Hubs, where higher values represent areas with greater potential for dual community flood protection and wildlife benefits. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Resilience Hub Cores represent contiguous, unfragmented habitat cores proximate to human community assets ranked by combining Community Exposure and Fish and Wildlife Index values with other key inputs. Resilience Hub Cores provide a coarse-scale view of Resilience Hubs, where higher values represent areas with greater potential for dual community flood protection and wildlife benefits.",
       region: "great_lakes",
     },
     {
@@ -112,7 +112,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "The Resilience Hub Grid applies a 10-acre hexagonal grid to show variation within habitat cores, ranking each hexagon by combining Community Exposure and Fish and Wildlife Index values with other key inputs. The Resilience Hub Grid provides a fine-scale view of Resilience Hubs, where higher values represent areas with greater potential for dual community flood protection and wildlife benefits. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "The Resilience Hub Grid applies a 10-acre hexagonal grid to show variation within habitat cores, ranking each hexagon by combining Community Exposure and Fish and Wildlife Index values with other key inputs. The Resilience Hub Grid provides a fine-scale view of Resilience Hubs, where higher values represent areas with greater potential for dual community flood protection and wildlife benefits.",
       region: "great_lakes",
     },
     {
@@ -147,7 +147,7 @@ export const greatLakesConfig = {
       maxNativeZoom: 14,
 
       description:
-        "The product of the Community Asset Index and Threat Index, the Community Exposure Index identifies areas where human community assets are potentially exposed to numerous flood-related threats. Color ramp varies from other regions but displays similar information. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "The product of the Community Asset Index and Threat Index, the Community Exposure Index identifies areas where human community assets are potentially exposed to numerous flood-related threats. Color ramp varies from other regions but displays similar information.",
       region: "great_lakes",
     },
     {
@@ -181,9 +181,9 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       // description:
-      //   "Index of human community assets that are important to help a community respond to and recover from a flooding event. High values represent areas with dense concentration of critical facilities, infrastructure, and population and social vulnerability. See the U.S. U.S. Great Lakes Assessment report for details.",
+      //   "Index of human community assets that are important to help a community respond to and recover from a flooding event. High values represent areas with dense concentration of critical facilities, infrastructure, and population and social vulnerability.",
       description:
-        "Index of human community assets that are important to help a community respond to and recover from a flooding event. High values represent areas with dense concentration of critical facilities, infrastructure, and population. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Index of human community assets that are important to help a community respond to and recover from a flooding event. High values represent areas with dense concentration of critical facilities, infrastructure, and population.",
       region: "great_lakes",
     },
     {
@@ -217,7 +217,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Index of flood-related datasets, including high lake levels and landscape characteristics that exacerbate flood potential. High values represent areas with multiple flood-related threat inputs. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Index of flood-related datasets, including high lake levels and landscape characteristics that exacerbate flood potential. High values represent areas with multiple flood-related threat inputs.",
       region: "great_lakes",
     },
     {
@@ -251,7 +251,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "The sum of the Terrestrial Index, Aquatic Index, and Protected and Managed Areas for Biodiversity, the Fish and Wildlife Index identifies habitat and protected areas important for terrestrial and aquatic species of conservation concern and/or off-reservation harvest regulations. Higher values represent areas important for numerous species of concern. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "The sum of the Terrestrial Index, Aquatic Index, and Protected and Managed Areas for Biodiversity, the Fish and Wildlife Index identifies habitat and protected areas important for terrestrial and aquatic species of conservation concern and/or off-reservation harvest regulations. Higher values represent areas important for numerous species of concern.",
       region: "great_lakes",
     },
     {
@@ -285,7 +285,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Index of habitat suitable for species of conservation concern and/or species with off-reservation harvest regulations that utilize riverine and lacustrine habitats. The Index also considers designated critical habitat, nearshore reefs and fish spawning locations, and U.S. Great Lakes Brook Trout Conservation Portfolio habitat patches, which served as a proxy for cool and cold-water habitat. High values represent areas important for numerous aquatic species of concern. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Index of habitat suitable for species of conservation concern and/or species with off-reservation harvest regulations that utilize riverine and lacustrine habitats. The Index also considers designated critical habitat, nearshore reefs and fish spawning locations, and U.S. Great Lakes Brook Trout Conservation Portfolio habitat patches, which served as a proxy for cool and cold-water habitat. High values represent areas important for numerous aquatic species of concern.",
       region: "great_lakes",
     },
     {
@@ -319,7 +319,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Index of habitat suitable for species of conservation concern and/or species with off-reservation harvest regulations that utilize terrestrial habitats. The Index also considers designated critical habitat, Important Bird Areas, and Key Biodiversity Areas. High values represent areas important for numerous terrestrial species of concern. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Index of habitat suitable for species of conservation concern and/or species with off-reservation harvest regulations that utilize terrestrial habitats. The Index also considers designated critical habitat, Important Bird Areas, and Key Biodiversity Areas. High values represent areas important for numerous terrestrial species of concern.",
       region: "great_lakes",
     },
     // {
@@ -346,7 +346,7 @@ export const greatLakesConfig = {
     //   opacity: 0.75,
     //   maxNativeZoom: 14,
     //   description:
-    //     "Identifies census blocks that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN data. Census blocks above the 50th percentile nationally are ranked from low to high, which indicates census blocks with low income and minority populations. See the U.S. U.S. Great Lakes Assessment report for details.",
+    //     "Identifies census blocks that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN data. Census blocks above the 50th percentile nationally are ranked from low to high, which indicates census blocks with low income and minority populations.",
     //   region: "great_lakes",
     // },
     {
@@ -374,7 +374,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "A ranking of population density by census blocks based on the 2020 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer relative to the most densely populated census block in the study area. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "A ranking of population density by census blocks based on the 2020 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer relative to the most densely populated census block in the study area.",
       region: "great_lakes",
     },
     {
@@ -402,7 +402,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Facilities that provide important recovery and operational support during and following flood events such as schools, emergency response and law enforcement facilities, health and medical facilities, and government and military buildings. All critical facilities are given the same rank based on presence. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Facilities that provide important recovery and operational support during and following flood events such as schools, emergency response and law enforcement facilities, health and medical facilities, and government and military buildings. All critical facilities are given the same rank based on presence.",
       region: "great_lakes",
     },
     {
@@ -430,7 +430,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Infrastructure integral to a community’s ability to mitigate damages and recover from a flood event, including transportation, waterways, water treatment, communications, energy, and hazardous site infrastructure. All critical infrastructure is given the same rank based on presence. High values indicate areas where one or more infrastructure types are nearby or overlap. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Infrastructure integral to a community’s ability to mitigate damages and recover from a flood event, including transportation, waterways, water treatment, communications, energy, and hazardous site infrastructure. All critical infrastructure is given the same rank based on presence. High values indicate areas where one or more infrastructure types are nearby or overlap.",
       region: "great_lakes",
     },
     {
@@ -458,7 +458,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Soils identified as having a high probability of erodibility including coastal bluffs, beaches, and dunes. High values suggest that the area contains soils with a high erodibility factor. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Soils identified as having a high probability of erodibility including coastal bluffs, beaches, and dunes. High values suggest that the area contains soils with a high erodibility factor.",
       region: "great_lakes",
     },
     {
@@ -486,7 +486,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Areas classified by FEMA to be in the 100-year flood zone, 500-year flood zones, or a floodway. Frequently and occasionally flooded soil designations are used to identify additional areas. A high value indicates the floodplain, while a low value indicates occasionally flooded soils outside of the floodplain. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Areas classified by FEMA to be in the 100-year flood zone, 500-year flood zones, or a floodway. Frequently and occasionally flooded soil designations are used to identify additional areas. A high value indicates the floodplain, while a low value indicates occasionally flooded soils outside of the floodplain.",
       region: "great_lakes",
     },
     {
@@ -514,7 +514,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "The percent rise in elevation. High values indicate those areas that are very low lying and more likely to retain water and flood. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "The percent rise in elevation. High values indicate those areas that are very low lying and more likely to retain water and flood.",
       region: "great_lakes",
     },
     {
@@ -542,7 +542,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Areas with poor drainage potential, including both soils and areas with low to high intensity development that do not readily drain and have runoff potential. A high value indicates areas that have soils with poor drainage potential and/or an intensity of developed impervious surfaces. A correction factor has been applied to account for poorly drained soils in row crop agricultural areas using tile drainage. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Areas with poor drainage potential, including both soils and areas with low to high intensity development that do not readily drain and have runoff potential. A high value indicates areas that have soils with poor drainage potential and/or an intensity of developed impervious surfaces. A correction factor has been applied to account for poorly drained soils in row crop agricultural areas using tile drainage.",
       region: "great_lakes",
     },
     {
@@ -570,7 +570,7 @@ export const greatLakesConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description:
-        "Used to identify high lake levels estimated from global satellite imagery. Data show the distribution of surface water from 1984-2020 and represent intra- and inter-annual variation based on observed lake level changes. High values indicate areas that are more likely to have experienced higher lake levels. See the U.S. U.S. Great Lakes Assessment report for details.",
+        "Used to identify high lake levels estimated from global satellite imagery. Data show the distribution of surface water from 1984-2020 and represent intra- and inter-annual variation based on observed lake level changes. High values indicate areas that are more likely to have experienced higher lake levels.",
       region: "great_lakes",
     },
     {
