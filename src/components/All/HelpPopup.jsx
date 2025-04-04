@@ -169,7 +169,7 @@ export default function HelpPopup(props) {
                 Still have questions? Learn how to add areas by stepping through
                 some&nbsp;
                 <ExamplesLink />
-                &nbsp; of the we have provided.
+                &nbsp;.
               </PopupFooterBox>
             ) : (
               <></>

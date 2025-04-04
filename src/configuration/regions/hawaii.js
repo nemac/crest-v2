@@ -51,9 +51,9 @@ export const hawaiiConfig = {
     {
       id: "HI_HubsTMS",
       layer: "Hubs TMS",
-      label: "Resilience Hubs",
+      label: "Resilience Hubs Score",
       chartOrder: 1,
-      chartLabel: "Resilience Hubs",
+      chartLabel: "Resilience Hubs Score",
       chartTipLabel: "Resilience Score",
       chartCSSColor: {
         0: "#E9ECEF",

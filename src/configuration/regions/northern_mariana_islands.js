@@ -520,7 +520,7 @@ export const northernMarianaIslandsConfig = {
     },
     {
       id: "CNMI_landcover",
-      layer: "landcover",
+      layer: "Landcover TMS",
       label: "Landcover",
       chartOrder: 18,
       chartLabel: "Landcover",
@@ -656,7 +656,7 @@ export const northernMarianaIslandsConfig = {
       opacity: 0.75,
       maxNativeZoom: 14,
       description: "Insert Landcover Description Here", // TODO: ADD DESCRIPTION
-      region: "north_mariana_islands",
+      region: "northern_mariana_islands",
     },
   ],
   zonalStatsKeys: [

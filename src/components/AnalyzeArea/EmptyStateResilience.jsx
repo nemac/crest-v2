@@ -22,8 +22,8 @@ export default function EmptyStateResilience(props) {
           To get started
         </Typography>
         <Typography variant="body1" gutterBottom>
-          If you are interested in getting detailed statistics about a specfic
-          hub please click on a hub.
+          If you are interested in getting detailed statistics about a specific
+          hub, please click on a hub.
         </Typography>
       </Box>
     </StyledBox>

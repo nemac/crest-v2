@@ -56,8 +56,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const ContentBox = styled(Box)(({ theme }) => ({
   display: "flex",
   width: "100%",
-  height: "250px",
-  maxHeight: "250px",
+  height: "275px",
+  maxHeight: "275px",
   [theme.breakpoints.down("sm")]: {
     height: "300px",
     maxHeight: "300px",
@@ -317,7 +317,7 @@ export default function ChartCard(props) {
                         top: 60,
                         right: 30,
                         left: 0,
-                        bottom: 60,
+                        bottom: 85,
                       }}
                     />
                   ) : (
@@ -418,7 +418,7 @@ export default function ChartCard(props) {
                   top: 60,
                   right: 30,
                   left: 0,
-                  bottom: 60,
+                  bottom: 85,
                 }}
               />
             </ContentBox>
