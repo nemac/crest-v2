@@ -642,7 +642,8 @@ export const alaskaConfig = {
       attribution: "NFWF 2023",
       opacity: 0.75,
       maxNativeZoom: 13,
-      description: "Insert Landcover Description Here", // TODO: INSERT DESCRIPTION
+      description:
+        "Land cover categories from the National Land Cover Database (NLCD). NLCD provides nation-wide data on land cover and land cover change at the Landsat Thematic Mapper (TM) 30-meter resolution. NLCD provides spatial reference and descriptive data for characteristics of the land surface such as thematic class (e.g., urban, agriculture, and forest), percent impervious surface, and percent tree canopy cover.",
       region: "alaska",
     },
   ],
