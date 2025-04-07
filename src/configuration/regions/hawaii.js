@@ -704,7 +704,8 @@ export const hawaiiConfig = {
       attribution: "NFWF 2023",
       opacity: 0.75,
       maxNativeZoom: 14,
-      description: "Insert Landcover Description Here", // TODO: ADD DESCRIPTION
+      description:
+        "Land cover categories from the NOAA Coastal Change Analysis Program (C-CAP). C-CAP provides nationally standardized, raster-based inventories of land cover for the coastal areas of the U.S. Data are derived, through the Coastal Change Analysis Program, from the analysis of multiple dates of remotely sensed imagery.",
       region: "hawaii",
     },
   ],
