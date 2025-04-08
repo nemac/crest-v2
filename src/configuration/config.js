@@ -21,7 +21,7 @@ import basemapImageryImage from "../assets/images/basemap-imagery.png";
 import basemapStreetImage from "../assets/images/basemap-street.jpg";
 import basemapTopoImage from "../assets/images/basemap-topo.jpg";
 
-const environment = "beta"; // change to "prod" for production
+const environment = "prod-v2"; // change to "prod-v2" for production
 
 export const identifyEndpoint = `https://api.resilientcoasts.org/${environment}/identify/`;
 
@@ -37,7 +37,7 @@ export const zonalStatsEndpoint = `https://api.resilientcoasts.org/${environment
 export const zonalStatsLambdaEndpoint =
   environment === "beta"
     ? "https://5pdq4jsx6i7isl3pmhf3x6ouym0zjnfb.lambda-url.us-east-1.on.aws/" // beta
-    : "https://7bhdz7i43pe6fircjvkv3la6ry0tdaip.lambda-url.us-east-1.on.aws/"; // prod
+    : "https://crfujpnyt2scb56ahusvveq23m0tfisn.lambda-url.us-east-1.on.aws/"; // prod-v2
 
 export const s3ShapeFileBucket =
   "https://nfwf-tool-user-shapes.s3.amazonaws.com/";
