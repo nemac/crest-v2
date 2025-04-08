@@ -165,7 +165,7 @@ export default function Home() {
                     Methods and data sources vary by region, but all assessments
                     allow you to view and interact with all model inputs and
                     results. Assessments for all other US regions are being
-                    updated, Updated data and reports will be added to CREST
+                    updated. Updated data and reports will be added to CREST
                     once available.
                   </Typography>
                 </ListItem>
