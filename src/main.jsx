@@ -8,15 +8,9 @@ import ReactGA from "react-ga4";
 
 import App from "./App.jsx";
 import { store } from "./store";
-import { saveState } from "./localStorage";
 
 ReactGA.initialize("G-2E98LXVQPJ");
 ReactGA.send("pageview");
-
-// here we subscribe to the store changes
-store.subscribe(() => {
-  saveState(store.getState());
-});
 
 const container = document.getElementById("root");
 const root = createRoot(container);

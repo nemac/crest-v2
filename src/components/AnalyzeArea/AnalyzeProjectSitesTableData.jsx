@@ -39,7 +39,6 @@ export default function TableData(props) {
   const { data } = props;
   // remove this if we redo social vulnerability
   const keyToRemove = "social_vuln";
-  delete data.properties.zonalStatsData[keyToRemove];
 
   return (
     <StyledGrid
@@ -63,8 +62,9 @@ export default function TableData(props) {
               </TableRow>
             </StyledTableHead>
             <TableBody>
-              {Object.entries(data.properties.zonalStatsData).map(
-                ([key, value]) => (
+              {Object.entries(data.properties.zonalStatsData)
+                .filter(([key]) => key !== keyToRemove)
+                .map(([key, value]) => (
                   <StyledTableRow key={`${data.properties.areaName}-${key}`}>
                     <TableCell align="left">
                       {data.properties.areaName}
@@ -81,8 +81,7 @@ export default function TableData(props) {
                       {getRange(data.properties.region, key)}
                     </TableCell>
                   </StyledTableRow>
-                ),
-              )}
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

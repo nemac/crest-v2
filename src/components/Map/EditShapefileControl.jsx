@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { FeatureGroup } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import PropTypes from "prop-types";
 import * as L from "leaflet";
-import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
 import { sketchShapeThresholds } from "../../configuration/config";
 
 import {
@@ -26,7 +24,6 @@ export default function EditControlFC(props) {
     mapRef,
     setIsEdit,
   } = props;
-  const dispatch = useDispatch();
 
   // error thresholds
   const areaThreshold = sketchShapeThresholds.areaThreshold;
@@ -48,14 +45,8 @@ export default function EditControlFC(props) {
     // Only trigger if we have an empty map and things to update
     if (mapRef.current?.getLayers().length === 0 && localGeo && updateSteps) {
       let count = 0; // All Layers
-      let countValid = 0; // Layers we don't need to fix, send immediately
-      let countInvalid = 0; // Layers we don't need to fix, send immediately
-      let validBatch = {
-        // data structure to hold good layers that don't need editing
-        type: "FeatureCollection",
-        features: [],
-      };
-      // One time only we go through the loop to sort good and bad shapes
+      let countInvalid = 0; // Layers that need to be fixed
+      // One time only we go through the loop to find the bad shapes
       L.geoJSON(localGeo).eachLayer((layer) => {
         geoToReturn.current.features[count].properties.id = count;
         count += 1;
@@ -106,21 +97,8 @@ export default function EditControlFC(props) {
             color: "red",
             layer: layer.setStyle({ color: "red" }),
           });
-        } else {
-          // if it is valid, batch and send it when we reach our batch size
-          countValid += 1;
-
-          validBatch.features.push(geo);
-          if (countValid >= count >= localGeo.features.length) {
-            dispatch(uploadedShapeFileGeoJSON(validBatch));
-            // after sending, we reset our valid batch to create the next batch
-            validBatch = {
-              type: "FeatureCollection",
-              features: [],
-            };
-            countValid = 0; // and our counter
-          }
         }
+        // Valid shapes stay in geoToReturn and are dispatched together on "Complete the upload"
       });
 
       // NOW WE CAN STEP THROUGH STEPS AND RENDER TO MAP FOR THIS BAD BATCH
@@ -141,7 +119,6 @@ export default function EditControlFC(props) {
     }
     // May not need to watch ALL of these variables, worth revisiting need them for linting issues
   }, [
-    dispatch,
     endIndex,
     localGeo,
     setUpdateSteps,
