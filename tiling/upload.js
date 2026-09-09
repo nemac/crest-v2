@@ -69,9 +69,11 @@ function main(argv) {
   runCommands(uploadCommands(names, outDir), { dryRun: !yes });
 }
 
-try {
-  main(process.argv.slice(2));
-} catch (error) {
-  console.error(`\n${error.message}`);
-  process.exit(1);
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  try {
+    main(process.argv.slice(2));
+  } catch (error) {
+    console.error(`\n${error.message}`);
+    process.exit(1);
+  }
 }
