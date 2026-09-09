@@ -5,6 +5,7 @@ import {
   buildBoundaryCommands,
   buildLayerCommands,
   layerPaths,
+  tmsToXyzRow,
 } from "./commands.js";
 
 const opts = {
@@ -23,6 +24,15 @@ describe("constants", () => {
   it("lists thirteen power-of-two overview levels to reach zoom 0", () => {
     expect(OVERVIEW_LEVELS).toHaveLength(13);
     OVERVIEW_LEVELS.forEach((level, i) => expect(level).toBe(2 ** (i + 1)));
+  });
+});
+
+describe("tmsToXyzRow", () => {
+  it("flips the row index within a zoom level", () => {
+    expect(tmsToXyzRow(0, 0)).toBe(0);
+    expect(tmsToXyzRow(1, 0)).toBe(1);
+    expect(tmsToXyzRow(13, 0)).toBe(8191);
+    expect(tmsToXyzRow(13, 8191)).toBe(0);
   });
 });
 

@@ -27,15 +27,22 @@ export function runCommands(commands, { dryRun = false } = {}) {
   });
 }
 
-export function captureJson(cmd, args) {
+export function capture(cmd, args) {
   const result = spawnSync(cmd, args, {
     encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
   });
+  if (result.error) {
+    throw new Error(`could not start ${cmd}: ${result.error.message}`);
+  }
   if (result.status !== 0) {
     throw new Error(
       `${cmd} ${args.join(" ")} exited with status ${result.status}\n${result.stderr}`,
     );
   }
-  return JSON.parse(result.stdout);
+  return result.stdout;
+}
+
+export function captureJson(cmd, args) {
+  return JSON.parse(capture(cmd, args));
 }

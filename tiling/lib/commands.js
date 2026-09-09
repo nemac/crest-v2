@@ -6,6 +6,10 @@ export const OVERVIEW_LEVELS = [
   2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192,
 ];
 
+export function tmsToXyzRow(zoom, tmsRow) {
+  return 2 ** zoom - 1 - tmsRow;
+}
+
 export function layerPaths({ name, workDir, outDir }) {
   return {
     colorFile: path.join(workDir, `${name}.colors.txt`),

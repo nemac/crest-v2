@@ -4,6 +4,8 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { buildLayer } from "./build.js";
+import { tmsToXyzRow } from "./lib/commands.js";
+import { capture } from "./lib/run.js";
 
 const CLASSES = [-1, 1, 2, 3, 4, 5];
 const PALETTE = [
@@ -24,14 +26,6 @@ const EXPECTED_RGBA = new Set([
   "103,0,14,255",
 ]);
 
-function run(cmd, args) {
-  const result = spawnSync(cmd, args, { encoding: "utf8" });
-  if (result.status !== 0) {
-    throw new Error(`${cmd} ${args.join(" ")} failed:\n${result.stderr}`);
-  }
-  return result.stdout;
-}
-
 function writeFixture(dir) {
   const rows = [];
   for (let y = 0; y < 64; y += 1) {
@@ -48,7 +42,7 @@ function writeFixture(dir) {
     `ncols 64\nnrows 64\nxllcorner 1800000\nyllcorner 600000\ncellsize 30\nNODATA_value -128\n${rows.join("\n")}\n`,
   );
   const tif = path.join(dir, "fixture.tif");
-  run("gdal_translate", [
+  capture("gdal_translate", [
     "-q",
     "-ot",
     "Int8",
@@ -63,14 +57,14 @@ function writeFixture(dir) {
 }
 
 function tileColours(pmtiles, mbtiles, dir) {
-  const row = run("sqlite3", [
+  const row = capture("sqlite3", [
     "-separator",
     " ",
     mbtiles,
     "select tile_column, tile_row from tiles where zoom_level=13 limit 1",
   ]).trim();
   const [x, yTms] = row.split(" ").map(Number);
-  const y = 2 ** 13 - 1 - yTms;
+  const y = tmsToXyzRow(13, yTms);
   const png = path.join(dir, "tile.png");
   const tile = spawnSync(
     "pmtiles",
@@ -79,10 +73,24 @@ function tileColours(pmtiles, mbtiles, dir) {
       maxBuffer: 16 * 1024 * 1024,
     },
   );
+  if (tile.error) {
+    throw new Error(`could not start pmtiles: ${tile.error.message}`);
+  }
+  if (tile.status !== 0) {
+    throw new Error(`pmtiles tile exited with status ${tile.status}`);
+  }
   writeFileSync(png, tile.stdout);
   const bands = [1, 2, 3, 4].map((b) => {
     const asc = path.join(dir, `band${b}.asc`);
-    run("gdal_translate", ["-q", "-of", "AAIGrid", "-b", String(b), png, asc]);
+    capture("gdal_translate", [
+      "-q",
+      "-of",
+      "AAIGrid",
+      "-b",
+      String(b),
+      png,
+      asc,
+    ]);
     return readFileSync(asc, "utf8")
       .split("\n")
       .slice(6)
@@ -119,7 +127,7 @@ try {
     workDir: path.join(dir, "work"),
     outDir: path.join(dir, "out"),
   });
-  const header = run("pmtiles", ["show", pmtiles]);
+  const header = capture("pmtiles", ["show", pmtiles]);
   if (!/tile type: png/.test(header) || !/max zoom: 13/.test(header)) {
     throw new Error(`Unexpected pmtiles header:\n${header}`);
   }
