@@ -8,7 +8,7 @@ import { runCommands } from "./lib/run.js";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..");
 
-export const BOUNDARY = {
+const BOUNDARY = {
   name: "north_atlantic_boundary",
   source: "regional_boundary/nfwf_north_atlantic_boundary_092023_Project.shp",
 };
@@ -35,9 +35,11 @@ function main(argv) {
   }
 }
 
-try {
-  main(process.argv.slice(2));
-} catch (error) {
-  console.error(`\n${error.message}`);
-  process.exit(1);
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  try {
+    main(process.argv.slice(2));
+  } catch (error) {
+    console.error(`\n${error.message}`);
+    process.exit(1);
+  }
 }
