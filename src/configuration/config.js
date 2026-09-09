@@ -42,6 +42,11 @@ export const zonalStatsLambdaEndpoint =
 export const s3ShapeFileBucket =
   "https://nfwf-tool-user-shapes.s3.amazonaws.com/";
 
+// referrer-restricted key for basemaps and geocoding; deploy workflows override per site
+export const agolApiKey =
+  import.meta.env.VITE_AGOL_API_KEY ||
+  "AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By";
+
 export const sketchShapeThresholds = {
   areaThreshold: 500,
   verticeThreshold: 1000,

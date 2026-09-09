@@ -10,9 +10,7 @@ import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearc
 
 import "../../css/SearchPlaces.css";
 import { addSearchPlacesGeoJSON } from "../../reducers/mapPropertiesSlice";
-
-const apiKey =
-  "AAPKa0a45bdbd847441badbdcf07a97939bd0Y1Vpjt3MU7qyu7R9QThGqpucpKmbVXGEdmQo1hqhdjLDKA2zrwty2aeDjT-7-By";
+import { agolApiKey } from "../../configuration/config";
 
 export default function SearchPlaces(props) {
   const { map } = props;
@@ -72,7 +70,7 @@ export default function SearchPlaces(props) {
         attribution="Powered by ESRI"
         providers={{
           arcgisOnlineProvider: {
-            token: apiKey,
+            token: agolApiKey,
             label: "ArcGIS Online Results",
             maxResults: 10,
           },

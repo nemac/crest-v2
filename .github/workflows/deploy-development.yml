@@ -25,6 +25,8 @@ jobs:
           aws-region: us-east-1
 
       - name: Build
+        env:
+          VITE_AGOL_API_KEY: ${{ secrets.AGOL_DEV_KEY }}
         run: |
           npm install --legacy-peer-deps
           npm run build

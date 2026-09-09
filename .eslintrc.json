@@ -24,7 +24,7 @@
     "browser": true,
     "es6": true
   },
-  "ignorePatterns": ["*.test*.js"],
+  "ignorePatterns": ["*.test*.js", "dist"],
   "rules": {
     "no-underscore-dangle": ["off"],
     "no-unused-expressions": ["error", { "allowTernary": true }],
