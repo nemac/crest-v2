@@ -39,5 +39,16 @@
     }, {
       "enforceForRenamedProperties": false
     }]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["tiling/**/*.js"],
+      "env": { "node": true, "browser": false },
+      "rules": {
+        "no-console": "off",
+        "import/extensions": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
 }

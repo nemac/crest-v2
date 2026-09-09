@@ -1,0 +1,200 @@
+{
+  "resilience_opportunities": [
+    { "value": 1, "color": "#FDFAEC" },
+    { "value": 2, "color": "#FFEFA5" },
+    { "value": 3, "color": "#FEDF81" },
+    { "value": 4, "color": "#FECA5F" },
+    { "value": 5, "color": "#FDB03E" },
+    { "value": 6, "color": "#FB911C" },
+    { "value": 7, "color": "#F06F05" },
+    { "value": 8, "color": "#DD4503" },
+    { "value": 9, "color": "#E51102" },
+    { "value": 10, "color": "#B30202" }
+  ],
+  "community_exposure_index": [
+    { "value": 1, "color": "#DBF0E0" },
+    { "value": 2, "color": "#C6E8D5" },
+    { "value": 3, "color": "#AFE1CE" },
+    { "value": 4, "color": "#98DACD" },
+    { "value": 5, "color": "#81D5D4" },
+    { "value": 6, "color": "#68C2D0" },
+    { "value": 7, "color": "#4FA9CB" },
+    { "value": 8, "color": "#2771AE" },
+    { "value": 9, "color": "#143B7D" },
+    { "value": 10, "color": "#071346" }
+  ],
+  "threat_index": [
+    { "value": 1, "color": "#F5EAEB" },
+    { "value": 2, "color": "#E9CDCF" },
+    { "value": 3, "color": "#DEADB1" },
+    { "value": 4, "color": "#D58C92" },
+    { "value": 5, "color": "#CE6A72" },
+    { "value": 6, "color": "#C84550" },
+    { "value": 7, "color": "#B42F3B" },
+    { "value": 8, "color": "#97232D" },
+    { "value": 9, "color": "#781820" },
+    { "value": 10, "color": "#570F15" }
+  ],
+  "community_asset_index": [
+    { "value": 1, "color": "#EDF0F2" },
+    { "value": 2, "color": "#D2D9E1" },
+    { "value": 3, "color": "#B5C3D2" },
+    { "value": 4, "color": "#96ACC5" },
+    { "value": 5, "color": "#7595BA" },
+    { "value": 6, "color": "#527EB1" },
+    { "value": 7, "color": "#3E6898" },
+    { "value": 8, "color": "#2E527C" },
+    { "value": 9, "color": "#1F3D5F" },
+    { "value": 10, "color": "#12273F" }
+  ],
+  "fish_and_wildlife_index": [
+    { "value": 1, "color": "#F1E5EB" },
+    { "value": 2, "color": "#EAC9DB" },
+    { "value": 3, "color": "#E5AEC1" },
+    { "value": 4, "color": "#DD93A7" },
+    { "value": 5, "color": "#D37792" },
+    { "value": 6, "color": "#C75B7F" },
+    { "value": 7, "color": "#B34372" },
+    { "value": 8, "color": "#8E3B69" },
+    { "value": 9, "color": "#712C63" },
+    { "value": 10, "color": "#4D1F66" }
+  ],
+  "areas_of_low_slope": [
+    { "value": 1, "color": "#D3EECD" },
+    { "value": 2, "color": "#98D594" },
+    { "value": 3, "color": "#4BB062" },
+    { "value": 4, "color": "#157F3B" },
+    { "value": 5, "color": "#00441B" }
+  ],
+  "flood_prone_areas": [
+    { "value": 1, "color": "#E2E2EF" },
+    { "value": 2, "color": "#B6B6D8" },
+    { "value": 3, "color": "#8683BD" },
+    { "value": 4, "color": "#61409B" },
+    { "value": 5, "color": "#3F007D" }
+  ],
+  "impermeability": [
+    { "value": 1, "color": "#E9DD66" },
+    { "value": 2, "color": "#CBBA06" },
+    { "value": 3, "color": "#A19400" },
+    { "value": 4, "color": "#786D00" },
+    { "value": 5, "color": "#4D4700" }
+  ],
+  "landslide_susceptibility": [
+    { "value": 1, "color": "#FDDCAF" },
+    { "value": 2, "color": "#FDB27B" },
+    { "value": 3, "color": "#F26D4B" },
+    { "value": 4, "color": "#C91D13" },
+    { "value": 5, "color": "#7F0000" }
+  ],
+  "sea_level_rise": [
+    { "value": 1, "color": "#D8ECE8" },
+    { "value": 2, "color": "#59CAB3" },
+    { "value": 3, "color": "#1E9981" },
+    { "value": 4, "color": "#096956" },
+    { "value": 5, "color": "#003C30" }
+  ],
+  "soil_erodibility": [
+    { "value": 1, "color": "#FEEBA2" },
+    { "value": 2, "color": "#FEBB47" },
+    { "value": 3, "color": "#F07818" },
+    { "value": 4, "color": "#B84203" },
+    { "value": 5, "color": "#662506" }
+  ],
+  "storm_surge": [
+    { "value": 1, "color": "#EEECFA" },
+    { "value": 2, "color": "#B6B5F0" },
+    { "value": 3, "color": "#717FED" },
+    { "value": 4, "color": "#0E46E9" },
+    { "value": 5, "color": "#002C6F" }
+  ],
+  "vertical_land_motion": [
+    { "value": -1, "color": "#00CC44", "label": "Uplift" },
+    { "value": 1, "color": "#CDA0C5" },
+    { "value": 2, "color": "#DF659C" },
+    { "value": 3, "color": "#DF2159" },
+    { "value": 4, "color": "#AA062E" },
+    { "value": 5, "color": "#67000E" }
+  ],
+  "critical_facilities": [
+    { "value": 5, "color": "#0084A8" }
+  ],
+  "critical_infrastructure": [
+    { "value": 1, "color": "#EFBD8C" },
+    { "value": 2, "color": "#EA8D43" },
+    { "value": 3, "color": "#D65F12" },
+    { "value": 4, "color": "#AC410A" },
+    { "value": 5, "color": "#7F2704" }
+  ],
+  "population_density": [
+    { "value": 1, "color": "#DFDAED" },
+    { "value": 2, "color": "#C3BFE0" },
+    { "value": 3, "color": "#A7A7D3" },
+    { "value": 4, "color": "#9E9AC8" },
+    { "value": 5, "color": "#796EB2" },
+    { "value": 6, "color": "#5B3596" },
+    { "value": 7, "color": "#2D0059" }
+  ],
+  "amphibian_species": [
+    { "value": 1, "color": "#DEF4F1" },
+    { "value": 2, "color": "#ACCEC9" },
+    { "value": 3, "color": "#7CA8A3" },
+    { "value": 4, "color": "#4A847F" },
+    { "value": 5, "color": "#1D605C" }
+  ],
+  "aquatic_invertebrate_species": [
+    { "value": 1, "color": "#DEF4F1" },
+    { "value": 2, "color": "#C8E3DF" },
+    { "value": 3, "color": "#B2D2CE" },
+    { "value": 4, "color": "#9CC1BD" },
+    { "value": 5, "color": "#87B0AC" },
+    { "value": 6, "color": "#71A09B" },
+    { "value": 7, "color": "#59908B" },
+    { "value": 8, "color": "#45807B" },
+    { "value": 9, "color": "#1E706C" },
+    { "value": 10, "color": "#1D605C" }
+  ],
+  "bird_species": [
+    { "value": 1, "color": "#DEF4F1" },
+    { "value": 2, "color": "#ACCEC9" },
+    { "value": 3, "color": "#7CA8A3" },
+    { "value": 4, "color": "#4A847F" },
+    { "value": 5, "color": "#1D605C" }
+  ],
+  "fish_species": [
+    { "value": 1, "color": "#DEF4F1" },
+    { "value": 2, "color": "#C8E3DF" },
+    { "value": 3, "color": "#B2D2CE" },
+    { "value": 4, "color": "#9CC1BD" },
+    { "value": 5, "color": "#87B0AC" },
+    { "value": 6, "color": "#71A09B" },
+    { "value": 7, "color": "#59908B" },
+    { "value": 8, "color": "#45807B" },
+    { "value": 9, "color": "#1E706C" },
+    { "value": 10, "color": "#1D605C" }
+  ],
+  "mammal_species": [
+    { "value": 1, "color": "#DEF4F1" },
+    { "value": 2, "color": "#ACCEC9" },
+    { "value": 3, "color": "#7CA8A3" },
+    { "value": 4, "color": "#4A847F" },
+    { "value": 5, "color": "#1D605C" }
+  ],
+  "reptile_species": [
+    { "value": 1, "color": "#DEF4F1" },
+    { "value": 2, "color": "#ACCEC9" },
+    { "value": 3, "color": "#7CA8A3" },
+    { "value": 4, "color": "#4A847F" },
+    { "value": 5, "color": "#1D605C" }
+  ],
+  "habitat_protected_and_managed_areas": [
+    { "value": 1, "color": "#C6EEF1" },
+    { "value": 2, "color": "#A1D8E9" },
+    { "value": 3, "color": "#88C0E5" },
+    { "value": 4, "color": "#77A6E4" },
+    { "value": 5, "color": "#6B8AE4" },
+    { "value": 6, "color": "#616CE4" },
+    { "value": 7, "color": "#584CE3" },
+    { "value": 8, "color": "#5120E0" }
+  ]
+}
