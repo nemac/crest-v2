@@ -1,0 +1,29 @@
+{
+  "sourceDir": "CREST_TIFS",
+  "nodata": 255,
+  "layers": [
+    { "name": "resilience_opportunities", "source": "CONUS_NAtl_Resilience_Opportunities_CREST_20260810.tif", "palette": "resilience_opportunities" },
+    { "name": "community_exposure_index", "source": "CONUS_NAtl_Community_Exposure_Index_Marine_Propagation_CREST_20260810.tif", "palette": "community_exposure_index" },
+    { "name": "threat_index", "source": "CONUS_NAtl_Threat_Index_CREST_20260810.tif", "palette": "threat_index" },
+    { "name": "community_asset_index", "source": "CONUS_NAtl_Community_Asset_Index_CREST_20260810.tif", "palette": "community_asset_index" },
+    { "name": "fish_and_wildlife_index", "source": "CONUS_NAtl_Fish_And_Wildlife_Index_CREST_20260810.tif", "palette": "fish_and_wildlife_index" },
+    { "name": "areas_of_low_slope", "source": "CONUS_NAtl_Areas_Of_Low_Slope_CREST_20260810.tif", "palette": "areas_of_low_slope" },
+    { "name": "flood_prone_areas", "source": "CONUS_NAtl_Flood_Prone_Areas_CREST_20260810.tif", "palette": "flood_prone_areas" },
+    { "name": "impermeability", "source": "CONUS_NAtl_Impermeability_CREST_20260810.tif", "palette": "impermeability" },
+    { "name": "landslide_susceptibility", "source": "CONUS_NAtl_Landslide_Susceptibility_CREST_20260810.tif", "palette": "landslide_susceptibility" },
+    { "name": "sea_level_rise", "source": "CONUS_NAtl_Sea_Level_Rise_CREST_20260810.tif", "palette": "sea_level_rise" },
+    { "name": "soil_erodibility", "source": "CONUS_NAtl_Soil_Erodibility_CREST_20260810.tif", "palette": "soil_erodibility" },
+    { "name": "storm_surge", "source": "CONUS_NAtl_Storm_Surge_CREST_20260810.tif", "palette": "storm_surge" },
+    { "name": "vertical_land_motion", "source": "CONUS_NAtl_Vertical_Land_Motion_CREST_20260810.tif", "palette": "vertical_land_motion", "nodata": 0 },
+    { "name": "critical_facilities", "source": "CONUS_NAtl_Critical_Facilities_CREST_20260810.tif", "palette": "critical_facilities" },
+    { "name": "critical_infrastructure", "source": "CONUS_NAtl_Critical_Infrastructure_CREST_20260810.tif", "palette": "critical_infrastructure" },
+    { "name": "population_density", "source": "CONUS_NAtl_Population_Density_CREST_20260810.tif", "palette": "population_density" },
+    { "name": "amphibian_species", "source": "CONUS_NAtl_Amphibian_Species_CREST_20260810.tif", "palette": "amphibian_species" },
+    { "name": "aquatic_invertebrate_species", "source": "CONUS_NAtl_Aquatic_Invertebrate_Species_CREST_20260827.tif", "palette": "aquatic_invertebrate_species" },
+    { "name": "bird_species", "source": "CONUS_NAtl_Bird_Species_CREST_20260810.tif", "palette": "bird_species" },
+    { "name": "fish_species", "source": "CONUS_NAtl_Fish_Species_CREST_20260827.tif", "palette": "fish_species" },
+    { "name": "mammal_species", "source": "CONUS_NAtl_Mammal_Species_CREST_20260810.tif", "palette": "mammal_species" },
+    { "name": "reptile_species", "source": "CONUS_NAtl_Reptile_Species_CREST_20260810.tif", "palette": "reptile_species" },
+    { "name": "habitat_protected_and_managed_areas", "source": "CONUS_NAtl_Habitat_Protected_And_Managed_Areas_CREST_20260810.tif", "palette": "habitat_protected_and_managed_areas" }
+  ]
+}
