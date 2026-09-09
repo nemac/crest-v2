@@ -3,3 +3,11 @@ node_modules
 .DS_Store
 .vscode
 node_modules
+
+# Local data and working notes, never committed
+CREST_TIFS/
+*.docx
+HANDOFF.md
+tiling/work/
+regional_boundary/
+docs/superpowers/
