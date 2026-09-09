@@ -1,6 +1,6 @@
 # CREST V2 README
 
-React 18 + Vite. Node 18 or newer.
+React 18 + Vite 7. Node 22 or newer.
 
 ## Deployments
 
