@@ -1,13 +1,20 @@
 # CREST V2 README
 
-## Basic readme for first commit of CREST v2
+React 18 + Vite. Node 18 or newer.
 
-Node 16 Long Term Support (LTS)
+## Deployments
 
-## GH Pages
-https://nemac.github.io/crest-v2/
+| Branch | Site | Infrastructure |
+| --- | --- | --- |
+| `development` | https://crest.nemac.org | S3 `crest.nemac.org` + CloudFront `E1WM3CCMHRFQOS` |
+| `master` | https://resilientcoasts.org | S3 `crest-v2` + CloudFront `EC6NN4OQJPSC3` |
 
-## S3 Static Page
-http://crest-v2.s3-website-us-east-1.amazonaws.com/
+Pushing to a branch above builds the site and syncs it to its S3 bucket via GitHub Actions
+(`.github/workflows/`). The development deploy also invalidates its CloudFront cache.
 
-Updating Readme to trigger build
+## Local development
+
+```
+npm install --legacy-peer-deps
+npm start
+```
