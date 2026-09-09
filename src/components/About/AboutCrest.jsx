@@ -23,8 +23,8 @@ export default function AboutCrest(props) {
         The Regional Coastal Resilience Assessments were developed by the
         National Fish and Wildlife Foundation (NFWF), in partnership with the
         National Oceanic and Atmospheric Administration (NOAA) and UNC
-        Asheville’s National Environmental Modeling and Analysis Center (NEMAC)
-        and in consultation with the U.S. Army Corps of Engineers and
+        Asheville’s National Environmental Mapping and Applications Center
+        (NEMAC) and in consultation with the U.S. Army Corps of Engineers and
         NatureServe. The Coastal Resilience Evaluation and Siting Tool (CREST)
         provides an interactive platform to view and interact with the results
         of the Regional Coastal Resilience Assessments.

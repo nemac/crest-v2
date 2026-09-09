@@ -3,7 +3,7 @@ import * as React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { styled } from "@mui/system";
 
-import NEMACAboutLogoImage from "../../assets/images/nemac_logo_white.png";
+import NEMACAboutLogoImage from "../../assets/images/nemac_logo_h_white_nemac_logo_h_white_tpt.png";
 import NFWFAboutLogoImage from "../../assets/images/nfwf_logo_white.png";
 
 const AboutLogoImage = styled("img")(({ theme }) => ({
@@ -28,7 +28,11 @@ export default function AboutFooter(props) {
         <AboutLogoImage src={NFWFAboutLogoImage} px={1} />
       </Grid>
       <Grid xs={12} sm={6}>
-        <AboutLogoImage src={NEMACAboutLogoImage} px={1} />
+        <AboutLogoImage
+          src={NEMACAboutLogoImage}
+          px={1}
+          sx={{ maxHeight: "100px" }}
+        />
       </Grid>
     </Grid>
   );
