@@ -3,8 +3,6 @@ import ReactGA from "react-ga4";
 
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import L from "leaflet";
-import "leaflet-easyprint";
 import { styled } from "@mui/system";
 
 import Grid from "@mui/material/Unstable_Grid2";
@@ -16,6 +14,7 @@ import {
   LibraryAddOutlined,
 } from "@mui/icons-material";
 import ActionButton from "../All/ActionButton.jsx";
+import { exportMapImage } from "./mapExport";
 import { toggleAreaVisible } from "../../reducers/analyzeAreaSlice";
 import { toggleVisible as toggleMapLayerVisibility } from "../../reducers/mapLayerListSlice";
 
@@ -44,23 +43,6 @@ export default function ActionButtons(props) {
   const { map } = props;
   const dispatch = useDispatch();
 
-  // I had to open cors to all sources on the s3 bucket to get this to work.
-  //    We will need to re-look at this later.
-  const control = L.easyPrint({
-    sizeModes: ["A4Portrait"], // Default to add something, updated on export
-    hidden: true,
-    exportOnly: true,
-    position: "topleft",
-    title: "My Map",
-  });
-
-  // wire up map print for exporting map to png
-  if (map) {
-    map.addControl(control);
-  }
-
-  // const mapContainer = document.getElementById('map-container');
-
   const areaVisible = useSelector(areaVisibleSelector);
   const layerListVisible = useSelector(listVisibleSelector);
 
@@ -72,26 +54,14 @@ export default function ActionButtons(props) {
   };
 
   const handleExportClick = () => {
-    // Trigger the print method on the control
-    if (map) {
-      const { x, y } = map.getSize();
-      // view Size is collected when button is pushed.
-      // a resize needs to be triggered to get the basemap layer
-      // 2 pixels are added to width and height to trigger resize
-      const viewSize = {
-        width: x + 2,
-        height: y + 2,
-        className: "viewSize",
-        tooltip: "user view size",
-      };
-      control.options.sizeModes = [viewSize];
-      control.printMap(viewSize.className, "CREST Map");
+    if (!map) return;
+    exportMapImage(map).then(() => {
       ReactGA.event({
         category: "engagement",
         action: "export_map",
         label: "export map",
       });
-    }
+    });
   };
 
   return (
