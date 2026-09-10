@@ -6,10 +6,9 @@ boundary. Replaces the MapServer/MapCache pipeline in nemac/NFWF-tile-creater.
 
 ## Prerequisites
 
-- GDAL 3.8 or newer on PATH (`gdaldem`, `gdalwarp`, `gdaladdo`, `gdalinfo`, `ogr2ogr`).
-  `brew install gdal`.
+- GDAL 3.11 or newer on PATH (`gdaldem`, `gdal raster tile`, `gdalinfo`, `ogr2ogr`). `brew install gdal`.
 - `pmtiles` CLI. `brew install pmtiles`.
-- `sqlite3` (smoke test only).
+- `sqlite3` (loads each tile directory into MBTiles; also used by the smoke test).
 - AWS CLI with the `jbliss` profile (upload only).
 - Source data, both gitignored: `CREST_TIFS/` holding the TIFs named in `layers.json`, and
   `regional_boundary/` holding the North Atlantic boundary shapefile.

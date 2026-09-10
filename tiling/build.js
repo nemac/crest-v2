@@ -50,8 +50,10 @@ export function buildLayer(
     console.log(`[audit] wgs84 bounds: ${bounds}`);
   }
 
-  rmSync(paths.tileDir, { recursive: true, force: true });
-  rmSync(paths.mbtiles, { force: true });
+  if (!dryRun) {
+    rmSync(paths.tileDir, { recursive: true, force: true });
+    rmSync(paths.mbtiles, { force: true });
+  }
 
   runCommands(
     buildLayerCommands({
