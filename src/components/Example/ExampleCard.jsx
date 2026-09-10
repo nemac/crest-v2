@@ -141,7 +141,7 @@ export default function ExampleCard(props) {
         setExamplePolyData(null);
         dispatch(initializeState());
         dispatch(changeBasemap("Dark Gray"));
-        const layerID = exampleRegions[regionName].layerList[0];
+        const layerID = mapConfig.regions[regionName].layerList[0];
         dispatch(toggleLayer(layerID));
       }
 
