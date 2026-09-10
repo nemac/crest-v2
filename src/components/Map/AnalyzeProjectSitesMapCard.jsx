@@ -94,7 +94,7 @@ export default function AnalyzeProjectSitesMapCard(props) {
       region: regions[selectedRegion].regionName,
       coordinates: identifyCoordinates,
     },
-    { skip: !identifyCoordinates },
+    { skip: !identifyCoordinates || analysisDisabled },
   );
 
   useEffect(() => {
