@@ -72,11 +72,19 @@ function main(argv) {
   const commands = uploadCommands(names, outDir);
   const copies = commands.slice(0, -1);
   const invalidation = commands.slice(-1);
+  let copyError = null;
   try {
     runCommands(copies, { dryRun: !yes });
-  } finally {
-    runCommands(invalidation, { dryRun: !yes });
+  } catch (error) {
+    copyError = error;
   }
+  try {
+    runCommands(invalidation, { dryRun: !yes });
+  } catch (error) {
+    if (!copyError) throw error;
+    console.error(`\n${error.message}`);
+  }
+  if (copyError) throw copyError;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
