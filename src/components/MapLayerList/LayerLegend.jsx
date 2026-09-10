@@ -2,41 +2,52 @@ import React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
+import palettes from "../../configuration/palettes/conus.json";
 
 const legendLightColor = "#ffffff";
 const legendDarkColor = "#000000";
+const maxLegendWidth = 12;
+const lightDarkThresh = 0.12;
+
+function pickCSSBasedOnBgColor(bgColor) {
+  const color = bgColor.charAt(0) === "#" ? bgColor.substring(1, 7) : bgColor;
+  const r = parseInt(color.substring(0, 2), 16);
+  const g = parseInt(color.substring(2, 4), 16);
+  const b = parseInt(color.substring(4, 6), 16);
+  const uicolors = [r / 255, g / 255, b / 255];
+  const c = uicolors.map((col) => {
+    if (col <= 0.03928) {
+      return col / 12.92;
+    }
+    return ((col + 0.055) / 1.055) ** 2.4;
+  });
+  const L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  return L > lightDarkThresh ? legendDarkColor : legendLightColor;
+}
+
+// Legacy configs list colours by value with 0 as no-data; duplicates collapse into one swatch.
+const rampFromChartColors = (chartCSSColor) => {
+  const entries = Object.entries(chartCSSColor).slice(1);
+  const byColor = new Map();
+  entries.forEach(([value, color]) => byColor.set(color, value));
+  return Array.from(byColor, ([color, value]) => ({ color, text: value }));
+};
+
+const rampFromPalette = (entries) =>
+  entries
+    .filter((entry) => !entry.label)
+    .map((entry) => ({ color: entry.color, text: String(entry.value) }));
+
+const labelledFromPalette = (entries) => entries.filter((entry) => entry.label);
 
 export default function LayerLegend(props) {
   const { layer } = props;
-  const colorChart = Object.values(layer.chartCSSColor).slice(1);
-  const colorEntries1 = Object.entries(layer.chartCSSColor)
-    .slice(1)
-    .map(([key, value]) => [value, key]);
-  const colorChartEntries = Object.fromEntries(colorEntries1);
-  const colorEntries2 = Object.values(layer.chartCSSColor)
-    .slice(1)
-    .map((color) => [color, colorChartEntries[color]]);
-  let colorChartValues = Object();
-  colorChartValues = Object.fromEntries(colorEntries2);
-  const colors = Array.from(new Set(Object.values(colorChart)));
-  const maxLegendWidth = 12;
-  const lightDarkThresh = 0.12;
+  const palette = layer.palette ? palettes[layer.palette] : null;
+  const ramp = palette
+    ? rampFromPalette(palette)
+    : rampFromChartColors(layer.chartCSSColor);
+  const labelled = palette ? labelledFromPalette(palette) : [];
 
-  function pickCSSBasedOnBgColor(bgColor) {
-    const color = bgColor.charAt(0) === "#" ? bgColor.substring(1, 7) : bgColor;
-    const r = parseInt(color.substring(0, 2), 16); // hexToR
-    const g = parseInt(color.substring(2, 4), 16); // hexToG
-    const b = parseInt(color.substring(4, 6), 16); // hexToB
-    const uicolors = [r / 255, g / 255, b / 255];
-    const c = uicolors.map((col) => {
-      if (col <= 0.03928) {
-        return col / 12.92;
-      }
-      return ((col + 0.055) / 1.055) ** 2.4;
-    });
-    const L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-    return L > lightDarkThresh ? legendDarkColor : legendLightColor;
-  }
   return (
     <Box m={1.5}>
       <Grid container spacing={0}>
@@ -46,15 +57,7 @@ export default function LayerLegend(props) {
         >
           Low
         </Grid>
-        <Grid
-          xs={8}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontWeight: 600,
-          }}
-        ></Grid>
+        <Grid xs={8} />
         <Grid
           xs={2}
           sx={{ fontSize: "1rem", display: "flex", justifyContent: "end" }}
@@ -73,24 +76,53 @@ export default function LayerLegend(props) {
             alignItems: "center",
           }}
         >
-          {colors.map((color) => (
+          {ramp.map((swatch) => (
             <Grid
-              xs={maxLegendWidth / colors.length}
-              key={layer.id.concat("-", color)}
+              xs={maxLegendWidth / ramp.length}
+              key={layer.id.concat("-", swatch.color)}
               sx={{
-                backgroundColor: color,
+                backgroundColor: swatch.color,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 fontSize: 12,
-                color: pickCSSBasedOnBgColor(color),
+                color: pickCSSBasedOnBgColor(swatch.color),
                 height: "48px",
               }}
             >
-              {colorChartValues[color]}
+              {swatch.text}
             </Grid>
           ))}
         </Grid>
+        {labelled.map((entry) => (
+          <Grid
+            container
+            xs={12}
+            key={layer.id.concat("-", entry.label)}
+            sx={{
+              padding: (theme) => theme.spacing(0, 1, 1, 1),
+              alignItems: "center",
+            }}
+          >
+            <Grid
+              xs={2}
+              sx={{
+                backgroundColor: entry.color,
+                height: "32px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: 12,
+                color: pickCSSBasedOnBgColor(entry.color),
+              }}
+            >
+              {entry.value}
+            </Grid>
+            <Grid xs={10} pl={1} sx={{ fontSize: "0.85rem" }}>
+              {entry.label}
+            </Grid>
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );
