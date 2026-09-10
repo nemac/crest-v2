@@ -7,11 +7,27 @@ import PropTypes from "prop-types";
 
 import MapCard from "./MapCard.jsx";
 import MapOverlay from "./MapOverlay.jsx";
+import DrawnAreas from "./DrawnAreas.jsx";
+import IdentifyButton from "./IdentifyButton.jsx";
+import ShowIdentifyPopup from "./IdentifyPopup.jsx";
+import {
+  DRAWN_INTERACTIVE_LAYERS,
+  BUFFER_FILL_LAYER,
+  AREA_COLORS,
+  BUFFER_COLORS,
+} from "./drawnAreaData";
+import { useGetIdentifyQuery } from "../../services/identify";
 import {
   changeRegion,
   regionUserInitiated,
 } from "../../reducers/regionSelectSlice";
-import { changeZoom, changeCenter } from "../../reducers/mapPropertiesSlice";
+import {
+  changeZoom,
+  changeCenter,
+  changeIdentifyCoordinates,
+  changeIdentifyResults,
+  changeIdentifyIsLoaded,
+} from "../../reducers/mapPropertiesSlice";
 import { mapConfig } from "../../configuration/config";
 import { createShareURL } from "./ShareMap.jsx";
 import ModalShare from "../All/ModalShare.jsx";
@@ -21,14 +37,80 @@ const regions = mapConfig.regions;
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
+const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
+const sketchAreaSelector = (state) => state.mapProperties.sketchArea;
+const identifyCoordinatesSelector = (state) =>
+  state.mapProperties.identifyCoordinates;
+const identifyIsLoadedSelector = (state) =>
+  state.mapProperties.identifyIsLoaded;
+const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
+
+const NO_HOVER = { areaName: null, bufferAreaName: null };
+
+const escapeSelector = (selector) => selector.replace(/[()]/g, "\\$&");
+
+const slug = (areaName) =>
+  areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-");
+
+const setChartCardBorder = (areaName, border) => {
+  const element = document.querySelector(
+    escapeSelector(`#box-${slug(areaName)}`),
+  );
+  if (element) element.style.border = border;
+};
 
 export default function AnalyzeProjectSitesMapCard(props) {
-  const { map, setMap, setErrorState } = props;
+  const { map, setMap, setErrorState, hover } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
+  const drawnFromState = useSelector(drawnLayersSelector);
+  const sketchArea = useSelector(sketchAreaSelector);
+  const identifyCoordinates = useSelector(identifyCoordinatesSelector);
+  const identifyItems = useSelector(identifyItemsSelector);
+  const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
+  const [identifyArmed, setIdentifyArmed] = useState(false);
+  const [mapHover, setMapHover] = useState(NO_HOVER);
+
+  const regionFeatures = (drawnFromState?.features ?? []).filter(
+    (item) => item.properties.region === selectedRegion,
+  );
+
+  const { data } = useGetIdentifyQuery(
+    {
+      region: regions[selectedRegion].regionName,
+      coordinates: identifyCoordinates,
+    },
+    { skip: !identifyCoordinates },
+  );
+
+  useEffect(() => {
+    if (data) {
+      dispatch(changeIdentifyIsLoaded(true));
+      dispatch(changeIdentifyResults(data));
+    }
+  }, [data, dispatch]);
+
+  const clearMapHover = () => {
+    if (mapHover.areaName)
+      setChartCardBorder(mapHover.areaName, "1px solid #555555");
+    if (mapHover.bufferAreaName) {
+      setChartCardBorder(mapHover.bufferAreaName, "1px solid #555555");
+    }
+    setMapHover(NO_HOVER);
+  };
+
+  const handleAreaClick = (areaName) => {
+    const button = document.querySelector(
+      escapeSelector(`#btn-more-less-${slug(areaName)}`),
+    );
+    if (button) {
+      button.click();
+      button.scrollIntoView({ block: "end", inline: "end" });
+    }
+  };
 
   const handleRegionChange = useCallback(
     (regionName, user) => {
@@ -57,7 +139,48 @@ export default function AnalyzeProjectSitesMapCard(props) {
       dispatch(changeZoom(zoom));
       dispatch(changeCenter(center));
     },
+    onClick: (event) => {
+      if (identifyArmed) {
+        const { lat, lng } = event.lngLat;
+        dispatch(changeIdentifyIsLoaded(false));
+        dispatch(changeIdentifyCoordinates({ lat, lng }));
+        dispatch(changeIdentifyResults(null));
+        setIdentifyArmed(false);
+        return;
+      }
+      if (sketchArea) return;
+      const feature = event.features?.[0];
+      if (feature) handleAreaClick(feature.properties.areaName);
+    },
+    onMouseMove: (event) => {
+      const feature = event.features?.[0];
+      if (!feature) return;
+      const isBuffer = feature.layer.id === BUFFER_FILL_LAYER;
+      const { areaName } = feature.properties;
+      const next = isBuffer
+        ? { areaName: null, bufferAreaName: areaName }
+        : { areaName, bufferAreaName: null };
+      if (
+        next.areaName === mapHover.areaName &&
+        next.bufferAreaName === mapHover.bufferAreaName
+      ) {
+        return;
+      }
+      clearMapHover();
+      setMapHover(next);
+      setChartCardBorder(
+        areaName,
+        `2px solid ${isBuffer ? BUFFER_COLORS.hover : AREA_COLORS.hover}`,
+      );
+    },
+    onMouseLeave: () => {
+      clearMapHover();
+    },
   };
+
+  const hoveredArea = hover?.areaName ?? mapHover.areaName;
+  const hoveredBuffer = hover?.bufferAreaName ?? mapHover.bufferAreaName;
+  const cursor = identifyArmed ? "crosshair" : undefined;
 
   const handleShareLinkClose = () => {
     setShareLinkOpen(false);
@@ -104,7 +227,26 @@ export default function AnalyzeProjectSitesMapCard(props) {
   };
 
   return (
-    <MapCard setMap={setMap} mapEventHandlers={mapEventHandlers}>
+    <MapCard
+      setMap={setMap}
+      mapEventHandlers={mapEventHandlers}
+      interactiveLayerIds={DRAWN_INTERACTIVE_LAYERS}
+      cursor={cursor}
+    >
+      <MapOverlay position="top-left">
+        <IdentifyButton onArm={() => setIdentifyArmed(true)} />
+      </MapOverlay>
+      <DrawnAreas
+        features={regionFeatures}
+        hoveredArea={hoveredArea}
+        hoveredBuffer={hoveredBuffer}
+      />
+      <ShowIdentifyPopup
+        region={selectedRegion}
+        identifyItems={identifyItems}
+        identifyIsLoaded={identifyIsLoaded}
+        identifyCoordinates={identifyCoordinates}
+      />
       <MapOverlay position="bottom-left">
         <Button
           variant="contained"
@@ -143,4 +285,5 @@ AnalyzeProjectSitesMapCard.propTypes = {
   map: PropTypes.object,
   setMap: PropTypes.func,
   setErrorState: PropTypes.func,
+  hover: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };

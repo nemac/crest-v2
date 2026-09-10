@@ -1,38 +1,5 @@
-/*
-Purpose
-  When a user clicks on the map gets the stats for that point
-    we were going to to the hole hub but the idea of hub as selectable element
-    is going away its just a hex so we cannot do that
-
-    is a leaflet button so needs access to leaflet object can be a challenge in React
-
-    handle errors:
-      - Nothing returned
-      - HTTP Error
-
-Child Components
-  - None
-
-Libs
-  - leaflet
-
-API
-  - identify
-
-State needed
-  - identify GEOJSON returned from API
-
-Props
-  - Not sure yet
-*/
-
-// TODO:
-// 1. style custom close button
-// 2. Figure out why closing identify popup causes TypeError: el is null in firefox
-//    and why it causes TypeError: Cannot read properties of null (reading '_leaflet_disable_click')
-
 import React from "react";
-import { Popup, CircleMarker, useMap } from "react-leaflet";
+import { Popup, Source, Layer } from "@vis.gl/react-maplibre";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -51,35 +18,18 @@ import {
 import IdentifyBarChart from "../AnalyzeArea/IdentifyBarChart.jsx";
 
 const StyledPopup = styled(Popup)(({ theme }) => ({
-  bottom: "-22px !important",
-  left: "-308px !important",
-  "& .leaflet-popup-content-wrapper": {
-    padding: `${theme.spacing(1)} !important`,
-    borderRadius: `${theme.spacing(0.5)} !important`,
-    backgroundColor: `${theme.palette.CRESTGridBackground.dark} !important`,
-    color: `${theme.palette.CRESTGridBackground.contrastText} !important`,
-    border: `1px solid ${theme.palette.CRESTBorderColor.main} !important`,
-    width: "310px !important",
-    height: "255px !important",
-    overflow: "clip !important",
+  "& .maplibregl-popup-content": {
+    padding: theme.spacing(1),
+    borderRadius: theme.spacing(0.5),
+    backgroundColor: theme.palette.CRESTGridBackground.dark,
+    color: theme.palette.CRESTGridBackground.contrastText,
+    border: `1px solid ${theme.palette.CRESTBorderColor.main}`,
+    width: "310px",
+    height: "255px",
+    overflow: "clip",
   },
-  "& .leaflet-popup-content": {
-    margin: "0px !important",
-  },
-  "& .leaflet-popup-tip": {
-    width: "0px !important",
-    height: "0px !important",
-  },
-  "& a.leaflet-popup-close-button": {
-    paddingTop: "2px !important",
-    paddingLeft: "3px !important",
-    borderRadius: "20px !important",
-    width: "20px !important",
-    height: "20px !important",
-    top: "15px !important",
-    right: "10px !important",
-    backgroundColor: `${theme.palette.CRESTLight.main} !important`,
-    color: `${theme.palette.CRESTLight.contrastText} !important`,
+  "& .maplibregl-popup-tip": {
+    display: "none",
   },
 }));
 
@@ -98,11 +48,9 @@ export default function ShowIdentifyPopup(props) {
   const { region, identifyItems, identifyIsLoaded, identifyCoordinates } =
     props;
   const dispatch = useDispatch();
-  const map = useMap();
   const summaryIndices = ["hubs", "exposure", "threat", "asset", "wildlife"];
 
   const closePopups = () => {
-    map.closePopup();
     dispatch(changeIdentifyIsLoaded(false));
     dispatch(changeIdentifyResults(null));
     dispatch(changeIdentifyCoordinates(null));
@@ -112,12 +60,25 @@ export default function ShowIdentifyPopup(props) {
     return null;
   }
 
+  const point = {
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: [identifyCoordinates.lng, identifyCoordinates.lat],
+    },
+    properties: {},
+  };
+
   return (
-    <div>
+    <>
       <StyledPopup
-        position={identifyCoordinates}
-        autoPan={false}
+        longitude={identifyCoordinates.lng}
+        latitude={identifyCoordinates.lat}
+        anchor="top-right"
+        offset={10}
         closeButton={false}
+        closeOnClick={false}
+        maxWidth="none"
       >
         <Box
           px={1}
@@ -213,14 +174,20 @@ export default function ShowIdentifyPopup(props) {
           </Grid>
         )}
       </StyledPopup>
-      <CircleMarker
-        center={{ lat: identifyCoordinates.lat, lng: identifyCoordinates.lng }}
-        fillColor="#444444"
-        color="#555555"
-        fillOpacity="0.9"
-        radius={5}
-      />
-    </div>
+      <Source id="identify-point" type="geojson" data={point}>
+        <Layer
+          id="identify-point-circle"
+          type="circle"
+          paint={{
+            "circle-radius": 5,
+            "circle-color": "#444444",
+            "circle-opacity": 0.9,
+            "circle-stroke-color": "#555555",
+            "circle-stroke-width": 1,
+          }}
+        />
+      </Source>
+    </>
   );
 }
 
