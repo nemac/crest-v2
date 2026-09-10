@@ -55,13 +55,18 @@ export default function ActionButtons(props) {
 
   const handleExportClick = () => {
     if (!map) return;
-    exportMapImage(map).then(() => {
-      ReactGA.event({
-        category: "engagement",
-        action: "export_map",
-        label: "export map",
+    exportMapImage(map)
+      .then(() => {
+        ReactGA.event({
+          category: "engagement",
+          action: "export_map",
+          label: "export map",
+        });
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error("Map export failed", error);
       });
-    });
   };
 
   return (

@@ -16,8 +16,12 @@ export const exportMapImage = async (map, fileName = EXPORT_FILE_NAME) => {
     logging: false,
     ignoreElements: isExcludedFromExport,
   });
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("The map canvas could not be exported"));
+        return;
+      }
       FileSaver.saveAs(blob, fileName);
       resolve();
     });

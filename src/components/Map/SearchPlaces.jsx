@@ -21,6 +21,7 @@ export default function SearchPlaces({ map }) {
   const latestRequest = useRef(0);
 
   const handleInputChange = (_, value, reason) => {
+    if (reason === "reset") return;
     latestRequest.current += 1;
     const requestId = latestRequest.current;
     if (reason !== "input" || value.length < MIN_QUERY_LENGTH) {
@@ -102,7 +103,7 @@ export default function SearchPlaces({ map }) {
           anchor="bottom"
           onClose={() => setResult(null)}
         >
-          <div>
+          <div style={{ color: "#000000" }}>
             <h2>{result.text}</h2>
             <p>
               <Button
