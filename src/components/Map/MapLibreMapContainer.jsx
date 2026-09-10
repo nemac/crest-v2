@@ -56,7 +56,7 @@ export default function MapLibreMapContainer(props) {
         mapStyle={basemapStyleUrl(mapConfig.basemaps[basemap], agolApiKey)}
         style={{ width: "100%", height: "100%" }}
         attributionControl={false}
-        preserveDrawingBuffer
+        canvasContextAttributes={{ preserveDrawingBuffer: true }}
         interactiveLayerIds={interactiveLayerIds}
         cursor={cursor}
         onLoad={handleLoad}
