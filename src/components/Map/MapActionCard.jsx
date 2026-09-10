@@ -90,7 +90,7 @@ export default function MapActionCard(props) {
       {analyzeAreaVisible && (
         <>
           <Grid px={2} xs={12}>
-            <DrawArea map={map} disabled={drawAreaDisabled} />
+            <DrawArea disabled={drawAreaDisabled} />
           </Grid>
           <Grid px={2} xs={12}>
             <Upload

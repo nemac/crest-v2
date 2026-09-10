@@ -10,6 +10,8 @@ import MapOverlay from "./MapOverlay.jsx";
 import DrawnAreas from "./DrawnAreas.jsx";
 import IdentifyButton from "./IdentifyButton.jsx";
 import ShowIdentifyPopup from "./IdentifyPopup.jsx";
+import DrawTools from "./DrawTools.jsx";
+import useTerraDraw, { createSketchModes } from "./useTerraDraw";
 import {
   DRAWN_INTERACTIVE_LAYERS,
   BUFFER_FILL_LAYER,
@@ -44,6 +46,7 @@ const identifyCoordinatesSelector = (state) =>
 const identifyIsLoadedSelector = (state) =>
   state.mapProperties.identifyIsLoaded;
 const identifyItemsSelector = (state) => state.mapProperties.identifyResults;
+const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
 const NO_HOVER = { areaName: null, bufferAreaName: null };
 
@@ -60,7 +63,7 @@ const setChartCardBorder = (areaName, border) => {
 };
 
 export default function AnalyzeProjectSitesMapCard(props) {
-  const { map, setMap, setErrorState, hover } = props;
+  const { map, setMap, setErrorState, hover, setDrawAreaDisabled } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   const dispatch = useDispatch();
@@ -73,6 +76,8 @@ export default function AnalyzeProjectSitesMapCard(props) {
   const identifyIsLoaded = useSelector(identifyIsLoadedSelector);
   const [identifyArmed, setIdentifyArmed] = useState(false);
   const [mapHover, setMapHover] = useState(NO_HOVER);
+  const bufferCheckbox = useSelector(useBufferSelector);
+  const draw = useTerraDraw(map, createSketchModes);
 
   const regionFeatures = (drawnFromState?.features ?? []).filter(
     (item) => item.properties.region === selectedRegion,
@@ -247,6 +252,13 @@ export default function AnalyzeProjectSitesMapCard(props) {
         identifyIsLoaded={identifyIsLoaded}
         identifyCoordinates={identifyCoordinates}
       />
+      <DrawTools
+        map={map}
+        draw={draw}
+        bufferCheckbox={bufferCheckbox}
+        setDrawAreaDisabled={setDrawAreaDisabled}
+        setErrorState={setErrorState}
+      />
       <MapOverlay position="bottom-left">
         <Button
           variant="contained"
@@ -286,4 +298,5 @@ AnalyzeProjectSitesMapCard.propTypes = {
   setMap: PropTypes.func,
   setErrorState: PropTypes.func,
   hover: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  setDrawAreaDisabled: PropTypes.func,
 };
