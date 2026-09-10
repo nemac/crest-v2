@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { BOUNDARY_NAME } from "./lib/commands.js";
 import { BUCKET, DISTRIBUTION_ID, PREFIX, uploadCommands } from "./upload.js";
 
 describe("upload constants", () => {
@@ -6,6 +7,10 @@ describe("upload constants", () => {
     expect(BUCKET).toBe("tiles.resilientcoasts.org");
     expect(PREFIX).toBe("dev/conus");
     expect(DISTRIBUTION_ID).toBe("E34VC6CQ814IM");
+  });
+
+  it("shares the boundary name with the build script", () => {
+    expect(BOUNDARY_NAME).toBe("north_atlantic_boundary");
   });
 });
 

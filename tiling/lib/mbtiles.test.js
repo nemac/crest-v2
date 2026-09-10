@@ -8,14 +8,14 @@ describe("listTiles", () => {
   let dir;
   beforeEach(() => {
     dir = mkdtempSync(path.join(os.tmpdir(), "crest-tiles-"));
-    for (const [z, x, y] of [
+    [
       [13, 2390, 5069],
       [13, 2390, 5068],
       [10, 317, 652],
-    ]) {
+    ].forEach(([z, x, y]) => {
       mkdirSync(path.join(dir, String(z), String(x)), { recursive: true });
       writeFileSync(path.join(dir, String(z), String(x), `${y}.png`), "");
-    }
+    });
     writeFileSync(path.join(dir, "13", "2390", "notes.txt"), "");
     writeFileSync(path.join(dir, "leaflet.html"), "");
   });

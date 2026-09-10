@@ -24,7 +24,7 @@
     "browser": true,
     "es6": true
   },
-  "ignorePatterns": ["*.test*.js", "dist"],
+  "ignorePatterns": ["dist"],
   "rules": {
     "no-underscore-dangle": ["off"],
     "no-unused-expressions": ["error", { "allowTernary": true }],
@@ -48,6 +48,14 @@
         "no-console": "off",
         "import/extensions": "off",
         "import/no-extraneous-dependencies": "off"
+      }
+    },
+    {
+      "files": ["**/*.test.js"],
+      "env": { "node": true },
+      "rules": {
+        "import/no-extraneous-dependencies": "off",
+        "import/extensions": "off"
       }
     }
   ]

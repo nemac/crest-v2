@@ -2,6 +2,7 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { BOUNDARY_NAME } from "./lib/commands.js";
 import { readJson, runCommands } from "./lib/run.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -48,7 +49,7 @@ function main(argv) {
   const outDir = path.join(here, "work", "out");
   const manifest = readJson(path.join(here, "layers.json"));
   const names = argv.includes("--all")
-    ? [...manifest.layers.map((l) => l.name), "north_atlantic_boundary"]
+    ? [...manifest.layers.map((l) => l.name), BOUNDARY_NAME]
     : argv.filter((a) => !a.startsWith("--"));
   if (names.length === 0) {
     console.error("Usage: node tiling/upload.js <name> | --all [--yes]");
@@ -68,7 +69,14 @@ function main(argv) {
       "Dry run. Re-run with --yes to upload. Never do that without Jeff's go-ahead.",
     );
   }
-  runCommands(uploadCommands(names, outDir), { dryRun: !yes });
+  const commands = uploadCommands(names, outDir);
+  const copies = commands.slice(0, -1);
+  const invalidation = commands.slice(-1);
+  try {
+    runCommands(copies, { dryRun: !yes });
+  } finally {
+    runCommands(invalidation, { dryRun: !yes });
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

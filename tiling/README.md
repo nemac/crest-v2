@@ -6,7 +6,7 @@ boundary. Replaces the MapServer/MapCache pipeline in nemac/NFWF-tile-creater.
 
 ## Prerequisites
 
-- GDAL 3.11 or newer on PATH (`gdaldem`, `gdal raster tile`, `gdalinfo`, `ogr2ogr`). `brew install gdal`.
+- GDAL 3.11 or newer on PATH (`gdaldem`, `gdal raster tile`, `gdalinfo`, `ogr2ogr`, `gdal_translate`). `brew install gdal`.
 - `pmtiles` CLI. `brew install pmtiles`.
 - `sqlite3` (loads each tile directory into MBTiles; also used by the smoke test).
 - AWS CLI with the `jbliss` profile (upload only).
@@ -26,7 +26,11 @@ AWS_PROFILE=jbliss node tiling/upload.js --all --yes   # only with Jeff's go-ahe
 ```
 
 Add `--dry-run` to either build command to print the GDAL commands without running them.
+Dry runs still write the colour file and create `tiling/work/`.
 Outputs land in `tiling/work/out/<name>.pmtiles`; intermediates in `tiling/work/`.
+A full run peaks near 11 GB in `tiling/work/` if intermediates are kept; by default each
+layer's `.rgba.tif`, `.mbtiles`, and tile directory are deleted once its `.pmtiles` exists,
+leaving about 4.8 GB of archives. Pass `--keep-intermediates` to keep them for debugging.
 
 ## What each layer build does
 

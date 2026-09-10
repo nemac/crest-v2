@@ -25,7 +25,13 @@ export function runCommands(commands, { dryRun = false } = {}) {
       );
     }
     if (result.status !== 0) {
-      throw new Error(`[${label}] ${cmd} exited with status ${result.status}`);
+      const signalNote =
+        result.status === null && result.signal
+          ? ` (signal ${result.signal})`
+          : "";
+      throw new Error(
+        `[${label}] ${cmd} exited with status ${result.status}${signalNote}`,
+      );
     }
     console.log(
       `[${label}] done in ${((Date.now() - started) / 1000).toFixed(1)}s`,
@@ -42,8 +48,12 @@ export function capture(cmd, args) {
     throw new Error(`could not start ${cmd}: ${result.error.message}`);
   }
   if (result.status !== 0) {
+    const signalNote =
+      result.status === null && result.signal
+        ? ` (signal ${result.signal})`
+        : "";
     throw new Error(
-      `${cmd} ${args.join(" ")} exited with status ${result.status}\n${result.stderr}`,
+      `${cmd} ${args.join(" ")} exited with status ${result.status}${signalNote}\n${result.stderr}`,
     );
   }
   return result.stdout;

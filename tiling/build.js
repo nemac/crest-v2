@@ -13,7 +13,15 @@ const repoRoot = path.resolve(here, "..");
 
 export function buildLayer(
   layerName,
-  { manifest, palettes, dryRun = false, sourceDir, workDir, outDir },
+  {
+    manifest,
+    palettes,
+    dryRun = false,
+    keepIntermediates = false,
+    sourceDir,
+    workDir,
+    outDir,
+  },
 ) {
   const layer = manifest.layers.find((l) => l.name === layerName);
   if (!layer) {
@@ -71,12 +79,17 @@ export function buildLayer(
     const megabytes = statSync(paths.pmtiles).size / 1024 / 1024;
     console.log(`\n[result] ${paths.pmtiles} ${megabytes.toFixed(1)} MB`);
     rmSync(paths.tileDir, { recursive: true, force: true });
+    if (!keepIntermediates) {
+      rmSync(paths.rgbaTif, { force: true });
+      rmSync(paths.mbtiles, { force: true });
+    }
   }
   return paths.pmtiles;
 }
 
 function main(argv) {
   const dryRun = argv.includes("--dry-run");
+  const keepIntermediates = argv.includes("--keep-intermediates");
   const targets = argv.filter((a) => !a.startsWith("--"));
   const manifest = readJson(path.join(here, "layers.json"));
   const palettes = readJson(
@@ -87,7 +100,7 @@ function main(argv) {
     : targets;
   if (names.length === 0) {
     console.error(
-      "Usage: node tiling/build.js <layer name> | --all [--dry-run]",
+      "Usage: node tiling/build.js <layer name> | --all [--dry-run] [--keep-intermediates]",
     );
     process.exit(1);
   }
@@ -95,6 +108,7 @@ function main(argv) {
     manifest,
     palettes,
     dryRun,
+    keepIntermediates,
     sourceDir: path.join(repoRoot, manifest.sourceDir),
     workDir: path.join(here, "work"),
     outDir: path.join(here, "work", "out"),

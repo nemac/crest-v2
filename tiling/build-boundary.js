@@ -2,14 +2,14 @@
 import { mkdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildBoundaryCommands } from "./lib/commands.js";
+import { BOUNDARY_NAME, buildBoundaryCommands } from "./lib/commands.js";
 import { runCommands } from "./lib/run.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..");
 
 const BOUNDARY = {
-  name: "north_atlantic_boundary",
+  name: BOUNDARY_NAME,
   source: "regional_boundary/nfwf_north_atlantic_boundary_092023_Project.shp",
 };
 

@@ -27,6 +27,18 @@ describe("parseHistogramValues", () => {
       parseHistogramValues(gdalinfoWithBuckets(-128.5, 127.5, counts)),
     ).toEqual([-1, 0, 5]);
   });
+
+  it("rejects a band with no histogram", () => {
+    expect(() => parseHistogramValues({ bands: [{}] })).toThrow(/no histogram/);
+  });
+
+  it("rejects a bucket width too coarse to resolve integer classes", () => {
+    expect(() =>
+      parseHistogramValues(
+        gdalinfoWithBuckets(-0.5, 511.5, new Array(256).fill(0)),
+      ),
+    ).toThrow(/too coarse/);
+  });
 });
 
 describe("auditValues", () => {

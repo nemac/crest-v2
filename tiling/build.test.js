@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { mkdtempSync, writeFileSync, existsSync, rmSync } from "node:fs";
+import {
+  mkdirSync,
+  mkdtempSync,
+  writeFileSync,
+  existsSync,
+  rmSync,
+} from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { buildLayer } from "./build.js";
@@ -36,7 +42,9 @@ describe("buildLayer", () => {
     const dir = mkdtempSync(path.join(os.tmpdir(), "crest-build-test-"));
     try {
       const mbtiles = path.join(dir, "known.mbtiles");
+      const knownTiles = path.join(dir, "known_tiles");
       writeFileSync(mbtiles, "previous build");
+      mkdirSync(knownTiles);
       buildLayer("known", {
         manifest: {
           sourceDir: dir,
@@ -50,6 +58,7 @@ describe("buildLayer", () => {
         outDir: path.join(dir, "out"),
       });
       expect(existsSync(mbtiles)).toBe(true);
+      expect(existsSync(knownTiles)).toBe(true);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

@@ -1,6 +1,8 @@
 import path from "node:path";
 import { listTiles, mbtilesLoadSql } from "./mbtiles.js";
 
+export const BOUNDARY_NAME = "north_atlantic_boundary";
+
 export function tmsToXyzRow(zoom, tmsRow) {
   return 2 ** zoom - 1 - tmsRow;
 }

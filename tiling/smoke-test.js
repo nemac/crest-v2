@@ -3,6 +3,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { buildLayer } from "./build.js";
 import { tmsToXyzRow } from "./lib/commands.js";
 import { capture } from "./lib/run.js";
@@ -105,46 +106,58 @@ function tileColours(pmtiles, mbtiles, dir) {
   return seen;
 }
 
-const dir = mkdtempSync(path.join(os.tmpdir(), "crest-tiling-smoke-"));
-try {
-  const source = writeFixture(dir);
-  const manifest = {
-    sourceDir: dir,
-    nodata: 255,
-    layers: [
-      {
-        name: "fixture",
-        source: path.basename(source),
-        palette: "fixture",
-        nodata: 0,
-      },
-    ],
-  };
-  const pmtiles = buildLayer("fixture", {
-    manifest,
-    palettes: { fixture: PALETTE },
-    sourceDir: dir,
-    workDir: path.join(dir, "work"),
-    outDir: path.join(dir, "out"),
-  });
-  const header = capture("pmtiles", ["show", pmtiles]);
-  if (!/tile type: png/.test(header) || !/max zoom: 13/.test(header)) {
-    throw new Error(`Unexpected pmtiles header:\n${header}`);
-  }
-  const colours = tileColours(
-    pmtiles,
-    path.join(dir, "work", "fixture.mbtiles"),
-    dir,
-  );
-  const unexpected = [...colours].filter((c) => !EXPECTED_RGBA.has(c));
-  if (unexpected.length > 0) {
-    throw new Error(
-      `Tile contains colours outside the palette: ${unexpected.join(" | ")}`,
+function main() {
+  const dir = mkdtempSync(path.join(os.tmpdir(), "crest-tiling-smoke-"));
+  try {
+    const source = writeFixture(dir);
+    const manifest = {
+      sourceDir: dir,
+      nodata: 255,
+      layers: [
+        {
+          name: "fixture",
+          source: path.basename(source),
+          palette: "fixture",
+          nodata: 0,
+        },
+      ],
+    };
+    const pmtiles = buildLayer("fixture", {
+      manifest,
+      palettes: { fixture: PALETTE },
+      keepIntermediates: true,
+      sourceDir: dir,
+      workDir: path.join(dir, "work"),
+      outDir: path.join(dir, "out"),
+    });
+    const header = capture("pmtiles", ["show", pmtiles]);
+    if (!/tile type: png/.test(header) || !/max zoom: 13/.test(header)) {
+      throw new Error(`Unexpected pmtiles header:\n${header}`);
+    }
+    const colours = tileColours(
+      pmtiles,
+      path.join(dir, "work", "fixture.mbtiles"),
+      dir,
     );
+    const unexpected = [...colours].filter((c) => !EXPECTED_RGBA.has(c));
+    if (unexpected.length > 0) {
+      throw new Error(
+        `Tile contains colours outside the palette: ${unexpected.join(" | ")}`,
+      );
+    }
+    console.log(
+      `\nSMOKE TEST PASSED: ${colours.size} distinct RGBA values, all from the palette.`,
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
   }
-  console.log(
-    `\nSMOKE TEST PASSED: ${colours.size} distinct RGBA values, all from the palette.`,
-  );
-} finally {
-  rmSync(dir, { recursive: true, force: true });
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  try {
+    main();
+  } catch (error) {
+    console.error(`\n${error.message}`);
+    process.exit(1);
+  }
 }
