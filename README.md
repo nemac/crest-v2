@@ -1,6 +1,12 @@
 # CREST V2 README
 
-React 18 + Vite 7. Node 22 or newer.
+React 18 + Vite 7. Node 22 or newer. Maps render with MapLibre GL 6 through
+`@vis.gl/react-maplibre`; tiles are plain raster sources (legacy `{z}/{x}/{y}.png` folders) or
+PMTiles archives through the `pmtiles://` protocol registered in `src/main.jsx`. Basemaps are
+ArcGIS Basemap Styles v2 with the AGOL key. Drawing uses terra-draw.
+
+Stored map state (`mapProperties.zoom`, region configs, share links) keeps Leaflet's zoom
+convention; `src/utility/viewState.js` converts to MapLibre's, which is one level lower.
 
 ## Deployments
 
