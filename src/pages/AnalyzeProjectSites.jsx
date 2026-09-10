@@ -117,9 +117,6 @@ export default function AnalyzeProjectSite(props) {
       <ShapeFileCorrectionMap
         geoToRedraw={geoToRedraw}
         setGeoToRedraw={setGeoToRedraw}
-        setMap={setMap}
-        map={map}
-        setErrorState={setErrorState}
       />
     );
   }

@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import * as L from "leaflet";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -23,16 +22,16 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/system";
 import { download } from "@crmackey/shp-write";
 
-import LeafletMapContainer from "./LeafletMapContainer.jsx";
-import EditControlFC from "./EditShapefileControl.jsx";
+import MapLibreMapContainer from "./MapLibreMapContainer.jsx";
 import GenericMapHolder from "./GenericMapHolder.jsx";
 import ShapeActionButton from "./ShapeActionButton.jsx";
+import useTerraDraw from "./useTerraDraw";
+import useShapefileEditor, {
+  createCorrectionModes,
+} from "./useShapefileEditor";
 
 import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
 
-// this not good practice but not time to resolve it and its not that important
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable guard-for-in */
 /* eslint-disable no-nested-ternary */
 
 const selectedZoomSelector = (state) => state.mapProperties.zoom;
@@ -50,130 +49,32 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function ShapeFileCorrectionMap(props) {
-  const { setMap, map, geoToRedraw, setGeoToRedraw } = props;
+  const { geoToRedraw, setGeoToRedraw } = props;
 
   const dispatch = useDispatch();
-  let center = useSelector(selectedCenterSelector, () => true);
+  const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
-  const [localGeo, setLocalGeo] = useState(geoToRedraw);
-  const [activeStep, setActiveStep] = useState(0);
-  const [updateSteps, setUpdateSteps] = useState(true);
-  const [isEdit, setIsEdit] = useState(false);
+  const [map, setMap] = useState(null);
+  const draw = useTerraDraw(map, createCorrectionModes);
+  const {
+    steps,
+    activeStep,
+    setActiveStep,
+    isEdit,
+    numberInvalid,
+    numberNotFixed,
+    startEdit,
+    saveEdits,
+    cancelEdits,
+    deleteArea,
+    completedCollection,
+  } = useShapefileEditor(map, draw, geoToRedraw);
 
-  // // Kinda ugly way to do it, maybe we should pass batchSize down to here and leafletDrawTools
-  // // TODO: This was originally written to be batched but decided we can just send it all at once.
-  // // it's easier to just set this batch to a ridiculous size for now and hopefully fix later
-  // const batchSize = 1000000;
-  const mapRef = useRef(null); // For edit controls
-  const steps = useRef([]); // our dataset that needs to be fixed
-  const geoToReturn = useRef(geoToRedraw);
-  // We slice into steps for batching, start and end indices are for slicing
-  const endIndex = useRef(steps.current.length);
-  const startIndex = useRef(0);
-  // numberInvalid is displayed to user and safeguards returning bad shapes
+  const handleNext = () => setActiveStep(activeStep + 1);
+  const handlePrevious = () => setActiveStep(activeStep - 1);
 
-  const numberInvalid = steps.current
-    ?.slice(startIndex.current, endIndex.current + 1)
-    .filter((step) => step.isValid === false).length;
-
-  const numberNotFixed = steps.current
-    ?.slice(startIndex.current, endIndex.current + 1)
-    .filter((step) => step.isFixed === false).length;
-  // Always make sure that we are zoomed in to the operating shape
-  if (steps.current.length > activeStep) {
-    const shape = steps.current[activeStep].layer.toGeoJSON();
-    const bounds = L.geoJSON(shape).getBounds();
-    map.fitBounds(bounds);
-  }
-
-  // Next button logic to step through steps
-  const handleNext = () => {
-    const newStep = activeStep + 1;
-    setActiveStep(newStep);
-  };
-
-  // Previous button logic to step through steps
-  const handlePrevious = () => {
-    const newStep = activeStep - 1;
-    setActiveStep(newStep);
-  };
-
-  const btnClickEdit = (e) => {
-    // This works but its a bad pattern for react. But I don't care it works and I don't
-    // want to spend more time figure it out
-    const editButton = document.querySelector(".leaflet-draw-edit-edit");
-    if (editButton) {
-      editButton.click();
-      setIsEdit(true);
-    }
-  };
-
-  const btnClickCancel = (e) => {
-    // This works but its a bad pattern for react. But I don't care it works and I don't
-    // want to spend more time figure it out
-    const cancelButton = document.querySelector(
-      'a[title="Cancel editing, discards all changes"]',
-    );
-    if (cancelButton) {
-      cancelButton.click();
-      setIsEdit(false);
-    }
-  };
-
-  const btnClickSave = (e) => {
-    // This works but its a bad pattern for react. But I don't care it works and I don't
-    // want to spend more time figure it out
-    const saveButton = document.querySelector('a[title="Save changes"]');
-    if (saveButton) {
-      saveButton.click();
-      // setActiveStep(0);
-      setIsEdit(false);
-    }
-  };
-
-  const btnClickDelete = (e) => {
-    // This works but its a bad pattern for react. But I don't care it works and I don't
-    // want to spend more time figure it out
-    const deleteButton = document.querySelector(".leaflet-draw-edit-remove");
-    if (deleteButton) {
-      deleteButton.click();
-      // setActiveStep(0);
-      setIsEdit(true);
-    }
-
-    // again not the best approach but I cannot get anything else to work and I am out of time
-    center = map.getCenter();
-    map.fireEvent("click", {
-      latlng: center,
-      layerPoint: map.latLngToLayerPoint(center),
-      containerPoint: map.latLngToContainerPoint(center),
-      originalEvent: {
-        target: map,
-      },
-    });
-
-    // again not the best approach but I cannot get anything else to work and I am out of time
-    // Check if there's any polygon at the center coordinates and trigger click on it
-    const layers = map._layers; // Access all layers on the map
-    for (const key in layers) {
-      const layer = layers[key];
-      if (layer instanceof L.Polygon && layer.getBounds().contains(center)) {
-        // If it's a polygon and its bounds contain the center coordinates
-        layer.fireEvent("click");
-      }
-    }
-
-    // again not the best approach but I cannot get anything else to work and I am out of time
-    const saveButton = document.querySelector('a[title="Save changes"]');
-    if (saveButton) {
-      saveButton.click();
-      setIsEdit(false);
-    }
-  };
-
-  const isCurrentFixed = steps.current[activeStep]?.isFixed;
-  const isCurrentDeleted =
-    steps.current[activeStep]?.howFixedText === "DELETED";
+  const isCurrentFixed = steps[activeStep]?.isFixed;
+  const isCurrentDeleted = steps[activeStep]?.howFixedText === "DELETED";
 
   return (
     <GenericMapHolder
@@ -222,7 +123,7 @@ export default function ShapeFileCorrectionMap(props) {
                     buttonLabel={"Back"}
                     buttonName={"Back"}
                     onClick={handlePrevious}
-                    buttonDisabled={activeStep === startIndex.current}
+                    buttonDisabled={activeStep === 0}
                     isIconFirst={true}
                   >
                     <ArrowCircleLeftIcon />
@@ -244,7 +145,7 @@ export default function ShapeFileCorrectionMap(props) {
                     buttonLabel={"Next"}
                     buttonName={"Next"}
                     onClick={handleNext}
-                    buttonDisabled={activeStep === endIndex.current}
+                    buttonDisabled={activeStep >= steps.length - 1}
                     isIconFirst={false}
                   >
                     <ArrowCircleRightIcon />
@@ -280,28 +181,24 @@ export default function ShapeFileCorrectionMap(props) {
                   isCurrentDeleted ? (
                     <Box>
                       <Alert severity="success">
-                        <strong>
-                          {steps.current[activeStep]?.howFixedText}
-                        </strong>
+                        <strong>{steps[activeStep]?.howFixedText}</strong>
                       </Alert>
                     </Box>
                   ) : (
                     <Box>
                       <Alert severity="success">
-                        <strong>
-                          {steps.current[activeStep]?.howFixedText}
-                        </strong>
+                        <strong>{steps[activeStep]?.howFixedText}</strong>
                       </Alert>
                     </Box>
                   )
                 ) : (
                   <Box>
                     <Alert severity="error">
-                      {steps.current[activeStep]?.invalidText}
+                      {steps[activeStep]?.invalidText}
                       <br />
-                      {steps.current[activeStep]?.fixStatus}
+                      {steps[activeStep]?.fixStatus}
                       &nbsp;
-                      {steps.current[activeStep]?.fixStatusGoal}
+                      {steps[activeStep]?.fixStatusGoal}
                     </Alert>
                   </Box>
                 )}
@@ -318,7 +215,7 @@ export default function ShapeFileCorrectionMap(props) {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography variant="body2" component="p">
-                        {steps.current[activeStep]?.fixText}
+                        {steps[activeStep]?.fixText}
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -351,7 +248,7 @@ export default function ShapeFileCorrectionMap(props) {
                 color="CRESTPrimary"
                 aria-label={"edit"}
                 fullWidth={true}
-                onClick={btnClickEdit}
+                onClick={startEdit}
                 style={{ display: numberNotFixed > 0 ? "inline-flex" : "none" }}
               >
                 <EditIcon style={{ paddingRight: "8px" }} />
@@ -378,7 +275,7 @@ export default function ShapeFileCorrectionMap(props) {
                   color="CRESTSecondary"
                   aria-label={"Save"}
                   fullWidth={true}
-                  onClick={btnClickSave}
+                  onClick={saveEdits}
                   style={{
                     display: isEdit ? "inline-flex" : "none",
                     fontSize: "0.775rem",
@@ -394,7 +291,7 @@ export default function ShapeFileCorrectionMap(props) {
                   color="CRESTSecondary"
                   aria-label={"Cancel edits"}
                   fullWidth={true}
-                  onClick={btnClickCancel}
+                  onClick={cancelEdits}
                   style={{
                     display: isEdit ? "inline-flex" : "none",
                     fontSize: "0.775rem",
@@ -411,7 +308,7 @@ export default function ShapeFileCorrectionMap(props) {
                 color="CRESTPrimary"
                 aria-label={"Delete"}
                 fullWidth={true}
-                onClick={btnClickDelete}
+                onClick={deleteArea}
                 style={{ display: numberNotFixed > 0 ? "inline-flex" : "none" }}
               >
                 <DeleteForeverIcon style={{ paddingRight: "8px" }} />
@@ -450,7 +347,7 @@ export default function ShapeFileCorrectionMap(props) {
                   buttonLabel={"Back"}
                   buttonName={"Back"}
                   onClick={handlePrevious}
-                  buttonDisabled={activeStep === startIndex.current}
+                  buttonDisabled={activeStep === 0}
                   isIconFirst={true}
                 >
                   <ArrowCircleLeftIcon />
@@ -472,7 +369,7 @@ export default function ShapeFileCorrectionMap(props) {
                   buttonLabel={"Next"}
                   buttonName={"Next"}
                   onClick={handleNext}
-                  buttonDisabled={activeStep === endIndex.current}
+                  buttonDisabled={activeStep >= steps.length - 1}
                   isIconFirst={false}
                 >
                   <ArrowCircleRightIcon />
@@ -491,7 +388,7 @@ export default function ShapeFileCorrectionMap(props) {
                 }}
                 onClick={() => {
                   setGeoToRedraw(null);
-                  dispatch(uploadedShapeFileGeoJSON(geoToReturn.current));
+                  dispatch(uploadedShapeFileGeoJSON(completedCollection()));
                 }}
               >
                 <FileUploadOutlinedIcon style={{ paddingRight: "8px" }} />
@@ -507,7 +404,7 @@ export default function ShapeFileCorrectionMap(props) {
                 style={{
                   display: numberNotFixed === 0 ? "inline-flex" : "none",
                 }}
-                onClick={() => download(geoToReturn.current)}
+                onClick={() => download(completedCollection())}
               >
                 <DownloadIcon style={{ paddingRight: "8px" }} />
                 Download the shapefile (with edits)
@@ -517,35 +414,13 @@ export default function ShapeFileCorrectionMap(props) {
         </StyledBox>
       }
       mapCard={
-        <LeafletMapContainer
-          center={center}
-          zoom={zoom}
-          mapRef={mapRef}
-          innerRef={setMap}
-        >
-          <EditControlFC
-            position="topleft"
-            localGeo={localGeo}
-            setLocalGeo={setLocalGeo}
-            startIndex={startIndex}
-            geoToReturn={geoToReturn}
-            setIsEdit={setIsEdit}
-            steps={steps}
-            endIndex={endIndex}
-            updateSteps={updateSteps}
-            setUpdateSteps={setUpdateSteps}
-            setActiveStep={setActiveStep}
-            mapRef={mapRef}
-          />
-        </LeafletMapContainer>
+        <MapLibreMapContainer center={center} zoom={zoom} setMap={setMap} />
       }
     />
   );
 }
 
 ShapeFileCorrectionMap.propTypes = {
-  setMap: PropTypes.func,
-  map: PropTypes.object,
   geoToRedraw: PropTypes.object,
   setGeoToRedraw: PropTypes.func,
 };
