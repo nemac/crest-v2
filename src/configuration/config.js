@@ -1,5 +1,6 @@
 import { americanSamoaConfig } from "./regions/american_samoa";
 import { continentalUSConfig } from "./regions/continental_us";
+import { continentalUSDevConfig } from "./regions/continental_us_dev";
 import { guamConfig } from "./regions/guam";
 import { hawaiiConfig } from "./regions/hawaii";
 import { northernMarianaIslandsConfig } from "./regions/northern_mariana_islands";
@@ -55,6 +56,9 @@ export const sketchShapeThresholds = {
   maxFileSize: 10000000,
 };
 
+// Set only by deploy-development.yml, so master builds never see the refreshed layers.
+export const isDevData = import.meta.env.VITE_CREST_DATA_CHANNEL === "dev";
+
 export const mapConfig = {
   basemaps: {
     "Dark Gray": {
@@ -90,7 +94,9 @@ export const mapConfig = {
   regions: {
     Alaska: alaskaConfig,
     "American Samoa": americanSamoaConfig,
-    "Atlantic, Gulf of America, and Pacific Coasts": continentalUSConfig,
+    "Atlantic, Gulf of America, and Pacific Coasts": isDevData
+      ? continentalUSDevConfig
+      : continentalUSConfig,
 
     Guam: guamConfig,
     "Hawai'i": hawaiiConfig,
@@ -762,4 +768,10 @@ export const mapConfig = {
       zoom: 13,
     },
   ],
+};
+
+// The examples index into the legacy CONUS layer list by position, so they always use it.
+export const exampleRegions = {
+  ...mapConfig.regions,
+  "Atlantic, Gulf of America, and Pacific Coasts": continentalUSConfig,
 };

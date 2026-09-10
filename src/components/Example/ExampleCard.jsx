@@ -39,7 +39,7 @@ import {
 import { changeActiveTab } from "../../reducers/NavBarSlice";
 import ExampleActionButton from "./ExampleActionButton.jsx";
 import { flyToLocation } from "./StepActions.jsx";
-import { mapConfig } from "../../configuration/config";
+import { mapConfig, exampleRegions } from "../../configuration/config";
 
 const regions = mapConfig.regions;
 
@@ -113,9 +113,9 @@ export default function ExampleCard(props) {
     const regionName = examplePolygonGeojson.features[0]?.properties?.region;
     dispatch(changeRegion(regions[regionName].label));
     const activeStepLayer =
-      mapConfig.regions[regionName].layerList[steps[activeStep].layerIndex];
+      exampleRegions[regionName].layerList[steps[activeStep].layerIndex];
     const previousStepLayer =
-      mapConfig.regions[regionName].layerList[steps[previousStep].layerIndex];
+      exampleRegions[regionName].layerList[steps[previousStep].layerIndex];
 
     // zero out the active and previous step if not expanded, toggle layer, and reset map
     if (map && expanded !== title) {
@@ -141,7 +141,7 @@ export default function ExampleCard(props) {
         setExamplePolyData(null);
         dispatch(initializeState());
         dispatch(changeBasemap("Dark Gray"));
-        const layerID = mapConfig.regions[regionName].layerList[0]; // gets rid if initial hubs on
+        const layerID = exampleRegions[regionName].layerList[0];
         dispatch(toggleLayer(layerID));
       }
 

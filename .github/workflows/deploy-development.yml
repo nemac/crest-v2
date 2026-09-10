@@ -27,6 +27,7 @@ jobs:
       - name: Build
         env:
           VITE_AGOL_API_KEY: ${{ secrets.AGOL_DEV_KEY }}
+          VITE_CREST_DATA_CHANNEL: dev
         run: |
           npm install --legacy-peer-deps
           npm run build

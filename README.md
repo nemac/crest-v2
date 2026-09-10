@@ -24,3 +24,12 @@ Pushing to a branch above builds the site and syncs it to its S3 bucket via GitH
 npm install --legacy-peer-deps
 npm start
 ```
+
+The development site builds with `VITE_CREST_DATA_CHANNEL=dev`, which swaps the CONUS region
+("Atlantic, Gulf of America, and Pacific Coasts") to the refreshed North Atlantic layers served as
+PMTiles from `tiles.resilientcoasts.org/dev/conus/` and disables the analysis tools for that region
+until the backend knows the new layers. Production builds never set it. To see the dev data locally:
+
+```
+VITE_CREST_DATA_CHANNEL=dev npm start
+```
