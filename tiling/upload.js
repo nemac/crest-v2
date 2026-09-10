@@ -22,6 +22,8 @@ export function uploadCommands(names, outDir) {
       "application/octet-stream",
       "--cache-control",
       "public,max-age=3600",
+      "--acl",
+      "public-read",
     ],
   }));
   return [

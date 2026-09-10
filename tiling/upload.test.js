@@ -33,8 +33,15 @@ describe("uploadCommands", () => {
         "application/octet-stream",
         "--cache-control",
         "public,max-age=3600",
+        "--acl",
+        "public-read",
       ],
     });
+    commands
+      .slice(0, 2)
+      .forEach((c) =>
+        expect(c.args.slice(-2)).toEqual(["--acl", "public-read"]),
+      );
     expect(commands[2]).toEqual({
       label: "invalidate",
       cmd: "aws",

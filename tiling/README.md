@@ -64,7 +64,7 @@ Archives are served from `https://tiles.resilientcoasts.org/dev/conus/<name>.pmt
 (bucket `tiles.resilientcoasts.org`, CloudFront `E34VC6CQ814IM`). Range requests and CORS
 were verified working through that distribution. The repo's deploy IAM user cannot write to
 that bucket; uploads are manual with `AWS_PROFILE=jbliss`. Re-uploading a layer needs the
-invalidation the upload script issues.
+invalidation the upload script issues. Objects must carry a public-read ACL because the bucket has no policy; the upload script sets it.
 
 ## Measured runtimes and sizes (2026-09-10, 16-core MacBook, all 23 layers sequentially)
 
