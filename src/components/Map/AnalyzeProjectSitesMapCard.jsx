@@ -255,12 +255,14 @@ export default function AnalyzeProjectSitesMapCard(props) {
         hoveredArea={hoveredArea}
         hoveredBuffer={hoveredBuffer}
       />
-      <ShowIdentifyPopup
-        region={selectedRegion}
-        identifyItems={identifyItems}
-        identifyIsLoaded={identifyIsLoaded}
-        identifyCoordinates={identifyCoordinates}
-      />
+      {!analysisDisabled && (
+        <ShowIdentifyPopup
+          region={selectedRegion}
+          identifyItems={identifyItems}
+          identifyIsLoaded={identifyIsLoaded}
+          identifyCoordinates={identifyCoordinates}
+        />
+      )}
       <DrawTools
         map={map}
         draw={draw}
