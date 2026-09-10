@@ -42,7 +42,11 @@ export const createSketchModes = () => [
 const restoreAfterStyleChange = (draw) => {
   const snapshot = draw.getSnapshot();
   const mode = draw.getMode();
-  draw.stop();
+  try {
+    draw.stop();
+  } catch (error) {
+    // The style swap may already have removed terra-draw's sources.
+  }
   draw.start();
   draw.clear();
   if (snapshot.length > 0) draw.addFeatures(snapshot);

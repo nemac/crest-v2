@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import ReactGA from "react-ga4";
 import { useSelector, useDispatch } from "react-redux";
 import { LayersClear, Share } from "@mui/icons-material";
@@ -80,8 +80,12 @@ export default function AnalyzeProjectSitesMapCard(props) {
   const bufferCheckbox = useSelector(useBufferSelector);
   const draw = useTerraDraw(map, createSketchModes);
 
-  const regionFeatures = (drawnFromState?.features ?? []).filter(
-    (item) => item.properties.region === selectedRegion,
+  const regionFeatures = useMemo(
+    () =>
+      (drawnFromState?.features ?? []).filter(
+        (item) => item.properties.region === selectedRegion,
+      ),
+    [drawnFromState, selectedRegion],
   );
 
   const { data } = useGetIdentifyQuery(

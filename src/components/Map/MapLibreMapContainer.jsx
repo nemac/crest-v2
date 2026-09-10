@@ -67,6 +67,7 @@ export default function MapLibreMapContainer(props) {
       >
         <NavigationControl position="top-left" showCompass={false} />
         <AttributionControl
+          key={selectedRegion}
           compact={false}
           customAttribution={mapConfig.regions[selectedRegion].attribution}
         />
