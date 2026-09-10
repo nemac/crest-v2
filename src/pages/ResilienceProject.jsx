@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import * as esri from "esri-leaflet";
 import { CameraAlt } from "@mui/icons-material";
-
-// this not good practice but not time to resolve it and its not that important
-/* eslint-disable no-unneeded-ternary */
+import { queryFeatureLayer, SPATIAL_REL } from "../services/arcgisQuery";
 
 import GenericMapHolder from "../components/Map/GenericMapHolder.jsx";
 import ResilienceLeftColumn from "../components/AnalyzeArea/ResilienceLeftColumn.jsx";
@@ -29,14 +26,6 @@ export default function ResilienceProject(props) {
   const hubsHexesUrl = mapConfig.regions[selectedRegion].hubsHexServer;
   const rankProperty = mapConfig.regions[selectedRegion].rankProperty;
 
-  // there currently isn't a hub core for every region
-  let featureLayerHex;
-  if (hubsHexesUrl) {
-    featureLayerHex = esri.featureLayer({
-      url: hubsHexesUrl,
-    });
-  }
-
   const chartActionButtons = [
     {
       buttonLabel: "Export",
@@ -50,51 +39,48 @@ export default function ResilienceProject(props) {
 
   // Run query on hex server if it exists after feature clicked on
   React.useEffect(() => {
-    if (!featureLayerHex) {
+    if (!hubsHexesUrl) {
       const hubRankNoCore = resilienceHub
         ? resilienceHub.properties[rankProperty]
         : null;
       setAverageHubScore(hubRankNoCore);
       setChartData([]);
       return;
-    } // return if no hex layer to query
+    }
     if (resilienceHub) {
       const calculatedData = [];
-      let runningTotalScore = 0; // using this increment the hub core scores
+      let runningTotalScore = 0;
       for (let i = 0; i < 10; i += 1) {
         calculatedData[i] = {
           name: `Hub Score = ${parseInt(i + 1, 10)}`,
           value: 0,
         };
       }
-      const query = featureLayerHex.query().within(resilienceHub);
-      query.run((error, featureCollection, response) => {
-        if (error) {
-          return;
-        }
-        if (featureCollection.features.length === 0) {
-          return;
-        }
-        // Count occurrences of each rank
-        featureCollection.features.forEach((obj) => {
-          // Subtracting 1 because rankProperty 1 goes into 0th element etc
-          calculatedData[
-            parseInt(obj.properties[rankProperty] - 1, 10)
-          ].value += 1;
-          runningTotalScore += parseInt(obj.properties[rankProperty], 10);
-        });
-        const round =
-          Math.round(
-            (runningTotalScore / featureCollection.features.length) * 10,
-          ) / 10;
-        setAverageHubScore(round);
-        setChartData(calculatedData);
-      });
+      queryFeatureLayer(hubsHexesUrl, {
+        geometry: resilienceHub.geometry,
+        spatialRel: SPATIAL_REL.contains,
+      })
+        .then((featureCollection) => {
+          if (featureCollection.features.length === 0) return;
+          featureCollection.features.forEach((obj) => {
+            calculatedData[
+              parseInt(obj.properties[rankProperty] - 1, 10)
+            ].value += 1;
+            runningTotalScore += parseInt(obj.properties[rankProperty], 10);
+          });
+          const round =
+            Math.round(
+              (runningTotalScore / featureCollection.features.length) * 10,
+            ) / 10;
+          setAverageHubScore(round);
+          setChartData(calculatedData);
+        })
+        .catch(() => null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resilienceHub]);
 
-  const hasCoreData = featureLayerHex ? true : false;
+  const hasCoreData = Boolean(hubsHexesUrl);
   return (
     <GenericMapHolder
       leftColumn={

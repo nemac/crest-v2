@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import ReactGA from "react-ga4";
 
 import { useDispatch, useSelector } from "react-redux";
-import * as esri from "esri-leaflet";
-import L from "leaflet";
+import * as turf from "@turf/turf";
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
@@ -17,6 +16,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { addNewFeatureToDrawnLayers } from "../../reducers/mapPropertiesSlice";
 import { mapConfig } from "../../configuration/config";
 import { convertDataForZonalStats } from "../../utility/utilityFunctions";
+import { queryFeatureLayer } from "../../services/arcgisQuery";
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -183,6 +183,9 @@ const StyledSearchBox = styled(Box)(({ theme }) => ({
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const drawnLayersSelector = (state) => state.mapProperties.drawnLayers;
 
+const SEARCH_FEATURE_SERVER =
+  "https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/CREST_SEARCH/FeatureServer/0";
+
 export default function SearchCustom(props) {
   const { map } = props;
   const dispatch = useDispatch();
@@ -196,23 +199,15 @@ export default function SearchCustom(props) {
   const [options, setOptions] = useState([]);
   const [noOptionsText, setNoOptionsText] = useState("Nothing to search yet");
 
-  const allFeatureLayer = esri.featureLayer({
-    url: "https://services1.arcgis.com/PwLrOgCfU0cYShcG/arcgis/rest/services/CREST_SEARCH/FeatureServer/0",
-  });
-
-  const allQuery = allFeatureLayer.query();
-  // Send query to arcgis and draw the state, county, or huc8 on the map
-  const runQuerySearching = (query) => {
+  const runQuerySearching = (where) => {
     setAPlaceFound(false);
-    query.run((error, featureCollection, response) => {
-      if (error) {
-        return;
-      }
-      if (featureCollection.features.length === 0) {
-        return;
-      }
-      setOptions(featureCollection.features);
-    });
+    queryFeatureLayer(SEARCH_FEATURE_SERVER, { where })
+      .then((featureCollection) => {
+        if (featureCollection.features.length > 0) {
+          setOptions(featureCollection.features);
+        }
+      })
+      .catch(() => null);
   };
 
   const onHandleSearchChange = (_, feature) => {
@@ -240,7 +235,7 @@ export default function SearchCustom(props) {
     );
     const zonalStatsKeys = regionConfig.zonalStatsKeys;
     const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
-    map.fitBounds(L.geoJSON(geoToDraw).getBounds());
+    map.fitBounds(turf.bbox(geoToDraw));
     dispatch(addNewFeatureToDrawnLayers(geoToDraw));
   };
 
@@ -252,9 +247,6 @@ export default function SearchCustom(props) {
       setOpen(false);
       setAPlaceFound(false);
     } else {
-      allQuery.where(
-        `search_field LIKE '%${newInputValue}%' AND region = '${tempRegion}'`,
-      );
       ReactGA.event({
         category: "engagement",
         action: "add_area_search",
@@ -276,7 +268,9 @@ export default function SearchCustom(props) {
       );
       //  `CREST only includes coastal areas! "${newInputValue}" may be outside a coastal zone or not in the current region: '${selectedRegion.replace("'", "''")}'`
       setNoOptionsText(optionText);
-      runQuerySearching(allQuery);
+      runQuerySearching(
+        `search_field LIKE '%${newInputValue}%' AND region = '${tempRegion}'`,
+      );
       setOpen(true);
       setAPlaceFound(false);
     }

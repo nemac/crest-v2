@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GeoJSON } from "react-leaflet";
-import * as esri from "esri-leaflet";
-import Control from "react-leaflet-custom-control";
+import { Source, Layer, Marker } from "@vis.gl/react-maplibre";
+import * as turf from "@turf/turf";
 import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import { LayersClear } from "@mui/icons-material";
 import MapCard from "./MapCard.jsx";
+import MapOverlay from "./MapOverlay.jsx";
 
 import {
   changeRegion,
@@ -17,68 +17,39 @@ import {
   changeCenter,
   changeResilienceHub,
 } from "../../reducers/mapPropertiesSlice";
-import { StyledReactLeafletTooltip } from "../All/StyledComponents.jsx";
+import { MapLabel } from "../All/StyledComponents.jsx";
 import { mapConfig } from "../../configuration/config";
+import { queryFeatureLayer } from "../../services/arcgisQuery";
+import { jumpToStored, readViewState } from "../../utility/viewState";
 
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const selectedResilienceHub = (state) => state.mapProperties.resilienceHub;
 const userInitiatedSelector = (state) => state.selectedRegion.userInitiated;
 
+const HUB_COLOR = "#3388ff";
+
 export default function ResilienceMapCard(props) {
   const { setAverageHubScore, setChartData, setErrorState } = props;
   const dispatch = useDispatch();
-  const [ready, setReady] = useState(false);
   const [map, setMap] = useState(null);
   const selectedRegion = useSelector(selectedRegionSelector);
   const resilienceHub = useSelector(selectedResilienceHub);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
   const hubsURL = mapConfig.regions[selectedRegion].hubsFeatureServer;
 
-  const featureLayerHubs = esri.featureLayer({
-    url: hubsURL,
-  });
-
-  // Change the map cursor style to pointer
-  React.useEffect(() => {
-    if (map) {
-      map.getContainer().style.cursor = "pointer";
-      // I truly dislike that I have to set this timeout to get the tooltip in the right spot
-      setTimeout(() => {
-        setReady(true);
-      }, 500);
-    }
-  }, [map]);
-
   const handleRegionChange = useCallback(
     (regionName, user) => {
-      // catch bad region
-      if (!mapConfig.regions[regionName]) return null;
-
-      // check for user changing region as opposed to
-      //  state update on refresh
-      if (!user) return null;
-
-      // ensure map has been instantiated
-      if (map) {
-        // zoom to region locations
-        map.setView(
-          mapConfig.regions[regionName].mapProperties.center,
-          mapConfig.regions[regionName].mapProperties.zoom,
-        );
-
-        // Update redux store with new region, zoom, and center
-        dispatch(changeResilienceHub(null));
-        dispatch(changeRegion(mapConfig.regions[regionName].label));
-        dispatch(changeZoom(mapConfig.regions[regionName].mapProperties.zoom));
-        dispatch(
-          changeCenter(mapConfig.regions[regionName].mapProperties.center),
-        );
-        dispatch(regionUserInitiated(false));
-        // reset hub data on region switch to avoid confusion
-        setAverageHubScore(null);
-        setChartData(null);
-      }
-      return null;
+      if (!mapConfig.regions[regionName] || !user || !map) return;
+      jumpToStored(map, mapConfig.regions[regionName].mapProperties);
+      dispatch(changeResilienceHub(null));
+      dispatch(changeRegion(mapConfig.regions[regionName].label));
+      dispatch(changeZoom(mapConfig.regions[regionName].mapProperties.zoom));
+      dispatch(
+        changeCenter(mapConfig.regions[regionName].mapProperties.center),
+      );
+      dispatch(regionUserInitiated(false));
+      setAverageHubScore(null);
+      setChartData(null);
     },
     [map, dispatch, setAverageHubScore, setChartData],
   );
@@ -88,22 +59,22 @@ export default function ResilienceMapCard(props) {
   }, [selectedRegion, handleRegionChange, userInitiatedRegion]);
 
   const mapEventHandlers = {
-    click: (e) => {
-      const query = featureLayerHubs.query().nearby(e.latlng, 0);
-      query.run((error, featureCollection, response) => {
-        if (error) {
-          return;
-        }
-        if (featureCollection.features.length === 0) {
-          return;
-        }
-        dispatch(changeResilienceHub(featureCollection.features[0]));
-      });
+    onClick: (event) => {
+      const { lng, lat } = event.lngLat;
+      queryFeatureLayer(hubsURL, {
+        geometry: { type: "Point", coordinates: [lng, lat] },
+      })
+        .then((featureCollection) => {
+          if (featureCollection.features.length > 0) {
+            dispatch(changeResilienceHub(featureCollection.features[0]));
+          }
+        })
+        .catch(() => null);
     },
-    moveend: () => {
-      // Send updated zoom and center to redux when moveend event occurs.
-      dispatch(changeZoom(map.getZoom()));
-      dispatch(changeCenter([map.getCenter().lat, map.getCenter().lng]));
+    onMoveEnd: (event) => {
+      const { center, zoom } = readViewState(event.target);
+      dispatch(changeZoom(zoom));
+      dispatch(changeCenter(center));
     },
   };
 
@@ -125,9 +96,17 @@ export default function ResilienceMapCard(props) {
     }));
   };
 
+  const hubCenter = resilienceHub
+    ? turf.center(resilienceHub).geometry.coordinates
+    : null;
+
   return (
-    <MapCard setMap={setMap} map={map} mapEventHandlers={mapEventHandlers}>
-      <Control position="bottomleft">
+    <MapCard
+      setMap={setMap}
+      mapEventHandlers={mapEventHandlers}
+      cursor="pointer"
+    >
+      <MapOverlay position="bottom-left">
         <Button
           variant="contained"
           startIcon={<LayersClear />}
@@ -137,18 +116,30 @@ export default function ResilienceMapCard(props) {
         >
           Clear
         </Button>
-      </Control>
-
-      {ready &&
-        (resilienceHub ? (
-          <GeoJSON key={resilienceHub?.id} data={resilienceHub}>
-            <StyledReactLeafletTooltip direction="center" permanent>
-              {resilienceHub?.id}
-            </StyledReactLeafletTooltip>
-          </GeoJSON>
-        ) : (
-          <></>
-        ))}
+      </MapOverlay>
+      {resilienceHub && (
+        <>
+          <Source id="resilience-hub" type="geojson" data={resilienceHub}>
+            <Layer
+              id="resilience-hub-fill"
+              type="fill"
+              paint={{ "fill-color": HUB_COLOR, "fill-opacity": 0.2 }}
+            />
+            <Layer
+              id="resilience-hub-line"
+              type="line"
+              paint={{ "line-color": HUB_COLOR, "line-width": 3 }}
+            />
+          </Source>
+          <Marker
+            longitude={hubCenter[0]}
+            latitude={hubCenter[1]}
+            anchor="center"
+          >
+            <MapLabel>{resilienceHub.id}</MapLabel>
+          </Marker>
+        </>
+      )}
     </MapCard>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { GeoJSON, Tooltip } from "react-leaflet";
+import { Source, Layer, Marker } from "@vis.gl/react-maplibre";
 
 import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
@@ -9,12 +9,12 @@ import { Typography } from "@mui/material";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 
 import Example from "../Example/Examples.jsx";
-import LeafletMapContainer from "./LeafletMapContainer.jsx";
+import MapLibreMapContainer from "./MapLibreMapContainer.jsx";
 import ActionButtons from "./ActionButtons.jsx";
 import ActiveTileLayers from "./ActiveTileLayers.jsx";
 import MapLayerList from "../MapLayerList/MapLayerList.jsx";
 import { mapConfig } from "../../configuration/config";
-import { StyledGrid } from "../All/StyledComponents.jsx";
+import { StyledGrid, MapLabel } from "../All/StyledComponents.jsx";
 import HelpPopup from "../All/HelpPopup.jsx";
 
 const ThreeColumnGrid = styled(Grid)(({ theme }) => ({
@@ -48,17 +48,6 @@ const GutterGrid = styled(Grid)(({ theme }) => ({
   [theme.breakpoints.down("lg")]: {
     height: theme.spacing(1),
   },
-}));
-
-/* Adds bottom padding for small screens this is hacky need another way to handle this */
-const StyledToolTip = styled(Tooltip)(({ theme }) => ({
-  // Feels a bit hacky that I had to tack !important on to everything to get the override
-  backgroundColor: "transparent !important",
-  border: "transparent !important",
-  color: "#FFFFFF !important",
-  boxShadow: "none !important",
-  fontSize: "1.5em",
-  fontWeight: 700,
 }));
 
 export default function MapHolderExample() {
@@ -159,7 +148,7 @@ export default function MapHolderExample() {
         order={{ xs: 1, sm: 1, md: 2 }}
       >
         <ContentMapBox>
-          <LeafletMapContainer
+          <MapLibreMapContainer
             center={
               mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
                 .mapProperties.center
@@ -168,25 +157,41 @@ export default function MapHolderExample() {
               mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
                 .mapProperties.zoom
             }
-            innerRef={setMap}
+            setMap={setMap}
           >
-            <>
-              {examplePolyData ? (
-                <GeoJSON data={examplePolyData.geojson} opacity={0.5}>
-                  <StyledToolTip
-                    position={examplePolyData.center}
-                    direction="center"
-                    permanent
-                  >
-                    {examplePolyData.label}
-                  </StyledToolTip>
-                </GeoJSON>
-              ) : (
-                <div></div>
-              )}
-            </>
             <ActiveTileLayers />
-          </LeafletMapContainer>
+            {examplePolyData?.geojson && (
+              <Source
+                id="example-polygon"
+                type="geojson"
+                data={examplePolyData.geojson}
+              >
+                <Layer
+                  id="example-polygon-fill"
+                  type="fill"
+                  paint={{ "fill-color": "#3388ff", "fill-opacity": 0.2 }}
+                />
+                <Layer
+                  id="example-polygon-line"
+                  type="line"
+                  paint={{
+                    "line-color": "#3388ff",
+                    "line-width": 3,
+                    "line-opacity": 0.5,
+                  }}
+                />
+              </Source>
+            )}
+            {examplePolyData?.center && (
+              <Marker
+                longitude={examplePolyData.center[1]}
+                latitude={examplePolyData.center[0]}
+                anchor="center"
+              >
+                <MapLabel>{examplePolyData.label}</MapLabel>
+              </Marker>
+            )}
+          </MapLibreMapContainer>
           <ActionButtons />
         </ContentMapBox>
       </ThreeColumnGrid>

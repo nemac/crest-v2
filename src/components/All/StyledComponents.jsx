@@ -20,6 +20,14 @@ export const StyledReactLeafletTooltip = styled(Tooltip)(({ theme }) => ({
   fontWeight: 700,
 }));
 
+export const MapLabel = styled("div")(() => ({
+  color: "#FFFFFF",
+  fontSize: "1.5em",
+  fontWeight: 700,
+  whiteSpace: "nowrap",
+  pointerEvents: "none",
+}));
+
 export const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: "20px",
   backgroundColor: theme.palette.CRESTGridBackground.dark,
