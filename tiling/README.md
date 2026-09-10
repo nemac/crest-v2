@@ -66,7 +66,11 @@ were verified working through that distribution. The repo's deploy IAM user cann
 that bucket; uploads are manual with `AWS_PROFILE=jbliss`. Re-uploading a layer needs the
 invalidation the upload script issues.
 
-## Expected runtimes and sizes (2026-09-09, this MacBook)
+## Measured runtimes and sizes (2026-09-10, 16-core MacBook, all 23 layers sequentially)
 
-Boundary: about 85 seconds, 1.8 MB. Storm Surge: 11 seconds, 36 MB, 7,158 tiles. Fill in the
-other layers after the first full run.
+The `gdal raster tile` step takes 11 to 21 seconds per layer and the MBTiles load under 2
+seconds; a full `node tiling/build.js --all` run finishes in about 10 minutes. Archive sizes
+track how much of the region a layer covers: the five summary indices are 264 to 556 MB each,
+the threat and wildlife inputs 26 to 330 MB, Critical Facilities 9 MB. All 23 raster archives
+total 4.8 GB; the boundary is 1.8 MB (85 seconds). Tiles are RGBA PNG; WebP lossless would be
+smaller if size ever matters.
