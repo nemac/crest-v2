@@ -17,6 +17,10 @@ import { addNewFeatureToDrawnLayers } from "../../reducers/mapPropertiesSlice";
 import { mapConfig } from "../../configuration/config";
 import { convertDataForZonalStats } from "../../utility/utilityFunctions";
 import { queryFeatureLayer } from "../../services/arcgisQuery";
+import {
+  searchRegionName,
+  appRegionName,
+} from "../../configuration/regionAliases";
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -229,10 +233,7 @@ export default function SearchCustom(props) {
     // eslint-disable-next-line no-param-reassign
     feature.properties.areaName = feature.properties.search_field;
     // eslint-disable-next-line no-param-reassign
-    feature.properties.region = feature.properties.region.replace(
-      "Mexico",
-      "America",
-    );
+    feature.properties.region = appRegionName(feature.properties.region);
     const zonalStatsKeys = regionConfig.zonalStatsKeys;
     const geoToDraw = convertDataForZonalStats(feature, zonalStatsKeys);
     map.fitBounds(turf.bbox(geoToDraw));
@@ -240,9 +241,7 @@ export default function SearchCustom(props) {
   };
 
   const handleInputChange = (_, newInputValue) => {
-    const tempRegion = selectedRegion
-      .replace("'", "''")
-      .replace("America", "Mexico");
+    const tempRegion = searchRegionName(selectedRegion).replace("'", "''");
     if (newInputValue.length < 3) {
       setOpen(false);
       setAPlaceFound(false);

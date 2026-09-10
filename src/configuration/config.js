@@ -97,7 +97,7 @@ export const mapConfig = {
     "Northern Mariana Islands": northernMarianaIslandsConfig,
     "Puerto Rico": puertoRicoConfig,
     "U.S. Great Lakes": greatLakesConfig,
-    "US Virgin Islands": usVirginIslandsConfig,
+    "U.S. Virgin Islands": usVirginIslandsConfig,
   },
   targetedWatersheds: {
     "Cape Fear Watershed": capeFearWatershedConfig,

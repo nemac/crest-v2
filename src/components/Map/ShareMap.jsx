@@ -6,6 +6,7 @@ import { updateAllRegion } from "../../reducers/regionSelectSlice";
 import { updateAllNavbar } from "../../reducers/NavBarSlice";
 import { updateAllMapLayerList } from "../../reducers/mapLayerListSlice";
 import { loadState } from "../../localStorage";
+import { migrateRegionKeys } from "../../configuration/regionAliases";
 
 export const createShareURL = () => {
   const xhr = new XMLHttpRequest();
@@ -27,10 +28,11 @@ export const createShareURL = () => {
   return shareUrl;
 };
 
-export const UpdateRedux = (jsonData, dispatch, setShareUrlComplete) => {
-  if (!jsonData.mapProperties) {
+export const UpdateRedux = (shareData, dispatch, setShareUrlComplete) => {
+  if (!shareData.mapProperties) {
     return;
   }
+  const jsonData = migrateRegionKeys(shareData);
   dispatch(updateAllMapProperties(jsonData.mapProperties));
   dispatch(updateAllAnalyze(jsonData.analyzeArea));
   dispatch(updateAllMapLayerList(jsonData.mapLayerList));
