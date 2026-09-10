@@ -70,6 +70,7 @@ export default function AnalyzeProjectSitesMapCard(props) {
   const dispatch = useDispatch();
   const selectedRegion = useSelector(selectedRegionSelector);
   const userInitiatedRegion = useSelector(userInitiatedSelector);
+  const analysisDisabled = Boolean(regions[selectedRegion].analysisDisabled);
   const drawnFromState = useSelector(drawnLayersSelector);
   const sketchArea = useSelector(sketchAreaSelector);
   const identifyCoordinates = useSelector(identifyCoordinatesSelector);
@@ -150,7 +151,7 @@ export default function AnalyzeProjectSitesMapCard(props) {
       dispatch(changeCenter(center));
     },
     onClick: (event) => {
-      if (identifyArmed) {
+      if (identifyArmed && !analysisDisabled) {
         const { lat, lng } = event.lngLat;
         dispatch(changeIdentifyIsLoaded(false));
         dispatch(changeIdentifyCoordinates({ lat, lng }));
@@ -244,8 +245,10 @@ export default function AnalyzeProjectSitesMapCard(props) {
       cursor={cursor}
     >
       <MapOverlay position="top-left">
-        <IdentifyButton onArm={() => setIdentifyArmed(true)} />
-        <SearchPlaces map={map} />
+        {!analysisDisabled && (
+          <IdentifyButton onArm={() => setIdentifyArmed(true)} />
+        )}
+        <SearchPlaces map={map} statisticsDisabled={analysisDisabled} />
       </MapOverlay>
       <DrawnAreas
         features={regionFeatures}

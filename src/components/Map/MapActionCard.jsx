@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
@@ -23,6 +24,9 @@ import { mapConfig } from "../../configuration/config";
 const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
 const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
+export const ANALYSIS_DISABLED_MESSAGE =
+  "Analysis tools for the refreshed CONUS data are coming soon. Map layers are available for review.";
+
 export default function MapActionCard(props) {
   const { map, drawAreaDisabled, setGeoToRedraw, setErrorState } = props;
 
@@ -32,6 +36,9 @@ export default function MapActionCard(props) {
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
   const isLimitMessage = mapConfig.regions[selectedRegion].limitMessage;
+  const analysisDisabled = Boolean(
+    mapConfig.regions[selectedRegion].analysisDisabled,
+  );
 
   const minimizeOnClick = () => {
     dispatch(toggleAreaVisible());
@@ -87,7 +94,14 @@ export default function MapActionCard(props) {
           </UpperRightIconButton>
         </Box>
       </Grid>
-      {analyzeAreaVisible && (
+      {analyzeAreaVisible && analysisDisabled && (
+        <Grid px={2} pb={2} xs={12}>
+          <Alert severity="info" sx={{ backgroundColor: "#444444" }}>
+            {ANALYSIS_DISABLED_MESSAGE}
+          </Alert>
+        </Grid>
+      )}
+      {analyzeAreaVisible && !analysisDisabled && (
         <>
           <Grid px={2} xs={12}>
             <DrawArea disabled={drawAreaDisabled} />

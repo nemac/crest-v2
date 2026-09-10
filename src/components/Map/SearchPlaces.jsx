@@ -14,7 +14,7 @@ import { suggestPlaces, findCandidate } from "../../services/arcgisGeocode";
 const MIN_QUERY_LENGTH = 3;
 const STATISTICS_RADIUS_METERS = 1000;
 
-export default function SearchPlaces({ map }) {
+export default function SearchPlaces({ map, statisticsDisabled }) {
   const dispatch = useDispatch();
   const [options, setOptions] = useState([]);
   const [result, setResult] = useState(null);
@@ -105,15 +105,17 @@ export default function SearchPlaces({ map }) {
         >
           <div style={{ color: "#000000" }}>
             <h2>{result.text}</h2>
-            <p>
-              <Button
-                variant="contained"
-                color="CRESTPrimary"
-                onClick={handleGetAreaStatistics}
-              >
-                <AddchartIcon /> Get Statistics for this location
-              </Button>
-            </p>
+            {!statisticsDisabled && (
+              <p>
+                <Button
+                  variant="contained"
+                  color="CRESTPrimary"
+                  onClick={handleGetAreaStatistics}
+                >
+                  <AddchartIcon /> Get Statistics for this location
+                </Button>
+              </p>
+            )}
           </div>
         </Popup>
       )}
@@ -123,4 +125,5 @@ export default function SearchPlaces({ map }) {
 
 SearchPlaces.propTypes = {
   map: PropTypes.object,
+  statisticsDisabled: PropTypes.bool,
 };
