@@ -123,7 +123,7 @@ export default function ShapeFileCorrectionMap(props) {
                     buttonLabel={"Back"}
                     buttonName={"Back"}
                     onClick={handlePrevious}
-                    buttonDisabled={activeStep === 0}
+                    buttonDisabled={isEdit || activeStep === 0}
                     isIconFirst={true}
                   >
                     <ArrowCircleLeftIcon />
@@ -145,7 +145,7 @@ export default function ShapeFileCorrectionMap(props) {
                     buttonLabel={"Next"}
                     buttonName={"Next"}
                     onClick={handleNext}
-                    buttonDisabled={activeStep >= steps.length - 1}
+                    buttonDisabled={isEdit || activeStep >= steps.length - 1}
                     isIconFirst={false}
                   >
                     <ArrowCircleRightIcon />
@@ -347,7 +347,7 @@ export default function ShapeFileCorrectionMap(props) {
                   buttonLabel={"Back"}
                   buttonName={"Back"}
                   onClick={handlePrevious}
-                  buttonDisabled={activeStep === 0}
+                  buttonDisabled={isEdit || activeStep === 0}
                   isIconFirst={true}
                 >
                   <ArrowCircleLeftIcon />
@@ -369,7 +369,7 @@ export default function ShapeFileCorrectionMap(props) {
                   buttonLabel={"Next"}
                   buttonName={"Next"}
                   onClick={handleNext}
-                  buttonDisabled={activeStep >= steps.length - 1}
+                  buttonDisabled={isEdit || activeStep >= steps.length - 1}
                   isIconFirst={false}
                 >
                   <ArrowCircleRightIcon />

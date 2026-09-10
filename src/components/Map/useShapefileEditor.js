@@ -67,10 +67,25 @@ export default function useShapefileEditor(map, draw, geoToRedraw) {
   const [steps, setSteps] = useState(() => buildSteps(geoToRedraw));
   const [activeStep, setActiveStep] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
-  const editBackup = useRef(null);
+  const editing = useRef(null);
   const loaded = useRef(false);
 
   const current = steps[activeStep];
+
+  const beginEditing = useCallback(
+    (stepIndex, drawId) => {
+      const feature = draw?.getSnapshotFeature(drawId);
+      if (!feature) return;
+      editing.current = {
+        stepIndex,
+        drawId,
+        backupGeometry: structuredClone(feature.geometry),
+      };
+      setActiveStep(stepIndex);
+      setIsEdit(true);
+    },
+    [draw],
+  );
 
   useEffect(() => {
     if (!draw || loaded.current || steps.length === 0) return;
@@ -108,10 +123,8 @@ export default function useShapefileEditor(map, draw, geoToRedraw) {
     };
     const onSelect = (id) => {
       const stepIndex = steps.findIndex((step) => step.drawId === id);
-      if (stepIndex >= 0) {
-        setActiveStep(stepIndex);
-        setIsEdit(true);
-      }
+      if (stepIndex < 0) return;
+      if (editing.current?.drawId !== id) beginEditing(stepIndex, id);
     };
     draw.on("change", onChange);
     draw.on("select", onSelect);
@@ -119,7 +132,7 @@ export default function useShapefileEditor(map, draw, geoToRedraw) {
       draw.off("change", onChange);
       draw.off("select", onSelect);
     };
-  }, [draw, steps]);
+  }, [draw, steps, beginEditing]);
 
   useEffect(() => {
     if (!map || !current) return;
@@ -130,42 +143,44 @@ export default function useShapefileEditor(map, draw, geoToRedraw) {
 
   const startEdit = useCallback(() => {
     if (!draw || !current?.drawId) return;
-    editBackup.current = structuredClone(
-      draw.getSnapshotFeature(current.drawId),
-    );
     draw.setMode("select");
     draw.selectFeature(current.drawId);
-    setIsEdit(true);
-  }, [draw, current]);
+    beginEditing(activeStep, current.drawId);
+  }, [draw, current, activeStep, beginEditing]);
 
   const finishEditing = useCallback(() => {
-    if (!draw) return;
-    if (current?.drawId && draw.hasFeature(current.drawId)) {
-      draw.deselectFeature(current.drawId);
+    const target = editing.current;
+    editing.current = null;
+    if (draw) {
+      if (target && draw.hasFeature(target.drawId)) {
+        draw.deselectFeature(target.drawId);
+      }
+      draw.setMode("static");
     }
-    draw.setMode("static");
     setIsEdit(false);
-  }, [draw, current]);
+    return target;
+  }, [draw]);
 
   const saveEdits = useCallback(() => {
-    if (draw && current?.drawId) {
-      const feature = draw.getSnapshotFeature(current.drawId);
-      if (feature) {
-        source.current.features[current.index] = {
-          ...source.current.features[current.index],
-          geometry: feature.geometry,
-        };
-      }
+    const target = finishEditing();
+    if (!draw || !target) return;
+    const feature = draw.getSnapshotFeature(target.drawId);
+    const step = steps[target.stepIndex];
+    if (feature && step) {
+      source.current.features[step.index] = {
+        ...source.current.features[step.index],
+        geometry: feature.geometry,
+      };
     }
-    finishEditing();
-  }, [draw, current, finishEditing]);
+  }, [draw, steps, finishEditing]);
 
   const cancelEdits = useCallback(() => {
-    if (draw && current?.drawId && editBackup.current) {
-      draw.updateFeatureGeometry(current.drawId, editBackup.current.geometry);
+    const target = finishEditing();
+    if (!draw || !target) return;
+    if (draw.hasFeature(target.drawId)) {
+      draw.updateFeatureGeometry(target.drawId, target.backupGeometry);
     }
-    finishEditing();
-  }, [draw, current, finishEditing]);
+  }, [draw, finishEditing]);
 
   const deleteArea = useCallback(() => {
     if (!current) return;
@@ -173,6 +188,7 @@ export default function useShapefileEditor(map, draw, geoToRedraw) {
       draw.setMode("static");
       draw.removeFeatures([current.drawId]);
     }
+    if (editing.current?.drawId === current.drawId) editing.current = null;
     setSteps((previous) =>
       previous.map((step, i) => (i === activeStep ? markDeleted(step) : step)),
     );
