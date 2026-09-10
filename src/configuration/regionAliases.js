@@ -22,7 +22,7 @@ export const appRegionName = (searchRegion) =>
 
 const migrateFeature = (feature) => {
   const region = feature?.properties?.region;
-  if (!(region in legacyRegionKeys)) return feature;
+  if (!Object.hasOwn(legacyRegionKeys, region)) return feature;
   return {
     ...feature,
     properties: { ...feature.properties, region: legacyRegionKeys[region] },
@@ -34,7 +34,7 @@ export const migrateRegionKeys = (state) => {
   let changed = false;
   let next = state;
   const selected = state.selectedRegion?.value;
-  if (selected in legacyRegionKeys) {
+  if (Object.hasOwn(legacyRegionKeys, selected)) {
     changed = true;
     next = {
       ...next,
