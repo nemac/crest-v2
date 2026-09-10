@@ -166,6 +166,25 @@ export default function DrawTools(props) {
     return () => draw.off("finish", onFinish);
   }, [draw, areaNumber, bufferCheckbox, selectedRegion]);
 
+  if (error) {
+    return (
+      <ModelErrors
+        contentTitle={"Sketch an Area Error "}
+        contentMessage={`The sketched area returned no data and is most likely outside the
+          specified region (${selectedRegion}). Also, CREST
+          currently includes areas near coastal areas, and the sketched area
+          may not fit within the coastal area assessed`}
+        buttonMessage="Dismiss"
+        errorType={"error"}
+        onClose={() => {
+          setDrawAreaDisabled(false);
+          setCurrentDrawn((previous) => ({ ...previous, skip: true }));
+        }}
+        open={Boolean(error)}
+      />
+    );
+  }
+
   if (shapeFileGeoJSON) {
     const shapeFileFeatures = structuredClone(shapeFileGeoJSON.features);
     let areaNum = areaNumber;
@@ -199,25 +218,6 @@ export default function DrawTools(props) {
       skip: false,
     });
     dispatch(addSearchPlacesGeoJSON(null));
-  }
-
-  if (error) {
-    return (
-      <ModelErrors
-        contentTitle={"Sketch an Area Error "}
-        contentMessage={`The sketched area returned no data and is most likely outside the
-          specified region (${selectedRegion}). Also, CREST
-          currently includes areas near coastal areas, and the sketched area
-          may not fit within the coastal area assessed`}
-        buttonMessage="Dismiss"
-        errorType={"error"}
-        onClose={() => {
-          setDrawAreaDisabled(false);
-          setCurrentDrawn((previous) => ({ ...previous, skip: true }));
-        }}
-        open={Boolean(error)}
-      />
-    );
   }
 
   if (!isFetching) return null;
