@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Popup } from "@vis.gl/react-maplibre";
 import PropTypes from "prop-types";
@@ -18,15 +18,22 @@ export default function SearchPlaces({ map }) {
   const dispatch = useDispatch();
   const [options, setOptions] = useState([]);
   const [result, setResult] = useState(null);
+  const latestRequest = useRef(0);
 
   const handleInputChange = (_, value, reason) => {
+    latestRequest.current += 1;
+    const requestId = latestRequest.current;
     if (reason !== "input" || value.length < MIN_QUERY_LENGTH) {
       setOptions([]);
       return;
     }
     suggestPlaces(value, agolApiKey)
-      .then(setOptions)
-      .catch(() => setOptions([]));
+      .then((suggestions) => {
+        if (requestId === latestRequest.current) setOptions(suggestions);
+      })
+      .catch(() => {
+        if (requestId === latestRequest.current) setOptions([]);
+      });
   };
 
   const handleSelect = (_, suggestion) => {
