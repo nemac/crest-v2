@@ -9,6 +9,7 @@ import MapCard from "./MapCard.jsx";
 import MapOverlay from "./MapOverlay.jsx";
 import DrawnAreas from "./DrawnAreas.jsx";
 import IdentifyButton from "./IdentifyButton.jsx";
+import SearchPlaces from "./SearchPlaces.jsx";
 import ShowIdentifyPopup from "./IdentifyPopup.jsx";
 import DrawTools from "./DrawTools.jsx";
 import useTerraDraw, { createSketchModes } from "./useTerraDraw";
@@ -240,6 +241,7 @@ export default function AnalyzeProjectSitesMapCard(props) {
     >
       <MapOverlay position="top-left">
         <IdentifyButton onArm={() => setIdentifyArmed(true)} />
+        <SearchPlaces map={map} />
       </MapOverlay>
       <DrawnAreas
         features={regionFeatures}

@@ -1,47 +1,102 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Popup } from "react-leaflet";
-import * as L from "leaflet";
-import { Button } from "@mui/material/";
-import AddchartIcon from "@mui/icons-material/Addchart";
+import { Popup } from "@vis.gl/react-maplibre";
 import PropTypes from "prop-types";
 import * as turf from "@turf/turf";
-import EsriLeafletGeoSearch from "react-esri-leaflet/plugins/EsriLeafletGeoSearch";
+import { Autocomplete, Button, TextField } from "@mui/material";
+import AddchartIcon from "@mui/icons-material/Addchart";
+import SearchIcon from "@mui/icons-material/Search";
 
-import "../../css/SearchPlaces.css";
 import { addSearchPlacesGeoJSON } from "../../reducers/mapPropertiesSlice";
 import { agolApiKey } from "../../configuration/config";
+import { suggestPlaces, findCandidate } from "../../services/arcgisGeocode";
 
-export default function SearchPlaces(props) {
-  const { map } = props;
+const MIN_QUERY_LENGTH = 3;
+const STATISTICS_RADIUS_METERS = 1000;
+
+export default function SearchPlaces({ map }) {
   const dispatch = useDispatch();
+  const [options, setOptions] = useState([]);
+  const [result, setResult] = useState(null);
 
-  const identifyDataRef = useRef(null);
-  const [popupContent, setPopupContent] = useState(null);
+  const handleInputChange = (_, value, reason) => {
+    if (reason !== "input" || value.length < MIN_QUERY_LENGTH) {
+      setOptions([]);
+      return;
+    }
+    suggestPlaces(value, agolApiKey)
+      .then(setOptions)
+      .catch(() => setOptions([]));
+  };
 
-  const handleGetAreaStatistics = useCallback(() => {
-    const circle = L.circle(identifyDataRef.current, { radius: 1000 });
-    const centerLatLng = circle.getLatLng();
-    const center = [centerLatLng.lng, centerLatLng.lat];
-    const radius = circle.getRadius();
-    // Turf Circle
-    const options = { steps: 32, units: "meters" };
-    const turfCircle = turf.circle(center, radius, options);
-    dispatch(addSearchPlacesGeoJSON(turfCircle));
-    setPopupContent(null);
-  }, [dispatch]);
+  const handleSelect = (_, suggestion) => {
+    if (!suggestion) return;
+    findCandidate(suggestion, agolApiKey)
+      .then((candidate) => {
+        if (!candidate) return;
+        const { x: lng, y: lat } = candidate.location;
+        setResult({ text: candidate.address, lng, lat });
+        if (map && candidate.extent) {
+          const { xmin, ymin, xmax, ymax } = candidate.extent;
+          map.fitBounds([xmin, ymin, xmax, ymax]);
+        }
+      })
+      .catch(() => null);
+  };
 
-  const handleOnSearchResults = useCallback(
-    (data) => {
-      identifyDataRef.current = data.latlng;
+  const handleGetAreaStatistics = () => {
+    const circle = turf.circle(
+      [result.lng, result.lat],
+      STATISTICS_RADIUS_METERS,
+      {
+        steps: 32,
+        units: "meters",
+      },
+    );
+    dispatch(addSearchPlacesGeoJSON(circle));
+    setResult(null);
+  };
 
-      setPopupContent(
+  return (
+    <>
+      <Autocomplete
+        size="small"
+        options={options}
+        filterOptions={(all) => all}
+        getOptionLabel={(option) => option.text}
+        isOptionEqualToValue={(option, value) =>
+          option.magicKey === value.magicKey
+        }
+        onInputChange={handleInputChange}
+        onChange={handleSelect}
+        noOptionsText="Type at least three characters"
+        sx={{
+          width: 260,
+          marginTop: 1,
+          backgroundColor: "#FFFFFF",
+          borderRadius: 1,
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder="Search for a place"
+            aria-label="Search for a place"
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: <SearchIcon sx={{ color: "#000000", mr: 0.5 }} />,
+            }}
+          />
+        )}
+      />
+      {result && (
         <Popup
-          position={identifyDataRef.current}
-          onClose={() => setPopupContent(null)}
+          longitude={result.lng}
+          latitude={result.lat}
+          anchor="bottom"
+          onClose={() => setResult(null)}
         >
           <div>
-            <h2>{data.results[0].text}</h2>
+            <h2>{result.text}</h2>
             <p>
               <Button
                 variant="contained"
@@ -52,34 +107,8 @@ export default function SearchPlaces(props) {
               </Button>
             </p>
           </div>
-        </Popup>,
-      );
-    },
-    [handleGetAreaStatistics],
-  );
-
-  if (!map) {
-    return null;
-  }
-
-  return (
-    <>
-      <EsriLeafletGeoSearch
-        position="topleft"
-        useMapBounds={false}
-        attribution="Powered by ESRI"
-        providers={{
-          arcgisOnlineProvider: {
-            token: agolApiKey,
-            label: "ArcGIS Online Results",
-            maxResults: 10,
-          },
-        }}
-        eventHandlers={{
-          results: (r) => handleOnSearchResults(r),
-        }}
-      />
-      {popupContent}
+        </Popup>
+      )}
     </>
   );
 }
