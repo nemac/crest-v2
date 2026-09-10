@@ -1,28 +1,22 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { TileLayer } from "react-leaflet";
+import { Source, Layer } from "@vis.gl/react-maplibre";
 import { mapConfig } from "../../configuration/config";
+import { layerSourceSpec, layerSpec } from "./layerSources";
 
-// selector named functions for lint rules makes it easier to re-use if needed.
 const selectedRegionSelector = (state) => state.selectedRegion.value;
 const activeLayerListSelector = (state) => state.mapLayerList.activeLayerList;
 
 export default function ActiveTileLayers() {
-  const regions = mapConfig.regions;
   const selectedRegion = useSelector(selectedRegionSelector);
-  const regionName = regions[selectedRegion].regionName; // e.g. continental_us, etc
+  const regionName = mapConfig.regions[selectedRegion].regionName;
   const layerList = useSelector(activeLayerListSelector);
-  const layers = Object.values(layerList)
+
+  return Object.values(layerList)
     .filter((lyr) => lyr.region === regionName)
     .map((lyr) => (
-      <TileLayer
-        key={lyr.id}
-        url={lyr.url}
-        opacity={lyr.opacity}
-        pane={"overlayPane"}
-        maxNativeZoom={lyr.maxNativeZoom}
-      />
+      <Source key={lyr.id} id={`source-${lyr.id}`} {...layerSourceSpec(lyr)}>
+        <Layer {...layerSpec(lyr)} />
+      </Source>
     ));
-
-  return layers;
 }

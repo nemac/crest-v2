@@ -1,7 +1,7 @@
 import "./init";
 import React from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
-import maplibregl from "maplibre-gl";
+import { addProtocol } from "maplibre-gl";
 import { Protocol } from "pmtiles";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -14,7 +14,7 @@ import { store } from "./store";
 ReactGA.initialize("G-2E98LXVQPJ");
 ReactGA.send("pageview");
 
-maplibregl.addProtocol("pmtiles", new Protocol().tile);
+addProtocol("pmtiles", new Protocol().tile);
 
 const container = document.getElementById("root");
 const root = createRoot(container);

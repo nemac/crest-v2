@@ -1,6 +1,6 @@
 import FileSaver from "file-saver";
 import html2canvas from "html2canvas";
-import * as L from "leaflet";
+import * as turf from "@turf/turf";
 import {
   changeCenter,
   changeZoom,
@@ -10,6 +10,7 @@ import {
 } from "../../reducers/mapPropertiesSlice";
 import { changeEmptyState, changeMore } from "../../reducers/analyzeAreaSlice";
 import { mapConfig } from "../../configuration/config";
+import { fromMapZoom } from "../../utility/viewState";
 
 export const handleMoreOnClick = (dispatch, areaName) => {
   dispatch(changeMore(areaName));
@@ -97,13 +98,11 @@ export const getRange = (region, name) => {
 
 export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {
   event.stopPropagation();
-  const bounds = L.geoJSON(layerToZoomTo).getBounds();
-  const newCenter = bounds.getCenter();
-  const newZoom = map.getBoundsZoom(bounds);
-  const newCenterArray = [newCenter.lat, newCenter.lng];
-  dispatch(changeCenter(newCenterArray));
-  dispatch(changeZoom(newZoom));
-  map.flyTo(newCenter, newZoom);
+  const camera = map.cameraForBounds(turf.bbox(layerToZoomTo));
+  if (!camera) return;
+  dispatch(changeCenter([camera.center.lat, camera.center.lng]));
+  dispatch(changeZoom(fromMapZoom(camera.zoom)));
+  map.flyTo(camera);
 };
 
 const extractMatchingZonalStats = (layersList, zonalStatsData) => {
@@ -255,21 +254,14 @@ export const handleExportAllCSV = (event, chartData) => {
   link.click(); // This will download the data file using invisible link
 };
 
-export const HandleRemoveAllClick = (e, dispatch, featureGroupRef) => {
+export const HandleRemoveAllClick = (e, dispatch) => {
   e.stopPropagation();
   dispatch(removeAllFeaturesFromDrawnLayers());
   dispatch(resetAreaNumber());
   dispatch(changeEmptyState());
-  // Get rid of all layers from the feature group.
-  // the only reason we have a feature group is because React Leaflet Draw requires it
-  featureGroupRef.current.clearLayers();
 };
 
-export const removeLayer = (e, layer, dispatch, featureGroupRef) => {
+export const removeLayer = (e, layer, dispatch) => {
   e.stopPropagation();
   dispatch(removeFeatureByGeometry(layer.geometry));
-  // dispatch(removeFeatureByGeometryBufferLayers(bufferLayerToRemove.geometry));
-  // Get rid of all layers from the feature group.
-  // the only reason we have a feature group is because React Leaflet Draw requires it
-  featureGroupRef.current.clearLayers();
 };

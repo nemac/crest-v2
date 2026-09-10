@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PropTypes } from "prop-types";
@@ -26,7 +26,6 @@ export default function AnalyzeProjectSite(props) {
   const dispatch = useDispatch();
   const [shareUrlComplete, setShareUrlComplete] = useState(false);
   const [querySearchParams, setQuerySearchParams] = useSearchParams();
-  const leafletFeatureGroupRef = useRef();
   const [map, setMap] = useState(null);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [hover, setHover] = useState(false);
@@ -147,7 +146,6 @@ export default function AnalyzeProjectSite(props) {
             chartCard={
               <ChartsHolder
                 map={map}
-                featureGroupRef={leafletFeatureGroupRef}
                 setHover={setHover}
                 chartData={
                   featuresForCurrentRegion.length > 0
@@ -165,7 +163,6 @@ export default function AnalyzeProjectSite(props) {
             <AnalyzeProjectSitesMapCard
               map={map}
               setMap={setMap}
-              leafletFeatureGroupRef={leafletFeatureGroupRef}
               setDrawAreaDisabled={setDrawAreaDisabled}
               hover={hover}
               setErrorState={setErrorState}

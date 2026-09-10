@@ -92,7 +92,7 @@ LandcoverChartTitle.propTypes = {
 };
 
 export default function ChartCard(props) {
-  const { region, map, feature, setHover, featureGroupRef } = props;
+  const { region, map, feature, setHover } = props;
   const [chartDescription, setChartDescription] = useState(null);
   const [chartLabel, setChartLabel] = useState(null);
   const [chartTipLabel, setChartTipLabel] = useState(null);
@@ -234,7 +234,7 @@ export default function ChartCard(props) {
       buttonName: "Remove",
       id: `btn-remove-${feature.properties.areaName}`,
       onClick: (e) => {
-        removeLayer(e, feature, dispatch, featureGroupRef);
+        removeLayer(e, feature, dispatch);
       },
       icon: <DeleteForever />,
     },
@@ -579,5 +579,4 @@ ChartCard.propTypes = {
   map: PropTypes.object,
   setHover: PropTypes.func,
   feature: PropTypes.object,
-  featureGroupRef: PropTypes.object,
 };

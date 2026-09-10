@@ -36,7 +36,7 @@ const ChartHolderGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export default function ChartsHolder(props) {
-  const { map, setHover, featureGroupRef, chartData } = props;
+  const { map, setHover, chartData } = props;
 
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
@@ -101,7 +101,7 @@ export default function ChartsHolder(props) {
           handleSortClick={handleSortClick}
           handleGraphOrTableClick={handleGraphOrTableClick}
           HandleRemoveAllClick={(e) => {
-            HandleRemoveAllClick(e, dispatch, featureGroupRef);
+            HandleRemoveAllClick(e, dispatch);
           }}
           handleExportImage={(e) => {
             exportAllImages(
@@ -137,7 +137,6 @@ export default function ChartsHolder(props) {
                 feature={feature}
                 region={feature.properties.region}
                 zonalStatsData={feature.properties.zonalStatsData}
-                featureGroupRef={featureGroupRef}
                 map={map}
                 setHover={setHover}
               />
@@ -163,6 +162,5 @@ export default function ChartsHolder(props) {
 ChartsHolder.propTypes = {
   map: PropTypes.object,
   setHover: PropTypes.func,
-  featureGroupRef: PropTypes.object,
   chartData: PropTypes.array,
 };

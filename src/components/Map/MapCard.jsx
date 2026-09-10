@@ -1,36 +1,43 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { useMapEvents } from "react-leaflet";
-import LeafletMapContainer from "./LeafletMapContainer.jsx";
+import MapLibreMapContainer from "./MapLibreMapContainer.jsx";
 import ActiveTileLayers from "./ActiveTileLayers.jsx";
-import BasemapLayer from "./BasemapLayer.jsx";
 
-export default function MapCard({ children, map, setMap, mapEventHandlers }) {
-  const selectedCenterSelector = (state) => state.mapProperties.center;
-  const selectedZoomSelector = (state) => state.mapProperties.zoom;
+const selectedCenterSelector = (state) => state.mapProperties.center;
+const selectedZoomSelector = (state) => state.mapProperties.zoom;
+
+export default function MapCard(props) {
+  const {
+    children,
+    setMap,
+    mapEventHandlers = {},
+    interactiveLayerIds,
+    cursor,
+  } = props;
+  // "() => true" reads the persisted view once so map moves never re-render the card
   const center = useSelector(selectedCenterSelector, () => true);
   const zoom = useSelector(selectedZoomSelector, () => true);
 
-  // This component exists solely for the useMapEvents hook
-  const MapEventsComponent = () => {
-    useMapEvents(mapEventHandlers);
-    return null;
-  };
-
   return (
-    <LeafletMapContainer center={center} zoom={zoom} innerRef={setMap}>
-      {children}
+    <MapLibreMapContainer
+      center={center}
+      zoom={zoom}
+      setMap={setMap}
+      interactiveLayerIds={interactiveLayerIds}
+      cursor={cursor}
+      {...mapEventHandlers}
+    >
       <ActiveTileLayers />
-      <BasemapLayer map={map} />
-      <MapEventsComponent />
-    </LeafletMapContainer>
+      {children}
+    </MapLibreMapContainer>
   );
 }
 
 MapCard.propTypes = {
-  map: PropTypes.object,
+  children: PropTypes.node,
   setMap: PropTypes.func,
   mapEventHandlers: PropTypes.objectOf(PropTypes.func),
-  children: PropTypes.node,
+  interactiveLayerIds: PropTypes.arrayOf(PropTypes.string),
+  cursor: PropTypes.string,
 };

@@ -11,7 +11,6 @@ import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import Example from "../Example/Examples.jsx";
 import LeafletMapContainer from "./LeafletMapContainer.jsx";
 import ActionButtons from "./ActionButtons.jsx";
-import BasemapLayer from "./BasemapLayer.jsx";
 import ActiveTileLayers from "./ActiveTileLayers.jsx";
 import MapLayerList from "../MapLayerList/MapLayerList.jsx";
 import { mapConfig } from "../../configuration/config";
@@ -187,7 +186,6 @@ export default function MapHolderExample() {
               )}
             </>
             <ActiveTileLayers />
-            <BasemapLayer map={map} examplePage={true} />
           </LeafletMapContainer>
           <ActionButtons />
         </ContentMapBox>

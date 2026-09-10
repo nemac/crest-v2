@@ -23,7 +23,6 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/system";
 import { download } from "@crmackey/shp-write";
 
-import BasemapLayer from "./BasemapLayer.jsx";
 import LeafletMapContainer from "./LeafletMapContainer.jsx";
 import EditControlFC from "./EditShapefileControl.jsx";
 import GenericMapHolder from "./GenericMapHolder.jsx";
@@ -538,7 +537,6 @@ export default function ShapeFileCorrectionMap(props) {
             setActiveStep={setActiveStep}
             mapRef={mapRef}
           />
-          <BasemapLayer />
         </LeafletMapContainer>
       }
     />
