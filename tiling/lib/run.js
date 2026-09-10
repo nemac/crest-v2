@@ -6,13 +6,19 @@ export function readJson(filePath) {
 }
 
 export function runCommands(commands, { dryRun = false } = {}) {
-  commands.forEach(({ label, cmd, args }) => {
-    console.log(`\n[${label}] ${cmd} ${args.join(" ")}`);
+  commands.forEach(({ label, cmd, args, input }) => {
+    const stdinNote = input ? " < (SQL generated at run time)" : "";
+    console.log(`\n[${label}] ${cmd} ${args.join(" ")}${stdinNote}`);
     if (dryRun) {
       return;
     }
     const started = Date.now();
-    const result = spawnSync(cmd, args, { stdio: "inherit" });
+    const stdin = typeof input === "function" ? input() : input;
+    const result = spawnSync(cmd, args, {
+      stdio: [stdin === undefined ? "inherit" : "pipe", "inherit", "inherit"],
+      input: stdin,
+      maxBuffer: 1024 * 1024 * 1024,
+    });
     if (result.error) {
       throw new Error(
         `[${label}] could not start ${cmd}: ${result.error.message}`,

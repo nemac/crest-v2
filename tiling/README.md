@@ -34,15 +34,20 @@ Outputs land in `tiling/work/out/<name>.pmtiles`; intermediates in `tiling/work/
 1. Writes `<name>.colors.txt` from the palette: `value R G B 255` per class.
 2. Audits the source with `gdalinfo -json -hist`: every pixel value must be in the palette
    or be the layer's NoData (the manifest default, or a per-layer override). A missing class
-   would otherwise render transparent.
+   would otherwise render transparent. The same call supplies the WGS84 bounds.
 3. `gdaldem color-relief -alpha -exact_color_entry`: exact class colours, everything else
    transparent.
-4. `gdalwarp` to EPSG:3857 at exactly the zoom 13 resolution, nearest resampling, straight
-   into MBTiles (RGBA PNG). The MBTiles writer derives the zoom from the resolution.
-5. `gdaladdo -r nearest` builds zooms 12 down to 0.
-6. `pmtiles convert`, then `pmtiles show` prints the header.
+4. `gdal raster tile` (GDAL 3.11+): every zoom from 0 to 13 as PNG files in a TMS-numbered
+   directory, nearest resampling for both the base zoom and the overviews, blank tiles
+   skipped, all CPUs.
+5. A sqlite3 script loads that directory into MBTiles with `readfile()`, writing the
+   `metadata` rows (name, format, type, version, minzoom, maxzoom, bounds).
+6. `pmtiles convert`, then `pmtiles show` prints the header. The tile directory is deleted.
 
 Nearest resampling everywhere means classes never blend into intermediate colours.
+
+Do not go back to `gdalwarp -of MBTiles`: its temporary `partial_tiles.db` grows without bound
+on the large layers and the build never finishes.
 
 ## Vertical Land Motion
 
@@ -64,5 +69,5 @@ invalidation the upload script issues.
 
 ## Expected runtimes and sizes (2026-09-09, this MacBook)
 
-Boundary: about 85 seconds, 1.8 MB. Raster layers: a few minutes each for the warp, well under
-150 MB each, under 3 GB total. Fill in measured numbers after the first full run.
+Boundary: about 85 seconds, 1.8 MB. Storm Surge: 11 seconds, 36 MB, 7,158 tiles. Fill in the
+other layers after the first full run.

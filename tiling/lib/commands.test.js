@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  OVERVIEW_LEVELS,
-  Z13_RESOLUTION,
   buildBoundaryCommands,
   buildLayerCommands,
   layerPaths,
@@ -15,17 +13,6 @@ const opts = {
   workDir: "tiling/work",
   outDir: "tiling/work/out",
 };
-
-describe("constants", () => {
-  it("uses the exact web mercator zoom 13 resolution", () => {
-    expect(Z13_RESOLUTION).toBeCloseTo(19.109257071294063, 12);
-  });
-
-  it("lists thirteen power-of-two overview levels to reach zoom 0", () => {
-    expect(OVERVIEW_LEVELS).toHaveLength(13);
-    OVERVIEW_LEVELS.forEach((level, i) => expect(level).toBe(2 ** (i + 1)));
-  });
-});
 
 describe("tmsToXyzRow", () => {
   it("flips the row index within a zoom level", () => {
@@ -41,6 +28,7 @@ describe("layerPaths", () => {
     expect(layerPaths(opts)).toEqual({
       colorFile: "tiling/work/storm_surge.colors.txt",
       rgbaTif: "tiling/work/storm_surge.rgba.tif",
+      tileDir: "tiling/work/storm_surge_tiles",
       mbtiles: "tiling/work/storm_surge.mbtiles",
       pmtiles: "tiling/work/out/storm_surge.pmtiles",
     });
@@ -48,14 +36,17 @@ describe("layerPaths", () => {
 });
 
 describe("buildLayerCommands", () => {
-  const commands = buildLayerCommands(opts);
+  const commands = buildLayerCommands({
+    ...opts,
+    bounds: "-78.93,35.51,-66.53,47.45",
+  });
   const byLabel = Object.fromEntries(commands.map((c) => [c.label, c]));
 
   it("runs the five steps in order", () => {
     expect(commands.map((c) => c.label)).toEqual([
       "color-relief",
-      "warp",
-      "overviews",
+      "tile",
+      "mbtiles",
       "convert",
       "show",
     ]);
@@ -77,39 +68,38 @@ describe("buildLayerCommands", () => {
     ]);
   });
 
-  it("warps to web mercator at zoom 13 with nearest resampling into PNG MBTiles", () => {
-    const { cmd, args } = byLabel.warp;
-    expect(cmd).toBe("gdalwarp");
-    expect(args).toEqual([
-      "-t_srs",
-      "EPSG:3857",
-      "-tr",
-      String(Z13_RESOLUTION),
-      String(Z13_RESOLUTION),
+  it("tiles all zooms with nearest resampling into a TMS directory, skipping blanks", () => {
+    expect(byLabel.tile.cmd).toBe("gdal");
+    expect(byLabel.tile.args).toEqual([
+      "raster",
+      "tile",
+      "-q",
+      "--tiling-scheme",
+      "WebMercatorQuad",
+      "--min-zoom",
+      "0",
+      "--max-zoom",
+      "13",
       "-r",
-      "near",
-      "-multi",
-      "-wo",
-      "NUM_THREADS=ALL_CPUS",
-      "-of",
-      "MBTiles",
-      "-co",
-      "TILE_FORMAT=PNG",
-      "-co",
-      "NAME=storm_surge",
+      "nearest",
+      "--overview-resampling",
+      "nearest",
+      "--convention",
+      "tms",
+      "--skip-blank",
+      "--webviewer",
+      "none",
+      "-j",
+      "ALL_CPUS",
       "tiling/work/storm_surge.rgba.tif",
-      "tiling/work/storm_surge.mbtiles",
+      "tiling/work/storm_surge_tiles",
     ]);
   });
 
-  it("builds nearest-neighbour overviews down to zoom 0", () => {
-    expect(byLabel.overviews.cmd).toBe("gdaladdo");
-    expect(byLabel.overviews.args).toEqual([
-      "-r",
-      "nearest",
-      "tiling/work/storm_surge.mbtiles",
-      ...OVERVIEW_LEVELS.map(String),
-    ]);
+  it("loads the tile directory into MBTiles through sqlite3 with SQL generated at run time", () => {
+    expect(byLabel.mbtiles.cmd).toBe("sqlite3");
+    expect(byLabel.mbtiles.args).toEqual(["tiling/work/storm_surge.mbtiles"]);
+    expect(typeof byLabel.mbtiles.input).toBe("function");
   });
 
   it("converts to pmtiles and shows the header", () => {

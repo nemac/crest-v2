@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-import { mkdirSync, statSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { paletteToColorFile } from "./lib/colorFile.js";
 import { buildLayerCommands, layerPaths } from "./lib/commands.js";
 import { auditValues, parseHistogramValues } from "./lib/audit.js";
+import { wgs84Bounds } from "./lib/mbtiles.js";
 import { captureJson, readJson, runCommands } from "./lib/run.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -31,11 +32,11 @@ export function buildLayer(
   const paths = layerPaths({ name: layer.name, workDir, outDir });
   writeFileSync(paths.colorFile, paletteToColorFile(palette));
 
+  let bounds = null;
   if (!dryRun) {
     console.log(`\n[audit] gdalinfo -json -hist ${sourcePath}`);
-    const present = parseHistogramValues(
-      captureJson("gdalinfo", ["-json", "-hist", sourcePath]),
-    );
+    const info = captureJson("gdalinfo", ["-json", "-hist", sourcePath]);
+    const present = parseHistogramValues(info);
     const nodata = layer.nodata ?? manifest.nodata;
     const allowed = [...palette.map((e) => e.value), nodata];
     const audit = auditValues(present, allowed);
@@ -45,7 +46,12 @@ export function buildLayer(
         `[audit] ${layerName} contains values with no palette entry: ${audit.unexpected.join(", ")}`,
       );
     }
+    bounds = wgs84Bounds(info);
+    console.log(`[audit] wgs84 bounds: ${bounds}`);
   }
+
+  rmSync(paths.tileDir, { recursive: true, force: true });
+  rmSync(paths.mbtiles, { force: true });
 
   runCommands(
     buildLayerCommands({
@@ -54,6 +60,7 @@ export function buildLayer(
       colorFilePath: paths.colorFile,
       workDir,
       outDir,
+      bounds,
     }),
     { dryRun },
   );
@@ -61,6 +68,7 @@ export function buildLayer(
   if (!dryRun) {
     const megabytes = statSync(paths.pmtiles).size / 1024 / 1024;
     console.log(`\n[result] ${paths.pmtiles} ${megabytes.toFixed(1)} MB`);
+    rmSync(paths.tileDir, { recursive: true, force: true });
   }
   return paths.pmtiles;
 }

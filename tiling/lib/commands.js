@@ -1,10 +1,5 @@
 import path from "node:path";
-
-export const Z13_RESOLUTION = 156543.03392804097 / 2 ** 13;
-
-export const OVERVIEW_LEVELS = [
-  2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192,
-];
+import { listTiles, mbtilesLoadSql } from "./mbtiles.js";
 
 export function tmsToXyzRow(zoom, tmsRow) {
   return 2 ** zoom - 1 - tmsRow;
@@ -14,6 +9,7 @@ export function layerPaths({ name, workDir, outDir }) {
   return {
     colorFile: path.join(workDir, `${name}.colors.txt`),
     rgbaTif: path.join(workDir, `${name}.rgba.tif`),
+    tileDir: path.join(workDir, `${name}_tiles`),
     mbtiles: path.join(workDir, `${name}.mbtiles`),
     pmtiles: path.join(outDir, `${name}.pmtiles`),
   };
@@ -25,6 +21,7 @@ export function buildLayerCommands({
   colorFilePath,
   workDir,
   outDir,
+  bounds = null,
 }) {
   const paths = layerPaths({ name, workDir, outDir });
   return [
@@ -45,33 +42,39 @@ export function buildLayerCommands({
       ],
     },
     {
-      label: "warp",
-      cmd: "gdalwarp",
+      label: "tile",
+      cmd: "gdal",
       args: [
-        "-t_srs",
-        "EPSG:3857",
-        "-tr",
-        String(Z13_RESOLUTION),
-        String(Z13_RESOLUTION),
+        "raster",
+        "tile",
+        "-q",
+        "--tiling-scheme",
+        "WebMercatorQuad",
+        "--min-zoom",
+        "0",
+        "--max-zoom",
+        "13",
         "-r",
-        "near",
-        "-multi",
-        "-wo",
-        "NUM_THREADS=ALL_CPUS",
-        "-of",
-        "MBTiles",
-        "-co",
-        "TILE_FORMAT=PNG",
-        "-co",
-        `NAME=${name}`,
+        "nearest",
+        "--overview-resampling",
+        "nearest",
+        "--convention",
+        "tms",
+        "--skip-blank",
+        "--webviewer",
+        "none",
+        "-j",
+        "ALL_CPUS",
         paths.rgbaTif,
-        paths.mbtiles,
+        paths.tileDir,
       ],
     },
     {
-      label: "overviews",
-      cmd: "gdaladdo",
-      args: ["-r", "nearest", paths.mbtiles, ...OVERVIEW_LEVELS.map(String)],
+      label: "mbtiles",
+      cmd: "sqlite3",
+      args: [paths.mbtiles],
+      input: () =>
+        mbtilesLoadSql({ name, tiles: listTiles(paths.tileDir), bounds }),
     },
     {
       label: "convert",
