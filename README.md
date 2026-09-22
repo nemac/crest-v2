@@ -10,10 +10,10 @@ convention; `src/utility/viewState.js` converts to MapLibre's, which is one leve
 
 ## Deployments
 
-| Branch | Site | Infrastructure |
-| --- | --- | --- |
-| `development` | https://crest.nemac.org | S3 `crest.nemac.org` + CloudFront `E1WM3CCMHRFQOS` |
-| `master` | https://resilientcoasts.org | S3 `crest-v2` + CloudFront `EC6NN4OQJPSC3` |
+| Branch        | Site                        | Infrastructure                                     |
+| ------------- | --------------------------- | -------------------------------------------------- |
+| `development` | https://crest.nemac.org     | S3 `crest.nemac.org` + CloudFront `E1WM3CCMHRFQOS` |
+| `master`      | https://resilientcoasts.org | S3 `crest-v2` + CloudFront `EC6NN4OQJPSC3`         |
 
 Pushing to a branch above builds the site and syncs it to its S3 bucket via GitHub Actions
 (`.github/workflows/`). The development deploy also invalidates its CloudFront cache.
@@ -25,9 +25,9 @@ npm install --legacy-peer-deps
 npm start
 ```
 
-The development site builds with `VITE_CREST_DATA_CHANNEL=dev`, which swaps the CONUS region
-("Atlantic, Gulf of America, and Pacific Coasts") to the refreshed North Atlantic layers served as
-PMTiles from `tiles.resilientcoasts.org/dev/conus/` and disables the analysis tools for that region
+The development site builds with `VITE_CREST_DATA_CHANNEL=dev`, which swaps the North Atlantic
+region's data to the refreshed layers served as PMTiles from
+`tiles.resilientcoasts.org/dev/conus/` and disables the analysis tools for that region
 until the backend knows the new layers. Production builds never set it. To see the dev data locally:
 
 ```

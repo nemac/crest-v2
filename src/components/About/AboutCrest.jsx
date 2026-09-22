@@ -34,16 +34,15 @@ export default function AboutCrest(props) {
         the implementation of nature-based solutions have potential to maximize
         benefits for human community resilience to flooding threats and fish and
         wildlife habitat. In 2019, NFWF launched CREST to share results of the
-        Regional Assessments for the U.S. Atlantic, Gulf of America, and Pacific
-        coastlines, which use a standardized methodology to combine information
-        about flooding threats, human community assets, and fish and wildlife
-        species to identify Resilience Hubs. The Regional Assessments have since
-        expanded to include Puerto Rico, the U.S. Virgin Islands, the Northern
-        Mariana Islands, Hawaii, Guam, American Samoa, Alaska, and the U.S.
-        Great Lakes. Owing to the uniqueness of each region, the methods will
-        continue to be refined and enhanced. Assessments for all other U.S.
-        regions are being updated. Updated data and reports will be added to
-        CREST once available.
+        Regional Assessments for the U.S. North Atlantic coastline, which use a
+        standardized methodology to combine information about flooding threats,
+        human community assets, and fish and wildlife species to identify
+        Resilience Hubs. The Regional Assessments have since expanded to include
+        Puerto Rico, the U.S. Virgin Islands, the Northern Mariana Islands,
+        Hawaii, Guam, American Samoa, Alaska, and the U.S. Great Lakes. Owing to
+        the uniqueness of each region, the methods will continue to be refined
+        and enhanced. Assessments for all other U.S. regions are being updated.
+        Updated data and reports will be added to CREST once available.
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         CREST provides an online, interactive environment to access Regional
