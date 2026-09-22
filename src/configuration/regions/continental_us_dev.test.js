@@ -4,12 +4,7 @@ import { continentalUSConfig } from "./continental_us";
 import palettes from "../palettes/conus.json";
 import manifest from "../../../tiling/layers.json";
 
-const rasterLayers = continentalUSDevConfig.layerList.filter(
-  (layer) => layer.type !== "vector",
-);
-const boundary = continentalUSDevConfig.layerList.find(
-  (layer) => layer.type === "vector",
-);
+const rasterLayers = continentalUSDevConfig.layerList;
 
 describe("continental_us_dev", () => {
   it("keeps the region identity of the legacy config", () => {
@@ -44,7 +39,7 @@ describe("continental_us_dev", () => {
     });
   });
 
-  it("uses the five spec groups with unique ids and chart orders", () => {
+  it("uses the four spec groups with unique ids and chart orders", () => {
     expect(
       continentalUSDevConfig.chartInputs.map((c) => c.ChartInputLabel),
     ).toEqual([
@@ -52,35 +47,18 @@ describe("continental_us_dev", () => {
       "Threat Index Inputs",
       "Community Asset Inputs",
       "Fish and Wildlife Index Inputs",
-      "Visual Overlays",
     ]);
     const ids = continentalUSDevConfig.layerList.map((layer) => layer.id);
-    expect(new Set(ids).size).toBe(24);
+    expect(new Set(ids).size).toBe(23);
     const orders = continentalUSDevConfig.layerList.map(
       (layer) => layer.chartOrder,
     );
-    expect(new Set(orders).size).toBe(24);
+    expect(new Set(orders).size).toBe(23);
     const groups = new Set(
       continentalUSDevConfig.chartInputs.map((c) => c.ChartInputLabel),
     );
     continentalUSDevConfig.layerList.forEach((layer) => {
       expect(groups.has(layer.ChartInputLabel)).toBe(true);
     });
-  });
-
-  it("describes the boundary as a vector line overlay with a custom legend", () => {
-    expect(boundary).toMatchObject({
-      id: "CONUS_dev_north_atlantic_boundary",
-      type: "vector",
-      url: "pmtiles://https://tiles.resilientcoasts.org/dev/conus/north_atlantic_boundary.pmtiles",
-      sourceLayer: "boundary",
-      color: "#ffffff",
-      lineWidth: 2,
-      ChartInputLabel: "Visual Overlays",
-      isLegendCustom: true,
-      region: "continental_us",
-    });
-    expect(boundary.chartCSSColor).toHaveLength(1);
-    expect(boundary.palette).toBeUndefined();
   });
 });
