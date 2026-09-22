@@ -17,7 +17,7 @@ const startingState = {
     GU_HubsTMS: regions.Guam.layerList[0],
     HI_HubsTMS: regions["Hawai'i"].layerList[0],
     PR_HubsTMS: regions["Puerto Rico"].layerList[0],
-    USVI_HubsTMS: regions["US Virgin Islands"].layerList[0],
+    USVI_HubsTMS: regions["U.S. Virgin Islands"].layerList[0],
   },
   expandedCharts: [],
   displayedLegends: {},
