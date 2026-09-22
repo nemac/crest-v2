@@ -34,11 +34,11 @@ const rampFromChartColors = (chartCSSColor) => {
 };
 
 const rampFromPalette = (entries) =>
-  entries
-    .filter((entry) => !entry.label)
-    .map((entry) => ({ color: entry.color, text: String(entry.value) }));
-
-const labelledFromPalette = (entries) => entries.filter((entry) => entry.label);
+  entries.map((entry) => ({
+    color: entry.color,
+    text: String(entry.value),
+    label: entry.label,
+  }));
 
 export default function LayerLegend(props) {
   const { layer } = props;
@@ -46,7 +46,6 @@ export default function LayerLegend(props) {
   const ramp = palette
     ? rampFromPalette(palette)
     : rampFromChartColors(layer.chartCSSColor);
-  const labelled = palette ? labelledFromPalette(palette) : [];
 
   return (
     <Box m={1.5}>
@@ -73,56 +72,42 @@ export default function LayerLegend(props) {
             padding: (theme) => theme.spacing(1),
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "flex-start",
           }}
         >
           {ramp.map((swatch) => (
             <Grid
               xs={maxLegendWidth / ramp.length}
               key={layer.id.concat("-", swatch.color)}
-              sx={{
-                backgroundColor: swatch.color,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: 12,
-                color: pickCSSBasedOnBgColor(swatch.color),
-                height: "48px",
-              }}
+              sx={{ display: "flex", flexDirection: "column" }}
             >
-              {swatch.text}
+              <Box
+                sx={{
+                  backgroundColor: swatch.color,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: 12,
+                  color: pickCSSBasedOnBgColor(swatch.color),
+                  height: "48px",
+                }}
+              >
+                {swatch.text}
+              </Box>
+              {swatch.label && (
+                <Box
+                  sx={{
+                    fontSize: "1rem",
+                    pt: 0.5,
+                    ml: (theme) => `-${theme.spacing(1)}`,
+                  }}
+                >
+                  {swatch.label}
+                </Box>
+              )}
             </Grid>
           ))}
         </Grid>
-        {labelled.map((entry) => (
-          <Grid
-            container
-            xs={12}
-            key={layer.id.concat("-", entry.label)}
-            sx={{
-              padding: (theme) => theme.spacing(0, 1, 1, 1),
-              alignItems: "center",
-            }}
-          >
-            <Grid
-              xs={2}
-              sx={{
-                backgroundColor: entry.color,
-                height: "32px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: 12,
-                color: pickCSSBasedOnBgColor(entry.color),
-              }}
-            >
-              {entry.value}
-            </Grid>
-            <Grid xs={10} pl={1} sx={{ fontSize: "0.85rem" }}>
-              {entry.label}
-            </Grid>
-          </Grid>
-        ))}
       </Grid>
     </Box>
   );
