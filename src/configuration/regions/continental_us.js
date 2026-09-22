@@ -544,10 +544,10 @@ export const continentalUSConfig = {
     {
       id: "CONUS_landcover",
       layer: "landcover",
-      label: "Landcover",
+      label: "Land Cover",
       chartOrder: 20,
-      chartLabel: "Landcover",
-      chartTipLabel: "Landcover",
+      chartLabel: "Land Cover",
+      chartTipLabel: "Land Cover",
       isLegendCustom: true,
       chartCSSColor: [
         {

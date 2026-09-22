@@ -131,7 +131,7 @@ export default function ChartCard(props) {
       // "social_vuln",
       "crit_facilities",
     ],
-    Landcover: ["does not matter"],
+    "Land Cover": ["does not matter"],
   };
 
   let landcoverConfigToUse = null;
@@ -299,7 +299,7 @@ export default function ChartCard(props) {
                   components="fieldset"
                   id={`${key}-chartbox`}
                 >
-                  {key !== "Landcover" ? (
+                  {key !== "Land Cover" ? (
                     <AnalyzeBarChart
                       chartRegion={region}
                       chartTipLabel={chartTipLabel}
@@ -325,7 +325,7 @@ export default function ChartCard(props) {
                       data={landcoverDataSort}
                       legendColors={pieChartLegendColors}
                       chartTitle={feature.properties.areaName.toString()}
-                      chartType={"Landcover"}
+                      chartType={"Land Cover"}
                       showLegend={false}
                     />
                   )}
