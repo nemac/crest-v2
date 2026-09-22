@@ -15,7 +15,6 @@ const groups = {
     chartInputName: "wildlife",
     ChartInputLabel: "Fish and Wildlife Index Inputs",
   },
-  overlays: { chartInputName: "overlays", ChartInputLabel: "Visual Overlays" },
 };
 
 const rasterLayer = (
@@ -226,35 +225,6 @@ export const continentalUSDevConfig = {
       "wildlife",
       "Sum of designated critical habitat, Important Bird Areas and Key Biodiversity Areas, Essential Fish Habitat, and protected and managed areas for biodiversity. High values represent areas where multiple areas overlap.",
     ),
-    {
-      id: "CONUS_dev_north_atlantic_boundary",
-      type: "vector",
-      layer: "North Atlantic Regional Boundary",
-      label: "North Atlantic Regional Boundary",
-      chartOrder: 24,
-      chartLabel: "North Atlantic Regional Boundary",
-      chartTipLabel: "North Atlantic Regional Boundary",
-      chartInputName: groups.overlays.chartInputName,
-      ChartInputLabel: groups.overlays.ChartInputLabel,
-      chartCSSSelector: "north_atlantic_boundary",
-      isLegendCustom: true,
-      chartCSSColor: [
-        {
-          label: "Extent of the refreshed North Atlantic data",
-          backgroundColor: "transparent",
-          borderColor: "#ffffff",
-        },
-      ],
-      url: `${TILES}/north_atlantic_boundary.pmtiles`,
-      sourceLayer: "boundary",
-      color: "#ffffff",
-      lineWidth: 2,
-      opacity: 1,
-      attribution: ATTRIBUTION,
-      description:
-        "The boundary of the North Atlantic region, the first region delivered in the CONUS refresh. Refreshed data stops at this line; areas outside it have no data yet.",
-      region: REGION,
-    },
   ],
   zonalStatsKeys: [],
 };
