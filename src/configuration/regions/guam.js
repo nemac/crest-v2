@@ -657,10 +657,10 @@ export const guamConfig = {
     {
       id: "GU_landcover",
       layer: "landcover",
-      label: "Landcover",
+      label: "Land Cover",
       chartOrder: 21,
-      chartLabel: "Landcover",
-      chartTipLabel: "Landcover",
+      chartLabel: "Land Cover",
+      chartTipLabel: "Land Cover",
       isLegendCustom: true,
       chartCSSColor: [
         {
