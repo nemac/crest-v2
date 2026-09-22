@@ -1,7 +1,7 @@
 import regionUSVirginIslandsImage from "../../assets/images/zoomregion-uvi-v2.png";
 
 export const usVirginIslandsConfig = {
-  label: "US Virgin Islands",
+  label: "U.S. Virgin Islands",
   image: regionUSVirginIslandsImage,
   regionName: "us_virgin_islands",
   reportEnglish: {
@@ -20,7 +20,7 @@ export const usVirginIslandsConfig = {
     name: "U.S. Virgin Islands Data Download",
   },
   mapProperties: {
-    label: "US Virgin Islands",
+    label: "U.S. Virgin Islands",
     center: [18.02, -64.7],
     extent: [
       -65.13508888306899, 17.627008270947076, -64.25480934205336,
