@@ -126,7 +126,7 @@ export default function ResiliencePieChart(props) {
   return (
     <ResponsiveContainer
       id={
-        chartType === "Land Cover"
+        chartType === "Landcover"
           ? `${chartType}-${chartTitle}-container`
           : `${chartType}-container`
       }

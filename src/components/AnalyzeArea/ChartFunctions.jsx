@@ -42,7 +42,7 @@ export const exportAllImages = (event, chartData, isMore) => {
       handleExportImage(`Fish and Wildlife Inputs-${areaName}`);
       handleExportImage(`Threats Inputs-${areaName}`);
       handleExportImage(`Community Assets Inputs-${areaName}`);
-      handleExportImage(`Land Cover-${areaName}`);
+      handleExportImage(`Landcover-${areaName}`);
     }
   });
 };
@@ -173,7 +173,7 @@ export const exportFeatureToCSV = (feature, type) => {
         feature.properties.zonalStatsData,
       );
       break;
-    case "Land Cover":
+    case "Landcover":
       exportName = "Land Cover";
       Object.entries(feature.properties.zonalStatsData).forEach(
         ([key, value]) => {
