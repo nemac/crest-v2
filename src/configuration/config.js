@@ -94,9 +94,7 @@ export const mapConfig = {
   regions: {
     Alaska: alaskaConfig,
     "American Samoa": americanSamoaConfig,
-    "Atlantic, Gulf of America, and Pacific Coasts": isDevData
-      ? continentalUSDevConfig
-      : continentalUSConfig,
+    "North Atlantic": isDevData ? continentalUSDevConfig : continentalUSConfig,
 
     Guam: guamConfig,
     "Hawai'i": hawaiiConfig,
@@ -402,7 +400,7 @@ export const mapConfig = {
             type: "Feature",
             properties: {
               areaName: "White Horse Pike",
-              region: "Atlantic, Gulf of America, and Pacific Coasts",
+              region: "North Atlantic",
               zonalStatsData: {
                 exposure: 8.095615479621243,
                 asset: 2.0521819678880195,
@@ -529,7 +527,7 @@ export const mapConfig = {
             type: "Feature",
             properties: {
               areaName: "Buffalo Bayou",
-              region: "Atlantic, Gulf of America, and Pacific Coasts",
+              region: "North Atlantic",
               zonalStatsData: {
                 exposure: 9.513333333333334,
                 asset: 3.981333333333333,
@@ -650,7 +648,7 @@ export const mapConfig = {
             type: "Feature",
             properties: {
               areaName: "Water Street",
-              region: "Atlantic, Gulf of America, and Pacific Coasts",
+              region: "North Atlantic",
               zonalStatsData: {
                 exposure: 8.430505117200395,
                 asset: 2.693298118190822,
@@ -773,5 +771,5 @@ export const mapConfig = {
 // The examples index into the legacy CONUS layer list by position, so they always use it.
 export const exampleRegions = {
   ...mapConfig.regions,
-  "Atlantic, Gulf of America, and Pacific Coasts": continentalUSConfig,
+  "North Atlantic": continentalUSConfig,
 };

@@ -1,11 +1,11 @@
 export const legacyRegionKeys = {
   "US Virgin Islands": "U.S. Virgin Islands",
+  "Atlantic, Gulf of America, and Pacific Coasts": "North Atlantic",
 };
 
 // The CREST_SEARCH FeatureServer still uses these region values.
 const searchRegionNames = {
-  "Atlantic, Gulf of America, and Pacific Coasts":
-    "Atlantic, Gulf of Mexico, and Pacific Coasts",
+  "North Atlantic": "Atlantic, Gulf of Mexico, and Pacific Coasts",
   "U.S. Virgin Islands": "US Virgin Islands",
 };
 

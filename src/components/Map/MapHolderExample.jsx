@@ -149,14 +149,8 @@ export default function MapHolderExample() {
       >
         <ContentMapBox>
           <MapLibreMapContainer
-            center={
-              mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
-                .mapProperties.center
-            }
-            zoom={
-              mapConfig.regions["Atlantic, Gulf of America, and Pacific Coasts"]
-                .mapProperties.zoom
-            }
+            center={mapConfig.regions["North Atlantic"].mapProperties.center}
+            zoom={mapConfig.regions["North Atlantic"].mapProperties.zoom}
             setMap={setMap}
           >
             <ActiveTileLayers />
