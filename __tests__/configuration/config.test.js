@@ -13,7 +13,7 @@ describe.each(["nlcdLandcover", "ccapLandcover"])("mapConfig.%s", (key) => {
           name: expect.any(String),
           value: expect.any(String),
           color: expect.any(String),
-        })
+        }),
       );
     });
   });
