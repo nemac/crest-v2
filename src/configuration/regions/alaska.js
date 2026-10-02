@@ -528,10 +528,10 @@ export const alaskaConfig = {
     {
       id: "AK_landcover",
       layer: "landcover",
-      label: "Landcover",
+      label: "Land Cover",
       chartOrder: 18,
-      chartLabel: "Landcover",
-      chartTipLabel: "Landcover",
+      chartLabel: "Land Cover",
+      chartTipLabel: "Land Cover",
       isLegendCustom: true,
       chartCSSColor: [
         {

@@ -174,7 +174,7 @@ export const exportFeatureToCSV = (feature, type) => {
       );
       break;
     case "Landcover":
-      exportName = "Landcover";
+      exportName = "Land Cover";
       Object.entries(feature.properties.zonalStatsData).forEach(
         ([key, value]) => {
           if (key.startsWith("lc_")) {
