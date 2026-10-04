@@ -569,10 +569,10 @@ export const americanSamoaConfig = {
     {
       id: "AS_landcover",
       layer: "landcover",
-      label: "Landcover",
+      label: "Land Cover",
       chartOrder: 19,
-      chartLabel: "Landcover",
-      chartTipLabel: "Landcover",
+      chartLabel: "Land Cover",
+      chartTipLabel: "Land Cover",
       isLegendCustom: true,
       chartCSSColor: [
         {

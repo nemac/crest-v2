@@ -86,7 +86,7 @@ export default function AboutCrest(props) {
         In April 2025, the CREST user interface was updated to improve
         functionality and enhance the user experience. Changes improve the
         overall design while allowing users to more easily export results and
-        maps, search for areas and watersheds of interest, and view LandCover
+        maps, search for areas and watersheds of interest, and view Land Cover
         data. The redesigned Explore Resilience Hubs tab allows users to explore
         Resilience Hubs in their area of interest and identify variation within
         Hub scores in regions where a Resilience Hub Grid is available (Guam,
