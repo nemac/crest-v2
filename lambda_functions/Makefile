@@ -5,6 +5,8 @@ define build_function
 	$(PYTHON) -m pip install -q --upgrade $(WHEELS) --target "$(ARTIFACTS_DIR)" -r $(1)
 	rm -rf "$(ARTIFACTS_DIR)/src"
 	cp -R src "$(ARTIFACTS_DIR)/src"
+	rm -rf "$(ARTIFACTS_DIR)/lib"
+	cp -R lib "$(ARTIFACTS_DIR)/lib"
 	find "$(ARTIFACTS_DIR)" -name "__pycache__" -type d -prune -exec rm -rf {} +
 	find "$(ARTIFACTS_DIR)/src" -name "*.local.vrt" -delete
 endef
