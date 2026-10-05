@@ -33,6 +33,15 @@ const rampFromChartColors = (chartCSSColor) => {
   return Array.from(byColor, ([color, value]) => ({ color, text: value }));
 };
 
+// Labelled classes (e.g. Uplift) sit ahead of the ordinal ramp, so the Low header starts after them.
+const countLeadingLabelled = (ramp) => {
+  let count = 0;
+  while (count < ramp.length && ramp[count].label) count += 1;
+  return count;
+};
+
+const labelledGap = 0.75;
+
 const rampFromPalette = (entries) =>
   entries.map((entry) => ({
     color: entry.color,
@@ -46,22 +55,23 @@ export default function LayerLegend(props) {
   const ramp = palette
     ? rampFromPalette(palette)
     : rampFromChartColors(layer.chartCSSColor);
+  const leadingLabelled = countLeadingLabelled(ramp);
 
   return (
     <Box m={1.5}>
       <Grid container spacing={0}>
-        <Grid
-          xs={2}
-          sx={{ fontSize: "1rem", display: "flex", justifyContent: "start" }}
-        >
-          Low
-        </Grid>
-        <Grid xs={8} />
-        <Grid
-          xs={2}
-          sx={{ fontSize: "1rem", display: "flex", justifyContent: "end" }}
-        >
-          High
+        <Grid xs={12} sx={{ fontSize: "1rem", display: "flex" }}>
+          {leadingLabelled > 0 && (
+            <Box
+              sx={{
+                width: (theme) =>
+                  `calc(${theme.spacing(1)} + ${leadingLabelled / ramp.length} * (100% - 2 * ${theme.spacing(1)}))`,
+              }}
+            />
+          )}
+          <Box>Low</Box>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box>High</Box>
         </Grid>
         <Grid
           container
@@ -79,7 +89,11 @@ export default function LayerLegend(props) {
             <Grid
               xs={maxLegendWidth / ramp.length}
               key={layer.id.concat("-", swatch.color)}
-              sx={{ display: "flex", flexDirection: "column" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                pr: swatch.label ? labelledGap : 0,
+              }}
             >
               <Box
                 sx={{
