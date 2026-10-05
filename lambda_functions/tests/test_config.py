@@ -47,7 +47,7 @@ def test_continental_us_dataset_order_is_unchanged(real_config):
 
 @pytest.mark.parametrize("region", [
     "continental_us", "puerto_rico", "us_virgin_islands", "northern_mariana_islands",
-    "hawaii", "american_samoa", "guam", "alaska", "great_lakes",
+    "hawaii", "american_samoa", "guam", "alaska", "great_lakes", "north_atlantic",
 ])
 def test_vrt_bands_match_datasets(real_config, region):
     bucket = real_config["dataset_bucket"]
@@ -60,6 +60,19 @@ def test_vrt_bands_match_datasets(real_config, region):
             source = band.find(".//SourceFilename").text
             assert source == f"/vsis3/{bucket}/{dataset['path']}", key
             assert int(float(band.find("NoDataValue").text)) == nodata, key
+
+
+def test_north_atlantic_names_match_the_tiling_manifest(real_config):
+    import json
+    manifest = json.load(open(os.path.join(SRC_DIR, "..", "..", "tiling", "layers.json")))
+    names = [layer["name"] for layer in manifest["layers"] if layer["name"] != "land_cover"]
+    assert cfg.dataset_names(real_config, "north_atlantic") == names
+    nodata = dict(zip(names, cfg.dataset_nodata(real_config, "north_atlantic")))
+    assert nodata["vertical_land_motion"] == 0
+    assert all(value == 255 for name, value in nodata.items() if name != "vertical_land_motion")
+    assert cfg.region_config(real_config, "north_atlantic")["landcover"] == "ccap"
+    assert cfg.dataset_names(real_config, "north_atlantic_landcover") == ["landcover"]
+    assert real_config["datasets"]["north_atlantic_landcover"][0]["path"] == "north-atlantic/CONUS_NAtl_Land_Cover_CCAP_2021.tif"
 
 
 def test_unknown_region_raises(real_config):
