@@ -11,7 +11,7 @@ from src.responses import SHARE_KEY, ValidationError, json_response, lambda_entr
 def handler(event, context):
     share = query_params(event).get("shareUrl") or ""
     location = f"{share}.json"
-    if not SHARE_KEY.match(location):
+    if not SHARE_KEY.fullmatch(location):
         raise ValidationError("invalid share link")
     bucket = cfg.load_config()["share_link_bucket"]
     try:

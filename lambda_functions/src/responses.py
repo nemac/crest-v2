@@ -1,5 +1,7 @@
 """Request parsing, responses, and the per-request log line shared by every handler."""
 import base64
+import binascii
+import functools
 import json
 import logging
 import os
@@ -9,7 +11,7 @@ import time
 logger = logging.getLogger("crest")
 logger.setLevel(logging.INFO)
 
-SHARE_KEY = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}_[A-Za-z0-9.À-ɏ-]{1,24}\.json$")
+SHARE_KEY = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}_[^/\\\x00-\x1f]{1,40}\.json$")
 
 
 class ValidationError(Exception):
@@ -34,12 +36,12 @@ def body_text(event):
 
 
 def json_body(event, max_bytes):
-    text = body_text(event)
-    if len(text.encode("utf-8")) > max_bytes:
-        raise ValidationError("request body too large", 413)
     try:
+        text = body_text(event)
+        if len(text.encode("utf-8")) > max_bytes:
+            raise ValidationError("request body too large", 413)
         return json.loads(text)
-    except ValueError as err:
+    except (ValueError, binascii.Error, UnicodeDecodeError) as err:
         raise ValidationError("request body must be JSON") from err
 
 
@@ -49,6 +51,7 @@ def share_prefix():
 
 def lambda_entry(fn_name):
     def decorator(handler):
+        @functools.wraps(handler)
         def wrapped(event, context):
             started = time.monotonic()
             params = query_params(event)

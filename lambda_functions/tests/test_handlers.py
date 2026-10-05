@@ -133,6 +133,11 @@ def test_zonal_stats_validation(body, params):
     assert zonal_stats.handler(post_event(body, params), None)["statusCode"] == 400
 
 
+@pytest.mark.parametrize("raw", ["%%%", "abcde"])
+def test_zonal_stats_malformed_base64_is_400(raw):
+    assert zonal_stats.handler(post_event(raw, {"region": "demo"}, base64=True), None)["statusCode"] == 400
+
+
 def test_zonal_stats_too_many_features(whole_polygon):
     fc = feature_collection(whole_polygon)
     fc["features"] = fc["features"] * 51
@@ -170,6 +175,33 @@ def test_write_share_link_refuses_overwrite(s3):
 @pytest.mark.parametrize("location", ["../x.json", "abc.json", "3d5c71ef-b24b-41f9-9319-ffdb8dd1e699_2026-Sep-10.txt", "", None, 5])
 def test_write_share_link_validates_key(s3, location):
     assert write_s3.handler(post_event(json.dumps({"location": location, "state": {}})), None)["statusCode"] == 400
+
+
+UUID = "3d5c71ef-b24b-41f9-9319-ffdb8dd1e699"
+
+
+@pytest.mark.parametrize("date", ["2026-9月-10", "2026-сент.-10", "2026-thg 9-10"])
+def test_write_share_link_accepts_localized_month(s3, date):
+    key = f"{UUID}_{date}.json"
+    assert write_s3.handler(post_event(json.dumps({"location": key, "state": {}})), None)["statusCode"] == 200
+    assert read_s3.handler(get_event({"shareUrl": key[:-5]}), None)["statusCode"] == 200
+
+
+@pytest.mark.parametrize("location", [f"{UUID}_2026-Sep-10.json\n", f"{UUID}_2026/Sep-10.json"])
+def test_write_share_link_rejects_trailing_newline_and_slash(s3, location):
+    assert write_s3.handler(post_event(json.dumps({"location": location, "state": {}})), None)["statusCode"] == 400
+
+
+def test_read_share_link_rejects_trailing_newline(s3):
+    assert read_s3.handler(get_event({"shareUrl": f"{UUID}_2026-Sep-10\n"}), None)["statusCode"] == 400
+
+
+def test_write_share_link_conditional_conflict_is_409(s3, monkeypatch):
+    def conflict(**kwargs):
+        raise ClientError({"Error": {"Code": "ConditionalRequestConflict", "Message": "race"}}, "PutObject")
+    monkeypatch.setattr(s3, "put_object", conflict)
+    key = f"{UUID}_2026-Sep-10.json"
+    assert write_s3.handler(post_event(json.dumps({"location": key, "state": {}})), None)["statusCode"] == 409
 
 
 def test_write_share_link_requires_object_state(s3):

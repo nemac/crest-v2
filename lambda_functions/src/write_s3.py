@@ -14,7 +14,7 @@ def handler(event, context):
     body = json_body(event, MAX_BODY_BYTES)
     location = body.get("location") if isinstance(body, dict) else None
     state = body.get("state") if isinstance(body, dict) else None
-    if not isinstance(location, str) or not SHARE_KEY.match(location):
+    if not isinstance(location, str) or not SHARE_KEY.fullmatch(location):
         raise ValidationError("invalid share link key")
     if not isinstance(state, dict):
         raise ValidationError("state must be an object")
@@ -24,7 +24,7 @@ def handler(event, context):
             Body=json.dumps(state).encode("utf-8"), Bucket=bucket, Key=share_prefix() + location,
             ContentType="application/json", IfNoneMatch="*")
     except ClientError as err:
-        if err.response["Error"]["Code"] in ("PreconditionFailed", "412"):
+        if err.response["Error"]["Code"] in ("PreconditionFailed", "412", "ConditionalRequestConflict"):
             raise ValidationError("share link already exists", 409) from err
         raise
     return json_response(200, {"location": location})
