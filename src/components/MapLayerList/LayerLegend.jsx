@@ -40,7 +40,7 @@ const countLeadingLabelled = (ramp) => {
   return count;
 };
 
-const labelledGap = 0.75;
+const labelledGap = 2;
 
 const rampFromPalette = (entries) =>
   entries.map((entry) => ({
@@ -111,9 +111,13 @@ export default function LayerLegend(props) {
               {swatch.label && (
                 <Box
                   sx={{
-                    fontSize: "1rem",
+                    fontSize: "0.85rem",
+                    whiteSpace: "nowrap",
                     pt: 0.5,
-                    ml: (theme) => `-${theme.spacing(1)}`,
+                    ml:
+                      index < leadingLabelled
+                        ? (theme) => `-${theme.spacing(1)}`
+                        : 0,
                   }}
                 >
                   {swatch.label}
