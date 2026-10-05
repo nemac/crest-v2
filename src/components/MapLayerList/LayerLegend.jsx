@@ -80,6 +80,7 @@ export default function LayerLegend(props) {
             transition: "all 0.75s ease",
             willChange: "transform",
             padding: (theme) => theme.spacing(1),
+            pb: ramp.some((swatch) => swatch.label) ? 3.5 : 0,
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-start",
@@ -92,6 +93,8 @@ export default function LayerLegend(props) {
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                position: "relative",
+                minWidth: 0,
                 pr: index < leadingLabelled ? labelledGap : 0,
               }}
             >
@@ -111,13 +114,12 @@ export default function LayerLegend(props) {
               {swatch.label && (
                 <Box
                   sx={{
-                    fontSize: "0.85rem",
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
                     whiteSpace: "nowrap",
+                    fontSize: "0.85rem",
                     pt: 0.5,
-                    ml:
-                      index < leadingLabelled
-                        ? (theme) => `-${theme.spacing(1)}`
-                        : 0,
                   }}
                 >
                   {swatch.label}
