@@ -15,7 +15,7 @@ def parse_request(event, config):
         raise ValidationError(f"unknown region: {region}")
     geojson = json_body(event, MAX_BODY_BYTES)
     features = geojson.get("features") if isinstance(geojson, dict) else None
-    if geojson.get("type") != "FeatureCollection" or not isinstance(features, list) or not features:
+    if not isinstance(geojson, dict) or geojson.get("type") != "FeatureCollection" or not isinstance(features, list) or not features:
         raise ValidationError("request body must be a FeatureCollection with at least one feature")
     if len(features) > MAX_FEATURES:
         raise ValidationError(f"at most {MAX_FEATURES} features per request")

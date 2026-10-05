@@ -126,6 +126,8 @@ def test_zonal_stats_feature_without_properties(whole_polygon):
     (json.dumps(feature_collection({"type": "Point", "coordinates": [0, 0]})), {"region": "demo"}),
     (json.dumps({"type": "Feature"}), {"region": "demo"}),
     ("{}", {"region": "nowhere"}),
+    ("[]", {"region": "demo"}),
+    ("5", {"region": "demo"}),
 ])
 def test_zonal_stats_validation(body, params):
     assert zonal_stats.handler(post_event(body, params), None)["statusCode"] == 400
