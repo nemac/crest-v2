@@ -110,7 +110,7 @@
   ],
   "vertical_land_motion": [
     { "value": -1, "color": "#00CC44", "label": "Uplift" },
-    { "value": 1, "color": "#CDA0C5" },
+    { "value": 1, "color": "#CDA0C5", "label": "Subsidence" },
     { "value": 2, "color": "#DF659C" },
     { "value": 3, "color": "#DF2159" },
     { "value": 4, "color": "#AA062E" },

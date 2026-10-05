@@ -22,23 +22,27 @@ import basemapImageryImage from "../assets/images/basemap-imagery.png";
 import basemapStreetImage from "../assets/images/basemap-street.jpg";
 import basemapTopoImage from "../assets/images/basemap-topo.jpg";
 
-const environment = "prod-v2"; // change to "prod-v2" for production
+const env = import.meta.env;
 
-export const identifyEndpoint = `https://api.resilientcoasts.org/${environment}/identify/`;
+export const identifyEndpoint =
+  env.VITE_API_IDENTIFY_URL ||
+  "https://api.resilientcoasts.org/prod-v2/identify/";
 
-export const shareLinkReadEndpoint = `https://api.resilientcoasts.org/${environment}/read_s3`;
+export const shareLinkReadEndpoint =
+  env.VITE_API_SHARE_READ_URL ||
+  "https://api.resilientcoasts.org/prod-v2/read_s3";
 
-export const shareLinkWriteEndpoint = `https://api.resilientcoasts.org/${environment}/write_s3`;
+export const shareLinkWriteEndpoint =
+  env.VITE_API_SHARE_WRITE_URL ||
+  "https://api.resilientcoasts.org/prod-v2/write_s3";
 
-export const uploadShapeEndpoint = `https://api.resilientcoasts.org/${environment}/upload_shape`;
+export const uploadShapeEndpoint =
+  env.VITE_API_UPLOAD_SHAPE_URL ||
+  "https://api.resilientcoasts.org/prod-v2/upload_shape";
 
-export const zonalStatsEndpoint = `https://api.resilientcoasts.org/${environment}/zonal_stats`;
-
-// this endpoint is functionally equivalent to the zonal stats but has a longer timeout
-export const zonalStatsLambdaEndpoint =
-  environment === "beta"
-    ? "https://5pdq4jsx6i7isl3pmhf3x6ouym0zjnfb.lambda-url.us-east-1.on.aws/" // beta
-    : "https://crfujpnyt2scb56ahusvveq23m0tfisn.lambda-url.us-east-1.on.aws/"; // prod-v2
+export const zonalStatsEndpoint =
+  env.VITE_API_ZONAL_STATS_URL ||
+  "https://crfujpnyt2scb56ahusvveq23m0tfisn.lambda-url.us-east-1.on.aws/";
 
 export const s3ShapeFileBucket =
   "https://nfwf-tool-user-shapes.s3.amazonaws.com/";
@@ -297,7 +301,7 @@ export const mapConfig = {
     },
     {
       name: "Developed, Open Space",
-      value: "lc_developed_open space",
+      value: "lc_developed_open_space",
       color: "#C1CC3D",
     },
     {

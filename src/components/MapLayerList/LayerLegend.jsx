@@ -85,14 +85,14 @@ export default function LayerLegend(props) {
             alignItems: "flex-start",
           }}
         >
-          {ramp.map((swatch) => (
+          {ramp.map((swatch, index) => (
             <Grid
               xs={maxLegendWidth / ramp.length}
               key={layer.id.concat("-", swatch.color)}
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                pr: swatch.label ? labelledGap : 0,
+                pr: index < leadingLabelled ? labelledGap : 0,
               }}
             >
               <Box

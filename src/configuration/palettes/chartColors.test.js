@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import palettes from "./conus.json";
-import { NO_DATA_COLOR, chartCSSColorFromPalette } from "./chartColors";
+import {
+  NO_DATA_COLOR,
+  barValue,
+  chartCSSColorFromPalette,
+  topClass,
+} from "./chartColors";
 
 describe("chartCSSColorFromPalette", () => {
   it("prefixes the no-data colour and keeps every class colour", () => {
@@ -23,5 +28,22 @@ describe("chartCSSColorFromPalette", () => {
       0: NO_DATA_COLOR,
       5: "#0084A8",
     });
+  });
+});
+
+describe("bar scaling", () => {
+  const vlm = chartCSSColorFromPalette(palettes.vertical_land_motion);
+  const ten = chartCSSColorFromPalette(palettes.threat_index);
+
+  it("ignores the no-data and uplift keys when finding the top class", () => {
+    expect(topClass(vlm)).toBe(5);
+    expect(topClass(ten)).toBe(10);
+  });
+
+  it("scales positive means and floors negative or zero means", () => {
+    expect(barValue(ten, 5)).toBe(0.5);
+    expect(barValue(vlm, 2.5)).toBe(0.5);
+    expect(barValue(vlm, -1)).toBe(0);
+    expect(barValue(vlm, 0)).toBe(0);
   });
 });

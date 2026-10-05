@@ -15,6 +15,7 @@ import {
   changeSortDirection,
   changeSortBy,
 } from "../../reducers/analyzeAreaSlice";
+import { mapConfig } from "../../configuration/config";
 
 const StyledGridContainer = styled(Grid)(({ theme }) => ({
   display: "flex",
@@ -26,16 +27,21 @@ const StyledGridContainer = styled(Grid)(({ theme }) => ({
 }));
 
 const analyzeAreaSelector = (state) => state.analyzeArea;
+const selectedRegionSelector = (state) => state.selectedRegion.value;
+
+const LEGACY_SORT_INDICES = {
+  Name: "areaNumber",
+  Hubs: "hubs",
+  Exposure: "exposure",
+  Threat: "threat",
+  Assets: "asset",
+  Wildlife: "wildlife",
+};
 
 export const ChartSort = () => {
-  const sortIndices = {
-    Name: "areaNumber",
-    Hubs: "hubs",
-    Exposure: "exposure",
-    Threat: "threat",
-    Assets: "asset",
-    Wildlife: "wildlife",
-  };
+  const selectedRegion = useSelector(selectedRegionSelector);
+  const sortIndices =
+    mapConfig.regions[selectedRegion]?.sortIndices ?? LEGACY_SORT_INDICES;
   const dispatch = useDispatch();
   const analyzeAreaState = useSelector(analyzeAreaSelector);
 

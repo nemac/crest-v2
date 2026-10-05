@@ -34,6 +34,35 @@ import { mapConfig } from "../../configuration/config";
 const analyzeAreaSelector = (state) => state.analyzeArea;
 const regions = mapConfig.regions;
 
+const LEGACY_CHART_VALUES = {
+  "Summary Chart": ["hubs", "exposure", "threat", "asset", "wildlife"],
+  "Fish and Wildlife Inputs": ["aquatic", "terrestrial", "marine"],
+  "Threats Inputs": [
+    "floodprone_areas",
+    "slope",
+    "sea_level_rise",
+    "low_areas",
+    "drainage",
+    "impermeable",
+    "storm_surge",
+    "erosion",
+    "tsunami",
+    "permafrost",
+    "wave_flooding",
+    "geostress",
+    "landslides",
+    "highwater",
+  ],
+  "Community Assets Inputs": [
+    "pop_density",
+    "crit_infra",
+    "transportation",
+    // "social_vuln",
+    "crit_facilities",
+  ],
+  Landcover: ["does not matter"],
+};
+
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
   width: "100%",
@@ -105,34 +134,7 @@ export default function ChartCard(props) {
   const isMoreIndividualOpen = Boolean(anchorElMoreIndividual);
   const isMoreAllOpen = Boolean(anchorElMoreAll);
 
-  const chartValues = {
-    "Summary Chart": ["hubs", "exposure", "threat", "asset", "wildlife"],
-    "Fish and Wildlife Inputs": ["aquatic", "terrestrial", "marine"],
-    "Threats Inputs": [
-      "floodprone_areas",
-      "slope",
-      "sea_level_rise",
-      "low_areas",
-      "drainage",
-      "impermeable",
-      "storm_surge",
-      "erosion",
-      "tsunami",
-      "permafrost",
-      "wave_flooding",
-      "geostress",
-      "landslides",
-      "highwater",
-    ],
-    "Community Assets Inputs": [
-      "pop_density",
-      "crit_infra",
-      "transportation",
-      // "social_vuln",
-      "crit_facilities",
-    ],
-    Landcover: ["does not matter"],
-  };
+  const chartValues = regions[region].chartValues ?? LEGACY_CHART_VALUES;
 
   let landcoverConfigToUse = null;
   const regionName = regions[region].regionName;

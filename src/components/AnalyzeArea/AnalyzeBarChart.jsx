@@ -22,6 +22,7 @@ import { EditOutlined, SaveOutlined } from "@mui/icons-material";
 /* eslint-disable no-nested-ternary */
 
 import { mapConfig } from "../../configuration/config";
+import { barValue } from "../../configuration/palettes/chartColors";
 import ChartCustomLabels from "./ChartCustomLabels.jsx";
 import CustomToolTip from "./CustomToolTip.jsx";
 import { changeAreaName } from "../../reducers/mapPropertiesSlice";
@@ -177,10 +178,9 @@ export default function AnalyzeBarChart(props) {
     const selectedColorChart = selectedLayerData.chartCSSColor;
     const chartOrder = selectedLayerData.chartOrder;
     const selectChartLabelDescription = selectedLayerData.description;
-    const selectedColor = selectedColorChart[colorValue];
-    const allValues = Object.keys(selectedColorChart);
-    const maxValue = allValues[allValues.length - 1];
-    const chartValue = value / maxValue;
+    const selectedColor =
+      selectedColorChart[colorValue] ?? selectedColorChart[0];
+    const chartValue = barValue(selectedColorChart, value);
     const retData = {
       selectedColor,
       chartValue,

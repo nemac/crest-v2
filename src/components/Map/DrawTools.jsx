@@ -55,6 +55,7 @@ export default function DrawTools(props) {
   const [currentDrawn, setCurrentDrawn] = useState({
     geo: null,
     featureGroup: null,
+    source: null,
     skip: true,
   });
 
@@ -62,6 +63,7 @@ export default function DrawTools(props) {
     {
       region: mapConfig.regions[selectedRegion].regionName,
       queryData: currentDrawn.featureGroup,
+      source: currentDrawn.source,
     },
     { skip: currentDrawn.skip },
   );
@@ -150,6 +152,7 @@ export default function DrawTools(props) {
     setCurrentDrawn({
       geo,
       featureGroup: turf.featureCollection([analyzeTarget(geo, geoJ)]),
+      source: "sketch",
       skip: false,
     });
   }
@@ -179,6 +182,7 @@ export default function DrawTools(props) {
     dispatch(uploadedShapeFileGeoJSON(null));
     setCurrentDrawn({
       featureGroup: turf.featureCollection(targets),
+      source: "upload",
       skip: false,
     });
     if (map) {
@@ -198,6 +202,7 @@ export default function DrawTools(props) {
     dispatch(incrementAreaNumber());
     setCurrentDrawn({
       featureGroup: turf.featureCollection([analyzeTarget(geo, geo)]),
+      source: "search",
       skip: false,
     });
     dispatch(addSearchPlacesGeoJSON(null));

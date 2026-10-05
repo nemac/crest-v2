@@ -731,7 +731,7 @@ export const americanSamoaConfig = {
     "lc_developed_high_intensity",
     "lc_developed_medium_intensity",
     "lc_developed_low_intensity",
-    "lc_developed_open space",
+    "lc_developed_open_space",
     "lc_cultivated_crops",
     "lc_pasture_hay",
     "lc_grassland_herbaceous",

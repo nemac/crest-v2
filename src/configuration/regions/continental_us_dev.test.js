@@ -1,21 +1,27 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { parse } from "yaml";
 import { continentalUSDevConfig } from "./continental_us_dev";
 import { continentalUSConfig } from "./continental_us";
 import palettes from "../palettes/conus.json";
 import manifest from "../../../tiling/layers.json";
 
 const rasterLayers = continentalUSDevConfig.layerList;
+const backend = parse(readFileSync("lambda_functions/src/config.yml", "utf8"));
 
 describe("continental_us_dev", () => {
   it("keeps the region identity of the legacy config", () => {
     expect(continentalUSDevConfig.label).toBe(continentalUSConfig.label);
-    expect(continentalUSDevConfig.regionName).toBe("continental_us");
+    expect(continentalUSDevConfig.regionName).toBe("north_atlantic");
     expect(continentalUSDevConfig.mapProperties).toEqual(
       continentalUSConfig.mapProperties,
     );
     expect(continentalUSDevConfig.attribution).toBe("NFWF 2026");
-    expect(continentalUSDevConfig.analysisDisabled).toBe(true);
-    expect(continentalUSDevConfig.zonalStatsKeys).toEqual([]);
+    expect(continentalUSDevConfig.analysisDisabled).toBeUndefined();
+    expect(continentalUSDevConfig.zonalStatsKeys).toEqual([
+      ...backend.datasets.north_atlantic.map((dataset) => dataset.name),
+      ...Object.keys(backend.landcover_classes.ccap),
+    ]);
   });
 
   it("has one raster layer per tiled archive, in manifest order", () => {
@@ -27,7 +33,7 @@ describe("continental_us_dev", () => {
       );
       expect(layer.id).toBe(`CONUS_dev_${layer.palette}`);
       expect(layer.maxzoom).toBe(13);
-      expect(layer.region).toBe("continental_us");
+      expect(layer.region).toBe("north_atlantic");
       expect(layer.opacity).toBe(0.75);
       expect(layer.attribution).toBe("NFWF 2026");
       expect(layer.description.length).toBeGreaterThan(40);
@@ -60,5 +66,30 @@ describe("continental_us_dev", () => {
     continentalUSDevConfig.layerList.forEach((layer) => {
       expect(groups.has(layer.ChartInputLabel)).toBe(true);
     });
+  });
+
+  it("drives the charts, identify popup, and sort from its own layers", () => {
+    const { chartValues, summaryIndices, sortIndices } = continentalUSDevConfig;
+    expect(Object.keys(chartValues)).toEqual([
+      "Summary Chart",
+      "Threats Inputs",
+      "Community Assets Inputs",
+      "Fish and Wildlife Inputs",
+      "Landcover",
+    ]);
+    expect(summaryIndices).toEqual(chartValues["Summary Chart"]);
+    expect(summaryIndices).toEqual([
+      "resilience_opportunities",
+      "community_exposure_index",
+      "threat_index",
+      "community_asset_index",
+      "fish_and_wildlife_index",
+    ]);
+    expect(chartValues["Threats Inputs"]).toHaveLength(8);
+    expect(chartValues["Community Assets Inputs"]).toHaveLength(3);
+    expect(chartValues["Fish and Wildlife Inputs"]).toHaveLength(7);
+    Object.values(sortIndices)
+      .filter((key) => key !== "areaNumber")
+      .forEach((key) => expect(summaryIndices).toContain(key));
   });
 });

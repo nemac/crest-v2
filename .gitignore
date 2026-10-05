@@ -19,3 +19,7 @@ lambda_functions/.venv/
 __pycache__/
 .pytest_cache/
 *.local.vrt
+
+# Vite local overrides (backend endpoints), never committed
+.env.local
+.env.*.local
