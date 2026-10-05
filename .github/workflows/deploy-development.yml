@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - develop
+    paths-ignore:
+      - "lambda_functions/**"
+      - "docs/**"
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -23,6 +27,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
+      - name: Read backend endpoints from the crest-api-dev stack
+        run: |
+          outputs=$(aws cloudformation describe-stacks --stack-name crest-api-dev --query "Stacks[0].Outputs" --output json)
+          for pair in IdentifyUrl:VITE_API_IDENTIFY_URL ZonalStatsUrl:VITE_API_ZONAL_STATS_URL UploadShapeUrl:VITE_API_UPLOAD_SHAPE_URL ShareReadUrl:VITE_API_SHARE_READ_URL ShareWriteUrl:VITE_API_SHARE_WRITE_URL; do
+            key=${pair%%:*}; var=${pair##*:}
+            value=$(echo "$outputs" | jq -r ".[] | select(.OutputKey==\"$key\") | .OutputValue")
+            if [ -z "$value" ] || [ "$value" = "null" ]; then echo "missing stack output $key"; exit 1; fi
+            echo "$var=$value" >> "$GITHUB_ENV"
+          done
 
       - name: Build
         env:
