@@ -19,7 +19,7 @@ def fetch(url, region, body):
 
 
 def same(a, b, tolerance):
-    if isinstance(a, str) or isinstance(b, str):
+    if a is None or b is None or isinstance(a, str) or isinstance(b, str):
         return a == b
     return math.isclose(a, b, abs_tol=tolerance)
 

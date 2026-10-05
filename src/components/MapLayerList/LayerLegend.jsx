@@ -85,7 +85,7 @@ export default function LayerLegend(props) {
             transition: "all 0.75s ease",
             willChange: "transform",
             padding: (theme) => theme.spacing(1),
-            pb: ramp.some((swatch) => swatch.label) ? 3.5 : 0,
+            pb: ramp.some((swatch) => swatch.label) ? 3.5 : 1,
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-start",

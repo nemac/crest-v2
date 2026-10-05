@@ -35,7 +35,7 @@ found), 409 (share link already exists), 413 (payload too large), and 500.
 - Identify: `GET ?region&lng&lat` returns `{"<layer name>": "<value as string>"}`. NoData is stringified
   raw and a point off the raster returns `"NaN"`.
 - Zonal stats: `POST ?region&source` with a GeoJSON FeatureCollection returns the same collection with
-  `properties.mean` set to `{"<layer name>": float | "NaN", "lc_*": float}`. `source` is logged to label the caller.
+  `properties.mean` set to `{"<layer name>": float | "NaN", "lc_*": float}`. The `lc_*` keys are omitted entirely when no valid land-cover pixel lies inside the polygon. `source` is logged to label the caller.
 - Share links: `GET ?shareUrl` reads a saved link, `POST {location, state}` writes one.
 - Upload shape: `POST` a FeatureCollection to store a user shape.
 

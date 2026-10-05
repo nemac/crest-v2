@@ -10,6 +10,7 @@ parameter_overrides = "Stage=dev SharePrefix=dev/"
 confirm_changeset = false
 fail_on_empty_changeset = false
 
+# Not armed: the v1 stack named crest-api-prod still exists and must be deleted before this section is ever used.
 [prod.deploy.parameters]
 stack_name = "crest-api-prod"
 region = "us-east-1"
@@ -17,5 +18,5 @@ s3_bucket = "nfwf-tool-cloudformation"
 s3_prefix = "crest-api/prod"
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "Stage=prod SharePrefix="
-confirm_changeset = false
+confirm_changeset = true
 fail_on_empty_changeset = false
