@@ -97,7 +97,7 @@ def test_zonal_stats_contract(whole_polygon):
     feature = body_of(response)["features"][0]
     assert feature["properties"]["areaName"] == "Area 1"
     mean = feature["properties"]["mean"]
-    assert mean["index_a"] == pytest.approx(3.0)
+    assert mean["index_a"] == pytest.approx((778 * 2 + 780 * 4) / 1558)
     assert mean["vlm"] == pytest.approx(2000 / 1200)
     assert mean["lc_background"] == pytest.approx(5.0)
     assert mean["lc_open_water"] == pytest.approx(47.5)
@@ -117,7 +117,7 @@ def test_zonal_stats_base64_body(whole_polygon):
 def test_zonal_stats_feature_without_properties(whole_polygon):
     fc = {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": whole_polygon}]}
     feature = body_of(zonal_stats.handler(post_event(json.dumps(fc), {"region": "demo"}), None))["features"][0]
-    assert feature["properties"]["mean"]["index_a"] == pytest.approx(3.0)
+    assert feature["properties"]["mean"]["index_a"] == pytest.approx((778 * 2 + 780 * 4) / 1558)
 
 
 @pytest.mark.parametrize("body,params", [

@@ -27,6 +27,8 @@ def fixture_dir(tmp_path_factory):
     index_a = np.full((SIZE, SIZE), 2, np.uint8)
     index_a[:, 20:] = 4
     index_a[0, :] = 255
+    index_a[5, 5] = 128
+    index_a[6, 6] = 128
     write_raster(d / "index_a.tif", index_a, transform_5070, INDEX_CRS, 255)
     vlm = np.full((SIZE, SIZE), 3, np.int8)
     vlm[:, :10] = -1
@@ -89,7 +91,7 @@ def lnglat(col, row):
 
 @pytest.fixture
 def point_inside():
-    return lnglat(5, 5)
+    return lnglat(8, 5)
 
 
 @pytest.fixture

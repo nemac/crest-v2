@@ -5,6 +5,7 @@ from rasterio.features import geometry_mask, geometry_window
 from rasterio.warp import transform, transform_geom
 from rasterio.windows import Window
 
+MAX_VALID = 100  # Legacy rasters hold stray values above 100 that must not count.
 WGS84 = "EPSG:4326"
 GDAL_ENV = {
     "GDAL_DISABLE_READDIR_ON_OPEN": "EMPTY_DIR",
@@ -31,7 +32,7 @@ def polygon_mask(src, geometry):
 
 def _valid_values(src, band, window, inside):
     data = src.read(band, window=window, masked=True)
-    valid = inside & ~np.ma.getmaskarray(data)
+    valid = inside & ~np.ma.getmaskarray(data) & (np.asarray(data) <= MAX_VALID)
     return np.asarray(data)[valid]
 
 

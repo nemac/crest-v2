@@ -3,6 +3,10 @@ import rasterio
 
 from src import config as cfg
 from src.rasters import GDAL_ENV, band_means, class_percentages, sample_point
+from tests.conftest import lnglat
+
+# Rows 1-39: 778 pixels of 2 (two 128s excluded) and 780 of 4 over 1558 valid pixels.
+INDEX_A_WHOLE_MEAN = (778 * 2 + 780 * 4) / 1558
 
 
 @pytest.fixture
@@ -15,7 +19,7 @@ def opened(demo_config):
 def test_whole_polygon_means_honour_each_bands_nodata(opened, whole_polygon):
     src, _ = opened
     means = band_means(src, whole_polygon)
-    assert means[0] == pytest.approx(3.0)
+    assert means[0] == pytest.approx(INDEX_A_WHOLE_MEAN)
     assert means[1] == pytest.approx(2000 / 1200)
 
 
@@ -57,3 +61,9 @@ def test_sample_point_returns_raw_values(opened, point_inside, point_nodata_row,
     assert sample_point(src, *point_inside) == [2, -1]
     assert sample_point(src, *point_nodata_row) == [255, 3]
     assert sample_point(src, *point_outside) == [None, None]
+
+
+def test_values_above_100_are_invalid(opened, whole_polygon):
+    src, _ = opened
+    assert band_means(src, whole_polygon)[0] == pytest.approx((778 * 2 + 780 * 4) / 1558)
+    assert sample_point(src, *lnglat(5, 5))[0] == 128
