@@ -147,7 +147,7 @@ export default function ResiliencePieChart(props) {
           </tspan>
           {chartType === "Landcover" ? (
             <tspan x="50%" dy={"25px"} style={{ fontSize: "1rem" }}>
-              {chartType}
+              Land Cover
             </tspan>
           ) : (
             <tspan x="200" dy={"-1%"} style={{ fontSize: "1.25rem" }}>
