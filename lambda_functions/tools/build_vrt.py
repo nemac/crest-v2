@@ -1,153 +1,87 @@
-#!/usr/bin/env python
-
-'''
-A CLI utility for building the VRT raster that points to S3-hosted NFWF model datasets.
-
-Relies on a config file in the root directory.
-'''
-
-import os, os.path, sys, argparse
-import yaml
-import rasterio as rio
+#!/usr/bin/env python3
+"""Build a region VRT from config.yml: one gdalbuildvrt call per band, stitched into one file."""
+import argparse
+import os
+import subprocess
+import sys
+import tempfile
 import xml.etree.ElementTree as ET
 
-vrtnodata_arg = '-vrtnodata {0}'
-extent_arg = '-te {0}'
-band_arg = '-b {0}'
+import rasterio
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from src import config as cfg  # noqa: E402
+
+LANDCOVER_SUFFIX = "_landcover"
 
 
-def get_config(file_path):
-  with open(file_path) as f:
-    config = yaml.safe_load(f)
-  return config
+def output_path(config, key):
+    if key.endswith(LANDCOVER_SUFFIX):
+        return cfg.region_config(config, key[: -len(LANDCOVER_SUFFIX)])["landcover_vrt"]
+    return cfg.region_config(config, key)["vrt"]
 
 
-def build_full_vrt(f, region, b, vrtnodata, vsi, dir_path, is_local):
-  config = get_config(f)
-  if 'dataset_bucket' in config:
-    dataset_bucket = config['dataset_bucket']
-  else:
-    dataset_bucket = None
-  bands_config = config['datasets'][region]
-  check_same_proj(bands_config, vsi, dataset_bucket, dir_path, is_local)
-  bounds = get_largest_extent(bands_config, vsi, dataset_bucket, dir_path, is_local)
-  main_tree = None
-  main_root = None
-  big_vrt_name = config['vrt'][region]
-  for i in range(0, len(bands_config)):
-    band_num = str(i+1)
-    band_config = bands_config[i]
-    temp_vrt = build_intermediate_vrt(band_config, bounds, b, vrtnodata, vsi, dataset_bucket, dir_path, is_local)
-    if band_num == '1':
-      main_tree = ET.parse(temp_vrt)
-      main_root = main_tree.getroot()
-    else:
-      tree = ET.parse(temp_vrt)
-      root = tree.getroot()
-      bandElement = root.find('VRTRasterBand')
-      bandElement.attrib['band'] = band_num
-      main_root.append(bandElement)
-    os.remove(temp_vrt)
-  main_tree.write(big_vrt_name)
+def source_path(config, dataset, local_dir, vsi):
+    if local_dir:
+        return os.path.join(local_dir, dataset["path"])
+    return f"{vsi}{config['dataset_bucket']}/{dataset['path']}"
 
 
-def check_same_proj(bands_config, vsi, dataset_bucket, dir_path, is_local):
-  paths = [ get_dataset_path(c, vsi, dataset_bucket, dir_path, is_local) for c in bands_config ]
-  proj_strings = []
-  for p in paths:
-    with rio.open(p) as src:
-      proj_strings.append(src.profile['crs'].to_proj4())
-  proj_last = proj_strings[0]
-  for proj in proj_strings:
-    if proj_last != proj:
-      print('Datasets are not all the same projection! Here are the details for each path:')
-      for i, p in enumerate(paths):
-        print(p + ':')
-        print(proj_strings[i])
-      raise TypeError('All datasets must have the exact same projection!')
+def union_bounds(paths):
+    crs = None
+    bounds = None
+    for path in paths:
+        with rasterio.open(path) as src:
+            if crs is None:
+                crs = src.crs
+            elif src.crs != crs:
+                raise ValueError(f"{path} has a different projection than {paths[0]}")
+            b = src.bounds
+            bounds = (b.left, b.bottom, b.right, b.top) if bounds is None else (
+                min(bounds[0], b.left), min(bounds[1], b.bottom), max(bounds[2], b.right), max(bounds[3], b.top))
+    return bounds
 
 
-def get_largest_extent(bands_config, vsi, dataset_bucket, dir_path, is_local):
-  def max_by_key(iterable, key):
-    return max([ getattr(obj, key) for obj in iterable ])
-  paths = [ get_dataset_path(c, vsi, dataset_bucket, dir_path, is_local) for c in bands_config ]
-  bounds = []
-  for p in paths:
-    with rio.open(p) as src:
-      bounds.append(src.bounds)
-  max_bounds = [ max_by_key(bounds, key) for key in ('left', 'bottom', 'right', 'top') ]
-  return max_bounds
+def build_band_vrt(source, nodata, bounds, out_path):
+    cmd = ["gdalbuildvrt", "-q", "-overwrite", "-vrtnodata", str(nodata), "-te", *[repr(v) for v in bounds], out_path, source]
+    subprocess.run(cmd, check=True)
+    root = ET.parse(out_path).getroot()
+    for element in root.iter("SourceFilename"):
+        element.set("relativeToVRT", "0")
+        element.text = source
+    return root
 
 
-def get_dataset_path(band_config, vsi, dataset_bucket, dir_path, is_local):
-  path_pieces = []
-  if not is_local:
-    path_pieces.append('{0}'.format(vsi))
-    if dataset_bucket:
-      path_pieces.append('{0}'.format(dataset_bucket))
-  if dir_path:
-    path_pieces.append(dir_path)
-  path_pieces.append(band_config['path'])
-  full_path = os.path.join(*path_pieces)
-  return full_path
+def build_vrt(config, key, local_dir=None, vsi="/vsis3/"):
+    datasets = config["datasets"][key]
+    nodatas = cfg.dataset_nodata(config, key)
+    sources = [source_path(config, dataset, local_dir, vsi) for dataset in datasets]
+    bounds = union_bounds(sources)
+    out = output_path(config, key)
+    root = None
+    with tempfile.TemporaryDirectory() as tmp:
+        for number, (source, nodata) in enumerate(zip(sources, nodatas), start=1):
+            band_root = build_band_vrt(source, nodata, bounds, os.path.join(tmp, f"band{number}.vrt"))
+            band = band_root.find("VRTRasterBand")
+            band.set("band", str(number))
+            if root is None:
+                root = band_root
+            else:
+                root.append(band)
+    ET.indent(root, space="  ")
+    ET.ElementTree(root).write(out)
+    return out
 
 
-def build_intermediate_vrt(band_config, bounds, b, vrtnodata, vsi, dataset_bucket, dir_path, is_local):
-  command_pieces = [
-    'gdalbuildvrt',
-    vrtnodata_arg.format(vrtnodata),
-    band_arg.format(b),
-    '-overwrite'
-  ]
-  dataset_path = get_dataset_path(band_config, vsi, dataset_bucket, dir_path, is_local)
-  temp_vrt = '{0}.vrt'.format(os.path.join('./', band_config['name']))
-  bounds_string = ' '.join([ str(num) for num in bounds ])
-  command_pieces.append(extent_arg.format(bounds_string))
-  command_pieces.append("{0}".format(temp_vrt))
-  command_pieces.append(dataset_path)
-  c = ' '.join(command_pieces)
-  print(c)
-  os.system(c)
-  return temp_vrt
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--region", required=True, help="datasets key, e.g. north_atlantic or north_atlantic_landcover")
+    parser.add_argument("--config", help="config.yml path (default: src/config.yml or $CONFIG_PATH)")
+    parser.add_argument("--local", metavar="DIR", help="read sources from DIR instead of S3")
+    parser.add_argument("--vsi", default="/vsis3/", help="GDAL VSI prefix for cloud sources")
+    args = parser.parse_args()
+    print(build_vrt(cfg.load_config(args.config), args.region, args.local, args.vsi))
 
 
-def setup_arg_parser():
-  parser = argparse.ArgumentParser()
-  parser.add_argument('-c', '--config',
-    metavar='config.yml', default='config.yml',
-    help='Path to the config file'
-  )
-  parser.add_argument('-b', '--band',
-    dest='target_raster_band', metavar='1', default='1',
-    help='Band number to use for each raster'
-  )
-  parser.add_argument('--vrtnodata', default='255', metavar='255',
-    help='Value to set for NODATA in the VRT'
-  )
-  parser.add_argument('--region', '-r',
-    help='Region to build VRT for as defined in config file.'
-  )
-  parser.add_argument('--vsistring', default='/vsis3/', metavar='/vsis3/',
-    help='Chain of GDAL VSI drivers to use for accessing source data.'
-  )
-  parser.add_argument('--local', action='store_true',
-    help='Use local datasets instead of cloud-hosted datasets. The value of --vsistring will not be used if this flag is used. The default config file will change to config.local.yml, which can be overridden by the -c flag.'
-  )
-  # TODO make sure this works for cloud and disk
-  #  - vrt driver string needs to come first in cloud case
-  parser.add_argument('--path', '-p',
-    help='Folder path to prepend to any file paths defined in the config file.'
-  )
-  return parser
-
-
-# TODO tests
-# TODO don't overwrite files unless told to
-# TODO license
-if __name__ == '__main__':
-  parser = setup_arg_parser()
-  args = parser.parse_args()
-  f = args.config if not args.local else 'config.local.yml'
-  b = args.target_raster_band
-  vsi = args.vsistring if not args.local else None
-  build_full_vrt(f, args.region, b, args.vrtnodata, vsi, args.path, args.local)
+if __name__ == "__main__":
+    main()
