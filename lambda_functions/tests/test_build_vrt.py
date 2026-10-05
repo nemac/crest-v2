@@ -15,10 +15,11 @@ from tools.build_vrt import build_vrt
 CRS_5070 = CRS.from_epsg(5070)
 
 
-def make_config(tmp_path, second_crs=CRS_5070):
+def make_config(tmp_path, second_crs=CRS_5070, second_offset=(0, 0)):
     transform = Affine(30, 0, 1500000.0, 0, -30, 1200000.0)
+    second_transform = Affine(30, 0, 1500000.0 + second_offset[0], 0, -30, 1200000.0 + second_offset[1])
     write_raster(tmp_path / "a.tif", np.full((4, 4), 2, np.uint8), transform, CRS_5070, 255)
-    write_raster(tmp_path / "b.tif", np.full((4, 4), -1, np.int8), transform, second_crs, 0)
+    write_raster(tmp_path / "b.tif", np.full((4, 4), -1, np.int8), second_transform, second_crs, 0)
     config = {
         "dataset_bucket": "unused", "default_nodata": 255,
         "regions": {"demo": {"vrt": "demo.vrt", "landcover_vrt": "demo_lc.vrt", "landcover": "ccap"}},
@@ -58,7 +59,31 @@ def test_mixed_projections_are_rejected(tmp_path):
         build_vrt(config, "demo", local_dir=str(tmp_path))
 
 
-def test_s3_sources_use_the_vsi_prefix(tmp_path, monkeypatch):
+def test_s3_sources_use_the_vsi_prefix(tmp_path):
     config = make_config(tmp_path)
     from tools import build_vrt as module
     assert module.source_path(config, {"path": "x/y.tif"}, None, "/vsis3/") == "/vsis3/unused/x/y.tif"
+
+
+def test_relative_local_dir_yields_absolute_sources(tmp_path, monkeypatch):
+    config = make_config(tmp_path)
+    monkeypatch.chdir(tmp_path.parent)
+    out = build_vrt(config, "demo", local_dir=tmp_path.name)
+    for source in ET.parse(out).getroot().iter("SourceFilename"):
+        assert os.path.isabs(source.text)
+    monkeypatch.chdir(tmp_path)
+    with rasterio.open(out) as src:
+        assert src.count == 2
+
+
+def test_extent_is_the_union_of_offset_sources(tmp_path):
+    config = make_config(tmp_path, second_offset=(60, -60))
+    out = build_vrt(config, "demo", local_dir=str(tmp_path))
+    with rasterio.open(out) as src:
+        assert (src.width, src.height) == (6, 6)
+        assert tuple(src.bounds) == (1500000.0, 1200000.0 - 180, 1500000.0 + 180, 1200000.0)
+        band2 = src.read(2)
+    assert band2[2, 2] == -1
+    assert band2[5, 5] == -1
+    assert band2[0, 0] == 0
+    assert band2[0, 5] == 0

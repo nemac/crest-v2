@@ -23,7 +23,7 @@ def output_path(config, key):
 
 def source_path(config, dataset, local_dir, vsi):
     if local_dir:
-        return os.path.join(local_dir, dataset["path"])
+        return os.path.abspath(os.path.join(local_dir, dataset["path"]))
     return f"{vsi}{config['dataset_bucket']}/{dataset['path']}"
 
 
