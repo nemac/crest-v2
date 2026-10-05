@@ -5,7 +5,7 @@ const regions = mapConfig.regions;
 
 const initialState = {
   userInitiated: false,
-  value: regions["Atlantic, Gulf of America, and Pacific Coasts"].label, // Continental US
+  value: regions["North Atlantic"].label, // Continental US
 };
 
 export const regionSelectSlice = createSlice({

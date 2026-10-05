@@ -8,11 +8,15 @@ import {
 } from "./regionAliases";
 
 describe("region aliases", () => {
-  it("maps the old USVI key to the new label", () => {
+  it("maps legacy keys to their current labels", () => {
     expect(legacyRegionKeys).toEqual({
       "US Virgin Islands": "U.S. Virgin Islands",
+      "Atlantic, Gulf of America, and Pacific Coasts": "North Atlantic",
     });
     expect(currentRegionKey("US Virgin Islands")).toBe("U.S. Virgin Islands");
+    expect(
+      currentRegionKey("Atlantic, Gulf of America, and Pacific Coasts"),
+    ).toBe("North Atlantic");
     expect(currentRegionKey("Guam")).toBe("Guam");
     expect(currentRegionKey(undefined)).toBeUndefined();
   });
@@ -52,13 +56,13 @@ describe("region aliases", () => {
   });
 
   it("translates app labels to the search FeatureServer region values and back", () => {
-    expect(
-      searchRegionName("Atlantic, Gulf of America, and Pacific Coasts"),
-    ).toBe("Atlantic, Gulf of Mexico, and Pacific Coasts");
+    expect(searchRegionName("North Atlantic")).toBe(
+      "Atlantic, Gulf of Mexico, and Pacific Coasts",
+    );
     expect(searchRegionName("U.S. Virgin Islands")).toBe("US Virgin Islands");
     expect(searchRegionName("Hawai'i")).toBe("Hawai'i");
     expect(appRegionName("Atlantic, Gulf of Mexico, and Pacific Coasts")).toBe(
-      "Atlantic, Gulf of America, and Pacific Coasts",
+      "North Atlantic",
     );
     expect(appRegionName("US Virgin Islands")).toBe("U.S. Virgin Islands");
     expect(appRegionName("Puerto Rico")).toBe("Puerto Rico");

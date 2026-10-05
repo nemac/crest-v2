@@ -33,12 +33,21 @@ const rampFromChartColors = (chartCSSColor) => {
   return Array.from(byColor, ([color, value]) => ({ color, text: value }));
 };
 
-const rampFromPalette = (entries) =>
-  entries
-    .filter((entry) => !entry.label)
-    .map((entry) => ({ color: entry.color, text: String(entry.value) }));
+// Labelled classes (e.g. Uplift) sit ahead of the ordinal ramp, so the Low header starts after them.
+const countLeadingLabelled = (ramp) => {
+  let count = 0;
+  while (count < ramp.length && ramp[count].label) count += 1;
+  return count;
+};
 
-const labelledFromPalette = (entries) => entries.filter((entry) => entry.label);
+const labelledGap = 0.75;
+
+const rampFromPalette = (entries) =>
+  entries.map((entry) => ({
+    color: entry.color,
+    text: String(entry.value),
+    label: entry.label,
+  }));
 
 export default function LayerLegend(props) {
   const { layer } = props;
@@ -46,23 +55,23 @@ export default function LayerLegend(props) {
   const ramp = palette
     ? rampFromPalette(palette)
     : rampFromChartColors(layer.chartCSSColor);
-  const labelled = palette ? labelledFromPalette(palette) : [];
+  const leadingLabelled = countLeadingLabelled(ramp);
 
   return (
     <Box m={1.5}>
       <Grid container spacing={0}>
-        <Grid
-          xs={2}
-          sx={{ fontSize: "1rem", display: "flex", justifyContent: "start" }}
-        >
-          Low
-        </Grid>
-        <Grid xs={8} />
-        <Grid
-          xs={2}
-          sx={{ fontSize: "1rem", display: "flex", justifyContent: "end" }}
-        >
-          High
+        <Grid xs={12} sx={{ fontSize: "1rem", display: "flex" }}>
+          {leadingLabelled > 0 && (
+            <Box
+              sx={{
+                width: (theme) =>
+                  `calc(${theme.spacing(1)} + ${leadingLabelled / ramp.length} * (100% - 2 * ${theme.spacing(1)}))`,
+              }}
+            />
+          )}
+          <Box>Low</Box>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box>High</Box>
         </Grid>
         <Grid
           container
@@ -73,7 +82,7 @@ export default function LayerLegend(props) {
             padding: (theme) => theme.spacing(1),
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "flex-start",
           }}
         >
           {ramp.map((swatch) => (
@@ -81,48 +90,38 @@ export default function LayerLegend(props) {
               xs={maxLegendWidth / ramp.length}
               key={layer.id.concat("-", swatch.color)}
               sx={{
-                backgroundColor: swatch.color,
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: 12,
-                color: pickCSSBasedOnBgColor(swatch.color),
-                height: "48px",
+                flexDirection: "column",
+                pr: swatch.label ? labelledGap : 0,
               }}
             >
-              {swatch.text}
+              <Box
+                sx={{
+                  backgroundColor: swatch.color,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: 12,
+                  color: pickCSSBasedOnBgColor(swatch.color),
+                  height: "48px",
+                }}
+              >
+                {swatch.text}
+              </Box>
+              {swatch.label && (
+                <Box
+                  sx={{
+                    fontSize: "1rem",
+                    pt: 0.5,
+                    ml: (theme) => `-${theme.spacing(1)}`,
+                  }}
+                >
+                  {swatch.label}
+                </Box>
+              )}
             </Grid>
           ))}
         </Grid>
-        {labelled.map((entry) => (
-          <Grid
-            container
-            xs={12}
-            key={layer.id.concat("-", entry.label)}
-            sx={{
-              padding: (theme) => theme.spacing(0, 1, 1, 1),
-              alignItems: "center",
-            }}
-          >
-            <Grid
-              xs={2}
-              sx={{
-                backgroundColor: entry.color,
-                height: "32px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: 12,
-                color: pickCSSBasedOnBgColor(entry.color),
-              }}
-            >
-              {entry.value}
-            </Grid>
-            <Grid xs={10} pl={1} sx={{ fontSize: "0.85rem" }}>
-              {entry.label}
-            </Grid>
-          </Grid>
-        ))}
       </Grid>
     </Box>
   );
