@@ -126,7 +126,7 @@ export default function ResiliencePieChart(props) {
   return (
     <ResponsiveContainer
       id={
-        chartType === "Land Cover"
+        chartType === "Landcover"
           ? `${chartType}-${chartTitle}-container`
           : `${chartType}-container`
       }
@@ -145,9 +145,9 @@ export default function ResiliencePieChart(props) {
           <tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
             {chartTitle}
           </tspan>
-          {chartType === "Land Cover" ? (
+          {chartType === "Landcover" ? (
             <tspan x="50%" dy={"25px"} style={{ fontSize: "1rem" }}>
-              {chartType}
+              Land Cover
             </tspan>
           ) : (
             <tspan x="200" dy={"-1%"} style={{ fontSize: "1.25rem" }}>
