@@ -94,9 +94,6 @@ Resources:
             - Effect: Allow
               Action: [s3:ListBucket]
               Resource: arn:aws:s3:::crest-v2-share-link
-              Condition:
-                StringLike:
-                  s3:prefix: !Sub "${SharePrefix}*"
 
   ShareWriteFunction:
     Type: AWS::Serverless::Function
