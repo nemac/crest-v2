@@ -1,49 +1,33 @@
-try:
-  import unzip_requirements
-except ImportError:
-  pass
-import json
-import util
-import rasterio as rio
-from pyproj import Transformer
+import rasterio
 
-def lambda_handler(event, context):
-
-  params = event['queryStringParameters']
-  response = get_identify(params)
-
-  return {
-    "statusCode": 200,
-    "body": json.dumps(response),
-    "headers": {
-      "Content-Type": 'application/json',
-      "Access-Control-Allow-Origin": "*"
-    }
-  }
+from src import config as cfg
+from src.rasters import GDAL_ENV, sample_point
+from src.responses import ValidationError, json_response, lambda_entry, query_params
 
 
-def get_identify(params):
-  region = params['region']
-  lng = float(params['lng'])
-  lat = float(params['lat'])
-  config = util.get_config()
-  data_source = config['vrt'][region]
-  dataset_names = util.get_dataset_names(config, region)
-  
-  with rio.Env(GDAL_DISABLE_READDIR_ON_OPEN=True):
-    with rio.open(data_source) as src:
-      proj_string = src.profile['crs'].to_proj4()
-      transformer = Transformer.from_crs('epsg:4326', proj_string, always_xy=True)
-      x,y = transformer.transform(lng, lat)
-      coords = [(x, y)]
+def parse_params(params, config):
+    region = params.get("region")
+    if region not in config["regions"]:
+        raise ValidationError(f"unknown region: {region}")
+    try:
+        lng, lat = float(params["lng"]), float(params["lat"])
+    except (KeyError, TypeError, ValueError) as err:
+        raise ValidationError("lng and lat are required numbers") from err
+    if not (-180 <= lng <= 180 and -90 <= lat <= 90):
+        raise ValidationError("lng or lat out of range")
+    return region, lng, lat
 
-      result_gen = src.sample(coords, list(range(1, len(dataset_names)+1)))
-      result = next(result_gen)
 
-      response = {}
-      for i in range(0, len(dataset_names)):
-        dataset_name = dataset_names[i]
-        response[dataset_name] = str(result[i])
+def get_identify(region, lng, lat, config):
+    rc = cfg.region_config(config, region)
+    names = cfg.dataset_names(config, region)
+    with rasterio.Env(**GDAL_ENV), rasterio.open(rc["vrt"]) as src:
+        values = sample_point(src, lng, lat)
+    return {name: "NaN" if value is None else str(value) for name, value in zip(names, values)}
 
-  return response
 
+@lambda_entry("identify")
+def handler(event, context):
+    config = cfg.load_config()
+    region, lng, lat = parse_params(query_params(event), config)
+    return json_response(200, get_identify(region, lng, lat, config))
