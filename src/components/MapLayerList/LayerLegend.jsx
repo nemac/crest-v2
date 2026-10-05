@@ -33,10 +33,15 @@ const rampFromChartColors = (chartCSSColor) => {
   return Array.from(byColor, ([color, value]) => ({ color, text: value }));
 };
 
-// Labelled classes (e.g. Uplift) sit ahead of the ordinal ramp, so the Low header starts after them.
+// Categories are labelled non-positive values (e.g. Uplift) ahead of the ordinal ramp, so the Low header starts after them.
 const countLeadingLabelled = (ramp) => {
   let count = 0;
-  while (count < ramp.length && ramp[count].label) count += 1;
+  while (
+    count < ramp.length &&
+    ramp[count].label &&
+    Number(ramp[count].text) <= 0
+  )
+    count += 1;
   return count;
 };
 
