@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: CREST API - identify, zonal statistics, shape upload, share links
+
+Parameters:
+  Stage:
+    Type: String
+    AllowedValues: [dev, prod]
+  SharePrefix:
+    Type: String
+    Default: ""
+    Description: Key prefix inside the share-link bucket, e.g. dev/ (empty for prod)
+
+Globals:
+  Function:
+    Runtime: python3.13
+    Architectures: [x86_64]
+    MemorySize: 512
+    Timeout: 30
+    Environment:
+      Variables:
+        STAGE: !Ref Stage
+        SHARE_PREFIX: !Ref SharePrefix
+        GDAL_DISABLE_READDIR_ON_OPEN: EMPTY_DIR
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif,.vrt
+        VSI_CACHE: "TRUE"
+    FunctionUrlConfig:
+      AuthType: NONE
+      Cors:
+        AllowOrigins: ["*"]
+        AllowMethods: [GET, POST]
+        AllowHeaders: [content-type]
+        MaxAge: 3600
+
+Resources:
+  IdentifyFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      FunctionName: !Sub crest-api-${Stage}-identify
+      CodeUri: .
+      Handler: src.identify.handler
+      MemorySize: 1024
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [s3:GetObject]
+              Resource: arn:aws:s3:::nfwf-tool/*
+
+  ZonalStatsFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      FunctionName: !Sub crest-api-${Stage}-zonal_stats
+      CodeUri: .
+      Handler: src.zonal_stats.handler
+      MemorySize: 2048
+      Timeout: 120
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [s3:GetObject]
+              Resource: arn:aws:s3:::nfwf-tool/*
+
+  UploadShapeFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      FunctionName: !Sub crest-api-${Stage}-upload_shape
+      CodeUri: .
+      Handler: src.upload_shape.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [s3:PutObject, s3:PutObjectAcl]
+              Resource: !Sub arn:aws:s3:::nfwf-tool-user-shapes/${Stage}/*
+
+  ShareReadFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      FunctionName: !Sub crest-api-${Stage}-read_s3
+      CodeUri: .
+      Handler: src.read_s3.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [s3:GetObject]
+              Resource: !Sub arn:aws:s3:::crest-v2-share-link/${SharePrefix}*
+            - Effect: Allow
+              Action: [s3:ListBucket]
+              Resource: arn:aws:s3:::crest-v2-share-link
+              Condition:
+                StringLike:
+                  s3:prefix: !Sub "${SharePrefix}*"
+
+  ShareWriteFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      FunctionName: !Sub crest-api-${Stage}-write_s3
+      CodeUri: .
+      Handler: src.write_s3.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [s3:PutObject]
+              Resource: !Sub arn:aws:s3:::crest-v2-share-link/${SharePrefix}*
+
+Outputs:
+  IdentifyUrl:
+    Value: !GetAtt IdentifyFunctionUrl.FunctionUrl
+  ZonalStatsUrl:
+    Value: !GetAtt ZonalStatsFunctionUrl.FunctionUrl
+  UploadShapeUrl:
+    Value: !GetAtt UploadShapeFunctionUrl.FunctionUrl
+  ShareReadUrl:
+    Value: !GetAtt ShareReadFunctionUrl.FunctionUrl
+  ShareWriteUrl:
+    Value: !GetAtt ShareWriteFunctionUrl.FunctionUrl
