@@ -18,12 +18,17 @@ def parse_params(params, config):
     return region, lng, lat
 
 
+def display(value, nodata):
+    return "NaN" if value is None or (nodata is not None and value == nodata) else str(value)
+
+
 def get_identify(region, lng, lat, config):
     rc = cfg.region_config(config, region)
     names = cfg.dataset_names(config, region)
     with rasterio.Env(**GDAL_ENV), rasterio.open(rc["vrt"]) as src:
         values = sample_point(src, lng, lat)
-    return {name: "NaN" if value is None else str(value) for name, value in zip(names, values)}
+        nodatas = src.nodatavals
+    return {name: display(value, nodata) for name, value, nodata in zip(names, values, nodatas)}
 
 
 @lambda_entry("identify")

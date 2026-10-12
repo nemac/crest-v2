@@ -67,9 +67,9 @@ def test_identify_returns_stringified_values(point_inside):
     assert body_of(response) == {"index_a": "2", "vlm": "-1"}
 
 
-def test_identify_nodata_is_stringified_raw(point_nodata_row):
+def test_identify_nodata_is_nan(point_nodata_row):
     lng, lat = point_nodata_row
-    assert body_of(identify.handler(get_event({"region": "demo", "lng": lng, "lat": lat}), None)) == {"index_a": "255", "vlm": "3"}
+    assert body_of(identify.handler(get_event({"region": "demo", "lng": lng, "lat": lat}), None)) == {"index_a": "NaN", "vlm": "3"}
 
 
 def test_identify_outside_raster_is_nan(point_outside):

@@ -32,8 +32,8 @@ brew install gdal   # provides gdalbuildvrt, used by tools/build_vrt.py and the 
 All endpoints are Lambda function URLs. Errors use 400 (bad input, including an unknown region), 404 (share link not
 found), 409 (share link already exists), 413 (payload too large), and 500.
 
-- Identify: `GET ?region&lng&lat` returns `{"<layer name>": "<value as string>"}`. NoData is stringified
-  raw and a point off the raster returns `"NaN"`.
+- Identify: `GET ?region&lng&lat` returns `{"<layer name>": "<value as string>"}`. NoData and
+  off-raster points return `"NaN"`.
 - Zonal stats: `POST ?region&source` with a GeoJSON FeatureCollection returns the same collection with
   `properties.mean` set to `{"<layer name>": float | "NaN", "lc_*": float}`. The `lc_*` keys are omitted entirely when no valid land-cover pixel lies inside the polygon. `source` is logged to label the caller.
 - Share links: `GET ?shareUrl` reads a saved link, `POST {location, state}` writes one.
