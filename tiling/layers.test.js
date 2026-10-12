@@ -8,19 +8,19 @@ describe("tiling manifest", () => {
     expect(manifest.nodata).toBe(255);
   });
 
-  it("lists 23 layers with unique names and sources", () => {
-    expect(manifest.layers).toHaveLength(23);
+  it("lists 24 layers with unique names and sources", () => {
+    expect(manifest.layers).toHaveLength(24);
     const names = manifest.layers.map((l) => l.name);
     const sources = manifest.layers.map((l) => l.source);
-    expect(new Set(names).size).toBe(23);
-    expect(new Set(sources).size).toBe(23);
+    expect(new Set(names).size).toBe(24);
+    expect(new Set(sources).size).toBe(24);
   });
 
   it.each(manifest.layers)(
-    "$name references a palette and a CREST tif",
+    "$name references a palette and a CONUS tif",
     (layer) => {
       expect(layer.name).toMatch(/^[a-z0-9_]+$/);
-      expect(layer.source).toMatch(/^CONUS_NAtl_.*_CREST_\d{8}\.tif$/);
+      expect(layer.source).toMatch(/^(landcover\/)?CONUS_NAtl_.*\.tif$/);
       expect(palettes).toHaveProperty(layer.palette);
     },
   );

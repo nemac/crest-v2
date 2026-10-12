@@ -15,7 +15,134 @@ const groups = {
     chartInputName: "fishandwildlife",
     ChartInputLabel: "Fish and Wildlife Index Inputs",
   },
+  landcover: {
+    chartInputName: "landcover",
+    ChartInputLabel: "Additional Overlays",
+  },
 };
+
+const CCAP_LEGEND = [
+  {
+    backgroundColor: "#F2F2F2",
+    borderColor: "#F2F2F2",
+    label: "Developed, High Intensity",
+  },
+  {
+    backgroundColor: "#AA9EAA",
+    borderColor: "#AA9EAA",
+    label: "Developed, Medium Intensity",
+  },
+  {
+    backgroundColor: "#917782",
+    borderColor: "#917782",
+    label: "Developed, Low Intensity",
+  },
+  {
+    backgroundColor: "#C1CC3D",
+    borderColor: "#C1CC3D",
+    label: "Developed, Open Space",
+  },
+  {
+    backgroundColor: "#592300",
+    borderColor: "#592300",
+    label: "Cultivated Crops",
+  },
+  {
+    backgroundColor: "#C1A351",
+    borderColor: "#C1A351",
+    label: "Pasture/Hay",
+  },
+  {
+    backgroundColor: "#F2BC8C",
+    borderColor: "#F2BC8C",
+    label: "Grassland/Herbaceous",
+  },
+  {
+    backgroundColor: "#00F200",
+    borderColor: "#00F200",
+    label: "Deciduous",
+  },
+  {
+    backgroundColor: "#003D00",
+    borderColor: "#003D00",
+    label: "Evergreen Forest",
+  },
+  {
+    backgroundColor: "#0AA33D",
+    borderColor: "#0AA33D",
+    label: "Mixed Forest",
+  },
+  {
+    backgroundColor: "#707000",
+    borderColor: "#707000",
+    label: "Scrub/Shrub",
+  },
+  {
+    backgroundColor: "#006060",
+    borderColor: "#006060",
+    label: "Palustrine Forested Wetland",
+  },
+  {
+    backgroundColor: "#F27000",
+    borderColor: "#F27000",
+    label: "Palustrine Scrub/Shrub Wetland",
+  },
+  {
+    backgroundColor: "#F200F2",
+    borderColor: "#F200F2",
+    label: "Palustrine Emergent Wetland",
+  },
+  {
+    backgroundColor: "#3C003C",
+    borderColor: "#3C003C",
+    label: "Estuarine Forested Wetland",
+  },
+  {
+    backgroundColor: "#6D006D",
+    borderColor: "#6D006D",
+    label: "Estuarine Scrub/Shrub Wetland",
+  },
+  {
+    backgroundColor: "#B200B2",
+    borderColor: "#B200B2",
+    label: "Estuarine Emergent Wetland",
+  },
+  {
+    backgroundColor: "#00F2F2",
+    borderColor: "#00F2F2",
+    label: "Unconsolidated Shore",
+  },
+  {
+    backgroundColor: "#F2F200",
+    borderColor: "#F2F200",
+    label: "Bare Land",
+  },
+  {
+    backgroundColor: "#000070",
+    borderColor: "#000070",
+    label: "Open Water",
+  },
+  {
+    backgroundColor: "#0000ED",
+    borderColor: "#0000ED",
+    label: "Palustrine Aquatic Bed",
+  },
+  {
+    backgroundColor: "#666FDB",
+    borderColor: "#666FDB",
+    label: "Estuarine Aquatic Bed",
+  },
+  {
+    backgroundColor: "#F9D100",
+    borderColor: "#F9D100",
+    label: "Tundra",
+  },
+  {
+    backgroundColor: "#AAF9EF",
+    borderColor: "#AAF9EF",
+    label: "Snow/Ice",
+  },
+];
 
 const rasterLayer = (
   name,
@@ -212,6 +339,26 @@ const layerList = [
     "wildlife",
     "Sum of designated critical habitat, Important Bird Areas and Key Biodiversity Areas, Essential Fish Habitat, and protected and managed areas for biodiversity. High values represent areas where multiple areas overlap.",
   ),
+  {
+    id: "CONUS_dev_land_cover",
+    layer: "Land Cover",
+    label: "Land Cover",
+    chartOrder: 24,
+    chartLabel: "Land Cover",
+    chartTipLabel: "Land Cover",
+    chartInputName: groups.landcover.chartInputName,
+    ChartInputLabel: groups.landcover.ChartInputLabel,
+    chartCSSSelector: "landcover",
+    isLegendCustom: true,
+    chartCSSColor: CCAP_LEGEND,
+    url: `${TILES}/land_cover.pmtiles`,
+    maxzoom: 13,
+    attribution: "NOAA C-CAP 2021",
+    opacity: 0.75,
+    description:
+      "Land cover categories from the NOAA Coastal Change Analysis Program (C-CAP) Regional Land Cover 2021, clipped to the North Atlantic region. C-CAP provides nationally standardized, raster-based inventories of land cover for the coastal areas of the U.S.",
+    region: REGION,
+  },
 ];
 
 const CCAP_KEYS = [
@@ -263,7 +410,10 @@ export const continentalUSDevConfig = {
   rankProperty: continentalUSConfig.rankProperty,
   chartInputs: Object.values(groups),
   layerList,
-  zonalStatsKeys: [...layerList.map((layer) => layer.palette), ...CCAP_KEYS],
+  zonalStatsKeys: [
+    ...layerList.filter((layer) => layer.palette).map((layer) => layer.palette),
+    ...CCAP_KEYS,
+  ],
   chartValues: {
     "Summary Chart": summaryIndices,
     "Threats Inputs": selectorsIn("threat"),

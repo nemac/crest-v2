@@ -6,7 +6,9 @@ import { continentalUSConfig } from "./continental_us";
 import palettes from "../palettes/conus.json";
 import manifest from "../../../tiling/layers.json";
 
-const rasterLayers = continentalUSDevConfig.layerList;
+const rasterLayers = continentalUSDevConfig.layerList.filter(
+  (layer) => layer.palette,
+);
 const backend = parse(readFileSync("lambda_functions/src/config.yml", "utf8"));
 
 describe("continental_us_dev", () => {
@@ -25,7 +27,9 @@ describe("continental_us_dev", () => {
   });
 
   it("has one raster layer per tiled archive, in manifest order", () => {
-    const names = manifest.layers.map((layer) => layer.name);
+    const names = manifest.layers
+      .map((layer) => layer.name)
+      .filter((name) => name !== "land_cover");
     expect(rasterLayers.map((layer) => layer.palette)).toEqual(names);
     rasterLayers.forEach((layer) => {
       expect(layer.url).toBe(
@@ -45,7 +49,22 @@ describe("continental_us_dev", () => {
     });
   });
 
-  it("uses the four spec groups with unique ids and chart orders", () => {
+  it("adds the C-CAP land cover overlay with a custom legend", () => {
+    const landCover = continentalUSDevConfig.layerList.find(
+      (layer) => layer.id === "CONUS_dev_land_cover",
+    );
+    expect(landCover.isLegendCustom).toBe(true);
+    expect(landCover.chartCSSColor).toHaveLength(24);
+    landCover.chartCSSColor.forEach((entry) => {
+      expect(entry.backgroundColor).toMatch(/^#[0-9A-Fa-f]{6}$/);
+      expect(entry.label).toBeTruthy();
+    });
+    expect(landCover.url).toMatch(/\/land_cover\.pmtiles$/);
+    expect(landCover.region).toBe("north_atlantic");
+    expect(landCover.palette).toBeUndefined();
+  });
+
+  it("uses the spec groups with unique ids and chart orders", () => {
     expect(
       continentalUSDevConfig.chartInputs.map((c) => c.ChartInputLabel),
     ).toEqual([
@@ -53,13 +72,14 @@ describe("continental_us_dev", () => {
       "Threat Index Inputs",
       "Community Asset Inputs",
       "Fish and Wildlife Index Inputs",
+      "Additional Overlays",
     ]);
     const ids = continentalUSDevConfig.layerList.map((layer) => layer.id);
-    expect(new Set(ids).size).toBe(23);
+    expect(new Set(ids).size).toBe(24);
     const orders = continentalUSDevConfig.layerList.map(
       (layer) => layer.chartOrder,
     );
-    expect(new Set(orders).size).toBe(23);
+    expect(new Set(orders).size).toBe(24);
     const groups = new Set(
       continentalUSDevConfig.chartInputs.map((c) => c.ChartInputLabel),
     );

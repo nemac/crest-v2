@@ -196,5 +196,32 @@
     { "value": 6, "color": "#616CE4" },
     { "value": 7, "color": "#584CE3" },
     { "value": 8, "color": "#5120E0" }
+  ],
+  "land_cover": [
+    { "value": 1, "color": "#9C9C9C", "label": "Unclassified" },
+    { "value": 2, "color": "#F2F2F2", "label": "Developed, High Intensity" },
+    { "value": 3, "color": "#AA9EAA", "label": "Developed, Medium Intensity" },
+    { "value": 4, "color": "#917782", "label": "Developed, Low Intensity" },
+    { "value": 5, "color": "#C1CC3D", "label": "Developed, Open Space" },
+    { "value": 6, "color": "#592300", "label": "Cultivated Crops" },
+    { "value": 7, "color": "#C1A351", "label": "Pasture/Hay" },
+    { "value": 8, "color": "#F2BC8C", "label": "Grassland/Herbaceous" },
+    { "value": 9, "color": "#00F200", "label": "Deciduous Forest" },
+    { "value": 10, "color": "#003D00", "label": "Evergreen Forest" },
+    { "value": 11, "color": "#0AA33D", "label": "Mixed Forest" },
+    { "value": 12, "color": "#707000", "label": "Scrub/Shrub" },
+    { "value": 13, "color": "#006060", "label": "Palustrine Forested Wetland" },
+    { "value": 14, "color": "#F27000", "label": "Palustrine Scrub/Shrub Wetland" },
+    { "value": 15, "color": "#F200F2", "label": "Palustrine Emergent Wetland" },
+    { "value": 16, "color": "#3C003C", "label": "Estuarine Forested Wetland" },
+    { "value": 17, "color": "#6D006D", "label": "Estuarine Scrub/Shrub Wetland" },
+    { "value": 18, "color": "#B200B2", "label": "Estuarine Emergent Wetland" },
+    { "value": 19, "color": "#00F2F2", "label": "Unconsolidated Shore" },
+    { "value": 20, "color": "#F2F200", "label": "Bare Land" },
+    { "value": 21, "color": "#000070", "label": "Open Water" },
+    { "value": 22, "color": "#0000ED", "label": "Palustrine Aquatic Bed" },
+    { "value": 23, "color": "#666FDB", "label": "Estuarine Aquatic Bed" },
+    { "value": 24, "color": "#F9D100", "label": "Tundra" },
+    { "value": 25, "color": "#AAF9EF", "label": "Snow/Ice" }
   ]
 }

@@ -24,6 +24,7 @@
     { "name": "fish_species", "source": "CONUS_NAtl_Fish_Species_CREST_20260827.tif", "palette": "fish_species" },
     { "name": "mammal_species", "source": "CONUS_NAtl_Mammal_Species_CREST_20260810.tif", "palette": "mammal_species" },
     { "name": "reptile_species", "source": "CONUS_NAtl_Reptile_Species_CREST_20260810.tif", "palette": "reptile_species" },
-    { "name": "habitat_protected_and_managed_areas", "source": "CONUS_NAtl_Habitat_Protected_And_Managed_Areas_CREST_20260810.tif", "palette": "habitat_protected_and_managed_areas" }
+    { "name": "habitat_protected_and_managed_areas", "source": "CONUS_NAtl_Habitat_Protected_And_Managed_Areas_CREST_20260810.tif", "palette": "habitat_protected_and_managed_areas" },
+    { "name": "land_cover", "source": "landcover/CONUS_NAtl_Land_Cover_CCAP_2021_tiles.tif", "palette": "land_cover" }
   ]
 }
