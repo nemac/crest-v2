@@ -4,7 +4,7 @@ Everything that is known to be outstanding, in one tracked file. Update it in th
 closes an item. Planning documents (specs, plans, the execution ledger) are local and gitignored;
 this file is the durable list.
 
-Last updated: 2026-10-12, with PR #175 (backend migration) open against `develop`.
+Last updated: 2026-10-12, with PR #175 (backend migration) open against `develop`; section 1b added from Jessica's feedback.
 
 ## 1. Now: finish the backend migration (PR #175)
 
@@ -18,6 +18,36 @@ Last updated: 2026-10-12, with PR #175 (backend migration) open against `develop
 - [ ] Optional: Land Cover map layer for North Atlantic, tiled from
       `CREST_TIFS/landcover/CONUS_NAtl_Land_Cover_CCAP_2021.tif` (plan task 12: tile-source copy with
       NoData 0, `land_cover` entry in `tiling/layers.json`, 25-class palette, dev config entry).
+
+## 1b. Feedback from Jessica Orlando on the North Atlantic dev site (October 2026)
+
+Proposed order: items 5 to 7 together (no-data handling), then 2, 1, 4, 3.
+
+- [ ] **1. Threats chart x-axis labels overlap** ("Impermeability" runs into "Landslide
+      Susceptibility"): eight bars now share the width that held seven, and single long words cannot
+      wrap. Proposed: a tick renderer that shrinks the font and allows a hyphen break when a label
+      is wider than its slot; alternatively shorter `chartLabel` values for the chart only.
+- [ ] **2. Negative Vertical Land Motion mean is invisible** in the Threats chart: the bar is drawn at
+      zero height (the tooltip shows -1.00). Options: draw the bar below the Low baseline in the
+      uplift green, or draw a short green bar labelled "Uplift". Needs a decision; see questions.
+- [ ] **3. C-CAP land cover as a map overlay** (was plan task 12, optional; now requested): tile the
+      clipped C-CAP raster, add a `land_cover` palette and a Land Cover layer under a Visual
+      Overlays group in the dev config. Depends on a categorical legend layout: 25 classes do not
+      fit the one-row ramp legend.
+- [ ] **4. "Explore Resilience Hubs" tab**: hide it while there are no hubs for the refreshed data
+      (the term is retired). Later it may return under a new name as a pixel-value tool. Also give
+      the identify "i" button a visible hover tooltip ("Identify a location" exists only as an
+      aria-label) and reconsider its icon.
+- [ ] **5. Keep input columns when a polygon has no data** for them (e.g. no assets in Area 3 leaves
+      the Community Assets chart empty): render every configured column with its label and a
+      zero-height bar or "No data" marker instead of dropping it. For legacy regions keep dropping
+      keys the region does not have at all; only `"NaN"` values get the empty column.
+- [ ] **6. Identify shows 255 where an index has no data**: the backend returns the raw NoData value
+      stringified and the popup draws a full-height bar with tooltip "255.00". Backend: identify
+      returns `"NaN"` for a band's NoData (like off-raster); frontend: render the column as
+      "No data" per item 5. One-line change in `lambda_functions/src/identify.py` plus a test.
+- [ ] **7. Polygon stats with no data** correctly omit the 255 bar; with item 5 the column stays
+      visible with a "No data" marker instead of disappearing.
 
 ## 2. Backend follow-ups (`lambda_functions/`)
 
