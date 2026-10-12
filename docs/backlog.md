@@ -23,30 +23,31 @@ Last updated: 2026-10-12, with PR #175 (backend migration) open against `develop
 
 Proposed order: items 5 to 7 together (no-data handling), then 2, 1, 4, 3.
 
-- [ ] **1. Threats chart x-axis labels overlap** ("Impermeability" runs into "Landslide
+- [x] **1. Threats chart x-axis labels overlap** (done 2026-10-12: font shrinks and long words hyphenate) ("Impermeability" runs into "Landslide
       Susceptibility"): eight bars now share the width that held seven, and single long words cannot
       wrap. Proposed: a tick renderer that shrinks the font and allows a hyphen break when a label
       is wider than its slot; alternatively shorter `chartLabel` values for the chart only.
-- [ ] **2. Negative Vertical Land Motion mean is invisible** in the Threats chart: the bar is drawn at
+- [x] **2. Negative Vertical Land Motion mean is invisible** (done 2026-10-12: drawn below the baseline in the uplift green, VLM only) in the Threats chart: the bar is drawn at
       zero height (the tooltip shows -1.00). Options: draw the bar below the Low baseline in the
       uplift green, or draw a short green bar labelled "Uplift". Needs a decision; see questions.
-- [ ] **3. C-CAP land cover as a map overlay** (was plan task 12, optional; now requested): tile the
+- [x] **3. C-CAP land cover as a map overlay** (done 2026-10-12 as a 24th tiled layer with the vertical 24-class legend; tile upload pending Jeff's go) (was plan task 12, optional; now requested): tile the
       clipped C-CAP raster, add a `land_cover` palette and a Land Cover layer under a Visual
       Overlays group in the dev config. Depends on a categorical legend layout: 25 classes do not
       fit the one-row ramp legend.
-- [ ] **4. "Explore Resilience Hubs" tab**: hide it while there are no hubs for the refreshed data
-      (the term is retired). Later it may return under a new name as a pixel-value tool. Also give
+- [x] **4. "Explore Resilience Hubs" tab** removed from the nav and the Home page for every region
+      (done 2026-10-12; the `/ResilienceProject` route still answers a direct URL and the About page
+      still mentions the tab, both left for the content pass). Later it may return under a new name as a pixel-value tool. Also give
       the identify "i" button a visible hover tooltip ("Identify a location" exists only as an
       aria-label) and reconsider its icon.
-- [ ] **5. Keep input columns when a polygon has no data** for them (e.g. no assets in Area 3 leaves
+- [x] **5. Keep input columns when a polygon has no data** (done 2026-10-12) for them (e.g. no assets in Area 3 leaves
       the Community Assets chart empty): render every configured column with its label and a
       zero-height bar or "No data" marker instead of dropping it. For legacy regions keep dropping
       keys the region does not have at all; only `"NaN"` values get the empty column.
-- [ ] **6. Identify shows 255 where an index has no data**: the backend returns the raw NoData value
+- [x] **6. Identify shows 255 where an index has no data** (done 2026-10-12: identify returns "NaN"): the backend returns the raw NoData value
       stringified and the popup draws a full-height bar with tooltip "255.00". Backend: identify
       returns `"NaN"` for a band's NoData (like off-raster); frontend: render the column as
       "No data" per item 5. One-line change in `lambda_functions/src/identify.py` plus a test.
-- [ ] **7. Polygon stats with no data** correctly omit the 255 bar; with item 5 the column stays
+- [x] **7. Polygon stats with no data** (done 2026-10-12 with item 5) correctly omit the 255 bar; with item 5 the column stays
       visible with a "No data" marker instead of disappearing.
 
 ## 2. Backend follow-ups (`lambda_functions/`)
@@ -79,8 +80,6 @@ Hardening
       `gdalbuildvrt` fails; `--vsi` assumes a trailing slash.
 - [ ] `lib/libexpat.so.1` is a vendored binary (expat 2.8.3, Amazon Linux 2023) that will not
       auto-update: watch for expat CVEs and refresh it from the AL2023 package.
-- [ ] Identify returns NoData as the stringified raw value (`"255"`, `"0"`); returning `null` needs
-      a matching frontend change.
 - [ ] CORS is one global GET+POST setting on every function URL; could be one method each.
 
 Tooling
