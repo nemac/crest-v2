@@ -4,6 +4,7 @@ import {
   NO_DATA_COLOR,
   barValue,
   chartCSSColorFromPalette,
+  signedBarValue,
   topClass,
 } from "./chartColors";
 
@@ -45,5 +46,16 @@ describe("bar scaling", () => {
     expect(barValue(vlm, 2.5)).toBe(0.5);
     expect(barValue(vlm, -1)).toBe(0);
     expect(barValue(vlm, 0)).toBe(0);
+  });
+});
+
+describe("signedBarValue", () => {
+  const vlm = chartCSSColorFromPalette(palettes.vertical_land_motion);
+  const ten = chartCSSColorFromPalette(palettes.threat_index);
+  it("draws negative means downward only when the palette has a negative class", () => {
+    expect(signedBarValue(vlm, -1)).toBe(-0.2);
+    expect(signedBarValue(vlm, 2.5)).toBe(0.5);
+    expect(signedBarValue(ten, -3)).toBe(0);
+    expect(signedBarValue(ten, 5)).toBe(0.5);
   });
 });

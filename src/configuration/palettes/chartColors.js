@@ -15,3 +15,11 @@ export const topClass = (chartCSSColor) =>
 
 export const barValue = (chartCSSColor, value) =>
   value > 0 ? value / topClass(chartCSSColor) : 0;
+
+export const signedBarValue = (chartCSSColor, value) => {
+  if (value >= 0) return value / topClass(chartCSSColor);
+  const hasNegativeClass = Object.keys(chartCSSColor).some(
+    (k) => Number(k) < 0,
+  );
+  return hasNegativeClass ? value / topClass(chartCSSColor) : 0;
+};
