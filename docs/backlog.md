@@ -30,7 +30,7 @@ Proposed order: items 5 to 7 together (no-data handling), then 2, 1, 4, 3.
 - [x] **2. Negative Vertical Land Motion mean is invisible** (done 2026-10-12: drawn below the baseline in the uplift green, VLM only) in the Threats chart: the bar is drawn at
       zero height (the tooltip shows -1.00). Options: draw the bar below the Low baseline in the
       uplift green, or draw a short green bar labelled "Uplift". Needs a decision; see questions.
-- [x] **3. C-CAP land cover as a map overlay** (done 2026-10-12 as a 24th tiled layer with the vertical 24-class legend; tile upload pending Jeff's go) (was plan task 12, optional; now requested): tile the
+- [x] **3. C-CAP land cover as a map overlay** (done 2026-10-12 as a 24th tiled layer with the vertical 24-class legend; tiles uploaded to `dev/conus/land_cover.pmtiles` 2026-10-12, 206 ranges verified) (was plan task 12, optional; now requested): tile the
       clipped C-CAP raster, add a `land_cover` palette and a Land Cover layer under a Visual
       Overlays group in the dev config. Depends on a categorical legend layout: 25 classes do not
       fit the one-row ramp legend.
