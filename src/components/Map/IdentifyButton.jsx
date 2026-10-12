@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 
 const identifyButtonStyle = {
@@ -19,14 +19,16 @@ export default function IdentifyButton({ onArm }) {
   };
 
   return (
-    <Button
-      variant="contained"
-      onClick={handleClick}
-      style={identifyButtonStyle}
-      aria-label="Identify a location"
-    >
-      <InfoIcon />
-    </Button>
+    <Tooltip title="Identify a location" placement="right">
+      <Button
+        variant="contained"
+        onClick={handleClick}
+        style={identifyButtonStyle}
+        aria-label="Identify a location"
+      >
+        <InfoIcon />
+      </Button>
+    </Tooltip>
   );
 }
 

@@ -81,13 +81,6 @@ export default function NavBarTabsBigScreens(props) {
                 label="Home"
               />
               <LinkTab
-                value="ResilienceProject"
-                to="/ResilienceProject"
-                {...a11yProps(1, "crest-tab")}
-                component={RouterLink}
-                label="Explore Resilience Hubs"
-              />
-              <LinkTab
                 value="AnalyzeProjectSites"
                 to="/AnalyzeProjectSites"
                 {...a11yProps(2, "crest-tab")}

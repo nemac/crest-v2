@@ -45,7 +45,7 @@ export default function TabCallToActions() {
       px={0.25}
       py={0.75}
     >
-      <Grid xs={12} sm={12} md={6} lg={3}>
+      <Grid xs={12} sm={12} md={6} lg={6}>
         <TabCallToActionCard
           tabLabel={"Analyze Project Sites"}
           tabLocation={"AnalyzeProjectSites"}
@@ -53,18 +53,6 @@ export default function TabCallToActions() {
             "Examine and compare your project site(s) by proximity to \
             Resilience Hubs while exploring the Community Exposure and \
             Fish and Wildlife Indices in the surrounding area."
-          }
-          onClick={handleActionClick}
-        />
-      </Grid>
-      <Grid xs={12} sm={12} md={6} lg={3}>
-        <TabCallToActionCard
-          tabLabel={"Explore Resilience Hubs"}
-          tabLocation={"ResilienceProject"}
-          tabText={
-            "Identify all Resilience Hubs in your study area to find \
-            locations for potential projects that may deliver both human \
-            community and fish and wildlife benefits."
           }
           onClick={handleActionClick}
         />
@@ -81,7 +69,7 @@ export default function TabCallToActions() {
           onClick={handleActionClick}
         />
       </Grid> */}
-      <Grid xs={12} sm={12} md={6} lg={3}>
+      <Grid xs={12} sm={12} md={6} lg={6}>
         <TabCallToActionCard
           tabLabel={"Learn About the Assessment"}
           tabLocation={"About"}
