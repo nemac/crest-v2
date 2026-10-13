@@ -17,12 +17,41 @@ const ToolTipBox = styled(Box)(({ theme }) => ({
   borderWidth: "1px",
   justifyContent: "center",
   alignItems: "center",
+  transition: "transform 400ms ease",
 }));
 
-export default function CustomToolTip({ active, payload, label }) {
+// Places the box centred over its column with its bottom edge just above the bar top, clamped to the plot area.
+export const anchorTransform = ({
+  coordinate,
+  viewBox,
+  minValue = 0,
+  chartValue = 0,
+  gap = 8,
+}) => {
+  if (!coordinate || !viewBox) return undefined;
+  const span = 1 - minValue || 1;
+  const ratio = 1 - (Math.max(chartValue, 0) - minValue) / span;
+  const barTop = viewBox.y + viewBox.height * ratio;
+  const right = viewBox.x + viewBox.width;
+  return `translate(clamp(0px, calc(${coordinate.x}px - 50%), calc(${right}px - 100%)), max(0px, calc(${barTop}px - 100% - ${gap}px)))`;
+};
+
+export default function CustomToolTip({
+  active,
+  payload,
+  coordinate,
+  viewBox,
+  minValue,
+}) {
   if (active && payload && payload.length) {
+    const transform = anchorTransform({
+      coordinate,
+      viewBox,
+      minValue,
+      chartValue: payload[0].payload.chartValue,
+    });
     return (
-      <ToolTipBox>
+      <ToolTipBox style={{ transform }}>
         <Box
           sx={{
             display: "flex",
@@ -76,5 +105,7 @@ export default function CustomToolTip({ active, payload, label }) {
 CustomToolTip.propTypes = {
   active: PropTypes.bool,
   payload: PropTypes.array,
-  label: PropTypes.any,
+  coordinate: PropTypes.object,
+  viewBox: PropTypes.object,
+  minValue: PropTypes.number,
 };
