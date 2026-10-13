@@ -89,11 +89,14 @@ export const getRange = (region, name) => {
   const selectedColorChart = selectedColorChartOBJ
     ? selectedColorChartOBJ.chartCSSColor
     : null;
-  const allValues = selectedColorChart ? Object.keys(selectedColorChart) : null;
-  const thisRange = allValues
-    ? `${allValues[0]}-${allValues[allValues.length - 1]}`
+  const classes = selectedColorChart
+    ? Object.keys(selectedColorChart)
+        .map(Number)
+        .filter((value) => value !== 0)
+    : [];
+  return classes.length
+    ? `${Math.min(...classes)}-${Math.max(...classes)}`
     : "0";
-  return thisRange;
 };
 
 export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {

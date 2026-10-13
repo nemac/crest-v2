@@ -1,0 +1,415 @@
+<VRTDataset rasterXSize="25459" rasterYSize="39569">
+  <SRS dataAxisToSRSAxisMapping="1,2">PROJCS["USA_Contiguous_Albers_Equal_Area_Conic",GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["latitude_of_center",37.5],PARAMETER["longitude_of_center",-96],PARAMETER["standard_parallel_1",29.5],PARAMETER["standard_parallel_2",45.5],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["ESRI","102003"]]</SRS>
+  <GeoTransform>  1.4963859462515404e+06,  3.0000000000000000e+01,  0.0000000000000000e+00,  1.2679177998224255e+06,  0.0000000000000000e+00, -3.0000000000000000e+01</GeoTransform>
+  <VRTRasterBand dataType="Byte" band="1">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_MAXIMUM">10</MDI>
+      <MDI key="STATISTICS_MEAN">3.1954299026213</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">2.0597831980357</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">21.59</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Resilience_Opportunities_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <OverviewList resampling="nearest">2 4 8 16 32 64</OverviewList>
+  <VRTRasterBand dataType="Byte" band="2">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">10</MDI>
+      <MDI key="STATISTICS_MEAN">4.5577549488906</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">2.9711607694454</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">24.07</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Community_Exposure_Index_Marine_Propagation_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="3">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">10</MDI>
+      <MDI key="STATISTICS_MEAN">5.3125076794908</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">2.5513968049286</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">18.22</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Threat_Index_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="4">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">10</MDI>
+      <MDI key="STATISTICS_MEAN">2.481516083478</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">1.6922783698772</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">18.23</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Community_Asset_Index_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="5">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">10</MDI>
+      <MDI key="STATISTICS_MEAN">4.5540873064148</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">2.5387845970078</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">24.07</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Fish_And_Wildlife_Index_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="6">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Areas_Of_Low_Slope_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="7">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Flood_Prone_Areas_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="8">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Impermeability_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="9">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Landslide_Susceptibility_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="10">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Sea_Level_Rise_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="11">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Soil_Erodibility_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="12">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">5</MDI>
+      <MDI key="STATISTICS_MEAN">3.7016200924748</MDI>
+      <MDI key="STATISTICS_MINIMUM">2</MDI>
+      <MDI key="STATISTICS_STDDEV">1.2616045318226</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">2.07</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Storm_Surge_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Int8" band="13">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">4</MDI>
+      <MDI key="STATISTICS_MEAN">0.118889624937</MDI>
+      <MDI key="STATISTICS_MINIMUM">-1</MDI>
+      <MDI key="STATISTICS_STDDEV">0.56658147487267</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+    <NoDataValue>0</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Vertical_Land_Motion_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Int8" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>0</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="14">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">5</MDI>
+      <MDI key="STATISTICS_MEAN">5</MDI>
+      <MDI key="STATISTICS_MINIMUM">5</MDI>
+      <MDI key="STATISTICS_STDDEV">0</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">0.03524</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Critical_Facilities_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="15">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">4</MDI>
+      <MDI key="STATISTICS_MEAN">1.0250549450549</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">0.15935566431813</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">0.5598</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Critical_Infrastructure_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="16">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">7</MDI>
+      <MDI key="STATISTICS_MEAN">2.5408017656348</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">1.4628217975935</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">10.35</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Population_Density_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="17">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Amphibian_Species_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="18">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Aquatic_Invertebrate_Species_CREST_20260827.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="19">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Bird_Species_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="20">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Fish_Species_CREST_20260827.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="21">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Mammal_Species_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="22">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Reptile_Species_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+  <VRTRasterBand dataType="Byte" band="23">
+    <Metadata>
+      <MDI key="RepresentationType">THEMATIC</MDI>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MAXIMUM">7</MDI>
+      <MDI key="STATISTICS_MEAN">2.204991674089</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_STDDEV">1.0664813328074</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">15.25</MDI>
+    </Metadata>
+    <NoDataValue>255</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">/vsis3/nfwf-tool/north-atlantic/CONUS_NAtl_Habitat_Protected_And_Managed_Areas_CREST_20260810.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="25459" RasterYSize="39569" DataType="Byte" BlockXSize="512" BlockYSize="512" />
+      <SrcRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <DstRect xOff="0" yOff="0" xSize="25459" ySize="39569" />
+      <NODATA>255</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+</VRTDataset>

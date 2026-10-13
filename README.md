@@ -27,9 +27,13 @@ npm start
 
 The development site builds with `VITE_CREST_DATA_CHANNEL=dev`, which swaps the North Atlantic
 region's data to the refreshed layers served as PMTiles from
-`tiles.resilientcoasts.org/dev/conus/` and disables the analysis tools for that region
-until the backend knows the new layers. Production builds never set it. To see the dev data locally:
+`tiles.resilientcoasts.org/dev/conus/` and enables the analysis tools for that region
+against the dev backend. Production builds never set it. To see the dev data locally:
 
 ```
 VITE_CREST_DATA_CHANNEL=dev npm start
 ```
+
+To point the app at the dev backend, copy `.env.example` to `.env.local`, fill the five URLs from
+`aws cloudformation describe-stacks --stack-name crest-api-dev --query "Stacks[0].Outputs"`, and run
+`npm run dev`; without them the app calls the production API.

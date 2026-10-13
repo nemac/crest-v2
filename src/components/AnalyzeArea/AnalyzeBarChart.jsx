@@ -10,6 +10,7 @@ import {
   Tooltip,
   Cell,
   CartesianGrid,
+  ReferenceLine,
 } from "recharts";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -22,6 +23,7 @@ import { EditOutlined, SaveOutlined } from "@mui/icons-material";
 /* eslint-disable no-nested-ternary */
 
 import { mapConfig } from "../../configuration/config";
+import { signedBarValue } from "../../configuration/palettes/chartColors";
 import ChartCustomLabels from "./ChartCustomLabels.jsx";
 import CustomToolTip from "./CustomToolTip.jsx";
 import { changeAreaName } from "../../reducers/mapPropertiesSlice";
@@ -177,10 +179,9 @@ export default function AnalyzeBarChart(props) {
     const selectedColorChart = selectedLayerData.chartCSSColor;
     const chartOrder = selectedLayerData.chartOrder;
     const selectChartLabelDescription = selectedLayerData.description;
-    const selectedColor = selectedColorChart[colorValue];
-    const allValues = Object.keys(selectedColorChart);
-    const maxValue = allValues[allValues.length - 1];
-    const chartValue = value / maxValue;
+    const selectedColor =
+      selectedColorChart[colorValue] ?? selectedColorChart[0];
+    const chartValue = signedBarValue(selectedColorChart, value);
     const retData = {
       selectedColor,
       chartValue,
@@ -200,19 +201,15 @@ export default function AnalyzeBarChart(props) {
   if (zonalStatsData) {
     let skippedValues = 0;
     chartIndices.forEach((element, i) => {
-      const value =
-        zonalStatsData[element] === "NaN"
-          ? null
-          : zonalStatsData[element] === 0
-            ? 0.000000000001
-            : zonalStatsData[element];
-
-      if (!value) {
+      const raw = zonalStatsData[element];
+      if (raw === undefined) {
         skippedValues += 1;
         return;
       }
+      const noData = raw === "NaN" || raw === null;
+      const value = noData ? null : raw === 0 ? 0.000000000001 : raw;
       const index = i - skippedValues;
-      const layerData = getData(element, value);
+      const layerData = getData(element, noData ? 0 : value);
       if (!layerData) return;
 
       const {
@@ -227,7 +224,8 @@ export default function AnalyzeBarChart(props) {
       chartData.push({
         name: element,
         value,
-        chartValue,
+        noData,
+        chartValue: noData ? 0 : chartValue,
         selectedChartLabel,
         selectedChartTipLabel,
         selectChartLabelDescription,
@@ -245,6 +243,8 @@ export default function AnalyzeBarChart(props) {
     }
     return 0;
   });
+
+  const minValue = Math.min(0, ...chartDataSorted.map((d) => d.chartValue));
 
   const handleChartClick = (event) => {
     if (event && event.activePayload) {
@@ -327,6 +327,7 @@ export default function AnalyzeBarChart(props) {
           horizontalCoordinatesGenerator={null}
           verticalCoordinatesGenerator={(something) => [0]}
         />
+        <ReferenceLine y={0} stroke="#999999" />
         <XAxis
           dataKey="selectedChartLabel"
           tick={
@@ -346,7 +347,7 @@ export default function AnalyzeBarChart(props) {
           interval={0}
         />
         <YAxis
-          domain={[0, 1]}
+          domain={[minValue, 1]}
           tickFormatter={formatYAxis}
           style={{
             fontFamily: "Roboto, sans-serif",

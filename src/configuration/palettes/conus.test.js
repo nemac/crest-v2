@@ -27,10 +27,11 @@ const EXPECTED_KEYS = [
   "mammal_species",
   "reptile_species",
   "habitat_protected_and_managed_areas",
+  "land_cover",
 ];
 
 describe("conus palettes", () => {
-  it("has exactly the 23 expected palettes", () => {
+  it("has exactly the 24 expected palettes", () => {
     expect(Object.keys(palettes).sort()).toEqual([...EXPECTED_KEYS].sort());
   });
 

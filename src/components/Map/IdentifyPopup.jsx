@@ -16,6 +16,7 @@ import {
   changeIdentifyIsLoaded,
 } from "../../reducers/mapPropertiesSlice";
 import IdentifyBarChart from "../AnalyzeArea/IdentifyBarChart.jsx";
+import { mapConfig } from "../../configuration/config";
 
 const StyledPopup = styled(Popup)(({ theme }) => ({
   "& .maplibregl-popup-content": {
@@ -48,7 +49,13 @@ export default function ShowIdentifyPopup(props) {
   const { region, identifyItems, identifyIsLoaded, identifyCoordinates } =
     props;
   const dispatch = useDispatch();
-  const summaryIndices = ["hubs", "exposure", "threat", "asset", "wildlife"];
+  const summaryIndices = mapConfig.regions[region].summaryIndices ?? [
+    "hubs",
+    "exposure",
+    "threat",
+    "asset",
+    "wildlife",
+  ];
 
   const closePopups = () => {
     dispatch(changeIdentifyIsLoaded(false));

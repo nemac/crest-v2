@@ -20,12 +20,7 @@ const ToolTipBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function CustomToolTip({ active, payload, label }) {
-  if (
-    active &&
-    payload &&
-    payload.length &&
-    Number.isFinite(payload[0].value)
-  ) {
+  if (active && payload && payload.length) {
     return (
       <ToolTipBox>
         <Box
@@ -67,7 +62,9 @@ export default function CustomToolTip({ active, payload, label }) {
             variant="h4"
             component="h2"
           >
-            {`${parseFloat(payload[0].payload.value).toFixed(2)}`}
+            {payload[0].payload.noData
+              ? "No data"
+              : `${parseFloat(payload[0].payload.value).toFixed(2)}`}
           </Typography>
         </Box>
       </ToolTipBox>

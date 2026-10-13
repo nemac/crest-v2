@@ -33,14 +33,19 @@ const rampFromChartColors = (chartCSSColor) => {
   return Array.from(byColor, ([color, value]) => ({ color, text: value }));
 };
 
-// Labelled classes (e.g. Uplift) sit ahead of the ordinal ramp, so the Low header starts after them.
+// Categories are labelled non-positive values (e.g. Uplift) ahead of the ordinal ramp, so the Low header starts after them.
 const countLeadingLabelled = (ramp) => {
   let count = 0;
-  while (count < ramp.length && ramp[count].label) count += 1;
+  while (
+    count < ramp.length &&
+    ramp[count].label &&
+    Number(ramp[count].text) <= 0
+  )
+    count += 1;
   return count;
 };
 
-const labelledGap = 0.75;
+const labelledGap = 2;
 
 const rampFromPalette = (entries) =>
   entries.map((entry) => ({
@@ -80,19 +85,22 @@ export default function LayerLegend(props) {
             transition: "all 0.75s ease",
             willChange: "transform",
             padding: (theme) => theme.spacing(1),
+            pb: ramp.some((swatch) => swatch.label) ? 3.5 : 1,
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-start",
           }}
         >
-          {ramp.map((swatch) => (
+          {ramp.map((swatch, index) => (
             <Grid
               xs={maxLegendWidth / ramp.length}
               key={layer.id.concat("-", swatch.color)}
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                pr: swatch.label ? labelledGap : 0,
+                position: "relative",
+                minWidth: 0,
+                pr: index < leadingLabelled ? labelledGap : 0,
               }}
             >
               <Box
@@ -111,9 +119,12 @@ export default function LayerLegend(props) {
               {swatch.label && (
                 <Box
                   sx={{
-                    fontSize: "1rem",
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    whiteSpace: "nowrap",
+                    fontSize: "0.85rem",
                     pt: 0.5,
-                    ml: (theme) => `-${theme.spacing(1)}`,
                   }}
                 >
                   {swatch.label}

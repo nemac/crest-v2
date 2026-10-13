@@ -1,0 +1,545 @@
+dataset_bucket: nfwf-tool
+user_shapes_bucket: nfwf-tool-user-shapes
+share_link_bucket: crest-v2-share-link
+default_nodata: 255
+regions:
+  continental_us:
+    vrt: vrt/continental_us.vrt
+    landcover_vrt: vrt/continental_us_landcover.vrt
+    landcover: nlcd
+  puerto_rico:
+    vrt: vrt/puerto_rico.vrt
+    landcover_vrt: vrt/puerto_rico_landcover.vrt
+    landcover: ccap
+  us_virgin_islands:
+    vrt: vrt/virgin_islands.vrt
+    landcover_vrt: vrt/virgin_islands_landcover.vrt
+    landcover: ccap
+  northern_mariana_islands:
+    vrt: vrt/northern_mariana_islands.vrt
+    landcover_vrt: vrt/northern_mariana_islands_landcover.vrt
+    landcover: ccap
+  hawaii:
+    vrt: vrt/hawaii.vrt
+    landcover_vrt: vrt/hawaii_landcover.vrt
+    landcover: ccap
+  american_samoa:
+    vrt: vrt/american_samoa.vrt
+    landcover_vrt: vrt/american_samoa_landcover.vrt
+    landcover: ccap
+  guam:
+    vrt: vrt/guam.vrt
+    landcover_vrt: vrt/guam_landcover.vrt
+    landcover: ccap
+  alaska:
+    vrt: vrt/alaska.vrt
+    landcover_vrt: vrt/alaska_landcover.vrt
+    landcover: nlcd
+  great_lakes:
+    vrt: vrt/great_lakes.vrt
+    landcover_vrt: vrt/great_lakes_landcover.vrt
+    landcover: nlcd
+  north_atlantic:
+    vrt: vrt/north_atlantic.vrt
+    landcover_vrt: vrt/north_atlantic_landcover.vrt
+    landcover: ccap
+datasets:
+  continental_us:
+  - name: exposure
+    path: CONUS_ExposureIndex_10class_111918.tif
+  - name: asset
+    path: CONUS_AssetIndex_10class_111918.tif
+  - name: threat
+    path: CONUS_ThreatIndex_10class_111918.tif
+  - name: wildlife
+    path: CONUS_CombinedFW_reclassCREST.tif
+  - name: aquatic
+    path: CONUS_AquaticIndex_clip_111218.tif
+  - name: terrestrial
+    path: CONUS_TerrestrialIndex_clip_111218.tif
+  - name: hubs
+    path: CONUS_ResilienceHubs_073020.tif
+  - name: crit_infra
+    path: asset-inputs/CONUS_CritInfra_shift_111518.tif
+  - name: crit_facilities
+    path: asset-inputs/CONUS_CritFac_shift_111918.tif
+  - name: pop_density
+    path: asset-inputs/CONUS_Population_shift_110718.tif
+  - name: social_vuln
+    path: asset-inputs/CONUS_SocVul_shift_110718.tif
+  - name: drainage
+    path: threat-inputs/CONUS_DrainDev_shift_111418.tif
+  - name: erosion
+    path: threat-inputs/CONUS_Erosion_111418.tif
+  - name: floodprone_areas
+    path: threat-inputs/CONUS_Floodprone_shift_111418.tif
+  - name: geostress
+    path: threat-inputs/CONUS_Geostress_shift_111518.tif
+  - name: sea_level_rise
+    path: threat-inputs/CONUS_SLR_shift_110918.tif
+  - name: slope
+    path: threat-inputs/CONUS_Slope_shift_111918.tif
+  - name: storm_surge
+    path: threat-inputs/CONUS_StormSurge_shift_111618.tif
+  continental_us_landcover:
+  - name: landcover
+    path: nlcd_2021_nfwf_conus_30m.tif
+  puerto_rico:
+  - name: exposure
+    path: puerto-rico/byte/PR_ExposureIndex_10class_021120_clip.tif
+  - name: asset
+    path: puerto-rico/byte/PR_AssetIndex_10class_021020_clip.tif
+  - name: wildlife
+    path: puerto-rico/byte/PR_CombinedWildlife_6class_040320.tif
+  - name: crit_facilities
+    path: puerto-rico/byte/PR_CriticalFacilities_v2_clip.tif
+  - name: crit_infra
+    path: puerto-rico/byte/PR_CriticalInfrastructure_v2_clip.tif
+  - name: erosion
+    path: puerto-rico/byte/PR_ErodibleSoils_v2_clip.tif
+  - name: floodprone_areas
+    path: puerto-rico/byte/PR_FloodproneAreas_v2_clip.tif
+  - name: impermeable
+    path: puerto-rico/byte/PR_Impermeable_v2_clip.tif
+  - name: landslides
+    path: puerto-rico/byte/PR_Landslides_v2_clip.tif
+  - name: low_areas
+    path: puerto-rico/byte/PR_LowLyingAreas_v2_clip.tif
+  - name: marine
+    path: puerto-rico/byte/PR_MarineIndex_4class.tif
+  - name: pop_density
+    path: puerto-rico/byte/PR_PopulationDensity_v2_clip.tif
+  - name: sea_level_rise
+    path: puerto-rico/byte/PR_SLR_v2_clip.tif
+  - name: social_vuln
+    path: puerto-rico/byte/PR_SocialVulnerability_v2_clip.tif
+  - name: storm_surge
+    path: puerto-rico/byte/PR_StormSurge_v2_clip.tif
+  - name: terrestrial
+    path: puerto-rico/byte/PR_TerrestrialIndex_4class.tif
+  - name: threat
+    path: puerto-rico/byte/PR_ThreatIndex_10class_021120_clip.tif
+  - name: tsunami
+    path: puerto-rico/byte/PR_Tsunami_v2_clip.tif
+  - name: hubs
+    path: puerto-rico/byte/PR_Combined_Hub_group_July2020.tif
+  puerto_rico_landcover:
+  - name: landcover
+    path: puerto-rico/byte/pr_ccap_10m_clip.tif
+  us_virgin_islands:
+  - name: exposure
+    path: us-virgin-islands/byte/USVI_ExposureIndex_10class_021220_clip.tif
+  - name: threat
+    path: us-virgin-islands/byte/USVI_ThreatIndex_10class_021220_clip.tif
+  - name: asset
+    path: us-virgin-islands/byte/USVI_AssetIndex_10class_021020_clip.tif
+  - name: wildlife
+    path: us-virgin-islands/byte/USVI_CombinedWildlife_6class_040320.tif
+  - name: crit_facilities
+    path: us-virgin-islands/byte/USVI_CriticalFacilities_v2_clip.tif
+  - name: crit_infra
+    path: us-virgin-islands/byte/USVI_CriticalInfrastructure_v2_clip.tif
+  - name: erosion
+    path: us-virgin-islands/byte/USVI_ErodibleSoils_v2_clip.tif
+  - name: floodprone_areas
+    path: us-virgin-islands/byte/USVI_FloodproneAreas_v2_clip.tif
+  - name: impermeable
+    path: us-virgin-islands/byte/USVI_Impermeable_v2_clip.tif
+  - name: low_areas
+    path: us-virgin-islands/byte/USVI_LowLyingAreas_v2_clip.tif
+  - name: marine
+    path: us-virgin-islands/byte/USVI_MarineIndex_4class.tif
+  - name: pop_density
+    path: us-virgin-islands/byte/USVI_PopulationDensity_v2_clip.tif
+  - name: sea_level_rise
+    path: us-virgin-islands/byte/USVI_SLR_v2_clip.tif
+  - name: social_vuln
+    path: us-virgin-islands/byte/USVI_SocialVulnerability_v2_clip.tif
+  - name: storm_surge
+    path: us-virgin-islands/byte/USVI_StormSurge_v2_clip.tif
+  - name: terrestrial
+    path: us-virgin-islands/byte/USVI_TerrestrialIndex_4class.tif
+  - name: hubs
+    path: us-virgin-islands/byte/USVI_Combined_Hub_Groups_July2020.tif
+  us_virgin_islands_landcover:
+  - name: landcover
+    path: us-virgin-islands/byte/vi_ccap_2012_merge_32161.tif
+  northern_mariana_islands:
+  - name: asset
+    path: cnmi/CNMI_Asset_Index_10class.tif
+  - name: crit_facilities
+    path: cnmi/CNMI_Critical_Facilities.tif
+  - name: crit_infra
+    path: cnmi/CNMI_Critical_Infrastructure.tif
+  - name: erosion
+    path: cnmi/CNMI_Erodible_Soils.tif
+  - name: exposure
+    path: cnmi/CNMI_Exposure_Index.tif
+  - name: floodprone_areas
+    path: cnmi/CNMI_Floodprone_Areas.tif
+  - name: impermeable
+    path: cnmi/CNMI_Impermeable_Soils.tif
+  - name: low_areas
+    path: cnmi/CNMI_Low_Lying_Areas.tif
+  - name: marine
+    path: cnmi/CNMI_Marine_Index.tif
+  - name: pop_density
+    path: cnmi/CNMI_Population_Density.tif
+  - name: sea_level_rise
+    path: cnmi/CNMI_Sea_Level_Rise.tif
+  - name: social_vuln
+    path: cnmi/CNMI_Social_Vulnerability.tif
+  - name: terrestrial
+    path: cnmi/CNMI_Terrestrial_Index.tif
+  - name: threat
+    path: cnmi/CNMI_Threat_Index_10class.tif
+  - name: wave_flooding
+    path: cnmi/CNMI_Wave_Driven_Flooding.tif
+  - name: wildlife
+    path: cnmi/CNMI_Wildlife_Index.tif
+  - name: hubs
+    path: cnmi/CNMI_Combined_Hub_Group_July2020.tif
+  northern_mariana_islands_landcover:
+  - name: landcover
+    path: cnmi/CNMI_CCAP_CREST.tif
+  hawaii:
+  - name: asset
+    path: Hawaii/HI_Asset_Index_10class_102720.tif
+  - name: crit_facilities
+    path: Hawaii/HI_Crit_Facilities_102720.tif
+  - name: crit_infra
+    path: Hawaii/HI_Crit_Infrastructure_091020.tif
+  - name: exposure
+    path: Hawaii/HI_Exposure_Index_10class_102820.tif
+  - name: floodprone_areas
+    path: Hawaii/HI_Floodprone_Areas_091120.tif
+  - name: impermeable
+    path: Hawaii/HI_Impermeable_Soils_091120.tif
+  - name: landslides
+    path: Hawaii/HI_LandslideSuscept_091120.tif
+  - name: low_areas
+    path: Hawaii/HI_LowLyingAreas_091120.tif
+  - name: marine
+    path: Hawaii/HI_Marine_Index_4class_102820.tif
+  - name: pop_density
+    path: Hawaii/HI_Pop_Density_091020.tif
+  - name: sea_level_rise
+    path: Hawaii/HI_SLRXA_091120.tif
+  - name: social_vuln
+    path: Hawaii/HI_Soc_Vulnerability_091020.tif
+  - name: erosion
+    path: Hawaii/HI_Soil_Erodibility_091120.tif
+  - name: storm_surge
+    path: Hawaii/HI_Storm_Surge_091120.tif
+  - name: terrestrial
+    path: Hawaii/HI_Terrestrial_Index_4class_102720.tif
+  - name: threat
+    path: Hawaii/HI_Threat_Index_10class_091120.tif
+  - name: tsunami
+    path: Hawaii/HI_Tsunami_Evac_091120.tif
+  - name: wildlife
+    path: Hawaii/HI_Wildlife_Index_6class_102820.tif
+  - name: hubs
+    path: Hawaii/hi_cores_hubs_111920.tif
+  hawaii_landcover:
+  - name: landcover
+    path: Hawaii/HI_CCAP_CREST.tif
+  american_samoa:
+  - name: asset
+    path: AmericanSamoa/AS_Asset_Index_10class_shift_v2-2_LZW.tif
+  - name: crit_facilities
+    path: AmericanSamoa/AS_C_Facilities_v1_LZW.tif
+  - name: crit_infra
+    path: AmericanSamoa/AS_C_Infrastructure_v2-2_LZW.tif
+  - name: exposure
+    path: AmericanSamoa/AS_Exposure_Index_10class_v2-2_LZW.tif
+  - name: floodprone_areas
+    path: AmericanSamoa/AS_Floodprone_Areas_shift_v1_LZW.tif
+  - name: impermeable
+    path: AmericanSamoa/AS_Impermeable_Surfaces_shift_v1_LZW.tif
+  - name: slope
+    path: AmericanSamoa/AS_Slope_resample_v1_LZW.tif
+  - name: marine
+    path: AmericanSamoa/AS_Marine_Index_4class_v2_LZW.tif
+  - name: pop_density
+    path: AmericanSamoa/AS_PopDensity_v1_LZW.tif
+  - name: sea_level_rise
+    path: AmericanSamoa/AS_SLR_shift_v1_LZW.tif
+  - name: social_vuln
+    path: AmericanSamoa/AS_SocVul_v1_LZW.tif
+  - name: terrestrial
+    path: AmericanSamoa/AS_Terrestrial_Index_4class_v2_LZW.tif
+  - name: wave_flooding
+    path: AmericanSamoa/AS_WaveDriven_Flooding_shift_v1_LZW.tif
+  - name: threat
+    path: AmericanSamoa/AS_Threat_Index_10class_v2_LZW.tif
+  - name: tsunami
+    path: AmericanSamoa/AS_Tsunami_LZW.tif
+  - name: wildlife
+    path: AmericanSamoa/AS_Wildlife_Index_6class_v2_LZW.tif
+  - name: hubs
+    path: AmericanSamoa/as_hubs_cores_merge_100421.tif
+  - name: erosion
+    path: AmericanSamoa/AS_Erodible_Soils_shift_v1_LZW.tif
+  american_samoa_landcover:
+  - name: landcover
+    path: AmericanSamoa/American_Samoa_ccap_3m_clip.tif
+  guam:
+  - name: asset
+    path: guam/GU_Asset_Index_10class_v2.tif
+  - name: crit_facilities
+    path: guam/GU_C_Facilities_v2.tif
+  - name: crit_infra
+    path: guam/GU_C_Infrastructure_v2.tif
+  - name: erosion
+    path: guam/GU_Erodible_Soils_shift_v1.tif
+  - name: exposure
+    path: guam/GU_Exposure_Index_10class_v2.tif
+  - name: floodprone_areas
+    path: guam/GU_Floodprone_Areas_shift_v1.tif
+  - name: hubs
+    path: guam/GU_Cores_Hubs_Sep2021.tif
+  - name: impermeable
+    path: guam/GU_Impermeable_Soils_shift_v1.tif
+  - name: landslides
+    path: guam/GU_Landslides_merge.tif
+  - name: marine
+    path: guam/GU_Marine_Index_4class_v2.tif
+  - name: pop_density
+    path: guam/GU_PopDensity_v1.tif
+  - name: sea_level_rise
+    path: guam/GU_SLR_shift_v1.tif
+  - name: slope
+    path: guam/GU_Slope_v1.tif
+  - name: social_vuln
+    path: guam/GU_Social_Vulnerability_v1.tif
+  - name: terrestrial
+    path: guam/GU_Terrestrial_index_4class_v3.tif
+  - name: threat
+    path: guam/GU_Threat_Index_10class_v2.tif
+  - name: wave_flooding
+    path: guam/GU_WaveDrivenFlooding_shift_v1.tif
+  - name: wildlife
+    path: guam/GU_Wildlife_Index_6class_.tif
+  - name: tsunami
+    path: guam/GU_tsunami.tif
+  - name: wave_exposure
+    path: guam/wave_exposure_5class_proj.tif
+  guam_landcover:
+  - name: landcover
+    path: guam/Guam_ccap_clip.tif
+  alaska:
+  - name: aquatic
+    path: Alaska/AK_Aquatic_Index_10class_v2_8BitUnsigned.tif
+  - name: asset
+    path: Alaska/AK_Asset_Index_All_v3_clip_reclassify_8BitUnsigned.tif
+  - name: crit_facilities
+    path: Alaska/AK_Critical_Facilities_v2_8BitUnsigned.tif
+  - name: crit_infra
+    path: Alaska/AK_Community_Infra_v2_8BitUnsigned.tif
+  - name: erosion
+    path: Alaska/AK_erosion_v3_8BitUnsigned.tif
+  - name: exposure
+    path: Alaska/AK_Exposure_Index_v9_reclassify_8BitUnsigned.tif
+  - name: floodprone_areas
+    path: Alaska/AK_floodprone_v3_8BitUnsigned.tif
+  - name: hubs
+    path: Alaska/ak_hubs_cores_030722.tif
+  - name: low_areas
+    path: Alaska/AK_Low_Lying_Areas_v2_8BitUnsigned.tif
+  - name: permafrost
+    path: Alaska/AK_permafrost20220208_clip_8BitUnsigned.tif
+  - name: social_vuln
+    path: Alaska/AK_Social_Vulnerability_v2_8BitUnsigned.tif
+  - name: terrestrial
+    path: Alaska/AK_Terrestrial_Index_10class_v2_8BitUnsigned.tif
+  - name: threat
+    path: Alaska/AK_Threat_Index_v6_clip_B_Reclassify_8BitUnsigned.tif
+  - name: transportation
+    path: Alaska/AK_Transportation_Infra_v3_8BitUnsigned.tif
+  - name: tsunami
+    path: Alaska/AK_Tsunami_v1_8BitUnsigned.tif
+  - name: wildlife
+    path: Alaska/AK_Wildlife_Index_10class_v2_8BitUnsigned.tif
+  alaska_landcover:
+  - name: landcover
+    path: Alaska/ak_nlcd2016_clip.tif
+  great_lakes:
+  - name: aquatic
+    path: Great_Lakes/GL_Aquatic_Index_CREST_20230504.tif
+  - name: asset
+    path: Great_Lakes/GL_Asset_Index_CREST_20230504.tif
+  - name: crit_facilities
+    path: Great_Lakes/GL_Critical_Facilities_CREST_20230504.tif
+  - name: crit_infra
+    path: Great_Lakes/GL_Critical_Infrastructure_CREST_20230504.tif
+  - name: erosion
+    path: Great_Lakes/GL_Soil_Erodibility_CREST_20230504.tif
+  - name: exposure
+    path: Great_Lakes/GL_Community_Exposure_Index_CREST_20230504.tif
+  - name: floodprone_areas
+    path: Great_Lakes/GL_Flood_Prone_Areas_CREST_20230504.tif
+  - name: highwater
+    path: Great_Lakes/GL_High_Water_Levels_CREST_20230504.tif
+  - name: hubs
+    path: Great_Lakes/gl_hubs_cores_052323_102003_CREST.tif
+  - name: impermeable
+    path: Great_Lakes/GL_Impermeability_CREST_20230504.tif
+  - name: pop_density
+    path: Great_Lakes/GL_Population_Density_CREST_20230504.tif
+  - name: slope
+    path: Great_Lakes/GL_Areas_of_Low_Slope_CREST_20230504.tif
+  - name: social_vuln
+    path: Great_Lakes/GL_Social_Vulnerability_CREST_20230504.tif
+  - name: terrestrial
+    path: Great_Lakes/GL_Terrestrial_Index_CREST_20230504.tif
+  - name: threat
+    path: Great_Lakes/GL_Threat_Index_CREST_20230504.tif
+  - name: wildlife
+    path: Great_Lakes/GL_Fish_and_Wildlife_Index_CREST_20230504.tif
+  great_lakes_landcover:
+  - name: landcover
+    path: nlcd_2021_nfwf_conus_30m.tif
+  north_atlantic:
+  - name: resilience_opportunities
+    path: north-atlantic/CONUS_NAtl_Resilience_Opportunities_CREST_20260810.tif
+  - name: community_exposure_index
+    path: north-atlantic/CONUS_NAtl_Community_Exposure_Index_Marine_Propagation_CREST_20260810.tif
+  - name: threat_index
+    path: north-atlantic/CONUS_NAtl_Threat_Index_CREST_20260810.tif
+  - name: community_asset_index
+    path: north-atlantic/CONUS_NAtl_Community_Asset_Index_CREST_20260810.tif
+  - name: fish_and_wildlife_index
+    path: north-atlantic/CONUS_NAtl_Fish_And_Wildlife_Index_CREST_20260810.tif
+  - name: areas_of_low_slope
+    path: north-atlantic/CONUS_NAtl_Areas_Of_Low_Slope_CREST_20260810.tif
+  - name: flood_prone_areas
+    path: north-atlantic/CONUS_NAtl_Flood_Prone_Areas_CREST_20260810.tif
+  - name: impermeability
+    path: north-atlantic/CONUS_NAtl_Impermeability_CREST_20260810.tif
+  - name: landslide_susceptibility
+    path: north-atlantic/CONUS_NAtl_Landslide_Susceptibility_CREST_20260810.tif
+  - name: sea_level_rise
+    path: north-atlantic/CONUS_NAtl_Sea_Level_Rise_CREST_20260810.tif
+  - name: soil_erodibility
+    path: north-atlantic/CONUS_NAtl_Soil_Erodibility_CREST_20260810.tif
+  - name: storm_surge
+    path: north-atlantic/CONUS_NAtl_Storm_Surge_CREST_20260810.tif
+  - name: vertical_land_motion
+    path: north-atlantic/CONUS_NAtl_Vertical_Land_Motion_CREST_20260810.tif
+    nodata: 0
+  - name: critical_facilities
+    path: north-atlantic/CONUS_NAtl_Critical_Facilities_CREST_20260810.tif
+  - name: critical_infrastructure
+    path: north-atlantic/CONUS_NAtl_Critical_Infrastructure_CREST_20260810.tif
+  - name: population_density
+    path: north-atlantic/CONUS_NAtl_Population_Density_CREST_20260810.tif
+  - name: amphibian_species
+    path: north-atlantic/CONUS_NAtl_Amphibian_Species_CREST_20260810.tif
+  - name: aquatic_invertebrate_species
+    path: north-atlantic/CONUS_NAtl_Aquatic_Invertebrate_Species_CREST_20260827.tif
+  - name: bird_species
+    path: north-atlantic/CONUS_NAtl_Bird_Species_CREST_20260810.tif
+  - name: fish_species
+    path: north-atlantic/CONUS_NAtl_Fish_Species_CREST_20260827.tif
+  - name: mammal_species
+    path: north-atlantic/CONUS_NAtl_Mammal_Species_CREST_20260810.tif
+  - name: reptile_species
+    path: north-atlantic/CONUS_NAtl_Reptile_Species_CREST_20260810.tif
+  - name: habitat_protected_and_managed_areas
+    path: north-atlantic/CONUS_NAtl_Habitat_Protected_And_Managed_Areas_CREST_20260810.tif
+  north_atlantic_landcover:
+  - name: landcover
+    path: north-atlantic/CONUS_NAtl_Land_Cover_CCAP_2021.tif
+landcover_classes:
+  nlcd:
+    lc_open_water: 11
+    lc_perennial_icesnow: 12
+    lc_developed_open_space: 21
+    lc_developed_low_intensity: 22
+    lc_developed_medium_intensity: 23
+    lc_developed_high_intensity: 24
+    lc_barren_land: 31
+    lc_deciduous_forest: 41
+    lc_evergreen_forest: 42
+    lc_mixed_forest: 43
+    lc_dwarf_scrub: 51
+    lc_shrub_scrub: 52
+    lc_grassland_herbaceous: 71
+    lc_sedge_herbaceous: 72
+    lc_lichens: 73
+    lc_moss: 74
+    lc_pasture_hay_areas: 81
+    lc_cultivated_crops: 82
+    lc_woody_wetlands: 90
+    lc_emerg_herbaceous_wetlands: 95
+  ccap:
+    lc_background: 0
+    lc_unclassified: 1
+    lc_developed_high_intensity: 2
+    lc_developed_medium_intensity: 3
+    lc_developed_low_intensity: 4
+    lc_developed_open_space: 5
+    lc_cultivated_crops: 6
+    lc_pasture_hay: 7
+    lc_grassland_herbaceous: 8
+    lc_deciduous_forest: 9
+    lc_evergreen_forest: 10
+    lc_mixed_forest: 11
+    lc_scrub_shrub: 12
+    lc_palus_forested_wetland: 13
+    lc_palus_scrub_shrub_wetland: 14
+    lc_palus_emergent_wetland: 15
+    lc_estuar_forested_wetland: 16
+    lc_estuar_scrub_shrub_wetland: 17
+    lc_estuar_emergent_wetland: 18
+    lc_unconsolidated_shore: 19
+    lc_bare_land: 20
+    lc_open_water: 21
+    lc_palustrine_aquatic_bed: 22
+    lc_estuarine_aquatic_bed: 23
+    lc_tundra: 24
+    lc_snow_ice: 25
+test:
+  points:
+    continental_us:
+      lat: 35.89
+      lng: -79.45
+    puerto_rico:
+      lat: 18.28
+      lng: -66.42
+    us_virgin_islands:
+      lat: 17.77
+      lng: -64.79
+    northern_mariana_islands:
+      lat: 15.203017
+      lng: 145.72
+    hawaii:
+      lat: 19.63
+      lng: -155.52
+    american_samoa:
+      lat: -14.29
+      lng: -170.74
+    guam:
+      lat: 13.41
+      lng: 144.72
+    alaska:
+      lat: 58.3
+      lng: -134.42
+    great_lakes:
+      lat: 44.76776
+      lng: -85.56272
+    north_atlantic:
+      lat: 39.36
+      lng: -74.44
+  polygons:
+    continental_us: '{"type":"FeatureCollection","name":"test-ar","features":[{"type":"Feature","properties":{"id":"conus_poly"},"geometry":{"type":"Polygon","coordinates":[[[-80.01149654388428,32.887677980874706],[-80.01911401748657,32.88337138447869],[-80.01553058624268,32.87764094428261],[-80.00417947769165,32.882578515468],[-80.01149654388428,32.887677980874706]]]}}]}'
+    puerto_rico: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"id":"puerto_rico_poly"},"geometry":{"type":"Polygon","coordinates":[[[-66.19537353515625,18.374075820054482],[-66.2750244140625,18.312810846425442],[-66.15966796875,18.272390159624983],[-66.08963012695312,18.380592091462194],[-66.2091064453125,18.4209874751591],[-66.19537353515625,18.374075820054482]]]}}]}'
+    us_virgin_islands: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"id":"us_virgin_islands_poly"},"geometry":{"type":"Polygon","coordinates":[[[-64.78466033935547,17.768958359342278],[-64.80199813842773,17.73854993679923],[-64.75187301635742,17.729230192705025],[-64.7398567199707,17.756534036838417],[-64.78260040283203,17.77402592723689],[-64.78466033935547,17.768958359342278]]]}}]}'
+    northern_mariana_islands: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"id":"cnmi_poly"},"geometry":{"type":"Polygon","coordinates":[[[145.77878952026367,15.228125499059319],[145.77394008636475,15.225475339228003],[145.7759141921997,15.221707085774053],[145.78372478485107,15.222328231095478],[145.78308105468747,15.226013655644088],[145.77878952026367,15.228125499059319]]]}}]}'
+    hawaii: '{"type": "FeatureCollection","features": [{"type": "Feature","properties": {},"geometry": {"type": "Polygon","coordinates": [[[-155.51548719406128,19.132761962196447],[-155.51735401153564,19.13199160974006],[-155.51750421524048,19.13081580169501],[-155.51602363586426,19.130126531018448],[-155.51490783691406,19.130734711176473],[-155.51467180252075,19.131890247307247],[-155.51548719406128,19.132761962196447]]]}}]}'
+    american_samoa: '{"type": "FeatureCollection","features": [{"type": "Feature","properties": {},"geometry": {"type": "Polygon","coordinates": [[[-170.74453353881836,-14.296573168852175],[-170.74710845947266,-14.304058574190604],[-170.73492050170896,-14.303434799934035],[-170.7322597503662,-14.295325577063075],[-170.74453353881836,-14.296573168852175]]]}}]}'
+    guam: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[144.74343538284302,13.392604613355415],[144.74077463150024,13.38932734988023],[144.74549531936646,13.386300538244093],[144.7498512268066,13.391414784005304],[144.7441864013672,13.392813354740085],[144.74343538284302,13.392604613355415]]]}}]}'
+    alaska: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-159.38140869140625,58.63121664342478],[-159.26055908203125,58.37435815266593],[-158.60137939453122,58.39163652523205],[-158.6865234375,58.68122094860888],[-159.38140869140625,58.63121664342478]]]}}]}'
+    great_lakes: '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-85.63179,44.75796],[-85.60149,44.75326],[-85.59717,44.77625],[-85.63557,44.77048],[-85.63179,44.75796]]]}}]}'
+    north_atlantic: '{"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "atlantic_city"}, "geometry": {"type": "Polygon", "coordinates": [[[-74.45, 39.35], [-74.42, 39.35], [-74.42, 39.37], [-74.45, 39.37], [-74.45, 39.35]]]}}]}'

@@ -230,20 +230,6 @@ export default function NavBarTabsSmallScreens(props) {
 
                 <StyledNavPaper square={false} elevation={0}>
                   <StyledListItem
-                    selected={navBar.activeTab === "ResilienceProject"}
-                    onClick={(event) =>
-                      handleClickNavTab(event, "ResilienceProject")
-                    }
-                    to="/ResilienceProject"
-                    {...a11yProps(1)}
-                    component={RouterLink}
-                  >
-                    Explore Resilience Hubs
-                  </StyledListItem>
-                </StyledNavPaper>
-
-                <StyledNavPaper square={false} elevation={0}>
-                  <StyledListItem
                     selected={navBar.activeTab === "AnalyzeProjectSites"}
                     onClick={(event) =>
                       handleClickNavTab(event, "AnalyzeProjectSites")
