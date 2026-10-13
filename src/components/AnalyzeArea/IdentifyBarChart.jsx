@@ -202,7 +202,11 @@ export default function IdentifyBarChart(props) {
           interval={0}
         />
 
-        <Tooltip onClick={handleChartClick} content={<CustomToolTip />} />
+        <Tooltip
+          onClick={handleChartClick}
+          position={{ x: 0, y: 0 }}
+          content={<CustomToolTip minValue={minValue} />}
+        />
         <Bar
           dataKey="chartValue"
           onClick={handleChartClick}
