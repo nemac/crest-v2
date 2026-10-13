@@ -3,27 +3,40 @@
 Get zonal stats for features in a hube shapefile and output the results to a new shapefile.
 '''
 
-import json, argparse, copy, sys
+import argparse, copy, os, sys
 
 import fiona
 from fiona.crs import to_string, from_epsg, from_string
 from pyproj import Transformer
 
-from hubs_config import config
-from zonal_stats import get_response
-from util import transform_geom
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from src import config as cfg  # noqa: E402
+from src.zonal_stats import get_response  # noqa: E402
+from tools.hubs_config import config  # noqa: E402
 
 from traceback import print_tb
 
 
-def get_stats_for(feature, region, local):
+def transform_ring(coords, transformer):
+  return [list(transformer.transform(x, y)) for x, y, *_ in coords]
+
+
+def transform_geom(geom, transformer):
+  if geom['type'] == 'Polygon':
+    geom['coordinates'] = [transform_ring(ring, transformer) for ring in geom['coordinates']]
+  elif geom['type'] == 'MultiPolygon':
+    geom['coordinates'] = [[transform_ring(ring, transformer) for ring in poly] for poly in geom['coordinates']]
+  else:
+    raise ValueError("Geometry type must be MultiPolygon or Polygon")
+  return geom
+
+
+def get_stats_for(feature, region, api_config):
   id_in = config[region]['id']['in']
   ID = str(feature['properties'][id_in])
-  f_str = json.dumps(feature)
   fc = { "type": "FeatureCollection", "features": [ feature ] }
   try:
-    # Set local to true to use config.local.yml
-    geojson = get_response(fc, region, local)
+    geojson = get_response(fc, region, api_config)
     return geojson['features'][0]
   except Exception as e:
     print('Failed:', ID)
@@ -65,7 +78,7 @@ def get_shp_out_at(shp_path, crs, region, append=False):
     #return fiona.open(shp_path, 'w', crs=crs, driver='GeoJSON', schema=config[region]['schema'])
 
 
-def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, local):
+def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, api_config):
 
   with fiona.Env():
     with fiona.open(shpfile_path_in) as shpfile_read:
@@ -113,7 +126,7 @@ def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, local):
             transformer = Transformer.from_crs(proj_string, 'epsg:4326', always_xy=True)
             new_geom = transform_geom(copy.deepcopy(native_geom), transformer)
             feature['geometry'] = new_geom
-            stats_feature = get_stats_for(feature, region, local)
+            stats_feature = get_stats_for(feature, region, api_config)
             new_feature = conform_feature(stats_feature, region)
             new_feature['geometry'] = native_geom
             shp_out.write(new_feature)
@@ -132,7 +145,7 @@ def setup_argparser():
   parser.add_argument('--region', required=True)
   parser.add_argument('--epsg')
   parser.add_argument('--proj_string')
-  parser.add_argument('--local', action='store_true', help='Use config.local.yml for local datasets')
+  parser.add_argument('--config', help='alternative config.yml, for example one whose VRTs point at local rasters')
   return parser
 
 
@@ -144,8 +157,8 @@ if __name__ == '__main__':
   region = args.region
   epsg = args.epsg
   proj_string = args.proj_string
-  local = args.local
   if epsg and proj_string:
     print('Error: you may use either --epsg or --proj_string, but not both.')
-  main(shp_path_in, shp_path_out, region, epsg, proj_string, local)
+    sys.exit(1)
+  main(shp_path_in, shp_path_out, region, epsg, proj_string, cfg.load_config(args.config))
 

@@ -83,14 +83,16 @@ Hardening
 - [ ] CORS is one global GET+POST setting on every function URL; could be one method each.
 
 Tooling
-- [ ] Hubs and boundary batch script: `tools/prep_hubs.py` and `tools/hubs_config.py` are carried
-      over unchanged and currently broken (they import the removed `util` module and pass a bool
-      where `get_response` now takes a config). Plan: one script `prep_zonal_stats.py --region R
+- [ ] Hubs and boundary batch script: `tools/prep_hubs.py` and `tools/hubs_config.py` import the
+      new modules again and take `--config` instead of `--local` (fixed 2026-10-13, with
+      `requirements-tools.txt` for fiona and pyproj), but have not been run end to end against a
+      boundary shapefile since the migration. Plan: one script `prep_zonal_stats.py --region R
       --boundary hubs|states|counties|huc8 [--id-field] [--keep]`, statistic fields derived from
       `config.yml`, GeoJSON output by default. Open question: does the ArcGIS Online upload need a
-      shapefile or accept GeoJSON? The original hubs configuration is in the old repo's history at
-      commit `8474977^` of `nfwf_crest_api`; the boundary variant is the current file.
-- [ ] `tools/download_rasters.py` also imports the removed `util`.
+      shapefile or accept GeoJSON? The original hubs configuration is in this repo's history at
+      `ca6f0a8d^` (`git show ca6f0a8d^:lambda_functions/hubs_config.py`); the boundary variant is the
+      current file.
+- [x] `tools/download_rasters.py` imports the removed `util` (fixed 2026-10-13; covered by `tests/test_tools.py`).
 - [ ] `tools/parity_check.py`: run it after any change to `src/rasters.py`
       (`--base <prod zonal URL> --candidate <dev zonal URL>`).
 
@@ -163,7 +165,11 @@ name decided (deleting v1 frees `crest-api-prod`; `samconfig.toml` has an unarme
    `api.resilientcoasts.org` with its `beta`, `prod`, `prod-v2` mappings, the Route53 A record, and
    the ACM certificate; CloudFront `E2VQLKHSBSW35B` and the `resilientcoasts.org` S3 bucket (the v1
    site, confirmed retirable 2026-09-16); the dead REST APIs `dm3kiccxv2`, `lg0njzoglg`,
-   `ktj0thaws0`, `w9nr8na6tb`. Archive `nemac/nfwf_crest_api` on GitHub.
+   `ktj0thaws0`, `w9nr8na6tb`; SNS topics `Crest_Upload_Shape_File` and
+   `Crest_Upload_Shapefile_Response` (granted to the old API, never published to). Archive
+   `nemac/nfwf_crest_api` on GitHub after closing its two open issues and eleven dependabot PRs and
+   removing its Travis webhook (audit 2026-10-13: every branch except the 2019 `natureserve`
+   prototype is in this repo's history; nothing else to carry over).
 5. Move the frontend deploys from the `crest-v2-user` access key to OIDC roles as well.
 
 ## Reference

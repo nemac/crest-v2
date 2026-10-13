@@ -85,6 +85,9 @@ Options: `--regions` limits the regions and `--tolerance` sets the numeric toler
 - `tools/parity_check.py` compares two zonal-stats deployments.
 - `tools/cogeotiff.py` converts a GeoTIFF to a Cloud-Optimized GeoTIFF.
 - `tools/batch_cogeotiff.py` runs `cogeotiff.py` over a folder of TIFFs.
-- `tools/download_rasters.py` prints the `aws s3 cp` commands for a region's rasters.
-- `tools/prep_hubs.py` and `tools/hubs_config.py` are carried as-is and currently broken (they import the
-  removed `util`); they will be split and updated in the follow-up plan.
+- `tools/download_rasters.py --region <key> --dir DIR` copies a region's rasters out of the dataset bucket.
+- `tools/prep_hubs.py` runs zonal stats over every feature of a boundary shapefile and writes a new
+  shapefile using the schema in `tools/hubs_config.py`; `--config` points it at an alternative
+  `config.yml` (for example one whose VRTs reference local rasters). The script needs
+  `pip install -r requirements-tools.txt` (fiona, pyproj). The one-script rewrite that also covers
+  the original hubs layer is tracked in `docs/backlog.md`.
