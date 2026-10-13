@@ -92,6 +92,16 @@ Tooling
       shapefile or accept GeoJSON? The original hubs configuration is in this repo's history at
       `ca6f0a8d^` (`git show ca6f0a8d^:lambda_functions/hubs_config.py`); the boundary variant is the
       current file.
+      Found by a one-feature smoke run on 2026-10-13 (zonal stats succeed; the write step needed the
+      fiona 1.10 fixes now in place), still open for the rewrite:
+      - Land cover columns are truncated by the shapefile driver: the schema names them
+        `landcover_open_water` and so on, over the 10-character limit, so the output gets
+        `landcover_`, `landcove_1` ... `landcove19`, and a resumed run (append mode) then reads those
+        truncated names back as the schema. Short names or GeoJSON output.
+      - The API returns land cover as `lc_open_water` while the schema and `field_maps` expect
+        `landcover_open_water`, so every land cover value is dropped from the output rows.
+      - `hubs_config.py` has no `north_atlantic` entry, and `continental_us` is configured for state
+        boundaries (`STATEFP`), not hubs; the hubs variant is the commented-out `TARGET_FID` block.
 - [x] `tools/download_rasters.py` imports the removed `util` (fixed 2026-10-13; covered by `tests/test_tools.py`).
 - [ ] `tools/parity_check.py`: run it after any change to `src/rasters.py`
       (`--base <prod zonal URL> --candidate <dev zonal URL>`).

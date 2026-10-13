@@ -36,3 +36,14 @@ def test_prep_hubs_imports_and_reprojects():
     with pytest.raises(ValueError):
         prep_hubs.transform_geom({"type": "Point", "coordinates": [0, 0]}, transformer)
     assert set(prep_hubs.config) <= set(cfg.load_config()["regions"])
+
+
+def test_prep_hubs_conform_feature_fills_the_schema():
+    pytest.importorskip("fiona")
+    from tools import prep_hubs
+
+    feature = {"type": "Feature", "geometry": None, "properties": {"STATEFP": "45", "mean": {"exposure": 4.5, "sea_level_rise": 2.0, "lc_open_water": 10.0}}}
+    props = prep_hubs.conform_feature(feature, "continental_us")["properties"]
+    assert list(props) == list(prep_hubs.config["continental_us"]["schema"]["properties"])
+    assert props["exposure"] == 4.5 and props["slr"] == 2.0 and props["hubs"] is None
+    assert "mean" not in props and "lc_open_water" not in props

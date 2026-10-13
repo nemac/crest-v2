@@ -6,7 +6,8 @@ Get zonal stats for features in a hube shapefile and output the results to a new
 import argparse, copy, os, sys
 
 import fiona
-from fiona.crs import to_string, from_epsg, from_string
+from fiona.crs import CRS
+from fiona.model import to_dict
 from pyproj import Transformer
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -50,23 +51,13 @@ def getFieldMappedKey(key, region):
 
 
 def conform_feature(feature, region):
+  # fiona 1.10 rejects records whose keys differ from the schema, so build the row from the schema and leave unknown fields null.
+  schema_fields = config[region]['schema']['properties']
+  values = {key: value for key, value in feature['properties'].items() if key != 'mean'}
+  values.update(feature['properties'].get('mean', {}))
+  mapped = {getFieldMappedKey(key, region): value for key, value in values.items()}
   new_feature = feature.copy()
-  props = new_feature['properties']
-  means = props['mean'].copy()
-  props.pop('mean')
-  for key in means:
-    new_key = getFieldMappedKey(key, region)
-    value = means[key]
-    props[new_key] = value
-  for key in props.copy():
-    new_key = getFieldMappedKey(key, region)
-    value = props[key]
-    if new_key in config[region]['schema']['properties']:
-      if new_key != key:
-        props[new_key] = value
-        props.pop(key, None)
-    else:
-      props.pop(new_key, None)
+  new_feature['properties'] = {field: mapped.get(field) for field in schema_fields}
   return new_feature
 
 
@@ -86,10 +77,10 @@ def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, api_confi
       id_out = config[region]['id']['out']
       crs = shpfile_read.crs
       if epsg:
-        crs = from_epsg(int(epsg))
+        crs = CRS.from_epsg(int(epsg))
       elif proj_string:
-        crs = from_string(proj_string)
-      elif not epsg and not proj_string and crs == {}:
+        crs = CRS.from_string(proj_string)
+      elif not crs:
         print('Error: the shapefile is reporting an empty CRS. You\'ll need to use the --epsg flag in order to process the provided shapefile, or retool your file.')
         sys.exit()
       ids_done = []
@@ -109,6 +100,7 @@ def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, api_confi
 
       skipped_recently = False
       for feature in shpfile_read:
+        feature = to_dict(feature)
         f_id = feature['properties'][id_in]
 
         # Check if a feature with this ID is already in shp_out
@@ -122,8 +114,7 @@ def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, api_confi
           try:
             # Get a copy of the geometry so we can copy it back to the feature later
             native_geom = copy.deepcopy(feature['geometry'])
-            proj_string = to_string(crs)
-            transformer = Transformer.from_crs(proj_string, 'epsg:4326', always_xy=True)
+            transformer = Transformer.from_crs(crs.to_string(), 'epsg:4326', always_xy=True)
             new_geom = transform_geom(copy.deepcopy(native_geom), transformer)
             feature['geometry'] = new_geom
             stats_feature = get_stats_for(feature, region, api_config)
