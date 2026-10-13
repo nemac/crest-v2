@@ -60,7 +60,7 @@ Deploy automation
       tests. Until then the backend deploys by hand: `PYTHON=.venv/bin/python sam build &&
       AWS_PROFILE=jbliss sam deploy --config-env dev`.
 - [ ] Mirror workflow for `master` and prod, armed only at cutover (section 5).
-- [ ] Python tests in `pr.yml` (needs the GDAL CLI on the runner).
+- [x] Python tests in `pr.yml` (done 2026-10-13: `backend-tests` job on `ubuntu-24.04` with `gdal-bin`, Python 3.13, `requirements-dev.txt` and `requirements-tools.txt`).
 
 Hardening
 - [ ] `ReservedConcurrentExecutions` on zonal_stats: it is a public, unauthenticated 2048 MB / 120 s

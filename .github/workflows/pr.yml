@@ -7,14 +7,14 @@ on:
 
 jobs:
   pull-request-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
 
@@ -22,3 +22,29 @@ jobs:
         run: |
           npm install --legacy-peer-deps
           npm run check
+
+  backend-tests:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: lambda_functions
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: lambda_functions/requirements*.txt
+
+      - name: Install GDAL command-line tools
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends gdal-bin
+
+      - name: Install Python dependencies
+        run: pip install -r requirements-dev.txt -r requirements-tools.txt
+
+      - name: Run backend tests
+        run: python -m pytest -q
