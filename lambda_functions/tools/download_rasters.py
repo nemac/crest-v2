@@ -1,35 +1,34 @@
 #! /usr/bin/env python
+"""Copy a region's rasters from the dataset bucket into a local directory."""
+import argparse
+import os
+import sys
 
-import argparse, os
-import util
-
-config = util.get_config()
-
-
-def download_region(region, dir_path):
-  bucket = config['dataset_bucket']
-  datasets = config['datasets'][region]
-  for d in datasets:
-    dataset_path = f's3://{bucket}/{d["path"]}'
-    c = f'aws s3 cp {dataset_path} {dir_path}'
-    print(c)
-    os.system(c)
-  
-
-def setup_argparser():
-  parser = argparse.ArgumentParser()
-  parser.add_argument('--dir', required=True)
-  parser.add_argument('--region')
-  return parser
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from src import config as cfg  # noqa: E402
 
 
-def main():
-  parser = setup_argparser()
-  args = parser.parse_args()
-  dir_path = args.dir
-  region = args.region
-  download_region(region, dir_path)
+def download_commands(config, region, dir_path):
+    bucket = config["dataset_bucket"]
+    return [f's3://{bucket}/{dataset["path"]}' for dataset in config["datasets"][region]], dir_path
 
 
-if __name__ == '__main__':
-  main()
+def download_region(config, region, dir_path):
+    sources, dest = download_commands(config, region, dir_path)
+    for source in sources:
+        command = f"aws s3 cp {source} {dest}"
+        print(command)
+        os.system(command)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--dir", required=True)
+    parser.add_argument("--region", required=True, help="a key under datasets in config.yml")
+    parser.add_argument("--config", help="alternative config.yml (default: CONFIG_PATH or src/config.yml)")
+    args = parser.parse_args(argv)
+    download_region(cfg.load_config(args.config), args.region, args.dir)
+
+
+if __name__ == "__main__":
+    main()

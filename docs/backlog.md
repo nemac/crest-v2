@@ -60,7 +60,7 @@ Deploy automation
       tests. Until then the backend deploys by hand: `PYTHON=.venv/bin/python sam build &&
       AWS_PROFILE=jbliss sam deploy --config-env dev`.
 - [ ] Mirror workflow for `master` and prod, armed only at cutover (section 5).
-- [ ] Python tests in `pr.yml` (needs the GDAL CLI on the runner).
+- [x] Python tests in `pr.yml` (done 2026-10-13: `backend-tests` job on `ubuntu-24.04` with `gdal-bin`, Python 3.13, `requirements-dev.txt` and `requirements-tools.txt`).
 
 Hardening
 - [ ] `ReservedConcurrentExecutions` on zonal_stats: it is a public, unauthenticated 2048 MB / 120 s
@@ -83,14 +83,26 @@ Hardening
 - [ ] CORS is one global GET+POST setting on every function URL; could be one method each.
 
 Tooling
-- [ ] Hubs and boundary batch script: `tools/prep_hubs.py` and `tools/hubs_config.py` are carried
-      over unchanged and currently broken (they import the removed `util` module and pass a bool
-      where `get_response` now takes a config). Plan: one script `prep_zonal_stats.py --region R
+- [ ] Hubs and boundary batch script: `tools/prep_hubs.py` and `tools/hubs_config.py` import the
+      new modules again and take `--config` instead of `--local` (fixed 2026-10-13, with
+      `requirements-tools.txt` for fiona and pyproj), but have not been run end to end against a
+      boundary shapefile since the migration. Plan: one script `prep_zonal_stats.py --region R
       --boundary hubs|states|counties|huc8 [--id-field] [--keep]`, statistic fields derived from
       `config.yml`, GeoJSON output by default. Open question: does the ArcGIS Online upload need a
-      shapefile or accept GeoJSON? The original hubs configuration is in the old repo's history at
-      commit `8474977^` of `nfwf_crest_api`; the boundary variant is the current file.
-- [ ] `tools/download_rasters.py` also imports the removed `util`.
+      shapefile or accept GeoJSON? The original hubs configuration is in this repo's history at
+      `ca6f0a8d^` (`git show ca6f0a8d^:lambda_functions/hubs_config.py`); the boundary variant is the
+      current file.
+      Found by a one-feature smoke run on 2026-10-13 (zonal stats succeed; the write step needed the
+      fiona 1.10 fixes now in place), still open for the rewrite:
+      - Land cover columns are truncated by the shapefile driver: the schema names them
+        `landcover_open_water` and so on, over the 10-character limit, so the output gets
+        `landcover_`, `landcove_1` ... `landcove19`, and a resumed run (append mode) then reads those
+        truncated names back as the schema. Short names or GeoJSON output.
+      - The API returns land cover as `lc_open_water` while the schema and `field_maps` expect
+        `landcover_open_water`, so every land cover value is dropped from the output rows.
+      - `hubs_config.py` has no `north_atlantic` entry, and `continental_us` is configured for state
+        boundaries (`STATEFP`), not hubs; the hubs variant is the commented-out `TARGET_FID` block.
+- [x] `tools/download_rasters.py` imports the removed `util` (fixed 2026-10-13; covered by `tests/test_tools.py`).
 - [ ] `tools/parity_check.py`: run it after any change to `src/rasters.py`
       (`--base <prod zonal URL> --candidate <dev zonal URL>`).
 
@@ -163,7 +175,11 @@ name decided (deleting v1 frees `crest-api-prod`; `samconfig.toml` has an unarme
    `api.resilientcoasts.org` with its `beta`, `prod`, `prod-v2` mappings, the Route53 A record, and
    the ACM certificate; CloudFront `E2VQLKHSBSW35B` and the `resilientcoasts.org` S3 bucket (the v1
    site, confirmed retirable 2026-09-16); the dead REST APIs `dm3kiccxv2`, `lg0njzoglg`,
-   `ktj0thaws0`, `w9nr8na6tb`. Archive `nemac/nfwf_crest_api` on GitHub.
+   `ktj0thaws0`, `w9nr8na6tb`; SNS topics `Crest_Upload_Shape_File` and
+   `Crest_Upload_Shapefile_Response` (granted to the old API, never published to). Archive
+   `nemac/nfwf_crest_api` on GitHub after closing its two open issues and eleven dependabot PRs and
+   removing its Travis webhook (audit 2026-10-13: every branch except the 2019 `natureserve`
+   prototype is in this repo's history; nothing else to carry over).
 5. Move the frontend deploys from the `crest-v2-user` access key to OIDC roles as well.
 
 ## Reference
