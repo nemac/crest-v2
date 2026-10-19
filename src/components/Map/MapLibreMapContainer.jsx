@@ -56,6 +56,7 @@ export default function MapLibreMapContainer(props) {
         mapStyle={basemapStyleUrl(mapConfig.basemaps[basemap], agolApiKey)}
         style={{ width: "100%", height: "100%" }}
         attributionControl={false}
+        // Map export reads the canvas; maplibre-gl 6 only accepts this here, and ignores a bare preserveDrawingBuffer prop.
         canvasContextAttributes={{ preserveDrawingBuffer: true }}
         interactiveLayerIds={interactiveLayerIds}
         cursor={cursor}

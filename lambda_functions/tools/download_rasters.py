@@ -2,23 +2,24 @@
 """Copy a region's rasters from the dataset bucket into a local directory."""
 import argparse
 import os
+import shlex
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from src import config as cfg  # noqa: E402
 
 
-def download_commands(config, region, dir_path):
+def dataset_sources(config, region):
     bucket = config["dataset_bucket"]
-    return [f's3://{bucket}/{dataset["path"]}' for dataset in config["datasets"][region]], dir_path
+    return [f's3://{bucket}/{dataset["path"]}' for dataset in config["datasets"][region]]
 
 
 def download_region(config, region, dir_path):
-    sources, dest = download_commands(config, region, dir_path)
-    for source in sources:
-        command = f"aws s3 cp {source} {dest}"
-        print(command)
-        os.system(command)
+    for source in dataset_sources(config, region):
+        command = ["aws", "s3", "cp", source, dir_path]
+        print(shlex.join(command))
+        subprocess.run(command, check=True)
 
 
 def main(argv=None):

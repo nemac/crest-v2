@@ -10,7 +10,11 @@ import EmptyState from "../components/AnalyzeArea/EmptyStateAnalyzeProject.jsx";
 import ChartsHolder from "../components/AnalyzeArea/AnalyzeProjectSitesChartsHolder.jsx";
 import AnalyzeProjectSitesMapCard from "../components/Map/AnalyzeProjectSitesMapCard.jsx";
 import ShapeFileCorrectionMap from "../components/Map/ShapeFileCorrectionMap.jsx";
-import { UpdateRedux } from "../components/Map/ShareMap.jsx";
+import {
+  UpdateRedux,
+  shareErrorText,
+  skipShareRead,
+} from "../components/Map/ShareMap.jsx";
 import { useGetShareMapQuery } from "../services/shareMap";
 
 const analyzeAreaSelector = (state) => state.analyzeArea;
@@ -29,7 +33,7 @@ export default function AnalyzeProjectSite(props) {
   const [map, setMap] = useState(null);
   const [drawAreaDisabled, setDrawAreaDisabled] = useState(false);
   const [hover, setHover] = useState(false);
-  const [skip, setSkip] = useState(true);
+  const [proceeded, setProceeded] = useState(false);
 
   const [geoToRedraw, setGeoToRedraw] = useState(null);
 
@@ -47,7 +51,7 @@ export default function AnalyzeProjectSite(props) {
     {
       shareUrl,
     },
-    { skip },
+    { skip: skipShareRead(proceeded, shareUrl) },
   );
 
   if (isFetching) {
@@ -74,13 +78,13 @@ export default function AnalyzeProjectSite(props) {
         acceptButtonText: "Proceed",
         acceptButtonClose: () => {
           setErrorState({ ...previous, error: false });
-          setSkip(false);
+          setProceeded(true);
         },
       }));
     }
   }, [
     shareUrl,
-    setSkip,
+    setProceeded,
     setErrorState,
     querySearchParams,
     setQuerySearchParams,
@@ -96,21 +100,33 @@ export default function AnalyzeProjectSite(props) {
         ...previous,
         error: true,
         errorTitle: "Share Link Error",
-        errorMessage: `The following error occurred with the share link: ${error.data}`,
+        errorType: "error",
+        errorMessage: `The following error occurred with the share link: ${shareErrorText(error)}`,
+        acceptButtonText: null,
       }));
     }
   }, [error, querySearchParams, setErrorState, setQuerySearchParams]);
 
   useEffect(() => {
     if (data) {
-      UpdateRedux(data, dispatch, setShareUrlComplete);
-      setSkip(true);
+      const problem = UpdateRedux(data, dispatch, setShareUrlComplete);
+      if (problem) {
+        setErrorState((previous) => ({
+          ...previous,
+          error: true,
+          errorTitle: "Share Link Error",
+          errorType: "error",
+          errorMessage: problem,
+          acceptButtonText: null,
+        }));
+      }
+      setProceeded(false);
       if (querySearchParams.has("shareUrl")) {
         querySearchParams.delete("shareUrl");
         setQuerySearchParams(querySearchParams);
       }
     }
-  }, [data, querySearchParams, setQuerySearchParams, dispatch]);
+  }, [data, querySearchParams, setQuerySearchParams, setErrorState, dispatch]);
 
   if (geoToRedraw?.features?.length > 0) {
     return (

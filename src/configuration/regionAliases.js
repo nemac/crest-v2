@@ -1,5 +1,6 @@
 export const legacyRegionKeys = {
   "US Virgin Islands": "U.S. Virgin Islands",
+  "Atlantic, Gulf of Mexico, and Pacific Coasts": "North Atlantic",
   "Atlantic, Gulf of America, and Pacific Coasts": "North Atlantic",
 };
 
@@ -12,8 +13,6 @@ const searchRegionNames = {
 const appRegionNames = Object.fromEntries(
   Object.entries(searchRegionNames).map(([app, search]) => [search, app]),
 );
-
-export const currentRegionKey = (key) => legacyRegionKeys[key] ?? key;
 
 export const searchRegionName = (label) => searchRegionNames[label] ?? label;
 

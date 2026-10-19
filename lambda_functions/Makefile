@@ -17,11 +17,22 @@ build-IdentifyFunction:
 build-ZonalStatsFunction:
 	$(call build_function,requirements.txt)
 
-build-UploadShapeFunction:
-	$(call build_function,requirements-light.txt)
-
 build-ShareReadFunction:
 	$(call build_function,requirements-light.txt)
 
 build-ShareWriteFunction:
 	$(call build_function,requirements-light.txt)
+
+# Regenerate the hash-locked requirements*.txt from requirements*.in (needs pip-tools in the venv).
+LOCK = $(PYTHON) -m piptools compile -q --generate-hashes --strip-extras --no-emit-index-url
+
+lock:
+	$(LOCK) requirements.in -o requirements.txt
+	$(LOCK) requirements-light.in -o requirements-light.txt
+	$(LOCK) requirements-dev.in -o requirements-dev.txt
+	$(LOCK) requirements-tools.in -o requirements-tools.txt
+
+lint:
+	$(PYTHON) -m ruff check .
+
+.PHONY: lock lint

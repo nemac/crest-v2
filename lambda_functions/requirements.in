@@ -1,0 +1,6 @@
+# Lambda runtime for identify and zonal_stats. Edit this file, then run `make lock` to regenerate requirements.txt.
+rasterio==1.4.3
+affine==2.4.0
+numpy==2.2.6
+PyYAML==6.0.3
+boto3==1.43.93

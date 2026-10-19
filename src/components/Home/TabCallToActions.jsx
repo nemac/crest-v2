@@ -1,26 +1,3 @@
-/*
-Purpose
-  This will hold all the tab call to action cards
-
-Child Components
-  - HomePage-TabCallToActionCard.js
-
-Libs
-  - None
-
-API
-  - None
-
-State needed
-  - Not sure yet
-
-Props
-  - Tab Name
-  - Tab description
-  - Tab CTA Label
-  - Not sure yet
-  - config?
-*/
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useDispatch } from "react-redux";
@@ -57,18 +34,6 @@ export default function TabCallToActions() {
           onClick={handleActionClick}
         />
       </Grid>
-      {/* <Grid xs={12} sm={12} md={6} lg={3}>
-        <TabCallToActionCard
-          tabLabel={"Download Data and Access Reports"}
-          tabLocation={"DataAndReports"}
-          tabText={
-            "Download results for each Regional Assessment to use in your \
-            own GIS application. Review the regional reports for detailed descriptions \
-            of methods, data sources, and results."
-          }
-          onClick={handleActionClick}
-        />
-      </Grid> */}
       <Grid xs={12} sm={12} md={6} lg={6}>
         <TabCallToActionCard
           tabLabel={"Learn About the Assessment"}

@@ -46,5 +46,8 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements-dev.txt -r requirements-tools.txt
 
+      - name: Lint backend
+        run: python -m ruff check .
+
       - name: Run backend tests
         run: python -m pytest -q

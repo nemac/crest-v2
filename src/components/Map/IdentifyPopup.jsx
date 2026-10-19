@@ -45,9 +45,82 @@ const ContentBox = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }));
 
+const IDENTIFY_FAILED_MESSAGE =
+  "Something went wrong loading information for this point. Please try again.";
+
+function PopupMessage({ children }) {
+  return (
+    <Grid
+      container
+      spacing={2}
+      pt={2}
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Grid xs={12}>
+        <Typography variant="h6" component="div" align="center" gutterBottom>
+          {children}
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+}
+
+PopupMessage.propTypes = {
+  children: PropTypes.node,
+};
+
+function IdentifyPopupBody(props) {
+  const {
+    region,
+    summaryIndices,
+    identifyItems,
+    identifyIsLoaded,
+    identifyFailed,
+  } = props;
+
+  if (identifyFailed) {
+    return <PopupMessage>{IDENTIFY_FAILED_MESSAGE}</PopupMessage>;
+  }
+  if (!identifyIsLoaded) {
+    return <PopupMessage>Loading...</PopupMessage>;
+  }
+  return (
+    <PopupMessage>
+      <ContentBox components="fieldset">
+        <IdentifyBarChart
+          areaName={""}
+          chartRegion={region}
+          chartIndices={summaryIndices}
+          zonalStatsData={identifyItems}
+          barchartMargin={{
+            top: 20,
+            right: 0,
+            left: -25,
+            bottom: 20,
+          }}
+        />
+      </ContentBox>
+    </PopupMessage>
+  );
+}
+
+IdentifyPopupBody.propTypes = {
+  region: PropTypes.string,
+  summaryIndices: PropTypes.arrayOf(PropTypes.string),
+  identifyItems: PropTypes.object,
+  identifyIsLoaded: PropTypes.bool,
+  identifyFailed: PropTypes.bool,
+};
+
 export default function ShowIdentifyPopup(props) {
-  const { region, identifyItems, identifyIsLoaded, identifyCoordinates } =
-    props;
+  const {
+    region,
+    identifyItems,
+    identifyIsLoaded,
+    identifyFailed,
+    identifyCoordinates,
+  } = props;
   const dispatch = useDispatch();
   const summaryIndices = mapConfig.regions[region].summaryIndices ?? [
     "hubs",
@@ -128,58 +201,13 @@ export default function ShowIdentifyPopup(props) {
           </IconButton>
         </Box>
         <Divider />
-        {!identifyIsLoaded ? (
-          <Grid
-            container
-            spacing={2}
-            pt={2}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Grid xs={12}>
-              <Typography
-                variant="h6"
-                component="div"
-                align="center"
-                gutterBottom
-              >
-                Loading...
-              </Typography>
-            </Grid>
-          </Grid>
-        ) : (
-          <Grid
-            container
-            spacing={2}
-            pt={2}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Grid xs={12}>
-              <Typography
-                variant="h6"
-                component="div"
-                align="center"
-                gutterBottom
-              >
-                <ContentBox components="fieldset">
-                  <IdentifyBarChart
-                    areaName={""}
-                    chartRegion={region}
-                    chartIndices={summaryIndices}
-                    zonalStatsData={identifyItems}
-                    barchartMargin={{
-                      top: 20,
-                      right: 0,
-                      left: -25,
-                      bottom: 20,
-                    }}
-                  />
-                </ContentBox>
-              </Typography>
-            </Grid>
-          </Grid>
-        )}
+        <IdentifyPopupBody
+          region={region}
+          summaryIndices={summaryIndices}
+          identifyItems={identifyItems}
+          identifyIsLoaded={identifyIsLoaded}
+          identifyFailed={identifyFailed}
+        />
       </StyledPopup>
       <Source id="identify-point" type="geojson" data={point}>
         <Layer
@@ -202,5 +230,6 @@ ShowIdentifyPopup.propTypes = {
   region: PropTypes.string,
   identifyItems: PropTypes.object,
   identifyIsLoaded: PropTypes.bool,
+  identifyFailed: PropTypes.bool,
   identifyCoordinates: PropTypes.object,
 };

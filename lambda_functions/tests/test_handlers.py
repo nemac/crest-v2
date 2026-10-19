@@ -3,7 +3,7 @@ import json
 import pytest
 from botocore.exceptions import ClientError
 
-from src import identify, read_s3, upload_shape, write_s3, zonal_stats
+from src import identify, rasters, read_s3, write_s3, zonal_stats
 
 
 class FakeS3:
@@ -37,7 +37,7 @@ def env(monkeypatch, fixture_dir):
 @pytest.fixture
 def s3(monkeypatch):
     fake = FakeS3()
-    for module in (upload_shape, read_s3, write_s3):
+    for module in (read_s3, write_s3):
         monkeypatch.setattr(module.boto3, "client", lambda name, fake=fake: fake)
     return fake
 
@@ -144,17 +144,22 @@ def test_zonal_stats_too_many_features(whole_polygon):
     assert zonal_stats.handler(post_event(json.dumps(fc), {"region": "demo"}), None)["statusCode"] == 400
 
 
-def test_upload_shape_writes_public_object_under_stage(s3, whole_polygon):
-    response = upload_shape.handler(post_event(json.dumps(feature_collection(whole_polygon))), None)
+# The whole polygon's largest window is the 40 x 40 index raster.
+WHOLE_POLYGON_WINDOW_PIXELS = 40 * 40
+
+
+def test_zonal_stats_window_over_limit_is_413(monkeypatch, whole_polygon):
+    monkeypatch.setattr(rasters, "MAX_WINDOW_PIXELS", WHOLE_POLYGON_WINDOW_PIXELS - 1)
+    response = zonal_stats.handler(post_event(json.dumps(feature_collection(whole_polygon)), {"region": "demo"}), None)
+    assert response["statusCode"] == 413
+    assert body_of(response) == {"message": "area too large to analyze"}
+
+
+def test_zonal_stats_window_at_limit_is_analyzed(monkeypatch, whole_polygon):
+    monkeypatch.setattr(rasters, "MAX_WINDOW_PIXELS", WHOLE_POLYGON_WINDOW_PIXELS)
+    response = zonal_stats.handler(post_event(json.dumps(feature_collection(whole_polygon)), {"region": "demo"}), None)
     assert response["statusCode"] == 200
-    body = body_of(response)
-    assert body["bucket"] == "shapes-test" and body["key"].startswith("test/")
-    _, kwargs = s3.calls[0]
-    assert kwargs["ACL"] == "public-read" and kwargs["ContentType"] == "application/json"
-
-
-def test_upload_shape_rejects_non_feature_collection(s3):
-    assert upload_shape.handler(post_event(json.dumps({"type": "Feature"})), None)["statusCode"] == 400
+    assert body_of(response)["features"][0]["properties"]["mean"]["index_a"] == pytest.approx((778 * 2 + 780 * 4) / 1558)
 
 
 def test_write_then_read_share_link(s3):

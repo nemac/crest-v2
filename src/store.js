@@ -1,5 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import regionSelectReducer from "./reducers/regionSelectSlice";
 import mapPropertiesReducer from "./reducers/mapPropertiesSlice";
 import mapLayerListReducer from "./reducers/mapLayerListSlice";
@@ -10,6 +9,7 @@ import { identifyApi } from "./services/identify";
 import { shareMapApi } from "./services/shareMap";
 import { loadState, saveState } from "./localStorage";
 import { mapConfig } from "./configuration/config";
+import { analyticsListener } from "./analyticsListeners";
 
 const reducers = combineReducers({
   selectedRegion: regionSelectReducer,
@@ -56,16 +56,11 @@ const getPersistedState = () => {
   }
 };
 
-export const setupStore = (preloadedState) =>
-  configureStore({
-    reducer: reducers,
-    preloadedState,
-  });
-
 export const store = configureStore({
-  devTools: true, // prob should turn off in prod
+  devTools: import.meta.env.DEV,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
+      .prepend(analyticsListener.middleware)
       .concat(zonalStatsApi.middleware)
       .concat(identifyApi.middleware)
       .concat(shareMapApi.middleware),

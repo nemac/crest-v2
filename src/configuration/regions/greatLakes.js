@@ -180,8 +180,6 @@ export const greatLakesConfig = {
       format: "image/png",
       opacity: 0.75,
       maxNativeZoom: 14,
-      // description:
-      //   "Index of human community assets that are important to help a community respond to and recover from a flooding event. High values represent areas with dense concentration of critical facilities, infrastructure, and population and social vulnerability.",
       description:
         "Index of human community assets that are important to help a community respond to and recover from a flooding event. High values represent areas with dense concentration of critical facilities, infrastructure, and population.",
       region: "great_lakes",
@@ -322,33 +320,6 @@ export const greatLakesConfig = {
         "Index of habitat suitable for species of conservation concern and/or species with off-reservation harvest regulations that utilize terrestrial habitats. The Index also considers designated critical habitat, Important Bird Areas, and Key Biodiversity Areas. High values represent areas important for numerous terrestrial species of concern.",
       region: "great_lakes",
     },
-    // {
-    //   id: "GL_SocVulnTMS",
-    //   layer: "Social Vulnerability TMS",
-    //   label: "Social Vulnerability",
-    //   chartOrder: 12,
-    //   chartLabel: "Social Vulnerability",
-    // chartTipLabel: "Social Vulnerability",
-    //   isLegendCustom: false,
-    //   chartCSSColor: {
-    //     0: "#E9ECEF",
-    //     1: "#9EBBD7",
-    //     2: "#7A8EF5",
-    //     3: "#43309D",
-    //     4: "#321699",
-    //     5: "#270B59",
-    //   },
-    //   chartInputName: "asset",
-    //   ChartInputLabel: "Community Assets Inputs",
-    //   chartCSSSelector: "social_vuln",
-    //   url: "https://tiles.resilientcoasts.org/GL_SocVulnIndexTiles/{z}/{x}/{y}.png",
-    //   attribution: "NFWF 2022",
-    //   opacity: 0.75,
-    //   maxNativeZoom: 14,
-    //   description:
-    //     "Identifies census blocks that are socially vulnerable using the Demographic Index in EPA’s EJSCREEN data. Census blocks above the 50th percentile nationally are ranked from low to high, which indicates census blocks with low income and minority populations.",
-    //   region: "great_lakes",
-    // },
     {
       id: "GL_PopDensityTMS",
       layer: "Population Density TMS",
@@ -630,46 +601,6 @@ export const greatLakesConfig = {
         "U.S. Great Lakes Indian Fish and Wildlife Commission representation of the boundaries of the 1836, 1837, 1842 and 1854 treaty areas of the Ojibwe ceded territories in Michigan, Minnesota and Wisconsin.",
       region: "great_lakes",
     },
-    // {
-    //   id: "GL_VisualizationOverlay3TMS",
-    //   layer: "Visualization Overlay3 TMS",
-    //   label: "Department of Defense Lands",
-    //   chartLabel: "Department of Defense Lands",
-    // chartTipLabel: "Department of Defense Lands",
-    //   isLegendCustom: true,
-    //   chartCSSColor: [
-    //     {
-    //       backgroundColor: "#FCE479",
-    //       borderColor: "#FCE479",
-    //       label: "Bureau of Land Management",
-    //     },
-    //     {
-    //       backgroundColor: "#FFFFB5",
-    //       borderColor: "#FFFFB5",
-    //       label: "Bureau of Reclamation",
-    //     },
-    //     {
-    //       backgroundColor: "#FAB4CE",
-    //       borderColor: "#FAB4CE",
-    //       label: "Department of Defense",
-    //     },
-    //     {
-    //       backgroundColor: "#81CCA8",
-    //       borderColor: "#81CCA8",
-    //       label: "Fish and Wildlife Service",
-    //     },
-    //     {
-    //       backgroundColor: "#CDEBC5",
-    //       borderColor: "#CDEBC5",
-    //       label: "Forest Service",
-    //     },
-    //     {
-    //       backgroundColor: "#C9BDDB",
-    //       borderColor: "#C9BDDB",
-    //       label: "National Park Service",
-    //     },
-    //   ],
-    // },
     {
       id: "GL_VisualizationOverlay4TMS",
       layer: "Visualization Overlay4 TMS",

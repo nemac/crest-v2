@@ -78,6 +78,7 @@ export default function ChangeItemButton(props) {
     showMenu,
     onClick,
     itemOnClick,
+    disabled = false,
   } = props;
 
   return (
@@ -93,6 +94,7 @@ export default function ChangeItemButton(props) {
           fullWidth={true}
           aria-label={buttonName}
           onClick={onClick}
+          disabled={disabled}
           sx={{
             width: "100%",
             borderRadius: (theme) => theme.spacing(0.5),
@@ -147,7 +149,7 @@ export default function ChangeItemButton(props) {
         </Button>
       </Grid>
       <Grid xs={12}>
-        <Collapse in={showMenu}>
+        <Collapse in={showMenu && !disabled}>
           <ChangeItemMenu
             selectedValue={buttonNameLabel}
             onClick={onClick}
@@ -170,4 +172,5 @@ ChangeItemButton.propTypes = {
   showMenu: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   itemOnClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };

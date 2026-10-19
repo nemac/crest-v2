@@ -14,9 +14,13 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { addNewFeatureToDrawnLayers } from "../../reducers/mapPropertiesSlice";
+import { searchResultChosenEvent } from "../../analyticsEvents";
 import { mapConfig } from "../../configuration/config";
 import { convertDataForZonalStats } from "../../utility/utilityFunctions";
-import { queryFeatureLayer } from "../../services/arcgisQuery";
+import {
+  queryFeatureLayer,
+  searchWhereClause,
+} from "../../services/arcgisQuery";
 import {
   searchRegionName,
   appRegionName,
@@ -219,6 +223,7 @@ export default function SearchCustom(props) {
       return;
     }
 
+    ReactGA.event(searchResultChosenEvent());
     setAPlaceFound(true);
     setThePlaceFound(
       `Found an an area matching "${feature.properties.search_field}"`,
@@ -241,16 +246,10 @@ export default function SearchCustom(props) {
   };
 
   const handleInputChange = (_, newInputValue) => {
-    const tempRegion = searchRegionName(selectedRegion).replace("'", "''");
     if (newInputValue.length < 3) {
       setOpen(false);
       setAPlaceFound(false);
     } else {
-      ReactGA.event({
-        category: "engagement",
-        action: "add_area_search",
-        label: newInputValue,
-      });
       const warningText = `CREST includes coastal areas only! "${newInputValue}" may be outside a coastal zone or not in the current region. `;
       const optionText = (
         <Alert
@@ -268,7 +267,7 @@ export default function SearchCustom(props) {
       //  `CREST only includes coastal areas! "${newInputValue}" may be outside a coastal zone or not in the current region: '${selectedRegion.replace("'", "''")}'`
       setNoOptionsText(optionText);
       runQuerySearching(
-        `search_field LIKE '%${newInputValue}%' AND region = '${tempRegion}'`,
+        searchWhereClause(newInputValue, searchRegionName(selectedRegion)),
       );
       setOpen(true);
       setAPlaceFound(false);

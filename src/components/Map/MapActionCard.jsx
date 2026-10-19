@@ -24,7 +24,7 @@ import { mapConfig } from "../../configuration/config";
 const analyzeAreaVisibleSelector = (state) => state.analyzeArea.visible;
 const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
-export const ANALYSIS_DISABLED_MESSAGE =
+const ANALYSIS_DISABLED_MESSAGE =
   "Analysis tools for the refreshed CONUS data are coming soon. Map layers are available for review.";
 
 export default function MapActionCard(props) {

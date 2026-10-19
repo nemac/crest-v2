@@ -1,0 +1,4 @@
+# Lambda runtime for the share-link functions; versions follow requirements.txt.
+-c requirements.txt
+PyYAML
+boto3

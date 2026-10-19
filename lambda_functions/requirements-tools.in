@@ -1,0 +1,5 @@
+# Operator tools in tools/ (fiona and pyproj for prep_hubs.py); includes the runtime.
+-c requirements.txt
+-r requirements.in
+fiona==1.10.1
+pyproj==3.8.0

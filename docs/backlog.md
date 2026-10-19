@@ -3,8 +3,10 @@
 Everything that is known to be outstanding, in one tracked file. Update it in the same PR that
 closes an item. Planning documents (specs, plans, the execution ledger) are local and gitignored;
 this file is the durable list.
+Findings reviewed and deliberately accepted (for example the React Router `npm audit` advisories)
+are recorded in `docs/accepted-risks.md`, not here.
 
-Last updated: 2026-10-12, with PR #175 (backend migration) open against `develop`; section 1b added from Jessica's feedback.
+Last updated: 2026-10-19, audit follow-ups and CI and deploy hardening added to section 3; share-link 404 check in section 1 verified against the dev API.
 
 ## 1. Now: finish the backend migration (PR #175)
 
@@ -12,6 +14,12 @@ Last updated: 2026-10-12, with PR #175 (backend migration) open against `develop
       `develop` and reads the backend URLs from the `crest-api-dev` stack.
 - [ ] Test on crest.nemac.org: identify, sketch, shapefile upload, place search, **share link round
       trip** (writes under `dev/` in the share bucket now), CSV export, sort.
+- [x] After the `audit-fixes` backend deployed to dev (2026-10-19, from `audit-fixes` at f5f682db),
+      a request for a well-formed share id that was never written answered **404** with
+      "share link not found", so the `s3:prefix` condition on the read role's `s3:ListBucket` does
+      not block the 404 check. Still to confirm in the browser on crest.nemac.org after the merge:
+      open `https://crest.nemac.org/AnalyzeProjectSites?shareUrl=00000000-0000-4000-8000-000000000000_2026-Oct-19`,
+      click Proceed, and expect a "Share Link Error" dialog ending in "share link not found".
 - [ ] Decide: legacy chart range text now reads "1-10" instead of "0-10" (0 is the no-data class).
       Accept, or revert in `getRange` in `src/components/AnalyzeArea/ChartFunctions.jsx`, before
       `develop` goes to `master`.
@@ -81,6 +89,21 @@ Hardening
 - [ ] `lib/libexpat.so.1` is a vendored binary (expat 2.8.3, Amazon Linux 2023) that will not
       auto-update: watch for expat CVEs and refresh it from the AL2023 package.
 - [ ] CORS is one global GET+POST setting on every function URL; could be one method each.
+- [ ] Per-feature 413 in zonal_stats. `polygon_mask` raises `ValidationError(..., 413)` when one
+      polygon's window exceeds `MAX_WINDOW_PIXELS` (50 M), and `get_response` loops over the features
+      without catching it, so one oversized shape fails a whole upload of up to 50. Catch it per
+      feature, mark that feature (for example `properties.error = "area too large to analyze"` and no
+      `mean`), and return 200 for the rest; the frontend then adds the areas that worked and names
+      the ones that did not (today `analysisErrors.js` shows one "Area Too Large" message for the
+      batch). Tests: a batch with one oversized and one normal polygon returns both, only the normal
+      one with statistics; a batch where every polygon is oversized still answers clearly.
+- [ ] Decide whether to empty or delete `s3://nfwf-tool-user-shapes`. The `upload_shape` Lambda that
+      wrote to it (anyone could store up to 6 MB of public-read JSON) was removed from this repo on
+      2026-10-19 and leaves AWS with the next `crest-api-dev` deploy. The older stacks retired in
+      section 5 (`crest-api-prod-v2`, `crest-api-beta`, `crest-api-prod`) may still have their own
+      upload function writing there, so decide after they are gone: list the object count and size
+      (`aws s3 ls s3://nfwf-tool-user-shapes --recursive --summarize`), confirm nothing reads the
+      bucket, then either empty it or delete it (and its bucket policy).
 
 Tooling
 - [ ] Hubs and boundary batch script: `tools/prep_hubs.py` and `tools/hubs_config.py` import the
@@ -133,8 +156,9 @@ Carried from the MapLibre migration and the dev CONUS config (September 2026)
 - [ ] `SearchCustom` has no stale-response guard (the geocoder does); sketch outline clears before
       stats return; after a basemap swap terra-draw layers stack under drawn areas until the next
       change.
-- [ ] Dead exports `currentRegionKey` and `ANALYSIS_DISABLED_MESSAGE`; `DrawTools.jsx` keeps a
-      file-wide exhaustive-deps disable inherited from the Leaflet version.
+- [x] Dead exports `currentRegionKey` and `ANALYSIS_DISABLED_MESSAGE` (removed 2026-10-19 with
+      `setupStore`, `uploadShapeEndpoint` and `s3ShapeFileBucket`).
+- [ ] `DrawTools.jsx` keeps a file-wide exhaustive-deps disable inherited from the Leaflet version.
 - [ ] Older audit leftovers: `ResiliencePieChart.jsx` JSX conditional, `analyzeAreaSlice`
       `chartSortAsc` case mismatch, `NavBar.jsx` comparison, favicon 404, shared nav-items array,
       dead pages and dependencies.
@@ -142,6 +166,147 @@ Carried from the MapLibre migration and the dev CONUS config (September 2026)
 - [ ] Deep links on both sites return the app shell with HTTP 404 (S3 website error-document
       pattern).
 - [ ] Optional experiment: MapLibre `color-relief` for browser-side categorical restyling.
+
+Audit follow-ups, each its own branch and PR into `develop` (audit 2026-10-19)
+- [ ] **MultiPolygon shapefiles.** Uploads with multipart shapes (islands) fail as "Something wrong
+      with zipfile" because `utilityFunctions.js` calls `turf.polygon()` on MultiPolygon coordinates.
+      Use `turf.area(feature)` and `turf.coordAll(feature).length` in `validPolygon`; merge the array
+      shpjs returns for zips with several `.shp` files into one FeatureCollection; reject points and
+      lines with a clear message; on the correction screen (terra-draw edits Polygons only) split
+      invalid MultiPolygons with `turf.flatten` and recombine them after editing. Map display and the
+      backend already accept MultiPolygon. Tests for each case.
+- [ ] **One bar chart component.** `AnalyzeBarChart.jsx` and `IdentifyBarChart.jsx` are about 70%
+      identical: a `useBarChartData` hook plus one `IndexBarChart` with an optional `onSelect` and a
+      title slot. Also fixes a bug: the Identify popup renders `IdentifyBarChart` without
+      `setChartLabel`/`setChartDescription`/`setChartDescriptionFor`, so clicking a bar there throws
+      a TypeError (`IdentifyBarChart.jsx:132`). In the same PR:
+      - The one nested ternary in each file, `noData ? null : raw === 0 ? 0.000000000001 : raw`
+        (`AnalyzeBarChart.jsx` ~210, `IdentifyBarChart.jsx` ~92), becomes a shared helper such as
+        `toBarValue(raw, noData)` (no data is `null`; a real 0 becomes a tiny positive value so its
+        bar still draws), and both file-wide `/* eslint-disable no-nested-ternary */` lines go.
+      - `EditName` (inside `AnalyzeBarChart.jsx`) moves to its own file and its rename input
+        becomes controlled (`value={inputValue}` instead of `defaultValue`). The "hacky but so what"
+        line in `handleInputBlur` (`e.target.value = title`) exists only because the input is
+        uncontrolled, so it goes away; blur then just resets the state.
+- [ ] **One ActionButton.** Merge `All/ActionButton`, `Example/ExampleActionButton`,
+      `Map/ShapeActionButton` and `AnalyzeArea/ChartHeaderActionButton` into one component with
+      `layout` (stacked, icon first, icon last), `dense` and `disabled` props; delete the other three.
+- [ ] **Active tab from the URL.** `navBar.activeTab` is always the first path segment, so derive it
+      with `useLocation` instead of storing it in Redux; delete `changeActiveTab` and its seven
+      dispatches, and move the GA `change_tab` event (now in `src/analyticsListeners.js`) into a NavBar
+      effect on the path. Fixes stale highlights (Home's link to `/Examples` never dispatches;
+      `NavBar.jsx` compares an object to a string). Plain `<Link component={RouterLink}>` after that.
+- [ ] **Dialog helpers instead of `setErrorState`.** Every dialog copies whatever fields the
+      previous one left (`setErrorState((previous) => ({ ...previous, ... }))`). After Clear →
+      Dismiss, the next plain error (for example "Sketch an Area Error") shows the Clear dialog's
+      Proceed button, which runs `localStorage.clear()` and reloads; `errorType: "warning"` leaks the
+      same way. Plan:
+      - `App.jsx` owns `DEFAULT_DIALOG` (every field the dialog reads: `error`, `errorType`,
+        `errorTitle`, `errorMessage`, `errorButtonText`, `acceptButtonText: null`, `errorClose`,
+        `acceptButtonClose`) and a pure `buildDialogState(options)` that always starts from it.
+      - Provide `showDialog(options)` and `closeDialog()` through a small `DialogContext` with a
+        `useDialog()` hook instead of threading `setErrorState` through props (today it passes
+        through `ResilienceProject`, `AnalyzeProjectSites`, `MapActionCard` and into `DrawTools`,
+        `UploadShapeFile`, `ResilienceMapCard`, `AnalyzeProjectSitesMapCard`).
+      - Convert the 12 call sites: `DrawTools.jsx` (2), `UploadShapeFile.jsx` (5, including the
+        `correctionDialog` builder and the long-processing chain, which must call `showDialog` for
+        the second dialog instead of restoring a saved snapshot), `ResilienceMapCard.jsx` (1),
+        `AnalyzeProjectSitesMapCard.jsx` (1, Clear), `AnalyzeProjectSites.jsx` (3, share warning,
+        share error and share problem).
+      - Tests: `buildDialogState` unit tests (no field from a previous dialog survives; `errorType`
+        and the accept button reset; defaults fill missing fields), plus an ESLint
+        `no-restricted-syntax` rule that forbids `setErrorState` outside `App.jsx` so new code must
+        use the helpers. Browser check: Clear → Dismiss → sketch an oversized area shows only Dismiss.
+- [ ] **Stable `areaId` for drawn areas** (also fixes punctuation in area names). Area names act as
+      identities today, so duplicates (searching the same place twice, renaming to an existing
+      "Area N", clicking an example's "View on map" again) break React keys, renames hit the first
+      match, hover and "More" state are shared, and image export picks the wrong chart; a name with
+      punctuation (`St. Mary's`) makes `querySelector` throw on every mouse move. Plan:
+      - Assign `properties.areaId` (`uuid` is already a dependency) where areas are created:
+        `DrawTools` `processGeojson` (sketch, upload, search circle), `SearchCustom`, and the
+        examples (fixed ids, and do not re-add an example that is already on the map). Keep
+        `areaName` as the label only; trim names and reject empty ones on rename.
+      - Migration `migrateAreaIds` added to `migrateSavedState` (`src/stateMigrations.js`), so saved
+        and shared state both pass through it: assign ids to areas without one and re-key
+        `analyzeArea.isMore` from name to id. Old share files in S3 cannot change, so they get new ids
+        each time they load; ids only need to be stable within a session.
+      - Switch every identity use to `areaId`: React keys (`AnalyzeProjectSitesChartsHolder.jsx`,
+        `DrawnAreas.jsx`, `AnalyzeProjectSitesTableData.jsx`); `changeAreaName({ areaId,
+        newAreaName })` and `changeMore(areaId)`; DOM ids in `ChartCard`/`AnalyzeBarChart`/
+        `IdentifyBarChart` and the image export's `getElementById`; hover state and the MapLibre
+        `["get", "areaName"]` paint expressions (`DrawnAreas.jsx`, `drawnAreaData.js`).
+      - Punctuation: ids become `box-${areaId}` (hex and hyphens only), looked up with
+        `getElementById`; delete `escapeSelector` and the duplicated `slug` logic.
+      - Tests: migration (ids assigned, `isMore` re-keyed, running it twice changes nothing, two
+        areas with the same name get different ids); reducers (rename and remove by id with
+        duplicate names present); creation helpers assign ids; a name with `. ' # ( ) ,` survives
+        the id helpers. Browser check: two areas with the same name, rename one, hover both, export
+        an image of each.
+- [ ] **Old CONUS share links after the regional split.** Production (`master`) still labels the
+      legacy all-coasts CONUS region "Atlantic, Gulf of America, and Pacific Coasts" (shares older than
+      March 2025 say "Gulf of Mexico"). `develop` relabelled that same legacy config "North Atlantic"
+      on 2026-09-22 (`f0601401`) only as a placeholder: the dev site, on the dev data channel, already
+      shows the real North Atlantic. The cutover rule in section 5 keeps `develop` off `master` until
+      every CONUS region is public, so production never saves "North Atlantic" for all of CONUS, and
+      the two legacy names alone mark pre-split state (no state version needed). Plan, at the split:
+      - Stop mapping the two legacy CONUS names to "North Atlantic" in `legacyRegionKeys`
+        (`src/configuration/regionAliases.js`); that alias is right only while the placeholder exists.
+        Route those names to a per-area migration in `migrateSavedState` instead.
+      - Ship simplified boundaries of North Atlantic, South Atlantic, Gulf and Pacific with the
+        frontend and assign each legacy area to the region containing its centroid
+        (`turf.booleanPointInPolygon`), falling back to the nearest region for areas just offshore.
+        Select the region of the saved map center, or of the most areas.
+      - Drop each migrated area's legacy statistics (legacy rasters, different keys) and re-request
+        zonal statistics for its new region, one request per region.
+      - Legacy layer ids in `mapLayerList` are already dropped by `migrateMapLayerList`.
+      - Local `npm start` without the dev channel still shows the legacy config as "North Atlantic";
+        state saved that way exists only on developer machines (Reset saved state clears it).
+      - Tests: fixture shares under both legacy names with areas in each of the four regions, an
+        offshore area, an area spanning two regions (centroid wins), a share with no areas, and a
+        dev-site "North Atlantic" share passing through unchanged.
+- [ ] **Zonal statistics always for the area's own region.** The request reads the region selected
+      when it is sent (`DrawTools.jsx`, `region: mapConfig.regions[selectedRegion].regionName`), so a
+      region change while it runs re-sends it against the new region's rasters (the Change Region
+      button is now disabled while a request is pending, which covers the menu but not the cause).
+      - Build the request from the area's own region: every new area already stores
+        `properties.region`; keep it in `currentDrawn` (set at the sketch, upload and place-search
+        call sites) and use `mapConfig.regions[currentDrawn.region].regionName` in the query args, so
+        changing region cannot change a request already made.
+      - Ignore results that belong to replaced state: keep a counter that increases when a share link
+        loads or Clear / Remove All runs, store its value with each request, and drop a result whose
+        value no longer matches instead of adding the area to the new state.
+      - Keep the backend check: a polygon outside the region's rasters comes back as all `NaN` and
+        DrawTools already shows "outside the specified region"; zonal_stats also rejects an unknown
+        region (400) and an oversized window (413).
+      - Tests: a pure helper that builds the query args from `currentDrawn` (region change after the
+        request does not change the args); the stale-result check (result dropped after a share load,
+        kept otherwise); browser check: start an analysis, switch region via a share link, confirm the
+        area is not added.
+- [ ] **ESLint 10.** ESLint 9.39 is the newest version this config can use, and npm already marks 9
+      as no longer supported. Blocked by `eslint-plugin-react` and `eslint-plugin-react-redux`
+      (peer ESLint up to 9.7) and `eslint-plugin-import` (up to 9). When `eslint-plugin-react`
+      supports 10: switch `eslint-plugin-import` to `eslint-plugin-import-x` (supports 10), drop or
+      replace `eslint-plugin-react-redux` (its rules mostly target `connect()`, which this codebase
+      does not use), move `eslint-plugin-react-hooks` to 7.x, and keep `eslint.airbnb-rules.js` as is.
+- [ ] **Nested ternaries and oversized components.** The five files with a file-wide
+      `no-nested-ternary` disable each have exactly one violation (`IdentifyBarChart`,
+      `AnalyzeBarChart`, `ResilienceLeftColumn`, `AnalyzeProjectSitesLeftColumn`,
+      `ShapeFileCorrectionMap`): replace each with a named boolean or small helper and drop the
+      disable. Then split the large components one per PR: `ChartCard` (455 lines) into a description
+      hook, indicator and summary sections and one `ExportMenu`; `ShapeFileCorrectionMap` into a
+      `StepNavigator` (written out twice today), a status header and an edit-tools panel.
+
+CI and deploy hardening (audit 2026-10-19)
+- [ ] Deploy workflows configure AWS credentials before `npm install`, so every dependency's install
+      script runs with the AWS keys (and `AGOL_DEV_KEY` in dev). Install and build first, then
+      configure credentials only for describe-stacks, sync and invalidation.
+- [ ] Use `npm ci` instead of `npm install --legacy-peer-deps` in all three workflows so the lockfile
+      is enforced. Checked 2026-10-19: a strict `npm ci` (no flag) now installs cleanly.
+- [ ] Add `permissions: contents: read` to every workflow; today `GITHUB_TOKEN` gets the repo default.
+- [ ] Pin actions to full commit SHAs (tag in a trailing comment); `configure-aws-credentials` receives
+      the long-lived keys.
+- [ ] Add a `concurrency:` group to each deploy workflow so two `s3 sync --delete` runs cannot overlap.
+- [ ] `pr.yml` `branches: "*"` does not match base branches containing `/`.
 
 ## 4. Data
 
@@ -162,6 +327,14 @@ Carried from the MapLibre migration and the dev CONUS config (September 2026)
 
 Preconditions: dev tested; every CONUS region public (the rule for merging `master`); prod stack
 name decided (deleting v1 frees `crest-api-prod`; `samconfig.toml` has an unarmed `[prod]` section).
+
+Note for the cutover: since PR #178, saved and shared state keeps only layer ids and opacity
+(`{ [layerId]: { opacity } }`). The new code migrates the old format on load, but the old code cannot
+read the new one: anything still running the old bundle after the deploy shows the layers in a
+new-format share link as checked but draws none of them (no crash; a reload on the new bundle fixes
+it). The likely cause is a cached old `index.html`, and the production workflow does not invalidate
+CloudFront yet (section 3), so add that invalidation before or with the cutover deploy, then open one
+share link made after the deploy in a fresh browser to confirm layers draw.
 
 1. Create the prod OIDC role and GitHub environment; delete the v1 `crest-api-prod` stack if the
    name is reused.

@@ -33,14 +33,6 @@ export default function AboutCommunityExposure(props) {
         While individual data inputs vary regionally, the Regional Coastal
         Resilience Assessments utilize standardized methods to calculate the
         Community Exposure Index.
-        {/* For details, review the&nbsp;
-        <Link
-          value="DataAndReports"
-          to="/DataAndReports"
-          component={RouterLink}
-        >
-          final reports
-        </Link> */}
       </Typography>
     </div>
   );

@@ -5,7 +5,10 @@ from rasterio.features import geometry_mask, geometry_window
 from rasterio.warp import transform, transform_geom
 from rasterio.windows import Window
 
+from src.responses import ValidationError
+
 MAX_VALID = 100  # Legacy rasters hold stray values above 100 that must not count.
+MAX_WINDOW_PIXELS = 50_000_000  # Keeps one polygon's mask and band reads inside the zonal-stats Lambda's memory.
 WGS84 = "EPSG:4326"
 GDAL_ENV = {
     "GDAL_DISABLE_READDIR_ON_OPEN": "EMPTY_DIR",
@@ -24,6 +27,8 @@ def polygon_mask(src, geometry):
     height, width = int(window.height), int(window.width)
     if height == 0 or width == 0:
         return None, None
+    if height * width > MAX_WINDOW_PIXELS:
+        raise ValidationError("area too large to analyze", 413)
     inside = geometry_mask([geom], out_shape=(height, width), transform=src.window_transform(window), invert=True)
     if not inside.any():
         return None, None

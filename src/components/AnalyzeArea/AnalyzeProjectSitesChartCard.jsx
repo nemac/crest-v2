@@ -14,6 +14,7 @@ import {
   MoreHorizOutlined,
   CenterFocusStrong,
 } from "@mui/icons-material";
+import { areaElementId } from "../Map/areaElementId";
 // this not good practice but nothing else works and
 // its not that important
 /* eslint-disable no-plusplus */
@@ -29,6 +30,7 @@ import {
   removeLayer,
 } from "./ChartFunctions.jsx";
 import { mapConfig } from "../../configuration/config";
+import { landcoverClassesFor } from "../../configuration/landcover";
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
@@ -136,17 +138,7 @@ export default function ChartCard(props) {
 
   const chartValues = regions[region].chartValues ?? LEGACY_CHART_VALUES;
 
-  let landcoverConfigToUse = null;
-  const regionName = regions[region].regionName;
-  if (
-    regionName === "continental_us" ||
-    regionName === "alaska" ||
-    regionName === "great_lakes"
-  ) {
-    landcoverConfigToUse = mapConfig.nlcdLandcover;
-  } else {
-    landcoverConfigToUse = mapConfig.ccapLandcover;
-  }
+  const landcoverConfigToUse = landcoverClassesFor(region);
 
   const landcoverData = [];
   const pieChartLegendColors = [];
@@ -198,7 +190,7 @@ export default function ChartCard(props) {
       buttonName: analyzeAreaState.isMore[feature.properties.areaName]
         ? "Less"
         : "More",
-      id: `btn-more-less-${feature.properties.areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`,
+      id: areaElementId("btn-more-less", feature.properties.areaName),
       onClick: () => {
         handleMoreOnClick(dispatch, feature.properties.areaName);
         setChartDescription(null);
@@ -278,7 +270,7 @@ export default function ChartCard(props) {
     >
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
         <div
-          id={`box-${feature.properties.areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`}
+          id={areaElementId("box", feature.properties.areaName)}
           style={{
             width: "100%",
             borderWidth: "1px",
@@ -387,7 +379,7 @@ export default function ChartCard(props) {
         </div>
       ) : (
         <div
-          id={`box-${feature.properties.areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`}
+          id={areaElementId("box", feature.properties.areaName)}
           style={{
             width: "100%",
             borderWidth: "1px",

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ReactGA from "react-ga4";
 
 const initialState = {
   activeTab: "Home",
@@ -14,11 +13,6 @@ export const NavBarSlice = createSlice({
     changeActiveTab: (state, action) => {
       const activeTab = action.payload === "" ? "Home" : action.payload;
       state.activeTab = activeTab;
-      ReactGA.event({
-        category: "engagement",
-        action: "change_tab",
-        label: activeTab,
-      });
     },
     changeMenuOpen: (state, action) => {
       state.menuOpen = !state.menuOpen;

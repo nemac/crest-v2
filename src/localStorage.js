@@ -1,4 +1,4 @@
-import { migrateRegionKeys } from "./configuration/regionAliases";
+import { migrateSavedState } from "./stateMigrations";
 
 // UI slices only; RTK Query cache state must never be persisted
 const persistedSlices = [
@@ -22,7 +22,7 @@ export const loadState = () => {
     if (serializedState === null) {
       return undefined;
     }
-    return migrateRegionKeys(pickPersistedSlices(JSON.parse(serializedState)));
+    return migrateSavedState(pickPersistedSlices(JSON.parse(serializedState)));
   } catch (err) {
     return undefined;
   }

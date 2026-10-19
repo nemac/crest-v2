@@ -1,4 +1,5 @@
 import React from "react";
+import ReactGA from "react-ga4";
 import PropTypes from "prop-types";
 
 import { BallotOutlined, Ballot } from "@mui/icons-material";
@@ -17,7 +18,8 @@ import {
   toggleLayer,
   toggleLegend,
 } from "../../reducers/mapLayerListSlice";
-import LayerDescription from "./LayerDescription.jsx";
+import HelpPopup from "../All/HelpPopup.jsx";
+import { opacityChangedEvent } from "../../analyticsEvents";
 import LayerLegend from "./LayerLegend.jsx";
 import LayerLegendCustom from "./LayerLegendCustom.jsx";
 
@@ -39,6 +41,11 @@ export default function Layer(props) {
   const handleToggleLegendClick = (event) => {
     dispatch(toggleLegend(layerData));
     event.stopPropagation();
+  };
+
+  // Sent once when the slider is released, not on every step while dragging.
+  const handleOpacityCommitted = () => {
+    ReactGA.event(opacityChangedEvent(layerData.id));
   };
 
   return (
@@ -96,9 +103,11 @@ export default function Layer(props) {
             {layerData.id in displayedLegends ? <Ballot /> : <BallotOutlined />}
           </IconButton>
         </Box>
-        <LayerDescription
-          layerName={layerData.label}
-          layerDescription={layerData.description}
+        <HelpPopup
+          helpTitle={layerData.label}
+          helpDescription={layerData.description}
+          iconFontSize="1.5rem"
+          descriptionVariant="body1"
         />
       </Box>
       {layerData.id in activeLayerList && (
@@ -117,8 +126,9 @@ export default function Layer(props) {
                 setOpacity({ layerId: layerData.id, opacity: e.target.value }),
               );
             }}
+            onChangeCommitted={handleOpacityCommitted}
             step={0.01}
-            value={activeLayerList[layerData.id]?.opacity}
+            value={activeLayerList[layerData.id]?.opacity ?? layerData.opacity}
           />
           <BrightnessHighIcon />
         </Stack>

@@ -58,11 +58,6 @@ export default function AboutCrest(props) {
             Assessment models, and
           </li>
           <li>Search Resilience Hubs to identify potential project sites.</li>
-          {/* <li>
-            Provide advanced GIS users with the ability to download all of the
-            final Regional Assessment datasets for use in their own GIS
-            platform.
-          </li> */}
         </CrestList>
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
@@ -100,18 +95,6 @@ export default function AboutCrest(props) {
           Regional Coastal Resilience Assessment page
         </Link>
         .
-        {/* For additional information about the Regional Coastal Resilience
-        Assessments and to access final reports, visit the NFWF&nbsp;
-        <Link
-          target="_blank"
-          href="https://www.nfwf.org/programs/national-coastal-resilience-fund/regional-coastal-resilience-assessment"
-        >
-          Regional Coastal Resilience Assessment page
-        </Link>
-        . In addition to the Regional Coastal Resilience Assessments, NFWF and
-        NOAA partnered with NatureServe to complete Targeted Watershed
-        Assessments for eight watersheds throughout the U.S. CREST also features
-        the results from each targeted watershed. */}
       </Typography>
       <Typography variant="body" component="div" px={3} py={1} gutterBottom>
         Please send questions, comments, or issues to{" "}
