@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
@@ -43,6 +43,13 @@ export default function MapLayerList() {
   const selectedRegion = useSelector(regionSelector);
   // Changing region mid-request would re-run the analysis against the new region's data.
   const statsLoading = useSelector(selectZonalStatsLoading);
+
+  // Close the region menu when an analysis starts so it does not reopen by itself when the analysis ends.
+  useEffect(() => {
+    if (statsLoading) {
+      setShowRegionMenu(false);
+    }
+  }, [statsLoading]);
   const isLimitMessage = mapConfig.regions[selectedRegion].limitMessage;
 
   const basemapSelector = (state) => state.mapProperties.basemap;

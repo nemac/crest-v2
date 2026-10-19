@@ -3,7 +3,7 @@ import FileSaver from "file-saver";
 export const CSV_HEADER = ["Area", "Index", "Values", "Range(s)"];
 
 // Byte order mark so Excel opens the file as UTF-8 (place names such as Hawaiʻi).
-const UTF8_BOM = "﻿";
+const UTF8_BOM = "\uFEFF";
 
 const PLAIN_NUMBER = /^-?\d+(\.\d+)?$/;
 const FORMULA_START = /^[=+\-@\t\r]/;

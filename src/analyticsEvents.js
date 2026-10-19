@@ -5,6 +5,9 @@ const engagement = (action, label) => ({
   label,
 });
 
+// Sent when a search result is chosen; the typed text and the place are left out.
+export const searchResultChosenEvent = () => engagement("add_area_search");
+
 export const opacityChangedEvent = (layerId) =>
   engagement("map_layer_opacity", layerId);
 

@@ -3,6 +3,8 @@
 Everything that is known to be outstanding, in one tracked file. Update it in the same PR that
 closes an item. Planning documents (specs, plans, the execution ledger) are local and gitignored;
 this file is the durable list.
+Findings reviewed and deliberately accepted (for example the React Router `npm audit` advisories)
+are recorded in `docs/accepted-risks.md`, not here.
 
 Last updated: 2026-10-19, audit follow-ups and CI and deploy hardening added to section 3; share-link 404 check added to section 1.
 
@@ -90,6 +92,14 @@ Hardening
 - [ ] `lib/libexpat.so.1` is a vendored binary (expat 2.8.3, Amazon Linux 2023) that will not
       auto-update: watch for expat CVEs and refresh it from the AL2023 package.
 - [ ] CORS is one global GET+POST setting on every function URL; could be one method each.
+- [ ] Per-feature 413 in zonal_stats. `polygon_mask` raises `ValidationError(..., 413)` when one
+      polygon's window exceeds `MAX_WINDOW_PIXELS` (50 M), and `get_response` loops over the features
+      without catching it, so one oversized shape fails a whole upload of up to 50. Catch it per
+      feature, mark that feature (for example `properties.error = "area too large to analyze"` and no
+      `mean`), and return 200 for the rest; the frontend then adds the areas that worked and names
+      the ones that did not (today `analysisErrors.js` shows one "Area Too Large" message for the
+      batch). Tests: a batch with one oversized and one normal polygon returns both, only the normal
+      one with statistics; a batch where every polygon is oversized still answers clearly.
 - [ ] Decide whether to empty or delete `s3://nfwf-tool-user-shapes`. The `upload_shape` Lambda that
       wrote to it (anyone could store up to 6 MB of public-read JSON) was removed from this repo on
       2026-10-19 and leaves AWS with the next `crest-api-dev` deploy. The older stacks retired in

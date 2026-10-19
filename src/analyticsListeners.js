@@ -26,11 +26,9 @@ analyticsListener.startListening({
 
 analyticsListener.startListening({
   actionCreator: changeActiveTab,
-  effect: (action) => {
-    trackEngagement(
-      "change_tab",
-      action.payload === "" ? "Home" : action.payload,
-    );
+  // Reads the tab from state after the reducer so the "" -> "Home" rule lives only in NavBarSlice.
+  effect: (action, listenerApi) => {
+    trackEngagement("change_tab", listenerApi.getState().navBar.activeTab);
   },
 });
 

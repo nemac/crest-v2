@@ -3,6 +3,7 @@ import {
   areaAddedEvent,
   exportAllChartsEvent,
   opacityChangedEvent,
+  searchResultChosenEvent,
 } from "./analyticsEvents";
 
 const engagement = (action, label) => ({
@@ -59,6 +60,14 @@ describe("areaAddedEvent", () => {
   it("reports an unexpected source under its own name", () => {
     expect(areaAddedEvent("other")).toEqual(
       engagement("add_area_unknown_source", "other"),
+    );
+  });
+});
+
+describe("searchResultChosenEvent", () => {
+  it("records a chosen search result without any text", () => {
+    expect(searchResultChosenEvent()).toEqual(
+      engagement("add_area_search", undefined),
     );
   });
 });

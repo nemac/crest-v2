@@ -6,7 +6,7 @@ const MEASUREMENT_ID = "G-2E98LXVQPJ";
 export const analyticsEnabled = (env) =>
   Boolean(env.PROD) && env.VITE_CREST_DATA_CHANNEL !== "dev";
 
-// Events sent before initialize are queued by react-ga4 and never delivered, so this one check turns all reporting off.
+// Without initialize, react-ga4 only pushes events onto window.dataLayer and Google's script never loads, so nothing is sent.
 export const initAnalytics = (env = import.meta.env) => {
   if (!analyticsEnabled(env)) {
     return false;

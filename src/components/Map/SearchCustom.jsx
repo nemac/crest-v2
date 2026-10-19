@@ -14,6 +14,7 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { addNewFeatureToDrawnLayers } from "../../reducers/mapPropertiesSlice";
+import { searchResultChosenEvent } from "../../analyticsEvents";
 import { mapConfig } from "../../configuration/config";
 import { convertDataForZonalStats } from "../../utility/utilityFunctions";
 import {
@@ -222,7 +223,7 @@ export default function SearchCustom(props) {
       return;
     }
 
-    ReactGA.event({ category: "engagement", action: "add_area_search" });
+    ReactGA.event(searchResultChosenEvent());
     setAPlaceFound(true);
     setThePlaceFound(
       `Found an an area matching "${feature.properties.search_field}"`,

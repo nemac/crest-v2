@@ -21,6 +21,7 @@ import ModelErrors from "../All/ModelErrors.jsx";
 import { setEmptyState } from "../../reducers/analyzeAreaSlice";
 import { mapConfig, sketchShapeThresholds } from "../../configuration/config";
 import { areaAddedEvent } from "../../analyticsEvents";
+import { analysisErrorMessage, analysisErrorTitle } from "./analysisErrors";
 
 // The ported zonal-stats flow keeps its original effect dependencies on purpose.
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -207,11 +208,8 @@ export default function DrawTools(props) {
   if (error) {
     return (
       <ModelErrors
-        contentTitle={"Sketch an Area Error "}
-        contentMessage={`The sketched area returned no data and is most likely outside the
-          specified region (${selectedRegion}). Also, CREST
-          currently includes areas near coastal areas, and the sketched area
-          may not fit within the coastal area assessed`}
+        contentTitle={analysisErrorTitle(error)}
+        contentMessage={analysisErrorMessage(error, selectedRegion)}
         buttonMessage="Dismiss"
         errorType={"error"}
         onClose={() => {

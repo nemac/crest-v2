@@ -44,7 +44,7 @@ export default [
       ecmaVersion: 2022,
       sourceType: "module",
       parserOptions: { ecmaFeatures: { jsx: true } },
-      globals: { ...globals.browser, ...globals.node },
+      globals: globals.browser,
     },
     settings: {
       react: { version: "detect" },
@@ -113,7 +113,7 @@ export default [
     },
   },
   {
-    files: ["**/*.test.js"],
+    files: ["**/*.test.{js,jsx}"],
     languageOptions: { globals: globals.node },
     rules: {
       "import/no-extraneous-dependencies": "off",

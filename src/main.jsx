@@ -2,6 +2,7 @@ import "./init";
 import React from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { addProtocol, setWorkerUrl } from "maplibre-gl";
+// maplibre-gl 6 finds its worker through import.meta.url, which Vite does not serve or bundle, so it is imported explicitly here.
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { Protocol } from "pmtiles";

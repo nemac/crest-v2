@@ -17,6 +17,14 @@ const SAMPLE_PAYLOADS = [
   { type: "FeatureCollection", features: [] },
 ];
 
+// Payloads that fit the slice's own starting state, such as the id of a layer that starts active.
+const payloadsFor = (initialState) => {
+  const activeLayerId = Object.keys(initialState.activeLayerList ?? {})[0];
+  return activeLayerId
+    ? [...SAMPLE_PAYLOADS, { layerId: activeLayerId, opacity: 0.5 }]
+    : SAMPLE_PAYLOADS;
+};
+
 const findSlices = () =>
   Object.entries(sliceModules).flatMap(([file, module]) =>
     Object.values(module)
@@ -24,17 +32,22 @@ const findSlices = () =>
       .map((slice) => ({ file, slice })),
   );
 
+// Runs every action with every payload and returns the actions that threw for all of them.
 const runEveryAction = (slice) => {
   const initialState = slice.getInitialState();
-  Object.values(slice.actions).forEach((actionCreator) => {
-    SAMPLE_PAYLOADS.forEach((payload) => {
-      try {
-        slice.reducer(initialState, actionCreator(payload));
-      } catch {
-        // Some payloads do not fit some actions; only side effects matter here.
-      }
-    });
-  });
+  return Object.entries(slice.actions)
+    .filter(([, actionCreator]) => {
+      const results = payloadsFor(initialState).map((payload) => {
+        try {
+          slice.reducer(initialState, actionCreator(payload));
+          return true;
+        } catch {
+          return false;
+        }
+      });
+      return !results.some(Boolean);
+    })
+    .map(([name]) => name);
 };
 
 describe("reducers", () => {
@@ -49,7 +62,10 @@ describe("reducers", () => {
   it.each(findSlices().map(({ file, slice }) => [file, slice]))(
     "%s sends no analytics from its reducers",
     (file, slice) => {
-      runEveryAction(slice);
+      const neverRan = runEveryAction(slice);
+      expect(neverRan, "actions that threw for every sample payload").toEqual(
+        [],
+      );
       expect(ReactGA.event).not.toHaveBeenCalled();
       expect(ReactGA.send).not.toHaveBeenCalled();
     },
