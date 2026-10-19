@@ -14,6 +14,7 @@ import Home from "./pages/Home.jsx";
 import ResilienceProject from "./pages/ResilienceProject.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import ModelErrors from "./components/All/ModelErrors.jsx";
+import AppErrorBoundary from "./components/All/AppErrorBoundary.jsx";
 
 export default function App() {
   const [errorState, setErrorState] = React.useState({
@@ -37,20 +38,22 @@ export default function App() {
           <Box px={0} pb={0.75}>
             <NavBar />
           </Box>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="ResilienceProject"
-              element={<ResilienceProject setErrorState={setErrorState} />}
-            />
-            <Route
-              path="/AnalyzeProjectSites"
-              element={<AnalyzeProjectSites setErrorState={setErrorState} />}
-            />
-            <Route path="/Examples" element={<Examples />} />
-            {/* <Route path="/DataAndReports" element={<DataAndReports />} /> */}
-            <Route path="/About" element={<About />} />
-          </Routes>
+          <AppErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path="ResilienceProject"
+                element={<ResilienceProject setErrorState={setErrorState} />}
+              />
+              <Route
+                path="/AnalyzeProjectSites"
+                element={<AnalyzeProjectSites setErrorState={setErrorState} />}
+              />
+              <Route path="/Examples" element={<Examples />} />
+              {/* <Route path="/DataAndReports" element={<DataAndReports />} /> */}
+              <Route path="/About" element={<About />} />
+            </Routes>
+          </AppErrorBoundary>
           <ModelErrors
             contentTitle={errorState.errorTitle}
             contentMessage={errorState.errorMessage}

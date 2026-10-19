@@ -162,13 +162,6 @@ export default function ExampleCard(props) {
         }));
       }
 
-      // // Special case to make sure the layer turned on from Step 3 (previousStep 2) is toggled off
-      // if (activeStep === 1 && previousStep === 2) {
-      //   dispatch(toggleLayer(previousStepLayer));
-      //   dispatch(toggleLegend(previousStepLayer));
-      //   dispatch(toggleCollapsed(previousStepLayer.ChartInputLabel));
-      // }
-
       // turn on layer for the active step and turn off layer for previous step
       if (activeStep >= 1) {
         dispatch(toggleLayer(activeStepLayer));

@@ -1,15 +1,25 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+"""Convert every TIFF in a local folder to a Cloud-Optimized GeoTIFF, remapping nodata (cogeotiff.py --convert_nodata)."""
+import argparse
+import os
+import sys
 
-import argparse, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from tools import cogeotiff  # noqa: E402
 
-if __name__ == '__main__':
-  parser = argparse.ArgumentParser(description='Convert a batch of tiffs that exist in a local folder.')
-  parser.add_argument('folder', help='Folder where your tiffs are.')
-  parser.add_argument('--ext', help='Filter by file extension. Default is \'.tif\'.')
-  args = parser.parse_args()
-  folder = args.folder
-  ext = args.ext or '.tif'
-  files = [ f for f in os.listdir(folder) if f.endswith(ext) ]
-  for f in files:
-    path = os.path.join(folder, f)
-    os.system('./cogeotiff.py --convert_nodata {}'.format(path))
+
+def matching_files(folder, extension):
+    return [os.path.join(folder, name) for name in sorted(os.listdir(folder)) if name.endswith(extension)]
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("folder", help="folder that holds the TIFFs")
+    parser.add_argument("--ext", default=".tif", help="only convert files with this extension (default: .tif)")
+    args = parser.parse_args(argv)
+    for path in matching_files(args.folder, args.ext):
+        cogeotiff.main(["--convert_nodata", path])
+
+
+if __name__ == "__main__":
+    main()

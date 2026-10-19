@@ -14,6 +14,7 @@ import {
 import Typography from "@mui/material/Typography";
 
 import { mapConfig } from "../../configuration/config";
+import { selectZonalStatsLoading } from "../../services/zonalstats";
 import { toggleVisible } from "../../reducers/mapLayerListSlice";
 import {
   changeRegion,
@@ -40,6 +41,8 @@ export default function MapLayerList() {
   const dispatch = useDispatch();
   const regionSelector = (state) => state.selectedRegion.value;
   const selectedRegion = useSelector(regionSelector);
+  // Changing region mid-request would re-run the analysis against the new region's data.
+  const statsLoading = useSelector(selectZonalStatsLoading);
   const isLimitMessage = mapConfig.regions[selectedRegion].limitMessage;
 
   const basemapSelector = (state) => state.mapProperties.basemap;
@@ -91,7 +94,7 @@ export default function MapLayerList() {
 
   const handleRegionMenuItemClick = (regionName) => {
     // catch bad region
-    if (!regions[regionName]) return null;
+    if (!regions[regionName] || statsLoading) return null;
 
     dispatch(changeRegion(regions[regionName].label));
     dispatch(regionUserInitiated(true));
@@ -242,6 +245,7 @@ export default function MapLayerList() {
           onClick={handleRegionClick}
           itemOnClick={handleRegionMenuItemClick}
           isLimitMessage={isLimitMessage}
+          disabled={statsLoading}
         >
           {<FilterNone sx={{ fontSize: "1.75rem" }} />}
         </ChangeItemButton>

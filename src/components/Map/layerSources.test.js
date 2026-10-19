@@ -3,6 +3,7 @@ import {
   OVERLAY_ANCHOR_LAYER,
   layerSourceSpec,
   layerSpec,
+  resolveActiveLayers,
 } from "./layerSources";
 
 const legacy = {
@@ -80,5 +81,36 @@ describe("layerSpec", () => {
       paint: { "line-color": "#ffffff", "line-width": 2, "line-opacity": 1 },
       beforeId: OVERLAY_ANCHOR_LAYER,
     });
+  });
+});
+
+describe("resolveActiveLayers", () => {
+  const regionLayers = [
+    { id: "a", url: "https://tiles.example/a/{z}/{x}/{y}.png", opacity: 0.75 },
+    { id: "b", url: "https://tiles.example/b/{z}/{x}/{y}.png", opacity: 0.75 },
+  ];
+
+  it("keeps the order layers were turned on so later layers draw on top", () => {
+    const resolved = resolveActiveLayers(
+      { b: { opacity: 0.75 }, a: { opacity: 0.75 } },
+      regionLayers,
+    );
+    expect(resolved.map((layer) => layer.id)).toEqual(["b", "a"]);
+  });
+
+  it("takes every layer detail from the config and only the opacity from state", () => {
+    const [layer] = resolveActiveLayers(
+      { a: { opacity: 0.3, url: "https://attacker.example/{z}/{x}/{y}.png" } },
+      regionLayers,
+    );
+    expect(layer).toEqual({ ...regionLayers[0], opacity: 0.3 });
+  });
+
+  it("falls back to the config opacity and skips ids from other regions", () => {
+    const resolved = resolveActiveLayers(
+      { a: { opacity: undefined }, other_region_layer: { opacity: 1 } },
+      regionLayers,
+    );
+    expect(resolved).toEqual([regionLayers[0]]);
   });
 });

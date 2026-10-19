@@ -8,13 +8,12 @@ import { Protocol } from "pmtiles";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import ReactGA from "react-ga4";
 
 import App from "./App.jsx";
 import { store } from "./store";
+import { initAnalytics } from "./analytics";
 
-ReactGA.initialize("G-2E98LXVQPJ");
-ReactGA.send("pageview");
+initAnalytics();
 
 setWorkerUrl(maplibreWorkerUrl);
 addProtocol("pmtiles", new Protocol().tile);

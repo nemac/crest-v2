@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga4";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import buffer from "@turf/buffer";
 import * as turf from "@turf/turf";
 import { Box, CircularProgress } from "@mui/material";
 
@@ -21,6 +20,7 @@ import { useGetZonalStatsQuery } from "../../services/zonalstats";
 import ModelErrors from "../All/ModelErrors.jsx";
 import { setEmptyState } from "../../reducers/analyzeAreaSlice";
 import { mapConfig, sketchShapeThresholds } from "../../configuration/config";
+import { areaAddedEvent } from "../../analyticsEvents";
 
 // The ported zonal-stats flow keeps its original effect dependencies on purpose.
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -86,11 +86,7 @@ export default function DrawTools(props) {
         if (!allNaN) {
           geo.properties.zonalStatsData = data.features[index].properties.mean;
           dispatch(addNewFeatureToDrawnLayers(geo));
-          ReactGA.event({
-            category: "engagement",
-            action: "add_area_sketch_area",
-            label: "sketch_area",
-          });
+          ReactGA.event(areaAddedEvent(currentDrawn.source));
         } else {
           setErrorState((previous) => ({
             ...previous,
@@ -109,7 +105,7 @@ export default function DrawTools(props) {
   }, [data, dispatch, setErrorState]);
 
   const addBufferLayer = (geo) =>
-    buffer(structuredClone(geo), bufferSize, { units: bufferUnits });
+    turf.buffer(structuredClone(geo), bufferSize, { units: bufferUnits });
 
   function processGeojson(geo, areaNum) {
     const geoCopy = structuredClone(geo);

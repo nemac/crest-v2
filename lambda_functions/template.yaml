@@ -1,15 +1,15 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: CREST API - identify, zonal statistics, shape upload, share links
+Description: CREST API - identify, zonal statistics, share links
 
 Parameters:
   Stage:
     Type: String
     AllowedValues: [dev, prod]
-  SharePrefix:
-    Type: String
-    Default: ""
-    Description: Key prefix inside the share-link bucket, e.g. dev/ (empty for prod)
+
+# Prod share links live at the bucket root so links made before the migration still resolve.
+Conditions:
+  IsProd: !Equals [!Ref Stage, prod]
 
 Globals:
   Function:
@@ -20,7 +20,7 @@ Globals:
     Environment:
       Variables:
         STAGE: !Ref Stage
-        SHARE_PREFIX: !Ref SharePrefix
+        SHARE_PREFIX: !If [IsProd, "", dev/]
         GDAL_DISABLE_READDIR_ON_OPEN: EMPTY_DIR
         CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif,.vrt
         VSI_CACHE: "TRUE"
@@ -64,20 +64,6 @@ Resources:
               Action: [s3:GetObject]
               Resource: arn:aws:s3:::nfwf-tool/*
 
-  UploadShapeFunction:
-    Type: AWS::Serverless::Function
-    Metadata:
-      BuildMethod: makefile
-    Properties:
-      FunctionName: !Sub crest-api-${Stage}-upload_shape
-      CodeUri: .
-      Handler: src.upload_shape.handler
-      Policies:
-        - Statement:
-            - Effect: Allow
-              Action: [s3:PutObject, s3:PutObjectAcl]
-              Resource: !Sub arn:aws:s3:::nfwf-tool-user-shapes/${Stage}/*
-
   ShareReadFunction:
     Type: AWS::Serverless::Function
     Metadata:
@@ -90,10 +76,15 @@ Resources:
         - Statement:
             - Effect: Allow
               Action: [s3:GetObject]
-              Resource: !Sub arn:aws:s3:::crest-v2-share-link/${SharePrefix}*
+              Resource: !Sub
+                - arn:aws:s3:::crest-v2-share-link/${Prefix}*
+                - Prefix: !If [IsProd, "", dev/]
             - Effect: Allow
               Action: [s3:ListBucket]
               Resource: arn:aws:s3:::crest-v2-share-link
+              Condition:
+                StringLike:
+                  s3:prefix: !If [IsProd, "*", dev/*]
 
   ShareWriteFunction:
     Type: AWS::Serverless::Function
@@ -107,15 +98,15 @@ Resources:
         - Statement:
             - Effect: Allow
               Action: [s3:PutObject]
-              Resource: !Sub arn:aws:s3:::crest-v2-share-link/${SharePrefix}*
+              Resource: !Sub
+                - arn:aws:s3:::crest-v2-share-link/${Prefix}*
+                - Prefix: !If [IsProd, "", dev/]
 
 Outputs:
   IdentifyUrl:
     Value: !GetAtt IdentifyFunctionUrl.FunctionUrl
   ZonalStatsUrl:
     Value: !GetAtt ZonalStatsFunctionUrl.FunctionUrl
-  UploadShapeUrl:
-    Value: !GetAtt UploadShapeFunctionUrl.FunctionUrl
   ShareReadUrl:
     Value: !GetAtt ShareReadFunctionUrl.FunctionUrl
   ShareWriteUrl:

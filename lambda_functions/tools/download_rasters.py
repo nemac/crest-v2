@@ -2,6 +2,8 @@
 """Copy a region's rasters from the dataset bucket into a local directory."""
 import argparse
 import os
+import shlex
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -16,9 +18,9 @@ def download_commands(config, region, dir_path):
 def download_region(config, region, dir_path):
     sources, dest = download_commands(config, region, dir_path)
     for source in sources:
-        command = f"aws s3 cp {source} {dest}"
-        print(command)
-        os.system(command)
+        command = ["aws", "s3", "cp", source, dest]
+        print(shlex.join(command))
+        subprocess.run(command, check=True)
 
 
 def main(argv=None):

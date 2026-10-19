@@ -36,16 +36,9 @@ export const shareLinkWriteEndpoint =
   env.VITE_API_SHARE_WRITE_URL ||
   "https://api.resilientcoasts.org/prod-v2/write_s3";
 
-export const uploadShapeEndpoint =
-  env.VITE_API_UPLOAD_SHAPE_URL ||
-  "https://api.resilientcoasts.org/prod-v2/upload_shape";
-
 export const zonalStatsEndpoint =
   env.VITE_API_ZONAL_STATS_URL ||
   "https://crfujpnyt2scb56ahusvveq23m0tfisn.lambda-url.us-east-1.on.aws/";
-
-export const s3ShapeFileBucket =
-  "https://nfwf-tool-user-shapes.s3.amazonaws.com/";
 
 // referrer-restricted key for basemaps and geocoding; deploy workflows override per site
 export const agolApiKey =

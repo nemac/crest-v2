@@ -63,6 +63,8 @@ const setChartCardBorder = (areaName, border) => {
   if (element) element.style.border = border;
 };
 
+const isSamePoint = (a, b) => a?.lat === b.lat && a?.lng === b.lng;
+
 export default function AnalyzeProjectSitesMapCard(props) {
   const { map, setMap, setErrorState, hover, setDrawAreaDisabled } = props;
   const [shareLinkOpen, setShareLinkOpen] = useState(false);
@@ -89,7 +91,11 @@ export default function AnalyzeProjectSitesMapCard(props) {
     [drawnFromState, selectedRegion],
   );
 
-  const { data } = useGetIdentifyQuery(
+  const {
+    currentData: identifyData,
+    isError: identifyFailed,
+    refetch: refetchIdentify,
+  } = useGetIdentifyQuery(
     {
       region: regions[selectedRegion].regionName,
       coordinates: identifyCoordinates,
@@ -97,12 +103,13 @@ export default function AnalyzeProjectSitesMapCard(props) {
     { skip: !identifyCoordinates || analysisDisabled },
   );
 
+  // identifyCoordinates is a dependency so clicking the same point again still marks the cached result loaded.
   useEffect(() => {
-    if (data) {
+    if (identifyData) {
       dispatch(changeIdentifyIsLoaded(true));
-      dispatch(changeIdentifyResults(data));
+      dispatch(changeIdentifyResults(identifyData));
     }
-  }, [data, dispatch]);
+  }, [identifyData, identifyCoordinates, dispatch]);
 
   const clearMapHover = () => {
     if (mapHover.areaName)
@@ -153,6 +160,9 @@ export default function AnalyzeProjectSitesMapCard(props) {
     onClick: (event) => {
       if (identifyArmed && !analysisDisabled) {
         const { lat, lng } = event.lngLat;
+        if (identifyFailed && isSamePoint(identifyCoordinates, { lat, lng })) {
+          refetchIdentify();
+        }
         dispatch(changeIdentifyIsLoaded(false));
         dispatch(changeIdentifyCoordinates({ lat, lng }));
         dispatch(changeIdentifyResults(null));
@@ -260,6 +270,7 @@ export default function AnalyzeProjectSitesMapCard(props) {
           region={selectedRegion}
           identifyItems={identifyItems}
           identifyIsLoaded={identifyIsLoaded}
+          identifyFailed={identifyFailed}
           identifyCoordinates={identifyCoordinates}
         />
       )}

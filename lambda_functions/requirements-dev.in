@@ -1,0 +1,5 @@
+# Tests and lint; includes the runtime so `pip install -r requirements-dev.txt` is enough.
+-c requirements.txt
+-r requirements.in
+pytest==8.4.2
+ruff==0.17.1

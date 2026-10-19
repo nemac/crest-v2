@@ -10,6 +10,11 @@ import { FileUploadOutlined } from "@mui/icons-material";
 import { validPolygon } from "../../utility/utilityFunctions";
 import { uploadedShapeFileGeoJSON } from "../../reducers/mapPropertiesSlice";
 import { sketchShapeThresholds } from "../../configuration/config";
+import {
+  UPLOAD_PLANS,
+  proceedAfterLongWarning,
+  uploadPlan,
+} from "./uploadSteps";
 
 export default function Upload(props) {
   const { setGeoToRedraw, setErrorState } = props;
@@ -18,7 +23,25 @@ export default function Upload(props) {
   const errorTitle = "Upload Error";
   const maxFileSize = sketchShapeThresholds.maxFileSize;
   const maxFeatures = sketchShapeThresholds.maxFeatures;
-  const maxFeaturesCaution = sketchShapeThresholds.maxFeaturesWarning;
+
+  const correctionDialog = (geojson) => (previous) => ({
+    ...previous,
+    error: true,
+    errorTitle: "Invalid Shapefile",
+    errorType: "warning",
+    errorMessage:
+      "There are invalid shapes in the shapefile. Proceed to the shape file correction screen?",
+    errorClose: () => {
+      setInputValue("");
+      setErrorState({ ...previous, error: false });
+    },
+    acceptButtonText: "Proceed",
+    acceptButtonClose: () => {
+      setInputValue("");
+      setGeoToRedraw(geojson);
+      setErrorState({ ...previous, error: false });
+    },
+  });
 
   const handleFileChange = async (e) => {
     try {
@@ -35,14 +58,20 @@ export default function Upload(props) {
         return;
       }
 
-      let tooLargeFlag = false;
       const buffer = await file.arrayBuffer();
       const geojson = await shp(buffer);
       const countFeatures = geojson ? geojson.features.length : 0;
+      // Shapes are only validated when the file is small enough to process.
+      const hasInvalidShapes =
+        countFeatures <= maxFeatures &&
+        geojson.features.some((feature) => !validPolygon(feature));
+      const plan = uploadPlan(
+        countFeatures,
+        hasInvalidShapes,
+        sketchShapeThresholds,
+      );
 
-      // Limiting many features for upload
-      // we may want to move this to a config file
-      if (countFeatures > maxFeatures) {
+      if (plan === UPLOAD_PLANS.tooManyShapes) {
         setErrorState((previous) => ({
           ...previous,
           error: true,
@@ -53,76 +82,34 @@ export default function Upload(props) {
         return;
       }
 
-      geojson.features.forEach((feature) => {
-        if (!validPolygon(feature)) {
-          tooLargeFlag = true;
-        }
-      });
-
-      // this is not great but it is working so we can let it go
-      //   for now
-      // long process
-      if (countFeatures > maxFeaturesCaution) {
+      if (plan === UPLOAD_PLANS.warnLongProcessing) {
         setErrorState((previous) => ({
           ...previous,
           error: true,
           errorTitle: "Long processing warning",
           errorType: "warning",
-          errorMessage: `Your shapfile contains ${maxFeaturesCaution} features and may take of 30 seconds to process. Do you want proceed?`,
+          errorMessage: `Your shapefile contains ${countFeatures} features and may take up to 30 seconds to process. Do you want to proceed?`,
           errorClose: () => {
             setInputValue("");
             setErrorState({ ...previous, error: false });
           },
           acceptButtonText: "Proceed",
           acceptButtonClose: () => {
-            // long process with invalid shapes
-            if (tooLargeFlag) {
-              setErrorState((previousToLarge) => ({
-                ...previousToLarge,
-                error: true,
-                errorTitle: "Invalid Shapefile",
-                errorType: "warning",
-                errorMessage:
-                  "There are invalid shapes in the shapefile. Proceed to the shape file correction screen?",
-                errorClose: () => {
-                  setInputValue("");
-                  setErrorState({ ...previousToLarge, error: false });
-                },
-                acceptButtonText: "Proceed",
-                acceptButtonClose: () => {
-                  setInputValue("");
-                  setGeoToRedraw(geojson);
-                  setErrorState({ ...previousToLarge, error: false });
-                },
-              }));
-            } else {
-              setInputValue("");
-              setErrorState({ ...previous, error: false });
-            }
+            setInputValue("");
+            setErrorState({ ...previous, error: false });
+            proceedAfterLongWarning({
+              hasInvalidShapes,
+              geojson,
+              dispatch,
+              offerCorrection: () => setErrorState(correctionDialog(geojson)),
+            });
           },
         }));
         return;
       }
 
-      if (tooLargeFlag) {
-        setErrorState((previous) => ({
-          ...previous,
-          error: true,
-          errorTitle: "Invalid Shapefile",
-          errorType: "warning",
-          errorMessage:
-            "There are invalid shapes in the shapefile. Proceed to the shape file correction screen?",
-          errorClose: () => {
-            setInputValue("");
-            setErrorState({ ...previous, error: false });
-          },
-          acceptButtonText: "Proceed",
-          acceptButtonClose: () => {
-            setInputValue("");
-            setGeoToRedraw(geojson);
-            setErrorState({ ...previous, error: false });
-          },
-        }));
+      if (plan === UPLOAD_PLANS.offerCorrection) {
+        setErrorState(correctionDialog(geojson));
         return;
       }
 

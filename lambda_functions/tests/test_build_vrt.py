@@ -42,7 +42,7 @@ def test_build_vrt_keeps_per_band_nodata_and_dtype(tmp_path):
         assert src.nodatavals == (255.0, 0.0)
         assert src.read(2)[0, 0] == -1
     bands = ET.parse(out).getroot().findall("VRTRasterBand")
-    for band, name in zip(bands, ("a.tif", "b.tif")):
+    for band, name in zip(bands, ("a.tif", "b.tif"), strict=True):
         source = band.find(".//SourceFilename")
         assert source.get("relativeToVRT") == "0"
         assert source.text == os.path.join(str(tmp_path), name)

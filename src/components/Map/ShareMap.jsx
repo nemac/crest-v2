@@ -1,12 +1,12 @@
 import { v4 } from "uuid";
-import { shareLinkWriteEndpoint } from "../../configuration/config";
+import { mapConfig, shareLinkWriteEndpoint } from "../../configuration/config";
 import { updateAllMapProperties } from "../../reducers/mapPropertiesSlice";
 import { updateAllAnalyze } from "../../reducers/analyzeAreaSlice";
 import { updateAllRegion } from "../../reducers/regionSelectSlice";
 import { updateAllNavbar } from "../../reducers/NavBarSlice";
 import { updateAllMapLayerList } from "../../reducers/mapLayerListSlice";
 import { loadState } from "../../localStorage";
-import { migrateRegionKeys } from "../../configuration/regionAliases";
+import { migrateSavedState } from "../../stateMigrations";
 
 export const createShareURL = () => {
   const xhr = new XMLHttpRequest();
@@ -28,15 +28,41 @@ export const createShareURL = () => {
   return shareUrl;
 };
 
-export const UpdateRedux = (shareData, dispatch, setShareUrlComplete) => {
-  if (!shareData.mapProperties) {
-    return;
+const sliceUpdates = [
+  ["mapProperties", updateAllMapProperties],
+  ["analyzeArea", updateAllAnalyze],
+  ["mapLayerList", updateAllMapLayerList],
+  ["navBar", updateAllNavbar],
+  ["selectedRegion", updateAllRegion],
+];
+
+// The share read endpoint answers {"message": ...}; network failures and timeouts carry error.error instead.
+export const shareErrorText = (error) =>
+  error?.data?.message ?? error?.error ?? "unknown error";
+
+// Returns why shared state cannot be opened, or null when it can.
+export const shareProblem = (shareData) => {
+  if (!shareData?.mapProperties) {
+    return "This share link has no map data.";
   }
-  const jsonData = migrateRegionKeys(shareData);
-  dispatch(updateAllMapProperties(jsonData.mapProperties));
-  dispatch(updateAllAnalyze(jsonData.analyzeArea));
-  dispatch(updateAllMapLayerList(jsonData.mapLayerList));
-  dispatch(updateAllNavbar(jsonData.navBar));
-  dispatch(updateAllRegion(jsonData.selectedRegion));
+  if (!mapConfig.regions[shareData.selectedRegion?.value]) {
+    return "This share link is for a region CREST no longer has.";
+  }
+  return null;
+};
+
+// Loads shared state into the store; returns a problem message instead when it cannot be opened.
+export const UpdateRedux = (shareData, dispatch, setShareUrlComplete) => {
+  const jsonData = migrateSavedState(shareData);
+  const problem = shareProblem(jsonData);
+  if (problem) {
+    return problem;
+  }
+  sliceUpdates.forEach(([key, update]) => {
+    if (jsonData[key]) {
+      dispatch(update(jsonData[key]));
+    }
+  });
   setShareUrlComplete(true);
+  return null;
 };

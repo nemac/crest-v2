@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  searchWhereClause,
   SPATIAL_REL,
   geojsonToEsriGeometry,
   buildQueryParams,
@@ -104,5 +105,26 @@ describe("queryFeatureLayer", () => {
     await expect(
       queryFeatureLayer("https://x/FeatureServer/0", {}),
     ).rejects.toThrow("Invalid token");
+  });
+});
+
+describe("searchWhereClause", () => {
+  it("matches names containing the typed text within one region", () => {
+    expect(searchWhereClause("Cape", "Guam")).toBe(
+      "search_field LIKE '%Cape%' AND region = 'Guam'",
+    );
+  });
+
+  it("keeps apostrophes inside the text and the region as part of the value", () => {
+    expect(searchWhereClause("O'Brien's", "Hawai'i")).toBe(
+      "search_field LIKE '%O''Brien''s%' AND region = 'Hawai''i'",
+    );
+  });
+
+  it("cannot be used to end the string and add a condition", () => {
+    const where = searchWhereClause("x' OR '1'='1", "Guam");
+    expect(where).toBe(
+      "search_field LIKE '%x'' OR ''1''=''1%' AND region = 'Guam'",
+    );
   });
 });

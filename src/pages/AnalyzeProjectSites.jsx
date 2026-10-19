@@ -10,7 +10,7 @@ import EmptyState from "../components/AnalyzeArea/EmptyStateAnalyzeProject.jsx";
 import ChartsHolder from "../components/AnalyzeArea/AnalyzeProjectSitesChartsHolder.jsx";
 import AnalyzeProjectSitesMapCard from "../components/Map/AnalyzeProjectSitesMapCard.jsx";
 import ShapeFileCorrectionMap from "../components/Map/ShapeFileCorrectionMap.jsx";
-import { UpdateRedux } from "../components/Map/ShareMap.jsx";
+import { UpdateRedux, shareErrorText } from "../components/Map/ShareMap.jsx";
 import { useGetShareMapQuery } from "../services/shareMap";
 
 const analyzeAreaSelector = (state) => state.analyzeArea;
@@ -96,21 +96,33 @@ export default function AnalyzeProjectSite(props) {
         ...previous,
         error: true,
         errorTitle: "Share Link Error",
-        errorMessage: `The following error occurred with the share link: ${error.data}`,
+        errorType: "error",
+        errorMessage: `The following error occurred with the share link: ${shareErrorText(error)}`,
+        acceptButtonText: null,
       }));
     }
   }, [error, querySearchParams, setErrorState, setQuerySearchParams]);
 
   useEffect(() => {
     if (data) {
-      UpdateRedux(data, dispatch, setShareUrlComplete);
+      const problem = UpdateRedux(data, dispatch, setShareUrlComplete);
+      if (problem) {
+        setErrorState((previous) => ({
+          ...previous,
+          error: true,
+          errorTitle: "Share Link Error",
+          errorType: "error",
+          errorMessage: problem,
+          acceptButtonText: null,
+        }));
+      }
       setSkip(true);
       if (querySearchParams.has("shareUrl")) {
         querySearchParams.delete("shareUrl");
         setQuerySearchParams(querySearchParams);
       }
     }
-  }, [data, querySearchParams, setQuerySearchParams, dispatch]);
+  }, [data, querySearchParams, setQuerySearchParams, setErrorState, dispatch]);
 
   if (geoToRedraw?.features?.length > 0) {
     return (
