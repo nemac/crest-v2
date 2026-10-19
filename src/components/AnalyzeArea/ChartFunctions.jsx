@@ -63,8 +63,8 @@ export const getLabel = (region, name) => {
   const thisLabelOBJ = mapConfig.regions[region].layerList.find(
     (layer) => layer.chartCSSSelector === name,
   );
-  const thisLabel = thisLabelOBJ ? thisLabelOBJ.label : "";
-  return thisLabel;
+  // A key with no layer (legacy saved data) keeps its raw name so the row stays identifiable.
+  return thisLabelOBJ ? thisLabelOBJ.label : name;
 };
 
 export const getRange = (region, name) => {
@@ -81,7 +81,7 @@ export const getRange = (region, name) => {
     : [];
   return classes.length
     ? `${Math.min(...classes)}-${Math.max(...classes)}`
-    : "0";
+    : "";
 };
 
 export const handleZoomClick = (event, layerToZoomTo, map, dispatch) => {
