@@ -331,6 +331,14 @@ CI and deploy hardening (audit 2026-10-19)
 Preconditions: dev tested; every CONUS region public (the rule for merging `master`); prod stack
 name decided (deleting v1 frees `crest-api-prod`; `samconfig.toml` has an unarmed `[prod]` section).
 
+Note for the cutover: since PR #178, saved and shared state keeps only layer ids and opacity
+(`{ [layerId]: { opacity } }`). The new code migrates the old format on load, but the old code cannot
+read the new one: anything still running the old bundle after the deploy shows the layers in a
+new-format share link as checked but draws none of them (no crash; a reload on the new bundle fixes
+it). The likely cause is a cached old `index.html`, and the production workflow does not invalidate
+CloudFront yet (section 3), so add that invalidation before or with the cutover deploy, then open one
+share link made after the deploy in a fresh browser to confirm layers draw.
+
 1. Create the prod OIDC role and GitHub environment; delete the v1 `crest-api-prod` stack if the
    name is reused.
 2. Merge `develop` into `master`; the backend workflow deploys the prod stack; the production

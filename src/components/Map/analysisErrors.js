@@ -15,4 +15,4 @@ export const analysisErrorMessage = (error, regionLabel) => {
 export const analysisErrorTitle = (error) =>
   error?.status === TOO_LARGE_STATUS
     ? "Area Too Large"
-    : "Sketch an Area Error ";
+    : "Sketch an Area Error";

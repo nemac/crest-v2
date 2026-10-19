@@ -20,6 +20,14 @@ const ANALYTICS_IMPORT = {
     "Reducers must stay free of side effects; send analytics from src/analyticsListeners.js instead.",
 };
 
+// Flat config merges globals across blocks, so Node-only files switch the browser globals off explicitly.
+const NODE_ONLY_GLOBALS = {
+  ...Object.fromEntries(
+    Object.keys(globals.browser).map((name) => [name, "off"]),
+  ),
+  ...globals.node,
+};
+
 export default [
   {
     ignores: [
@@ -93,7 +101,7 @@ export default [
   },
   {
     files: ["tiling/**/*.js"],
-    languageOptions: { globals: globals.node },
+    languageOptions: { globals: NODE_ONLY_GLOBALS },
     rules: {
       "no-console": "off",
       "import/extensions": "off",
@@ -102,7 +110,7 @@ export default [
   },
   {
     files: ["vite.config.js", "eslint.config.js", "eslint.airbnb-rules.js"],
-    languageOptions: { globals: globals.node },
+    languageOptions: { globals: NODE_ONLY_GLOBALS },
     rules: {
       "import/no-unresolved": [
         "error",

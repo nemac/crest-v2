@@ -20,8 +20,17 @@ describe("analysis error messages", () => {
     [{ status: "FETCH_ERROR", error: "TypeError: Failed to fetch" }],
     [{ status: "TIMEOUT_ERROR" }],
   ])("keeps the outside-the-region message for other errors (%o)", (error) => {
-    expect(analysisErrorTitle(error)).toBe("Sketch an Area Error ");
+    expect(analysisErrorTitle(error)).toBe("Sketch an Area Error");
     expect(analysisErrorMessage(error, "Guam")).toMatch(
+      /outside the\s+specified region \(Guam\)/,
+    );
+  });
+});
+
+describe("analysis results with no data", () => {
+  it("uses the outside-the-region message when there is no request error", () => {
+    expect(analysisErrorTitle()).toBe("Sketch an Area Error");
+    expect(analysisErrorMessage(undefined, "Guam")).toMatch(
       /outside the\s+specified region \(Guam\)/,
     );
   });

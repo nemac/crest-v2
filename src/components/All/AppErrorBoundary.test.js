@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import AppErrorBoundary, { resetSavedState } from "./AppErrorBoundary.jsx";
 
 describe("AppErrorBoundary", () => {
-  it("switches to the fallback when a child throws while rendering", () => {
+  it("marks itself errored so it renders the fallback instead of its children", () => {
     expect(AppErrorBoundary.getDerivedStateFromError(new Error("x"))).toEqual({
       hasError: true,
     });

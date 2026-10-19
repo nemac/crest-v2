@@ -92,11 +92,8 @@ export default function DrawTools(props) {
           setErrorState((previous) => ({
             ...previous,
             error: true,
-            errorTitle: "Sketch an Area Error",
-            errorMessage: `The sketched area returned no data and is most likely outside the
-              specified region (${selectedRegion}). Also, CREST
-              currently includes areas near coastal areas, and the sketched area
-              may not fit within the coastal area assessed`,
+            errorTitle: analysisErrorTitle(),
+            errorMessage: analysisErrorMessage(undefined, selectedRegion),
           }));
         }
       });
