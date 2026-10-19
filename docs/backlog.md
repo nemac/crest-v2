@@ -6,7 +6,7 @@ this file is the durable list.
 Findings reviewed and deliberately accepted (for example the React Router `npm audit` advisories)
 are recorded in `docs/accepted-risks.md`, not here.
 
-Last updated: 2026-10-19, audit follow-ups and CI and deploy hardening added to section 3; share-link 404 check added to section 1.
+Last updated: 2026-10-19, audit follow-ups and CI and deploy hardening added to section 3; share-link 404 check in section 1 verified against the dev API.
 
 ## 1. Now: finish the backend migration (PR #175)
 
@@ -14,15 +14,12 @@ Last updated: 2026-10-19, audit follow-ups and CI and deploy hardening added to 
       `develop` and reads the backend URLs from the `crest-api-dev` stack.
 - [ ] Test on crest.nemac.org: identify, sketch, shapefile upload, place search, **share link round
       trip** (writes under `dev/` in the share bucket now), CSV export, sort.
-- [ ] After the `audit-fixes` backend deploys to dev, check that a missing share link still returns
-      "not found". Open `https://crest.nemac.org/AnalyzeProjectSites?shareUrl=00000000-0000-4000-8000-000000000000_2026-Oct-19`
-      (well-formed, but no such link was ever written) and click Proceed. Expected: a "Share Link Error"
-      dialog reading "The following error occurred with the share link: share link not found", and the
-      browser's network tab shows the read request answered with **404**. If it answers 500 (the
-      dialog ends in "internal error"),
-      the `s3:prefix` condition on the read role's `s3:ListBucket` is blocking the 404 check: remove the
-      `Condition` block under `ShareReadFunction` in `lambda_functions/template.yaml` and redeploy.
-      A real share link should still open normally.
+- [x] After the `audit-fixes` backend deployed to dev (2026-10-19, from `audit-fixes` at f5f682db),
+      a request for a well-formed share id that was never written answered **404** with
+      "share link not found", so the `s3:prefix` condition on the read role's `s3:ListBucket` does
+      not block the 404 check. Still to confirm in the browser on crest.nemac.org after the merge:
+      open `https://crest.nemac.org/AnalyzeProjectSites?shareUrl=00000000-0000-4000-8000-000000000000_2026-Oct-19`,
+      click Proceed, and expect a "Share Link Error" dialog ending in "share link not found".
 - [ ] Decide: legacy chart range text now reads "1-10" instead of "0-10" (0 is the no-data class).
       Accept, or revert in `getRange` in `src/components/AnalyzeArea/ChartFunctions.jsx`, before
       `develop` goes to `master`.

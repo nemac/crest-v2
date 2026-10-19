@@ -1,5 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import { UpdateRedux, shareErrorText, shareProblem } from "./ShareMap.jsx";
+import {
+  UpdateRedux,
+  shareErrorText,
+  shareProblem,
+  skipShareRead,
+} from "./ShareMap.jsx";
 import { updateAllRegion } from "../../reducers/regionSelectSlice";
 import { updateAllAnalyze } from "../../reducers/analyzeAreaSlice";
 
@@ -85,5 +90,20 @@ describe("shareErrorText", () => {
       }),
     ).toBe("TypeError: Failed to fetch");
     expect(shareErrorText({ status: 500 })).toBe("unknown error");
+  });
+});
+
+describe("skipShareRead", () => {
+  it("waits for the user to proceed", () => {
+    expect(skipShareRead(false, "abc_2026-Oct-19")).toBe(true);
+  });
+
+  it("reads the share once the user proceeds", () => {
+    expect(skipShareRead(true, "abc_2026-Oct-19")).toBe(false);
+  });
+
+  it("never reads an empty share id, such as after the link's param is removed", () => {
+    expect(skipShareRead(true, null)).toBe(true);
+    expect(skipShareRead(true, "")).toBe(true);
   });
 });

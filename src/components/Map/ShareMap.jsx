@@ -37,6 +37,9 @@ const sliceUpdates = [
 ];
 
 // The share read endpoint answers {"message": ...}; network failures and timeouts carry error.error instead.
+// After a failed read the shareUrl param is removed, so the hook must not run again with an empty id.
+export const skipShareRead = (proceeded, shareUrl) => !proceeded || !shareUrl;
+
 export const shareErrorText = (error) =>
   error?.data?.message ?? error?.error ?? "unknown error";
 

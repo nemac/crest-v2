@@ -14,6 +14,7 @@ import {
   MoreHorizOutlined,
   CenterFocusStrong,
 } from "@mui/icons-material";
+import { areaElementId } from "../Map/areaElementId";
 // this not good practice but nothing else works and
 // its not that important
 /* eslint-disable no-plusplus */
@@ -189,7 +190,7 @@ export default function ChartCard(props) {
       buttonName: analyzeAreaState.isMore[feature.properties.areaName]
         ? "Less"
         : "More",
-      id: `btn-more-less-${feature.properties.areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`,
+      id: areaElementId("btn-more-less", feature.properties.areaName),
       onClick: () => {
         handleMoreOnClick(dispatch, feature.properties.areaName);
         setChartDescription(null);
@@ -269,7 +270,7 @@ export default function ChartCard(props) {
     >
       {analyzeAreaState.isMore[feature.properties.areaName] ? (
         <div
-          id={`box-${feature.properties.areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`}
+          id={areaElementId("box", feature.properties.areaName)}
           style={{
             width: "100%",
             borderWidth: "1px",
@@ -378,7 +379,7 @@ export default function ChartCard(props) {
         </div>
       ) : (
         <div
-          id={`box-${feature.properties.areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-")}`}
+          id={areaElementId("box", feature.properties.areaName)}
           style={{
             width: "100%",
             borderWidth: "1px",

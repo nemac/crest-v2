@@ -13,6 +13,7 @@ import SearchPlaces from "./SearchPlaces.jsx";
 import ShowIdentifyPopup from "./IdentifyPopup.jsx";
 import DrawTools from "./DrawTools.jsx";
 import useTerraDraw, { createSketchModes } from "./useTerraDraw";
+import { findAreaElement } from "./areaElementId";
 import {
   DRAWN_INTERACTIVE_LAYERS,
   BUFFER_FILL_LAYER,
@@ -51,15 +52,8 @@ const useBufferSelector = (state) => state.mapProperties.useBuffer;
 
 const NO_HOVER = { areaName: null, bufferAreaName: null };
 
-const escapeSelector = (selector) => selector.replace(/[()]/g, "\\$&");
-
-const slug = (areaName) =>
-  areaName.toString().toLowerCase().replaceAll(" ", "-").replaceAll(",", "-");
-
 const setChartCardBorder = (areaName, border) => {
-  const element = document.querySelector(
-    escapeSelector(`#box-${slug(areaName)}`),
-  );
+  const element = findAreaElement("box", areaName);
   if (element) element.style.border = border;
 };
 
@@ -121,9 +115,7 @@ export default function AnalyzeProjectSitesMapCard(props) {
   };
 
   const handleAreaClick = (areaName) => {
-    const button = document.querySelector(
-      escapeSelector(`#btn-more-less-${slug(areaName)}`),
-    );
+    const button = findAreaElement("btn-more-less", areaName);
     if (button) {
       button.click();
       button.scrollIntoView({ block: "end", inline: "end" });
