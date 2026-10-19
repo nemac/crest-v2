@@ -55,7 +55,6 @@
     "prettier": "^3.2.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-code-blocks": "^0.1.6",
     "react-dom": "^18.2.0",
     "react-ga4": "^2.1.0",
     "react-redux": "^7.2.9",
@@ -65,7 +64,7 @@
     "shpjs": "^4.0.4",
     "terra-draw": "^1.33.0",
     "terra-draw-maplibre-gl-adapter": "^1.4.1",
-    "uuid": "^9.0.0",
+    "uuid": "^11.1.1",
     "vite": "^7.3.6"
   }
 }

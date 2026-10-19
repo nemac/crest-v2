@@ -51,6 +51,13 @@
       }
     },
     {
+      "files": ["vite.config.js"],
+      "env": { "node": true, "browser": false },
+      "rules": {
+        "import/no-unresolved": ["error", { "ignore": ["^@vitejs/plugin-react$"] }]
+      }
+    },
+    {
       "files": ["**/*.test.js"],
       "env": { "node": true },
       "rules": {
