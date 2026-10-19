@@ -1,4 +1,5 @@
 import FileSaver from "file-saver";
+import { withoutHiddenStats } from "./hiddenStats";
 
 export const CSV_HEADER = ["Area", "Index", "Values", "Range(s)"];
 
@@ -37,7 +38,7 @@ export const rowsToCsv = (rows) =>
 
 // One row per statistic for one area; label and range come from the caller so this stays free of config.
 export const areaRows = ({ areaName, region, data, label, range }) =>
-  Object.entries(data).map(([key, value]) => [
+  Object.entries(withoutHiddenStats(data)).map(([key, value]) => [
     areaName,
     label(region, key),
     formatValue(value),

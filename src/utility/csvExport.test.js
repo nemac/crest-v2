@@ -163,3 +163,16 @@ describe("downloadCsv", () => {
     expect(new TextDecoder().decode(bytes)).toBe("Area\nHawaiʻi");
   });
 });
+
+describe("areaRows hidden statistics", () => {
+  it("drops social vulnerability, which CREST does not show anywhere", () => {
+    const rows = areaRows({
+      areaName: "Area 1",
+      region: "U.S. Virgin Islands",
+      data: { hubs: 3, social_vuln: 0.068, lc_bare_land: 0.6 },
+      label: (region, key) => key,
+      range: () => "",
+    });
+    expect(rows.map((row) => row[1])).toEqual(["hubs", "lc_bare_land"]);
+  });
+});
