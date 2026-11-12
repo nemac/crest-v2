@@ -14,3 +14,4 @@
 - Once a pull request is merged into `develop` and the working tree is clean, bring the local
   checkout back to `origin/develop` without being asked:
   `git checkout develop && git pull --ff-only`.
+- Then delete the merged feature branch, both the local branch and the one on GitHub.
