@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import * as turf from "@turf/turf";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import AddchartIcon from "@mui/icons-material/Addchart";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { addSearchPlacesGeoJSON } from "../../reducers/mapPropertiesSlice";
 import { agolApiKey } from "../../configuration/config";
@@ -41,23 +42,24 @@ export default function SearchPlaces({ map, statisticsDisabled }) {
   const [result, setResult] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [focusButtonAfterCollapse, setFocusButtonAfterCollapse] =
+    useState(false);
   const latestRequest = useRef(0);
-  const buttonRef = useRef(null);
 
-  const handleToggle = () => {
-    setExpanded(!expanded);
+  const handleOpen = () => {
+    setExpanded(true);
   };
 
   const handleInputKeyDown = (event) => {
     if (event.key !== "Escape") return;
+    setFocusButtonAfterCollapse(true);
     setExpanded(false);
-    buttonRef.current.focus();
   };
 
-  const handleInputBlur = (event) => {
-    // Clicking the toggle button handles collapsing by itself.
-    if (event.relatedTarget === buttonRef.current) return;
-    if (inputValue === "") setExpanded(false);
+  const handleInputBlur = () => {
+    if (inputValue !== "") return;
+    setFocusButtonAfterCollapse(false);
+    setExpanded(false);
   };
 
   const handleInputChange = (_, value, reason) => {
@@ -111,6 +113,12 @@ export default function SearchPlaces({ map, statisticsDisabled }) {
   return (
     <>
       <Box sx={expanded ? expandedWrapperStyle : collapsedWrapperStyle}>
+        {!expanded && (
+          <SearchToggleButton
+            onOpen={handleOpen}
+            autoFocus={focusButtonAfterCollapse}
+          />
+        )}
         {expanded && (
           <Autocomplete
             size="small"
@@ -133,23 +141,27 @@ export default function SearchPlaces({ map, statisticsDisabled }) {
                 {...params}
                 autoFocus
                 placeholder={SEARCH_LABEL}
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <SearchIcon
+                      aria-hidden="true"
+                      sx={{ color: "#000000", mr: 0.5 }}
+                    />
+                  ),
+                }}
                 inputProps={{
                   ...params.inputProps,
                   "aria-label": SEARCH_LABEL,
                   onBlur: (event) => {
                     params.inputProps.onBlur(event);
-                    handleInputBlur(event);
+                    handleInputBlur();
                   },
                 }}
               />
             )}
           />
         )}
-        <SearchToggleButton
-          ref={buttonRef}
-          expanded={expanded}
-          onToggle={handleToggle}
-        />
       </Box>
       {result && (
         <Popup

@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Button, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,39 +19,28 @@ const toggleButtonStyle = {
   },
 };
 
-const expandedButtonStyle = {
-  ...toggleButtonStyle,
-  boxShadow: "none",
-  "&:hover": { backgroundColor: "#FFFFFF", boxShadow: "none" },
-};
-
-const SearchToggleButton = forwardRef(({ expanded, onToggle }, ref) => {
+export default function SearchToggleButton({ onOpen, autoFocus = false }) {
   const handleClick = (event) => {
     event.stopPropagation();
-    onToggle();
+    onOpen();
   };
 
   return (
     <Tooltip title={SEARCH_LABEL} placement="right">
       <Button
-        ref={ref}
         variant="contained"
         onClick={handleClick}
-        sx={expanded ? expandedButtonStyle : toggleButtonStyle}
+        autoFocus={autoFocus}
+        sx={toggleButtonStyle}
         aria-label={SEARCH_LABEL}
-        aria-expanded={expanded}
       >
         <SearchIcon />
       </Button>
     </Tooltip>
   );
-});
-
-SearchToggleButton.displayName = "SearchToggleButton";
+}
 
 SearchToggleButton.propTypes = {
-  expanded: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  autoFocus: PropTypes.bool,
 };
-
-export default SearchToggleButton;
