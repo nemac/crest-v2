@@ -3,7 +3,10 @@
 Get zonal stats for features in a hube shapefile and output the results to a new shapefile.
 '''
 
-import argparse, copy, os, sys
+import argparse
+import copy
+import os
+import sys
 
 import fiona
 from fiona.crs import CRS
@@ -11,11 +14,11 @@ from fiona.model import to_dict
 from pyproj import Transformer
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from traceback import print_tb
+
 from src import config as cfg  # noqa: E402
 from src.zonal_stats import get_response  # noqa: E402
 from tools.hubs_config import config  # noqa: E402
-
-from traceback import print_tb
 
 
 def transform_ring(coords, transformer):
@@ -81,7 +84,8 @@ def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, api_confi
       elif proj_string:
         crs = CRS.from_string(proj_string)
       elif not crs:
-        print('Error: the shapefile is reporting an empty CRS. You\'ll need to use the --epsg flag in order to process the provided shapefile, or retool your file.')
+        print('Error: the shapefile is reporting an empty CRS. You\'ll need to use the --epsg flag '
+              'in order to process the provided shapefile, or retool your file.')
         sys.exit()
       ids_done = []
 
@@ -94,7 +98,7 @@ def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, api_confi
             ids_done.append(f['properties'][id_out])
         shp_out = get_shp_out_at(shpfile_path_out, crs, region, True)
         print('WARNING: shapefile to write features to already exists, opening in \'append\' mode...')
-      except:
+      except Exception:
         # Start getting stats for unprocessed features
         shp_out = get_shp_out_at(shpfile_path_out, crs, region)
 
@@ -126,7 +130,7 @@ def main(shpfile_path_in, shpfile_path_out, region, epsg, proj_string, api_confi
             print('Failed to write', f_id)
             print(e)
             print_tb(e.__traceback__)
-            
+
 
 
 def setup_argparser():

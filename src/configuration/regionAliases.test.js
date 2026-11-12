@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   legacyRegionKeys,
-  currentRegionKey,
   migrateRegionKeys,
   searchRegionName,
   appRegionName,
@@ -11,14 +10,28 @@ describe("region aliases", () => {
   it("maps legacy keys to their current labels", () => {
     expect(legacyRegionKeys).toEqual({
       "US Virgin Islands": "U.S. Virgin Islands",
+      "Atlantic, Gulf of Mexico, and Pacific Coasts": "North Atlantic",
       "Atlantic, Gulf of America, and Pacific Coasts": "North Atlantic",
     });
-    expect(currentRegionKey("US Virgin Islands")).toBe("U.S. Virgin Islands");
+  });
+
+  it.each([
+    "Atlantic, Gulf of Mexico, and Pacific Coasts",
+    "Atlantic, Gulf of America, and Pacific Coasts",
+  ])("migrates state saved under %s to North Atlantic", (oldName) => {
+    const state = {
+      selectedRegion: { value: oldName, userInitiated: false },
+      mapProperties: {
+        drawnLayers: {
+          features: [{ type: "Feature", properties: { region: oldName } }],
+        },
+      },
+    };
+    const migrated = migrateRegionKeys(state);
+    expect(migrated.selectedRegion.value).toBe("North Atlantic");
     expect(
-      currentRegionKey("Atlantic, Gulf of America, and Pacific Coasts"),
+      migrated.mapProperties.drawnLayers.features[0].properties.region,
     ).toBe("North Atlantic");
-    expect(currentRegionKey("Guam")).toBe("Guam");
-    expect(currentRegionKey(undefined)).toBeUndefined();
   });
 
   it("migrates the selected region and drawn-area regions in persisted state", () => {

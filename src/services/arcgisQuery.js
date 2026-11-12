@@ -2,6 +2,13 @@ import * as turf from "@turf/turf";
 
 const WGS84 = { wkid: 4326 };
 
+// SQL string literals escape a single quote by doubling it, so "O'Brien" stays one value.
+const quoteSqlString = (text) => `'${String(text).replaceAll("'", "''")}'`;
+
+// Where clause for the place search: names containing the typed text, limited to one region.
+export const searchWhereClause = (text, searchRegion) =>
+  `search_field LIKE ${quoteSqlString(`%${text}%`)} AND region = ${quoteSqlString(searchRegion)}`;
+
 export const SPATIAL_REL = {
   intersects: "esriSpatialRelIntersects",
   contains: "esriSpatialRelContains",

@@ -10,6 +10,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { withoutHiddenStats } from "../../utility/hiddenStats";
 
 import { StyledGrid } from "../All/StyledComponents.jsx";
 import { getLabel, getRange } from "./ChartFunctions.jsx";
@@ -37,9 +38,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableData(props) {
   const { data } = props;
-  // remove this if we redo social vulnerability
-  const keyToRemove = "social_vuln";
-
   return (
     <StyledGrid
       container
@@ -62,26 +60,24 @@ export default function TableData(props) {
               </TableRow>
             </StyledTableHead>
             <TableBody>
-              {Object.entries(data.properties.zonalStatsData)
-                .filter(([key]) => key !== keyToRemove)
-                .map(([key, value]) => (
-                  <StyledTableRow key={`${data.properties.areaName}-${key}`}>
-                    <TableCell align="left">
-                      {data.properties.areaName}
-                    </TableCell>
-                    <TableCell align="left">
-                      {getLabel(data.properties.region, key)}
-                    </TableCell>
-                    <TableCell align="left">
-                      {Number.isNaN(Number(value))
-                        ? 0.0
-                        : Number(value).toFixed(3)}
-                    </TableCell>
-                    <TableCell align="left">
-                      {getRange(data.properties.region, key)}
-                    </TableCell>
-                  </StyledTableRow>
-                ))}
+              {Object.entries(
+                withoutHiddenStats(data.properties.zonalStatsData),
+              ).map(([key, value]) => (
+                <StyledTableRow key={`${data.properties.areaName}-${key}`}>
+                  <TableCell align="left">{data.properties.areaName}</TableCell>
+                  <TableCell align="left">
+                    {getLabel(data.properties.region, key)}
+                  </TableCell>
+                  <TableCell align="left">
+                    {Number.isNaN(Number(value))
+                      ? 0.0
+                      : Number(value).toFixed(3)}
+                  </TableCell>
+                  <TableCell align="left">
+                    {getRange(data.properties.region, key)}
+                  </TableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

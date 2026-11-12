@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga4";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import buffer from "@turf/buffer";
 import * as turf from "@turf/turf";
 import { Box, CircularProgress } from "@mui/material";
 
@@ -21,6 +20,8 @@ import { useGetZonalStatsQuery } from "../../services/zonalstats";
 import ModelErrors from "../All/ModelErrors.jsx";
 import { setEmptyState } from "../../reducers/analyzeAreaSlice";
 import { mapConfig, sketchShapeThresholds } from "../../configuration/config";
+import { areaAddedEvent } from "../../analyticsEvents";
+import { analysisErrorMessage, analysisErrorTitle } from "./analysisErrors";
 
 // The ported zonal-stats flow keeps its original effect dependencies on purpose.
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -86,20 +87,13 @@ export default function DrawTools(props) {
         if (!allNaN) {
           geo.properties.zonalStatsData = data.features[index].properties.mean;
           dispatch(addNewFeatureToDrawnLayers(geo));
-          ReactGA.event({
-            category: "engagement",
-            action: "add_area_sketch_area",
-            label: "sketch_area",
-          });
+          ReactGA.event(areaAddedEvent(currentDrawn.source));
         } else {
           setErrorState((previous) => ({
             ...previous,
             error: true,
-            errorTitle: "Sketch an Area Error",
-            errorMessage: `The sketched area returned no data and is most likely outside the
-              specified region (${selectedRegion}). Also, CREST
-              currently includes areas near coastal areas, and the sketched area
-              may not fit within the coastal area assessed`,
+            errorTitle: analysisErrorTitle(),
+            errorMessage: analysisErrorMessage(undefined, selectedRegion),
           }));
         }
       });
@@ -109,7 +103,7 @@ export default function DrawTools(props) {
   }, [data, dispatch, setErrorState]);
 
   const addBufferLayer = (geo) =>
-    buffer(structuredClone(geo), bufferSize, { units: bufferUnits });
+    turf.buffer(structuredClone(geo), bufferSize, { units: bufferUnits });
 
   function processGeojson(geo, areaNum) {
     const geoCopy = structuredClone(geo);
@@ -211,11 +205,8 @@ export default function DrawTools(props) {
   if (error) {
     return (
       <ModelErrors
-        contentTitle={"Sketch an Area Error "}
-        contentMessage={`The sketched area returned no data and is most likely outside the
-          specified region (${selectedRegion}). Also, CREST
-          currently includes areas near coastal areas, and the sketched area
-          may not fit within the coastal area assessed`}
+        contentTitle={analysisErrorTitle(error)}
+        contentMessage={analysisErrorMessage(error, selectedRegion)}
         buttonMessage="Dismiss"
         errorType={"error"}
         onClose={() => {

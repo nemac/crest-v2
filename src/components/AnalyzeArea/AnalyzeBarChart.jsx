@@ -277,10 +277,6 @@ export default function AnalyzeBarChart(props) {
     }
   };
 
-  // This code may come in handy at some point to sort the actual indices of each chart
-  // const sortedChartData = [...chartData];
-  // sortedChartData.sort((a, b) => a.chartValue - b.chartValue);
-  // const thisChartData = analyzeAreaState.chartSortASC ? sortedChartData : chartData;
   return (
     <ResponsiveContainer
       id={`${chartType}-${areaName}-container`}
@@ -313,10 +309,6 @@ export default function AnalyzeBarChart(props) {
           fill="white"
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
-          {/* <tspan x="50%" style={{ fontSize: "1.25rem", fontWeight: "bold" }}> */}
-          {/*  {areaName.replace("Hawaii", "Hawai'i")} */}
-          {/* </tspan> */}
-
           <tspan x="50%" dy={"15px"} style={{ fontSize: "1rem" }}>
             {chartType}
           </tspan>

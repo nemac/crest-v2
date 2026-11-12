@@ -8,7 +8,7 @@ DEFAULT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.
 
 def load_config(path=None):
     path = path or os.environ.get("CONFIG_PATH") or DEFAULT_PATH
-    with open(path, "r", encoding="utf-8") as stream:
+    with open(path, encoding="utf-8") as stream:
         config = yaml.safe_load(stream)
     config["_dir"] = os.path.dirname(os.path.abspath(path))
     return config

@@ -1,52 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
-import { Help, HelpOutlineOutlined, Cancel } from "@mui/icons-material";
-import { IconButton, Popper, Box, Typography } from "@mui/material";
+import { Help, HelpOutlineOutlined } from "@mui/icons-material";
+import { IconButton, Box, Typography } from "@mui/material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Link from "@mui/material/Link";
 import { changeActiveTab } from "../../reducers/NavBarSlice";
-
-const PopupBox = styled(Box)(({ theme }) => ({
-  width: "450px",
-  borderRadius: theme.spacing(0.5),
-  [theme.breakpoints.down("lg")]: {
-    width: "300px",
-  },
-  backgroundColor: theme.palette.CRESTLight.main,
-  color: theme.palette.CRESTLight.contrastText,
-  border: `2px solid ${theme.palette.CRESTLightBorderColor.main}`,
-}));
-
-const PopupHeaderBox = styled(Box)(({ theme }) => ({
-  backgroundColor: "#E6E6E6",
-  padding: theme.spacing(1),
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderTopRightRadius: theme.spacing(0.5),
-  borderTopLeftRadius: theme.spacing(0.5),
-}));
-
-const PopupTitleBox = styled(Box)(({ theme }) => ({
-  fontSize: "1.1rem",
-  fontWeight: 500,
-  width: "100%",
-  borderTopRightRadius: theme.spacing(0.5),
-  borderTopLeftRadius: theme.spacing(0.5),
-}));
-
-const PopupContentBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.CRESTLight.main,
-  color: theme.palette.CRESTLight.contrastText,
-  padding: theme.spacing(1),
-  borderBottomRightRadius: theme.spacing(0.5),
-  borderBottomLeftRadius: theme.spacing(0.5),
-  whiteSpace: "pre-wrap",
-}));
+import HelpPopover from "./HelpPopover.jsx";
+import useHoverPopover from "./useHoverPopover";
 
 const PopupFooterBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.CRESTLight.dark,
@@ -58,7 +22,7 @@ const PopupFooterBox = styled(Box)(({ theme }) => ({
   borderBottomLeftRadius: theme.spacing(0.5),
 }));
 
-export const ExamplesLink = () => {
+const ExamplesLink = () => {
   const dispatch = useDispatch();
   return (
     <Link
@@ -72,116 +36,62 @@ export const ExamplesLink = () => {
   );
 };
 
+const ExamplesFooter = () => (
+  <PopupFooterBox>
+    Still have questions? Learn how to add areas by stepping through some&nbsp;
+    <ExamplesLink />
+    &nbsp;.
+  </PopupFooterBox>
+);
+
 export default function HelpPopup(props) {
-  const { helpTitle, helpDescription, useExamplesLink } = props;
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [clicked, setClicked] = useState(false);
-  const [mouseOver, setMouseOver] = useState(false);
-
-  const handlePopoverOpen = (e) => {
-    setAnchorEl(e.currentTarget);
-    setMouseOver(true);
-  };
-
-  const handlePopoverClose = () => {
-    if (!clicked) {
-      setAnchorEl(null);
-      setMouseOver(false);
-    }
-  };
-
-  const handlePopoverButtonClose = () => {
-    setAnchorEl(null);
-    setMouseOver(false);
-    setClicked(false);
-  };
-
-  const handleClickAway = () => {
-    setAnchorEl(null);
-    setClicked(false);
-    setMouseOver(false);
-  };
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popper" : undefined;
+  const {
+    helpTitle,
+    helpDescription,
+    useExamplesLink,
+    iconFontSize = "1.40rem",
+    descriptionVariant = "body2",
+  } = props;
+  const popover = useHoverPopover();
 
   return (
-    <ClickAwayListener
-      onClickAway={anchorEl === null ? () => {} : handleClickAway}
-    >
+    <ClickAwayListener onClickAway={popover.close}>
       <IconButton
         variant="contained"
-        aria-owns={open ? "mouse-over-popover" : undefined}
+        aria-describedby={popover.open ? popover.popoverId : undefined}
         aria-haspopup="true"
-        onMouseEnter={handlePopoverOpen}
-        onMouseLeave={handlePopoverClose}
-        onClick={handleClick}
+        onMouseEnter={popover.show}
+        onMouseLeave={popover.hideUnlessPinned}
+        onClick={popover.togglePin}
         sx={{ padding: (theme) => theme.spacing(0.5) }}
         size="large"
       >
-        {clicked || mouseOver ? (
-          <Help sx={{ fontSize: "1.40rem" }} />
+        {popover.highlighted ? (
+          <Help sx={{ fontSize: iconFontSize }} />
         ) : (
-          <HelpOutlineOutlined sx={{ fontSize: "1.40rem" }} />
+          <HelpOutlineOutlined sx={{ fontSize: iconFontSize }} />
         )}
-        <Popper
-          id={id}
-          open={open}
-          placement={"bottom-end"}
-          anchorEl={anchorEl}
-          sx={{ zIndex: 1500, borderRadius: (theme) => theme.spacing(0.5) }}
+        <HelpPopover
+          id={popover.popoverId}
+          open={popover.open}
+          anchorEl={popover.anchorEl}
+          title={helpTitle}
+          onClose={popover.close}
+          footer={useExamplesLink ? <ExamplesFooter /> : null}
         >
-          <PopupBox>
-            <PopupHeaderBox>
-              <PopupTitleBox>{helpTitle}</PopupTitleBox>
-              <IconButton
-                sx={{
-                  "&": (theme) => ({
-                    color: theme.palette.CRESTLight.contrastText,
-                    height: theme.spacing(4.5),
-                    padding: theme.spacing(0.375),
-                    justifyContent: "end",
-                  }),
-                }}
-                variant="contained"
-                color="CRESTPrimary"
-                aria-label="Minimize"
-                onClick={handlePopoverButtonClose}
-                size="large"
-              >
-                <Cancel
-                  sx={{
-                    color: "#394E61",
-                  }}
-                />
-              </IconButton>
-            </PopupHeaderBox>
-            <PopupContentBox>
-              <Typography variant="body2" component="p">
-                {helpDescription}
-              </Typography>
-            </PopupContentBox>
-            {useExamplesLink ? (
-              <PopupFooterBox>
-                Still have questions? Learn how to add areas by stepping through
-                some&nbsp;
-                <ExamplesLink />
-                &nbsp;.
-              </PopupFooterBox>
-            ) : (
-              <></>
-            )}
-          </PopupBox>
-        </Popper>
+          <Typography variant={descriptionVariant} component="p">
+            {helpDescription}
+          </Typography>
+        </HelpPopover>
       </IconButton>
     </ClickAwayListener>
   );
 }
+
 HelpPopup.propTypes = {
   helpTitle: PropTypes.string.isRequired,
   helpDescription: PropTypes.string.isRequired,
   useExamplesLink: PropTypes.bool,
+  iconFontSize: PropTypes.string,
+  descriptionVariant: PropTypes.string,
 };

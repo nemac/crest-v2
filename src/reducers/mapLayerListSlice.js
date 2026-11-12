@@ -1,8 +1,19 @@
-import ReactGA from "react-ga4";
 import { createSlice } from "@reduxjs/toolkit";
 import { mapConfig } from "../configuration/config";
 
 const regions = mapConfig.regions;
+const knownLayerIds = new Set(
+  Object.values(regions).flatMap((region) =>
+    region.layerList.map((layer) => layer.id),
+  ),
+);
+
+// Saved and shared state keeps only layer ids and opacity; everything else comes from the region configs.
+const activeEntry = (opacity) => ({ opacity });
+
+const validOpacity = (value) =>
+  typeof value === "number" && value >= 0 && value <= 1 ? value : undefined;
+
 const startingState = {
   // TODO add defaults for Resilience hubs
   visible: true,
@@ -10,7 +21,7 @@ const startingState = {
   activeLayerList: Object.fromEntries(
     Object.values(regions).map((region) => [
       region.layerList[0].id,
-      region.layerList[0],
+      activeEntry(region.layerList[0].opacity),
     ]),
   ),
   expandedCharts: [],
@@ -30,18 +41,8 @@ export const mapLayerListSlice = createSlice({
       const layerId = layer.id;
       if (layerId in state.activeLayerList) {
         delete state.activeLayerList[layerId];
-        ReactGA.event({
-          category: "engagement",
-          action: "map_layer_toggle",
-          label: `${layerId} off`,
-        });
       } else {
-        state.activeLayerList[layerId] = layer;
-        ReactGA.event({
-          category: "engagement",
-          action: "map_layer_toggle",
-          label: `${layerId} on`,
-        });
+        state.activeLayerList[layerId] = activeEntry(layer.opacity);
       }
     },
     toggleCollapsed: (state, action) => {
@@ -58,13 +59,8 @@ export const mapLayerListSlice = createSlice({
       if (layerId in state.displayedLegends) {
         delete state.displayedLegends[layerId];
       } else {
-        state.displayedLegends[layerId] = layer;
+        state.displayedLegends[layerId] = true;
       }
-    },
-    // This is used for loading share links and completely loading active layers from that
-    replaceActiveLayerList: (state, action) => {
-      const layerList = action.payload;
-      state.activeLayerList = layerList;
     },
     initializeState: (state) => {
       state.visible = startingState.visible;
@@ -76,11 +72,6 @@ export const mapLayerListSlice = createSlice({
     setOpacity: (state, action) => {
       const layerId = action.payload.layerId;
       state.activeLayerList[layerId].opacity = action.payload.opacity;
-      ReactGA.event({
-        category: "engagement",
-        action: "map_layer_opacity",
-        label: `${layerId} off`,
-      });
     },
   },
 });
@@ -92,10 +83,30 @@ export const {
   toggleLayer,
   toggleCollapsed,
   toggleLegend,
-  replaceActiveLayerList,
   initializeState,
   resetMapLayerList,
   setOpacity,
 } = mapLayerListSlice.actions;
+
+// Converts saved or shared state to ids plus opacity: older state kept whole layer objects, tile urls included.
+export const migrateMapLayerList = (mapLayerList) => {
+  if (!mapLayerList) {
+    return mapLayerList;
+  }
+  const activeLayerList = Object.fromEntries(
+    Object.entries(mapLayerList.activeLayerList ?? {})
+      .filter(([layerId]) => knownLayerIds.has(layerId))
+      .map(([layerId, entry]) => [
+        layerId,
+        activeEntry(validOpacity(entry?.opacity)),
+      ]),
+  );
+  const displayedLegends = Object.fromEntries(
+    Object.keys(mapLayerList.displayedLegends ?? {})
+      .filter((layerId) => knownLayerIds.has(layerId))
+      .map((layerId) => [layerId, true]),
+  );
+  return { ...mapLayerList, activeLayerList, displayedLegends };
+};
 
 export default mapLayerListSlice.reducer;

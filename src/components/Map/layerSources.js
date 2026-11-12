@@ -5,6 +5,16 @@ export const OVERLAY_ANCHOR_LAYER = "overlay-anchor";
 
 const isPmtiles = (url) => url.startsWith("pmtiles://");
 
+// Active layers in the order they were turned on, built from the region config plus the saved opacity.
+export const resolveActiveLayers = (activeLayerList, regionLayers) =>
+  Object.entries(activeLayerList).flatMap(([layerId, entry]) => {
+    const layer = regionLayers.find((candidate) => candidate.id === layerId);
+    if (!layer) {
+      return [];
+    }
+    return [{ ...layer, opacity: entry?.opacity ?? layer.opacity }];
+  });
+
 export const layerSourceSpec = (layer) => {
   if (layer.type === "vector") {
     return { type: "vector", url: layer.url };

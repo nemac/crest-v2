@@ -19,7 +19,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6
@@ -31,7 +31,7 @@ jobs:
       - name: Read backend endpoints from the crest-api-dev stack
         run: |
           outputs=$(aws cloudformation describe-stacks --stack-name crest-api-dev --query "Stacks[0].Outputs" --output json)
-          for pair in IdentifyUrl:VITE_API_IDENTIFY_URL ZonalStatsUrl:VITE_API_ZONAL_STATS_URL UploadShapeUrl:VITE_API_UPLOAD_SHAPE_URL ShareReadUrl:VITE_API_SHARE_READ_URL ShareWriteUrl:VITE_API_SHARE_WRITE_URL; do
+          for pair in IdentifyUrl:VITE_API_IDENTIFY_URL ZonalStatsUrl:VITE_API_ZONAL_STATS_URL ShareReadUrl:VITE_API_SHARE_READ_URL ShareWriteUrl:VITE_API_SHARE_WRITE_URL; do
             key=${pair%%:*}; var=${pair##*:}
             value=$(echo "$outputs" | jq -r ".[] | select(.OutputKey==\"$key\") | .OutputValue")
             if [ -z "$value" ] || [ "$value" = "null" ]; then echo "missing stack output $key"; exit 1; fi

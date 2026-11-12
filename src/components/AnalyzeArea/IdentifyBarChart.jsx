@@ -135,10 +135,6 @@ export default function IdentifyBarChart(props) {
     }
   };
 
-  // This code may come in handy at some point to sort the actual indices of each chart
-  // const sortedChartData = [...chartData];
-  // sortedChartData.sort((a, b) => a.chartValue - b.chartValue);
-  // const thisChartData = analyzeAreaState.chartSortASC ? sortedChartData : chartData;
   return (
     <ResponsiveContainer
       id={`${chartType}-${areaName}-container`}

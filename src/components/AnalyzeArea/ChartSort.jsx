@@ -1,8 +1,3 @@
-/*
-We're constantly improving the code you see.
-Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcNg&d=1152665201300829
-*/
-
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { styled } from "@mui/system";
@@ -52,10 +47,6 @@ export const ChartSort = () => {
       dispatch(changeSortDirection(chartName));
     }
   };
-  // const handleAscendingClick = () => {
-  //   // This is to be combined with handleSortClick... if chartName is already sortBy, do this
-  //   dispatch(changeSortDirection());
-  // };
 
   return (
     <StyledGridContainer container spacing={0} p={0} mt={-1} mb={1}>

@@ -1,24 +1,3 @@
-/*
-Purpose
-  The main menu (to the tabs) in small screen/mobile
-
-Child Components
-  - Not sure yet
-
-Libs
-  - Not sure yet
-
-API
-  - Not sure yet
-
-State needed
-  openMenu state for if menu is open or not.
-  what menu is currently selected
-  - Not sure yet
-
-Props
-- Not sure yet
-*/
 import React from "react";
 import PropTypes from "prop-types";
 import { Link as RouterLink } from "react-router-dom";
@@ -244,7 +223,7 @@ export default function NavBarTabsSmallScreens(props) {
 
                 <StyledNavPaper square={false} elevation={0}>
                   <StyledListItem
-                    selected={navBar.activeTab === "Getting Started"}
+                    selected={navBar.activeTab === "Examples"}
                     onClick={(event) => handleClickNavTab(event, "Examples")}
                     to="/Examples"
                     {...a11yProps(3)}
@@ -253,21 +232,6 @@ export default function NavBarTabsSmallScreens(props) {
                     Getting Started
                   </StyledListItem>
                 </StyledNavPaper>
-
-                {/* <StyledNavPaper square={false} elevation={0}>
-                  <StyledListItem
-                    selected={navBar.activeTab === "c"}
-                    onClick={(event) =>
-                      handleClickNavTab(event, "DataAndReports")
-                    }
-                    to="/DataAndReports"
-                    {...a11yProps(0)}
-                    component={RouterLink}
-                    label="Data & Reports"
-                  >
-                    Data & Reports
-                  </StyledListItem>
-                </StyledNavPaper> */}
 
                 <StyledNavPaper square={false} elevation={0}>
                   <StyledListItem

@@ -21,6 +21,12 @@ export const zonalStatsApi = createApi({
   }),
 });
 
+// True while any zonal statistics request is in flight; it turns false on success, failure or timeout.
+export const selectZonalStatsLoading = (state) =>
+  Object.values(state[zonalStatsApi.reducerPath].queries).some(
+    (query) => query?.status === "pending",
+  );
+
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const { useGetZonalStatsQuery } = zonalStatsApi;

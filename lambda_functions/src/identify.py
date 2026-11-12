@@ -28,7 +28,7 @@ def get_identify(region, lng, lat, config):
     with rasterio.Env(**GDAL_ENV), rasterio.open(rc["vrt"]) as src:
         values = sample_point(src, lng, lat)
         nodatas = src.nodatavals
-    return {name: display(value, nodata) for name, value, nodata in zip(names, values, nodatas)}
+    return {name: display(value, nodata) for name, value, nodata in zip(names, values, nodatas, strict=True)}
 
 
 @lambda_entry("identify")

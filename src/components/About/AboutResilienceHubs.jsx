@@ -29,15 +29,6 @@ export default function AboutResilienceHubs(props) {
         wildlife resources. As the primary output of the Regional Coastal
         Resilience Assessments, Resilience Hubs are common to all regions.
         However, the methods used to develop Resilience Hubs do vary regionally.
-        {/* For details,
-        review the{" "}
-        <Link
-          value="DataAndReports"
-          to="/DataAndReports"
-          component={RouterLink}
-        >
-          final reports
-        </Link> */}
       </Typography>
     </div>
   );

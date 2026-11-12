@@ -1,10 +1,8 @@
 import * as React from "react";
-// import { Link as RouterLink } from "react-router-dom";
 
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
-// import Link from "@mui/material/Link";
 
 import { AboutImage } from "../All/StyledComponents.jsx";
 import AboutFishAndWildlifeImage from "../../assets/images/about_fish_and_wildlife.png";
@@ -47,16 +45,6 @@ export default function AboutFishAndWildlife(props) {
         combines habitat preferences of major freshwater aquatic and/or marine
         taxonomic groups. CREST automatically displays the results for each
         region based on the method applied.
-        {/* For details, review
-        the&nbsp;
-        <Link
-          value="DataAndReports"
-          to="/DataAndReports"
-          component={RouterLink}
-        >
-          final reports
-        </Link> */}
-        {/* . */}
       </Typography>
     </div>
   );

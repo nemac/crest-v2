@@ -21,6 +21,7 @@ import {
   HandleRemoveAllClick,
   exportAllImages,
 } from "./ChartFunctions.jsx";
+import { exportAllChartsEvent } from "../../analyticsEvents";
 
 // selector named functions for lint rules makes it easier to re-use if needed.
 const analyzeAreaSelector = (state) => state.analyzeArea;
@@ -109,19 +110,11 @@ export default function ChartsHolder(props) {
               sortedChartData.current,
               analyzeAreaState.isMore,
             );
-            ReactGA.event({
-              category: "engagement",
-              action: "export_chart",
-              label: "image all",
-            });
+            ReactGA.event(exportAllChartsEvent("image"));
           }}
           handleExportAllCSV={(e) => {
             handleExportAllCSV(e, sortedChartData.current);
-            ReactGA.event({
-              category: "engagement",
-              action: "export_chart",
-              label: "image all",
-            });
+            ReactGA.event(exportAllChartsEvent("csv"));
           }}
         />
         {analyzeAreaState.isSortExpanded ? <ChartSort /> : null}

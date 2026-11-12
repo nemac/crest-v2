@@ -60,7 +60,7 @@ def build_vrt(config, key, local_dir=None, vsi="/vsis3/"):
     out = output_path(config, key)
     root = None
     with tempfile.TemporaryDirectory() as tmp:
-        for number, (source, nodata) in enumerate(zip(sources, nodatas), start=1):
+        for number, (source, nodata) in enumerate(zip(sources, nodatas, strict=True), start=1):
             band_root = build_band_vrt(source, nodata, bounds, os.path.join(tmp, f"band{number}.vrt"))
             band = band_root.find("VRTRasterBand")
             band.set("band", str(number))
