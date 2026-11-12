@@ -14,8 +14,8 @@ def real_config():
 
 
 def test_schema_top_level_keys(real_config):
-    for key in ("dataset_bucket", "user_shapes_bucket", "share_link_bucket",
-                "default_nodata", "regions", "datasets", "landcover_classes", "test"):
+    for key in ("dataset_bucket", "share_link_bucket", "default_nodata",
+                "regions", "datasets", "landcover_classes", "test"):
         assert key in real_config
     assert real_config["default_nodata"] == 255
     assert set(real_config["landcover_classes"]) == {"nlcd", "ccap"}
@@ -56,7 +56,7 @@ def test_vrt_bands_match_datasets(real_config, region):
         bands = ET.parse(vrt_path).getroot().findall("VRTRasterBand")
         datasets = real_config["datasets"][key]
         assert len(bands) == len(datasets), key
-        for band, dataset, nodata in zip(bands, datasets, cfg.dataset_nodata(real_config, key)):
+        for band, dataset, nodata in zip(bands, datasets, cfg.dataset_nodata(real_config, key), strict=True):
             source = band.find(".//SourceFilename").text
             assert source == f"/vsis3/{bucket}/{dataset['path']}", key
             assert int(float(band.find("NoDataValue").text)) == nodata, key
@@ -67,7 +67,7 @@ def test_north_atlantic_names_match_the_tiling_manifest(real_config):
     manifest = json.load(open(os.path.join(SRC_DIR, "..", "..", "tiling", "layers.json")))
     names = [layer["name"] for layer in manifest["layers"] if layer["name"] != "land_cover"]
     assert cfg.dataset_names(real_config, "north_atlantic") == names
-    nodata = dict(zip(names, cfg.dataset_nodata(real_config, "north_atlantic")))
+    nodata = dict(zip(names, cfg.dataset_nodata(real_config, "north_atlantic"), strict=True))
     assert nodata["vertical_land_motion"] == 0
     assert all(value == 255 for name, value in nodata.items() if name != "vertical_land_motion")
     assert cfg.region_config(real_config, "north_atlantic")["landcover"] == "ccap"

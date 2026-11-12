@@ -270,7 +270,6 @@ export const alaskaConfig = {
       maxNativeZoom: 13,
       description:
         "Identifies habitat suitable for species of conservation concern, species with federally-designated Essential Fish Habitat, and/or subsistence species that utilize riverine, lacustrine, and/or nearshore marine habitats (≤20m in depth). High values represent areas important for numerous species.",
-      // "Identifies habitat suitable for species of conservation concern, species with federally-designated Essential Fish Habitat, and/or subsistence species that utilize riverine, lacustrine, and/or nearshore marine habitats (≤20m in depth). High values represent areas important for numerous species.",
       region: "alaska",
     },
     {
@@ -304,29 +303,6 @@ export const alaskaConfig = {
         "Identifies habitat suitable for species of conservation concern, Important Bird Areas, and/or subsistence species that utilize terrestrial habitats. High values represent areas important for numerous species.",
       region: "alaska",
     },
-    // {
-    //   id: "AK_SocVulnTMS",
-    //   layer: "Social Vulnerability TMS",
-    //   label: "Social Vulnerability",
-    //   chartOrder: 12,
-    //   chartLabel: "Social Vulnerability",
-    // chartTipLabel: "Social Vulnerability",
-    //   ChartInputLabel: "Community Assets Inputs",
-    //   chartCSSSelector: "social_vuln",
-    //   chartCSSColor: {
-    //     0: "#E9ECEF",
-    //     1: "#9EBBD7",
-    //     2: "#43309D",
-    //     3: "#270B59",
-    //   },
-    //   url: "https://tiles.resilientcoasts.org/AK_SocVulnIndexTiles/{z}/{x}/{y}.png",
-    //   attribution: "NFWF 2022",
-    //   opacity: 0.75,
-    //   maxNativeZoom: 13,
-    //   description:
-    //     "Communities that are socially vulnerable according to data from the 2020 Denali Commission’s annual Distressed Communities report or the U.S. Environmental Protection Agency Environmental Justice Mapping and Screening Tool.",
-    //   region: "alaska",
-    // },
     {
       id: "AK_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",

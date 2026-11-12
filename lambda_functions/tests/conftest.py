@@ -42,7 +42,7 @@ def fixture_dir(tmp_path_factory):
     write_raster(d / "landcover.tif", landcover,
                  Affine(dx, 0, left, 0, -dy, top), CRS.from_epsg(4326), 255)
     config = {
-        "dataset_bucket": "unused", "user_shapes_bucket": "shapes-test", "share_link_bucket": "share-test",
+        "dataset_bucket": "unused", "share_link_bucket": "share-test",
         "default_nodata": 255,
         "regions": {"demo": {"vrt": "demo.vrt", "landcover_vrt": "demo_landcover.vrt", "landcover": "ccap"}},
         "datasets": {

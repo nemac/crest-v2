@@ -6,7 +6,7 @@ region = "us-east-1"
 s3_bucket = "nfwf-tool-cloudformation"
 s3_prefix = "crest-api/dev"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "Stage=dev SharePrefix=dev/"
+parameter_overrides = "Stage=dev"
 confirm_changeset = false
 fail_on_empty_changeset = false
 
@@ -17,6 +17,6 @@ region = "us-east-1"
 s3_bucket = "nfwf-tool-cloudformation"
 s3_prefix = "crest-api/prod"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "Stage=prod SharePrefix="
+parameter_overrides = "Stage=prod"
 confirm_changeset = true
 fail_on_empty_changeset = false

@@ -116,9 +116,7 @@
     { "value": 4, "color": "#AA062E" },
     { "value": 5, "color": "#67000E" }
   ],
-  "critical_facilities": [
-    { "value": 5, "color": "#0084A8" }
-  ],
+  "critical_facilities": [{ "value": 5, "color": "#0084A8" }],
   "critical_infrastructure": [
     { "value": 1, "color": "#EFBD8C" },
     { "value": 2, "color": "#EA8D43" },
@@ -211,10 +209,18 @@
     { "value": 11, "color": "#0AA33D", "label": "Mixed Forest" },
     { "value": 12, "color": "#707000", "label": "Scrub/Shrub" },
     { "value": 13, "color": "#006060", "label": "Palustrine Forested Wetland" },
-    { "value": 14, "color": "#F27000", "label": "Palustrine Scrub/Shrub Wetland" },
+    {
+      "value": 14,
+      "color": "#F27000",
+      "label": "Palustrine Scrub/Shrub Wetland"
+    },
     { "value": 15, "color": "#F200F2", "label": "Palustrine Emergent Wetland" },
     { "value": 16, "color": "#3C003C", "label": "Estuarine Forested Wetland" },
-    { "value": 17, "color": "#6D006D", "label": "Estuarine Scrub/Shrub Wetland" },
+    {
+      "value": 17,
+      "color": "#6D006D",
+      "label": "Estuarine Scrub/Shrub Wetland"
+    },
     { "value": 18, "color": "#B200B2", "label": "Estuarine Emergent Wetland" },
     { "value": 19, "color": "#00F2F2", "label": "Unconsolidated Shore" },
     { "value": 20, "color": "#F2F200", "label": "Bare Land" },

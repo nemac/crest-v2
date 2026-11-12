@@ -38,7 +38,7 @@ def get_response(geojson, region, config=None):
     with rasterio.Env(**GDAL_ENV), rasterio.open(rc["vrt"]) as src, rasterio.open(rc["landcover_vrt"]) as landcover:
         for feature in geojson["features"]:
             geometry = feature["geometry"]
-            mean = {name: stat(value) for name, value in zip(names, band_means(src, geometry))}
+            mean = {name: stat(value) for name, value in zip(names, band_means(src, geometry), strict=True)}
             mean.update(class_percentages(landcover, geometry, classes))
             if not isinstance(feature.get("properties"), dict):
                 feature["properties"] = {}

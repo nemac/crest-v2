@@ -311,28 +311,6 @@ export const americanSamoaConfig = {
         "A ranking of population density by estimates based on the 2010 Decennial Census. Areas are ranked from low to high using the ratio of people per square kilometer.",
       region: "american_samoa",
     },
-    // {
-    //   id: "AS_SocVulnTMS",
-    //   layer: "Social Vulnerability TMS",
-    //   label: "Social Vulnerability",
-    //   chartOrder: 12,
-    //   chartLabel: "Social Vulnerability",
-    // chartTipLabel: "Social Vulnerability",
-    //   chartCSSColor: {
-    //     0: "#E9ECEF",
-    //     1: "#88419D",
-    //     2: "#88419D",
-    //   },
-    //   ChartInputLabel: "Community Assets Inputs",
-    //   chartCSSSelector: "social_vuln",
-    //   url: "https://tiles.resilientcoasts.org/AS_SocVulnIndexTiles/{z}/{x}/{y}.png",
-    //   attribution: "NFWF 2020",
-    //   opacity: 0.75,
-    //   maxNativeZoom: 14,
-    //   description:
-    //     "Estimates are ranked from low to high, depicting areas of high poverty, vulnerable housing characteristics, and personal disruption due to climate change according to data from the 2010 Decennial Census.",
-    //   region: "american_samoa",
-    // },
     {
       id: "AS_CriticalFacilitiesTMS",
       layer: "Critical Facilities TMS",

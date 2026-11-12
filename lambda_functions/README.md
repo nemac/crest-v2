@@ -1,12 +1,12 @@
 # CREST API
 
-The Lambda backend for CREST: identify, zonal statistics, shape upload, and share links.
+The Lambda backend for CREST: identify, zonal statistics, and share links.
 It lives in this repository so the API deploys from the same branch as the site that calls it.
 The history of the former `nemac/nfwf_crest_api` repository is preserved under this folder.
 
 ## Layout
 
-- `src/` the five Lambda handlers, shared modules, `config.yml`, and the region VRTs in `src/vrt/`
+- `src/` the four Lambda handlers, shared modules, `config.yml`, and the region VRTs in `src/vrt/`
 - `tests/` pytest suite with synthetic rasters built in a temp directory
 - `tools/` offline utilities (see Tools)
 - `lib/` vendored `libexpat.so.1`, which the AL2023 Python 3.13 Lambda runtime lacks (see `lib/README.md`)
@@ -21,23 +21,34 @@ python3.13 -m venv .venv
 brew install gdal   # provides gdalbuildvrt, used by tools/build_vrt.py and the tests
 ```
 
-## Tests
+## Tests and lint
 
 ```bash
 .venv/bin/python -m pytest -q
+make lint PYTHON=.venv/bin/python
+```
+
+## Dependencies
+
+Direct dependencies are listed in `requirements*.in`. The `requirements*.txt` files are generated from them and
+pin every package, including transitive ones, with hashes. To add or bump a package, edit the `.in` file and run:
+
+```bash
+.venv/bin/pip install pip-tools
+make lock PYTHON=.venv/bin/python
 ```
 
 ## Request contracts
 
 All endpoints are Lambda function URLs. Errors use 400 (bad input, including an unknown region), 404 (share link not
-found), 409 (share link already exists), 413 (payload too large), and 500.
+found), 409 (share link already exists), 413 (payload too large, or a zonal-stats area too large to analyze), and
+500.
 
 - Identify: `GET ?region&lng&lat` returns `{"<layer name>": "<value as string>"}`. NoData and
   off-raster points return `"NaN"`.
 - Zonal stats: `POST ?region&source` with a GeoJSON FeatureCollection returns the same collection with
   `properties.mean` set to `{"<layer name>": float | "NaN", "lc_*": float}`. The `lc_*` keys are omitted entirely when no valid land-cover pixel lies inside the polygon. `source` is logged to label the caller.
 - Share links: `GET ?shareUrl` reads a saved link, `POST {location, state}` writes one.
-- Upload shape: `POST` a FeatureCollection to store a user shape.
 
 The raster reader masks each band by its own NoData and treats values above 100 as invalid (`MAX_VALID` in
 `src/rasters.py`), while negative values are kept so signed bands such as vertical land motion work.
@@ -66,8 +77,8 @@ AWS_PROFILE=jbliss sam deploy --config-env dev
 
 This deploys the `crest-api-dev` stack. `samconfig.toml` also holds a `prod` section, which is not armed.
 The dev workflow will run this on push once the OIDC backend deploy lands (follow-up plan). The dev site
-workflow reads the function URLs from the stack outputs `IdentifyUrl`, `ZonalStatsUrl`, `UploadShapeUrl`,
-`ShareReadUrl`, and `ShareWriteUrl`.
+workflow reads the function URLs from the stack outputs `IdentifyUrl`, `ZonalStatsUrl`, `ShareReadUrl`, and
+`ShareWriteUrl`.
 
 ## Parity check
 

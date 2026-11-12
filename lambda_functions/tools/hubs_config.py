@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 # comment things in/out as needed for hubs/states/counties/huc8
-# need to output as geojson for all of the landcover fields 
+# need to output as geojson for all of the landcover fields
 config = {
   'continental_us': {
     #'id': { 'in': 'TARGET_FID', 'out': 'TARGET_FID' }, # hubs
@@ -605,9 +605,9 @@ config = {
         #'LSAD': 'int', # counties
         #'huc8': 'str', # huc8
         #'name': 'str', # huc8
-        'aquatic': 'float', 
+        'aquatic': 'float',
         # 'low_areas': 'float',
-        # 'permafrst': 'float', 
+        # 'permafrst': 'float',
         # 'trsnpoton': 'float',
         # 'wildlife': 'float',
         # 'hubs': 'float',
@@ -688,7 +688,7 @@ config = {
         'terrestri': 'float',
         'slope': 'float',
         'erosion': 'float',
-        'highwater': 'float', 
+        'highwater': 'float',
         'impermeabl': 'float',
         'pop_dens': 'float',
         'landcover_open_water': 'float',
